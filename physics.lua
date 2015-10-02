@@ -63,9 +63,15 @@ function physicsApply(object, dt)
 			if checkCollision(structure.x,structure.y,structure.w,structure.h,
 					object.newX,object.newY,object.w,object.h) then
 					
-					if object.jumping == 1 then
+					--sounds on collision
+					if object.jumping == 1 and structure.name == "platform" then
 						love.audio.play( sound.hit )
 					end
+					
+					if object.jumping == 1 and structure.name == "crate" then
+						love.audio.play( sound.crate )
+					end
+					
 					-- if anything collides, check which sides did
 					-- adjust position/velocity if neccesary
 					
@@ -73,31 +79,60 @@ function physicsApply(object, dt)
 					if object.newX <= structure.x+structure.w and 
 						(object.x > (structure.x+structure.w) )  then
 								-- this seems to work
-								object.xvel = 0
-								object.newX = structure.x+structure.w +1 --push away from right side
+							if structure.name == "platform" then
+								if structure.movex == 1 then
+									object.xvel = -object.xvel
+								else
+									object.xvel = 0
+									object.newX = structure.x+structure.w +1 --push away from right side
+								end
+							end	
+							
+							if structure.name == "crate" then
+								object.xvel = -object.xvel
+								object.newX = structure.x+structure.w +1
+								destroyCrate(i)
+							end
 	
 						elseif object.newX+object.w >= structure.x and 
 							(object.x+object.w < structure.x)  then
 							-- this seems to work
-								object.xvel = 0
-								object.newX = structure.x-object.w -1 --push away from left side
-								
-	
+							if structure.name == "platform" then	
+								if structure.movex == 1 then
+									object.xvel = -object.xvel
+								else
+									object.xvel = 0
+									object.newX = structure.x-object.w -1 --push away from left side
+								end
+							end
+							
+							if structure.name == "crate"  then
+								object.xvel = -object.xvel
+								object.newX = structure.x-object.w -1
+								destroyCrate(i)
+							end
+							
 						elseif object.newY <= structure.y+structure.h and 
 							(object.y+object.h > (structure.y+structure.h)) then	
+							if structure.name == "platform" then
 								object.yvel = 0
 								 --push away from bottom
 								if structure.movey == 1 and structure.movespeed > 0 then
 									object.newY = structure.y +structure.h +10 -- seems okay with +10 here too?
 								else 
-								
 									object.newY = structure.y +structure.h +1
 								end				
+							end
 							
+							if structure.name == "crate" then
+								object.yvel = -object.yvel
+								object.newY = structure.y +structure.h +1
+								destroyCrate(i)
+							end
 							
 						elseif object.newY+object.h >= structure.y  and 
 							(object.y < structure.y ) then
-								
+							if structure.name == "platform" then
 								object.yvel = 0
 								object.jumping = 0
 								object.newY = structure.y - object.h +1
@@ -111,9 +146,15 @@ function physicsApply(object, dt)
 										object.newY = (structure.y-object.h  +structure.movespeed *dt)
 										-- bug here, bounces alot	
 								end		
+							end
 							
+							if structure.name == "crate"  then
+								object.newY = structure.y - object.h +1
+								object.yvel = -object.yvel
+								destroyCrate(i)
+							end
 					else
-						object.jumping =1
+						object.jumping = 1
 					end
 						
 			else

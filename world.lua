@@ -64,5 +64,8 @@ function mapInit()
 		createCoin(player.x +400, player.y+player.h/2, 10,10)	
 		createCoin(player.x +950+50,world.groundLevel-450, 10,10)	
 
-		--createCrate(player.x +1000, player.y+player.h/2,50,50)	
+		createCrate(player.x +1000, player.y-player.h*2,50,50)	
+		createCrate(player.x +1080, player.y-player.h*2,50,50)
+		createCrate(player.x +1160, player.y-player.h*2,50,50)
+		createCrate(player.x +1240, player.y-player.h*2,50,50)
 end

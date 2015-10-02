@@ -11,17 +11,6 @@ function createCoin(x,y,w,h)
 		})
 end
 
-function createCrate(x,y,w,h)
-		table.insert(pickups, {
-				x =x or 0,
-				y =y or 0,
-				w =w or 0,
-				h =h or 0,
-				name = "crate",
-				destroyed = 0,
-				item = "life"
-		})
-end
 
 function drawPickups()
 	local i, pickup
@@ -34,14 +23,6 @@ function drawPickups()
 				love.graphics.circle("line", pickup.x, pickup.y, pickup.w, pickup.h)
 			end
 			
-			if pickup.name == "crate" then
-				if pickup.destroyed == 0 then
-					love.graphics.setColor(60,30,10,255)
-					love.graphics.rectangle("fill", pickup.x, pickup.y, pickup.w, pickup.h)
-					love.graphics.setColor(80,40,10,255)
-					love.graphics.rectangle("line", pickup.x, pickup.y, pickup.w, pickup.h)
-				end
-			end
 			
 			if debug == 1 then
 				drawCoordinates(pickup)

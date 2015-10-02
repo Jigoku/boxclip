@@ -25,9 +25,27 @@ function createStructure(x,y,w,h,r,g,b,o,movex,movey,movespeed,movedist)
 		})
 end
 
+function createCrate(x,y,w,h)
+		table.insert(structures, {
+				x =x or 0,
+				y =y or 0,
+				w =w or 0,
+				h =h or 0,
+				name = "crate",
+				
+				item = "life"
+		})
+end
+
+function destroyCrate(i)
+	table.remove(structures, i)
+end
+
 function drawStructures()
 	local key, structure
 	for key, structure in ipairs(structures) do
+	
+	 if structure.name == "platform" then
 			love.graphics.setColor(structure.r,structure.g,structure.b,structure.o)
 			love.graphics.rectangle("fill", structure.x, structure.y, structure.w, structure.h)
 			
@@ -46,11 +64,18 @@ function drawStructures()
 			love.graphics.setColor(structure.r+50,structure.g+100,structure.b+60,structure.o)
 			love.graphics.rectangle("fill", structure.x, structure.y, structure.w, 4)
 			
-
-			if debug == 1 then
-				drawStructureBounds(structure)
-			end
-			
+		end
+		
+		if structure.name == "crate" then
+			love.graphics.setColor(60,30,10,255)
+			love.graphics.rectangle("fill", structure.x, structure.y, structure.w, structure.h)
+			love.graphics.setColor(80,40,10,255)
+			love.graphics.rectangle("line", structure.x, structure.y, structure.w, structure.h)
+		end
+		
+		if debug == 1 then
+			drawStructureBounds(structure)
+		end
 	end
 end
 
