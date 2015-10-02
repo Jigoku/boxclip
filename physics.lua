@@ -91,7 +91,7 @@ function physicsApply(object, dt)
 							if structure.name == "crate" then
 								object.xvel = -object.xvel
 								object.newX = structure.x+structure.w +1
-								destroyCrate(i)
+								destroyCrate(structure, i)
 							end
 	
 						elseif object.newX+object.w >= structure.x and 
@@ -109,7 +109,7 @@ function physicsApply(object, dt)
 							if structure.name == "crate"  then
 								object.xvel = -object.xvel
 								object.newX = structure.x-object.w -1
-								destroyCrate(i)
+								destroyCrate(structure, i)
 							end
 							
 						elseif object.newY <= structure.y+structure.h and 
@@ -127,7 +127,7 @@ function physicsApply(object, dt)
 							if structure.name == "crate" then
 								object.yvel = -object.yvel
 								object.newY = structure.y +structure.h +1
-								destroyCrate(i)
+								destroyCrate(structure, i)
 							end
 							
 						elseif object.newY+object.h >= structure.y  and 
@@ -151,7 +151,7 @@ function physicsApply(object, dt)
 							if structure.name == "crate"  then
 								object.newY = structure.y - object.h +1
 								object.yvel = -object.yvel
-								destroyCrate(i)
+								destroyCrate(structure, i)
 							end
 					else
 						object.jumping = 1

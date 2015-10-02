@@ -1,43 +1,45 @@
 structures = {}
 
 function createStructure(x,y,w,h,r,g,b,o,movex,movey,movespeed,movedist)
-		table.insert(structures, {
-			--dimensions
-				x = x or 0, -- xco-ord
-				y = y or 0, -- yco-ord
-				w = w or 0, -- width
-				h = h or 0, -- height
-			--colour
-				r = r or 255, -- red
-				g = g or 0, -- green
-				b = b or 0, -- blue
-				o = o or 255, -- opacity
-			--properties
-				name = "platform",
+	table.insert(structures, {
+		--dimensions
+		x = x or 0, -- xco-ord
+		y = y or 0, -- yco-ord
+		w = w or 0, -- width
+		h = h or 0, -- height
+		--colour
+		r = r or 255, -- red
+		g = g or 0, -- green
+		b = b or 0, -- blue
+		o = o or 255, -- opacity
+		--properties
+		name = "platform",
 				
-			--movement
-				movex = movex or 0,
-				movey = movey or 0,
-				movespeed = movespeed or 100,
-				movedist = movedist or 200,
-				xorigin = x,
-				yorigin = y,
-		})
+		--movement
+		movex = movex or 0,
+		movey = movey or 0,
+		movespeed = movespeed or 100,
+		movedist = movedist or 200,
+		xorigin = x,
+		yorigin = y,
+	})
 end
 
 function createCrate(x,y,w,h)
-		table.insert(structures, {
-				x =x or 0,
-				y =y or 0,
-				w =w or 0,
-				h =h or 0,
-				name = "crate",
-				
-				item = "life"
-		})
+	table.insert(structures, {
+		x = x or 0,
+		y = y or 0,
+		w = w or 0,
+		h = h or 0,
+		name = "crate",
+		item = "coin"
+	})
 end
 
-function destroyCrate(i)
+function destroyCrate(crate, i)
+	if crate.item == "coin" then
+		createCoin(crate.x+crate.w/2, crate.y+crate.h/2, 10,10)
+	end
 	table.remove(structures, i)
 end
 
