@@ -18,6 +18,7 @@ end
 
 function drawConsole()
 	if debug == 1 then
+	
 		--console info
 		love.graphics.setColor(0,0,0,100)
 		love.graphics.rectangle("fill", 1, 1, 500, 80)	

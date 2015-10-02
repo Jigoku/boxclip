@@ -1,6 +1,7 @@
 
 function physicsKillObject(object,dt)
 	-- move the dead character off screen (like sonic 1, down and off camera)
+	love.audio.play( sound.die )
 end
 
 function physicsVelocity(object, dt) 
@@ -57,11 +58,17 @@ function physicsApply(object, dt)
 		if structure.movex == 1 then structureMoveX(structure, dt) end
 		if structure.movey == 1 then structureMoveY(structure, dt) end
 		
-		if object.alive == 1 then	
+		if object.alive == 1 then
+				
 			if checkCollision(structure.x,structure.y,structure.w,structure.h,
 					object.newX,object.newY,object.w,object.h) then
+					
+					if object.jumping == 1 then
+						love.audio.play( sound.hit )
+					end
 					-- if anything collides, check which sides did
 					-- adjust position/velocity if neccesary
+					
 					
 					if object.newX <= structure.x+structure.w and 
 						(object.x > (structure.x+structure.w) )  then
@@ -128,7 +135,7 @@ function physicsApply(object, dt)
 	
 	if object.alive == 1 then
 		-- stop increasing velocity if we hit ground
-		if object.y >= world.groundLevel  then
+		if object.y > world.groundLevel  then
 			object.yvel = 0
 			object.jumping = 0
 			object.y = world.groundLevel

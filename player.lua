@@ -93,7 +93,7 @@ function playerCameraFollow()
 				)
 
 		end
-	else if player.y > camera.y*4 then
+	else if player.y > world.groundLevel then
 		worldInit()
 		playerInit()
 	end
@@ -104,6 +104,7 @@ end
 
 
 function playerCollectCoin()
+	love.audio.play( sound.coin )
 	dprint("[PICKUP     ] 5 points for coin")
 	player.score = player.score + 5
 end

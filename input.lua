@@ -2,13 +2,11 @@ function checkInput(dt)
 	
 	if love.keyboard.isDown("d") or love.keyboard.isDown("right") 
 		and player.alive == 1 then
-		
 		player.lastdir = player.dir
 		player.dir = "right"	
 	
 	elseif love.keyboard.isDown("a") or love.keyboard.isDown("left")
 		and player.alive == 1 then
-		
 		player.lastdir = player.dir
 		player.dir = "left"
 			
@@ -25,6 +23,7 @@ function love.keypressed(key)
 		end
 
 		if key == "`" then
+			love.audio.play( sound.beep )
 			if debug == 1 then
 				debug = 0
 			elseif debug == 0 then
@@ -35,6 +34,7 @@ function love.keypressed(key)
 
 		if key == " " then
 			if player.jumping == 0 then
+				love.audio.play( sound.jump )
 				player.jumping = 1
 				player.yvel = player.jumpheight
 				

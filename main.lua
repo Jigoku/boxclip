@@ -1,5 +1,6 @@
 
 require("camera")
+require("sound")
 require("physics")
 require("collision")
 require("world")
