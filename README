@@ -1,0 +1,10 @@
+== Platform Engine (currently unnamed)
+
+a WIP platform engine using love2d/lua
+
+== currently implemented
+* moving platforms
+* friction
+* gravity
+* AABB collision (old vs new test)
+* simple camera
