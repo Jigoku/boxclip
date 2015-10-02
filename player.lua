@@ -16,7 +16,7 @@ function player:init()
 	player.lastdir = "idle"
 	player.score = 0
 	player.alive = 1
-	
+	player.life = 3	
 		camera:setPosition(
 			player.x - (love.graphics.getWidth()/2) +(player.w/2),
 			player.y - (world.groundLevel -200)
@@ -106,8 +106,14 @@ end
 
 
 
-function player:collect()
-	sound:play(sound.coin)
-	util:dprint("[PICKUP     ] 5 points for coin")
-	player.score = player.score + 5
+function player:collect(item)
+	if item == "coin" then
+		sound:play(sound.coin)
+		util:dprint("[PICKUP     ] 5 points for coin")
+		player.score = player.score + 5
+	elseif item == "life" then
+		--sound:play(sound.lifeup)
+		--util:dprint("[PICKUP     ] 1 life")
+		--player.life = player.life +1
+	end
 end

@@ -65,7 +65,8 @@ function physics:apply(object, dt)
 		
 		if object.alive == 1 then
 				
-			if collision:check(object,structure) then
+			if collision:check(structure.x,structure.y,structure.w,structure.h,
+					object.newX,object.newY,object.w,object.h) then
 					
 					--sounds on collision
 					if object.jumping == 1 and structure.name == "platform" then
@@ -80,15 +81,12 @@ function physics:apply(object, dt)
 					-- adjust position/velocity if neccesary
 					
 					
-					if collision:right(object,structure)  then
+					if object.newX <= structure.x+structure.w and 
+						(object.x > (structure.x+structure.w) )  then
 								-- this seems to work
 							if structure.name == "platform" then
 								if structure.movex == 1 then
-									if structure.movespeed > -1 then
-										object.newX = object.x + structure.movespeed *dt
-									elseif structure.movespeed < -1 then
-										object.newX = object.x - structure.movespeed *dt
-									end
+									object.xvel = -object.xvel
 								else
 									object.xvel = 0
 									object.newX = structure.x+structure.w +1 --push away from right side
@@ -101,15 +99,12 @@ function physics:apply(object, dt)
 								structures:destroy(structure, i)
 							end
 	
-						elseif collision:left(object,structure)  then
+						elseif object.newX+object.w >= structure.x and 
+							(object.x+object.w < structure.x)  then
 							-- this seems to work
 							if structure.name == "platform" then	
 								if structure.movex == 1 then
-									if structure.movespeed > 0 then
-										object.newX = object.x + structure.movespeed *dt
-									elseif structure.movespeed < 0 then
-										object.newX = object.x - structure.movespeed *dt
-									end
+									object.xvel = -object.xvel
 								else
 									object.xvel = 0
 									object.newX = structure.x-object.w -1 --push away from left side
@@ -122,7 +117,8 @@ function physics:apply(object, dt)
 								structures:destroy(structure, i)
 							end
 							
-						elseif collision:bottom(object,structure) then	
+						elseif object.newY <= structure.y+structure.h and 
+							(object.y+object.h > (structure.y+structure.h)) then	
 							if structure.name == "platform" then
 								object.yvel = 0
 								 --push away from bottom
@@ -139,7 +135,8 @@ function physics:apply(object, dt)
 								structures:destroy(structure, i)
 							end
 							
-						elseif collision:top(object,structure) then
+						elseif object.newY+object.h >= structure.y  and 
+							(object.y < structure.y ) then
 							if structure.name == "platform" then
 								object.yvel = 0
 								object.jumping = 0
@@ -184,7 +181,7 @@ function physics:apply(object, dt)
 	
 	if object.alive == 1 then
 		-- stop increasing velocity if we hit ground
-		if object.y >= world.groundLevel  then
+		if object.y > world.groundLevel  then
 			object.yvel = 0
 			object.jumping = 0
 			object.y = world.groundLevel

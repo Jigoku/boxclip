@@ -107,11 +107,11 @@ end
 
 function structures:movex(structure, dt)
 	-- traverse x-axis
-	if structure.x >= structure.xorigin + structure.movedist then
+	if structure.x > structure.xorigin + structure.movedist then
 		structure.x = structure.xorigin + structure.movedist
 		structure.movespeed = -structure.movespeed
 	end	
-	if structure.x <= structure.xorigin then
+	if structure.x < structure.xorigin then
 		structure.x = structure.xorigin
 		structure.movespeed = -structure.movespeed
 	end
@@ -120,11 +120,11 @@ end
 
 function structures:movey(structure, dt)
 	--traverse y-axis
-	if structure.y >= structure.yorigin + structure.movedist then
+	if structure.y > structure.yorigin + structure.movedist then
 		structure.y = structure.yorigin + structure.movedist
 		structure.movespeed = -structure.movespeed
 	end
-	if structure.y <= structure.yorigin  then
+	if structure.y < structure.yorigin  then
 		structure.y = structure.yorigin
 		structure.movespeed = -structure.movespeed
 	end

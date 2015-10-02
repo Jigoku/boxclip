@@ -27,8 +27,8 @@ function util:drawConsole()
 		love.graphics.setColor(255,255,255,255)
 		love.graphics.print("FPS: " .. love.timer.getFPS(), 2,2)
 		love.graphics.print(
-			"X: " .. self:round(player.x,0) .. 
-			" | Y: " .. self:round(player.y,0) .. 
+			"x: " .. self:round(player.x,0) .. 
+			" | y: " .. self:round(player.y,0) .. 
 			" | dir: " .. player.dir .. 
 			" | xvel: " .. self:round(player.xvel,0) .. 
 			" | yvel: " .. self:round(player.yvel,0) .. 
@@ -36,7 +36,8 @@ function util:drawConsole()
 			" | pickups: " .. pickups:count(), 
 			2, 20
 		)
-		love.graphics.print("SCORE: " .. player.score .. "| TIME: " .. world:time() .. " | ALIVE: " .. player.alive , 2,40)
+		love.graphics.print("[life: " .. player.life .. "][score: " .. player.score .. "][time: " .. 
+world:time() .. "][alive: " .. player.alive .."]", 2,40)
 	end
 end
 
