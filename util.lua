@@ -30,8 +30,8 @@ function drawDebug()
 			"X: " .. round(player.x,0) .. 
 			" | Y: " .. round(player.y,0) .. 
 			" | dir: " .. player.dir .. 
-			" | xvel: " .. player.xvel .. 
-			" | yvel: " .. player.yvel .. 
+			" | xvel: " .. round(player.xvel,0) .. 
+			" | yvel: " .. round(player.yvel,0) .. 
 			" | jumping: " .. player.jumping .. 
 			" | pickups: " .. countPickups(), 
 			2, 20

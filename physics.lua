@@ -8,22 +8,22 @@ function physicsVelocity(object, dt)
 	-- x-axis friction
 	if object.dir == "right" then
 		if object.xvel < object.speed then
-			object.xvel = round((object.xvel + ((world.gravity+object.speed) *dt)),0)
+			object.xvel = (object.xvel + ((world.gravity+object.speed) *dt))
 		end
 	end
 	if object.dir == "left"  then
 		if not (object.xvel < -object.speed)  then
-			object.xvel = round((object.xvel - ((world.gravity+object.speed) *dt)),0)
+			object.xvel = (object.xvel - ((world.gravity+object.speed) *dt))
 		end
 	end
 	
 	-- increase friction when 'idle' under velocity is nullified
 	if object.dir == "idle" and object.xvel ~= 0 then
 		if object.xvel > 0 then
-			object.xvel = round((object.xvel - ((world.gravity+object.speed)/4 *dt)),0)
+			object.xvel = (object.xvel - ((world.gravity+object.speed)/4 *dt))
 			if object.xvel < 0 then object.xvel = 0 end
 		elseif object.xvel < 0 then
-			object.xvel = round((object.xvel + ((world.gravity+object.speed)/4 *dt)),0)
+			object.xvel = (object.xvel + ((world.gravity+object.speed)/4 *dt))
 			if object.xvel > 0 then object.xvel = 0 end
 		end
 	end
