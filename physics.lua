@@ -65,11 +65,11 @@ function physicsApply(object, dt)
 					
 					--sounds on collision
 					if object.jumping == 1 and structure.name == "platform" then
-						love.audio.play( sound.hit )
+						playSound(sound.hit)
 					end
 					
 					if object.jumping == 1 and structure.name == "crate" then
-						love.audio.play( sound.crate )
+						playSound(sound.crate)
 					end
 					
 					-- if anything collides, check which sides did

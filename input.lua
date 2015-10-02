@@ -34,7 +34,7 @@ function love.keypressed(key)
 
 		if key == " " then
 			if player.jumping == 0 then
-				love.audio.play( sound.jump )
+				playSound(sound.jump)
 				player.jumping = 1
 				player.yvel = player.jumpheight
 				

@@ -9,3 +9,12 @@ sound.hit = love.audio.newSource(soundpath .. "hit.wav")
 sound.beep = love.audio.newSource(soundpath .. "beep.wav")
 sound.die = love.audio.newSource(soundpath .. "die.wav")
 sound.crate = love.audio.newSource(soundpath .. "crate.wav")
+
+
+function playSound(sound)
+	--improve this (temporary fix)
+	if sound:isPlaying() then
+		sound:stop()
+	end
+	love.audio.play( sound )
+end
