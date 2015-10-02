@@ -1,10 +1,10 @@
-
-function physicsKillObject(object,dt)
+physics = {}
+function physics:kill(object,dt)
 	-- move the dead character off screen (like sonic 1, down and off camera)
 	love.audio.play( sound.die )
 end
 
-function physicsVelocity(object, dt) 
+function physics:applyVelocity(object, dt) 
 	if object.alive == 1 then
 	-- x-axis friction
 	if object.dir == "right" then
@@ -35,13 +35,18 @@ function physicsVelocity(object, dt)
 	end
 end
 
-function physicsApply(object, dt)
 
-
-	physicsVelocity(object, dt)
-	
+function physics:applyGravity(object, dt)
 	--simulate gravity
-	object.yvel = round((object.yvel - ((world.gravity+object.mass) *dt)),0)
+	object.yvel = util:round((object.yvel - ((world.gravity+object.mass) *dt)),0)
+end
+
+function physics:apply(object, dt)
+
+
+	physics:applyVelocity(object, dt)
+	physics:applyGravity(object, dt)
+
 	
 	--new position, friction/velocity multipier
 	object.newX = (object.x + object.xvel *dt)
@@ -55,21 +60,21 @@ function physicsApply(object, dt)
 		for i, structure in ipairs(structures) do
 		
 		--move the platforms! 
-		if structure.movex == 1 then structureMoveX(structure, dt) end
-		if structure.movey == 1 then structureMoveY(structure, dt) end
+		if structure.movex == 1 then structures:movex(structure, dt) end
+		if structure.movey == 1 then structures:movey(structure, dt) end
 		
 		if object.alive == 1 then
 				
-			if checkCollision(structure.x,structure.y,structure.w,structure.h,
+			if collision:check(structure.x,structure.y,structure.w,structure.h,
 					object.newX,object.newY,object.w,object.h) then
 					
 					--sounds on collision
 					if object.jumping == 1 and structure.name == "platform" then
-						playSound(sound.hit)
+						--sound:play(sound.hit)
 					end
 					
 					if object.jumping == 1 and structure.name == "crate" then
-						playSound(sound.crate)
+						sound:play(sound.crate)
 					end
 					
 					-- if anything collides, check which sides did
@@ -91,7 +96,7 @@ function physicsApply(object, dt)
 							if structure.name == "crate" then
 								object.xvel = -object.xvel
 								object.newX = structure.x+structure.w +1
-								destroyCrate(structure, i)
+								structures:destroy(structure, i)
 							end
 	
 						elseif object.newX+object.w >= structure.x and 
@@ -109,7 +114,7 @@ function physicsApply(object, dt)
 							if structure.name == "crate"  then
 								object.xvel = -object.xvel
 								object.newX = structure.x-object.w -1
-								destroyCrate(structure, i)
+								structures:destroy(structure, i)
 							end
 							
 						elseif object.newY <= structure.y+structure.h and 
@@ -127,7 +132,7 @@ function physicsApply(object, dt)
 							if structure.name == "crate" then
 								object.yvel = -object.yvel
 								object.newY = structure.y +structure.h +1
-								destroyCrate(structure, i)
+								structures:destroy(structure, i)
 							end
 							
 						elseif object.newY+object.h >= structure.y  and 
@@ -151,7 +156,7 @@ function physicsApply(object, dt)
 							if structure.name == "crate"  then
 								object.newY = structure.y - object.h +1
 								object.yvel = -object.yvel
-								destroyCrate(structure, i)
+								structures:destroy(structure, i)
 							end
 					else
 						object.jumping = 1
@@ -166,7 +171,7 @@ function physicsApply(object, dt)
 			end
 		
 		else
-			physicsKillObject(object, dt)
+			physics:kill(object, dt)
 		end
 	end
 

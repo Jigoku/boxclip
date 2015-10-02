@@ -19,20 +19,15 @@ function love.load()
 	--love.graphics.setBackgroundColor(10,10,10,255)
 	love.graphics.setBackgroundColor(10,10,15,255)
 	
-	worldInit()
-	playerInit()
+	world:init()
+	player:init()
+	world:loadMap(nil)
 
-	mapInit()
-
-
-	-- stop following player when less 
-	-- than cameraOffset (left side of screen)
 end
 
 function love.draw()
+
 	-- set camera for world
-	
-	
 	camera:set()
 	
 		love.graphics.setColor(30,30,35,255)
@@ -40,19 +35,17 @@ function love.draw()
 		love.graphics.setColor(50,50,50,255)
 		love.graphics.rectangle("fill", -50, world.groundLevel+player.h, 10000, 2)
 		
-		drawStructures()
-		drawPlayer()
-		drawPickups()
+		structures:draw()
+		player:draw()
+		pickups:draw()
 		
 	camera:unset()
 	
-
 	-- overlays
-	--drawWeather()
-	
+	--world:drawWeather()
 	
 	-- debug info
-	drawConsole()
+	util:drawConsole()
 	
 end
 
@@ -62,12 +55,11 @@ function love.update(dt)
 		love.timer.sleep(1/60 - dt)
 	end
 
-	checkInput(dt)
-
-	physicsApply(player, dt)
-	checkCollisions(dt)
-	camera:setScale(1,1)	
-	playerCameraFollow()
+	input:check(dt)
+	physics:apply(player, dt)
+	collision:checkWorld(dt)
+	camera:setScale(1,1)
+	player:follow(1)
 
 end
 

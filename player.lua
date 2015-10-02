@@ -1,6 +1,6 @@
 player = {}
 
-function playerInit() 
+function player:init() 
 	player.w = 40
 	player.h = 40
 	player.x = world.cameraOffset
@@ -25,7 +25,7 @@ end
 
 
 
-function drawPlayer()
+function player:draw()
 	--body trails		
 	
 	love.graphics.setColor(40,180,120,100)
@@ -64,47 +64,50 @@ function drawPlayer()
 
 	
 	if debug == 1 then
-		drawPlayerBounds()
+		player:drawDebug()
 	end
 end
 
-function drawPlayerBounds()
+function player:drawDebug()
 	
 	love.graphics.setColor(255,0,0,100)
 	love.graphics.rectangle("line", player.x, player.y, player.w, player.h)
-	drawCoordinates(player)
+	util:drawCoordinates(player)
 	
 end
 
-function playerCameraFollow()
-
--- follow player
-	if player.alive == 1 then
+function player:follow(bool)
+	if bool == 1 then
+		-- follow player
+		if player.alive == 1 then
 		
-		if player.x > world.cameraOffset then
+			if player.x > world.cameraOffset then
 				camera:setPosition(
 						player.x - (love.graphics.getWidth()/2) +(player.w/2),
 						player.y - (love.graphics.getHeight()/2) +(player.h/2) -50
 				)
-		else
+			else
 				camera:setPosition(
 						null,
 						player.y - (love.graphics.getHeight()/2) +(player.h/2) - 50
 				)
 
+			end
+			
+		elseif player.y > world.groundLevel then
+			world:init()
+			player:init()
 		end
-	else if player.y > world.groundLevel then
-		worldInit()
-		playerInit()
+	
 	end
-	end
+	
 
 end
 
 
 
-function playerCollectCoin()
-	love.audio.play( sound.coin )
-	dprint("[PICKUP     ] 5 points for coin")
+function player:collect()
+	sound:play(sound.coin)
+	util:dprint("[PICKUP     ] 5 points for coin")
 	player.score = player.score + 5
 end

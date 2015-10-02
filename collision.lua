@@ -1,9 +1,11 @@
-function checkCollisions(dt)
-	checkPlayerBounds()
-	checkCollisionPickups()
+collision = {}
+
+function collision:checkWorld(dt)
+	self:bounds()
+	self:pickups()
 end
 
-function checkCollision(x1,y1,w1,h1, x2,y2,w2,h2)
+function collision:check(x1,y1,w1,h1, x2,y2,w2,h2)
   return x1 < x2+w2 and
 		 x2 < x1+w1 and
 		 y1 < y2+h2 and
@@ -11,7 +13,7 @@ function checkCollision(x1,y1,w1,h1, x2,y2,w2,h2)
 end
 
 
-function checkPlayerBounds() 
+function collision:bounds() 
 	if player.x < 0 then
 		player.x = 0
 		player.xvel = 0
@@ -19,14 +21,14 @@ function checkPlayerBounds()
 end
 
 
-function checkCollisionPickups()
+function collision:pickups()
 	local i, pickup
 		for i, pickup in ipairs(pickups) do
-			if checkCollision(player.x,player.y,player.w,player.h,
+			if collision:check(player.x,player.y,player.w,player.h,
 				pickup.x,pickup.y,pickup.w,pickup.h) then
 					if pickup.name == "coin" then
 						table.remove(pickups, i)
-						playerCollectCoin()
+						player:collect()
 					end
 			end
 		end

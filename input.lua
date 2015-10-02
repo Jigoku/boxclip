@@ -1,4 +1,6 @@
-function checkInput(dt)
+input = {}
+
+function input:check(dt)
 	
 	if love.keyboard.isDown("d") or love.keyboard.isDown("right") 
 		and player.alive == 1 then
@@ -17,7 +19,8 @@ function checkInput(dt)
 end
 
 function love.keypressed(key)
-	print("[KEY        ] '".. key .. "'")
+		util:dprint("[KEY        ] '".. key .. "'")
+	
 		if key == "escape" then
 				love.event.quit()
 		end
@@ -34,7 +37,7 @@ function love.keypressed(key)
 
 		if key == " " then
 			if player.jumping == 0 then
-				playSound(sound.jump)
+				sound:play(sound.jump)
 				player.jumping = 1
 				player.yvel = player.jumpheight
 				

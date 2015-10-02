@@ -1,6 +1,6 @@
 structures = {}
 
-function createStructure(x,y,w,h,r,g,b,o,movex,movey,movespeed,movedist)
+function structures:platform(x,y,w,h,r,g,b,o,movex,movey,movespeed,movedist)
 	table.insert(structures, {
 		--dimensions
 		x = x or 0, -- xco-ord
@@ -25,7 +25,7 @@ function createStructure(x,y,w,h,r,g,b,o,movex,movey,movespeed,movedist)
 	})
 end
 
-function createCrate(x,y,w,h)
+function structures:crate(x,y,w,h)
 	table.insert(structures, {
 		x = x or 0,
 		y = y or 0,
@@ -36,14 +36,15 @@ function createCrate(x,y,w,h)
 	})
 end
 
-function destroyCrate(crate, i)
+function structures:destroy(crate, i)
 	if crate.item == "coin" then
-		createCoin(crate.x+crate.w/2, crate.y+crate.h/2, 10,10)
+		pickups:coin(crate.x+crate.w/2, crate.y+crate.h/2, 10,10)
 	end
 	table.remove(structures, i)
 end
 
-function drawStructures()
+
+function structures:draw()
 	local key, structure
 	for key, structure in ipairs(structures) do
 	
@@ -76,20 +77,20 @@ function drawStructures()
 		end
 		
 		if debug == 1 then
-			drawStructureBounds(structure)
+			self:drawDebug(structure)
 		end
 	end
 end
 
 
-function drawStructureBounds(structure)
+function structures:drawDebug(structure)
 	-- debug mode drawing
 	
 	-- collision area
 	love.graphics.setColor(255,0,0,255)
 	love.graphics.rectangle("line", structure.x, structure.y, structure.w, structure.h)
 	
-	drawCoordinates(structure)
+	util:drawCoordinates(structure)
 	
 	-- yaxis waypoint
 	if structure.movey == 1 then
@@ -104,7 +105,7 @@ function drawStructureBounds(structure)
 end
 
 
-function structureMoveX(structure, dt)
+function structures:movex(structure, dt)
 	-- traverse x-axis
 	if structure.x > structure.xorigin + structure.movedist then
 		structure.x = structure.xorigin + structure.movedist
@@ -117,7 +118,7 @@ function structureMoveX(structure, dt)
 	structure.x = (structure.x + structure.movespeed *dt)
 end
 
-function structureMoveY(structure, dt)
+function structures:movey(structure, dt)
 	--traverse y-axis
 	if structure.y > structure.yorigin + structure.movedist then
 		structure.y = structure.yorigin + structure.movedist

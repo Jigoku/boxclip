@@ -11,7 +11,7 @@ sound.die = love.audio.newSource(soundpath .. "die.wav")
 sound.crate = love.audio.newSource(soundpath .. "crate.wav")
 
 
-function playSound(sound)
+function sound:play(sound)
 	--improve this (temporary fix)
 	if sound:isPlaying() then
 		sound:stop()

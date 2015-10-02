@@ -1,7 +1,7 @@
 pickups = {}
 
 
-function createCoin(x,y,w,h)
+function pickups:coin(x,y,w,h)
 		table.insert(pickups, {
 				x =x or 0,
 				y =y or 0,
@@ -12,7 +12,7 @@ function createCoin(x,y,w,h)
 end
 
 
-function drawPickups()
+function pickups:draw()
 	local i, pickup
 		for i, pickup in ipairs(pickups) do
 			
@@ -25,15 +25,14 @@ function drawPickups()
 			
 			
 			if debug == 1 then
-				drawCoordinates(pickup)
+				util:drawCoordinates(pickup)
 			end
 		end
 end
 
 
-function countPickups()
+function pickups:count()
 	local count = 0
 	for n in pairs(pickups) do count = count + 1 end
 	return count
-	
 end
