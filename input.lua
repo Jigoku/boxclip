@@ -20,9 +20,9 @@ end
 
 function love.keypressed(key)
 	print("[KEY        ] '".. key .. "'")
-        if key == "escape" then
-                love.event.quit()
-        end
+		if key == "escape" then
+				love.event.quit()
+		end
 
 		if key == "`" then
 			if debug == 1 then
@@ -33,7 +33,7 @@ function love.keypressed(key)
 			
 		end
 
-        if key == " " then
+		if key == " " then
 			if player.jumping == 0 then
 				player.jumping = 1
 				player.yvel = player.jumpheight
@@ -42,7 +42,7 @@ function love.keypressed(key)
 		end
 		
 		if key == "b" then
-                player.alive=0
-                player.jumping = 1 -- stupid if we can jump while dead...?
-        end
+				player.alive=0
+				player.jumping = 1 -- stupid if we can jump while dead...?
+		end
 end

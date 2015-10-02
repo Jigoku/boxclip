@@ -18,9 +18,9 @@ function playerInit()
 	player.alive = 1
 	
 		camera:setPosition(
-	        player.x - (love.graphics.getWidth()/2) +(player.w/2),
-        	player.y - (world.groundLevel -200)
-        )
+			player.x - (love.graphics.getWidth()/2) +(player.w/2),
+			player.y - (world.groundLevel -200)
+		)
 end
 
 
@@ -45,35 +45,35 @@ function drawPlayer()
 	
 	--player main	
 	love.graphics.setColor(40,180,120,255)
-    love.graphics.rectangle("fill", player.x, player.y, player.w, player.h)
-    love.graphics.setColor(80,80,80,255)
-    love.graphics.rectangle("line", player.x, player.y, player.w, player.h)
-    
-    --eyes
-    love.graphics.setColor(0,0,0,255)
+	love.graphics.rectangle("fill", player.x, player.y, player.w, player.h)
+	love.graphics.setColor(80,80,80,255)
+	love.graphics.rectangle("line", player.x, player.y, player.w, player.h)
+	
+	--eyes
+	love.graphics.setColor(0,0,0,255)
 	if player.lastdir == "right" then
 		love.graphics.rectangle("fill", player.x+player.w-10, player.y+10, 3, 4)
 		love.graphics.rectangle("fill", player.x+player.w-20, player.y+10, 3, 4 )
-    end
-    
-    if player.lastdir == "left" then
+	end
+	
+	if player.lastdir == "left" then
 		love.graphics.rectangle("fill", player.x+10, player.y+10, 3, 4)
 		love.graphics.rectangle("fill", player.x+20, player.y+10, 3, 4 )
-    end
-    
+	end
+	
 
-    
-    if debug == 1 then
+	
+	if debug == 1 then
 		drawPlayerBounds()
-    end
+	end
 end
 
 function drawPlayerBounds()
 	
 	love.graphics.setColor(255,0,0,100)
-    love.graphics.rectangle("line", player.x, player.y, player.w, player.h)
+	love.graphics.rectangle("line", player.x, player.y, player.w, player.h)
 	drawCoordinates(player)
-    
+	
 end
 
 function playerCameraFollow()
@@ -81,23 +81,23 @@ function playerCameraFollow()
 -- follow player
 	if player.alive == 1 then
 		
-        if player.x > world.cameraOffset then
-                camera:setPosition(
-                        player.x - (love.graphics.getWidth()/2) +(player.w/2),
-                        player.y - (love.graphics.getHeight()/2) +(player.h/2) -50
-                )
-        else
-                camera:setPosition(
-                        null,
-                        player.y - (love.graphics.getHeight()/2) +(player.h/2) - 50
-                )
+		if player.x > world.cameraOffset then
+				camera:setPosition(
+						player.x - (love.graphics.getWidth()/2) +(player.w/2),
+						player.y - (love.graphics.getHeight()/2) +(player.h/2) -50
+				)
+		else
+				camera:setPosition(
+						null,
+						player.y - (love.graphics.getHeight()/2) +(player.h/2) - 50
+				)
 
-        end
-    else if player.y > camera.x*4 then
+		end
+	else if player.y > camera.y*4 then
 		worldInit()
 		playerInit()
-    end
-    end
+	end
+	end
 
 end
 

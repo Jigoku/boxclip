@@ -106,7 +106,6 @@ function physicsApply(object, dt)
 								end		
 							
 					else
-					
 						object.jumping =1
 					end
 						

@@ -1,56 +1,56 @@
 structures = {}
 
 function createStructure(x,y,w,h,r,g,b,o,movex,movey,movespeed,movedist)
-        table.insert(structures, {
+		table.insert(structures, {
 			--dimensions
-                x = x or 0, -- xco-ord
-                y = y or 0, -- yco-ord
-                w = w or 0, -- width
-                h = h or 0, -- height
-            --colour
-                r = r or 255, -- red
+				x = x or 0, -- xco-ord
+				y = y or 0, -- yco-ord
+				w = w or 0, -- width
+				h = h or 0, -- height
+			--colour
+				r = r or 255, -- red
 				g = g or 0, -- green
 				b = b or 0, -- blue
 				o = o or 255, -- opacity
 			--properties
-                name = "platform",
-                
-            --movement
-                movex = movex or 0,
-                movey = movey or 0,
-                movespeed = movespeed or 100,
-                movedist = movedist or 200,
-                xorigin = x,
-                yorigin = y,
-        })
+				name = "platform",
+				
+			--movement
+				movex = movex or 0,
+				movey = movey or 0,
+				movespeed = movespeed or 100,
+				movedist = movedist or 200,
+				xorigin = x,
+				yorigin = y,
+		})
 end
 
 function drawStructures()
 	local key, structure
 	for key, structure in ipairs(structures) do
-	        love.graphics.setColor(structure.r,structure.g,structure.b,structure.o)
-	        love.graphics.rectangle("fill", structure.x, structure.y, structure.w, structure.h)
-	        
+			love.graphics.setColor(structure.r,structure.g,structure.b,structure.o)
+			love.graphics.rectangle("fill", structure.x, structure.y, structure.w, structure.h)
+			
 
 			--right
 			love.graphics.setColor(structure.r-10,structure.g-10,structure.b-10,structure.o)
-	        love.graphics.rectangle("fill", structure.x+structure.w-4, structure.y, 4, structure.h)
-	        --bottom
-	        love.graphics.rectangle("fill", structure.x, structure.y+structure.h-4, structure.w, 4)
-	        
-	        --left
-	        love.graphics.setColor(structure.r-20,structure.g-20,structure.b-20,structure.o)
-	        love.graphics.rectangle("fill", structure.x, structure.y, 4, structure.h)
-	        
-	        --top
-	        love.graphics.setColor(structure.r+50,structure.g+100,structure.b+60,structure.o)
-	        love.graphics.rectangle("fill", structure.x, structure.y, structure.w, 4)
-	        
+			love.graphics.rectangle("fill", structure.x+structure.w-4, structure.y, 4, structure.h)
+			--bottom
+			love.graphics.rectangle("fill", structure.x, structure.y+structure.h-4, structure.w, 4)
+			
+			--left
+			love.graphics.setColor(structure.r-20,structure.g-20,structure.b-20,structure.o)
+			love.graphics.rectangle("fill", structure.x, structure.y, 4, structure.h)
+			
+			--top
+			love.graphics.setColor(structure.r+50,structure.g+100,structure.b+60,structure.o)
+			love.graphics.rectangle("fill", structure.x, structure.y, structure.w, 4)
+			
 
-	        if debug == 1 then
+			if debug == 1 then
 				drawStructureBounds(structure)
 			end
-	        
+			
 	end
 end
 
@@ -60,8 +60,8 @@ function drawStructureBounds(structure)
 	
 	-- collision area
 	love.graphics.setColor(255,0,0,255)
-    love.graphics.rectangle("line", structure.x, structure.y, structure.w, structure.h)
-    
+	love.graphics.rectangle("line", structure.x, structure.y, structure.w, structure.h)
+	
 	drawCoordinates(structure)
 	
 	-- yaxis waypoint

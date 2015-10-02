@@ -17,13 +17,11 @@ function love.load()
 
 	--love.graphics.setBackgroundColor(10,10,10,255)
 	love.graphics.setBackgroundColor(10,10,15,255)
-    
+	
 	worldInit()
 	playerInit()
 
 	mapInit()
-
-
 
 
 	-- stop following player when less 
@@ -40,7 +38,7 @@ function love.draw()
 		love.graphics.rectangle("fill", -50, world.groundLevel+player.h, 10000, 500)	
 		love.graphics.setColor(50,50,50,255)
 		love.graphics.rectangle("fill", -50, world.groundLevel+player.h, 10000, 2)
-	
+		
 		drawStructures()
 		drawPlayer()
 		drawPickups()
@@ -53,7 +51,7 @@ function love.draw()
 	
 	
 	-- debug info
-	drawDebug()
+	drawConsole()
 	
 end
 
@@ -70,13 +68,5 @@ function love.update(dt)
 	camera:setScale(1,1)	
 	playerCameraFollow()
 
-	
-
 end
 
-
-function dprint(out)
-	if debug == 1 then
-		print(out)
-	end
-end

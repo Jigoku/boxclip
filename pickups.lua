@@ -2,25 +2,25 @@ pickups = {}
 
 
 function createCoin(x,y,w,h)
-        table.insert(pickups, {
-                x =x or 0,
-                y =y or 0,
-                w =w or 0,
-                h =h or 0,
-                name = "coin"
-        })
+		table.insert(pickups, {
+				x =x or 0,
+				y =y or 0,
+				w =w or 0,
+				h =h or 0,
+				name = "coin"
+		})
 end
 
 function createCrate(x,y,w,h)
-        table.insert(pickups, {
-                x =x or 0,
-                y =y or 0,
-                w =w or 0,
-                h =h or 0,
-                name = "crate",
-                destroyed = 0,
+		table.insert(pickups, {
+				x =x or 0,
+				y =y or 0,
+				w =w or 0,
+				h =h or 0,
+				name = "crate",
+				destroyed = 0,
 				item = "life"
-        })
+		})
 end
 
 function drawPickups()

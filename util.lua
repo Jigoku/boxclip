@@ -11,12 +11,12 @@ end
 -- dbeug drawing
 
 function drawCoordinates(object)
-    -- co-ordinates
+	-- co-ordinates
 	love.graphics.setColor(255,255,255,100)
 	love.graphics.print("X:".. round(object.x,0) ..",Y:" .. round(object.y,0)  , object.x-20,object.y-20)  
 end
 
-function drawDebug()
+function drawConsole()
 	if debug == 1 then
 		--console info
 		love.graphics.setColor(0,0,0,100)
@@ -37,5 +37,11 @@ function drawDebug()
 			2, 20
 		)
 		love.graphics.print("SCORE: " .. player.score .. "| TIME: " .. worldTime() .. " | ALIVE: " .. player.alive , 2,40)
+	end
+end
+
+function dprint(out)
+	if debug == 1 then
+		print(out)
 	end
 end
