@@ -8,3 +8,4 @@ a WIP platform engine using love2d/lua
 * gravity
 * AABB collision (old vs new test)
 * simple camera
+* debug info (press ` to toggle)
