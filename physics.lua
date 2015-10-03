@@ -71,28 +71,31 @@ function physics:movey(structure, dt)
 	structure.y = (structure.y + structure.movespeed *dt)
 end
 
+function physics:moveStructures(dt)
+	-- moving platforms etc
+	local i, structure
+	for i, structure in ipairs(structures) do
+		if structure.movex == 1 then physics:movex(structure, dt) end
+		if structure.movey == 1 then physics:movey(structure, dt) end
+	end
+end
 
-function physics:apply(object, dt)
 
+function physics:player(object, dt)
 
 	self:applyVelocity(object, dt)
 	self:applyGravity(object, dt)
 
-	
 	--new position, friction/velocity multipier
 	object.newX = (object.x + object.xvel *dt)
 	object.newY = (object.y - object.yvel *dt)
 	
-
-		
-
 	--loop solid structures
 	local i, structure
 	for i, structure in ipairs(structures) do
 		--move the platforms! 
 		-- structure.newX == physics:movex(structure,dt)  <--- (ret val)???
-		if structure.movex == 1 then physics:movex(structure, dt) end
-		if structure.movey == 1 then physics:movey(structure, dt) end
+
 		
 		if object.alive == 1 then
 				
@@ -122,7 +125,7 @@ function physics:apply(object, dt)
 					end	
 
 					if structure.name == "crate" then
-						object.newY = structure.x+structure.w +1
+						object.newX = structure.x+structure.w +1
 						self:crateReboundX(object,structure,i)
 					end
 					
@@ -215,6 +218,32 @@ function physics:apply(object, dt)
 		end
 	end
 
+end
+
+
+function physics:pickups(dt)
+	local i, pickup
+		for i, pickup in ipairs(pickups) do
+			pickup.y = pickup.y + 200 *dt
+			
+			local n, structure
+			for n, structure in ipairs(structures) do
+				
+				if collision:check(structure.x,structure.y,structure.w,structure.h,
+					pickup.x-pickup.gfx:getWidth()/2,pickup.y-pickup.gfx:getHeight()/2,pickup.gfx:getWidth(),pickup.gfx:getHeight()) then
+						pickup.y = structure.y - pickup.gfx:getHeight()/2 +1
+						
+						
+						if structure.movex == 1 then
+							-- move along x-axis with platform	
+							pickup.x = (pickup.x + structure.movespeed *dt)
+						end
+				end
+				if pickup.y > world.groundLevel +pickup.gfx:getHeight() then
+					pickup.y = world.groundLevel +pickup.gfx:getHeight() 
+				end
+			end
+		end
 end
 
 

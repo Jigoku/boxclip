@@ -57,16 +57,7 @@ function pickups:draw()
 		end
 end
 
-function pickups:descend(dt)
-	-- add collision for platforms???
-	local i, pickup
-		for i, pickup in ipairs(pickups) do
-			pickup.y = pickup.y + 200 *dt
-			if pickup.y > world.groundLevel +pickup.gfx:getHeight() then
-				pickup.y = world.groundLevel +pickup.gfx:getHeight() 
-			end
-		end
-end
+
 
 function pickups:drawDebug(pickup)
 	--requires graphic, implement all pickups as graphics/image

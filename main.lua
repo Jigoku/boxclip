@@ -60,10 +60,14 @@ function love.update(dt)
 	end
 
 	input:check(dt)
-	physics:apply(player, dt)
+	physics:moveStructures(dt)
+	physics:pickups(dt)
+	physics:player(player, dt)
+	
+	
 	collision:checkWorld(dt)
 	
-	--pickups:descend(dt)
+	
 	
 	camera:setScale(1,1)
 	player:follow(1)
