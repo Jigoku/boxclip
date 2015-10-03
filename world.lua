@@ -40,12 +40,16 @@ end
 function world:loadMap(name)
 --TEST FUNCTION
 		--structures:platform(player.x+50, world.groundLevel-50, 100,10, 70,60,50)
-		structures:platform(player.x+20, world.groundLevel-150, 100,20, 30,30,30, nil, 0,1,100,100)	
+		structures:platform(0, world.groundLevel-800+player.h, 310,800, 30,30,30, nil, 0,0)	
+
+		structures:platform(player.x+20, world.groundLevel-350, 100,20, 30,30,30, nil, 0,1,100,300)	
 		structures:platform(player.x+150, world.groundLevel-120, 100,70, 30,30,30,nil)	
 		structures:platform(player.x+150, world.groundLevel-320, 100,70, 30,30,30,nil)	
-		structures:platform(player.x+350, world.groundLevel-200, 100,20, 30,30,30,nil, 1, 0, 100, 200)	
+		structures:platform(player.x+150, world.groundLevel-520, 100,70, 30,30,30,nil)	
+		structures:platform(player.x+150, world.groundLevel-720, 100,70, 30,30,30,nil)	
+		structures:platform(player.x+350, world.groundLevel-320, 100,20, 30,30,30,nil, 1, 0, 100, 200)	
 		--structures:platform(player.x+350, world.groundLevel-50, 100,20, 30,30,30,nil, 1, 0, 100, 200)	
-		structures:platform(player.x+350, world.groundLevel, 100,20, 30,30,30,nil, 1, 0, 150, 200)	
+		structures:platform(player.x+350, world.groundLevel-10, 100,20, 30,30,30,nil, 1, 0, 150, 200)	
 		structures:platform(player.x+550, world.groundLevel-600, 100,20, 30,30,30, nil, 0,1,100,400)	
 		structures:platform(player.x+1250, world.groundLevel-500, 300,20, 30,30,30, nil)	
 		structures:platform(player.x+950, world.groundLevel-600, 100,20, 30,30,30, nil, 1,0,100,200)	
@@ -56,15 +60,29 @@ function world:loadMap(name)
 		structures:platform(player.x+1550, world.groundLevel-80, 50,20, 30,30,30, nil)	
 		
 		structures:platform(player.x+1750, world.groundLevel-500, 100,1000, 70,60,50, nil)	
-		
-		pickups:coin(player.x +100, player.y+player.h/2, 10,10)	
-		pickups:coin(player.x +200, player.y+player.h/2, 10,10)	
-		pickups:coin(player.x +300, player.y+player.h/2, 10,10)	
-		pickups:coin(player.x +400, player.y+player.h/2, 10,10)	
-		pickups:coin(player.x +950+50,world.groundLevel-450, 10,10)	
 
-		structures:crate(player.x +1000, player.y-player.h*2,50,50)	
-		structures:crate(player.x +1080, player.y-player.h*2,50,50)
-		structures:crate(player.x +1160, player.y-player.h*2,50,50)
-		structures:crate(player.x +1240, player.y-player.h*2,50,50)
+
+		structures:platform(1166, world.groundLevel+player.h, 10,10, 30,30,30, nil)	
+
+		
+		pickups:coin(player.x +100, player.y+player.h/2)	
+		pickups:coin(player.x +200, player.y+player.h/2)	
+		pickups:coin(player.x +300, player.y+player.h/2)	
+		pickups:coin(player.x +400, player.y+player.h/2)	
+		pickups:coin(player.x +950+50,world.groundLevel-450)	
+
+		pickups:life(player.x +700, player.y+player.h/2)	
+
+		structures:crate(700,-500,50,50,"coin")	
+		structures:crate(760,-500,50,50,"coin")	
+		structures:crate(820,-500,50,50,"life")	
+		structures:crate(700,-560,50,50,"coin")	
+		structures:crate(760,-620,50,50,"coin")	
+		structures:crate(820,-680,50,50,"life")	
+
+
+		structures:crate(player.x +1000, player.y-player.h*2,50,50, "coin")	
+		structures:crate(player.x +1080, player.y-player.h*2,50,50, "life")
+		structures:crate(player.x +1160, player.y-player.h*2,50,50, "coin")
+		structures:crate(player.x +1240, player.y-player.h*2,50,50, "life")
 end

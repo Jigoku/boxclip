@@ -5,12 +5,21 @@ function pickups:coin(x,y,w,h)
 		table.insert(pickups, {
 				x =x or 0,
 				y =y or 0,
-				w =w or 0,
-				h =h or 0,
+				w =w or 10,
+				h =h or 10,
 				name = "coin"
 		})
 end
 
+function pickups:life(x,y,w,h)
+		table.insert(pickups, {
+				x =x or 0,
+				y =y or 0,
+				w =w or 10,
+				h =h or 10,
+				name = "life"
+		})
+end
 
 function pickups:draw()
 	local i, pickup
@@ -23,7 +32,12 @@ function pickups:draw()
 				love.graphics.circle("line", pickup.x, pickup.y, pickup.w, pickup.h)
 			end
 			
-			
+			if pickup.name == "life" then
+				love.graphics.setColor(255,0,0, 255)	
+				love.graphics.circle("fill", pickup.x, pickup.y, pickup.w, pickup.h)
+				love.graphics.setColor(255,255,255,255)
+				love.graphics.circle("line", pickup.x, pickup.y, pickup.w, pickup.h)
+			end
 			if debug == 1 then
 				util:drawCoordinates(pickup)
 			end

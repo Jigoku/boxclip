@@ -9,6 +9,7 @@ sound.hit = love.audio.newSource(soundpath .. "hit.wav")
 sound.beep = love.audio.newSource(soundpath .. "beep.wav")
 sound.die = love.audio.newSource(soundpath .. "die.wav")
 sound.crate = love.audio.newSource(soundpath .. "crate.wav")
+sound.lifeup = love.audio.newSource(soundpath .. "lifeup.wav")
 
 
 function sound:play(sound)

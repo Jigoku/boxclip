@@ -25,20 +25,22 @@ function structures:platform(x,y,w,h,r,g,b,o,movex,movey,movespeed,movedist)
 	})
 end
 
-function structures:crate(x,y,w,h)
+function structures:crate(x,y,w,h, item)
 	table.insert(structures, {
 		x = x or 0,
 		y = y or 0,
 		w = w or 0,
 		h = h or 0,
 		name = "crate",
-		item = "coin"
+		item = item or nil
 	})
 end
 
 function structures:destroy(crate, i)
 	if crate.item == "coin" then
-		pickups:coin(crate.x+crate.w/2, crate.y+crate.h/2, 10,10)
+		pickups:coin(crate.x+crate.w/2, crate.y+crate.h/2)
+	elseif crate.item == "life" then
+		pickups:life(crate.x+crate.w/2, crate.y+crate.h/2)
 	end
 	table.remove(structures, i)
 end

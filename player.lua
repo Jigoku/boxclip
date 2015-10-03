@@ -41,7 +41,7 @@ function player:draw()
 	love.graphics.setColor(40,180,120,25)
 	love.graphics.rectangle("fill", player.x-player.xvel/(player.mass/30), player.y+player.yvel/(player.jumpheight/30), player.w, player.h)
 	love.graphics.setColor(80,80,80,25)
-	love.graphics.rectangle("line", player.x-player.xvel/(player.mass/20), player.y+player.yvel/(player.jumpheight/20), player.w, player.h)
+	love.graphics.rectangle("line", player.x-player.xvel/(player.mass/30), player.y+player.yvel/(player.jumpheight/30), player.w, player.h)
 	
 	--player main	
 	love.graphics.setColor(40,180,120,255)
@@ -107,13 +107,13 @@ end
 
 
 function player:collect(item)
+	util:dprint("[PICKUP     ] item")
+	
 	if item == "coin" then
 		sound:play(sound.coin)
-		util:dprint("[PICKUP     ] 5 points for coin")
 		player.score = player.score + 5
 	elseif item == "life" then
-		--sound:play(sound.lifeup)
-		--util:dprint("[PICKUP     ] 1 life")
-		--player.life = player.life +1
+		sound:play(sound.lifeup)
+		player.life = player.life +1
 	end
 end
