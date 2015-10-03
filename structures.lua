@@ -79,7 +79,6 @@ function structures:draw()
 		if structure.name == "crate" then
 			love.graphics.setColor(255,255,255,255)
 			love.graphics.draw(structure.gfx,structure.x, structure.y, 0, 1, 1)
-
 		end
 		
 		if debug == 1 then
@@ -93,10 +92,15 @@ function structures:drawDebug(structure)
 	-- debug mode drawing
 	
 	-- collision area
-	love.graphics.setColor(255,0,0,255)
-	love.graphics.rectangle("line", structure.x, structure.y, structure.w, structure.h)
+	if structure.name == "platform" then
+		love.graphics.setColor(255,0,0,100)
+		love.graphics.rectangle("line", structure.x, structure.y, structure.w, structure.h)
+	end
 	
-	util:drawCoordinates(structure)
+	if structure.name == "crate" then
+		love.graphics.setColor(0,255,255,100)
+		love.graphics.rectangle("line", structure.x, structure.y, structure.w, structure.h)
+	end
 	
 	-- yaxis waypoint
 	if structure.movey == 1 then
@@ -108,6 +112,9 @@ function structures:drawDebug(structure)
 		love.graphics.setColor(255,0,255,100)
 		love.graphics.rectangle("line", structure.xorigin, structure.yorigin, structure.movedist+structure.w, structure.h)
 	end        
+	
+	util:drawCoordinates(structure)
+	
 end
 
 
