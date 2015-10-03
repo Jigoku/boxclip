@@ -2,7 +2,7 @@ pickups = {}
 
 
 function pickups:select(path)
-	return love.graphics.newImage( path .. string.format("%02d",math.random(1, 7)) .. ".png")
+	return love.graphics.newImage( path .. string.format("%04d",math.random(1, 7)) .. ".png")
 end
 
 function pickups:gem(x,y)
@@ -10,7 +10,7 @@ function pickups:gem(x,y)
 				x =x or 0,
 				y =y or 0,
 				name = "gem",
-				gfx = self:select("graphics/gems/gem")
+				gfx = self:select("graphics/gems/")
 		})
 		
 end
@@ -22,7 +22,7 @@ function pickups:life(x,y,w,h)
 				w =w or 10,
 				h =h or 10,
 				name = "life",
-				gfx = love.graphics.newImage( "graphics/gems/gem0" .. math.random(1, 7) .. ".png")
+				gfx = love.graphics.newImage( "graphics/gems/" .. string.format("%04d",math.random(1, 7))  .. ".png")
 		})
 end
 
