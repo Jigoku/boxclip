@@ -39,10 +39,6 @@ function pickups:draw()
 					pickup.gfx, pickup.x-pickup.gfx:getWidth()/2, 
 					pickup.y-pickup.gfx:getHeight()/2, 0, 1, 1
 				)
-				
-				if debug == 1 then
-					self:drawDebug(pickup)
-				end
 			end
 			
 			if pickup.name == "life" then
@@ -52,7 +48,7 @@ function pickups:draw()
 				love.graphics.circle("line", pickup.x, pickup.y, pickup.w, pickup.h)
 			end
 			if debug == 1 then
-				util:drawCoordinates(pickup)
+				pickups:drawDebug(pickup)
 			end
 		end
 end
@@ -69,6 +65,7 @@ function pickups:drawDebug(pickup)
 		pickup.gfx:getWidth(), 
 		pickup.gfx:getHeight()
 	)
+	util:drawCoordinates(pickup)
 end
 
 
