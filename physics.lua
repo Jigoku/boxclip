@@ -8,39 +8,39 @@ end
 
 function physics:applyVelocity(object, dt) 
 	if object.alive == 1 then
-	-- x-axis friction
-	if object.dir == "right" then
-		if object.xvel < object.speed then
-			object.xvel = (object.xvel + ((world.gravity+object.speed) *dt))
+		-- x-axis friction
+		if object.dir == "right" then
+			if object.xvel < object.speed then
+				object.xvel = (object.xvel + ((world.gravity+object.speed) *dt))
+			end
 		end
-	end
-	if object.dir == "left"  then
-		if not (object.xvel < -object.speed)  then
-			object.xvel = (object.xvel - ((world.gravity+object.speed) *dt))
+		if object.dir == "left"  then
+			if not (object.xvel < -object.speed)  then
+				object.xvel = (object.xvel - ((world.gravity+object.speed) *dt))
+			end
 		end
-	end
-	
-	-- increase friction when 'idle' under velocity is nullified
-	if object.dir == "idle" and object.xvel ~= 0 then
-		if object.xvel > 0 then
-			object.xvel = (object.xvel - ((world.gravity+object.speed)/4 *dt))
-			if object.xvel < 0 then object.xvel = 0 end
-		elseif object.xvel < 0 then
-			object.xvel = (object.xvel + ((world.gravity+object.speed)/4 *dt))
-			if object.xvel > 0 then object.xvel = 0 end
+		
+		-- increase friction when 'idle' under velocity is nullified
+		if object.dir == "idle" and object.xvel ~= 0 then
+			if object.xvel > 0 then
+				object.xvel = (object.xvel - ((world.gravity+object.mass)/4 *dt))
+				if object.xvel < 0 then object.xvel = 0 end
+			elseif object.xvel < 0 then
+				object.xvel = (object.xvel + ((world.gravity+object.mass)/4 *dt))
+				if object.xvel > 0 then object.xvel = 0 end
+			end
 		end
-	end
-	
-	-- velocity limits
-	if object.xvel > object.speed then object.xvel = object.speed end
-	if object.xvel < -object.speed then object.xvel = -object.speed end
+		
+		-- velocity limits
+		if object.xvel > object.speed then object.xvel = object.speed end
+		if object.xvel < -object.speed then object.xvel = -object.speed end
 	end
 end
 
 
 function physics:applyGravity(object, dt)
 	--simulate gravity
-	object.yvel = util:round((object.yvel - ((world.gravity+object.mass) *dt)),0)
+	object.yvel = util:round((object.yvel - ((world.gravity+object.mass*2) *dt)),0)
 end
 
 
@@ -224,7 +224,7 @@ end
 function physics:pickups(dt)
 	local i, pickup
 		for i, pickup in ipairs(pickups) do
-			pickup.y = pickup.y + 200 *dt
+			pickup.y = pickup.y + world.gravity *dt
 			
 			local n, structure
 			for n, structure in ipairs(structures) do
