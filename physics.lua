@@ -119,7 +119,8 @@ function physics:apply(object, dt)
 							end	
 
 							if structure.name == "crate" then
-								self:openCrate(object, structure, i)
+								object.newY = structure.x+structure.w +1
+								self:crateReboundX(object,structure,i)
 							end
 	
 						elseif object.newX+object.w >= structure.x and 
@@ -137,10 +138,7 @@ function physics:apply(object, dt)
 							if structure.name == "crate"  then
 								object.newX = structure.x-object.w -1
 								
-								if object.jumping == 1 then
-									object.xvel = -object.xvel
-									structures:destroy(structure, i)
-								end
+								self:crateReboundX(object,structure,i)
 							end
 							
 						elseif object.newY <= structure.y+structure.h and 
@@ -157,10 +155,7 @@ function physics:apply(object, dt)
 							
 							if structure.name == "crate" then
 								object.newY = structure.y +structure.h +1
-								if object.jumping == 1 then
-									object.yvel = -object.yvel
-									structures:destroy(structure, i)
-								end
+								self:crateReboundY(object,structure,i)
 							end
 							
 						elseif object.newY+object.h >= structure.y  and 
@@ -183,10 +178,7 @@ function physics:apply(object, dt)
 							
 							if structure.name == "crate"  then
 								object.newY = structure.y - object.h +1
-								if object.jumping == 1 then
-									object.yvel = -object.yvel
-									structures:destroy(structure, i)
-								end
+								self:crateReboundY(object,structure,i)
 							end
 					else
 						object.jumping = 1
@@ -221,4 +213,17 @@ function physics:apply(object, dt)
 
 
 end
- 
+
+function physics:crateReboundY(object,structure,i)
+	if object.jumping == 1 then
+		object.yvel = -object.yvel
+		structures:destroy(structure, i)	
+	end
+end
+
+function physics:crateReboundX(object,structure,i)
+	if object.jumping == 1 then
+		object.xvel = -object.xvel
+		structures:destroy(structure, i)	
+	end
+end
