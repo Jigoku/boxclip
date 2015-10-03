@@ -71,6 +71,10 @@ end
 
 function pickups:count()
 	local count = 0
-	for n in pairs(pickups) do count = count + 1 end
+	for n, pickup in pairs(pickups) do 
+		if type(pickup) == "table" then
+			count = count + 1 
+		end
+	end
 	return count
 end
