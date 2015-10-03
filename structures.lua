@@ -37,8 +37,8 @@ function structures:crate(x,y,w,h, item)
 end
 
 function structures:destroy(crate, i)
-	if crate.item == "coin" then
-		pickups:coin(crate.x+crate.w/2, crate.y+crate.h/2)
+	if crate.item == "gem" then
+		pickups:gem(crate.x+crate.w/2, crate.y+crate.h/2)
 	elseif crate.item == "life" then
 		pickups:life(crate.x+crate.w/2, crate.y+crate.h/2)
 	end

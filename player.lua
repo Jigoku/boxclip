@@ -109,8 +109,8 @@ end
 function player:collect(item)
 	util:dprint("[PICKUP     ] item")
 	
-	if item == "coin" then
-		sound:play(sound.coin)
+	if item == "gem" then
+		sound:play(sound.gem)
 		player.score = player.score + 5
 	elseif item == "life" then
 		sound:play(sound.lifeup)
