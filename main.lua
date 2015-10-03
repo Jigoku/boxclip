@@ -21,7 +21,9 @@ function love.load()
 	--love.graphics.setBackgroundColor(10,10,10,255)
 	love.graphics.setBackgroundColor(10,10,15,255)
 	
+
 	world:init()
+
 	player:init()
 	world:loadMap(nil)
 

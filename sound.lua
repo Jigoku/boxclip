@@ -19,3 +19,11 @@ function sound:play(sound)
 	end
 	love.audio.play( sound )
 end
+
+function sound:decide(structure)
+	if structure.name == "platform" then
+		self:play(sound.hit)
+	elseif structure.name == "crate" then
+		self:play(sound.crate)
+	end
+end

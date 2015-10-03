@@ -1,6 +1,7 @@
 pickups = {}
 
 
+
 function pickups:select(path)
 	return love.graphics.newImage( path .. string.format("%04d",math.random(1, 7)) .. ".png")
 end

@@ -25,12 +25,12 @@ function structures:platform(x,y,w,h,r,g,b,o,movex,movey,movespeed,movedist)
 	})
 end
 
-function structures:crate(x,y,w,h, item)
+function structures:crate(x,y,item)
 	table.insert(structures, {
 		x = x or 0,
 		y = y or 0,
-		w = w or 0,
-		h = h or 0,
+		w = 50,
+		h = 50,
 		name = "crate",
 		item = item or nil
 	})
@@ -107,28 +107,4 @@ function structures:drawDebug(structure)
 end
 
 
-function structures:movex(structure, dt)
-	-- traverse x-axis
-	if structure.x > structure.xorigin + structure.movedist then
-		structure.x = structure.xorigin + structure.movedist
-		structure.movespeed = -structure.movespeed
-	end	
-	if structure.x < structure.xorigin then
-		structure.x = structure.xorigin
-		structure.movespeed = -structure.movespeed
-	end
-	structure.x = (structure.x + structure.movespeed *dt)
-end
 
-function structures:movey(structure, dt)
-	--traverse y-axis
-	if structure.y > structure.yorigin + structure.movedist then
-		structure.y = structure.yorigin + structure.movedist
-		structure.movespeed = -structure.movespeed
-	end
-	if structure.y < structure.yorigin  then
-		structure.y = structure.yorigin
-		structure.movespeed = -structure.movespeed
-	end
-	structure.y = (structure.y + structure.movespeed *dt)
-end

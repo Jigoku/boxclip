@@ -36,6 +36,33 @@ function physics:applyVelocity(object, dt)
 end
 
 
+function physics:movex(structure, dt)
+	-- traverse x-axis
+	if structure.x > structure.xorigin + structure.movedist then
+		structure.x = structure.xorigin + structure.movedist
+		structure.movespeed = -structure.movespeed
+	end	
+	if structure.x < structure.xorigin then
+		structure.x = structure.xorigin
+		structure.movespeed = -structure.movespeed
+	end
+	structure.x = (structure.x + structure.movespeed *dt)
+end
+
+function physics:movey(structure, dt)
+	--traverse y-axis
+	if structure.y > structure.yorigin + structure.movedist then
+		structure.y = structure.yorigin + structure.movedist
+		structure.movespeed = -structure.movespeed
+	end
+	if structure.y < structure.yorigin  then
+		structure.y = structure.yorigin
+		structure.movespeed = -structure.movespeed
+	end
+	structure.y = (structure.y + structure.movespeed *dt)
+end
+
+
 function physics:applyGravity(object, dt)
 	--simulate gravity
 	object.yvel = util:round((object.yvel - ((world.gravity+object.mass) *dt)),0)
@@ -60,8 +87,9 @@ function physics:apply(object, dt)
 		for i, structure in ipairs(structures) do
 		
 		--move the platforms! 
-		if structure.movex == 1 then structures:movex(structure, dt) end
-		if structure.movey == 1 then structures:movey(structure, dt) end
+		-- structure.newX == physics:movex(structure,dt)  <--- (ret val)???
+		if structure.movex == 1 then physics:movex(structure, dt) end
+		if structure.movey == 1 then physics:movey(structure, dt) end
 		
 		if object.alive == 1 then
 				
@@ -69,13 +97,10 @@ function physics:apply(object, dt)
 					object.newX,object.newY,object.w,object.h) then
 					
 					--sounds on collision
-					if object.jumping == 1 and structure.name == "platform" then
-						--sound:play(sound.hit)
+					if object.jumping == 1 then 
+						sound:decide(structure)
 					end
-					
-					if object.jumping == 1 and structure.name == "crate" then
-						sound:play(sound.crate)
-					end
+	
 					
 					-- if anything collides, check which sides did
 					-- adjust position/velocity if neccesary
@@ -92,11 +117,9 @@ function physics:apply(object, dt)
 									object.newX = structure.x+structure.w +1 --push away from right side
 								end
 							end	
-							
+
 							if structure.name == "crate" then
-								object.xvel = -object.xvel
-								object.newX = structure.x+structure.w +1
-								structures:destroy(structure, i)
+								self:openCrate(object, structure, i)
 							end
 	
 						elseif object.newX+object.w >= structure.x and 
@@ -112,9 +135,12 @@ function physics:apply(object, dt)
 							end
 							
 							if structure.name == "crate"  then
-								object.xvel = -object.xvel
 								object.newX = structure.x-object.w -1
-								structures:destroy(structure, i)
+								
+								if object.jumping == 1 then
+									object.xvel = -object.xvel
+									structures:destroy(structure, i)
+								end
 							end
 							
 						elseif object.newY <= structure.y+structure.h and 
@@ -130,9 +156,11 @@ function physics:apply(object, dt)
 							end
 							
 							if structure.name == "crate" then
-								object.yvel = -object.yvel
 								object.newY = structure.y +structure.h +1
-								structures:destroy(structure, i)
+								if object.jumping == 1 then
+									object.yvel = -object.yvel
+									structures:destroy(structure, i)
+								end
 							end
 							
 						elseif object.newY+object.h >= structure.y  and 
@@ -155,8 +183,10 @@ function physics:apply(object, dt)
 							
 							if structure.name == "crate"  then
 								object.newY = structure.y - object.h +1
-								object.yvel = -object.yvel
-								structures:destroy(structure, i)
+								if object.jumping == 1 then
+									object.yvel = -object.yvel
+									structures:destroy(structure, i)
+								end
 							end
 					else
 						object.jumping = 1

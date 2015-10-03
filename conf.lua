@@ -11,5 +11,5 @@ function love.conf(t)
 	t.window.fsaa = 2
 	t.window.resizable = true
 	t.window.vsync = true
-	t.window.fullscreen = true
+	t.window.fullscreen = false
 end

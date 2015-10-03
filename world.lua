@@ -7,7 +7,6 @@ function world:init()
 	world.startTime = os.time()
 	world.seconds = 0
 	world.minutes = 0
-
 end
 
 
@@ -73,16 +72,16 @@ function world:loadMap(name)
 
 		pickups:life(player.x +700, player.y+player.h/2)	
 
-		structures:crate(700,-500,50,50,"gem")	
-		structures:crate(760,-500,50,50,"gem")	
-		structures:crate(820,-500,50,50,"gem")	
-		structures:crate(700,-560,50,50,"gem")	
-		structures:crate(760,-620,50,50,"gem")	
-		structures:crate(820,-680,50,50,"life")	
+		structures:crate(700,-500,"gem")	
+		structures:crate(760,-500,"gem")	
+		structures:crate(820,-500,"gem")	
+		structures:crate(700,-560,"gem")	
+		structures:crate(760,-620,"gem")	
+		structures:crate(820,-680,"life")	
 
 
-		structures:crate(player.x +1000, player.y-player.h*2,50,50, "gem")	
-		structures:crate(player.x +1080, player.y-player.h*2,50,50, "life")
-		structures:crate(player.x +1160, player.y-player.h*2,50,50, "gem")
-		structures:crate(player.x +1240, player.y-player.h*2,50,50, "life")
+		structures:crate(player.x +1000, player.y-player.h*2, "gem")	
+		structures:crate(player.x +1080, player.y-player.h*2, "life")
+		structures:crate(player.x +1160, player.y-player.h*2, "gem")
+		structures:crate(player.x +1240, player.y-player.h*2, "life")
 end

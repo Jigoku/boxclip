@@ -2,7 +2,7 @@ player = {}
 
 function player:init() 
 	player.w = 40
-	player.h = 40
+	player.h = 50
 	player.x = world.cameraOffset
 	player.y = world.groundLevel
 
@@ -17,10 +17,11 @@ function player:init()
 	player.score = 0
 	player.alive = 1
 	player.life = 3	
-		camera:setPosition(
-			player.x - (love.graphics.getWidth()/2) +(player.w/2),
-			player.y - (world.groundLevel -200)
-		)
+	
+	camera:setPosition(
+		player.x - (love.graphics.getWidth()/2) +(player.w/2),
+		player.y - (world.groundLevel -200)
+	)
 end
 
 
@@ -111,7 +112,7 @@ function player:collect(item)
 	
 	if item == "gem" then
 		sound:play(sound.gem)
-		player.score = player.score + 5
+		player.score = player.score + 100
 	elseif item == "life" then
 		sound:play(sound.lifeup)
 		player.life = player.life +1
