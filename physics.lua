@@ -1,8 +1,10 @@
 physics = {}
+
 function physics:kill(object,dt)
 	-- move the dead character off screen (like sonic 1, down and off camera)
 	love.audio.play( sound.die )
 end
+
 
 function physics:applyVelocity(object, dt) 
 	if object.alive == 1 then
@@ -36,6 +38,12 @@ function physics:applyVelocity(object, dt)
 end
 
 
+function physics:applyGravity(object, dt)
+	--simulate gravity
+	object.yvel = util:round((object.yvel - ((world.gravity+object.mass) *dt)),0)
+end
+
+
 function physics:movex(structure, dt)
 	-- traverse x-axis
 	if structure.x > structure.xorigin + structure.movedist then
@@ -48,6 +56,7 @@ function physics:movex(structure, dt)
 	end
 	structure.x = (structure.x + structure.movespeed *dt)
 end
+
 
 function physics:movey(structure, dt)
 	--traverse y-axis
@@ -62,11 +71,6 @@ function physics:movey(structure, dt)
 	structure.y = (structure.y + structure.movespeed *dt)
 end
 
-
-function physics:applyGravity(object, dt)
-	--simulate gravity
-	object.yvel = util:round((object.yvel - ((world.gravity+object.mass) *dt)),0)
-end
 
 function physics:apply(object, dt)
 
@@ -84,8 +88,7 @@ function physics:apply(object, dt)
 
 	--loop solid structures
 	local i, structure
-		for i, structure in ipairs(structures) do
-		
+	for i, structure in ipairs(structures) do
 		--move the platforms! 
 		-- structure.newX == physics:movex(structure,dt)  <--- (ret val)???
 		if structure.movex == 1 then physics:movex(structure, dt) end
@@ -96,102 +99,104 @@ function physics:apply(object, dt)
 			if collision:check(structure.x,structure.y,structure.w,structure.h,
 					object.newX,object.newY,object.w,object.h) then
 					
-					--sounds on collision
-					if object.jumping == 1 then 
-						sound:decide(structure)
-					end
+				--sounds on collision
+				if object.jumping == 1 then 
+					sound:decide(structure)
+				end
 	
 					
-					-- if anything collides, check which sides did
-					-- adjust position/velocity if neccesary
+				-- if anything collides, check which sides did
+				-- adjust position/velocity if neccesary
 					
+				-- right side
+				if object.newX <= structure.x+structure.w and 
+					(object.x > (structure.x+structure.w) )  then
 					
-					if object.newX <= structure.x+structure.w and 
-						(object.x > (structure.x+structure.w) )  then
-								-- this seems to work
-							if structure.name == "platform" then
-								if structure.movex == 1 then
-									object.xvel = -object.xvel
-								else
-									object.xvel = 0
-									object.newX = structure.x+structure.w +1 --push away from right side
-								end
-							end	
+					if structure.name == "platform" then
+						if structure.movex == 1 then
+							object.xvel = -object.xvel
+						else
+							object.xvel = 0
+							object.newX = structure.x+structure.w +1
+						end
+					end	
 
-							if structure.name == "crate" then
-								object.newY = structure.x+structure.w +1
-								self:crateReboundX(object,structure,i)
-							end
-	
-						elseif object.newX+object.w >= structure.x and 
-							(object.x+object.w < structure.x)  then
-							-- this seems to work
-							if structure.name == "platform" then	
-								if structure.movex == 1 then
-									object.xvel = -object.xvel
-								else
-									object.xvel = 0
-									object.newX = structure.x-object.w -1 --push away from left side
-								end
-							end
-							
-							if structure.name == "crate"  then
-								object.newX = structure.x-object.w -1
-								
-								self:crateReboundX(object,structure,i)
-							end
-							
-						elseif object.newY <= structure.y+structure.h and 
-							(object.y+object.h > (structure.y+structure.h)) then	
-							if structure.name == "platform" then
-								object.yvel = 0
-								 --push away from bottom
-								if structure.movey == 1 and structure.movespeed > 0 then
-									object.newY = structure.y +structure.h +10 -- seems okay with +10 here too?
-								else 
-									object.newY = structure.y +structure.h +1
-								end				
-							end
-							
-							if structure.name == "crate" then
-								object.newY = structure.y +structure.h +1
-								self:crateReboundY(object,structure,i)
-							end
-							
-						elseif object.newY+object.h >= structure.y  and 
-							(object.y < structure.y ) then
-							if structure.name == "platform" then
-								object.yvel = 0
-								object.jumping = 0
-								object.newY = structure.y - object.h +1
-								if structure.movex == 1 then
-									-- move along x-axis with platform	
-									object.newX = (object.newX + structure.movespeed *dt)
-								end
-							
-								if structure.movey == 1 and structure.movespeed >= 0  then
-										--stood on top platform here while going down
-										object.newY = (structure.y-object.h  +structure.movespeed *dt)
-										-- bug here, bounces alot	
-								end		
-							end
-							
-							if structure.name == "crate"  then
-								object.newY = structure.y - object.h +1
-								self:crateReboundY(object,structure,i)
-							end
-					else
-						object.jumping = 1
+					if structure.name == "crate" then
+						object.newY = structure.x+structure.w +1
+						self:crateReboundX(object,structure,i)
 					end
+					
+				-- left side
+				elseif object.newX+object.w >= structure.x and 
+					(object.x+object.w < structure.x)  then
+					
+					if structure.name == "platform" then	
+						if structure.movex == 1 then
+							object.xvel = -object.xvel
+						else
+							object.xvel = 0
+							object.newX = structure.x-object.w -1
+						end
+					end
+							
+					if structure.name == "crate"  then
+						object.newX = structure.x-object.w -1
+								
+						self:crateReboundX(object,structure,i)
+					end
+					
+				-- bottom side	
+				elseif object.newY <= structure.y+structure.h and 
+					(object.y+object.h > (structure.y+structure.h)) then	
+				
+					if structure.name == "platform" then
+						object.yvel = 0
+						if structure.movey == 1 and structure.movespeed > 0 then
+							object.newY = structure.y +structure.h +10 -- improve this...
+						else 
+							object.newY = structure.y +structure.h +1
+						end				
+					end
+							
+					if structure.name == "crate" then
+						object.newY = structure.y +structure.h +1
+						self:crateReboundY(object,structure,i)
+					end
+					
+				-- top side
+				elseif object.newY+object.h >= structure.y  and 
+					(object.y < structure.y ) then
+					
+					if structure.name == "platform" then
+						object.yvel = 0
+						object.jumping = 0
+						object.newY = structure.y - object.h +1
+						if structure.movex == 1 then
+							-- move along x-axis with platform	
+							object.newX = (object.newX + structure.movespeed *dt)
+						end
+							
+						if structure.movey == 1 and structure.movespeed >= 0  then
+							--stood on top platform here while going down
+							object.newY = (structure.y-object.h  +structure.movespeed *dt)
+						end		
+					end
+							
+					if structure.name == "crate"  then
+						object.newY = structure.y - object.h +1
+						self:crateReboundY(object,structure,i)
+					end
+				else
+					object.jumping = 1
+				end
 						
 			else
-				
 				--if we reach maximum velocity and no collision is present, invert by mass
 				if object.yvel < -object.mass then
 					object.yvel = -object.mass 
 				end
 			end
-		
+			
 		else
 			physics:kill(object, dt)
 		end
@@ -209,10 +214,9 @@ function physics:apply(object, dt)
 			object.y = world.groundLevel
 		end
 	end
-	
-
 
 end
+
 
 function physics:crateReboundY(object,structure,i)
 	if object.jumping == 1 then
@@ -220,6 +224,7 @@ function physics:crateReboundY(object,structure,i)
 		structures:destroy(structure, i)	
 	end
 end
+
 
 function physics:crateReboundX(object,structure,i)
 	if object.jumping == 1 then
