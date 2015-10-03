@@ -75,8 +75,8 @@ end
 function physics:apply(object, dt)
 
 
-	physics:applyVelocity(object, dt)
-	physics:applyGravity(object, dt)
+	self:applyVelocity(object, dt)
+	self:applyGravity(object, dt)
 
 	
 	--new position, friction/velocity multipier

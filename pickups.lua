@@ -11,7 +11,8 @@ function pickups:gem(x,y)
 				x =x or 0,
 				y =y or 0,
 				name = "gem",
-				gfx = self:select("graphics/gems/")
+				gfx = self:select("graphics/gems/"),
+
 		})
 		
 end
@@ -23,7 +24,8 @@ function pickups:life(x,y,w,h)
 				w =w or 10,
 				h =h or 10,
 				name = "life",
-				gfx = love.graphics.newImage( "graphics/gems/" .. string.format("%04d",math.random(1, 7))  .. ".png")
+				gfx = love.graphics.newImage( "graphics/gems/" .. string.format("%04d",math.random(1, 7))  .. ".png"),
+
 		})
 end
 
@@ -55,6 +57,16 @@ function pickups:draw()
 		end
 end
 
+function pickups:descend(dt)
+	-- add collision for platforms???
+	local i, pickup
+		for i, pickup in ipairs(pickups) do
+			pickup.y = pickup.y + 200 *dt
+			if pickup.y > world.groundLevel +pickup.gfx:getHeight() then
+				pickup.y = world.groundLevel +pickup.gfx:getHeight() 
+			end
+		end
+end
 
 function pickups:drawDebug(pickup)
 	--requires graphic, implement all pickups as graphics/image
