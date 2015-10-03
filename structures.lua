@@ -32,16 +32,21 @@ function structures:crate(x,y,item)
 		w = 50,
 		h = 50,
 		name = "crate",
-		item = item or nil
+		item = item or nil,
+		gfx = love.graphics.newImage("graphics/crate.png"),
 	})
 end
 
+
+
 function structures:destroy(crate, i)
+	--add the contents of destroyable to world if any
 	if crate.item == "gem" then
 		pickups:gem(crate.x+crate.w/2, crate.y+crate.h/2)
 	elseif crate.item == "life" then
 		pickups:life(crate.x+crate.w/2, crate.y+crate.h/2)
 	end
+	--remove the destroyable
 	table.remove(structures, i)
 end
 
@@ -72,10 +77,9 @@ function structures:draw()
 		end
 		
 		if structure.name == "crate" then
-			love.graphics.setColor(60,30,10,255)
-			love.graphics.rectangle("fill", structure.x, structure.y, structure.w, structure.h)
-			love.graphics.setColor(80,40,10,255)
-			love.graphics.rectangle("line", structure.x, structure.y, structure.w, structure.h)
+			love.graphics.setColor(255,255,255,255)
+			love.graphics.draw(structure.gfx,structure.x, structure.y, 0, 1, 1)
+
 		end
 		
 		if debug == 1 then
