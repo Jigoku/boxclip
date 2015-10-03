@@ -231,16 +231,16 @@ function physics:pickups(dt)
 				
 				if collision:check(structure.x,structure.y,structure.w,structure.h,
 					pickup.x-pickup.gfx:getWidth()/2,pickup.y-pickup.gfx:getHeight()/2,pickup.gfx:getWidth(),pickup.gfx:getHeight()) then
-						pickup.y = structure.y - pickup.gfx:getHeight()/2 +1
 						
+						pickup.y = structure.y - pickup.gfx:getHeight()/2 +1
 						
 						if structure.movex == 1 then
 							-- move along x-axis with platform	
 							pickup.x = (pickup.x + structure.movespeed *dt)
 						end
 				end
-				if pickup.y > world.groundLevel +pickup.gfx:getHeight() then
-					pickup.y = world.groundLevel +pickup.gfx:getHeight() 
+				if pickup.y > world.groundLevel  then
+					pickup.y = world.groundLevel + pickup.gfx:getHeight()/2 +1
 				end
 			end
 		end
