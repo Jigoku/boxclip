@@ -77,13 +77,13 @@ function physics:world(dt)
 	-- moving platforms etc
 	local i, object
 	for i, object in ipairs(structures) do
-		if object.movex == 1 then physics:movex(object, dt) end
-		if object.movey == 1 then physics:movey(object, dt) end
+		if object.movex == 1 then self:movex(object, dt) end
+		if object.movey == 1 then self:movey(object, dt) end
 	end
 	--enemies
 	for i, object in ipairs(enemies) do
-		if object.movex == 1 then physics:movex(object, dt) end
-		if object.movey == 1 then physics:movey(object, dt) end
+		if object.movex == 1 then self:movex(object, dt) end
+		if object.movey == 1 then self:movey(object, dt) end
 	end
 end
 
