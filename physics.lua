@@ -113,11 +113,12 @@ function physics:player(object, dt)
 					
 				-- right side
 				if object.newX <= structure.x+structure.w and 
-					(object.x > (structure.x+structure.w) )  then
+					object.x > structure.x+structure.w then
 					
 					if structure.name == "platform" then
+						print (structure.movespeed)
 						if structure.movex == 1 then
-							object.xvel = -object.xvel
+
 						else
 							object.xvel = 0
 							object.newX = structure.x+structure.w +1
@@ -134,8 +135,8 @@ function physics:player(object, dt)
 					(object.x+object.w < structure.x)  then
 					
 					if structure.name == "platform" then	
-						if structure.movex == 1 then
-							object.xvel = -object.xvel
+						if structure.movex == 1  then
+
 						else
 							object.xvel = 0
 							object.newX = structure.x-object.w -1
@@ -154,6 +155,7 @@ function physics:player(object, dt)
 				
 					if structure.name == "platform" then
 						object.yvel = 0
+						
 						if structure.movey == 1 and structure.movespeed > 0 then
 							object.newY = structure.y +structure.h +10 -- improve this...
 						else 
@@ -162,7 +164,7 @@ function physics:player(object, dt)
 					end
 							
 					if structure.name == "crate" then
-						object.newY = structure.y +structure.h +1
+						object.newY = structure.y +structure.h +10
 						self:crateReboundY(object,structure,i)
 					end
 					
