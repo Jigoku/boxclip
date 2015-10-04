@@ -7,6 +7,7 @@ require("world")
 require("util")
 require("structures")
 require("pickups")
+require("enemies")
 require("player")
 require("input")
 
@@ -40,8 +41,11 @@ function love.draw()
 		love.graphics.rectangle("fill", -50, world.groundLevel+player.h, 10000, 2)
 		
 		structures:draw()
-		player:draw()
 		pickups:draw()
+		enemies:draw()
+		player:draw()
+		
+		
 		
 	camera:unset()
 	
@@ -61,9 +65,10 @@ function love.update(dt)
 
 	input:check(dt)
 	
-	physics:moveStructures(dt) ; physics:player(player, dt)
+	physics:world(dt)
 	physics:pickups(dt)
-	
+	physics:enemies(dt)
+	physics:player(player, dt)
 	
 	collision:checkWorld(dt)
 	

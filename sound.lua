@@ -10,6 +10,7 @@ sound.beep = love.audio.newSource(soundpath .. "beep.wav")
 sound.die = love.audio.newSource(soundpath .. "die.wav")
 sound.crate = love.audio.newSource(soundpath .. "crate.wav")
 sound.lifeup = love.audio.newSource(soundpath .. "lifeup.wav")
+sound.kill = love.audio.newSource(soundpath .. "kill.wav")
 
 
 function sound:play(sound)
@@ -20,10 +21,10 @@ function sound:play(sound)
 	love.audio.play( sound )
 end
 
-function sound:decide(structure)
-	if structure.name == "platform" then
+function sound:decide(source)
+	if source.name == "platform" then
 		self:play(sound.hit)
-	elseif structure.name == "crate" then
+	elseif source.name == "crate" then
 		self:play(sound.crate)
 	end
 end

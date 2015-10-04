@@ -97,7 +97,9 @@ function player:follow(bool)
 			
 		elseif player.y > world.groundLevel then
 			world:init()
-			player:init()
+			--player:init()
+			-- FIX THIS (add respawn point)
+			self:respawn()
 		end
 	
 	end
@@ -105,7 +107,25 @@ function player:follow(bool)
 
 end
 
+function player:respawn()
+	player.x = world.cameraOffset
+	player.y = world.groundLevel
 
+	player.xvel = 0
+	player.yvel = 0
+	player.jumping = 0
+	player.dir = "idle"
+	player.lastdir = "idle"
+	player.life = player.life -1
+	player.alive = 1
+	
+	-- set this to checkpoint (when implemented)
+	camera:setPosition(
+		player.x - (love.graphics.getWidth()/2) +(player.w/2),
+		player.y - (world.groundLevel -200)
+	)
+	
+end
 
 function player:collect(item)
 	util:dprint("[PICKUP     ] item")

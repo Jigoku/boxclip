@@ -84,4 +84,6 @@ function world:loadMap(name)
 		structures:crate(player.x +1080, player.y-player.h*2, "gem")
 		structures:crate(player.x +1160, player.y-player.h*2, "gem")
 		structures:crate(player.x +1240, player.y-player.h*2, "gem")
+		
+		enemies:walker(1220, world.groundLevel,50,300)
 end

@@ -33,7 +33,8 @@ function util:drawConsole()
 			" | xvel: " .. self:round(player.xvel,0) .. 
 			" | yvel: " .. self:round(player.yvel,0) .. 
 			" | jumping: " .. player.jumping .. 
-			" | pickups: " .. pickups:count(), 
+			" | pickups: " .. pickups:count() ..
+			" | enemies: " .. enemies:count(), 
 			2, 20
 		)
 		love.graphics.print("[life: " .. player.life .. "][score: " .. player.score .. "][time: " .. 

@@ -58,25 +58,30 @@ function physics:movex(structure, dt)
 end
 
 
-function physics:movey(structure, dt)
+function physics:movey(object, dt)
 	--traverse y-axis
-	if structure.y > structure.yorigin + structure.movedist then
-		structure.y = structure.yorigin + structure.movedist
-		structure.movespeed = -structure.movespeed
+	if object.y > object.yorigin + object.movedist then
+		object.y = object.yorigin + object.movedist
+		object.movespeed = -object.movespeed
 	end
-	if structure.y < structure.yorigin  then
-		structure.y = structure.yorigin
-		structure.movespeed = -structure.movespeed
+	if object.y < object.yorigin  then
+		object.y = object.yorigin
+		object.movespeed = -object.movespeed
 	end
-	structure.y = (structure.y + structure.movespeed *dt)
+	object.y = (object.y + object.movespeed *dt)
 end
 
-function physics:moveStructures(dt)
+function physics:world(dt)
 	-- moving platforms etc
-	local i, structure
-	for i, structure in ipairs(structures) do
-		if structure.movex == 1 then physics:movex(structure, dt) end
-		if structure.movey == 1 then physics:movey(structure, dt) end
+	local i, object
+	for i, object in ipairs(structures) do
+		if object.movex == 1 then physics:movex(object, dt) end
+		if object.movey == 1 then physics:movey(object, dt) end
+	end
+	--enemies
+	for i, object in ipairs(enemies) do
+		if object.movex == 1 then physics:movex(object, dt) end
+		if object.movey == 1 then physics:movey(object, dt) end
 	end
 end
 
@@ -127,7 +132,7 @@ function physics:player(object, dt)
 
 					if structure.name == "crate" then
 						object.newX = structure.x+structure.w +1
-						self:crateReboundX(object,structure,i)
+						self:destroy("x",object,structure,i)
 					end
 					
 				-- left side
@@ -146,7 +151,7 @@ function physics:player(object, dt)
 					if structure.name == "crate"  then
 						object.newX = structure.x-object.w -1
 								
-						self:crateReboundX(object,structure,i)
+						self:destroy("x",object,structure,i)
 					end
 					
 				-- bottom side	
@@ -165,7 +170,7 @@ function physics:player(object, dt)
 							
 					if structure.name == "crate" then
 						object.newY = structure.y +structure.h +10
-						self:crateReboundY(object,structure,i)
+						self:destroy("y",object,structure,i)
 					end
 					
 				-- top side
@@ -189,7 +194,7 @@ function physics:player(object, dt)
 							
 					if structure.name == "crate"  then
 						object.newY = structure.y - object.h +1
-						self:crateReboundY(object,structure,i)
+						self:destroy("y",object,structure,i)
 					end
 				else
 					object.jumping = 1
@@ -249,17 +254,36 @@ function physics:pickups(dt)
 end
 
 
-function physics:crateReboundY(object,structure,i)
+function physics:destroy(axis,object,structure,i)
 	if object.jumping == 1 then
-		object.yvel = -object.yvel
+		if axis == "y" then
+			object.yvel = -object.yvel
+		elseif axis == "x" then
+			object.xvel = -object.xvel
+		end
 		structures:destroy(structure, i)	
 	end
 end
 
 
-function physics:crateReboundX(object,structure,i)
-	if object.jumping == 1 then
-		object.xvel = -object.xvel
-		structures:destroy(structure, i)	
+
+function physics:enemies(dt)
+	local i, enemy
+	for i, enemy in ipairs(enemies) do
+		if type(enemy) == "table" then
+		
+			if enemy.name == "walker" then
+				self:applyGravity(enemy, dt)
+				physics:movex(enemy, dt)
+				enemy.newX = (enemy.x + enemy.xvel *dt)
+				enemy.newY = (enemy.y - enemy.yvel *dt)
+			end
+		end
+		--update new poisition
+		enemy.x = enemy.newX
+		enemy.y = enemy.newY
+		if enemy.y > world.groundLevel  then
+					enemy.y = world.groundLevel 
+		end
 	end
 end
