@@ -44,17 +44,19 @@ function physics:applyGravity(object, dt)
 end
 
 
-function physics:movex(structure, dt)
+function physics:movex(object, dt)
 	-- traverse x-axis
-	if structure.x > structure.xorigin + structure.movedist then
-		structure.x = structure.xorigin + structure.movedist
-		structure.movespeed = -structure.movespeed
+	if object.x > object.xorigin + object.movedist then
+		object.x = object.xorigin + object.movedist
+		object.movespeed = -object.movespeed
+		object.dir = "left"
 	end	
-	if structure.x < structure.xorigin then
-		structure.x = structure.xorigin
-		structure.movespeed = -structure.movespeed
+	if object.x < object.xorigin then
+		object.x = object.xorigin
+		object.movespeed = -object.movespeed
+		object.dir = "right"
 	end
-	structure.x = (structure.x + structure.movespeed *dt)
+	object.x = (object.x + object.movespeed *dt)
 end
 
 
@@ -62,7 +64,7 @@ function physics:movey(object, dt)
 	--traverse y-axis
 	if object.y > object.yorigin + object.movedist then
 		object.y = object.yorigin + object.movedist
-		object.movespeed = -object.movespeed
+		object.movespeed = -object.movespeed	
 	end
 	if object.y < object.yorigin  then
 		object.y = object.yorigin
