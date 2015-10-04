@@ -276,7 +276,7 @@ function physics:enemies(dt)
 		
 			if enemy.name == "walker" then
 				self:applyGravity(enemy, dt)
-				physics:movex(enemy, dt)
+				self:movex(enemy, dt)
 				enemy.newX = (enemy.x + enemy.xvel *dt)
 				enemy.newY = (enemy.y - enemy.yvel *dt)
 			end
