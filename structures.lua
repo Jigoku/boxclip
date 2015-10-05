@@ -56,7 +56,11 @@ function structures:draw()
 	for key, structure in ipairs(structures) do
 	
 	 if structure.name == "platform" then
-			love.graphics.setColor(structure.r,structure.g,structure.b,structure.o)
+			if structure.movey == 1 or structure.movex == 1 then
+				love.graphics.setColor(structure.r+40,structure.g+40,structure.b+40,structure.o)
+			else
+				love.graphics.setColor(structure.r,structure.g,structure.b,structure.o)
+			end
 			love.graphics.rectangle("fill", structure.x, structure.y, structure.w, structure.h)
 			
 
