@@ -3,7 +3,7 @@ a 2d game engine using the love2d framework
 
 #####Running the game/engine
 Install love2d, and simply type
-`love .`
+`love .` or you can run the script *make_dist.sh* to create a love executable which can be double-clicked or run with `love platform_engine.love`
 
 #####Please note
 This is not even a pre-alpha, and end goals may change. Currently the plans are to have a box collision based world with a map editor, and simple static path-based enemies.
