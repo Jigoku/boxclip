@@ -122,10 +122,7 @@ function physics:player(object, dt)
 				if collision:right(object,structure) then
 					
 					if structure.name == "platform" then
-						print (structure.movespeed)
-						if structure.movex == 1 then
-
-						else
+						if not (structure.movex == 1 or structure.movey == 1) then
 							object.xvel = 0
 							object.newX = structure.x+structure.w +1
 						end
@@ -140,9 +137,7 @@ function physics:player(object, dt)
 				elseif collision:left(object,structure) then
 					
 					if structure.name == "platform" then	
-						if structure.movex == 1  then
-
-						else
+						if not (structure.movex == 1 or structure.movey == 1) then
 							object.xvel = 0
 							object.newX = structure.x-object.w -1
 						end
@@ -150,7 +145,6 @@ function physics:player(object, dt)
 							
 					if structure.name == "crate"  then
 						object.newX = structure.x-object.w -1
-								
 						self:destroy("x",object,structure,i)
 					end
 					
@@ -165,7 +159,7 @@ function physics:player(object, dt)
 					end
 							
 					if structure.name == "crate" then
-						object.newY = structure.y +structure.h +10
+						object.newY = structure.y +structure.h +1
 						self:destroy("y",object,structure,i)
 					end
 					
@@ -188,8 +182,8 @@ function physics:player(object, dt)
 							object.newX = (object.newX + structure.movespeed *dt)
 						end
 							
-						if structure.movey == 1   then
-							--move along y-axis with platform
+						if structure.movey == 1 and structure.movespeed >= 0  then
+							--stood on top platform here while going down
 							object.newY = (structure.y-object.h  +structure.movespeed *dt)
 						end		
 					end
