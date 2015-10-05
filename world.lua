@@ -38,31 +38,28 @@ end
 
 function world:loadMap(name)
 --TEST FUNCTION
-		--structures:platform(player.x+50, world.groundLevel-50, 100,10, 70,60,50)
+
+	
+	love.graphics.setBackgroundColor(70,50,50,255)
+
 		structures:platform(0, 0+player.h, 10000,200, 30,30,30, nil, 0,0)	
 		structures:platform(0, world.groundLevel-800+player.h, 310,800, 30,30,30, nil, 0,0)	
-
-		structures:platform(player.x+20, -350, 100,20, 30,30,30, nil, 0,1,100,300)	
-		structures:platform(player.x+150, -120, 100,70, 30,30,30,nil)	
-		structures:platform(player.x+150, -320, 100,70, 30,30,30,nil)	
-		structures:platform(player.x+150, -520, 100,70, 30,30,30,nil)	
-		structures:platform(player.x+150, -720, 100,70, 30,30,30,nil)	
-		structures:platform(player.x+350, -320, 100,20, 30,30,30,nil, 1, 0, 100, 200)	
-		--structures:platform(player.x+350, world.groundLevel-50, 100,20, 30,30,30,nil, 1, 0, 100, 200)	
-		structures:platform(player.x+350, -10, 100,20, 30,30,30,nil, 1, 0, 150, 200)	
-		structures:platform(player.x+550, -600, 100,20, 30,30,30, nil, 0,1,100,400)	
-		structures:platform(player.x+1250, -500, 300,20, 30,30,30, nil)	
-		structures:platform(player.x+950, -600, 100,20, 30,30,30, nil, 1,0,100,200)	
-		
-		structures:platform(player.x+1250, 0, 50,20, 30,30,30, nil)	
-		structures:platform(player.x+1350, -20, 50,20, 30,30,30, nil)	
-		structures:platform(player.x+1450, -50, 50,20, 30,30,30, nil)	
-		structures:platform(player.x+1550, -80, 50,20, 30,30,30, nil)	
-		
-		structures:platform(player.x+1750, -500, 100,1000, 70,60,50, nil)	
-
-
-		structures:platform(1166, 0+player.h, 10,10, 30,30,30, nil)	
+		structures:platform(player.x+20, -350, 100,20, 0,1,100,300)	
+		structures:platform(player.x+150, -120, 100,70)	
+		structures:platform(player.x+150, -320, 100,70)	
+		structures:platform(player.x+150, -520, 100,70)	
+		structures:platform(player.x+150, -720, 100,70)	
+		structures:platform(player.x+350, -320, 100,20, 1, 0, 100, 200)	
+		structures:platform(player.x+350, -10, 100,20, 1, 0, 150, 200)	
+		structures:platform(player.x+550, -600, 100,20, 0,1,100,400)	
+		structures:platform(player.x+1250, -500, 300,20)	
+		structures:platform(player.x+950, -600, 100,20, 1,0,100,200)	
+		structures:platform(player.x+1250, 0, 50,20)	
+		structures:platform(player.x+1350, -20, 50,20)	
+		structures:platform(player.x+1450, -50, 50,20)	
+		structures:platform(player.x+1550, -80, 50,20)	
+		structures:platform(player.x+1750, -500, 100,1000)
+		structures:platform(1166, 0+player.h, 10,10)	
 
 		
 		pickups:gem(player.x +100, player.y+player.h/2)	

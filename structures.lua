@@ -1,6 +1,6 @@
 structures = {}
 
-function structures:platform(x,y,w,h,r,g,b,o,movex,movey,movespeed,movedist)
+function structures:platform(x,y,w,h,movex,movey,movespeed,movedist)
 	table.insert(structures, {
 		--dimensions
 		x = x or 0, -- xco-ord
@@ -8,9 +8,9 @@ function structures:platform(x,y,w,h,r,g,b,o,movex,movey,movespeed,movedist)
 		w = w or 0, -- width
 		h = h or 0, -- height
 		--colour
-		r = r or 255, -- red
-		g = g or 0, -- green
-		b = b or 0, -- blue
+		r = r or 140, -- red
+		g = g or 100, -- green
+		b = b or 40, -- blue
 		o = o or 255, -- opacity
 		--properties
 		name = "platform",

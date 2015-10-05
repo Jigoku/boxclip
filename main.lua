@@ -17,10 +17,7 @@ require("input")
 debug = 1
 math.randomseed(os.time())
 function love.load()
-	--love.window.setFullscreen(1)
-	
-	--love.graphics.setBackgroundColor(10,10,10,255)
-	love.graphics.setBackgroundColor(10,10,15,255)
+
 	
 
 	world:init()
