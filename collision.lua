@@ -13,6 +13,25 @@ function collision:check(x1,y1,w1,h1, x2,y2,w2,h2)
 		 y2 < y1+h1
 end
 
+function collision:right(a,b)
+	return a.newX <= b.x+b.w and 
+					a.x > b.x+b.w
+end
+
+function collision:left(a,b)
+	return a.newX+a.w >= b.x and 
+					a.x+a.w < b.x
+end
+
+function collision:top(a,b)
+	return a.newY+a.h >= b.y  and 
+					a.y < b.y
+end
+
+function collision:bottom(a,b)
+	return a.newY <= b.y+b.h and 
+					a.y+a.h > b.y+b.h
+end
 
 function collision:bounds() 
 	if player.x < 0 then
@@ -36,11 +55,13 @@ end
 function collision:enemies()
 	local i, enemy
 	for i, enemy in ipairs(enemies) do
-		if collision:check(player.x,player.y,player.w,player.h,
+		if collision:check(player.x,player.newY,player.w,player.h,
 			enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
 			
 			-- if we land on top, kill enemy
-			if player.newY+player.h >= enemy.y  and (player.y < enemy.y ) then
+
+			
+			if player.newY+player.h >= enemy.y+5 and player.jumping == 1 then
 					
 					player.yvel = -player.yvel
 					sound:play(sound.kill)

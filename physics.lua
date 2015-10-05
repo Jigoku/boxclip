@@ -119,8 +119,7 @@ function physics:player(object, dt)
 				-- adjust position/velocity if neccesary
 					
 				-- right side
-				if object.newX <= structure.x+structure.w and 
-					object.x > structure.x+structure.w then
+				if collision:right(object,structure) then
 					
 					if structure.name == "platform" then
 						print (structure.movespeed)
@@ -138,8 +137,7 @@ function physics:player(object, dt)
 					end
 					
 				-- left side
-				elseif object.newX+object.w >= structure.x and 
-					(object.x+object.w < structure.x)  then
+				elseif collision:left(object,structure) then
 					
 					if structure.name == "platform" then	
 						if structure.movex == 1  then
@@ -157,8 +155,7 @@ function physics:player(object, dt)
 					end
 					
 				-- bottom side	
-				elseif object.newY <= structure.y+structure.h and 
-					(object.y+object.h > (structure.y+structure.h)) then	
+				elseif collision:bottom(object,structure) then	
 				
 					if structure.name == "platform" then
 						object.yvel = 0
@@ -176,8 +173,7 @@ function physics:player(object, dt)
 					end
 					
 				-- top side
-				elseif object.newY+object.h >= structure.y  and 
-					(object.y < structure.y ) then
+				elseif collision:top(object,structure) then
 					
 					if structure.name == "platform" then
 						object.yvel = 0
@@ -220,10 +216,8 @@ function physics:player(object, dt)
 	
 	if object.alive == 1 then
 		-- stop increasing velocity if we hit ground
-		if object.y > world.groundLevel  then
-			object.yvel = 0
-			object.jumping = 0
-			object.y = world.groundLevel
+		if object.y+object.h> world.groundLevel  then
+			physics:kill(object, dt)
 		end
 	end
 
@@ -277,6 +271,22 @@ function physics:enemies(dt)
 			if enemy.name == "walker" then
 				self:applyGravity(enemy, dt)
 				self:movex(enemy, dt)
+				local n, structure
+				for n, structure in ipairs(structures) do
+					if collision:check(structure.x,structure.y,structure.w,structure.h,
+						enemy.x,enemy.y,enemy.w,enemy.h) then
+						
+						if collision:right(enemy,structure) then
+							
+							
+						elseif collision:top(enemy,structure) then
+							enemy.yvel = 0
+							enemy.jumping = 0
+							enemy.newY = structure.y - enemy.h +1
+						end
+					end
+				end
+			
 				enemy.newX = (enemy.x + enemy.xvel *dt)
 				enemy.newY = (enemy.y - enemy.yvel *dt)
 			end
@@ -284,8 +294,9 @@ function physics:enemies(dt)
 		--update new poisition
 		enemy.x = enemy.newX
 		enemy.y = enemy.newY
-		if enemy.y > world.groundLevel  then
-					enemy.y = world.groundLevel 
+		if enemy.y +enemy.h > world.groundLevel  then
+					sound:play(sound.kill)
+					table.remove(enemies, i)
 		end
 	end
 end

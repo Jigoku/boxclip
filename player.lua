@@ -4,7 +4,7 @@ function player:init()
 	player.w = 40
 	player.h = 50
 	player.x = world.cameraOffset
-	player.y = world.groundLevel
+	player.y = 0 - player.h
 
 	player.speed = 400
 	player.mass = 800
@@ -109,7 +109,7 @@ end
 
 function player:respawn()
 	player.x = world.cameraOffset
-	player.y = world.groundLevel
+	player.y = 0
 
 	player.xvel = 0
 	player.yvel = 0
