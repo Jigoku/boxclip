@@ -1,4 +1,3 @@
-
 require("camera")
 require("sound")
 require("physics")
@@ -15,6 +14,8 @@ require("input")
 
 
 debug = 1
+mode = 1
+
 math.randomseed(os.time())
 function love.load()
 	
@@ -35,14 +36,10 @@ function love.draw()
 	camera:set()
 	
 
-		
-		structures:draw()
-		pickups:draw()
-		enemies:draw()
-		player:draw()
-			
-		love.graphics.setColor(255,255,255,255)
-		love.graphics.draw(groundLevel_tile, groundLevel_quad, -50,world.groundLevel)
+	if mode == 1 then
+		world:draw()
+	end
+	
 
 	camera:unset()
 	
@@ -58,15 +55,10 @@ function love.update(dt)
 
 	input:check(dt)
 	
-	physics:world(dt)
-	physics:pickups(dt)
-	physics:enemies(dt)
-	physics:player(player, dt)
+	if mode == 1 then
+		world:run(dt)
+	end
 	
-	collision:checkWorld(dt)
-	
-	camera:setScale(1,1)
-	player:follow(1)
 
 end
 

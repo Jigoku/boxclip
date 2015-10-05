@@ -9,6 +9,28 @@ function world:init()
 	world.minutes = 0
 end
 
+function world:run(dt)
+	physics:world(dt)
+	physics:pickups(dt)
+	physics:enemies(dt)
+	physics:player(player, dt)
+	
+	collision:checkWorld(dt)
+	
+	camera:setScale(1,1)
+	player:follow(1)
+end
+
+function world:draw()
+	structures:draw()
+	pickups:draw()
+	enemies:draw()
+	player:draw()
+			
+	love.graphics.setColor(255,255,255,255)
+	love.graphics.draw(groundLevel_tile, groundLevel_quad, -50,world.groundLevel)
+end
+
 
 function world:time()
 	local time = os.time()
@@ -78,10 +100,10 @@ function world:loadMap(name)
 		structures:crate(820,-680,"life")	
 
 
-		structures:crate(player.x +1000, player.y-player.h*2, "gem")	
-		structures:crate(player.x +1080, player.y-player.h*2, "gem")
-		structures:crate(player.x +1160, player.y-player.h*2, "gem")
-		structures:crate(player.x +1240, player.y-player.h*2, "gem")
+		structures:crate(1400, player.y-player.h*2, "gem")	
+		structures:crate(1480, player.y-player.h*2, "gem")
+		structures:crate(1560, player.y-player.h*2, "gem")
+		structures:crate(1640, player.y-player.h*2, "gem")
 		
 		enemies:walker(1000, 0,50,300)
 end

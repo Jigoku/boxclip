@@ -21,10 +21,12 @@ end
 function love.keypressed(key)
 		util:dprint("[KEY        ] '".. key .. "'")
 	
+		--quit
 		if key == "escape" then
 				love.event.quit()
 		end
 
+		--debug console
 		if key == "`" then
 			love.audio.play( sound.beep )
 			if debug == 1 then
@@ -35,21 +37,25 @@ function love.keypressed(key)
 			
 		end
 
+		--toggle fullscreen
 		if key == "f1" then
 			love.window.setFullscreen( 1 )
 		end
 
-		if key == " " then
-			if player.jumping == 0 then
-				sound:play(sound.jump)
-				player.jumping = 1
-				player.yvel = player.jumpheight
-				
+		if player.alive == 1 then
+			--jump
+			if key == " " and mode == 1 then
+				if player.jumping == 0 then
+					sound:play(sound.jump)
+					player.jumping = 1
+					player.yvel = player.jumpheight
+					
+				end
 			end
-		end
-		
-		if key == "b" then
-				player.alive=0
-				player.jumping = 1 -- stupid if we can jump while dead...?
+
+			--suicide
+			if key == "b" then
+				physics:kill(player)
+			end
 		end
 end

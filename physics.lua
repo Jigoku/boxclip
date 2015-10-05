@@ -2,6 +2,8 @@ physics = {}
 
 function physics:kill(object,dt)
 	-- move the dead character off screen (like sonic 1, down and off camera)
+	player.alive = 0
+	player.jumping = 1
 	love.audio.play( sound.die )
 end
 
@@ -98,13 +100,11 @@ function physics:player(object, dt)
 	object.newY = (object.y - object.yvel *dt)
 	
 	--loop solid structures
-	local i, structure
-	for i, structure in ipairs(structures) do
+	if object.alive == 1 then
+		local i, structure
+		for i, structure in ipairs(structures) do
 		--move the platforms! 
 		-- structure.newX == physics:movex(structure,dt)  <--- (ret val)???
-
-		
-		if object.alive == 1 then
 				
 			if collision:check(structure.x,structure.y,structure.w,structure.h,
 					object.newX,object.newY,object.w,object.h) then
@@ -202,19 +202,15 @@ function physics:player(object, dt)
 					object.yvel = -object.mass 
 				end
 			end
-			
-		else
-			physics:kill(object, dt)
 		end
 	end
-
 	-- update new poisition
 	object.x = object.newX
 	object.y = object.newY
 	
 	if object.alive == 1 then
 		-- stop increasing velocity if we hit ground
-		if object.y+object.h> world.groundLevel  then
+		if object.y+object.h > world.groundLevel  then
 			physics:kill(object, dt)
 		end
 	end
@@ -249,6 +245,8 @@ end
 
 
 function physics:destroy(axis,object,structure,i)
+	--axis is used to determine which direction the colliding object
+	--will rebound from
 	if object.jumping == 1 then
 		if axis == "y" then
 			object.yvel = -object.yvel

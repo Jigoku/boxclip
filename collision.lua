@@ -42,35 +42,36 @@ end
 
 
 function collision:pickups()
-	local i, pickup
-	for i, pickup in ipairs(pickups) do
-		if collision:check(player.x,player.y,player.w,player.h,
-			pickup.x-pickup.gfx:getWidth()/2, pickup.y-pickup.gfx:getHeight()/2,pickup.gfx:getWidth(),pickup.gfx:getHeight()) then
-				table.remove(pickups, i)
-				player:collect(pickup.name)
+	if player.alive == 1 then
+		local i, pickup
+		for i, pickup in ipairs(pickups) do
+			if collision:check(player.x,player.y,player.w,player.h,
+				pickup.x-pickup.gfx:getWidth()/2, pickup.y-pickup.gfx:getHeight()/2,pickup.gfx:getWidth(),pickup.gfx:getHeight()) then
+					table.remove(pickups, i)
+					player:collect(pickup.name)
+			end
 		end
 	end
 end
 
 function collision:enemies()
-	local i, enemy
-	for i, enemy in ipairs(enemies) do
-		if collision:check(player.x,player.newY,player.w,player.h,
-			enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
+	if player.alive == 1 then
+		local i, enemy
+		for i, enemy in ipairs(enemies) do
+			if collision:check(player.x,player.newY,player.w,player.h,
+				enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
 			
-			-- if we land on top, kill enemy
-
-			
-			if player.newY+player.h >= enemy.y+5 and player.jumping == 1 then
-					
+				-- if we land on top, kill enemy
+				if player.newY+player.h >= enemy.y+5 and player.jumping == 1 then					
 					player.yvel = -player.yvel
 					sound:play(sound.kill)
 					table.remove(enemies, i)
 					
-			else
-			-- otherwise we die
-				player.alive = 0
-				util:dprint("killed by " .. enemy.name)		
+				else
+					-- otherwise we die
+					player.alive = 0
+					util:dprint("killed by " .. enemy.name)		
+				end
 			end
 		end
 	end
