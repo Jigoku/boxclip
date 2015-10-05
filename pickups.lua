@@ -67,7 +67,7 @@ function pickups:drawDebug(pickup)
 	util:drawCoordinates(pickup)
 end
 
-function pickups:destroy(pickups, id)
+function pickups:destroy(pickups, i)
 	table.remove(pickups, i)
 end
 
