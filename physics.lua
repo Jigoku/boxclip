@@ -188,8 +188,8 @@ function physics:player(object, dt)
 							object.newX = (object.newX + structure.movespeed *dt)
 						end
 							
-						if structure.movey == 1 and structure.movespeed >= 0  then
-							--stood on top platform here while going down
+						if structure.movey == 1   then
+							--move along y-axis with platform
 							object.newY = (structure.y-object.h  +structure.movespeed *dt)
 						end		
 					end
