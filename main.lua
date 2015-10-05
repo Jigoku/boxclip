@@ -17,13 +17,15 @@ require("input")
 debug = 1
 math.randomseed(os.time())
 function love.load()
-
 	
-
 	world:init()
 
 	player:init()
 	world:loadMap(nil)
+
+	groundLevel_tile = love.graphics.newImage("graphics/tiles/lava.png")
+	groundLevel_tile:setWrap("repeat", "repeat")
+	groundLevel_quad = love.graphics.newQuad( -50,world.groundLevel, 10000, 500, groundLevel_tile:getDimensions() )
 
 end
 
@@ -38,12 +40,10 @@ function love.draw()
 		pickups:draw()
 		enemies:draw()
 		player:draw()
-		
-				love.graphics.setColor(30,30,35,255)
-		love.graphics.rectangle("fill", -50, world.groundLevel, 10000, 500)	
-		love.graphics.setColor(50,50,50,255)
-		love.graphics.rectangle("fill", -50, world.groundLevel, 10000, 2)
-		
+			
+		love.graphics.setColor(255,255,255,255)
+		love.graphics.draw(groundLevel_tile, groundLevel_quad, -50,world.groundLevel)
+
 	camera:unset()
 	
 	-- overlays

@@ -73,7 +73,7 @@ function structures:draw()
 			love.graphics.rectangle("fill", structure.x, structure.y, structure.w, structure.h)
 			
 			--tile the texture using quad
-			quad = love.graphics.newQuad( 0,0, structure.w, structure.h, platform_tile:getDimensions() )
+			local quad = love.graphics.newQuad( 0,0, structure.w, structure.h, platform_tile:getDimensions() )
 			love.graphics.draw(platform_tile, quad, structure.x,structure.y)
 
 			--right
