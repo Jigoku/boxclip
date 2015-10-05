@@ -1,7 +1,6 @@
 structures = {}
 
-platform_tile = love.graphics.newImage("graphics/tiles/marble.png")
-platform_tile:setWrap("repeat", "repeat")
+
 
 
 function structures:platform(x,y,w,h,movex,movey,movespeed,movedist)
@@ -26,6 +25,8 @@ function structures:platform(x,y,w,h,movex,movey,movespeed,movedist)
 		movedist = movedist or 200,
 		xorigin = x,
 		yorigin = y,
+		gfx = love.graphics.newImage("graphics/tiles/marble.png")
+		
 	})
 end
 
@@ -73,8 +74,9 @@ function structures:draw()
 			love.graphics.rectangle("fill", structure.x, structure.y, structure.w, structure.h)
 			
 			--tile the texture using quad
-			local quad = love.graphics.newQuad( 0,0, structure.w, structure.h, platform_tile:getDimensions() )
-			love.graphics.draw(platform_tile, quad, structure.x,structure.y)
+			local quad = love.graphics.newQuad( 0,0, structure.w, structure.h, structure.gfx:getDimensions() )
+			structure.gfx:setWrap("repeat", "repeat")
+			love.graphics.draw(structure.gfx, quad, structure.x,structure.y)
 
 			--right
 			love.graphics.setColor(structure.r-10,structure.g-10,structure.b-10,structure.o)

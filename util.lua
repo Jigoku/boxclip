@@ -39,6 +39,8 @@ function util:drawConsole()
 		)
 		love.graphics.print("[life: " .. player.life .. "][score: " .. player.score .. "][time: " .. 
 world:time() .. "][alive: " .. player.alive .."]", 2,40)
+
+		love.graphics.print('Memory (kB): ' .. util:round(collectgarbage('count')), 2,60)
 	end
 end
 

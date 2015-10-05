@@ -12,6 +12,7 @@ function pickups:gem(x,y)
 		y =y or 0,
 		name = "gem",
 		gfx = self:random("graphics/gems/"),
+
 	})	
 end
 
@@ -31,7 +32,7 @@ function pickups:draw()
 	for i, pickup in ipairs(pickups) do
 			
 		if pickup.name == "gem" then
-			love.graphics.setColor(255,255,255, 150)	
+			love.graphics.setColor(255,255,255,200)	
 			love.graphics.draw(
 				pickup.gfx, pickup.x-pickup.gfx:getWidth()/2, 
 				pickup.y-pickup.gfx:getHeight()/2, 0, 1, 1

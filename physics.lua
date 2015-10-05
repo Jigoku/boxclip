@@ -222,7 +222,7 @@ function physics:pickups(dt)
 	local i, pickup
 		for i, pickup in ipairs(pickups) do
 			pickup.y = pickup.y + world.gravity *dt
-			
+
 			local n, structure
 			for n, structure in ipairs(structures) do
 				
@@ -236,6 +236,8 @@ function physics:pickups(dt)
 							pickup.x = (pickup.x + structure.movespeed *dt)
 						end
 				end
+				
+				
 				if pickup.y > world.groundLevel  then
 					pickups:destroy(pickups,i)
 				end
