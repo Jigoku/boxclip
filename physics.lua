@@ -158,11 +158,8 @@ function physics:player(object, dt)
 				elseif collision:bottom(object,structure) then	
 				
 					if structure.name == "platform" then
-						object.yvel = 0
-						
-						if structure.movey == 1 and structure.movespeed > 0 then
-							object.newY = structure.y +structure.h +10 -- improve this...
-						else 
+						if not (structure.movey == 1 or structure.movex == 1) then 
+							object.yvel = 0
 							object.newY = structure.y +structure.h +1
 						end				
 					end
