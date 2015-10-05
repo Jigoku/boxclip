@@ -1,5 +1,5 @@
 #Platform Engine (currently unnamed)
-a 2d graphics engine using the love2d framework
+a 2d game engine using the love2d framework
 
 #####Running the game/engine
 Install love2d, and simply type
