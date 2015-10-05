@@ -173,9 +173,16 @@ function physics:player(object, dt)
 				elseif collision:top(object,structure) then
 					
 					if structure.name == "platform" then
-						object.yvel = 0
-						object.jumping = 0
-						object.newY = structure.y - object.h +1
+					
+						--if we are jumping upwards go through the platform
+						--only  'fix' to surface if we are going down
+						if not (object.yvel > 0 and object.jumping == 1) then
+							object.yvel = 0
+							object.jumping = 0
+							object.newY = structure.y - object.h +1
+						end
+					
+						
 						if structure.movex == 1 then
 							-- move along x-axis with platform	
 							object.newX = (object.newX + structure.movespeed *dt)
