@@ -66,6 +66,10 @@ function pickups:drawDebug(pickup)
 	util:drawCoordinates(pickup)
 end
 
+function pickups:destroy(pickups, id)
+	table.remove(pickups, i)
+end
+
 
 function pickups:count()
 	local count = 0

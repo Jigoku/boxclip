@@ -22,13 +22,14 @@ function world:run(dt)
 end
 
 function world:draw()
+	--groundLevel placeholder
+	love.graphics.setColor(255,255,255,255)
+	love.graphics.draw(groundLevel_tile, groundLevel_quad, -50,world.groundLevel)
+	
 	structures:draw()
 	pickups:draw()
 	enemies:draw()
-	player:draw()
-			
-	love.graphics.setColor(255,255,255,255)
-	love.graphics.draw(groundLevel_tile, groundLevel_quad, -50,world.groundLevel)
+	player:draw()	
 end
 
 
@@ -64,8 +65,9 @@ function world:loadMap(name)
 	
 	love.graphics.setBackgroundColor(70,50,50,255)
 
-		structures:platform(0, 0+player.h, 10000,200, 30,30,30, nil, 0,0)	
-		structures:platform(0, world.groundLevel-800+player.h, 310,800, 30,30,30, nil, 0,0)	
+		structures:platform(0, 0+player.h, 1330,200, 0,0)	
+		structures:platform(1600, 0+player.h, 10000,200, 0,0)	
+		structures:platform(0, world.groundLevel-800+player.h, 310,800, 0,0)	
 		structures:platform(player.x+20, -350, 100,20, 0,1,100,300)	
 		structures:platform(player.x+150, -120, 100,70)	
 		structures:platform(player.x+150, -320, 100,70)	

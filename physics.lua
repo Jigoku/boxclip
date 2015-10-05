@@ -237,7 +237,7 @@ function physics:pickups(dt)
 						end
 				end
 				if pickup.y > world.groundLevel  then
-					pickup.y = world.groundLevel + pickup.gfx:getHeight()/2 +1
+					pickups:destroy(pickups,i)
 				end
 			end
 		end
