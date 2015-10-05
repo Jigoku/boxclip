@@ -6,7 +6,7 @@ function player:init()
 	player.x = world.cameraOffset
 	player.y = 0 - player.h
 
-	player.speed = 400
+	player.speed = 500
 	player.mass = 800
 	player.xvel = 0
 	player.yvel = 0

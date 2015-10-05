@@ -35,6 +35,10 @@ function love.keypressed(key)
 			
 		end
 
+		if key == "f1" then
+			love.window.setFullscreen( 1 )
+		end
+
 		if key == " " then
 			if player.jumping == 0 then
 				sound:play(sound.jump)
