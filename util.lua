@@ -33,9 +33,9 @@ function util:drawConsole()
 			" | xvel: " .. self:round(player.xvel,0) .. 
 			" | yvel: " .. self:round(player.yvel,0) .. 
 			" | jumping: " .. player.jumping .. 
-			" | pickups: " .. self:count(pickups) ..
-			" | enemies: " .. self:count(enemies) ..
-			" | structures: " .. self:count(structures), 
+			" | pickups: " .. world:count(pickups) ..
+			" | enemies: " .. world:count(enemies) ..
+			" | structures: " .. world:count(structures), 
 			2, 20
 		)
 		love.graphics.print("[life: " .. player.life .. "][score: " .. player.score .. "][time: " .. 
@@ -54,13 +54,3 @@ function util:dprint(out)
 end
 
 
-
-function util:count(table)
-	local count = 0
-	for n, object in pairs(table) do 
-		if type(object) == "table" then
-			count = count + 1 
-		end
-	end
-	return count
-end

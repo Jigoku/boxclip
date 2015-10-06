@@ -73,6 +73,16 @@ function world:drawWeather()
 	end
 end
 
+function world:count(table)
+	local count = 0
+	for n, object in pairs(table) do 
+		if type(object) == "table" then
+			count = count + 1 
+		end
+	end
+	return count
+end
+
 function world:remove(objects)
 	-- pass table here
 	-- removes all entity types from world
@@ -87,9 +97,9 @@ end
 function world:loadMap(name)
 --TEST FUNCTION
 
-		repeat world:remove(enemies) until util:count(enemies) == 0
-		repeat world:remove(pickups) until util:count(pickups) == 0
-		repeat world:remove(structures) until util:count(structures) == 0
+		repeat world:remove(enemies) until world:count(enemies) == 0
+		repeat world:remove(pickups) until world:count(pickups) == 0
+		repeat world:remove(structures) until world:count(structures) == 0
 
 	
 	love.graphics.setBackgroundColor(70,50,50,255)
