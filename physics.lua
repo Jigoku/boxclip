@@ -189,7 +189,7 @@ function physics:player(object, dt)
 					end
 							
 					if structure.name == "crate"  then
-						object.newY = structure.y - object.h +1
+						object.newY = structure.y - object.h -1
 						self:destroy("y",object,structure,i)
 					end
 				else
