@@ -22,14 +22,22 @@ function world:run(dt)
 end
 
 function world:draw()
+	-- set camera for world
+	camera:set()
+
 	--groundLevel placeholder
 	love.graphics.setColor(255,255,255,255)
 	love.graphics.draw(groundLevel_tile, groundLevel_quad, -50,world.groundLevel)
-	
+
 	structures:draw()
 	pickups:draw()
 	enemies:draw()
 	player:draw()	
+	
+	camera:unset()
+	
+	-- overlays
+	world:drawWeather()
 end
 
 

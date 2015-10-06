@@ -32,19 +32,15 @@ end
 
 function love.draw()
 
-	-- set camera for world
-	camera:set()
-	
+	-- draw title screen
+	if mode == 0 then
+		title:draw()
+	end
 
+	-- draw world
 	if mode == 1 then
 		world:draw()
 	end
-	
-
-	camera:unset()
-	
-	-- overlays
-	--world:drawWeather()
 	
 	-- debug info
 	util:drawConsole()
@@ -53,8 +49,15 @@ end
 
 function love.update(dt)
 
+	-- process keyboard events
 	input:check(dt)
+
+	-- run title screen
+	if mode == 0 then
+		title:run(dt)
+	end
 	
+	-- run world
 	if mode == 1 then
 		world:run(dt)
 	end
