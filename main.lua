@@ -25,15 +25,12 @@ end
 
 function love.draw()
 
-
 	-- draw world
 	if mode == 1 then
 		world:draw()
 		-- debug info
 		util:drawConsole()
 	end
-	
-
 	
 end
 

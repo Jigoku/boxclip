@@ -19,6 +19,14 @@ function input:check(dt)
 	end
 end
 
+function love.mousepressed(x, y, button)
+	if debug == 1 then
+		if button == 'l' then
+			print( "X:"..util:round(camera.x+x).." Y: "..util:round(camera.y+y))
+		end
+	end
+end
+
 function love.keypressed(key)
 		util:dprint("[KEY        ] '".. key .. "'")
 	

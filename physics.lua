@@ -212,7 +212,7 @@ function physics:player(object, dt)
 	if object.alive == 1 then
 		-- stop increasing velocity if we hit ground
 		if object.y+object.h > world.groundLevel  then
-			physics:kill(object, dt)
+			self:kill(object, dt)
 		end
 	end
 
@@ -238,7 +238,7 @@ function physics:pickups(dt)
 						end
 				end
 			end
-			
+			-- if pickup goes outside of world, remove it
 			if pickup.y > world.groundLevel  then
 				pickups:destroy(pickups,i)
 			end
