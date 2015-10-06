@@ -63,10 +63,7 @@ function collision:enemies()
 			
 				-- if we land on top, kill enemy
 				if player.newY+player.h >= enemy.y+5 and player.jumping == 1 then					
-					player.yvel = -player.yvel
-					sound:play(sound.kill)
-					table.remove(enemies, i)
-					
+					player:attack(enemies, i)
 				else
 					-- otherwise we die
 					

@@ -136,3 +136,10 @@ function player:collect(item)
 		player.life = player.life +1
 	end
 end
+
+
+function player:attack(enemies, i)
+	player.yvel = -player.yvel
+	sound:play(sound.kill)
+	table.remove(enemies, i)
+end
