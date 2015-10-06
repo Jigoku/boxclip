@@ -177,7 +177,7 @@ function physics:player(object, dt)
 						end
 					
 						
-						if structure.movex == 1 then
+						if structure.movex == 1 and object.yvel == 0 then
 							-- move along x-axis with platform	
 							object.newX = (object.newX + structure.movespeed *dt)
 						end
