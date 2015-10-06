@@ -19,7 +19,7 @@ function love.load()
 	
 	world:init()
 	player:init()
-	world:loadMap(nil)
+	world:loadMap("maps/test.map")
 
 end
 

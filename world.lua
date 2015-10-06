@@ -94,56 +94,12 @@ function world:remove(objects)
 	end
 end
 
-function world:loadMap(name)
+function world:loadMap(mapname)
 --TEST FUNCTION
 
 		repeat world:remove(enemies) until world:count(enemies) == 0
 		repeat world:remove(pickups) until world:count(pickups) == 0
 		repeat world:remove(structures) until world:count(structures) == 0
 
-	
-	love.graphics.setBackgroundColor(70,50,50,255)
-
-		structures:platform(0, 0+player.h, 1330,200, 0,0)	
-		structures:platform(1600, 0+player.h, 10000,200, 0,0)	
-		structures:platform(0, world.groundLevel-800+player.h, 310,800, 0,0)	
-		structures:platform(player.x+20, -350, 100,20, 0,1,100,300)	
-		structures:platform(player.x+150, -120, 100,70)	
-		structures:platform(player.x+150, -320, 100,70)	
-		structures:platform(player.x+150, -520, 100,70)	
-		structures:platform(player.x+150, -720, 100,70)	
-		structures:platform(player.x+350, -320, 100,20, 1, 0, 100, 200)	
-		structures:platform(player.x+350, -10, 100,20, 1, 0, 150, 200)	
-		structures:platform(player.x+550, -600, 100,20, 0,1,100,400)	
-		structures:platform(player.x+1250, -500, 300,20)	
-		structures:platform(player.x+950, -600, 100,20, 1,0,100,200)	
-		structures:platform(player.x+1250, 0, 50,20)	
-		structures:platform(player.x+1350, -20, 50,20)	
-		structures:platform(player.x+1450, -50, 50,20)	
-		structures:platform(player.x+1550, -80, 50,20)	
-		structures:platform(player.x+1750, -500, 100,1000)	
-		
-		pickups:gem(player.x +100, player.y+player.h/2)	
-		pickups:gem(player.x +200, player.y+player.h/2)	
-		pickups:gem(player.x +300, player.y+player.h/2)	
-		pickups:gem(player.x +400, player.y+player.h/2)	
-		pickups:gem(player.x +950+50,-450)	
-
-		pickups:life(player.x +700, player.y+player.h/2)	
-
-		structures:crate(700,-500,"gem")	
-		structures:crate(760,-500,"gem")	
-		structures:crate(820,-500,"gem")	
-		structures:crate(700,-560,"gem")	
-		structures:crate(760,-620,"gem")	
-		structures:crate(820,-680,"life")	
-
-
-		structures:crate(1400, player.y-player.h*2, "gem")	
-		structures:crate(1480, player.y-player.h*2, "gem")
-		structures:crate(1560, player.y-player.h*2, "gem")
-		structures:crate(1640, player.y-player.h*2, "gem")
-		
-		enemies:walker(1000, 0,100,300)
-		enemies:walker(500, 0,50,300)
+		dofile(mapname)
 end

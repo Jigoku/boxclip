@@ -122,7 +122,7 @@ function player:respawn()
 		player.x - (love.graphics.getWidth()/2) +(player.w/2),
 		player.y - (world.groundLevel -200)
 	)
-	world:loadMap(nil)
+	world:loadMap("maps/test.map")
 end
 
 function player:collect(item)
