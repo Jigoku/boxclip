@@ -25,7 +25,7 @@ function structures:platform(x,y,w,h,movex,movey,movespeed,movedist)
 		movedist = movedist or 200,
 		xorigin = x,
 		yorigin = y,
-		gfx = love.graphics.newImage("graphics/tiles/marble.png")
+		gfx = love.graphics.newImage("graphics/tiles/checked.png")
 		
 	})
 end
@@ -62,39 +62,32 @@ function structures:draw()
 	for key, structure in ipairs(structures) do
 	
 	 if structure.name == "platform" then
-	 
-
-
-			
-			if structure.movey == 1 or structure.movex == 1 then
-				love.graphics.setColor(structure.r+40,structure.g+40,structure.b+40,structure.o)
-			else
-				love.graphics.setColor(structure.r,structure.g,structure.b,structure.o)
-			end
-			love.graphics.rectangle("fill", structure.x, structure.y, structure.w, structure.h)
-			
-			--tile the texture using quad
-			local quad = love.graphics.newQuad( 0,0, structure.w, structure.h, structure.gfx:getDimensions() )
-			structure.gfx:setWrap("repeat", "repeat")
-			love.graphics.draw(structure.gfx, quad, structure.x,structure.y)
-
-			--right
-			love.graphics.setColor(structure.r-10,structure.g-10,structure.b-10,structure.o)
-			love.graphics.rectangle("fill", structure.x+structure.w-2, structure.y, 2, structure.h)
-			--bottom
-			love.graphics.rectangle("fill", structure.x, structure.y+structure.h-2, structure.w, 2)
-			
-			--left
-			love.graphics.setColor(structure.r-20,structure.g-20,structure.b-20,structure.o)
-			love.graphics.rectangle("fill", structure.x, structure.y, 2, structure.h)
-			
-			--top
-			love.graphics.setColor(structure.r+50,structure.g+100,structure.b+60,structure.o)
-			love.graphics.rectangle("fill", structure.x, structure.y, structure.w, 2)
-			
-
-			
+	 	
+		if structure.movey == 1 or structure.movex == 1 then
+			love.graphics.setColor(structure.r+40,structure.g+40,structure.b+40,structure.o)
+		else
+			love.graphics.setColor(structure.r,structure.g,structure.b,structure.o)
 		end
+					
+		--tile the texture using quad
+		local quad = love.graphics.newQuad( 0,0, structure.w, structure.h, structure.gfx:getDimensions() )
+		structure.gfx:setWrap("repeat", "repeat")
+		love.graphics.draw(structure.gfx, quad, structure.x,structure.y)
+
+		--shaded edges
+		love.graphics.setColor(0,0,0,50)
+		--right
+		love.graphics.rectangle("fill", structure.x+structure.w-4, structure.y, 4, structure.h)
+		--bottom
+		love.graphics.rectangle("fill", structure.x, structure.y+structure.h-4, structure.w, 4)
+		--left
+		love.graphics.rectangle("fill", structure.x, structure.y, 4, structure.h)
+			
+		--top
+		love.graphics.setColor(structure.r+50,structure.g+100,structure.b+60,structure.o)
+		love.graphics.rectangle("fill", structure.x, structure.y, structure.w, 2)
+			
+	end
 		
 		if structure.name == "crate" then
 			love.graphics.setColor(255,255,255,255)

@@ -1,20 +1,21 @@
 input = {}
 
 function input:check(dt)
+	if mode == 1 then
+		if love.keyboard.isDown("d") or love.keyboard.isDown("right") 
+			and player.alive == 1 then
+			player.lastdir = player.dir
+			player.dir = "right"	
 	
-	if love.keyboard.isDown("d") or love.keyboard.isDown("right") 
-		and player.alive == 1 then
-		player.lastdir = player.dir
-		player.dir = "right"	
-	
-	elseif love.keyboard.isDown("a") or love.keyboard.isDown("left")
-		and player.alive == 1 then
-		player.lastdir = player.dir
-		player.dir = "left"
+		elseif love.keyboard.isDown("a") or love.keyboard.isDown("left")
+			and player.alive == 1 then
+			player.lastdir = player.dir
+			player.dir = "left"
 			
-	else
-		player.dir = "idle"
+		else
+			player.dir = "idle"
 
+		end
 	end
 end
 
@@ -38,7 +39,7 @@ function love.keypressed(key)
 		end
 
 		--toggle fullscreen
-		if key == "f1" then
+		if key == "f5" then
 			local fullscreen, fstype = love.window.getFullscreen()
 			if fullscreen then
 				local success = love.window.setFullscreen( false )
@@ -50,21 +51,24 @@ function love.keypressed(key)
 				util:dprint("Failed to toggle fullscreen mode!")
 			end
 		end
+		
 
-		if player.alive == 1 then
-			--jump
-			if key == " " and mode == 1 then
-				if player.jumping == 0 then
-					sound:play(sound.jump)
-					player.jumping = 1
-					player.yvel = player.jumpheight
-					
+		if mode == 1 then
+			if player.alive == 1 then
+				--jump
+				if key == " " and mode == 1 then
+					if player.jumping == 0 then
+						sound:play(sound.jump)
+						player.jumping = 1
+						player.yvel = player.jumpheight
+						
+					end
 				end
-			end
-
-			--suicide
-			if key == "b" then
-				physics:kill(player)
+	
+				--suicide
+				if key == "b" then
+					physics:kill(player)
+				end
 			end
 		end
 end

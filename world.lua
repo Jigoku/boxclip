@@ -7,7 +7,14 @@ function world:init()
 	world.startTime = os.time()
 	world.seconds = 0
 	world.minutes = 0
+	
+	groundLevel_tile = love.graphics.newImage("graphics/tiles/lava.png")
+	groundLevel_tile:setWrap("repeat", "repeat")
+	groundLevel_quad = love.graphics.newQuad( -50,world.groundLevel, 10000, 500, groundLevel_tile:getDimensions() )
+	
 end
+
+
 
 function world:run(dt)
 	physics:world(dt)
@@ -90,9 +97,7 @@ function world:loadMap(name)
 		structures:platform(player.x+1350, -20, 50,20)	
 		structures:platform(player.x+1450, -50, 50,20)	
 		structures:platform(player.x+1550, -80, 50,20)	
-		structures:platform(player.x+1750, -500, 100,1000)
-		structures:platform(1166, 0+player.h, 10,10)	
-
+		structures:platform(player.x+1750, -500, 100,1000)	
 		
 		pickups:gem(player.x +100, player.y+player.h/2)	
 		pickups:gem(player.x +200, player.y+player.h/2)	
