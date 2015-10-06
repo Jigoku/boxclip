@@ -72,15 +72,6 @@ function pickups:destroy(pickups, i)
 	table.remove(pickups, i)
 end
 
-function pickups:wipe()
-	local n = 0
-	for n, pickup in pairs(pickups) do 
-		if type(pickup) == "table" then
-			print (n)
-			table.remove(pickups, n)
-			
-		end
-	end
-end
+
 
 

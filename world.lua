@@ -15,7 +15,6 @@ function world:init()
 end
 
 
-
 function world:run(dt)
 	physics:world(dt)
 	physics:pickups(dt)
@@ -74,12 +73,23 @@ function world:drawWeather()
 	end
 end
 
+function world:remove(objects)
+	-- pass table here
+	-- removes all entity types from world
+	local n = 0
+	for n, object in pairs(objects) do 
+		if type(object) == "table" then
+			table.remove(objects, n)
+		end
+	end
+end
+
 function world:loadMap(name)
 --TEST FUNCTION
 
-		repeat structures:wipe() until util:count(structures) == 0
-		repeat enemies:wipe() until util:count(enemies) == 0
-		repeat pickups:wipe() until util:count(pickups) == 0
+		repeat world:remove(enemies) until util:count(enemies) == 0
+		repeat world:remove(pickups) until util:count(pickups) == 0
+		repeat world:remove(structures) until util:count(structures) == 0
 
 	
 	love.graphics.setBackgroundColor(70,50,50,255)

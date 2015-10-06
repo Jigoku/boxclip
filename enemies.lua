@@ -52,14 +52,6 @@ function enemies:drawDebug(enemy)
 	util:drawCoordinates(enemy)
 end
 
-function enemies:wipe()
-	local n = 0
-	for n, enemy in pairs(enemies) do 
-		if type(enemy) == "table" then
-			table.remove(enemies, n)
-		end
-	end
-end
 
 
 
