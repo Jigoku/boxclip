@@ -77,6 +77,10 @@ end
 function world:loadMap(name)
 --TEST FUNCTION
 
+		repeat structures:wipe() until util:count(structures) == 0
+		repeat enemies:wipe() until util:count(enemies) == 0
+		repeat pickups:wipe() until util:count(pickups) == 0
+
 	
 	love.graphics.setBackgroundColor(70,50,50,255)
 
@@ -121,4 +125,5 @@ function world:loadMap(name)
 		structures:crate(1640, player.y-player.h*2, "gem")
 		
 		enemies:walker(1000, 0,50,300)
+		enemies:walker(500, 0,50,300)
 end

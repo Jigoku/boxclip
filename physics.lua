@@ -2,9 +2,10 @@ physics = {}
 
 function physics:kill(object,dt)
 	-- move the dead character off screen (like sonic 1, down and off camera)
+	sound:play(sound.die)
 	player.alive = 0
 	player.jumping = 1
-	love.audio.play( sound.die )
+
 end
 
 

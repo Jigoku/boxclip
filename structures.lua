@@ -131,4 +131,14 @@ function structures:drawDebug(structure)
 end
 
 
+function structures:wipe()
+	local n = 0
+	for n, structure in pairs(structures) do 
+		if type(structure) == "table" then
+			table.remove(structures, n)
+		end
+	end
+end
+
+
 

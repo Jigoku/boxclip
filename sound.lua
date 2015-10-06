@@ -26,5 +26,7 @@ function sound:decide(source)
 		self:play(sound.hit)
 	elseif source.name == "crate" then
 		self:play(sound.crate)
+	elseif source.name == "death" then
+		self:play(sound.die)
 	end
 end

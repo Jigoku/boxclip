@@ -97,8 +97,6 @@ function player:follow(bool)
 			
 		elseif player.y > world.groundLevel then
 			world:init()
-			--player:init()
-			-- FIX THIS (add respawn point)
 			self:respawn()
 		end
 	
@@ -107,7 +105,7 @@ function player:follow(bool)
 
 end
 
-function player:respawn()
+function player:respawn()	
 	player.x = world.cameraOffset
 	player.y = 0
 
@@ -124,7 +122,7 @@ function player:respawn()
 		player.x - (love.graphics.getWidth()/2) +(player.w/2),
 		player.y - (world.groundLevel -200)
 	)
-	
+	world:loadMap(nil)
 end
 
 function player:collect(item)

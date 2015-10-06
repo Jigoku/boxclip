@@ -68,16 +68,19 @@ function pickups:drawDebug(pickup)
 end
 
 function pickups:destroy(pickups, i)
+	-- fade/collect animation can be added
 	table.remove(pickups, i)
 end
 
-
-function pickups:count()
-	local count = 0
+function pickups:wipe()
+	local n = 0
 	for n, pickup in pairs(pickups) do 
 		if type(pickup) == "table" then
-			count = count + 1 
+			print (n)
+			table.remove(pickups, n)
+			
 		end
 	end
-	return count
 end
+
+

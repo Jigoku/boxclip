@@ -52,13 +52,14 @@ function enemies:drawDebug(enemy)
 	util:drawCoordinates(enemy)
 end
 
-
-function enemies:count()
-	local count = 0
+function enemies:wipe()
+	local n = 0
 	for n, enemy in pairs(enemies) do 
 		if type(enemy) == "table" then
-			count = count + 1 
+			table.remove(enemies, n)
 		end
 	end
-	return count
 end
+
+
+
