@@ -11,7 +11,9 @@ function world:init()
 	groundLevel_tile = love.graphics.newImage("graphics/tiles/lava.png")
 	groundLevel_tile:setWrap("repeat", "repeat")
 	groundLevel_quad = love.graphics.newQuad( -50,world.groundLevel, 10000, 500, groundLevel_tile:getDimensions() )
-	
+
+	camera:setScale(1,1)
+
 end
 
 
@@ -22,8 +24,6 @@ function world:run(dt)
 	physics:player(player, dt)
 	
 	collision:checkWorld(dt)
-	
-	camera:setScale(1,1)
 	player:follow(1)
 end
 
@@ -144,6 +144,6 @@ function world:loadMap(name)
 		structures:crate(1560, player.y-player.h*2, "gem")
 		structures:crate(1640, player.y-player.h*2, "gem")
 		
-		enemies:walker(1000, 0,50,300)
+		enemies:walker(1000, 0,100,300)
 		enemies:walker(500, 0,50,300)
 end
