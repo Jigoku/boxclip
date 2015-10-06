@@ -46,6 +46,8 @@ world:time() .. "][alive: " .. player.alive .."]", 2,40)
 end
 
 
+
+
 function util:dprint(out)
 	-- add this to a console buffer maybe
 	if debug == 1 then

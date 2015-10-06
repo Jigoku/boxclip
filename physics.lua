@@ -275,13 +275,10 @@ function physics:enemies(dt)
 					if collision:check(structure.x,structure.y,structure.w,structure.h,
 						enemy.x,enemy.y,enemy.w,enemy.h) then
 						
-						if collision:right(enemy,structure) then
-							
-							
-						elseif collision:top(enemy,structure) then
+						if collision:top(enemy,structure) then
 							enemy.yvel = 0
 							enemy.jumping = 0
-							enemy.newY = structure.y - enemy.h +1
+							enemy.y = structure.y - enemy.h +1
 						end
 					end
 				end
