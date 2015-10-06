@@ -237,11 +237,10 @@ function physics:pickups(dt)
 							pickup.x = (pickup.x + structure.movespeed *dt)
 						end
 				end
-				
-				
-				if pickup.y > world.groundLevel  then
-					pickups:destroy(pickups,i)
-				end
+			end
+			
+			if pickup.y > world.groundLevel  then
+				pickups:destroy(pickups,i)
 			end
 		end
 end

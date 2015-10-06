@@ -43,7 +43,6 @@ function structures:crate(x,y,item)
 end
 
 
-
 function structures:destroy(crate, i)
 	--add the contents of destroyable to world if any
 	if crate.item == "gem" then
@@ -93,6 +92,7 @@ function structures:draw()
 			love.graphics.setColor(255,255,255,255)
 			love.graphics.draw(structure.gfx,structure.x, structure.y, 0, 1, 1)
 		end
+		
 		
 		if debug == 1 then
 			self:drawDebug(structure)
