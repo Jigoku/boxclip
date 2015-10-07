@@ -1,12 +1,6 @@
 physics = {}
 
-function physics:kill(object,dt)
-	-- move the dead character off screen (like sonic 1, down and off camera)
-	sound:play(sound.die)
-	object.alive = 0
-	object.jumping = 1
 
-end
 
 
 function physics:applyVelocity(object, dt) 
@@ -100,6 +94,7 @@ function physics:player(object, dt)
 	object.newX = (object.x + object.xvel *dt)
 	object.newY = (object.y - object.yvel *dt)
 	
+
 	--loop solid structures
 	if object.alive == 1 then
 		local i, structure
@@ -208,18 +203,18 @@ function physics:player(object, dt)
 				end
 			end
 		end
+
 	end
 	-- update new poisition
 	object.x = object.newX
 	object.y = object.newY
 	
-
 	-- stop increasing velocity if we hit ground
 	if object.y+object.h > world.groundLevel  then
-		self:kill(object, dt)
-		world:init()
 		player:respawn()
 	end
+
+	
 
 end
 

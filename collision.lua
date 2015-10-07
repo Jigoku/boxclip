@@ -67,7 +67,7 @@ function collision:enemies()
 				else
 					-- otherwise we die
 					
-					physics:kill(player,dt)
+					player:respawn()
 					util:dprint("killed by " .. enemy.name)		
 				end
 			end

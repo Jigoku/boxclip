@@ -90,7 +90,7 @@ function love.keypressed(key)
 	
 				--suicide
 				if key == "b" then
-					physics:kill(player)
+					player:respawn()
 				end
 			end
 		end

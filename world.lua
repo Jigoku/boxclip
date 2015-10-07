@@ -24,7 +24,7 @@ function world:run(dt)
 	physics:player(player, dt)
 	
 	collision:checkWorld(dt)
-	player:follow(1)
+	player:follow()
 end
 
 function world:draw()

@@ -17,7 +17,6 @@ function player:init()
 	player.score = 0
 	player.alive = 1
 	player.life = 3	
-	
 
 end
 
@@ -74,30 +73,23 @@ function player:drawDebug()
 	
 end
 
-function player:follow(bool)
-	if bool == 1 then
-		-- follow player
-		if player.alive == 1 then
 
-			if camera.scaleX == 1 and camera.scaleY == 1 then
-				camera:setPosition(
-					player.x - (love.graphics.getWidth()/2) ,
-					player.y - (love.graphics.getHeight()/2) 
-				)
-			elseif camera.scaleX == 2 and camera.scaleY == 2 then
-				camera:setPosition(
-					player.x - love.graphics.getWidth(),
-					player.y - love.graphics.getHeight()
-				)
-			end
-			
-		elseif player.y > world.groundLevel then
-			
+
+function player:follow()
+	if player.alive == 1 then
+	-- follow player
+		if camera.scaleX == 1 and camera.scaleY == 1 then
+			camera:setPosition(
+				player.x - (love.graphics.getWidth()/2) ,
+				player.y - (love.graphics.getHeight()/2) 
+			)
+		elseif camera.scaleX == 2 and camera.scaleY == 2 then
+			camera:setPosition(
+				player.x - love.graphics.getWidth(),
+				player.y - love.graphics.getHeight()
+			)
 		end
-	
 	end
-	
-
 end
 
 function player:respawn()	
@@ -113,10 +105,7 @@ function player:respawn()
 	player.alive = 1
 	
 	-- set this to checkpoint (when implemented)
-	camera:setPosition(
-		player.x - (love.graphics.getWidth()/2) +(player.w/2),
-		player.y - (world.groundLevel -200)
-	)
+	player:follow(1)
 	world:loadMap("maps/test.map")
 end
 
