@@ -19,7 +19,11 @@ This is not even a pre-alpha, and end goals may change. Currently the plans are 
 * debug mode
 * simple enemy
 
+#####Editor
+* remove entitys
+
 Many things are not implemented yet.
 
-![342421460](https://cloud.githubusercontent.com/assets/1535179/10295655/0188f64a-6bba-11e5-9ae5-beaf60700584.png)
+![untitled](https://cloud.githubusercontent.com/assets/1535179/10348334/5e7493d8-6d30-11e5-9e34-efd04eccbfcc.png)
+
 
