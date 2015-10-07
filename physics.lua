@@ -125,9 +125,14 @@ function physics:player(object, dt)
 					end	
 
 					if structure.name == "crate" then
-						object.newX = structure.x+structure.w +1
-						object.xvel = -object.mass
-						self:destroy("x",object,structure,i)
+						if object.jumping == 1 then
+							object.newX = structure.x+structure.w +1
+							object.xvel = -object.mass
+							self:destroy("x",object,structure,i)
+						else
+							object.newX = structure.x+structure.w +1
+							object.xvel = 0
+						end
 					end
 					
 				-- left side
@@ -141,9 +146,14 @@ function physics:player(object, dt)
 					end
 							
 					if structure.name == "crate"  then
-						object.newX = structure.x-object.w -1
-						object.xvel = object.mass
-						self:destroy("x",object,structure,i)
+						if object.jumping == 1 then
+							object.newX = structure.x-object.w -1
+							object.xvel = object.mass
+							self:destroy("x",object,structure,i)
+						else
+							object.newX = structure.x-object.w -1
+							object.xvel = 0
+						end
 					end
 					
 				-- bottom side	
@@ -188,9 +198,14 @@ function physics:player(object, dt)
 					end
 							
 					if structure.name == "crate"  then
-						object.newY = structure.y - object.h -1
-						object.yvel = -object.mass
-						self:destroy("y",object,structure,i)
+						if object.jumping == 1 then
+							object.newY = structure.y - object.h -1
+							object.yvel = -object.mass
+							self:destroy("y",object,structure,i)
+						else
+							object.newY = structure.y - object.h -1
+							object.yvel = 0
+						end
 					end
 				else
 					object.jumping = 1

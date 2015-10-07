@@ -34,10 +34,10 @@ function collision:bottom(a,b)
 end
 
 function collision:bounds() 
-	if player.x < 0 then
-		player.x = 0
-		player.xvel = 0
-	end
+	--if player.x < 0 then
+	--	player.x = 0
+	--	player.xvel = 0
+	--end
 end
 
 
