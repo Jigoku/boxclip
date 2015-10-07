@@ -238,7 +238,6 @@ function physics:player(object, dt)
 
 end
 
-
 function physics:pickups(dt)
 	local i, pickup
 		for i, pickup in ipairs(pickups) do

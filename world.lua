@@ -43,7 +43,7 @@ function world:draw()
 	camera:unset()
 	
 	-- overlays
-	world:drawWeather()
+--	world:drawWeather()
 end
 
 

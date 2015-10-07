@@ -51,6 +51,8 @@ function util:drawConsole()
 		)
 		love.graphics.setColor(255,255,255,255)
 		love.graphics.print('Memory (kB): ' .. util:round(collectgarbage('count')), 5,65)
+		
+
 	end
 end
 

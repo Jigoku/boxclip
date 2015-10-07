@@ -19,6 +19,7 @@ function enemies:walker(x,y,movespeed,movedist)
 		xvel = 0,
 		yvel = 0,
 		dir = "right",
+		newY = y,
 	})
 end
 
