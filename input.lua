@@ -27,9 +27,10 @@ function love.mousepressed(x, y, button)
 end
 
 function love.mousereleased(x, y, button)
-   -- draw grid for drag/area of platform addition to world here ?
-   --print ("origin: " .. editorPosX.. " additional: ".. x)
-   --structures:platform(editorPosX,editorPosY, (editorPosX+x),-(y-editorPosX), 0, 0, 100, 200)
+	if debug == 1 then
+		editor:mousereleased(x,y,button)
+	end
+   
 end
 
 function love.keypressed(key)
