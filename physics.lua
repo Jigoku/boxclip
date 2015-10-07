@@ -167,9 +167,14 @@ function physics:player(object, dt)
 					end
 							
 					if structure.name == "crate" then
-						object.newY = structure.y +structure.h +1
-						object.yvel = object.mass
-						self:destroy("y",object,structure,i)
+						if object.jumping == 1 then
+							object.newY = structure.y +structure.h +1
+							object.yvel = object.mass
+							self:destroy("y",object,structure,i)
+						else
+							object.newY = structure.y +structure.h +1
+							object.yvel = 0
+						end
 					end
 					
 				-- top side
