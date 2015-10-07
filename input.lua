@@ -20,9 +20,11 @@ function input:check(dt)
 end
 
 function love.mousepressed(x, y, button)
+	--temporary test
 	if debug == 1 then
 		if button == 'l' then
-			print( "X:"..util:round(camera.x+x).." Y: "..util:round(camera.y+y))
+			structures:crate(util:round(camera.x+x*camera.scaleX),util:round(camera.y+y*camera.scaleY),"gem")
+			print( "crate added @  X:"..util:round(camera.x+x).." Y: "..util:round(camera.y+y))
 		end
 	end
 end
@@ -42,6 +44,19 @@ function love.keypressed(key)
 				debug = 0
 			elseif debug == 0 then
 				debug =1
+			end
+			
+		end
+
+		--debug console
+		if key == "z" then
+			love.audio.play( sound.beep )
+			if camera.scaleX == 1 and camera.scaleY == 1 then
+				camera.scaleX = 2
+				camera.scaleY = 2
+			else
+				camera.scaleX = 1
+				camera.scaleY = 1 
 			end
 			
 		end

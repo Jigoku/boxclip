@@ -2,7 +2,7 @@ world = {}
 
 function world:init() 
 	world.gravity = 400
-	world.cameraOffset = 400
+
 	world.groundLevel = 200
 	world.startTime = os.time()
 	world.seconds = 0

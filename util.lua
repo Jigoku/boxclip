@@ -25,23 +25,32 @@ function util:drawConsole()
 		love.graphics.rectangle("line", 1, 1, 500, 80)	
 		
 		love.graphics.setColor(255,255,255,255)
-		love.graphics.print("FPS: " .. love.timer.getFPS(), 2,2)
+		love.graphics.print("FPS: " .. love.timer.getFPS(), 5,5)
 		love.graphics.print(
-			"x: " .. self:round(player.x,0) .. 
-			" | y: " .. self:round(player.y,0) .. 
+			"X: " .. self:round(player.x,0) .. 
+			" | Y: " .. self:round(player.y,0) .. 
 			" | dir: " .. player.dir .. 
 			" | xvel: " .. self:round(player.xvel,0) .. 
 			" | yvel: " .. self:round(player.yvel,0) .. 
-			" | jumping: " .. player.jumping .. 
-			" | pickups: " .. world:count(pickups) ..
-			" | enemies: " .. world:count(enemies) ..
-			" | structures: " .. world:count(structures), 
-			2, 20
+			" | jumping: " .. player.jumping ,
+			5, 20
 		)
-		love.graphics.print("[life: " .. player.life .. "][score: " .. player.score .. "][time: " .. 
-world:time() .. "][alive: " .. player.alive .."]", 2,40)
-
-		love.graphics.print('Memory (kB): ' .. util:round(collectgarbage('count')), 2,60)
+		love.graphics.print(
+			"pickups: " .. world:count(pickups) ..
+			" | enemies: " .. world:count(enemies) ..
+			" | structures: " .. world:count(structures) ..
+			" | camera scale: " .. camera.scaleX, 
+			5, 35
+		)
+		
+		love.graphics.setColor(255,100,40,255)
+		love.graphics.print(
+			"[life: " .. player.life .. "][score: " .. player.score .. "][time: " .. 
+			world:time() .. "][alive: " .. player.alive .."]", 
+			5,50
+		)
+		love.graphics.setColor(255,255,255,255)
+		love.graphics.print('Memory (kB): ' .. util:round(collectgarbage('count')), 5,65)
 	end
 end
 

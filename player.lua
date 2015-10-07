@@ -3,8 +3,8 @@ player = {}
 function player:init() 
 	player.w = 40
 	player.h = 50
-	player.x = world.cameraOffset
-	player.y = 0 - player.h
+	player.x = 0
+	player.y = 0 
 
 	player.speed = 500
 	player.mass = 800
@@ -18,10 +18,7 @@ function player:init()
 	player.alive = 1
 	player.life = 3	
 	
-	camera:setPosition(
-		player.x - (love.graphics.getWidth()/2) +(player.w/2),
-		player.y - (world.groundLevel -200)
-	)
+
 end
 
 
@@ -81,23 +78,21 @@ function player:follow(bool)
 	if bool == 1 then
 		-- follow player
 		if player.alive == 1 then
-		
-			if player.x > world.cameraOffset then
-				camera:setPosition(
-						player.x - (love.graphics.getWidth()/2) +(player.w/2),
-						player.y - (love.graphics.getHeight()/2) +(player.h/2) -50
-				)
-			else
-				camera:setPosition(
-						null,
-						player.y - (love.graphics.getHeight()/2) +(player.h/2) - 50
-				)
 
+			if camera.scaleX == 1 and camera.scaleY == 1 then
+				camera:setPosition(
+					player.x - (love.graphics.getWidth()/2) ,
+					player.y - (love.graphics.getHeight()/2) 
+				)
+			elseif camera.scaleX == 2 and camera.scaleY == 2 then
+				camera:setPosition(
+					player.x - love.graphics.getWidth(),
+					player.y - love.graphics.getHeight()
+				)
 			end
 			
 		elseif player.y > world.groundLevel then
-			world:init()
-			self:respawn()
+			
 		end
 	
 	end
@@ -106,7 +101,7 @@ function player:follow(bool)
 end
 
 function player:respawn()	
-	player.x = world.cameraOffset
+	player.x = 0
 	player.y = 0
 
 	player.xvel = 0
