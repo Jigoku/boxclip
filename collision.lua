@@ -63,7 +63,7 @@ function collision:enemies()
 			
 				-- if we land on top, kill enemy
 				if player.newY+player.h >= enemy.y+5 and player.jumping == 1 then	
-					player.y = player.y -1
+					player.y = enemy.y - player.h -1
 					player:attack(enemies, i)
 				else
 					-- otherwise we die

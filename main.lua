@@ -10,6 +10,7 @@ require("pickups")
 require("enemies")
 require("player")
 require("input")
+require("editor")
 
 debug = 1
 mode = 1
