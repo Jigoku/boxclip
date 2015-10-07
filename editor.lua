@@ -7,8 +7,10 @@ function editor:mousepressed(x,y,button)
 	if button == 'l' then
 		--add gui element for switching TYPES
 		-- so we place one thing at a time
-		self:addcrate(pressedPosX,pressedPosY)
-		self:addwalker(pressedPosX,pressedPosY, 100, 100)
+		--self:addcrate(pressedPosX,pressedPosY)
+		--self:addwalker(pressedPosX,pressedPosY, 100, 100)
+		
+		--if platform selected, draw drag area outline box
 		
 		----------
 	end
@@ -40,7 +42,7 @@ function editor:mousereleased(x,y,button)
 	
 
 	if button == 'l' then
-		self:addplatform(x,y,w,h)
+		self:addplatform(pressedPosX,pressedPosY,releasedPosX,releasedPosY)
 	end
 end
 
@@ -55,12 +57,14 @@ function editor:addwalker(x,y,movespeed,movedist)
 	print( "walker added @  X:"..x.." Y: "..y)
 end
 
-function editor:addplatform(x,y,w,h)
+function editor:addplatform(x1,y1,x2,y2)
 	-- draw platform structure
 	--min size
-	if releasedPosX-pressedPosX < 20 then releasedPosX = releasedPosX +20	end
-	if releasedPosY-pressedPosY < 20 then releasedPosY = releasedPosY +20 end
-	-- draw grid for drag/area of platform (drag down and right, otherwise it's bugged!)
-	structures:platform(pressedPosX,pressedPosY, (releasedPosX-pressedPosX),(releasedPosY-pressedPosY), 0, 0, 100, 200)
-	print( "platform added @  X:"..pressedPosX.." Y: "..pressedPosY .. "(w:" .. (releasedPosX-pressedPosX) .. " h:".. (releasedPosY-pressedPosY).. ")")
+	if not (x2 < x1 or y2 < y1) then
+		if x2-x1 < 10  then x2 = x1 +10 end
+		if y2-y1 < 10  then y2 = y1 +10 end
+		-- draw grid for drag/area of platform (drag down and right, otherwise it's bugged!)
+		structures:platform(util:round(x1,-1),util:round(y1,-1), util:round((x2-x1)-1),util:round((y2-y1),-1), 0, 1, 100, 200)
+		print("platform added @  X:"..util:round(x1,-1).." Y: "..util:round(y1,-1) .. "(w:" .. util:round((x2-x1),-1) .. " h:".. util:round((y2-y1),-1).. ")")
+	end
 end
