@@ -46,7 +46,7 @@ function util:drawConsole()
 		love.graphics.setColor(255,100,40,255)
 		love.graphics.print(
 			"[life: " .. player.life .. "][score: " .. player.score .. "][time: " .. 
-			world:time() .. "][alive: " .. player.alive .."]", 
+			world:gettime() .. "][alive: " .. player.alive .."]", 
 			5,50
 		)
 		love.graphics.setColor(255,255,255,255)

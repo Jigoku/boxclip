@@ -18,6 +18,7 @@ end
 
 
 function world:run(dt)
+	world:timer()
 	physics:world(dt)
 	physics:pickups(dt)
 	physics:enemies(dt)
@@ -47,7 +48,7 @@ function world:draw()
 end
 
 
-function world:time()
+function world:timer()
 	local time = os.time()
 	local elapsed =  os.difftime(time-world.startTime)
 	if os.difftime(time-world.startTime) == 60 then
@@ -56,7 +57,9 @@ function world:time()
 		world.minutes = world.minutes +1
 	end
 	world.seconds = elapsed
+end
 
+function world:gettime()
 	return string.format("%02d",world.minutes) .. ":" .. string.format("%02d",world.seconds)
 end
 
