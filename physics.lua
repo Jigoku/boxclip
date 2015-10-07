@@ -314,8 +314,9 @@ function physics:enemies(dt)
 		enemy.x = enemy.newX
 		enemy.y = enemy.newY
 		if enemy.y +enemy.h > world.groundLevel  then
-					sound:play(sound.kill)
-					table.remove(enemies, i)
+			--ai suicide	
+			sound:play(sound.kill)
+			table.remove(enemies, i)
 		end
 	end
 end

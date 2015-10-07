@@ -68,3 +68,8 @@ function editor:addplatform(x1,y1,x2,y2)
 		print("platform added @  X:"..util:round(x1,-1).." Y: "..util:round(y1,-1) .. "(w:" .. util:round((x2-x1),-1) .. " h:".. util:round((y2-y1),-1).. ")")
 	end
 end
+
+
+function editor:drawhud()
+	
+end

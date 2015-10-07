@@ -18,6 +18,7 @@ This is not even a pre-alpha, and end goals may change. Currently the plans are 
 * simple camera
 * debug mode
 * simple enemy
+
 Many things are not implemented yet.
 
 ![342421460](https://cloud.githubusercontent.com/assets/1535179/10295655/0188f64a-6bba-11e5-9ae5-beaf60700584.png)

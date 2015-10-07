@@ -45,11 +45,15 @@ end
 
 function enemies:drawDebug(enemy)
 	--bounds
-	love.graphics.setColor(255,200,200,255)
+	love.graphics.setColor(255,0,0,255)
 	love.graphics.rectangle("line", enemy.x+5, enemy.y+5, enemy.w-10, enemy.h-10)
 	--hitbox
 	love.graphics.setColor(255,200,100,255)
 	love.graphics.rectangle("line", enemy.x, enemy.y, enemy.w, enemy.h)
+	--waypoint
+	love.graphics.setColor(255,0,255,100)
+	love.graphics.rectangle("line", enemy.xorigin, enemy.y, enemy.movedist+enemy.w, enemy.h)
+	
 	util:drawCoordinates(enemy)
 end
 
