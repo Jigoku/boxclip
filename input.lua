@@ -1,7 +1,7 @@
 input = {}
 
 function input:check(dt)
-	if mode == 1 then
+	if debug == 0 then
 		if love.keyboard.isDown("d") or love.keyboard.isDown("right") 
 			and player.alive == 1 then
 			player.lastdir = player.dir
@@ -15,6 +15,20 @@ function input:check(dt)
 		else
 			player.dir = "idle"
 
+		end
+	else
+		--edit mode
+		if love.keyboard.isDown("d") or love.keyboard.isDown("right")  then
+			player.x = player.x + 1000 *dt
+		end
+		if love.keyboard.isDown("a") or love.keyboard.isDown("left") then
+			player.x = player.x - 1000 *dt
+		end
+		if love.keyboard.isDown("w") or love.keyboard.isDown("up") then
+			player.y = player.y - 1000 *dt
+		end
+		if love.keyboard.isDown("s") or love.keyboard.isDown("down") then
+			player.y = player.y + 1000 *dt
 		end
 	end
 end
@@ -85,7 +99,7 @@ function love.keypressed(key)
 		end
 		
 
-		if mode == 1 then
+		if debug == 0 then
 			if player.alive == 1 then
 				--jump
 				if key == " " and mode == 1 then

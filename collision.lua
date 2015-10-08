@@ -1,9 +1,11 @@
 collision = {}
 
 function collision:checkWorld(dt)
-	self:bounds()
-	self:pickups()
-	self:enemies()
+	if debug == 0 then
+		self:bounds()
+		self:pickups()
+		self:enemies()
+	end
 end
 
 function collision:check(x1,y1,w1,h1, x2,y2,w2,h2)

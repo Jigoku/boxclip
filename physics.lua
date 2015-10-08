@@ -86,10 +86,12 @@ end
 
 
 function physics:player(object, dt)
-
+	if debug == 1 then
+		return
+	end
 	self:applyVelocity(object, dt)
 	self:applyGravity(object, dt)
-
+	
 	--new position, friction/velocity multipier
 	object.newX = (object.x + object.xvel *dt)
 	object.newY = (object.y - object.yvel *dt)
