@@ -52,6 +52,9 @@ function love.keypressed(key)
 			
 		end
 
+		if debug == 1 then
+			editor:keypressed(key)
+		end
 
 
 		--debug console
