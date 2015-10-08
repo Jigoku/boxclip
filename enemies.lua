@@ -20,6 +20,7 @@ function enemies:walker(x,y,movespeed,movedist)
 		yvel = 0,
 		dir = "right",
 		newY = y,
+		gfx = love.graphics.newImage( "graphics/enemies/walker.png"),
 	})
 end
 
@@ -30,8 +31,13 @@ function enemies:draw()
 		if type(enemy) == "table" then
 			
 			if enemy.name == "walker" then
-				love.graphics.setColor(200,200,200,100)
-				love.graphics.rectangle("fill", enemy.x, enemy.y, enemy.w, enemy.h)
+				love.graphics.setColor(255,255,255,255)
+				--love.graphics.rectangle("fill", enemy.x, enemy.y, enemy.w, enemy.h)
+				if enemy.dir == "left" then
+					love.graphics.draw(enemy.gfx, enemy.x, enemy.y, 0, 1, 1)
+				elseif enemy.dir == "right" then
+					love.graphics.draw(enemy.gfx, enemy.x+enemy.gfx:getWidth(), enemy.y, 0, -1, 1)
+				end
 			end
 			
 			if debug == 1 then

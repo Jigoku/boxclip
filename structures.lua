@@ -12,8 +12,8 @@ function structures:platform(x,y,w,h,movex,movey,movespeed,movedist)
 		h = h or 0, -- height
 		--colour
 		r = r or 140, -- red
-		g = g or 100, -- green
-		b = b or 40, -- blue
+		g = g or 150, -- green
+		b = b or 160, -- blue
 		o = o or 255, -- opacity
 		--properties
 		name = "platform",

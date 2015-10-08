@@ -62,13 +62,13 @@ end
 
 
 function editor:addcrate(x,y)
-	structures:crate(x,y,"gem")
-	print( "crate added @  X:"..x.." Y: "..y)
+	structures:crate(util:round(x,-1),util:round(y, -1),"gem")
+	print( "crate added @  X:"..util:round(x,-1).." Y: "..util:round(y,-1))
 end
 
 function editor:addwalker(x,y,movespeed,movedist)
-	enemies:walker(x,y,movespeed,movedist)
-	print( "walker added @  X:"..x.." Y: "..y)
+	enemies:walker(util:round(x,-1),util:round(y, -1),movespeed,movedist)
+	print( "walker added @  X:"..util:round(x,-1).." Y: "..util:round(y,-1))
 end
 
 function editor:addplatform(x1,y1,x2,y2)
