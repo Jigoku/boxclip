@@ -25,7 +25,7 @@ function structures:platform(x,y,w,h,movex,movey,movespeed,movedist)
 		movedist = movedist or 200,
 		xorigin = x,
 		yorigin = y,
-		gfx = love.graphics.newImage("graphics/tiles/checked.png")
+		gfx = love.graphics.newImage("graphics/tiles/marble.png")
 		
 	})
 end
@@ -55,7 +55,7 @@ function structures:destroy(crate, i)
 end
 
 
-function structures:inrange(structure) 
+function structures:inview(structure) 
 	if (structure.x < player.x + (love.graphics.getWidth()/2*camera.scaleX)) 
 	and (structure.x+structure.w > player.x - (love.graphics.getWidth()/2*camera.scaleX))  then
 		return true
@@ -68,7 +68,7 @@ function structures:draw()
 	
 	local key, structure
 	for key, structure in ipairs(structures) do
-	 if structures:inrange(structure) then
+	 if self:inview(structure) then
 	 count = count + 1
 				
 	 if structure.name == "platform" then

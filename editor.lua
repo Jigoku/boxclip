@@ -174,8 +174,8 @@ end
 function editor:paste()
 	local x = mousePosX
 	local y = mousePosY
-	local w = self.clipboard.w
-	local h = self.clipboard.h
+	local w = self.clipboard.w or 20
+	local h = self.clipboard.h or 20
 	
 	if self.entsel == "platform" then
 		structures:platform(x,y,w,h,0,0,0,0)

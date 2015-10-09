@@ -42,32 +42,36 @@ end
 
 
 function physics:movex(object, dt)
-	-- traverse x-axis
-	if object.x > object.xorigin + object.movedist then
-		object.x = object.xorigin + object.movedist
-		object.movespeed = -object.movespeed
-		object.dir = "left"
-	end	
-	if object.x < object.xorigin then
-		object.x = object.xorigin
-		object.movespeed = -object.movespeed
-		object.dir = "right"
+	if debug == 0 then
+		-- traverse x-axis
+		if object.x > object.xorigin + object.movedist then
+			object.x = object.xorigin + object.movedist
+			object.movespeed = -object.movespeed
+			object.dir = "left"
+		end	
+		if object.x < object.xorigin then
+			object.x = object.xorigin
+			object.movespeed = -object.movespeed
+			object.dir = "right"
+		end
+		object.x = (object.x + object.movespeed *dt)
 	end
-	object.x = (object.x + object.movespeed *dt)
 end
 
 
 function physics:movey(object, dt)
-	--traverse y-axis
-	if object.y > object.yorigin + object.movedist then
-		object.y = object.yorigin + object.movedist
-		object.movespeed = -object.movespeed	
+	if debug == 0 then
+		--traverse y-axis
+		if object.y > object.yorigin + object.movedist then
+			object.y = object.yorigin + object.movedist
+			object.movespeed = -object.movespeed	
+		end
+		if object.y < object.yorigin  then
+			object.y = object.yorigin
+			object.movespeed = -object.movespeed
+		end
+		object.y = (object.y + object.movespeed *dt)
 	end
-	if object.y < object.yorigin  then
-		object.y = object.yorigin
-		object.movespeed = -object.movespeed
-	end
-	object.y = (object.y + object.movespeed *dt)
 end
 
 function physics:world(dt)
