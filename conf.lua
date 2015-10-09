@@ -1,4 +1,4 @@
-name = "platform"
+name = "Boxclip"
 author = "ricky thomson"
 version = 0.1
 print (name .. " " .. version .. " by " .. author)

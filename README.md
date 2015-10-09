@@ -1,4 +1,4 @@
-#Zippy
+#Boxclip
 a 2d game engine using the love2d framework
 
 #####Running the game/engine
