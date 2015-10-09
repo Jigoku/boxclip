@@ -149,6 +149,7 @@ function editor:removesel()
 end
 
 function editor:remove(type, x,y,w,h)
+	--deletes the selected entity
 	for i, item in ipairs(type) do
 		if collision:check(mousePosX,mousePosY,1,1, item.x,item.y,item.w,item.h) then
 			print( item.name .. " (" .. i .. ") removed" )
@@ -159,6 +160,7 @@ function editor:remove(type, x,y,w,h)
 end
 
 function editor:copy()
+	--primitive copy (dimensions only for now)
 	for i, structure in ipairs(structures) do
 		if collision:check(mousePosX,mousePosY,1,1, structure.x,structure.y,structure.w,structure.h) then
 			self.clipboard = {
@@ -171,6 +173,7 @@ function editor:copy()
 end
 
 function editor:paste()
+	--paste the new entity with copied paramaters
 	local x = util:round(mousePosX,-1)
 	local y = util:round(mousePosY,-1)
 	local w = self.clipboard.w or 20
@@ -196,6 +199,4 @@ function editor:paste()
 end
 
 function editor:run(dt)
-
-
 end

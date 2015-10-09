@@ -66,55 +66,54 @@ function structures:draw()
 	world.structures = 0
 	local count = 0
 	
-	local key, structure
-	for key, structure in ipairs(structures) do
-	 if self:inview(structure) then
-	 count = count + 1
+	local i, structure
+	for i, structure in ipairs(structures) do
+		if self:inview(structure) then
+		count = count + 1
 				
-	 if structure.name == "platform" then
+			if structure.name == "platform" then
 	 	
-		if structure.movey == 1 or structure.movex == 1 then
-			love.graphics.setColor(structure.r+40,structure.g+40,structure.b+40,structure.o)
-		else
-			love.graphics.setColor(structure.r,structure.g,structure.b,structure.o)
-		end
+				if structure.movey == 1 or structure.movex == 1 then
+					love.graphics.setColor(structure.r+40,structure.g+40,structure.b+40,structure.o)
+				else
+					love.graphics.setColor(structure.r,structure.g,structure.b,structure.o)
+				end
 					
-		--tile the texture using quad
-		local quad = love.graphics.newQuad( 0,0, structure.w, structure.h, structure.gfx:getDimensions() )
-		structure.gfx:setWrap("repeat", "repeat")
-		love.graphics.draw(structure.gfx, quad, structure.x,structure.y)
+				--tile the texture using quad
+				local quad = love.graphics.newQuad( 0,0, structure.w, structure.h, structure.gfx:getDimensions() )
+				structure.gfx:setWrap("repeat", "repeat")
+				love.graphics.draw(structure.gfx, quad, structure.x,structure.y)
 
-		--shaded edges
-		love.graphics.setColor(0,0,0,50)
-		--right
-		love.graphics.rectangle("fill", structure.x+structure.w-4, structure.y, 4, structure.h)
-		--bottom
-		love.graphics.rectangle("fill", structure.x, structure.y+structure.h-4, structure.w, 4)
-		--left
-		love.graphics.rectangle("fill", structure.x, structure.y, 4, structure.h)
+				--shaded edges
+				love.graphics.setColor(0,0,0,50)
+				--right
+				love.graphics.rectangle("fill", structure.x+structure.w-4, structure.y, 4, structure.h)
+				--bottom
+				love.graphics.rectangle("fill", structure.x, structure.y+structure.h-4, structure.w, 4)
+				--left
+				love.graphics.rectangle("fill", structure.x, structure.y, 4, structure.h)
 			
-		--top
-		love.graphics.setColor(structure.r+50,structure.g+100,structure.b+60,structure.o)
-		love.graphics.rectangle("fill", structure.x, structure.y, structure.w, 2)
-			
-	end
+				--top
+				love.graphics.setColor(structure.r+50,structure.g+100,structure.b+60,structure.o)
+				love.graphics.rectangle("fill", structure.x, structure.y, structure.w, 2)	
+			end
 		
-		if structure.name == "crate" then
-			love.graphics.setColor(255,255,255,255)
-			love.graphics.draw(structure.gfx,structure.x, structure.y, 0, 1, 1)
+			if structure.name == "crate" then
+				love.graphics.setColor(255,255,255,255)
+				love.graphics.draw(structure.gfx,structure.x, structure.y, 0, 1, 1)
+			end
+		
+		
+			if debug == 1 then
+				self:drawDebug(structure, i)
+			end
 		end
-		
-		
-		if debug == 1 then
-			self:drawDebug(structure)
-		end
-	end
 	end
 	world.structures = count
 end
 
 
-function structures:drawDebug(structure)
+function structures:drawDebug(structure, i)
 	-- debug mode drawing
 	
 	-- collision area
@@ -137,8 +136,9 @@ function structures:drawDebug(structure)
 	if structure.movex == 1 then
 		love.graphics.setColor(255,0,255,100)
 		love.graphics.rectangle("line", structure.xorigin, structure.yorigin, structure.movedist+structure.w, structure.h)
-	end        
-	
+	end 
+	love.graphics.setColor(255,255,0,100)       
+	love.graphics.print(structure.name .. "(" .. i .. ")", structure.x-20, structure.y-40)
 	util:drawCoordinates(structure)
 	
 end
