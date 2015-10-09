@@ -38,7 +38,7 @@ function util:drawConsole()
 		love.graphics.print(
 			"pickups: " .. world:count(pickups) ..
 			" | enemies: " .. world:count(enemies) ..
-			" | structures: " .. world:count(structures) ..
+			" | structures: " .. world.structures .. "/" .. world:count(structures) ..
 			" | camera scale: " .. camera.scaleX, 
 			5, 35
 		)

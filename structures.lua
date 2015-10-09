@@ -11,9 +11,9 @@ function structures:platform(x,y,w,h,movex,movey,movespeed,movedist)
 		w = w or 0, -- width
 		h = h or 0, -- height
 		--colour
-		r = r or 140, -- red
-		g = g or 150, -- green
-		b = b or 160, -- blue
+		r = r or 120, -- red
+		g = g or 130, -- green
+		b = b or 140, -- blue
 		o = o or 255, -- opacity
 		--properties
 		name = "platform",
@@ -57,17 +57,19 @@ end
 
 function structures:inrange(structure) 
 	if (structure.x < player.x + (love.graphics.getWidth()/2*camera.scaleX)) 
-	and (structure.x+structure.w > player.x - (love.graphics.getWidth()/2*camera.scaleY)) then
+	and (structure.x+structure.w > player.x - (love.graphics.getWidth()/2*camera.scaleX))  then
 		return true
 	end
 end
 
 function structures:draw()
+	world.structures = 0
 	local count = 0
+	
 	local key, structure
 	for key, structure in ipairs(structures) do
 	 if structures:inrange(structure) then
-	 count = count +1
+	 count = count + 1
 				
 	 if structure.name == "platform" then
 	 	
@@ -108,7 +110,7 @@ function structures:draw()
 		end
 	end
 	end
-	util:dprint("drawing " .. count .. "structures")
+	world.structures = count
 end
 
 
