@@ -21,6 +21,9 @@ This is not even a pre-alpha, and end goals may change. Currently the plans are 
 
 #####Editor
 * remove entitys
+* place entitys
+* primitive copy/paste
+* reposition entities
 
 Many things are not implemented yet.
 

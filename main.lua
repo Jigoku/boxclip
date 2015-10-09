@@ -12,12 +12,13 @@ require("player")
 require("input")
 require("editor")
 
+	
 debug = 0
 mode = 1
 
 math.randomseed(os.time())
 function love.load()
-	
+
 	world:init()
 	player:init()
 	world:loadMap("maps/test.map")
