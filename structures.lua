@@ -42,6 +42,15 @@ function structures:crate(x,y,item)
 	})
 end
 
+function structures:checkpoint(x,y)
+	table.insert(structures, {
+		x = x or 0,
+		y = y or 0,
+		w = 5,
+		h = 50,
+		name = "checkpoint",
+	})
+end
 
 function structures:destroy(crate, i)
 	--add the contents of destroyable to world if any
@@ -103,7 +112,10 @@ function structures:draw()
 				love.graphics.draw(structure.gfx,structure.x, structure.y, 0, 1, 1)
 			end
 		
-		
+			if structure.name == "checkpoint" then
+				love.graphics.setColor(255,255,255,100)
+				love.graphics.rectangle("fill", structure.x, structure.y, structure.w, structure.h)	
+			end
 			if debug == 1 then
 				self:drawDebug(structure, i)
 			end

@@ -41,3 +41,5 @@ structures:crate(1640, player.y-player.h*2, "gem")
 	
 enemies:walker(1000, 0,100,300)	
 enemies:walker(500, 0,50,300)
+
+structures:checkpoint(930,-33,"life")	

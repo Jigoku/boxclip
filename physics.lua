@@ -111,6 +111,11 @@ function physics:player(object, dt)
 			if collision:check(structure.x,structure.y,structure.w,structure.h,
 					object.newX,object.newY,object.w,object.h) then
 					
+				if structure.name == "checkpoint" then
+					player.spawnX = structure.x
+					player.spawnY = structure.y
+				end
+				
 				--sounds on collision
 				if object.jumping == 1 then 
 					sound:decide(structure)

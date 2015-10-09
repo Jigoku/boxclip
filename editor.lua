@@ -31,6 +31,7 @@ function editor:keypressed(key)
 	if love.keyboard.isDown("3") then self.entsel = "platform_x" end
 	if love.keyboard.isDown("4") then self.entsel = "crate" end
 	if love.keyboard.isDown("5") then self.entsel = "walker" end
+	if love.keyboard.isDown("6") then self.entsel = "checkpoint" end
 	if love.keyboard.isDown("delete") then self:removesel() end
 	if love.keyboard.isDown("c") then self:copy() end
 	if love.keyboard.isDown("v") then self:paste() end
@@ -59,7 +60,9 @@ function editor:mousepressed(x,y,button)
 		if self.entsel == "walker" then
 			self:addwalker(pressedPosX,pressedPosY, 100, 100)
 		end
-	
+		if self.entsel == "checkpoint" then
+			self:addcheckpoint(pressedPosX,pressedPosY)
+		end
 	end
 	if button == 'r' then
 		editor:removesel()
@@ -78,6 +81,11 @@ end
 function editor:addcrate(x,y)
 	structures:crate(util:round(x,-1),util:round(y, -1),"gem")
 	print( "crate added @  X:"..util:round(x,-1).." Y: "..util:round(y,-1))
+end
+
+function editor:addcheckpoint(x,y)
+	structures:checkpoint(util:round(x,-1),util:round(y, -1))
+	print( "checkpoint added @  X:"..util:round(x,-1).." Y: "..util:round(y,-1))
 end
 
 function editor:addwalker(x,y,movespeed,movedist)

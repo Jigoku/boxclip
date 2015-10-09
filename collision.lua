@@ -77,3 +77,16 @@ function collision:enemies()
 		end
 	end
 end
+
+function collision:checkpoint()
+	if player.alive == 1 then
+		local i, pickup
+		for i, pickup in ipairs(pickups) do
+			if collision:check(player.x,player.y,player.w,player.h,
+				pickup.x, pickup.y,pickup.gfx:getWidth(),pickup.gfx:getHeight()) then
+					table.remove(pickups, i)
+					player:collect(pickup.name)
+			end
+		end
+	end
+end
