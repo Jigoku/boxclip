@@ -137,8 +137,7 @@ function structures:drawDebug(structure, i)
 		love.graphics.setColor(255,0,255,100)
 		love.graphics.rectangle("line", structure.xorigin, structure.yorigin, structure.movedist+structure.w, structure.h)
 	end 
-	love.graphics.setColor(255,255,0,100)       
-	love.graphics.print(structure.name .. "(" .. i .. ")", structure.x-20, structure.y-40)
+	util:drawid(structure,i)
 	util:drawCoordinates(structure)
 	
 end

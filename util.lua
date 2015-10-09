@@ -56,8 +56,10 @@ function util:drawConsole()
 	end
 end
 
-
-
+function util:drawid(entity,i)
+	love.graphics.setColor(255,255,0,100)       
+	love.graphics.print(entity.name .. "(" .. i .. ")", entity.x-20, entity.y-40, 0, 0.9*camera.scaleX, 0.9*camera.scaleY)
+end
 
 function util:dprint(out)
 	-- add this to a console buffer maybe

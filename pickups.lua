@@ -50,14 +50,14 @@ function pickups:draw()
 		end
 		
 		if debug == 1 then
-			pickups:drawDebug(pickup)
+			pickups:drawDebug(pickup, i)
 		end
 	end
 end
 
 
 
-function pickups:drawDebug(pickup)
+function pickups:drawDebug(pickup, i)
 	--requires graphic, implement all pickups as graphics/image
 	love.graphics.setColor(100,255,100,100)
 	love.graphics.rectangle(
@@ -67,6 +67,7 @@ function pickups:drawDebug(pickup)
 		pickup.gfx:getWidth(), 
 		pickup.gfx:getHeight()
 	)
+	util:drawid(pickup, i)
 	util:drawCoordinates(pickup)
 end
 

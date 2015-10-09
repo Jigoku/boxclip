@@ -41,7 +41,7 @@ function enemies:draw()
 			end
 			
 			if debug == 1 then
-				enemies:drawDebug(enemy)
+				enemies:drawDebug(enemy, i)
 			end
 			
 		end
@@ -49,7 +49,7 @@ function enemies:draw()
 end
 
 
-function enemies:drawDebug(enemy)
+function enemies:drawDebug(enemy, i)
 	--bounds
 	love.graphics.setColor(255,0,0,255)
 	love.graphics.rectangle("line", enemy.x+5, enemy.y+5, enemy.w-10, enemy.h-10)
@@ -60,6 +60,7 @@ function enemies:drawDebug(enemy)
 	love.graphics.setColor(255,0,255,100)
 	love.graphics.rectangle("line", enemy.xorigin, enemy.y, enemy.movedist+enemy.w, enemy.h)
 	
+	util:drawid(enemy,i)
 	util:drawCoordinates(enemy)
 end
 
