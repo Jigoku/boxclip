@@ -46,9 +46,9 @@ end
 function structures:destroy(crate, i)
 	--add the contents of destroyable to world if any
 	if crate.item == "gem" then
-		pickups:gem(crate.x+crate.w/2-40/2, crate.y+crate.h/2-40/2)
+		pickups:gem(crate.x+crate.w/2-pickups.w/2, crate.y+crate.h/2-pickups.h/2)
 	elseif crate.item == "life" then
-		pickups:life(crate.x+crate.w/2-40/2, crate.y+crate.h/2-40/2)
+		pickups:life(crate.x+crate.w/2-pickups.w/2, crate.y+crate.h/2-pickups.h/2)
 	end
 	--remove the destroyable
 	table.remove(structures, i)

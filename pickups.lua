@@ -1,6 +1,7 @@
 pickups = {}
 
-
+pickups.w = 40
+pickups.h = 40
 
 function pickups:random(path)
 	return love.graphics.newImage( path .. string.format("%04d",math.random(1, 7)) .. ".png")
@@ -10,20 +11,20 @@ function pickups:gem(x,y)
 	table.insert(pickups, {
 		x =x or 0,
 		y =y or 0,
-		w = 40,
-		h = 40,
+		w = pickups.w,
+		h = pickups.h,
 		name = "gem",
 		gfx = self:random("graphics/gems/"),
 
 	})	
 end
 
-function pickups:life(x,y,w,h)
+function pickups:life(x,y)
 	table.insert(pickups, {
 		x =x or 0,
 		y =y or 0,
-		w =w or 40,
-		h =h or 40,
+		w = pickups.w,
+		h = pickups.w,
 		name = "life",
 		gfx = love.graphics.newImage( "graphics/gems/" .. string.format("%04d",math.random(1, 7))  .. ".png"),
 	})
