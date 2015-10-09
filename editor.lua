@@ -31,7 +31,7 @@ function editor:keypressed(key)
 	if love.keyboard.isDown("3") then self.entsel = "platform_x" end
 	if love.keyboard.isDown("4") then self.entsel = "crate" end
 	if love.keyboard.isDown("5") then self.entsel = "walker" end
-	if love.keyboard.isDown("delete") then self:remove() end
+	if love.keyboard.isDown("delete") then self:removesel() end
 	if love.keyboard.isDown("c") then self:copy() end
 	if love.keyboard.isDown("v") then self:paste() end
 	
@@ -62,7 +62,7 @@ function editor:mousepressed(x,y,button)
 	
 	end
 	if button == 'r' then
-		editor:remove()
+		editor:removesel()
 	end
 end
 
@@ -126,14 +126,14 @@ end
 
 
 function editor:scansel()
-	editor:selection(pickups)
-	editor:selection(enemies)
-	editor:selection(structures)
+	self:selection(pickups)
+	self:selection(enemies)
+	self:selection(structures)
 end
 
-function editor:selection(table, x,y,w,h)
+function editor:selection(type, x,y,w,h)
 	-- hilights the entity when mouseover
-	for i, item in ipairs(table) do
+	for i, item in ipairs(type) do
 		if collision:check(mousePosX,mousePosY,1,1,item.x,item.y,item.w,item.h) then
 			love.graphics.setColor(0,255,0,255)
 			love.graphics.rectangle("line", item.x,item.y,item.w,item.h)
@@ -142,26 +142,17 @@ function editor:selection(table, x,y,w,h)
 	end
 end
 
+function editor:removesel()
+	self:remove(pickups)
+	self:remove(enemies)
+	self:remove(structures)
+end
 
-function editor:remove()
-	for i, pickup in ipairs(pickups) do
-		if collision:check(mousePosX,mousePosY,1,1, pickup.x, pickup.y, pickup.gfx:getHeight(),pickup.gfx:getWidth()) then
-			print( pickup.name .. " (" .. i .. ") removed" )
-			table.remove(pickups,i)
-			return true
-		end
-	end
-	for i, enemy in ipairs(enemies) do
-		if collision:check(mousePosX,mousePosY,1,1, enemy.x, enemy.y, enemy.w,enemy.h) then
-			print( enemy.name .. " (" .. i .. ") removed" )
-			table.remove(enemies,i)
-			return true
-		end
-	end
-	for i, structure in ipairs(structures) do
-		if collision:check(mousePosX,mousePosY,1,1, structure.x,structure.y,structure.w,structure.h) then
-			print( structure.name .. " (" .. i .. ") removed" )
-			table.remove(structures,i)
+function editor:remove(type, x,y,w,h)
+	for i, item in ipairs(type) do
+		if collision:check(mousePosX,mousePosY,1,1, item.x,item.y,item.w,item.h) then
+			print( item.name .. " (" .. i .. ") removed" )
+			table.remove(type,i)
 			return true
 		end
 	end
