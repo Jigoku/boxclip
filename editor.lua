@@ -62,7 +62,7 @@ function editor:mousepressed(x,y,button)
 	
 	end
 	if button == 'r' then
-		
+		editor:remove()
 	end
 end
 
@@ -180,8 +180,8 @@ function editor:copy()
 end
 
 function editor:paste()
-	local x = mousePosX
-	local y = mousePosY
+	local x = util:round(mousePosX,-1)
+	local y = util:round(mousePosY,-1)
 	local w = self.clipboard.w or 20
 	local h = self.clipboard.h or 20
 	
