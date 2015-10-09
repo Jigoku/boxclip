@@ -33,6 +33,12 @@ function input:check(dt)
 	end
 end
 
+function love.mousemoved(x,y,dx,dy)
+	mousePosX = util:round(camera.x+x*camera.scaleX)
+	mousePosY = util:round(camera.y+y*camera.scaleY)
+
+end
+
 function love.mousepressed(x, y, button)
 	--temporary test
 	if debug == 1 then

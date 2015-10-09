@@ -44,6 +44,9 @@ function world:draw()
 	enemies:draw()
 	player:draw()	
 	
+	--editor specifics
+	editor:mouseover()
+	
 	camera:unset()
 	
 	-- overlays
