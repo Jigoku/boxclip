@@ -1,7 +1,7 @@
 structures = {}
 
-
-
+crate = love.graphics.newImage("graphics/crate.png")
+marble = love.graphics.newImage("graphics/tiles/marble.png")
 
 function structures:platform(x,y,w,h,movex,movey,movespeed,movedist)
 	table.insert(structures, {
@@ -25,7 +25,7 @@ function structures:platform(x,y,w,h,movex,movey,movespeed,movedist)
 		movedist = movedist or 200,
 		xorigin = x,
 		yorigin = y,
-		gfx = love.graphics.newImage("graphics/tiles/marble.png")
+		gfx = marble
 		
 	})
 end
@@ -38,7 +38,7 @@ function structures:crate(x,y,item)
 		h = 50,
 		name = "crate",
 		item = item or nil,
-		gfx = love.graphics.newImage("graphics/crate.png"),
+		gfx = crate,
 	})
 end
 
