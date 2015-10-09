@@ -40,9 +40,10 @@ function love.update(dt)
 	-- process keyboard events
 	input:check(dt)
 	
-	-- run world
-	if mode == 1 then
-		world:run(dt)
+	world:run(dt)
+	
+	if debug == 1 then
+		editor:run(dt)
 	end
 	
 

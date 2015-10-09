@@ -7,11 +7,14 @@ function editor:keypressed(key)
 	if love.keyboard.isDown("3") then editor.entsel = "platform_x" end
 	if love.keyboard.isDown("4") then editor.entsel = "crate" end
 	if love.keyboard.isDown("5") then editor.entsel = "walker" end
+
 end
 
 function editor:mousepressed(x,y,button)
 		
 	if button == 'l' then
+
+	
 		if self.entsel == "crate" then
 			self:addcrate(pressedPosX,pressedPosY)
 		end
@@ -127,4 +130,18 @@ function editor:remove()
 			return true
 		end
 	end
+end
+
+
+function editor:run(dt)
+	for i, structure in ipairs(structures) do
+		if collision:check(mousePosX,mousePosY,1,1, structure.x,structure.y,structure.w,structure.h) then
+			if love.keyboard.isDown("kp8") then structure.y = structure.y - 100 *dt end	-- up
+			if love.keyboard.isDown("kp2") then structure.y = structure.y + 100 *dt end -- down
+			if love.keyboard.isDown("kp4") then structure.x = structure.x - 100 *dt end	-- left
+			if love.keyboard.isDown("kp6") then structure.x = structure.x + 100 *dt end	-- right
+			return true
+		end
+	end
+
 end
