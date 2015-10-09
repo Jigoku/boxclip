@@ -1,7 +1,29 @@
+--[[
+	TODO
+		remove duplicated loops (or put all object types into a single table referenced by entities.name?
+
+
+	editor binds
+	
+	select ent type	: 1-9
+	move up			: numpad 8
+	move down		: numpad 2
+	move left		: numpad 4
+	move right		: numpad 6
+	copy dimensions	: c
+	paste			: p	
+	delete entity	: del
+	camera scale	: z
+	camera position	: w,a,s,d
+--]]
+
 editor = {}
+mousePosX = 0
+mousePosY = 0
 
 editor.entsel = "nil"
 editor.clipboard = {}
+
 
 function editor:keypressed(key)
 	if love.keyboard.isDown("1") then self.entsel = "platform" end
