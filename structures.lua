@@ -55,11 +55,20 @@ function structures:destroy(crate, i)
 end
 
 
-function structures:draw()
+function structures:inrange(structure) 
+	if (structure.x < player.x + (love.graphics.getWidth()/2*camera.scaleX)) 
+	and (structure.x+structure.w > player.x - (love.graphics.getWidth()/2*camera.scaleY)) then
+		return true
+	end
+end
 
+function structures:draw()
+	local count = 0
 	local key, structure
 	for key, structure in ipairs(structures) do
-	
+	 if structures:inrange(structure) then
+	 count = count +1
+				
 	 if structure.name == "platform" then
 	 	
 		if structure.movey == 1 or structure.movex == 1 then
@@ -98,6 +107,8 @@ function structures:draw()
 			self:drawDebug(structure)
 		end
 	end
+	end
+	util:dprint("drawing " .. count .. "structures")
 end
 
 
