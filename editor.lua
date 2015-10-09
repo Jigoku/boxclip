@@ -27,22 +27,25 @@ function editor:mousepressed(x,y,button)
 
 	end
 	if button == 'r' then
-		for i, structure in ipairs(structures) do
-			if collision:check(pressedPosX,pressedPosY,1,1, structure.x,structure.y,structure.w,structure.h) then
-				print( structure.name .. " (" .. i .. ") removed" )
-				table.remove(structures,i)
-			end
-		end
 		for i, pickup in ipairs(pickups) do
 			if collision:check(pressedPosX,pressedPosY,1,1, pickup.x-pickup.gfx:getWidth()/2, pickup.y-pickup.gfx:getHeight()/2, pickup.gfx:getHeight(),pickup.gfx:getWidth()) then
 				print( pickup.name .. " (" .. i .. ") removed" )
 				table.remove(pickups,i)
+				return true
 			end
 		end
 		for i, enemy in ipairs(enemies) do
 			if collision:check(pressedPosX,pressedPosY,1,1, enemy.x,enemy.y,enemy.w,enemy.h) then
 				print( enemy.name .. " (" .. i .. ") removed" )
 				table.remove(enemies,i)
+				return true
+			end
+		end
+		for i, structure in ipairs(structures) do
+			if collision:check(pressedPosX,pressedPosY,1,1, structure.x,structure.y,structure.w,structure.h) then
+				print( structure.name .. " (" .. i .. ") removed" )
+				table.remove(structures,i)
+				return true
 			end
 		end
 	end
