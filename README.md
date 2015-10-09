@@ -2,7 +2,7 @@
 a 2d game engine using the love2d framework
 
 #####Running the game/engine
-Install love2d, and simply type
+Install [love2d](https://love2d.org/), and simply type
 `love .` or you can run the script *make_dist.sh* to create a love executable which can be double-clicked or run with `love platform_engine.love`
 
 #####Please note
