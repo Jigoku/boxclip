@@ -34,6 +34,17 @@ function editor:keypressed(key)
 	if love.keyboard.isDown("delete") then self:remove() end
 	if love.keyboard.isDown("c") then self:copy() end
 	if love.keyboard.isDown("v") then self:paste() end
+	
+	for i, structure in ipairs(structures) do
+		if collision:check(mousePosX,mousePosY,1,1, structure.x,structure.y,structure.w,structure.h) then
+			if love.keyboard.isDown("kp8") then structure.y = util:round(structure.y - 10,-1) end	-- up
+			if love.keyboard.isDown("kp2") then structure.y = util:round(structure.y + 10,-1) end -- down
+			if love.keyboard.isDown("kp4") then structure.x = util:round(structure.x - 10,-1) end	-- left
+			if love.keyboard.isDown("kp6") then structure.x = util:round(structure.x + 10,-1) end	-- right
+
+			return true
+		end
+	end
 end
 
 function editor:mousepressed(x,y,button)
@@ -197,14 +208,6 @@ function editor:paste()
 end
 
 function editor:run(dt)
-	for i, structure in ipairs(structures) do
-		if collision:check(mousePosX,mousePosY,1,1, structure.x,structure.y,structure.w,structure.h) then
-			if love.keyboard.isDown("kp8") then structure.y = structure.y - 100 *dt end	-- up
-			if love.keyboard.isDown("kp2") then structure.y = structure.y + 100 *dt end -- down
-			if love.keyboard.isDown("kp4") then structure.x = structure.x - 100 *dt end	-- left
-			if love.keyboard.isDown("kp6") then structure.x = structure.x + 100 *dt end	-- right
-			return true
-		end
-	end
+
 
 end
