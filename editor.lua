@@ -1,6 +1,7 @@
 editor = {}
 
 editor.entsel = "nil"
+editor.clipboard = {}
 
 function editor:keypressed(key)
 	if love.keyboard.isDown("1") then self.entsel = "platform" end
@@ -9,6 +10,8 @@ function editor:keypressed(key)
 	if love.keyboard.isDown("4") then self.entsel = "crate" end
 	if love.keyboard.isDown("5") then self.entsel = "walker" end
 	if love.keyboard.isDown("delete") then self:remove() end
+	if love.keyboard.isDown("c") then self:copy() end
+	if love.keyboard.isDown("v") then self:paste() end
 end
 
 function editor:mousepressed(x,y,button)
@@ -134,6 +137,42 @@ function editor:remove()
 	end
 end
 
+function editor:copy()
+	for i, structure in ipairs(structures) do
+		if collision:check(mousePosX,mousePosY,1,1, structure.x,structure.y,structure.w,structure.h) then
+			self.clipboard = {
+				w = structure.w,
+				h = structure.h
+			}
+			return true
+		end
+	end
+end
+
+function editor:paste()
+	local x = mousePosX
+	local y = mousePosY
+	local w = self.clipboard.w
+	local h = self.clipboard.h
+	
+	if self.entsel == "platform" then
+		structures:platform(x,y,w,h,0,0,0,0)
+	end
+	if self.entsel == "platform_x" then
+		structures:platform(x,y,w,h, 1, 0, 100, 200)
+	end
+	if self.entsel == "platform_y" then
+		structures:platform(x,y,w,h, 0, 1, 100, 200)
+	end
+	
+	if self.entsel == "crate" then
+		self:addcrate(x,y)
+	end
+		
+	if self.entsel == "walker" then
+		self:addwalker(x,y, 100, 100)
+	end
+end
 
 function editor:run(dt)
 	for i, structure in ipairs(structures) do
