@@ -12,7 +12,7 @@ require("player")
 require("input")
 require("editor")
 
-debug = 1
+debug = 0
 mode = 1
 
 math.randomseed(os.time())
