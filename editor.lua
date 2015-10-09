@@ -1,13 +1,14 @@
 editor = {}
 
 editor.entsel = "nil"
-function editor:keypressed(key)
-	if love.keyboard.isDown("1") then editor.entsel = "platform" end
-	if love.keyboard.isDown("2") then editor.entsel = "platform_y" end
-	if love.keyboard.isDown("3") then editor.entsel = "platform_x" end
-	if love.keyboard.isDown("4") then editor.entsel = "crate" end
-	if love.keyboard.isDown("5") then editor.entsel = "walker" end
 
+function editor:keypressed(key)
+	if love.keyboard.isDown("1") then self.entsel = "platform" end
+	if love.keyboard.isDown("2") then self.entsel = "platform_y" end
+	if love.keyboard.isDown("3") then self.entsel = "platform_x" end
+	if love.keyboard.isDown("4") then self.entsel = "crate" end
+	if love.keyboard.isDown("5") then self.entsel = "walker" end
+	if love.keyboard.isDown("delete") then self:remove() end
 end
 
 function editor:mousepressed(x,y,button)
@@ -25,7 +26,7 @@ function editor:mousepressed(x,y,button)
 	
 	end
 	if button == 'r' then
-		self:remove()
+		
 	end
 end
 
@@ -108,23 +109,24 @@ function editor:mouseover()
 end
 
 
+
 function editor:remove()
 	for i, pickup in ipairs(pickups) do
-		if collision:check(pressedPosX,pressedPosY,1,1, pickup.x-pickup.gfx:getWidth()/2, pickup.y-pickup.gfx:getHeight()/2, pickup.gfx:getHeight(),pickup.gfx:getWidth()) then
+		if collision:check(mousePosX,mousePosY,1,1, pickup.x-pickup.gfx:getWidth()/2, pickup.y-pickup.gfx:getHeight()/2, pickup.gfx:getHeight(),pickup.gfx:getWidth()) then
 			print( pickup.name .. " (" .. i .. ") removed" )
 			table.remove(pickups,i)
 			return true
 		end
 	end
 	for i, enemy in ipairs(enemies) do
-		if collision:check(pressedPosX,pressedPosY,1,1, enemy.x, enemy.y, enemy.w,enemy.h) then
+		if collision:check(mousePosX,mousePosY,1,1, enemy.x, enemy.y, enemy.w,enemy.h) then
 			print( enemy.name .. " (" .. i .. ") removed" )
 			table.remove(enemies,i)
 			return true
 		end
 	end
 	for i, structure in ipairs(structures) do
-		if collision:check(pressedPosX,pressedPosY,1,1, structure.x,structure.y,structure.w,structure.h) then
+		if collision:check(mousePosX,mousePosY,1,1, structure.x,structure.y,structure.w,structure.h) then
 			print( structure.name .. " (" .. i .. ") removed" )
 			table.remove(structures,i)
 			return true
