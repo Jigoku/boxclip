@@ -45,7 +45,9 @@ function world:draw()
 	player:draw()	
 	
 	--editor specifics
-	editor:mouseover()
+	if debug == 1 then
+		editor:draw()
+	end
 	
 	camera:unset()
 	

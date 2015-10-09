@@ -36,17 +36,21 @@ end
 function love.mousemoved(x,y,dx,dy)
 	mousePosX = util:round(camera.x+x*camera.scaleX)
 	mousePosY = util:round(camera.y+y*camera.scaleY)
-
 end
 
 function love.mousepressed(x, y, button)
-	--temporary test
+	pressedPosX = util:round(camera.x+x*camera.scaleX)
+	pressedPosY = util:round(camera.y+y*camera.scaleY)
+
 	if debug == 1 then
 		editor:mousepressed(x,y,button)
 	end
 end
 
 function love.mousereleased(x, y, button)
+	releasedPosX = util:round(camera.x+x*camera.scaleX)
+	releasedPosY = util:round(camera.y+y*camera.scaleY)
+	
 	if debug == 1 then
 		editor:mousereleased(x,y,button)
 	end
