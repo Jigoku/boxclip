@@ -48,7 +48,7 @@ function collision:pickups()
 		local i, pickup
 		for i, pickup in ipairs(pickups) do
 			if collision:check(player.x,player.y,player.w,player.h,
-				pickup.x-pickup.gfx:getWidth()/2, pickup.y-pickup.gfx:getHeight()/2,pickup.gfx:getWidth(),pickup.gfx:getHeight()) then
+				pickup.x, pickup.y,pickup.gfx:getWidth(),pickup.gfx:getHeight()) then
 					table.remove(pickups, i)
 					player:collect(pickup.name)
 			end

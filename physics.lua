@@ -258,9 +258,9 @@ function physics:pickups(dt)
 			for n, structure in ipairs(structures) do
 				
 				if collision:check(structure.x,structure.y,structure.w,structure.h,
-					pickup.x-pickup.gfx:getWidth()/2,pickup.y-pickup.gfx:getHeight()/2,pickup.gfx:getWidth(),pickup.gfx:getHeight()) then
+					pickup.x,pickup.y,pickup.gfx:getWidth(),pickup.gfx:getHeight()) then
 						
-						pickup.y = structure.y - pickup.gfx:getHeight()/2 +1
+						pickup.y = structure.y - pickup.gfx:getHeight() +1
 						
 						if structure.movex == 1 then
 							-- move along x-axis with platform	
@@ -269,7 +269,7 @@ function physics:pickups(dt)
 				end
 			end
 			-- if pickup goes outside of world, remove it
-			if pickup.y > world.groundLevel  then
+			if pickup.y+pickup.h > world.groundLevel  then
 				pickups:destroy(pickups,i)
 			end
 		end

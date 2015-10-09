@@ -37,10 +37,10 @@ function editor:keypressed(key)
 	
 	for i, structure in ipairs(structures) do
 		if collision:check(mousePosX,mousePosY,1,1, structure.x,structure.y,structure.w,structure.h) then
-			if love.keyboard.isDown("kp8") then structure.y = util:round(structure.y - 10,-1) end	-- up
+			if love.keyboard.isDown("kp8") then structure.y = util:round(structure.y - 10,-1) end -- up
 			if love.keyboard.isDown("kp2") then structure.y = util:round(structure.y + 10,-1) end -- down
-			if love.keyboard.isDown("kp4") then structure.x = util:round(structure.x - 10,-1) end	-- left
-			if love.keyboard.isDown("kp6") then structure.x = util:round(structure.x + 10,-1) end	-- right
+			if love.keyboard.isDown("kp4") then structure.x = util:round(structure.x - 10,-1) end -- left
+			if love.keyboard.isDown("kp6") then structure.x = util:round(structure.x + 10,-1) end -- right
 
 			return true
 		end
@@ -119,36 +119,33 @@ end
 
 function editor:draw()
 	editor:hud()
-	editor:mouseover()
+	
+	editor:scansel(pickups)
+
 end
 
-function editor:mouseover()
-	love.graphics.setColor(0,255,0,255)
-	for i, pickup in ipairs(pickups) do
-		if collision:check(mousePosX,mousePosY,1,1, pickup.x-pickup.gfx:getWidth()/2, pickup.y-pickup.gfx:getHeight()/2, pickup.gfx:getHeight(),pickup.gfx:getWidth()) then
-			love.graphics.rectangle("line", pickup.x-pickup.gfx:getWidth()/2, pickup.y-pickup.gfx:getHeight()/2, pickup.gfx:getHeight(),pickup.gfx:getWidth())
-			return true
-		end
-	end
-	for i, enemy in ipairs(enemies) do
-		if collision:check(mousePosX,mousePosY,1,1, enemy.x, enemy.y, enemy.w,enemy.h) then
-			love.graphics.rectangle("line", enemy.x, enemy.y, enemy.w, enemy.h)
-			return true
-		end
-	end
-	for i, structure in ipairs(structures) do
-		if collision:check(mousePosX,mousePosY,1,1,structure.x,structure.y,structure.w,structure.h) then
-			love.graphics.rectangle("line", structure.x, structure.y, structure.w, structure.h)
+
+function editor:scansel()
+	editor:selection(pickups)
+	editor:selection(enemies)
+	editor:selection(structures)
+end
+
+function editor:selection(table, x,y,w,h)
+	-- hilights the entity when mouseover
+	for i, item in ipairs(table) do
+		if collision:check(mousePosX,mousePosY,1,1,item.x,item.y,item.w,item.h) then
+			love.graphics.setColor(0,255,0,255)
+			love.graphics.rectangle("line", item.x,item.y,item.w,item.h)
 			return true
 		end
 	end
 end
-
 
 
 function editor:remove()
 	for i, pickup in ipairs(pickups) do
-		if collision:check(mousePosX,mousePosY,1,1, pickup.x-pickup.gfx:getWidth()/2, pickup.y-pickup.gfx:getHeight()/2, pickup.gfx:getHeight(),pickup.gfx:getWidth()) then
+		if collision:check(mousePosX,mousePosY,1,1, pickup.x, pickup.y, pickup.gfx:getHeight(),pickup.gfx:getWidth()) then
 			print( pickup.name .. " (" .. i .. ") removed" )
 			table.remove(pickups,i)
 			return true

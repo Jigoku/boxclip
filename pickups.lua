@@ -10,6 +10,8 @@ function pickups:gem(x,y)
 	table.insert(pickups, {
 		x =x or 0,
 		y =y or 0,
+		w = 40,
+		h = 40,
 		name = "gem",
 		gfx = self:random("graphics/gems/"),
 
@@ -20,8 +22,8 @@ function pickups:life(x,y,w,h)
 	table.insert(pickups, {
 		x =x or 0,
 		y =y or 0,
-		w =w or 10,
-		h =h or 10,
+		w =w or 40,
+		h =h or 40,
 		name = "life",
 		gfx = love.graphics.newImage( "graphics/gems/" .. string.format("%04d",math.random(1, 7))  .. ".png"),
 	})
@@ -34,16 +36,17 @@ function pickups:draw()
 		if pickup.name == "gem" then
 			love.graphics.setColor(255,255,255,200)	
 			love.graphics.draw(
-				pickup.gfx, pickup.x-pickup.gfx:getWidth()/2, 
-				pickup.y-pickup.gfx:getHeight()/2, 0, 1, 1
+				pickup.gfx, pickup.x, 
+				pickup.y, 0, 1, 1
 			)
 		end
 			
 		if pickup.name == "life" then
 			love.graphics.setColor(255,0,0, 255)	
-			love.graphics.circle("fill", pickup.x, pickup.y, pickup.w, pickup.h)
-			love.graphics.setColor(255,255,255,255)
-			love.graphics.circle("line", pickup.x, pickup.y, pickup.w, pickup.h)
+			love.graphics.draw(
+				pickup.gfx, pickup.x, 
+				pickup.y, 0, 1, 1
+			)
 		end
 		
 		if debug == 1 then
@@ -59,8 +62,8 @@ function pickups:drawDebug(pickup)
 	love.graphics.setColor(100,255,100,100)
 	love.graphics.rectangle(
 		"line", 
-		pickup.x-pickup.gfx:getWidth()/2, 
-		pickup.y-pickup.gfx:getHeight()/2, 
+		pickup.x, 
+		pickup.y, 
 		pickup.gfx:getWidth(), 
 		pickup.gfx:getHeight()
 	)
