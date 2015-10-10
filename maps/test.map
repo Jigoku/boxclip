@@ -1,8 +1,8 @@
 love.graphics.setBackgroundColor(30,70,70,255)
 
-structures:platform(-100, 0+player.h, 1330,200, 0,0)	
+structures:platform(-100, 0+player.h, 1330,600, 0,0)	
 structures:platform(1600, 0+player.h, 10000,200, 0,0)	
-structures:platform(-350, world.groundLevel-800+player.h, 310,800, 0,0)	
+structures:platform(-350, world.groundLevel-800+player.h, 310,1500, 0,0)	
 structures:platform(20, -350, 100,20, 0,1,100,300)	
 structures:platform(150, -120, 100,70)	
 structures:platform(150, -320, 100,70)	

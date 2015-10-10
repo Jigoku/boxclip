@@ -15,7 +15,6 @@ function world:init()
 	groundLevel_tile = love.graphics.newImage("graphics/tiles/water.png")
 	groundLevel_tile:setWrap("repeat", "repeat")
 	groundLevel_quad = love.graphics.newQuad( -50,world.groundLevel, 10000, 500, groundLevel_tile:getDimensions() )
-
 	camera:setScale(1,1)
 
 end
@@ -52,7 +51,8 @@ function world:draw()
 
 	--groundLevel placeholder
 	love.graphics.setColor(255,255,255,255)
-	love.graphics.draw(groundLevel_tile, groundLevel_quad, -50,world.groundLevel)
+	love.graphics.draw(groundLevel_tile, groundLevel_quad, -1000,world.groundLevel)
+	
 
 	structures:draw()
 	crates:draw()
@@ -68,7 +68,7 @@ function world:draw()
 	camera:unset()
 	
 	-- overlays
---	world:drawWeather()
+	--world:drawWeather()
 end
 
 
@@ -123,6 +123,7 @@ end
 
 
 function world:inview(entity) 
+	--decides if the entity is visible in the game viewport
 	if (entity.x < player.x + (love.graphics.getWidth()/2*camera.scaleX)) 
 	and (entity.x+entity.w > player.x - (love.graphics.getWidth()/2*camera.scaleX))  then
 		return true
@@ -130,12 +131,12 @@ function world:inview(entity)
 end
 
 function world:loadMap(mapname)
---TEST FUNCTION
-
-		repeat world:remove(enemies) until world:count(enemies) == 0
-		repeat world:remove(pickups) until world:count(pickups) == 0
-		repeat world:remove(crates) until world:count(crates) == 0
-		repeat world:remove(structures) until world:count(structures) == 0
-
-		dofile(mapname)
+	--cleanup the map
+	repeat world:remove(enemies) until world:count(enemies) == 0
+	repeat world:remove(pickups) until world:count(pickups) == 0
+	repeat world:remove(crates) until world:count(crates) == 0
+	repeat world:remove(structures) until world:count(structures) == 0
+	
+	--load the map
+	dofile(mapname)
 end
