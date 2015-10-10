@@ -7,16 +7,16 @@ function world:init()
 	world.startTime = os.time()
 	world.seconds = 0
 	world.minutes = 0
-
-	--entity counts
-	world.structures = 0
-	world.crates = 0
-
+	
 	groundLevel_tile = love.graphics.newImage("graphics/tiles/water.png")
 	groundLevel_tile:setWrap("repeat", "repeat")
 	groundLevel_quad = love.graphics.newQuad( -50,world.groundLevel, 10000, 500, groundLevel_tile:getDimensions() )
 	camera:setScale(1,1)
 
+	--initialize entity counts
+	world.structures = 0
+	world.crates = 0
+	world.enemies = 0
 end
 
 

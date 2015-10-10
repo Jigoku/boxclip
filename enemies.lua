@@ -27,10 +27,13 @@ end
 
 
 function enemies:draw()
+	local count = 0
+	
 	local i, enemy
 	for i, enemy in ipairs(enemies) do
-		if type(enemy) == "table" then
-			
+		if type(enemy) == "table" and world:inview(enemy) then
+			count = count + 1
+				
 			if enemy.name == "walker" then
 				love.graphics.setColor(255,255,255,255)
 				--love.graphics.rectangle("fill", enemy.x, enemy.y, enemy.w, enemy.h)
@@ -40,13 +43,13 @@ function enemies:draw()
 					love.graphics.draw(enemy.gfx, enemy.x+enemy.gfx:getWidth(), enemy.y, 0, -1, 1)
 				end
 			end
-			
+				
 			if debug == 1 then
 				enemies:drawDebug(enemy, i)
 			end
-			
 		end
 	end
+	world.enemies = count
 end
 
 
