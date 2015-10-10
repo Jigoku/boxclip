@@ -79,7 +79,7 @@ end
 
 
 function editor:addcrate(x,y)
-	structures:crate(util:round(x,-1),util:round(y, -1),"gem")
+	crates:add(util:round(x,-1),util:round(y, -1),"gem")
 	print( "crate added @  X:"..util:round(x,-1).." Y: "..util:round(y,-1))
 end
 
@@ -134,9 +134,10 @@ end
 
 
 function editor:scansel()
-	self:selection(pickups)
-	self:selection(enemies)
-	self:selection(structures)
+	return self:selection(pickups) or
+			self:selection(enemies) or
+			self:selection(crates) or
+			self:selection(structures)
 end
 
 function editor:selection(type, x,y,w,h)
@@ -151,13 +152,15 @@ function editor:selection(type, x,y,w,h)
 end
 
 function editor:removesel()
-	self:remove(pickups)
-	self:remove(enemies)
-	self:remove(structures)
+	return self:remove(pickups) or
+			self:remove(enemies) or
+			self:remove(crates) or
+			self:remove(structures)
 end
 
 function editor:remove(type, x,y,w,h)
 	--deletes the selected entity
+	
 	for i, item in ipairs(type) do
 		if collision:check(mousePosX,mousePosY,1,1, item.x,item.y,item.w,item.h) then
 			print( item.name .. " (" .. i .. ") removed" )

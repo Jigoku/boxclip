@@ -10,6 +10,7 @@ function world:init()
 
 	--entity counts
 	world.structures = 0
+	world.crates = 0
 
 	groundLevel_tile = love.graphics.newImage("graphics/tiles/lava.png")
 	groundLevel_tile:setWrap("repeat", "repeat")
@@ -23,10 +24,24 @@ end
 function world:run(dt)
 	world:timer()
 	physics:world(dt)
+	
+
 	physics:pickups(dt)
 	physics:enemies(dt)
+	physics:crates(player,dt)
 	physics:player(player, dt)
+		
+	if debug == 0 then
+		-- update new poisition
+		player.x = player.newX
+		player.y = player.newY
 	
+		-- stop increasing velocity if we hit ground
+		if player.y+player.h > world.groundLevel  then
+			player:respawn()
+		end
+	end
+		
 	collision:checkWorld(dt)
 	player:follow()
 end
@@ -40,6 +55,7 @@ function world:draw()
 	love.graphics.draw(groundLevel_tile, groundLevel_quad, -50,world.groundLevel)
 
 	structures:draw()
+	crates:draw()
 	pickups:draw()
 	enemies:draw()
 	player:draw()	
@@ -105,11 +121,20 @@ function world:remove(objects)
 	end
 end
 
+
+function world:inview(entity) 
+	if (entity.x < player.x + (love.graphics.getWidth()/2*camera.scaleX)) 
+	and (entity.x+entity.w > player.x - (love.graphics.getWidth()/2*camera.scaleX))  then
+		return true
+	end
+end
+
 function world:loadMap(mapname)
 --TEST FUNCTION
 
 		repeat world:remove(enemies) until world:count(enemies) == 0
 		repeat world:remove(pickups) until world:count(pickups) == 0
+		repeat world:remove(crates) until world:count(crates) == 0
 		repeat world:remove(structures) until world:count(structures) == 0
 
 		dofile(mapname)

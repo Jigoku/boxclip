@@ -1,6 +1,6 @@
 structures = {}
 
-crate = love.graphics.newImage("graphics/crate.png")
+
 marble = love.graphics.newImage("graphics/tiles/marble.png")
 
 function structures:platform(x,y,w,h,movex,movey,movespeed,movedist)
@@ -30,17 +30,7 @@ function structures:platform(x,y,w,h,movex,movey,movespeed,movedist)
 	})
 end
 
-function structures:crate(x,y,item)
-	table.insert(structures, {
-		x = x or 0,
-		y = y or 0,
-		w = 50,
-		h = 50,
-		name = "crate",
-		item = item or nil,
-		gfx = crate,
-	})
-end
+
 
 function structures:checkpoint(x,y)
 	table.insert(structures, {
@@ -52,24 +42,10 @@ function structures:checkpoint(x,y)
 	})
 end
 
-function structures:destroy(crate, i)
-	--add the contents of destroyable to world if any
-	if crate.item == "gem" then
-		pickups:gem(crate.x+crate.w/2-pickups.w/2, crate.y+crate.h/2-pickups.h/2)
-	elseif crate.item == "life" then
-		pickups:life(crate.x+crate.w/2-pickups.w/2, crate.y+crate.h/2-pickups.h/2)
-	end
-	--remove the destroyable
-	table.remove(structures, i)
-end
 
 
-function structures:inview(structure) 
-	if (structure.x < player.x + (love.graphics.getWidth()/2*camera.scaleX)) 
-	and (structure.x+structure.w > player.x - (love.graphics.getWidth()/2*camera.scaleX))  then
-		return true
-	end
-end
+
+
 
 function structures:draw()
 	world.structures = 0
@@ -77,7 +53,7 @@ function structures:draw()
 	
 	local i, structure
 	for i, structure in ipairs(structures) do
-		if self:inview(structure) then
+		if world:inview(structure) then
 		count = count + 1
 				
 			if structure.name == "platform" then
@@ -107,10 +83,7 @@ function structures:draw()
 				love.graphics.rectangle("fill", structure.x, structure.y, structure.w, 2)	
 			end
 		
-			if structure.name == "crate" then
-				love.graphics.setColor(255,255,255,255)
-				love.graphics.draw(structure.gfx,structure.x, structure.y, 0, 1, 1)
-			end
+
 		
 			if structure.name == "checkpoint" then
 				love.graphics.setColor(255,255,255,100)
@@ -134,10 +107,6 @@ function structures:drawDebug(structure, i)
 		love.graphics.rectangle("line", structure.x, structure.y, structure.w, structure.h)
 	end
 	
-	if structure.name == "crate" then
-		love.graphics.setColor(0,255,255,100)
-		love.graphics.rectangle("line", structure.x, structure.y, structure.w, structure.h)
-	end
 	
 	-- yaxis waypoint
 	if structure.movey == 1 then

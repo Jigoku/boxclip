@@ -39,6 +39,7 @@ function util:drawConsole()
 			"pickups: " .. world:count(pickups) ..
 			" | enemies: " .. world:count(enemies) ..
 			" | structures: " .. world.structures .. "/" .. world:count(structures) ..
+			" | crates: " .. world.crates .. "/" .. world:count(crates) ..
 			" | camera scale: " .. camera.scaleX, 
 			5, 35
 		)

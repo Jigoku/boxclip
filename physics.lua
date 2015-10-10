@@ -75,31 +75,94 @@ function physics:movey(object, dt)
 end
 
 function physics:world(dt)
-	-- moving platforms etc
-	local i, object
-	for i, object in ipairs(structures) do
-		if object.movex == 1 then self:movex(object, dt) end
-		if object.movey == 1 then self:movey(object, dt) end
-	end
-	--enemies
-	for i, object in ipairs(enemies) do
-		if object.movex == 1 then self:movex(object, dt) end
-		if object.movey == 1 then self:movey(object, dt) end
+	if debug == 0 then
+		self:applyVelocity(player, dt)
+		self:applyGravity(player, dt)
+	
+		--new position, friction/velocity multipier
+		player.newX = (player.x + player.xvel *dt)
+		player.newY = (player.y - player.yvel *dt)
+	
+		-- moving platforms etc
+		local i, object
+		for i, object in ipairs(structures) do
+			if object.movex == 1 then self:movex(object, dt) end
+			if object.movey == 1 then self:movey(object, dt) end
+		end
+		--enemies
+		for i, object in ipairs(enemies) do
+			if object.movex == 1 then self:movex(object, dt) end
+			if object.movey == 1 then self:movey(object, dt) end
+		end
 	end
 end
 
+
+function physics:crates(object,dt)
+	if debug == 1 then
+		return
+	end
+	
+	if object.alive == 1 then
+		local i, crate
+		for i, crate in ipairs(crates) do
+		
+			if collision:check(crate.x,crate.y,crate.w,crate.h,
+					object.newX,object.newY,object.w,object.h) then
+					
+					if object.jumping == 1 then 
+						sound:decide(crate)
+					end
+					
+					if collision:right(object,crate) then
+						if object.jumping == 1 then
+							object.newX = crate.x+crate.w +1
+							object.xvel = -object.mass
+							self:destroy("x",object,crate,i)
+						else
+							object.newX = crate.x+crate.w +1
+							object.xvel = 0
+						end
+					elseif collision:left(object,crate) then
+						if object.jumping == 1 then
+							object.newX = crate.x-object.w -1
+							object.xvel = object.mass
+							self:destroy("x",object,crate,i)
+						else
+							object.newX = crate.x-object.w -1
+							object.xvel = 0
+						end
+					elseif collision:bottom(object,crate) then
+						if object.jumping == 1 then
+							object.newY = crate.y +crate.h +1
+							object.yvel = object.mass
+							self:destroy("y",object,crate,i)
+						else
+							object.newY = crate.y +crate.h +1
+							object.yvel = 0
+						end
+					elseif collision:top(object,crate) then
+						if object.jumping == 1 then
+							object.newY = crate.y - object.h -1
+							object.yvel = -object.mass
+							self:destroy("y",object,crate,i)
+						else
+							object.newY = crate.y - object.h -1
+							object.yvel = 0
+						end
+					end
+					
+					
+			end
+		end	
+
+	end
+end
 
 function physics:player(object, dt)
 	if debug == 1 then
 		return
 	end
-	self:applyVelocity(object, dt)
-	self:applyGravity(object, dt)
-	
-	--new position, friction/velocity multipier
-	object.newX = (object.x + object.xvel *dt)
-	object.newY = (object.y - object.yvel *dt)
-	
 
 	--loop solid structures
 	if object.alive == 1 then
@@ -134,17 +197,6 @@ function physics:player(object, dt)
 							object.newX = structure.x+structure.w +1
 						end
 					end	
-
-					if structure.name == "crate" then
-						if object.jumping == 1 then
-							object.newX = structure.x+structure.w +1
-							object.xvel = -object.mass
-							self:destroy("x",object,structure,i)
-						else
-							object.newX = structure.x+structure.w +1
-							object.xvel = 0
-						end
-					end
 					
 				-- left side
 				elseif collision:left(object,structure) then
@@ -153,17 +205,6 @@ function physics:player(object, dt)
 						if not (structure.movex == 1 or structure.movey == 1) then
 							object.xvel = 0
 							object.newX = structure.x-object.w -1
-						end
-					end
-							
-					if structure.name == "crate"  then
-						if object.jumping == 1 then
-							object.newX = structure.x-object.w -1
-							object.xvel = object.mass
-							self:destroy("x",object,structure,i)
-						else
-							object.newX = structure.x-object.w -1
-							object.xvel = 0
 						end
 					end
 					
@@ -175,17 +216,6 @@ function physics:player(object, dt)
 							object.yvel = 0
 							object.newY = structure.y +structure.h +1
 						end				
-					end
-							
-					if structure.name == "crate" then
-						if object.jumping == 1 then
-							object.newY = structure.y +structure.h +1
-							object.yvel = object.mass
-							self:destroy("y",object,structure,i)
-						else
-							object.newY = structure.y +structure.h +1
-							object.yvel = 0
-						end
 					end
 					
 				-- top side
@@ -219,17 +249,7 @@ function physics:player(object, dt)
 						
 						end		
 					end
-							
-					if structure.name == "crate"  then
-						if object.jumping == 1 then
-							object.newY = structure.y - object.h -1
-							object.yvel = -object.mass
-							self:destroy("y",object,structure,i)
-						else
-							object.newY = structure.y - object.h -1
-							object.yvel = 0
-						end
-					end
+
 				else
 					object.jumping = 1
 				end
@@ -243,17 +263,6 @@ function physics:player(object, dt)
 		end
 
 	end
-	-- update new poisition
-	object.x = object.newX
-	object.y = object.newY
-	
-	-- stop increasing velocity if we hit ground
-	if object.y+object.h > world.groundLevel  then
-		player:respawn()
-	end
-
-	
-
 end
 
 function physics:pickups(dt)
@@ -284,7 +293,7 @@ function physics:pickups(dt)
 end
 
 
-function physics:destroy(axis,object,structure,i)
+function physics:destroy(axis,object,crate,i)
 	--axis is used to determine which direction the colliding object
 	--will rebound from
 	if object.jumping == 1 then
@@ -293,7 +302,7 @@ function physics:destroy(axis,object,structure,i)
 		elseif axis == "x" then
 			object.xvel = -object.xvel
 		end
-		structures:destroy(structure, i)	
+		crates:destroy(crates, i)	
 	end
 end
 
