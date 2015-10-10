@@ -210,4 +210,6 @@ function editor:paste()
 end
 
 function editor:run(dt)
+	player.xvel = 0
+	player.yvel = 0
 end

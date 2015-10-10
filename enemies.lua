@@ -22,6 +22,7 @@ function enemies:walker(x,y,movespeed,movedist)
 		newY = y,
 		gfx = love.graphics.newImage( "graphics/enemies/walker.png"),
 	})
+
 end
 
 

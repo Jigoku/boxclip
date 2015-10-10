@@ -302,7 +302,7 @@ function physics:destroy(axis,object,crate,i)
 		elseif axis == "x" then
 			object.xvel = -object.xvel
 		end
-		crates:destroy(crates, i)	
+		crates:destroy(crate, i)	
 	end
 end
 
@@ -325,6 +325,18 @@ function physics:enemies(dt)
 							enemy.yvel = 0
 							enemy.jumping = 0
 							enemy.y = structure.y - enemy.h +1
+						end
+					end
+				end
+			
+				for i, crate in ipairs(crates) do
+					if collision:check(crate.x,crate.y,crate.w,crate.h,
+						enemy.x,enemy.y,enemy.w,enemy.h) then
+						
+						if collision:top(enemy,crate) then
+							enemy.yvel = 0
+							enemy.jumping = 0
+							enemy.y = crate.y - enemy.h +1
 						end
 					end
 				end
