@@ -12,7 +12,7 @@ function world:init()
 	world.structures = 0
 	world.crates = 0
 
-	groundLevel_tile = love.graphics.newImage("graphics/tiles/lava.png")
+	groundLevel_tile = love.graphics.newImage("graphics/tiles/water.png")
 	groundLevel_tile:setWrap("repeat", "repeat")
 	groundLevel_quad = love.graphics.newQuad( -50,world.groundLevel, 10000, 500, groundLevel_tile:getDimensions() )
 
