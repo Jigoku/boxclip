@@ -67,6 +67,7 @@ function collision:enemies()
 				if player.newY+player.h >= enemy.y+5 and player.jumping == 1 then	
 					player.y = enemy.y - player.h -1
 					player:attack(enemies, i)
+					return true
 				else
 					-- otherwise we die
 					

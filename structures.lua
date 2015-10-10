@@ -48,7 +48,6 @@ end
 
 
 function structures:draw()
-	world.structures = 0
 	local count = 0
 	
 	local i, structure

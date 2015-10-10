@@ -22,6 +22,7 @@ mousePosX = 0
 mousePosY = 0
 
 editor.entsel = "nil"
+editor.grid = 0
 editor.clipboard = {}
 
 
@@ -35,7 +36,7 @@ function editor:keypressed(key)
 	if love.keyboard.isDown("delete") then self:removesel() end
 	if love.keyboard.isDown("c") then self:copy() end
 	if love.keyboard.isDown("v") then self:paste() end
-	
+
 	for i, structure in ipairs(structures) do
 		if collision:check(mousePosX,mousePosY,1,1, structure.x,structure.y,structure.w,structure.h) then
 			if love.keyboard.isDown("kp8") then structure.y = util:round(structure.y - 10,-1) end -- up
@@ -121,7 +122,24 @@ end
 
 
 function editor:hud()
-	--add hud / ent selection menus here
+
+	--cursor/crosshair
+	love.graphics.setColor(200,200,255,50)
+	--vertical
+	love.graphics.line(
+		util:round(mousePosX,-1),
+		util:round(mousePosY,-1)+love.graphics.getHeight()*camera.scaleY,
+		util:round(mousePosX,-1),
+		util:round(mousePosY,-1)-love.graphics.getHeight()*camera.scaleY
+	)
+	--horizontal
+	love.graphics.line(
+		util:round(mousePosX,-1)-love.graphics.getWidth()*camera.scaleX,
+		util:round(mousePosY,-1),
+		util:round(mousePosX,-1)+love.graphics.getWidth()*camera.scaleX,
+		util:round(mousePosY,-1)
+	)
+	
 end
 
 
@@ -129,7 +147,6 @@ function editor:draw()
 	editor:hud()
 	
 	editor:scansel(pickups)
-
 end
 
 
@@ -213,3 +230,5 @@ function editor:run(dt)
 	player.xvel = 0
 	player.yvel = 0
 end
+
+

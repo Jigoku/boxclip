@@ -26,7 +26,6 @@ end
 
 
 function crates:draw()
-	world.crates = 0
 	local count = 0
 	
 	local i, crate
