@@ -1,4 +1,4 @@
-love.graphics.setBackgroundColor(30,30,30,255)
+love.graphics.setBackgroundColor(30,70,70,255)
 
 structures:platform(-100, 0+player.h, 1330,200, 0,0)	
 structures:platform(1600, 0+player.h, 10000,200, 0,0)	

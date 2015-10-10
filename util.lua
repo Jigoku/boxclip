@@ -9,9 +9,11 @@ end
 
 
 function util:drawCoordinates(object)
-	-- co-ordinates
-	love.graphics.setColor(255,255,255,100)
-	love.graphics.print("(X:".. self:round(object.x,0) ..",Y:" .. self:round(object.y,0) ..")" , object.x-20,object.y-20,0, 0.9*camera.scaleX, 0.9*camera.scaleY)  
+	if editor.showpos then
+		-- co-ordinates
+		love.graphics.setColor(255,255,255,100)
+		love.graphics.print("(X:".. self:round(object.x,0) ..",Y:" .. self:round(object.y,0) ..")" , object.x-20,object.y-20,0, 0.9*camera.scaleX, 0.9*camera.scaleY)  
+	end
 end
 
 
@@ -58,8 +60,10 @@ function util:drawConsole()
 end
 
 function util:drawid(entity,i)
-	love.graphics.setColor(255,255,0,100)       
-	love.graphics.print(entity.name .. "(" .. i .. ")", entity.x-20, entity.y-40, 0, 0.9*camera.scaleX, 0.9*camera.scaleY)
+	if editor.showid then
+		love.graphics.setColor(255,255,0,100)       
+		love.graphics.print(entity.name .. "(" .. i .. ")", entity.x-20, entity.y-40, 0, 0.9*camera.scaleX, 0.9*camera.scaleY)
+	end
 end
 
 function util:dprint(out)

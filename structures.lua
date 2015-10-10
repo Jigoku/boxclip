@@ -1,7 +1,7 @@
 structures = {}
 
 
-marble = love.graphics.newImage("graphics/tiles/marble.png")
+marble = love.graphics.newImage("graphics/tiles/checked.png")
 
 function structures:platform(x,y,w,h,movex,movey,movespeed,movedist)
 	table.insert(structures, {
@@ -11,9 +11,9 @@ function structures:platform(x,y,w,h,movex,movey,movespeed,movedist)
 		w = w or 0, -- width
 		h = h or 0, -- height
 		--colour
-		r = r or 120, -- red
+		r = r or 200, -- red
 		g = g or 130, -- green
-		b = b or 140, -- blue
+		b = b or 50, -- blue
 		o = o or 255, -- opacity
 		--properties
 		name = "platform",

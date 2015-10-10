@@ -22,7 +22,9 @@ mousePosX = 0
 mousePosY = 0
 
 editor.entsel = "nil"
-editor.grid = 0
+editor.showpos = true
+editor.showid  = true
+
 editor.clipboard = {}
 
 
@@ -36,6 +38,9 @@ function editor:keypressed(key)
 	if love.keyboard.isDown("delete") then self:removesel() end
 	if love.keyboard.isDown("c") then self:copy() end
 	if love.keyboard.isDown("v") then self:paste() end
+	
+	if love.keyboard.isDown(",") then editor.showpos = not editor.showpos end
+	if love.keyboard.isDown(".") then editor.showid = not editor.showid end
 
 	for i, structure in ipairs(structures) do
 		if collision:check(mousePosX,mousePosY,1,1, structure.x,structure.y,structure.w,structure.h) then
@@ -230,5 +235,4 @@ function editor:run(dt)
 	player.xvel = 0
 	player.yvel = 0
 end
-
 

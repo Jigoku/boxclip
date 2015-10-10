@@ -68,7 +68,7 @@ end
 
 function player:drawDebug()
 	
-	love.graphics.setColor(255,0,0,100)
+	love.graphics.setColor(255,0,0,50)
 	love.graphics.rectangle("line", player.x, player.y, player.w, player.h)
 	util:drawCoordinates(player)
 	
