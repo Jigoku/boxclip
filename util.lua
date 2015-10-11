@@ -36,25 +36,29 @@ function util:drawConsole()
 		love.graphics.setColor(100,100,100,100)
 		love.graphics.rectangle("line", 1, 1, 500, 80)	
 		
-		love.graphics.setColor(255,255,255,255)
+		love.graphics.setColor(100,255,100,255)
 		love.graphics.print("FPS: " .. love.timer.getFPS(), 5,5)
+		love.graphics.setColor(255,255,255,255)
 		love.graphics.print(
 			"X: " .. self:round(player.x,0) .. 
 			" | Y: " .. self:round(player.y,0) .. 
 			" | dir: " .. player.dir .. 
 			" | xvel: " .. self:round(player.xvel,0) .. 
 			" | yvel: " .. self:round(player.yvel,0) .. 
-			" | jumping: " .. player.jumping ,
+			" | jumping: " .. player.jumping ..
+			" | camera scale: " .. camera.scaleX, 
 			5, 20
 		)
+		love.graphics.setColor(255,100,255,255)
 		love.graphics.print(
 			"pickups: " .. world:count(pickups) .. "(".. world.pickups .. ")" ..
 			" | enemies: " .. world:count(enemies) .. "(".. world.enemies .. ")" ..
 			" | platforms: " .. world:count(platforms) .. "(".. world.platforms .. ")" ..
 			" | crates: " .. world:count(crates) .. "("..world.crates .. ")" ..
-			" | camera scale: " .. camera.scaleX, 
+			" | total: " ..world:count(pickups)+world:count(enemies)+world:count(platforms)+world:count(crates) .. "(" .. world.pickups+world.enemies+world.platforms+world.crates .. ")",
 			5, 35
 		)
+		
 		
 		love.graphics.setColor(255,100,40,255)
 		love.graphics.print(

@@ -71,13 +71,8 @@ function love.keypressed(key)
 		util:dprint("[KEY        ] '".. key .. "'")
 	
 		--quit
-		if key == "escape" then
-				love.event.quit()
-		end
-
-		if key == "f1" then
-			editing = not editing
-		end
+		if key == "escape" then love.event.quit() end
+		if key == "f1" then editing = not editing end
 
 		--debug console
 		if key == "`" then
@@ -85,9 +80,7 @@ function love.keypressed(key)
 			console = not console
 		end
 
-		if editing then
-			editor:keypressed(key)
-		end
+		if editing then editor:keypressed(key) end
 
 		
 		--debug console
