@@ -40,7 +40,6 @@ function love.mousemoved(x,y,dx,dy)
 	if debug == 1 then
 		if love.mouse.isDown("l") then
 			editor.drawsel = true
-			editor:mousemoved(x,y)
 		else
 			editor.drawsel = false
 		end

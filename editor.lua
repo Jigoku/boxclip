@@ -56,10 +56,7 @@ function editor:keypressed(key)
 	end
 end
 
-function editor:mousemoved(x,y)
-	editor.selX = util:round(camera.x+x*camera.scaleX)
-	editor.selY = util:round(camera.y+y*camera.scaleY)
-end
+
 
 function editor:mousepressed(x,y,button)
 		
@@ -167,7 +164,7 @@ function editor:drawselbox()
 		love.graphics.rectangle(
 			"line", 
 			util:round(pressedPosX,-1),util:round(pressedPosY,-1), 
-			util:round(editor.selX-pressedPosX,-1), util:round(editor.selY-pressedPosY,-1)
+			util:round(mousePosX-pressedPosX,-1), util:round(mousePosY-pressedPosY,-1)
 		)
 	end
 end
