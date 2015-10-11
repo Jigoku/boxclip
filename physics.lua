@@ -174,17 +174,6 @@ function physics:platforms(object, dt)
 			if collision:check(platform.x,platform.y,platform.w,platform.h,
 					object.newX,object.newY,object.w,object.h) then
 					
-				if platform.name == "checkpoint" then
-					player.spawnX = platform.x
-					player.spawnY = platform.y
-				end
-				
-				--sounds on collision
-				if object.jumping == 1 then 
-					sound:decide(platform)
-				end
-	
-					
 				-- if anything collides, check which sides did
 				-- adjust position/velocity if neccesary
 					
@@ -222,7 +211,11 @@ function physics:platforms(object, dt)
 				elseif collision:top(object,platform) then
 					
 					if platform.name == "platform" then
-					
+						--sounds on collision
+						if object.jumping == 1 then 
+							sound:decide(platform)
+						end
+						
 						--if we are jumping upwards go through the platform
 						--only  'fix' to surface if we are going down
 						if not (object.yvel > 0 and object.jumping == 1) then

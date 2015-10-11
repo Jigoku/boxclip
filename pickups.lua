@@ -16,6 +16,7 @@ function pickups:add(x,y,item)
 			h = pickups.h,
 			name = "gem",
 			gfx = self:random("graphics/gems/"),
+			collected = false
 		})	
 	elseif item =="life" then
 		table.insert(pickups, {
@@ -25,6 +26,7 @@ function pickups:add(x,y,item)
 			h = pickups.w,
 			name = "life",
 			gfx = love.graphics.newImage( "graphics/gems/" .. string.format("%04d",math.random(1, 7))  .. ".png"),
+			collected = false
 		})
 	else
 		util:dprint("error: unknown pickup type")
@@ -36,7 +38,7 @@ function pickups:draw()
 	local count = 0
 	local i, pickup
 	for i, pickup in ipairs(pickups) do
-		if world:inview(pickup) then
+		if not pickup.collected and world:inview(pickup) then
 			count = count + 1
 			
 			if pickup.name == "gem" then

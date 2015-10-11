@@ -1,12 +1,13 @@
 checkpoints = {}
 
 function checkpoints:add(x,y)
-	table.insert(platforms, {
+	table.insert(checkpoints, {
 		x = x or 0,
 		y = y or 0,
 		w = 5,
 		h = 50,
 		name = "checkpoint",
+		activated = false
 	})
 end
 
@@ -18,11 +19,14 @@ function checkpoints:draw()
 		if world:inview(checkpoint) then
 		count = count + 1
 
-			if checkpoint.name == "checkpoint" then
+			if not checkpoint.activated then
 				love.graphics.setColor(255,255,255,100)
-				love.graphics.rectangle("fill", checkpoint.x, checkpoint.y, checkpoint.w, checkpoint.h)	
+			else 
+				love.graphics.setColor(200,200,200,255)
 			end
-			if debug == 1 then
+			love.graphics.rectangle("fill", checkpoint.x, checkpoint.y, checkpoint.w, checkpoint.h)	
+			
+			if editing then
 				self:drawDebug(checkpoint, i)
 			end
 		end
@@ -34,14 +38,10 @@ end
 function checkpoints:drawDebug(checkpoint, i)
 
 	-- collision area
-	if platform.name == "platform" then
-		love.graphics.setColor(255,0,0,100)
-		love.graphics.rectangle("line", checkpoint.x, checkpoint.y, checkpoint.w, checkpoint.h)
-	end
+	love.graphics.setColor(255,0,0,100)
+	love.graphics.rectangle("line", checkpoint.x, checkpoint.y, checkpoint.w, checkpoint.h)
 	
 	util:drawid(checkpoint,i)
 	util:drawCoordinates(checkpoint)
 	
 end
-
-

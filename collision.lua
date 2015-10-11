@@ -5,6 +5,7 @@ function collision:checkWorld(dt)
 		self:bounds()
 		self:pickups()
 		self:enemies()
+		self:checkpoints()
 	end
 end
 
@@ -47,10 +48,13 @@ function collision:pickups()
 	if player.alive == 1 then
 		local i, pickup
 		for i, pickup in ipairs(pickups) do
-			if collision:check(player.x,player.y,player.w,player.h,
-				pickup.x, pickup.y,pickup.gfx:getWidth(),pickup.gfx:getHeight()) then
-					table.remove(pickups, i)
-					player:collect(pickup.name)
+			if not pickup.collected then
+				if collision:check(player.x,player.y,player.w,player.h,
+					pickup.x, pickup.y,pickup.gfx:getWidth(),pickup.gfx:getHeight()) then
+						table.remove(pickups, i)
+						pickup.collected = true
+						player:collect(pickup.name)
+				end
 			end
 		end
 	end
@@ -79,3 +83,19 @@ function collision:enemies()
 	end
 end
 
+function collision:checkpoints()
+	if player.alive == 1 then
+		local i, checkpoint
+		for i, checkpoint in ipairs(checkpoints) do
+			if collision:check(player.x,player.y,player.w,player.h,
+					checkpoint.x, checkpoint.y,checkpoint.w,checkpoint.h) then
+				if not checkpoint.activated then
+					checkpoint.activated = true
+					player.spawnX = checkpoint.x
+					player.spawnY = checkpoint.y
+				end
+			end
+		end
+	end
+
+end

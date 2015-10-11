@@ -56,6 +56,7 @@ function world:draw()
 	
 
 	platforms:draw()
+	checkpoints:draw()
 	crates:draw()
 	pickups:draw()
 	enemies:draw()
