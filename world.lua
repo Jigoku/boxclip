@@ -24,24 +24,9 @@ end
 function world:run(dt)
 	world:timer()
 	physics:world(dt)
-	
-
+	physics:player(dt)
 	physics:pickups(dt)
 	physics:enemies(dt)
-	physics:crates(player,dt)
-	physics:platforms(player, dt)
-		
-	if not editing then
-		-- update new poisition
-		player.x = player.newX
-		player.y = player.newY
-	
-		-- stop increasing velocity if we hit ground
-		if player.y+player.h > world.groundLevel  then
-			player:respawn()
-		end
-	end
-		
 	collision:checkWorld(dt)
 	player:follow()
 end

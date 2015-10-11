@@ -75,94 +75,77 @@ function physics:movey(object, dt)
 end
 
 function physics:world(dt)
-	if not editing then
-		self:applyVelocity(player, dt)
-		self:applyGravity(player, dt)
-	
-		--new position, friction/velocity multipier
-		player.newX = (player.x + player.xvel *dt)
-		player.newY = (player.y - player.yvel *dt)
-	
-		-- moving platforms etc
-		local i, object
-		for i, object in ipairs(platforms) do
-			if object.movex == 1 then self:movex(object, dt) end
-			if object.movey == 1 then self:movey(object, dt) end
-		end
-		--enemies
-		for i, object in ipairs(enemies) do
-			if object.movex == 1 then self:movex(object, dt) end
-			if object.movey == 1 then self:movey(object, dt) end
-		end
+	if editing then return end
+	-- moving platforms etc
+	local i, object
+	for i, object in ipairs(platforms) do
+		if object.movex == 1 then self:movex(object, dt) end
+		if object.movey == 1 then self:movey(object, dt) end
+	end
+	--enemies
+	for i, object in ipairs(enemies) do
+		if object.movex == 1 then self:movex(object, dt) end
+		if object.movey == 1 then self:movey(object, dt) end
 	end
 end
 
 
 function physics:crates(object,dt)
-	if editing then
-		return
-	end
-	
-	
-		local i, crate
-		for i, crate in ipairs(crates) do
+	if editing then return end
 		
-			if collision:check(crate.x,crate.y,crate.w,crate.h,
-					object.newX,object.newY,object.w,object.h) then
+	local i, crate
+	for i, crate in ipairs(crates) do
+		
+		if collision:check(crate.x,crate.y,crate.w,crate.h,
+			object.newX,object.newY,object.w,object.h) then
 					
-					if object.jumping == 1 then 
-						sound:decide(crate)
-					end
-					
-					if collision:right(object,crate) then
-						if object.jumping == 1 then
-							object.newX = crate.x+crate.w +1
-							object.xvel = -object.mass
-							self:destroy("x",object,crate,i)
-						else
-							object.newX = crate.x+crate.w +1
-							object.xvel = 0
-						end
-					elseif collision:left(object,crate) then
-						if object.jumping == 1 then
-							object.newX = crate.x-object.w -1
-							object.xvel = object.mass
-							self:destroy("x",object,crate,i)
-						else
-							object.newX = crate.x-object.w -1
-							object.xvel = 0
-						end
-					elseif collision:bottom(object,crate) then
-						if object.jumping == 1 then
-							object.newY = crate.y +crate.h +1
-							object.yvel = object.mass
-							self:destroy("y",object,crate,i)
-						else
-							object.newY = crate.y +crate.h +1
-							object.yvel = 0
-						end
-					elseif collision:top(object,crate) then
-						if object.jumping == 1 then
-							object.newY = crate.y - object.h -1
-							object.yvel = -object.mass
-							self:destroy("y",object,crate,i)
-						else
-							object.newY = crate.y - object.h -1
-							object.yvel = 0
-						end
-					end
-					
-					
+			if object.jumping == 1 then 
+				sound:decide(crate)
 			end
-		end	
-
-	
+					
+			if collision:right(object,crate) then
+				if object.jumping == 1 then
+					object.newX = crate.x+crate.w +1
+					object.xvel = -object.mass
+					self:destroy("x",object,crate,i)
+				else
+					object.newX = crate.x+crate.w +1
+					object.xvel = 0
+				end
+			elseif collision:left(object,crate) then
+				if object.jumping == 1 then
+					object.newX = crate.x-object.w -1
+					object.xvel = object.mass
+					self:destroy("x",object,crate,i)
+				else
+					object.newX = crate.x-object.w -1
+					object.xvel = 0
+				end
+			elseif collision:bottom(object,crate) then
+				if object.jumping == 1 then
+					object.newY = crate.y +crate.h +1
+					object.yvel = object.mass
+					self:destroy("y",object,crate,i)
+				else
+					object.newY = crate.y +crate.h +1
+					object.yvel = 0
+				end
+			elseif collision:top(object,crate) then
+				if object.jumping == 1 then
+					object.newY = crate.y - object.h -1
+					object.yvel = -object.mass
+					self:destroy("y",object,crate,i)
+				else
+					object.newY = crate.y - object.h -1
+					object.yvel = 0
+				end
+			end		
+		end
+	end	
 end
 
 function physics:platforms(object, dt)
-	if editing then
-		return
-	end
+	if editing then return end
 
 	--loop solid platforms
 	
@@ -244,7 +227,7 @@ function physics:platforms(object, dt)
 					end
 
 				else
-					object.jumping = 1
+					--object.jumping = 1
 				end
 						
 			else
@@ -260,7 +243,6 @@ end
 
 function physics:pickups(dt)
 	if editing then return end
-	
 	local i, pickup
 		for i, pickup in ipairs(pickups) do
 			self:applyGravity(pickup, dt)
@@ -271,10 +253,10 @@ function physics:pickups(dt)
 			physics:platforms(pickup, dt)
 			physics:crates(pickup, dt)
 		
-		
-		--update new poisition
-		pickup.x = pickup.newX
-		pickup.y = pickup.newY
+			--update new poisition
+			pickup.x = pickup.newX
+			pickup.y = pickup.newY
+			
 			-- if pickup goes outside of world, remove it
 			if pickup.y+pickup.h > world.groundLevel  then
 				pickups:destroy(pickups,i)
@@ -303,8 +285,11 @@ function physics:enemies(dt)
 	local i, enemy
 	for i, enemy in ipairs(enemies) do
 		if type(enemy) == "table" and enemy.alive == 1 then
-			self:applyGravity(enemy, dt)
-			self:movex(enemy, dt)
+		
+			if enemy.name == "walker" then
+				self:applyGravity(enemy, dt)
+				self:movex(enemy, dt)
+			end
 			
 			enemy.newX = (enemy.x + enemy.xvel *dt)
 			enemy.newY = (enemy.y - enemy.yvel *dt)
@@ -314,7 +299,7 @@ function physics:enemies(dt)
 				physics:crates(enemy, dt)
 			end
 		end
-		--update new poisition
+
 		enemy.x = enemy.newX
 		enemy.y = enemy.newY
 		
@@ -324,4 +309,23 @@ function physics:enemies(dt)
 			table.remove(enemies, i)
 		end
 	end
+end
+
+function physics:player(dt)
+	if editing then return end
+		self:applyVelocity(player, dt)
+		self:applyGravity(player, dt)
+		
+		player.newX = (player.x + player.xvel *dt)
+		player.newY = (player.y - player.yvel *dt)
+		
+		physics:crates(player,dt)
+		physics:platforms(player, dt)
+
+		player.x = player.newX
+		player.y = player.newY
+	
+		if player.y+player.h > world.groundLevel  then
+			player:respawn()
+		end
 end
