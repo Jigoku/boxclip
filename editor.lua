@@ -113,13 +113,13 @@ function editor:addplatform(x1,y1,x2,y2)
 		local h = util:round((y2-y1),-1)
 		
 		if self.entsel == "platform" then
-			platforms:platform(x,y,w,h, 0,0,0,0)
+			platforms:add(x,y,w,h, 0,0,0,0)
 		end
 		if self.entsel == "platform_x" then
-			platforms:platform(x,y,w,h, 1, 0, 100, 200)
+			platforms:add(x,y,w,h, 1, 0, 100, 200)
 		end
 		if self.entsel == "platform_y" then
-			platforms:platform(x,y,w,h, 0, 1, 100, 200)
+			platforms:add(x,y,w,h, 0, 1, 100, 200)
 		end
 		util:dprint("platform added @  X:"..x.." Y: "..y .. "(w:" .. w .. " h:".. h.. ")")
 	end
@@ -213,13 +213,13 @@ function editor:paste()
 	local h = self.clipboard.h or 20
 	
 	if self.entsel == "platform" then
-		platforms:platform(x,y,w,h,0,0,0,0)
+		platforms:add(x,y,w,h,0,0,0,0)
 	end
 	if self.entsel == "platform_x" then
-		platforms:platform(x,y,w,h, 1, 0, 100, 200)
+		platforms:add(x,y,w,h, 1, 0, 100, 200)
 	end
 	if self.entsel == "platform_y" then
-		platforms:platform(x,y,w,h, 0, 1, 100, 200)
+		platforms:add(x,y,w,h, 0, 1, 100, 200)
 	end
 	
 	if self.entsel == "crate" then
