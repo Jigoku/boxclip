@@ -85,7 +85,7 @@ function physics:world(dt)
 	
 		-- moving platforms etc
 		local i, object
-		for i, object in ipairs(structures) do
+		for i, object in ipairs(platforms) do
 			if object.movex == 1 then self:movex(object, dt) end
 			if object.movey == 1 then self:movey(object, dt) end
 		end
@@ -159,29 +159,29 @@ function physics:crates(object,dt)
 	end
 end
 
-function physics:player(object, dt)
+function physics:platforms(object, dt)
 	if debug == 1 then
 		return
 	end
 
-	--loop solid structures
+	--loop solid platforms
 	if object.alive == 1 then
-		local i, structure
-		for i, structure in ipairs(structures) do
+		local i, platform
+		for i, platform in ipairs(platforms) do
 		--move the platforms! 
-		-- structure.newX == physics:movex(structure,dt)  <--- (ret val)???
+		-- platform.newX == physics:movex(platform,dt)  <--- (ret val)???
 				
-			if collision:check(structure.x,structure.y,structure.w,structure.h,
+			if collision:check(platform.x,platform.y,platform.w,platform.h,
 					object.newX,object.newY,object.w,object.h) then
 					
-				if structure.name == "checkpoint" then
-					player.spawnX = structure.x
-					player.spawnY = structure.y
+				if platform.name == "checkpoint" then
+					player.spawnX = platform.x
+					player.spawnY = platform.y
 				end
 				
 				--sounds on collision
 				if object.jumping == 1 then 
-					sound:decide(structure)
+					sound:decide(platform)
 				end
 	
 					
@@ -189,61 +189,61 @@ function physics:player(object, dt)
 				-- adjust position/velocity if neccesary
 					
 				-- right side
-				if collision:right(object,structure) then
+				if collision:right(object,platform) then
 					
-					if structure.name == "platform" then
-						if not (structure.movex == 1 or structure.movey == 1) then
+					if platform.name == "platform" then
+						if not (platform.movex == 1 or platform.movey == 1) then
 							object.xvel = 0
-							object.newX = structure.x+structure.w +1
+							object.newX = platform.x+platform.w +1
 						end
 					end	
 					
 				-- left side
-				elseif collision:left(object,structure) then
+				elseif collision:left(object,platform) then
 					
-					if structure.name == "platform" then	
-						if not (structure.movex == 1 or structure.movey == 1) then
+					if platform.name == "platform" then	
+						if not (platform.movex == 1 or platform.movey == 1) then
 							object.xvel = 0
-							object.newX = structure.x-object.w -1
+							object.newX = platform.x-object.w -1
 						end
 					end
 					
 				-- bottom side	
-				elseif collision:bottom(object,structure) then	
+				elseif collision:bottom(object,platform) then	
 				
-					if structure.name == "platform" then
-						if not (structure.movey == 1 or structure.movex == 1) then 
+					if platform.name == "platform" then
+						if not (platform.movey == 1 or platform.movex == 1) then 
 							object.yvel = 0
-							object.newY = structure.y +structure.h +1
+							object.newY = platform.y +platform.h +1
 						end				
 					end
 					
 				-- top side
-				elseif collision:top(object,structure) then
+				elseif collision:top(object,platform) then
 					
-					if structure.name == "platform" then
+					if platform.name == "platform" then
 					
 						--if we are jumping upwards go through the platform
 						--only  'fix' to surface if we are going down
 						if not (object.yvel > 0 and object.jumping == 1) then
 							object.yvel = 0
 							object.jumping = 0
-							object.newY = structure.y - object.h +1
+							object.newY = platform.y - object.h +1
 						end
 					
 						
-						if structure.movex == 1 and object.yvel == 0 then
+						if platform.movex == 1 and object.yvel == 0 then
 							-- move along x-axis with platform	
-							object.newX = (object.newX + structure.movespeed *dt)
+							object.newX = (object.newX + platform.movespeed *dt)
 						end
 							
-						if structure.movey == 1 and object.yvel <= 0 then
+						if platform.movey == 1 and object.yvel <= 0 then
 							--stood on top platform here while going down
-							if structure.movespeed < 0 then
-								object.newY = (structure.y-object.h  -structure.movespeed *dt)
+							if platform.movespeed < 0 then
+								object.newY = (platform.y-object.h  -platform.movespeed *dt)
 							end
-							if structure.movespeed > 0 then
-								object.newY = (structure.y-object.h  +structure.movespeed *dt)
+							if platform.movespeed > 0 then
+								object.newY = (platform.y-object.h  +platform.movespeed *dt)
 							end
 						else
 						
@@ -271,17 +271,17 @@ function physics:pickups(dt)
 			pickup.y = pickup.y + world.gravity *dt
 
 			
-			local n, structure
-			for n, structure in ipairs(structures) do
+			local n, platform
+			for n, platform in ipairs(platforms) do
 				
-				if collision:check(structure.x,structure.y,structure.w,structure.h,
+				if collision:check(platform.x,platform.y,platform.w,platform.h,
 					pickup.x,pickup.y,pickup.gfx:getWidth(),pickup.gfx:getHeight()) then
 						
-						pickup.y = structure.y - pickup.gfx:getHeight() +1
+						pickup.y = platform.y - pickup.gfx:getHeight() +1
 						
-						if structure.movex == 1 then
+						if platform.movex == 1 then
 							-- move along x-axis with platform	
-							pickup.x = (pickup.x + structure.movespeed *dt)
+							pickup.x = (pickup.x + platform.movespeed *dt)
 						end
 				end
 			end
@@ -316,15 +316,15 @@ function physics:enemies(dt)
 			if enemy.name == "walker" then
 				self:applyGravity(enemy, dt)
 				self:movex(enemy, dt)
-				local n, structure
-				for n, structure in ipairs(structures) do
-					if collision:check(structure.x,structure.y,structure.w,structure.h,
+				local n, platform
+				for n, platform in ipairs(platforms) do
+					if collision:check(platform.x,platform.y,platform.w,platform.h,
 						enemy.x,enemy.y,enemy.w,enemy.h) then
 						
-						if collision:top(enemy,structure) then
+						if collision:top(enemy,platform) then
 							enemy.yvel = 0
 							enemy.jumping = 0
-							enemy.y = structure.y - enemy.h +1
+							enemy.y = platform.y - enemy.h +1
 						end
 					end
 				end

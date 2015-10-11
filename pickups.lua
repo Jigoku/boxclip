@@ -7,28 +7,30 @@ function pickups:random(path)
 	return love.graphics.newImage( path .. string.format("%04d",math.random(1, 7)) .. ".png")
 end
 
-function pickups:gem(x,y)
-	table.insert(pickups, {
-		x =x or 0,
-		y =y or 0,
-		w = pickups.w,
-		h = pickups.h,
-		name = "gem",
-		gfx = self:random("graphics/gems/"),
-
-	})	
+function pickups:add(x,y,item)
+	if item == "gem" then
+		table.insert(pickups, {
+			x =x or 0,
+			y =y or 0,
+			w = pickups.w,
+			h = pickups.h,
+			name = "gem",
+			gfx = self:random("graphics/gems/"),
+		})	
+	elseif item =="life" then
+		table.insert(pickups, {
+			x =x or 0,
+			y =y or 0,
+			w = pickups.w,
+			h = pickups.w,
+			name = "life",
+			gfx = love.graphics.newImage( "graphics/gems/" .. string.format("%04d",math.random(1, 7))  .. ".png"),
+		})
+	else
+		util:dprint("error: unknown pickup type")
+	end
 end
 
-function pickups:life(x,y)
-	table.insert(pickups, {
-		x =x or 0,
-		y =y or 0,
-		w = pickups.w,
-		h = pickups.w,
-		name = "life",
-		gfx = love.graphics.newImage( "graphics/gems/" .. string.format("%04d",math.random(1, 7))  .. ".png"),
-	})
-end
 
 function pickups:draw()
 	local i, pickup

@@ -14,7 +14,7 @@ function world:init()
 	camera:setScale(1,1)
 
 	--initialize entity counts
-	world.structures = 0
+	world.platforms = 0
 	world.crates = 0
 	world.enemies = 0
 end
@@ -28,7 +28,7 @@ function world:run(dt)
 	physics:pickups(dt)
 	physics:enemies(dt)
 	physics:crates(player,dt)
-	physics:player(player, dt)
+	physics:platforms(player, dt)
 		
 	if debug == 0 then
 		-- update new poisition
@@ -54,7 +54,7 @@ function world:draw()
 	love.graphics.draw(groundLevel_tile, groundLevel_quad, -1000,world.groundLevel)
 	
 
-	structures:draw()
+	platforms:draw()
 	crates:draw()
 	pickups:draw()
 	enemies:draw()
@@ -135,7 +135,7 @@ function world:loadMap(mapname)
 	repeat world:remove(enemies) until world:count(enemies) == 0
 	repeat world:remove(pickups) until world:count(pickups) == 0
 	repeat world:remove(crates) until world:count(crates) == 0
-	repeat world:remove(structures) until world:count(structures) == 0
+	repeat world:remove(platforms) until world:count(platforms) == 0
 	
 	--load the map
 	dofile(mapname)

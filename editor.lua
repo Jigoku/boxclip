@@ -42,12 +42,12 @@ function editor:keypressed(key)
 	if love.keyboard.isDown(",") then editor.showpos = not editor.showpos end
 	if love.keyboard.isDown(".") then editor.showid = not editor.showid end
 
-	for i, structure in ipairs(structures) do
-		if collision:check(mousePosX,mousePosY,1,1, structure.x,structure.y,structure.w,structure.h) then
-			if love.keyboard.isDown("kp8") then structure.y = util:round(structure.y - 10,-1) end -- up
-			if love.keyboard.isDown("kp2") then structure.y = util:round(structure.y + 10,-1) end -- down
-			if love.keyboard.isDown("kp4") then structure.x = util:round(structure.x - 10,-1) end -- left
-			if love.keyboard.isDown("kp6") then structure.x = util:round(structure.x + 10,-1) end -- right
+	for i, platform in ipairs(platforms) do
+		if collision:check(mousePosX,mousePosY,1,1, platform.x,platform.y,platform.w,platform.h) then
+			if love.keyboard.isDown("kp8") then platform.y = util:round(platform.y - 10,-1) end -- up
+			if love.keyboard.isDown("kp2") then platform.y = util:round(platform.y + 10,-1) end -- down
+			if love.keyboard.isDown("kp4") then platform.x = util:round(platform.x - 10,-1) end -- left
+			if love.keyboard.isDown("kp6") then platform.x = util:round(platform.x + 10,-1) end -- right
 
 			return true
 		end
@@ -90,7 +90,7 @@ function editor:addcrate(x,y)
 end
 
 function editor:addcheckpoint(x,y)
-	structures:checkpoint(util:round(x,-1),util:round(y, -1))
+	checkpoints:add(util:round(x,-1),util:round(y, -1))
 	print( "checkpoint added @  X:"..util:round(x,-1).." Y: "..util:round(y,-1))
 end
 
@@ -100,7 +100,7 @@ function editor:addwalker(x,y,movespeed,movedist)
 end
 
 function editor:addplatform(x1,y1,x2,y2)
-	-- add platform structure
+	-- add platform platform
 
 	if not (x2 < x1 or y2 < y1) then
 		--min sizes
@@ -113,13 +113,13 @@ function editor:addplatform(x1,y1,x2,y2)
 		local h = util:round((y2-y1),-1)
 		
 		if self.entsel == "platform" then
-			structures:platform(x,y,w,h, 0,0,0,0)
+			platforms:platform(x,y,w,h, 0,0,0,0)
 		end
 		if self.entsel == "platform_x" then
-			structures:platform(x,y,w,h, 1, 0, 100, 200)
+			platforms:platform(x,y,w,h, 1, 0, 100, 200)
 		end
 		if self.entsel == "platform_y" then
-			structures:platform(x,y,w,h, 0, 1, 100, 200)
+			platforms:platform(x,y,w,h, 0, 1, 100, 200)
 		end
 		util:dprint("platform added @  X:"..x.." Y: "..y .. "(w:" .. w .. " h:".. h.. ")")
 	end
@@ -159,7 +159,7 @@ function editor:scansel()
 	return self:selection(pickups) or
 			self:selection(enemies) or
 			self:selection(crates) or
-			self:selection(structures)
+			self:selection(platforms)
 end
 
 function editor:selection(type, x,y,w,h)
@@ -177,7 +177,7 @@ function editor:removesel()
 	return self:remove(pickups) or
 			self:remove(enemies) or
 			self:remove(crates) or
-			self:remove(structures)
+			self:remove(platforms)
 end
 
 function editor:remove(type, x,y,w,h)
@@ -194,11 +194,11 @@ end
 
 function editor:copy()
 	--primitive copy (dimensions only for now)
-	for i, structure in ipairs(structures) do
-		if collision:check(mousePosX,mousePosY,1,1, structure.x,structure.y,structure.w,structure.h) then
+	for i, platform in ipairs(platforms) do
+		if collision:check(mousePosX,mousePosY,1,1, platform.x,platform.y,platform.w,platform.h) then
 			self.clipboard = {
-				w = structure.w,
-				h = structure.h
+				w = platform.w,
+				h = platform.h
 			}
 			return true
 		end
@@ -213,13 +213,13 @@ function editor:paste()
 	local h = self.clipboard.h or 20
 	
 	if self.entsel == "platform" then
-		structures:platform(x,y,w,h,0,0,0,0)
+		platforms:platform(x,y,w,h,0,0,0,0)
 	end
 	if self.entsel == "platform_x" then
-		structures:platform(x,y,w,h, 1, 0, 100, 200)
+		platforms:platform(x,y,w,h, 1, 0, 100, 200)
 	end
 	if self.entsel == "platform_y" then
-		structures:platform(x,y,w,h, 0, 1, 100, 200)
+		platforms:platform(x,y,w,h, 0, 1, 100, 200)
 	end
 	
 	if self.entsel == "crate" then
