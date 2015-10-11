@@ -1,8 +1,4 @@
 --[[
-	TODO
-		remove duplicated loops (or put all object types into a single table referenced by entities.name?
-
-
 	editor binds
 	
 	select ent type	: 1-9
