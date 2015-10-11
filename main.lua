@@ -31,13 +31,17 @@ require("input")
 require("editor")
 
 
-math.randomseed(os.time())
+
 function love.load()
+	math.randomseed(os.time())
+	icon = love.image.newImageData( "graphics/enemies/walker.png")
+	love.window.setIcon( icon )
 	love.mouse.setVisible( false )
+	
 	world:init()
 	player:init()
+	
 	world:loadMap("./maps/test.map")
-
 end
 
 function love.draw()
