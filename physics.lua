@@ -103,7 +103,7 @@ function physics:crates(object,dt)
 		return
 	end
 	
-	if object.alive == 1 then
+	
 		local i, crate
 		for i, crate in ipairs(crates) do
 		
@@ -156,7 +156,7 @@ function physics:crates(object,dt)
 			end
 		end	
 
-	end
+	
 end
 
 function physics:platforms(object, dt)
@@ -165,7 +165,7 @@ function physics:platforms(object, dt)
 	end
 
 	--loop solid platforms
-	if object.alive == 1 then
+	
 		local i, platform
 		for i, platform in ipairs(platforms) do
 		--move the platforms! 
@@ -255,29 +255,26 @@ function physics:platforms(object, dt)
 			end
 		end
 
-	end
+	
 end
 
 function physics:pickups(dt)
+	if editing then return end
+	
 	local i, pickup
 		for i, pickup in ipairs(pickups) do
-			pickup.y = pickup.y + world.gravity *dt
-
+			self:applyGravity(pickup, dt)
 			
-			local n, platform
-			for n, platform in ipairs(platforms) do
-				
-				if collision:check(platform.x,platform.y,platform.w,platform.h,
-					pickup.x,pickup.y,pickup.gfx:getWidth(),pickup.gfx:getHeight()) then
-						
-						pickup.y = platform.y - pickup.gfx:getHeight() +1
-						
-						if platform.movex == 1 then
-							-- move along x-axis with platform	
-							pickup.x = (pickup.x + platform.movespeed *dt)
-						end
-				end
-			end
+			pickup.newX = (pickup.x + pickup.xvel *dt)
+			pickup.newY = (pickup.y - pickup.yvel *dt)
+			
+			physics:platforms(pickup, dt)
+			physics:crates(pickup, dt)
+		
+		
+		--update new poisition
+		pickup.x = pickup.newX
+		pickup.y = pickup.newY
 			-- if pickup goes outside of world, remove it
 			if pickup.y+pickup.h > world.groundLevel  then
 				pickups:destroy(pickups,i)
@@ -302,47 +299,25 @@ end
 
 
 function physics:enemies(dt)
+	if editing then return end
 	local i, enemy
 	for i, enemy in ipairs(enemies) do
-		if type(enemy) == "table" then
-		
-			if enemy.name == "walker" then
-				self:applyGravity(enemy, dt)
-				self:movex(enemy, dt)
-				--collide with platforms
-				local n, platform
-				for n, platform in ipairs(platforms) do
-					if collision:check(platform.x,platform.y,platform.w,platform.h,
-						enemy.x,enemy.y,enemy.w,enemy.h) then
-						
-						if collision:top(enemy,platform) then
-							enemy.yvel = 0
-							enemy.jumping = 0
-							enemy.y = platform.y - enemy.h +1
-						end
-					end
-				end
-				--collide with crates
-				local i,crate
-				for i, crate in ipairs(crates) do
-					if collision:check(crate.x,crate.y,crate.w,crate.h,
-						enemy.x,enemy.y,enemy.w,enemy.h) then
-						
-						if collision:top(enemy,crate) then
-							enemy.yvel = 0
-							enemy.jumping = 0
-							enemy.y = crate.y - enemy.h +1
-						end
-					end
-				end
+		if type(enemy) == "table" and enemy.alive == 1 then
+			self:applyGravity(enemy, dt)
+			self:movex(enemy, dt)
 			
-				enemy.newX = (enemy.x + enemy.xvel *dt)
-				enemy.newY = (enemy.y - enemy.yvel *dt)
+			enemy.newX = (enemy.x + enemy.xvel *dt)
+			enemy.newY = (enemy.y - enemy.yvel *dt)
+			
+			if enemy.name == "walker" then
+				physics:platforms(enemy, dt)
+				physics:crates(enemy, dt)
 			end
 		end
 		--update new poisition
 		enemy.x = enemy.newX
 		enemy.y = enemy.newY
+		
 		if enemy.y +enemy.h > world.groundLevel  then
 			--ai suicide	
 			sound:play(sound.kill)

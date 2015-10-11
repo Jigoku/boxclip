@@ -16,7 +16,10 @@ function pickups:add(x,y,item)
 			h = pickups.h,
 			name = "gem",
 			gfx = self:random("graphics/gems/"),
-			collected = false
+			collected = false,
+			mass = 800,
+			xvel = 0,
+			yvel = 0,
 		})	
 	elseif item =="life" then
 		table.insert(pickups, {
@@ -26,7 +29,10 @@ function pickups:add(x,y,item)
 			h = pickups.w,
 			name = "life",
 			gfx = love.graphics.newImage( "graphics/gems/" .. string.format("%04d",math.random(1, 7))  .. ".png"),
-			collected = false
+			collected = false,
+			mass = 800,
+			xvel = 0,
+			yvel = 0
 		})
 	else
 		util:dprint("error: unknown pickup type")
