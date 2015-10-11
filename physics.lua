@@ -109,7 +109,7 @@ function physics:crates(object,dt)
 					object.xvel = -object.mass
 					self:destroy("x",object,crate,i)
 				else
-					object.newX = crate.x+crate.w +1
+					object.newX = crate.x+crate.w +1 *dt
 					object.xvel = 0
 				end
 			elseif collision:left(object,crate) then
@@ -118,7 +118,7 @@ function physics:crates(object,dt)
 					object.xvel = object.mass
 					self:destroy("x",object,crate,i)
 				else
-					object.newX = crate.x-object.w -1
+					object.newX = crate.x-object.w -1 *dt
 					object.xvel = 0
 				end
 			elseif collision:bottom(object,crate) then
@@ -127,7 +127,7 @@ function physics:crates(object,dt)
 					object.yvel = object.mass
 					self:destroy("y",object,crate,i)
 				else
-					object.newY = crate.y +crate.h +1
+					object.newY = crate.y +crate.h  +1 *dt
 					object.yvel = 0
 				end
 			elseif collision:top(object,crate) then
@@ -136,7 +136,7 @@ function physics:crates(object,dt)
 					object.yvel = -object.mass
 					self:destroy("y",object,crate,i)
 				else
-					object.newY = crate.y - object.h -1
+					object.newY = crate.y - object.h 
 					object.yvel = 0
 				end
 			end		
@@ -166,7 +166,7 @@ function physics:platforms(object, dt)
 					if platform.name == "platform" then
 						if not (platform.movex == 1 or platform.movey == 1) then
 							object.xvel = 0
-							object.newX = platform.x+platform.w +1
+							object.newX = platform.x+platform.w +1 *dt
 						end
 					end	
 					
@@ -176,7 +176,7 @@ function physics:platforms(object, dt)
 					if platform.name == "platform" then	
 						if not (platform.movex == 1 or platform.movey == 1) then
 							object.xvel = 0
-							object.newX = platform.x-object.w -1
+							object.newX = platform.x-object.w -1 *dt
 						end
 					end
 					
@@ -186,7 +186,7 @@ function physics:platforms(object, dt)
 					if platform.name == "platform" then
 						if not (platform.movey == 1 or platform.movex == 1) then 
 							object.yvel = 0
-							object.newY = platform.y +platform.h +1
+							object.newY = platform.y +platform.h +1 *dt
 						end				
 					end
 					
@@ -204,7 +204,7 @@ function physics:platforms(object, dt)
 						if not (object.yvel > 0 and object.jumping == 1) then
 							object.yvel = 0
 							object.jumping = 0
-							object.newY = platform.y - object.h +1
+							object.newY = platform.y - object.h +1 *dt
 						end
 					
 						
@@ -250,8 +250,8 @@ function physics:pickups(dt)
 			pickup.newX = (pickup.x + pickup.xvel *dt)
 			pickup.newY = (pickup.y - pickup.yvel *dt)
 			
-			physics:platforms(pickup, dt)
-			physics:crates(pickup, dt)
+			self:platforms(pickup, dt)
+			self:crates(pickup, dt)
 		
 			--update new poisition
 			pickup.x = pickup.newX
@@ -295,8 +295,8 @@ function physics:enemies(dt)
 			enemy.newY = (enemy.y - enemy.yvel *dt)
 			
 			if enemy.name == "walker" then
-				physics:platforms(enemy, dt)
-				physics:crates(enemy, dt)
+				self:platforms(enemy, dt)
+				self:crates(enemy, dt)
 			end
 		end
 
@@ -319,8 +319,8 @@ function physics:player(dt)
 		player.newX = (player.x + player.xvel *dt)
 		player.newY = (player.y - player.yvel *dt)
 		
-		physics:crates(player,dt)
-		physics:platforms(player, dt)
+		self:crates(player,dt)
+		self:platforms(player, dt)
 
 		player.x = player.newX
 		player.y = player.newY
