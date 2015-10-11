@@ -33,7 +33,7 @@ require("editor")
 
 math.randomseed(os.time())
 function love.load()
-
+	love.mouse.setVisible( false )
 	world:init()
 	player:init()
 	world:loadMap("./maps/test.map")

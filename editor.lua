@@ -128,9 +128,7 @@ function editor:addplatform(x1,y1,x2,y2)
 end
 
 
-function editor:hud()
-
-	--cursor/crosshair
+function editor:crosshair()
 	love.graphics.setColor(200,200,255,50)
 	--vertical
 	love.graphics.line(
@@ -146,12 +144,24 @@ function editor:hud()
 		util:round(mousePosX+love.graphics.getWidth()*camera.scaleX-1),
 		util:round(mousePosY,-1)
 	)
-	
+	love.graphics.setColor(255,200,255,255)
+	love.graphics.line(
+		util:round(mousePosX,-1),
+		util:round(mousePosY,-1),
+		util:round(mousePosX,-1)+10,
+		util:round(mousePosY,-1)
+	)
+	love.graphics.line(
+		util:round(mousePosX,-1),
+		util:round(mousePosY,-1),
+		util:round(mousePosX,-1),
+		util:round(mousePosY,-1)+10
+	)
 end
 
 
 function editor:draw()
-	editor:hud()
+	editor:crosshair()
 	editor:drawselected()
 	editor:drawselbox()
 end
@@ -161,8 +171,8 @@ function editor:drawselbox()
 		love.graphics.setColor(0,255,255,100)
 		love.graphics.rectangle(
 			"line", 
-			util:round(pressedPosX,-1),util:round(pressedPosY,-1), 
-			util:round(mousePosX-pressedPosX,-1), util:round(mousePosY-pressedPosY,-1)
+			pressedPosX,pressedPosY, 
+			mousePosX-pressedPosX, mousePosY-pressedPosY
 		)
 	end
 end

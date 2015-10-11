@@ -34,8 +34,8 @@ function input:check(dt)
 end
 
 function love.mousemoved(x,y,dx,dy)
-	mousePosX = util:round(camera.x+x*camera.scaleX)
-	mousePosY = util:round(camera.y+y*camera.scaleY)
+	mousePosX = util:round(camera.x+x*camera.scaleX,-1)
+	mousePosY = util:round(camera.y+y*camera.scaleY,-1)
 
 	if editing then
 		if love.mouse.isDown("l") then
@@ -48,8 +48,8 @@ function love.mousemoved(x,y,dx,dy)
 end
 
 function love.mousepressed(x, y, button)
-	pressedPosX = util:round(camera.x+x*camera.scaleX)
-	pressedPosY = util:round(camera.y+y*camera.scaleY)
+	pressedPosX = util:round(camera.x+x*camera.scaleX,-1)
+	pressedPosY = util:round(camera.y+y*camera.scaleY,-1)
 
 	if editing then
 		editor:mousepressed(x,y,button)
@@ -57,8 +57,8 @@ function love.mousepressed(x, y, button)
 end
 
 function love.mousereleased(x, y, button)
-	releasedPosX = util:round(camera.x+x*camera.scaleX)
-	releasedPosY = util:round(camera.y+y*camera.scaleY)
+	releasedPosX = util:round(camera.x+x*camera.scaleX,-1)
+	releasedPosY = util:round(camera.y+y*camera.scaleY,-1)
 	
 	if editing then
 		editor.drawsel = false
