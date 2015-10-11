@@ -17,6 +17,7 @@ function world:init()
 	world.platforms = 0
 	world.crates = 0
 	world.enemies = 0
+	world.pickups = 0
 end
 
 

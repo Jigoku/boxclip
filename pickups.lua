@@ -33,29 +33,34 @@ end
 
 
 function pickups:draw()
+	local count = 0
 	local i, pickup
 	for i, pickup in ipairs(pickups) do
+		if world:inview(pickup) then
+			count = count + 1
 			
-		if pickup.name == "gem" then
-			love.graphics.setColor(255,255,255,200)	
-			love.graphics.draw(
-				pickup.gfx, pickup.x, 
-				pickup.y, 0, 1, 1
-			)
-		end
+			if pickup.name == "gem" then
+				love.graphics.setColor(255,255,255,200)	
+				love.graphics.draw(
+					pickup.gfx, pickup.x, 
+					pickup.y, 0, 1, 1
+				)
+			end
 			
-		if pickup.name == "life" then
-			love.graphics.setColor(255,0,0, 255)	
-			love.graphics.draw(
-				pickup.gfx, pickup.x, 
-				pickup.y, 0, 1, 1
-			)
-		end
+			if pickup.name == "life" then
+				love.graphics.setColor(255,0,0, 255)	
+				love.graphics.draw(
+					pickup.gfx, pickup.x, 
+					pickup.y, 0, 1, 1
+				)
+			end
 		
-		if debug == 1 then
-			pickups:drawDebug(pickup, i)
+			if debug == 1 then
+				pickups:drawDebug(pickup, i)
+			end
 		end
 	end
+	world.pickups = count
 end
 
 

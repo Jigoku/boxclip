@@ -38,7 +38,7 @@ function util:drawConsole()
 			5, 20
 		)
 		love.graphics.print(
-			"pickups: " .. world:count(pickups) ..
+			"pickups: " .. world:count(pickups) .. "(".. world.pickups .. ")" ..
 			" | enemies: " .. world:count(enemies) .. "(".. world.enemies .. ")" ..
 			" | platforms: " .. world:count(platforms) .. "(".. world.platforms .. ")" ..
 			" | crates: " .. world:count(crates) .. "("..world.crates .. ")" ..
