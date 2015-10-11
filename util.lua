@@ -22,7 +22,7 @@ function util:drawCoordinates(object)
 	if editor.showpos then
 		-- co-ordinates
 		love.graphics.setColor(255,255,255,100)
-		love.graphics.print("(X:".. self:round(object.x,0) ..",Y:" .. self:round(object.y,0) ..")" , object.x-20,object.y-20,0, 0.9*camera.scaleX, 0.9*camera.scaleY)  
+		love.graphics.print("X:".. self:round(object.x,0) ..",Y:" .. self:round(object.y,0) , object.x-20,object.y-20,0, 0.9*camera.scaleX, 0.9*camera.scaleY)  
 	end
 end
 

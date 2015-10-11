@@ -157,6 +157,10 @@ function editor:crosshair()
 		util:round(mousePosX,-1),
 		util:round(mousePosY,-1)+10
 	)
+	
+	cursor = { x =mousePosX, y =mousePosY   }
+	util:drawCoordinates(cursor)
+	
 end
 
 
