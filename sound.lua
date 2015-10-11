@@ -11,6 +11,7 @@ sound.die = love.audio.newSource(soundpath .. "die.wav")
 sound.crate = love.audio.newSource(soundpath .. "crate.wav")
 sound.lifeup = love.audio.newSource(soundpath .. "lifeup.wav")
 sound.kill = love.audio.newSource(soundpath .. "kill.wav")
+sound.checkpoint = love.audio.newSource(soundpath .. "checkpoint.wav")
 
 
 function sound:play(sound)
@@ -28,5 +29,7 @@ function sound:decide(source)
 		self:play(sound.crate)
 	elseif source.name == "death" then
 		self:play(sound.die)
+	elseif source.name == "checkpoint" then
+		self:play(sound.checkpoint)
 	end
 end

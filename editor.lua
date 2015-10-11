@@ -175,6 +175,7 @@ function editor:drawselected()
 	return self:selection(pickups) or
 			self:selection(enemies) or
 			self:selection(crates) or
+			self:selection(checkpoints) or
 			self:selection(platforms)
 end
 
@@ -193,6 +194,7 @@ function editor:removesel()
 	return self:remove(pickups) or
 			self:remove(enemies) or
 			self:remove(crates) or
+			self:remove(checkpoints) or
 			self:remove(platforms)
 end
 

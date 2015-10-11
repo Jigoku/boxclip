@@ -309,6 +309,7 @@ function physics:enemies(dt)
 			if enemy.name == "walker" then
 				self:applyGravity(enemy, dt)
 				self:movex(enemy, dt)
+				--collide with platforms
 				local n, platform
 				for n, platform in ipairs(platforms) do
 					if collision:check(platform.x,platform.y,platform.w,platform.h,
@@ -321,7 +322,8 @@ function physics:enemies(dt)
 						end
 					end
 				end
-			
+				--collide with crates
+				local i,crate
 				for i, crate in ipairs(crates) do
 					if collision:check(crate.x,crate.y,crate.w,crate.h,
 						enemy.x,enemy.y,enemy.w,enemy.h) then

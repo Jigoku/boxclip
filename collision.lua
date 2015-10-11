@@ -1,7 +1,7 @@
 collision = {}
 
 function collision:checkWorld(dt)
-	if not editing then
+	if not editing and player.alive == 1 then
 		self:bounds()
 		self:pickups()
 		self:enemies()
@@ -61,41 +61,36 @@ function collision:pickups()
 end
 
 function collision:enemies()
-	if player.alive == 1 then
-		local i, enemy
-		for i, enemy in ipairs(enemies) do
-			if collision:check(player.x,player.newY,player.w,player.h,
-				enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
+	local i, enemy
+	for i, enemy in ipairs(enemies) do
+		if collision:check(player.x,player.newY,player.w,player.h,
+			enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
 			
-				-- if we land on top, kill enemy
-				if player.newY+player.h >= enemy.y+5 and player.jumping == 1 then	
-					player.y = enemy.y - player.h -1
-					player:attack(enemies, i)
-					return true
-				else
-					-- otherwise we die
-					
-					player:respawn()
-					util:dprint("killed by " .. enemy.name)		
-				end
+			-- if we land on top, kill enemy
+			if player.newY+player.h >= enemy.y+5 and player.jumping == 1 then	
+				player.y = enemy.y - player.h -1
+				player:attack(enemies, i)
+				return true
+			else
+				-- otherwise we die			
+				player:respawn()
+				util:dprint("killed by " .. enemy.name)		
 			end
 		end
 	end
 end
 
 function collision:checkpoints()
-	if player.alive == 1 then
-		local i, checkpoint
-		for i, checkpoint in ipairs(checkpoints) do
-			if collision:check(player.x,player.y,player.w,player.h,
-					checkpoint.x, checkpoint.y,checkpoint.w,checkpoint.h) then
-				if not checkpoint.activated then
-					checkpoint.activated = true
-					player.spawnX = checkpoint.x
-					player.spawnY = checkpoint.y
-				end
+	local i, checkpoint
+	for i, checkpoint in ipairs(checkpoints) do
+		if collision:check(player.x,player.y,player.w,player.h,
+				checkpoint.x, checkpoint.y,checkpoint.w,checkpoint.h) then
+			if not checkpoint.activated then
+				sound:play(sound.checkpoint)
+				checkpoint.activated = true
+				player.spawnX = checkpoint.x
+				player.spawnY = checkpoint.y
 			end
 		end
 	end
-
 end
