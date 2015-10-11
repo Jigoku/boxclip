@@ -55,7 +55,7 @@ function pickups:draw()
 				)
 			end
 		
-			if debug == 1 then
+			if editing then
 				pickups:drawDebug(pickup, i)
 			end
 		end

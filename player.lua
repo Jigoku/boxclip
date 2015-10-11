@@ -25,7 +25,7 @@ end
 
 function player:draw()
 	--body trails		
-	if debug == 0 then
+	if not editing then
 	love.graphics.setColor(40,180,120,100)
 	love.graphics.rectangle("fill", player.x-player.xvel/(player.mass/10), player.y+player.yvel/(player.jumpheight/10), player.w, player.h)
 	love.graphics.setColor(80,80,80,100)
@@ -61,7 +61,7 @@ function player:draw()
 	
 	end
 	
-	if debug == 1 then
+	if editing then
 		player:drawDebug()
 	end
 end

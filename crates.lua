@@ -36,7 +36,7 @@ function crates:draw()
 			love.graphics.setColor(255,255,255,255)
 			love.graphics.draw(crate.gfx,crate.x, crate.y, 0, 1, 1)
 		
-			if debug == 1 then
+			if editing then
 				self:drawDebug(crate, i)
 			end
 		end

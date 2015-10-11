@@ -31,7 +31,7 @@ function world:run(dt)
 	physics:crates(player,dt)
 	physics:platforms(player, dt)
 		
-	if debug == 0 then
+	if not editing then
 		-- update new poisition
 		player.x = player.newX
 		player.y = player.newY
@@ -62,7 +62,7 @@ function world:draw()
 	player:draw()	
 	
 	--editor specifics
-	if debug == 1 then
+	if editing then
 		editor:draw()
 	end
 	

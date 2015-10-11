@@ -14,16 +14,13 @@ require("player")
 require("input")
 require("editor")
 
-	
-debug = 0
-mode = 1
 
 math.randomseed(os.time())
 function love.load()
 
 	world:init()
 	player:init()
-	world:loadMap("maps/test.map")
+	world:loadMap("./maps/test.map")
 
 end
 
@@ -31,7 +28,7 @@ function love.draw()
 	world:draw()
 	
 	-- draw world
-	if debug == 1 then
+	if console then
 		-- debug info
 		util:drawConsole()
 	end
@@ -45,7 +42,7 @@ function love.update(dt)
 	
 	world:run(dt)
 	
-	if debug == 1 then
+	if editing then
 		editor:run(dt)
 	end
 	

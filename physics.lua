@@ -42,7 +42,7 @@ end
 
 
 function physics:movex(object, dt)
-	if debug == 0 then
+	if not editing then
 		-- traverse x-axis
 		if object.x > object.xorigin + object.movedist then
 			object.x = object.xorigin + object.movedist
@@ -60,7 +60,7 @@ end
 
 
 function physics:movey(object, dt)
-	if debug == 0 then
+	if not editing then
 		--traverse y-axis
 		if object.y > object.yorigin + object.movedist then
 			object.y = object.yorigin + object.movedist
@@ -75,7 +75,7 @@ function physics:movey(object, dt)
 end
 
 function physics:world(dt)
-	if debug == 0 then
+	if not editing then
 		self:applyVelocity(player, dt)
 		self:applyGravity(player, dt)
 	
@@ -99,7 +99,7 @@ end
 
 
 function physics:crates(object,dt)
-	if debug == 1 then
+	if editing then
 		return
 	end
 	
@@ -160,7 +160,7 @@ function physics:crates(object,dt)
 end
 
 function physics:platforms(object, dt)
-	if debug == 1 then
+	if editing then
 		return
 	end
 

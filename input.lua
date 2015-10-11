@@ -1,7 +1,7 @@
 input = {}
 
 function input:check(dt)
-	if debug == 0 then
+	if not editing then
 		if love.keyboard.isDown("d") or love.keyboard.isDown("right") 
 			and player.alive == 1 then
 			player.lastdir = player.dir
@@ -37,7 +37,7 @@ function love.mousemoved(x,y,dx,dy)
 	mousePosX = util:round(camera.x+x*camera.scaleX)
 	mousePosY = util:round(camera.y+y*camera.scaleY)
 
-	if debug == 1 then
+	if editing then
 		if love.mouse.isDown("l") then
 			editor.drawsel = true
 		else
@@ -51,7 +51,7 @@ function love.mousepressed(x, y, button)
 	pressedPosX = util:round(camera.x+x*camera.scaleX)
 	pressedPosY = util:round(camera.y+y*camera.scaleY)
 
-	if debug == 1 then
+	if editing then
 		editor:mousepressed(x,y,button)
 	end
 end
@@ -60,7 +60,7 @@ function love.mousereleased(x, y, button)
 	releasedPosX = util:round(camera.x+x*camera.scaleX)
 	releasedPosY = util:round(camera.y+y*camera.scaleY)
 	
-	if debug == 1 then
+	if editing then
 		editor.drawsel = false
 		editor:mousereleased(x,y,button)
 	end
@@ -75,22 +75,21 @@ function love.keypressed(key)
 				love.event.quit()
 		end
 
+		if key == "f1" then
+			editing = not editing
+		end
+
 		--debug console
 		if key == "`" then
 			love.audio.play( sound.beep )
-			if debug == 1 then
-				debug = 0
-			elseif debug == 0 then
-				debug =1
-			end
-			
+			console = not console
 		end
 
-		if debug == 1 then
+		if editing then
 			editor:keypressed(key)
 		end
 
-
+		
 		--debug console
 		if key == "z" then
 			love.audio.play( sound.beep )
@@ -119,10 +118,10 @@ function love.keypressed(key)
 		end
 		
 
-		if debug == 0 then
+		if not editing then
 			if player.alive == 1 then
 				--jump
-				if key == " " and mode == 1 then
+				if key == " " then
 					if player.jumping == 0 then
 						sound:play(sound.jump)
 						player.jumping = 1

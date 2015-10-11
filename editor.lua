@@ -18,6 +18,8 @@
 --]]
 
 editor = {}
+editing = false
+
 mousePosX = 0
 mousePosY = 0
 

@@ -74,7 +74,7 @@ function platforms:draw()
 				love.graphics.setColor(255,255,255,100)
 				love.graphics.rectangle("fill", platform.x, platform.y, platform.w, platform.h)	
 			end
-			if debug == 1 then
+			if editing then
 				self:drawDebug(platform, i)
 			end
 		end

@@ -44,7 +44,7 @@ function enemies:draw()
 				end
 			end
 				
-			if debug == 1 then
+			if editing then
 				enemies:drawDebug(enemy, i)
 			end
 		end

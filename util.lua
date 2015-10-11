@@ -1,5 +1,5 @@
 util = {}
-
+console = false
 
 function util:round(num, idp)
 	-- round integer to decimal places
@@ -28,7 +28,7 @@ end
 
 
 function util:drawConsole()
-	if debug == 1 then
+	if console then
 	
 		--console info
 		love.graphics.setColor(0,0,0,100)
@@ -78,7 +78,7 @@ end
 
 function util:dprint(out)
 	-- add this to a console buffer maybe
-	if debug == 1 then
+	if console then
 		print(out)
 	end
 end

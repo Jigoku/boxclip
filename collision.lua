@@ -1,7 +1,7 @@
 collision = {}
 
 function collision:checkWorld(dt)
-	if debug == 0 then
+	if not editing then
 		self:bounds()
 		self:pickups()
 		self:enemies()
