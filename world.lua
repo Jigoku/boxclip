@@ -18,18 +18,10 @@ function world:init()
 	world.crates = 0
 	world.enemies = 0
 	world.pickups = 0
+	world.checkpoints = 0
 end
 
 
-function world:run(dt)
-	world:timer()
-	physics:world(dt)
-	physics:player(dt)
-	physics:pickups(dt)
-	physics:enemies(dt)
-	collision:checkWorld(dt)
-	player:follow()
-end
 
 function world:draw()
 	-- set camera for world
@@ -126,6 +118,7 @@ function world:loadMap(mapname)
 	repeat world:remove(pickups) until world:count(pickups) == 0
 	repeat world:remove(crates) until world:count(crates) == 0
 	repeat world:remove(platforms) until world:count(platforms) == 0
+	repeat world:remove(checkpoints) until world:count(checkpoints) == 0
 	
 	--load the map
 	dofile(mapname)

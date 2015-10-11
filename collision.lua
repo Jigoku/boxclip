@@ -3,9 +3,9 @@ collision = {}
 function collision:checkWorld(dt)
 	if not editing and player.alive == 1 then
 		self:bounds()
-		self:pickups()
-		self:enemies()
-		self:checkpoints()
+		self:pickups(dt)
+		self:enemies(dt)
+		self:checkpoints(dt)
 	end
 end
 
@@ -44,7 +44,7 @@ function collision:bounds()
 end
 
 
-function collision:pickups()
+function collision:pickups(dt)
 	if player.alive == 1 then
 		local i, pickup
 		for i, pickup in ipairs(pickups) do
@@ -60,7 +60,7 @@ function collision:pickups()
 	end
 end
 
-function collision:enemies()
+function collision:enemies(dt)
 	local i, enemy
 	for i, enemy in ipairs(enemies) do
 		if collision:check(player.x,player.newY,player.w,player.h,
@@ -68,7 +68,7 @@ function collision:enemies()
 			
 			-- if we land on top, kill enemy
 			if player.newY+player.h >= enemy.y+5 and player.jumping == 1 then	
-				player.y = enemy.y - player.h -1
+				player.y = enemy.y - player.h -1 *dt
 				player:attack(enemies, i)
 				return true
 			else
@@ -80,7 +80,7 @@ function collision:enemies()
 	end
 end
 
-function collision:checkpoints()
+function collision:checkpoints(dt)
 	local i, checkpoint
 	for i, checkpoint in ipairs(checkpoints) do
 		if collision:check(player.x,player.y,player.w,player.h,

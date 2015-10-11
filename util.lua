@@ -32,9 +32,9 @@ function util:drawConsole()
 	
 		--console info
 		love.graphics.setColor(0,0,0,100)
-		love.graphics.rectangle("fill", 1, 1, 500, 80)	
+		love.graphics.rectangle("fill", 1, 1, 700, 80)	
 		love.graphics.setColor(100,100,100,100)
-		love.graphics.rectangle("line", 1, 1, 500, 80)	
+		love.graphics.rectangle("line", 1, 1, 700, 80)	
 		
 		love.graphics.setColor(100,255,100,255)
 		love.graphics.print("FPS: " .. love.timer.getFPS(), 5,5)
@@ -55,7 +55,8 @@ function util:drawConsole()
 			" | enemies: " .. world:count(enemies) .. "(".. world.enemies .. ")" ..
 			" | platforms: " .. world:count(platforms) .. "(".. world.platforms .. ")" ..
 			" | crates: " .. world:count(crates) .. "("..world.crates .. ")" ..
-			" | total: " ..world:count(pickups)+world:count(enemies)+world:count(platforms)+world:count(crates) .. "(" .. world.pickups+world.enemies+world.platforms+world.crates .. ")",
+			" | checkpoints: " .. world:count(checkpoints) .. "("..world.checkpoints .. ")" ..
+			" | total: " ..world:count(pickups)+world:count(enemies)+world:count(platforms)+world:count(crates)+world:count(checkpoints) .. "(" .. world.pickups+world.enemies+world.platforms+world.crates+world.checkpoints .. ")",
 			5, 35
 		)
 		

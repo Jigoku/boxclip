@@ -56,12 +56,15 @@ function love.update(dt)
 	-- process keyboard events
 	input:check(dt)
 	
-	world:run(dt)
+	world:timer()
+	physics:world(dt)
+	physics:player(dt)
+	physics:pickups(dt)
+	physics:enemies(dt)
+	collision:checkWorld(dt)
+	player:follow()
 	
-	if editing then
-		editor:run(dt)
-	end
+	if editing then editor:run(dt) end
 	
-
 end
 

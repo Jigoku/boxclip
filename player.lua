@@ -62,7 +62,7 @@ function player:draw()
 	end
 	
 	if editing then
-		player:drawDebug()
+		--player:drawDebug()
 	end
 end
 
@@ -77,7 +77,7 @@ end
 
 
 function player:follow()
-	if player.alive == 1 then
+	if player.alive == 1 or editing then
 	-- follow player
 		if camera.scaleX == 1 and camera.scaleY == 1 then
 			camera:setPosition(
