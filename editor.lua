@@ -24,7 +24,9 @@ mousePosY = 0
 editor.entsel = "nil"
 editor.showpos = true
 editor.showid  = true
+editor.drawsel = false
 
+	
 editor.clipboard = {}
 
 
@@ -52,6 +54,11 @@ function editor:keypressed(key)
 			return true
 		end
 	end
+end
+
+function editor:mousemoved(x,y)
+	editor.selX = util:round(camera.x+x*camera.scaleX)
+	editor.selY = util:round(camera.y+y*camera.scaleY)
 end
 
 function editor:mousepressed(x,y,button)
@@ -150,12 +157,22 @@ end
 
 function editor:draw()
 	editor:hud()
-	
-	editor:scansel(pickups)
+	editor:drawselected()
+	editor:drawselbox()
 end
 
+function editor:drawselbox()
+	if editor.drawsel then
+		love.graphics.setColor(0,255,255,100)
+		love.graphics.rectangle(
+			"line", 
+			util:round(pressedPosX,-1),util:round(pressedPosY,-1), 
+			util:round(editor.selX-pressedPosX,-1), util:round(editor.selY-pressedPosY,-1)
+		)
+	end
+end
 
-function editor:scansel()
+function editor:drawselected()
 	return self:selection(pickups) or
 			self:selection(enemies) or
 			self:selection(crates) or
@@ -209,8 +226,8 @@ function editor:paste()
 	--paste the new entity with copied paramaters
 	local x = util:round(mousePosX,-1)
 	local y = util:round(mousePosY,-1)
-	local w = self.clipboard.w or 20
-	local h = self.clipboard.h or 20
+	local w = util:round(self.clipboard.w,-1) or 20
+	local h = util:round(self.clipboard.h,-1) or 20
 	
 	if self.entsel == "platform" then
 		platforms:add(x,y,w,h,0,0,0,0)

@@ -36,6 +36,16 @@ end
 function love.mousemoved(x,y,dx,dy)
 	mousePosX = util:round(camera.x+x*camera.scaleX)
 	mousePosY = util:round(camera.y+y*camera.scaleY)
+
+	if debug == 1 then
+		if love.mouse.isDown("l") then
+			editor.drawsel = true
+			editor:mousemoved(x,y)
+		else
+			editor.drawsel = false
+		end
+	
+	end
 end
 
 function love.mousepressed(x, y, button)
@@ -52,6 +62,7 @@ function love.mousereleased(x, y, button)
 	releasedPosY = util:round(camera.y+y*camera.scaleY)
 	
 	if debug == 1 then
+		editor.drawsel = false
 		editor:mousereleased(x,y,button)
 	end
    
