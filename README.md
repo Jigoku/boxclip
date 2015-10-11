@@ -28,5 +28,6 @@ This is not even a pre-alpha, and end goals may change. Currently the plans are 
 Many things are not implemented yet.
 
 ![untitled](https://cloud.githubusercontent.com/assets/1535179/10348334/5e7493d8-6d30-11e5-9e34-efd04eccbfcc.png)
-
+![342421462](https://cloud.githubusercontent.com/assets/1535179/10417640/05495592-703b-11e5-956b-06329fb1bf33.png)
+![342421463](https://cloud.githubusercontent.com/assets/1535179/10417641/054c3f1e-703b-11e5-92dd-5fcc91f23074.png)
 
