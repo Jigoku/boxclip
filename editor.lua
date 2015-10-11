@@ -140,15 +140,15 @@ function editor:hud()
 	--vertical
 	love.graphics.line(
 		util:round(mousePosX,-1),
-		util:round(mousePosY,-1)+love.graphics.getHeight()*camera.scaleY,
+		util:round(mousePosY+love.graphics.getHeight()*camera.scaleY,-1),
 		util:round(mousePosX,-1),
-		util:round(mousePosY,-1)-love.graphics.getHeight()*camera.scaleY
+		util:round(mousePosY-love.graphics.getHeight()*camera.scaleY,-1)
 	)
 	--horizontal
 	love.graphics.line(
-		util:round(mousePosX,-1)-love.graphics.getWidth()*camera.scaleX,
+		util:round(mousePosX-love.graphics.getWidth()*camera.scaleX,-1),
 		util:round(mousePosY,-1),
-		util:round(mousePosX,-1)+love.graphics.getWidth()*camera.scaleX,
+		util:round(mousePosX+love.graphics.getWidth()*camera.scaleX-1),
 		util:round(mousePosY,-1)
 	)
 	
