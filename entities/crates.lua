@@ -1,5 +1,5 @@
 crates = {}
-crate = love.graphics.newImage("graphics/crate.png")
+crate = love.graphics.newImage("graphics/crates/crate.png")
 
 function crates:add(x,y,item)
 	table.insert(crates, {
