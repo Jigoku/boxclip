@@ -59,7 +59,7 @@ end
 function love.update(dt)
 
 	-- process keyboard events
-	input:check(dt)
+	input:checkkeys(dt)
 	
 	world:timer()
 	physics:world(dt)

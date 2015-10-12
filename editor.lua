@@ -23,7 +23,7 @@ editor.entsel = "nil"
 editor.showpos = true
 editor.showid  = true
 editor.drawsel = false
-
+editor.movespeed = 1000
 	
 editor.clipboard = {}
 
@@ -54,6 +54,20 @@ function editor:keypressed(key)
 	end
 end
 
+function editor:checkkeys(dt)
+		if love.keyboard.isDown("d") or love.keyboard.isDown("right")  then
+			player.x = player.x + editor.movespeed *dt
+		end
+		if love.keyboard.isDown("a") or love.keyboard.isDown("left") then
+			player.x = player.x - editor.movespeed *dt
+		end
+		if love.keyboard.isDown("w") or love.keyboard.isDown("up") then
+			player.y = player.y - editor.movespeed *dt
+		end
+		if love.keyboard.isDown("s") or love.keyboard.isDown("down") then
+			player.y = player.y + editor.movespeed *dt
+		end
+end
 
 
 function editor:mousepressed(x,y,button)

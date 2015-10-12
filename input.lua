@@ -1,6 +1,6 @@
 input = {}
 
-function input:check(dt)
+function input:checkkeys(dt)
 	if not editing then
 		if love.keyboard.isDown("d") or love.keyboard.isDown("right") 
 			and player.alive == 1 then
@@ -16,21 +16,9 @@ function input:check(dt)
 			player.dir = "idle"
 
 		end
-	else
-		--edit mode
-		if love.keyboard.isDown("d") or love.keyboard.isDown("right")  then
-			player.x = player.x + 1000 *dt
-		end
-		if love.keyboard.isDown("a") or love.keyboard.isDown("left") then
-			player.x = player.x - 1000 *dt
-		end
-		if love.keyboard.isDown("w") or love.keyboard.isDown("up") then
-			player.y = player.y - 1000 *dt
-		end
-		if love.keyboard.isDown("s") or love.keyboard.isDown("down") then
-			player.y = player.y + 1000 *dt
-		end
 	end
+	
+	if editing then editor:checkkeys(dt) end
 end
 
 function love.mousemoved(x,y,dx,dy)
