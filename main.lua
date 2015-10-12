@@ -34,6 +34,7 @@ require("entities/enemies")
 
 function love.load()
 	math.randomseed(os.time())
+	cwd = love.filesystem.getWorkingDirectory( )
 	icon = love.image.newImageData( "graphics/enemies/walker.png")
 	love.window.setIcon( icon )
 	love.mouse.setVisible( false )
@@ -41,7 +42,7 @@ function love.load()
 	world:init()
 	player:init()
 	
-	world:loadMap("./maps/test.map")
+	world:loadMap("maps/test.map")
 end
 
 function love.draw()

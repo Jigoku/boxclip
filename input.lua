@@ -7,7 +7,7 @@ function input:check(dt)
 			player.lastdir = player.dir
 			player.dir = "right"	
 	
-		elseif love.keyboard.isDown("a") or love.keyboard.isDown("left")
+		elseif love.keyboard.isDown("a") or love.keyboard.isDown("left") 
 			and player.alive == 1 then
 			player.lastdir = player.dir
 			player.dir = "left"

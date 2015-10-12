@@ -1,8 +1,6 @@
 physics = {}
 
 
-
-
 function physics:applyVelocity(object, dt) 
 	if object.alive == 1 then
 		-- x-axis friction

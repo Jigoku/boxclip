@@ -119,7 +119,56 @@ function world:loadMap(mapname)
 	repeat world:remove(crates) until world:count(crates) == 0
 	repeat world:remove(platforms) until world:count(platforms) == 0
 	repeat world:remove(checkpoints) until world:count(checkpoints) == 0
-	
-	--load the map
-	dofile(mapname)
+
+	--load the mapfile
+	local fh = io.open(mapname, "r")
+
+	while true do
+        line = fh.read(fh)
+        if not line then break end
+			-- parse background color
+			if string.find(line, "^background=(.+)") then
+				local r,g,b,o = string.match(line, "^background=(%d+),(%d+),(%d+),(%d+)")
+				love.graphics.setBackgroundColor(r,g,b,o)
+			end
+			--parse platforms
+			if string.find(line, "^platform=(.+)") then
+				
+				local x,y,w,h,movex,movey,movespeed,movedist = string.match(
+					line, "^platform=(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+)"
+				)
+				platforms:add(tonumber(x),tonumber(y),tonumber(w),tonumber(h),tonumber(movex),tonumber(movey),tonumber(movespeed),tonumber(movedist))
+			end
+			-- parse pickups
+			if string.find(line, "^pickup=(.+)") then
+				local x,y,item = string.match(
+					line, "^pickup=(%-?%d+),(%-?%d+),(.+)"
+				)
+				pickups:add(tonumber(x),tonumber(y),item)
+			end
+			--parse crates
+			if string.find(line, "^crate=(.+)") then
+				local x,y,item = string.match(
+					line, "^crate=(%-?%d+),(%-?%d+),(.+)"
+				)
+				crates:add(tonumber(x),tonumber(y),item)
+			end
+			--parse checkpoints
+			if string.find(line, "^checkpoint=(.+)") then
+				local x,y = string.match(
+					line, "^checkpoint=(%-?%d+),(%-?%d+)"
+				)
+				checkpoints:add(tonumber(x),tonumber(y))
+			end
+			--parse enemy(walker)
+			if string.find(line, "^walker=(.+)") then
+				local x,y,movespeed,movedist = string.match(
+					line, "^walker=(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+)"
+				)
+				enemies:walker(tonumber(x),tonumber(y),tonumber(movespeed),tonumber(movedist))
+				
+			end
+    end
+    fh:close()
+
 end
