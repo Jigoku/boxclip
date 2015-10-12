@@ -111,8 +111,8 @@ function editor:addplatform(x1,y1,x2,y2)
 
 		local x = util:round(x1,-1)
 		local y = util:round(y1,-1)
-		local w = util:round((x2-x1)-1)
-		local h = util:round((y2-y1),-1)
+		local w = (x2-x1)
+		local h = (y2-y1)
 		
 		if self.entsel == "platform" then
 			platforms:add(x,y,w,h, 0,0,0,0)
@@ -237,8 +237,8 @@ function editor:paste()
 	--paste the new entity with copied paramaters
 	local x = util:round(mousePosX,-1)
 	local y = util:round(mousePosY,-1)
-	local w = util:round(self.clipboard.w,-1) or 20
-	local h = util:round(self.clipboard.h,-1) or 20
+	local w = self.clipboard.w or 20
+	local h = self.clipboard.h or 20
 	
 	if self.entsel == "platform" then
 		platforms:add(x,y,w,h,0,0,0,0)

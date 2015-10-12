@@ -214,10 +214,10 @@ function physics:platforms(object, dt)
 						if platform.movey == 1 and object.yvel <= 0 then
 							--stood on top platform here while going down
 							if platform.movespeed < 0 then
-								object.newY = (platform.y-object.h  -platform.movespeed *dt)
+								object.newY = (platform.y-object.h -platform.movespeed *dt)
 							end
 							if platform.movespeed > 0 then
-								object.newY = (platform.y-object.h  +platform.movespeed *dt)
+								object.newY = (platform.y-object.h +platform.movespeed *dt)
 							end
 						else
 						
