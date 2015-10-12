@@ -291,9 +291,9 @@ end
 
 function editor:drawmmap()
 	--experimental! does not work as intended!
-	editor.mmapw = love.window.getWidth()/3
-	editor.mmaph = love.window.getHeight()/3
-	editor.mmapscale = 5
+	editor.mmapw = love.window.getWidth()/5
+	editor.mmaph = love.window.getHeight()/5
+	editor.mmapscale = 15
 	mmapcanvas = love.graphics.newCanvas( editor.mmapw, editor.mmaph )
 	love.graphics.setCanvas(mmapcanvas)
 	mmapcanvas:clear()
@@ -307,13 +307,13 @@ function editor:drawmmap()
 	for i, platform in ipairs(platforms) do
 		love.graphics.rectangle(
 			"fill", 
-			(platform.x/editor.mmapscale)-camera.x/camera.scaleX, 
-			(platform.y/editor.mmapscale)-camera.y/camera.scaleY, 
+			(platform.x/editor.mmapscale)-(camera.x/editor.mmapscale)+editor.mmapw/3, 
+			(platform.y/editor.mmapscale)-(camera.y/editor.mmapscale)+editor.mmaph/3, 
 			platform.w/editor.mmapscale, 
 			platform.h/editor.mmapscale
 		)
 	end
-	--[[
+
 	love.graphics.setColor(0,255,255,255)
 	for i, crate in ipairs(crates) do
 		love.graphics.rectangle(
@@ -357,12 +357,12 @@ function editor:drawmmap()
 			checkpoint.h/editor.mmapscale
 		)
 	end
-	--]]
+
 	love.graphics.setColor(255,255,255,255)
 	love.graphics.rectangle(
 		"line", 
-		(player.x/editor.mmapscale)-camera.x/editor.mmapscale+editor.mmapw/3, 
-		(player.y/editor.mmapscale)-camera.y/editor.mmapscale+editor.mmaph/3, 
+		(player.x/editor.mmapscale)-(camera.x/editor.mmapscale)+editor.mmapw/3, 
+		(player.y/editor.mmapscale)-(camera.y/editor.mmapscale)+editor.mmaph/3, 
 		player.w/editor.mmapscale, 
 		player.h/editor.mmapscale
 	)
