@@ -3,8 +3,12 @@ pickups = {}
 pickups.w = 40
 pickups.h = 40
 
+pickups.gem = love.graphics.newImage("graphics/pickups/gem.png")
+pickups.life = love.graphics.newImage( "graphics/pickups/heart.png")
+
 function pickups:random(path)
-	return love.graphics.newImage( path .. string.format("%04d",math.random(1, 7)) .. ".png")
+	--return love.graphics.newImage( path .. string.format("%04d",math.random(1, 7)) .. ".png")
+
 end
 
 function pickups:add(x,y,item)
@@ -15,8 +19,11 @@ function pickups:add(x,y,item)
 			w = pickups.w,
 			h = pickups.h,
 			name = "gem",
-			gfx = self:random("graphics/pickups/gems/"),
+			gfx = pickups.gem,
 			collected = false,
+			red = math.random(100,255),
+			green = math.random(200,255),
+			blue = math.random(100,255),
 			mass = 800,
 			xvel = 0,
 			yvel = 0,
@@ -28,7 +35,7 @@ function pickups:add(x,y,item)
 			w = pickups.w,
 			h = pickups.w,
 			name = "life",
-			gfx = love.graphics.newImage( "graphics/pickups/heart.png"),
+			gfx = pickups.life,
 			collected = false,
 			mass = 800,
 			xvel = 0,
@@ -48,7 +55,7 @@ function pickups:draw()
 			count = count + 1
 			
 			if pickup.name == "gem" then
-				love.graphics.setColor(255,255,255,200)	
+				love.graphics.setColor(pickup.red,pickup.green,pickup.blue,255)	
 				love.graphics.draw(
 					pickup.gfx, pickup.x, 
 					pickup.y, 0, 1, 1

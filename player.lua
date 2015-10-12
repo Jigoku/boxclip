@@ -1,8 +1,8 @@
 player = {}
 
 function player:init() 
-	player.w = 50
-	player.h = 60
+	player.w = 40
+	player.h = 50
 	player.x = 0
 	player.y = 0 
 	player.spawnX = 0
