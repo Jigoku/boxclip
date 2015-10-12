@@ -40,40 +40,35 @@ end
 
 
 function physics:movex(object, dt)
-	if not editing then
-		-- traverse x-axis
-		if object.x > object.xorigin + object.movedist then
-			object.x = object.xorigin + object.movedist
-			object.movespeed = -object.movespeed
-			object.dir = "left"
-		end	
-		if object.x < object.xorigin then
-			object.x = object.xorigin
-			object.movespeed = -object.movespeed
-			object.dir = "right"
-		end
-		object.x = (object.x + object.movespeed *dt)
+	-- traverse x-axis
+	if object.x > object.xorigin + object.movedist then
+		object.x = object.xorigin + object.movedist
+		object.movespeed = -object.movespeed
+		object.dir = "left"
+	end	
+	if object.x < object.xorigin then
+		object.x = object.xorigin
+		object.movespeed = -object.movespeed
+		object.dir = "right"
 	end
+	object.x = (object.x + object.movespeed *dt)
 end
 
 
 function physics:movey(object, dt)
-	if not editing then
-		--traverse y-axis
-		if object.y > object.yorigin + object.movedist then
-			object.y = object.yorigin + object.movedist
-			object.movespeed = -object.movespeed	
-		end
-		if object.y < object.yorigin  then
-			object.y = object.yorigin
-			object.movespeed = -object.movespeed
-		end
-		object.y = (object.y + object.movespeed *dt)
+	--traverse y-axis
+	if object.y > object.yorigin + object.movedist then
+		object.y = object.yorigin + object.movedist
+		object.movespeed = -object.movespeed	
 	end
+	if object.y < object.yorigin  then
+		object.y = object.yorigin
+		object.movespeed = -object.movespeed
+	end
+	object.y = (object.y + object.movespeed *dt)
 end
 
 function physics:world(dt)
-	if editing then return end
 	-- moving platforms etc
 	local i, object
 	for i, object in ipairs(platforms) do
@@ -89,8 +84,6 @@ end
 
 
 function physics:crates(object,dt)
-	if editing then return end
-		
 	local i, crate
 	for i, crate in ipairs(crates) do
 		
@@ -143,8 +136,6 @@ function physics:crates(object,dt)
 end
 
 function physics:platforms(object, dt)
-	if editing then return end
-
 	--loop solid platforms
 	
 		local i, platform
@@ -240,7 +231,6 @@ function physics:platforms(object, dt)
 end
 
 function physics:pickups(dt)
-	if editing then return end
 	local i, pickup
 		for i, pickup in ipairs(pickups) do
 			self:applyGravity(pickup, dt)
@@ -279,7 +269,6 @@ end
 
 
 function physics:enemies(dt)
-	if editing then return end
 	local i, enemy
 	for i, enemy in ipairs(enemies) do
 		if type(enemy) == "table" and enemy.alive == 1 then

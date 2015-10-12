@@ -36,6 +36,8 @@ function editor:keypressed(key)
 	if love.keyboard.isDown("4") then self.entsel = "crate" end
 	if love.keyboard.isDown("5") then self.entsel = "walker" end
 	if love.keyboard.isDown("6") then self.entsel = "checkpoint" end
+	if love.keyboard.isDown("7") then self.entsel = "gem" end
+	if love.keyboard.isDown("8") then self.entsel = "life" end
 	if love.keyboard.isDown("delete") then self:removesel() end
 	if love.keyboard.isDown("c") then self:copy() end
 	if love.keyboard.isDown("v") then self:paste() end
@@ -87,6 +89,12 @@ function editor:mousepressed(x,y,button)
 		if self.entsel == "checkpoint" then
 			self:addcheckpoint(pressedPosX,pressedPosY)
 		end
+		if self.entsel == "gem" then
+			self:addpickup(pressedPosX,pressedPosY,"gem")
+		end
+		if self.entsel == "life" then
+			self:addpickup(pressedPosX,pressedPosY,"life")
+		end
 	end
 	if button == 'r' then
 		editor:removesel()
@@ -105,6 +113,11 @@ end
 function editor:addcrate(x,y)
 	crates:add(util:round(x,-1),util:round(y, -1),"gem")
 	print( "crate added @  X:"..util:round(x,-1).." Y: "..util:round(y,-1))
+end
+
+function editor:addpickup(x,y,item)
+	pickups:add(util:round(x,-1),util:round(y, -1),item)
+	print( item .. " added @  X:"..util:round(x,-1).." Y: "..util:round(y,-1))
 end
 
 function editor:addcheckpoint(x,y)
@@ -213,12 +226,13 @@ function editor:drawselected()
 			self:selection(platforms)
 end
 
-function editor:selection(type, x,y,w,h)
+function editor:selection(entity, x,y,w,h)
 	-- hilights the entity when mouseover
-	for i, item in util:ripairs(type) do
-		if collision:check(mousePosX,mousePosY,1,1,item.x,item.y,item.w,item.h) then
+	for i, entity in util:ripairs(entity) do
+		if collision:check(mousePosX,mousePosY,1,1,entity.x,entity.y,entity.w,entity.h) then
 			love.graphics.setColor(0,255,0,200)
-			love.graphics.rectangle("line", item.x,item.y,item.w,item.h)
+			love.graphics.rectangle("line", entity.x,entity.y,entity.w,entity.h)
+
 			return true
 		end
 	end
@@ -284,6 +298,7 @@ function editor:paste()
 end
 
 function editor:run(dt)
+	
 	player.xvel = 0
 	player.yvel = 0
 end
