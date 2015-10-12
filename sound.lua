@@ -4,15 +4,15 @@ local fx = "sounds/effect/"
 local mt = "sounds/music/"
 
 -- place sound filepaths here
-sound.jump = love.audio.newSource(fx .. "jump.wav", "static")
-sound.gem = love.audio.newSource(fx .. "gem.wav", "static")
-sound.hit = love.audio.newSource(fx .. "hit.wav", "static")
-sound.beep = love.audio.newSource(fx .. "beep.wav", "static")
-sound.die = love.audio.newSource(fx .. "die.wav", "static")
-sound.crate = love.audio.newSource(fx .. "crate.wav", "static")
-sound.lifeup = love.audio.newSource(fx .. "lifeup.wav", "static")
-sound.kill = love.audio.newSource(fx .. "kill.wav", "static")
-sound.checkpoint = love.audio.newSource(fx .. "checkpoint.wav", "static")
+sound.jump = love.audio.newSource(fx .. "jump.ogg", "static")
+sound.gem = love.audio.newSource(fx .. "gem.ogg", "static")
+sound.hit = love.audio.newSource(fx .. "hit.ogg", "static")
+sound.beep = love.audio.newSource(fx .. "beep.ogg", "static")
+sound.die = love.audio.newSource(fx .. "die.ogg", "static")
+sound.crate = love.audio.newSource(fx .. "crate.ogg", "static")
+sound.lifeup = love.audio.newSource(fx .. "lifeup.ogg", "static")
+sound.kill = love.audio.newSource(fx .. "kill.ogg", "static")
+sound.checkpoint = love.audio.newSource(fx .. "checkpoint.ogg", "static")
 
 -------------
 -- map music specific test
