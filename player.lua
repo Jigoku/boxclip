@@ -62,7 +62,7 @@ function player:draw()
 	end
 	
 	if editing then
-		--player:drawDebug()
+		player:drawDebug()
 	end
 end
 
@@ -70,7 +70,7 @@ function player:drawDebug()
 	
 	love.graphics.setColor(255,0,0,50)
 	love.graphics.rectangle("line", player.x, player.y, player.w, player.h)
-	util:drawCoordinates(player)
+	--util:drawCoordinates(player)
 	
 end
 
@@ -81,8 +81,8 @@ function player:follow()
 	-- follow player
 		if camera.scaleX == 1 and camera.scaleY == 1 then
 			camera:setPosition(
-				player.x - (love.graphics.getWidth()/2) ,
-				player.y - (love.graphics.getHeight()/2) 
+				player.x - (love.graphics.getWidth()/2-player.w/2) ,
+				player.y - (love.graphics.getHeight()/2-player.h/2) 
 			)
 		elseif camera.scaleX == 2 and camera.scaleY == 2 then
 			camera:setPosition(

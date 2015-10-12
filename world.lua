@@ -39,13 +39,13 @@ function world:draw()
 	enemies:draw()
 	player:draw()	
 	
+	camera:unset()
+	
 	--editor specifics
 	if editing then
 		editor:draw()
 	end
-	
-	camera:unset()
-	
+
 	-- overlays
 	--world:drawWeather()
 end

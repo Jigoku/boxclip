@@ -23,6 +23,7 @@ editor.entsel = "nil"
 editor.showpos = true
 editor.showid  = true
 editor.drawsel = false
+editor.drawminimap = true
 editor.movespeed = 1000
 	
 editor.clipboard = {}
@@ -38,6 +39,7 @@ function editor:keypressed(key)
 	if love.keyboard.isDown("delete") then self:removesel() end
 	if love.keyboard.isDown("c") then self:copy() end
 	if love.keyboard.isDown("v") then self:paste() end
+	if love.keyboard.isDown("m") then editor.drawminimap = not editor.drawminimap end
 	
 	if love.keyboard.isDown(",") then editor.showpos = not editor.showpos end
 	if love.keyboard.isDown(".") then editor.showid = not editor.showid end
@@ -179,9 +181,17 @@ end
 
 
 function editor:draw()
+	camera:set()
+	
 	editor:crosshair()
 	editor:drawselected()
 	editor:drawselbox()
+	
+	camera:unset()
+	
+	if editor.drawminimap then
+		editor:drawmmap()
+	end
 end
 
 function editor:drawselbox()
@@ -278,3 +288,88 @@ function editor:run(dt)
 	player.yvel = 0
 end
 
+
+function editor:drawmmap()
+	--experimental! does not work as intended!
+	editor.mmapw = love.window.getWidth()/3
+	editor.mmaph = love.window.getHeight()/3
+	editor.mmapscale = 5
+	mmapcanvas = love.graphics.newCanvas( editor.mmapw, editor.mmaph )
+	love.graphics.setCanvas(mmapcanvas)
+	mmapcanvas:clear()
+
+
+	love.graphics.setColor(0,0,0,100)
+	love.graphics.rectangle("fill", 0,0,editor.mmapw,editor.mmaph )
+	
+
+	love.graphics.setColor(255,50,0,255)
+	for i, platform in ipairs(platforms) do
+		love.graphics.rectangle(
+			"fill", 
+			(platform.x/editor.mmapscale)-camera.x/camera.scaleX, 
+			(platform.y/editor.mmapscale)-camera.y/camera.scaleY, 
+			platform.w/editor.mmapscale, 
+			platform.h/editor.mmapscale
+		)
+	end
+	--[[
+	love.graphics.setColor(0,255,255,255)
+	for i, crate in ipairs(crates) do
+		love.graphics.rectangle(
+			"fill", 
+			(crate.x/editor.mmapscale)-camera.x/editor.mmapscale+editor.mmapw/3, 
+			(crate.y/editor.mmapscale)-camera.y/editor.mmapscale+editor.mmaph/3, 
+			crate.w/editor.mmapscale, 
+			crate.h/editor.mmapscale
+		)
+	end
+	
+	love.graphics.setColor(255,0,255,255)
+	for i, enemy in ipairs(enemies) do
+		love.graphics.rectangle(
+			"line", 
+			(enemy.x/editor.mmapscale)-camera.x/editor.mmapscale+editor.mmapw/3, 
+			(enemy.y/editor.mmapscale)-camera.y/editor.mmapscale+editor.mmaph/3, 
+			enemy.w/editor.mmapscale, 
+			enemy.h/editor.mmapscale
+		)
+	end
+	
+	love.graphics.setColor(255,255,100,255)
+	for i, pickup in ipairs(pickups) do
+		love.graphics.rectangle(
+			"line", 
+			(pickup.x/editor.mmapscale)-camera.x/editor.mmapscale+editor.mmapw/3, 
+			(pickup.y/editor.mmapscale)-camera.y/editor.mmapscale+editor.mmaph/3, 
+			pickup.w/editor.mmapscale, 
+			pickup.h/editor.mmapscale
+		)
+	end
+	
+	love.graphics.setColor(0,255,0,255)
+	for i, checkpoint in ipairs(checkpoints) do
+		love.graphics.rectangle(
+			"fill", 
+			(checkpoint.x/editor.mmapscale)-camera.x/editor.mmapscale+editor.mmapw/3, 
+			(checkpoint.y/editor.mmapscale)-camera.y/editor.mmapscale+editor.mmaph/3, 
+			checkpoint.w/editor.mmapscale, 
+			checkpoint.h/editor.mmapscale
+		)
+	end
+	--]]
+	love.graphics.setColor(255,255,255,255)
+	love.graphics.rectangle(
+		"line", 
+		(player.x/editor.mmapscale)-camera.x/editor.mmapscale+editor.mmapw/3, 
+		(player.y/editor.mmapscale)-camera.y/editor.mmapscale+editor.mmaph/3, 
+		player.w/editor.mmapscale, 
+		player.h/editor.mmapscale
+	)
+	
+
+	love.graphics.setCanvas()
+	love.graphics.setColor(255, 255, 255, 255)
+	love.graphics.draw(mmapcanvas, love.window.getWidth()-10-editor.mmapw,love.graphics.getHeight()-10-editor.mmaph )
+
+end
