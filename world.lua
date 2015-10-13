@@ -21,6 +21,10 @@ function world:init()
 	world.enemies = 0
 	world.pickups = 0
 	world.checkpoints = 0
+	
+	sound.music05:setLooping(true)
+	sound.music05:setVolume(0.5)
+	sound.music05:play()
 end
 
 

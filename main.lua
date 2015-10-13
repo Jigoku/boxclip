@@ -33,7 +33,7 @@ require("entities/enemies")
 
 --mode = "title"
 --mode = "game"
-mode = "editing"
+mode = "title"
 
 function love.load()
 	math.randomseed(os.time())
@@ -42,15 +42,17 @@ function love.load()
 	love.window.setIcon( icon )
 	love.mouse.setVisible( false )
 	
-	world:init()
-	player:init()
 
-	world:loadMap(world.map)
 end
 
 function love.draw()
-	world:draw()
 	
+	if mode == "title" then
+		love.graphics.print("Press 1 for mode 'game'",100,100)
+		love.graphics.print("Press 2 for mode 'editing'",100,150)
+	else
+		world:draw()
+	end
 	-- draw world
 	if console then
 		-- debug info
@@ -63,17 +65,16 @@ function love.update(dt)
 
 	-- process keyboard events
 	input:checkkeys(dt)
-	if mode  == "title" then
-		--title:run()
+
+	if not (mode == "title") then
+		world:timer()
+		physics:world(dt)
+		physics:player(dt)
+		physics:pickups(dt)
+		physics:enemies(dt)
+		collision:checkWorld(dt)
+		player:follow()
 	end
-	
-	world:timer()
-	physics:world(dt)
-	physics:player(dt)
-	physics:pickups(dt)
-	physics:enemies(dt)
-	collision:checkWorld(dt)
-	player:follow()
 	
 end
 

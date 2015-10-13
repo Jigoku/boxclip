@@ -22,11 +22,6 @@ sound.music03 = love.audio.newSource(mt .. "walking.ogg")
 sound.music04 = love.audio.newSource(mt .. "intense.ogg")
 sound.music05 = love.audio.newSource(mt .. "busy.ogg")
 
---implement this in map files?
-sound.music05:setLooping(true)
-sound.music05:setVolume(0.5)
-sound.music05:play()
--------------
 
 
 

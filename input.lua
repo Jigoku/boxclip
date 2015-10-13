@@ -57,6 +57,25 @@ end
 
 function love.keypressed(key)
 		util:dprint("[KEY        ] '".. key .. "'")
+		
+		if mode == "title" then
+			if key == "1" then
+				mode = "game"
+					world:init()
+					player:init()
+
+					world:loadMap(world.map)
+			end
+			if key == "2" then
+				mode = "editing"
+					world:init()
+					player:init()
+
+					world:loadMap(world.map)
+			end
+		end
+	
+	
 	
 		--quit
 		if key == "escape" then love.event.quit() end
