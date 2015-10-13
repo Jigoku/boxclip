@@ -21,7 +21,7 @@ function enemies:walker(x,y,movespeed,movedist)
 		dir = "right",
 		newY = y,
 		gfx = love.graphics.newImage( "graphics/enemies/walker.png"),
-		alive = 1
+		alive = true,
 	})
 
 end
@@ -32,7 +32,7 @@ function enemies:draw()
 	
 	local i, enemy
 	for i, enemy in ipairs(enemies) do
-		if type(enemy) == "table" and world:inview(enemy) then
+		if type(enemy) == "table" and enemy.alive and world:inview(enemy) then
 			count = count + 1
 				
 			if enemy.name == "walker" then

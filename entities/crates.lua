@@ -10,18 +10,17 @@ function crates:add(x,y,item)
 		name = "crate",
 		item = item or nil,
 		gfx = crate,
+		destroyed = false,
 	})
 end
 
-function crates:destroy(crate, i)
+function crates:addpickup(crate, i)
 	--add the contents of destroyable to world if any
 	if crate.item == "gem" then
 		pickups:add(crate.x+crate.w/2-pickups.w/2, crate.y+crate.h/2-pickups.h/2, "gem")
 	elseif crate.item == "life" then
 		pickups:add(crate.x+crate.w/2-pickups.w/2, crate.y+crate.h/2-pickups.h/2, "life")
 	end
-	--remove the destroyable
-	table.remove(crates, i)
 end
 
 
@@ -29,8 +28,8 @@ function crates:draw()
 	local count = 0
 	
 	local i, crate
-	for i, crate in ipairs(crates) do
-		if world:inview(crate) then
+	for i, crate in ipairs(crates) do		
+		if world:inview(crate) and not crate.destroyed then
 			count = count + 1
 		
 			love.graphics.setColor(255,255,255,255)

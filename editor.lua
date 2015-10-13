@@ -219,6 +219,7 @@ function editor:draw()
 	if editor.drawminimap then
 		editor:drawmmap()
 	end
+	
 end
 
 function editor:drawselbox()

@@ -92,10 +92,12 @@ function physics:crates(object,dt)
 	local i, crate
 	for i, crate in ipairs(crates) do
 		
+		
 		if collision:check(crate.x,crate.y,crate.w,crate.h,
-			object.newX,object.newY,object.w,object.h) then
-					
+			object.newX,object.newY,object.w,object.h) and not crate.destroyed then
+				
 			if object.jumping == 1 then 
+				crate.destroyed = true
 				sound:decide(crate)
 			end
 					
@@ -267,7 +269,7 @@ function physics:destroy(axis,object,crate,i)
 		elseif axis == "x" then
 			object.xvel = -object.xvel
 		end
-		crates:destroy(crate, i)	
+		crates:addpickup(crate, i)	
 	end
 end
 
@@ -276,7 +278,7 @@ end
 function physics:enemies(dt)
 	local i, enemy
 	for i, enemy in ipairs(enemies) do
-		if type(enemy) == "table" and enemy.alive == 1 then
+		if type(enemy) == "table" and enemy.alive then
 		
 			if enemy.name == "walker" then
 				self:applyGravity(enemy, dt)

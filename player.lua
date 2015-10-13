@@ -107,7 +107,7 @@ function player:respawn()
 	
 	-- set this to checkpoint (when implemented)
 	player:follow(1)
-	world:loadMap("maps/test.map")
+--	world:loadMap("maps/test.map")
 end
 
 function player:collect(item)
@@ -123,8 +123,7 @@ function player:collect(item)
 end
 
 
-function player:attack(enemies, i)
+function player:attack()
 	player.yvel = -player.yvel
 	sound:play(sound.kill)
-	table.remove(enemies, i)
 end

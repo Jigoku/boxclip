@@ -51,7 +51,9 @@ function love.draw()
 		love.graphics.setBackgroundColor(0,0,0,255)
 		love.graphics.setColor(255,255,255,255)
 		love.graphics.print("Press 1 for mode 'game'",100,100)
+		love.graphics.print("(everything triggers on collision)",140,120)
 		love.graphics.print("Press 2 for mode 'editing'",100,150)
+		love.graphics.print("(some entites will not trigger on collision for editing purposes)",140,170)
 	else
 		world:draw()
 	end
@@ -78,6 +80,6 @@ function love.update(dt)
 		player:follow()
 		world:run()
 	end
-	
+
 end
 

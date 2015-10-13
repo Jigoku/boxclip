@@ -3,6 +3,8 @@ world = {}
 world.map = "maps/test.map"
 
 function world:init() 
+	console = false
+	editing = false
 	world.gravity = 400
 
 	world.groundLevel = 200
@@ -48,8 +50,21 @@ function world:draw()
 	camera:unset()
 	
 	--editor specifics
+	
 	if editing then
-		editor:draw()
+		editor:draw()	
+	end
+	
+	if mode == "editing" then
+		--print some controls
+		love.graphics.setColor(255,255,255,255)
+		love.graphics.print("`   - console",10, love.window.getHeight()-140)
+		love.graphics.print("F1  - edit",10, love.window.getHeight()-120)
+		love.graphics.print("F12 - savemap",10, love.window.getHeight()-100)
+		love.graphics.print("1-9 - select entity",10, love.window.getHeight()-80)
+		love.graphics.print("C   - copy",10, love.window.getHeight()-60)
+		love.graphics.print("P   - paste",10, love.window.getHeight()-40)
+		love.graphics.print("Z   - camera",10, love.window.getHeight()-20)
 	end
 
 	-- overlays

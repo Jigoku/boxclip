@@ -69,18 +69,21 @@ function collision:enemies(dt)
 	if mode == "editing" then return end
 	local i, enemy
 	for i, enemy in ipairs(enemies) do
-		if collision:check(player.x,player.newY,player.w,player.h,
-			enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
+		if enemy.alive then
+			if collision:check(player.x,player.newY,player.w,player.h,
+				enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
 			
-			-- if we land on top, kill enemy
-			if player.newY+player.h >= enemy.y+5 and player.jumping == 1 then	
-				player.y = enemy.y - player.h -1 *dt
-				player:attack(enemies, i)
-				return true
-			else
-				-- otherwise we die			
-				player:respawn()
-				util:dprint("killed by " .. enemy.name)		
+				-- if we land on top, kill enemy
+				if player.newY+player.h >= enemy.y+5 and player.jumping == 1 then	
+					player.y = enemy.y - player.h -1 *dt
+					enemy.alive = false
+					player:attack(enemies, i)
+					return true
+				else
+					-- otherwise we die			
+					player:respawn()
+					util:dprint("killed by " .. enemy.name)		
+				end
 			end
 		end
 	end
