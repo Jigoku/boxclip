@@ -40,6 +40,7 @@ end
 
 
 function physics:movex(object, dt)
+
 	-- traverse x-axis
 	if object.x > object.xorigin + object.movedist then
 		object.x = object.xorigin + object.movedist
@@ -56,6 +57,7 @@ end
 
 
 function physics:movey(object, dt)
+
 	--traverse y-axis
 	if object.y > object.yorigin + object.movedist then
 		object.y = object.yorigin + object.movedist
@@ -69,6 +71,8 @@ function physics:movey(object, dt)
 end
 
 function physics:world(dt)
+
+
 	-- moving platforms etc
 	local i, object
 	for i, object in ipairs(platforms) do
@@ -84,6 +88,7 @@ end
 
 
 function physics:crates(object,dt)
+	if mode == "editing" then return end
 	local i, crate
 	for i, crate in ipairs(crates) do
 		

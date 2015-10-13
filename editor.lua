@@ -41,17 +41,31 @@ function editor:keypressed(key)
 	if love.keyboard.isDown("delete") then self:removesel() end
 	if love.keyboard.isDown("c") then self:copy() end
 	if love.keyboard.isDown("v") then self:paste() end
-	if love.keyboard.isDown("m") then editor.drawminimap = not editor.drawminimap end
+	if love.keyboard.isDown("m") then self.drawminimap = not self.drawminimap end
 	
-	if love.keyboard.isDown(",") then editor.showpos = not editor.showpos end
-	if love.keyboard.isDown(".") then editor.showid = not editor.showid end
+	if love.keyboard.isDown(",") then self.showpos = not self.showpos end
+	if love.keyboard.isDown(".") then self.showid = not self.showid end
+
+	if love.keyboard.isDown("f12") then self:savemap(world.map) end
 
 	for i, platform in ipairs(platforms) do
+		--fix this for moving platform (yorigin,xorigin etc)
 		if collision:check(mousePosX,mousePosY,1,1, platform.x,platform.y,platform.w,platform.h) then
-			if love.keyboard.isDown("kp8") then platform.y = util:round(platform.y - 10,-1) end -- up
-			if love.keyboard.isDown("kp2") then platform.y = util:round(platform.y + 10,-1) end -- down
-			if love.keyboard.isDown("kp4") then platform.x = util:round(platform.x - 10,-1) end -- left
-			if love.keyboard.isDown("kp6") then platform.x = util:round(platform.x + 10,-1) end -- right
+			if love.keyboard.isDown("kp8") then 
+				platform.y = util:round(platform.y - 10,-1) --up
+			end
+			if love.keyboard.isDown("kp2") then 
+				platform.y = util:round(platform.y + 10,-1) --down
+				platform.yorigin = platform.y
+			end 
+			if love.keyboard.isDown("kp4") then 
+				platform.x = util:round(platform.x - 10,-1) --left
+				platform.xorigin = platform.x
+			end 
+			if love.keyboard.isDown("kp6") then 
+				platform.x = util:round(platform.x + 10,-1)  --right
+				platform.xorigin = platform.x
+			end
 
 			return true
 		end
@@ -227,13 +241,24 @@ function editor:drawselected()
 end
 
 function editor:selection(entity, x,y,w,h)
-	-- hilights the entity when mouseover
+	-- hilights the entity when mouseover 
+	love.graphics.setColor(0,255,0,200)
 	for i, entity in util:ripairs(entity) do
-		if collision:check(mousePosX,mousePosY,1,1,entity.x,entity.y,entity.w,entity.h) then
-			love.graphics.setColor(0,255,0,200)
-			love.graphics.rectangle("line", entity.x,entity.y,entity.w,entity.h)
-
-			return true
+		if entity.movex == 1 then
+			if collision:check(mousePosX,mousePosY,1,1,entity.xorigin, entity.yorigin, entity.movedist+entity.w, entity.h) then
+				love.graphics.rectangle("line", entity.xorigin, entity.yorigin, entity.movedist+entity.w, entity.h)
+				return true
+			end
+		elseif entity.movey == 1 then
+			if collision:check(mousePosX,mousePosY,1,1,entity.xorigin, entity.yorigin, entity.w, entity.h+entity.movedist) then
+				love.graphics.rectangle("line", entity.xorigin, entity.yorigin,entity.w, entity.h+entity.movedist)
+				return true
+			end
+		else
+			if collision:check(mousePosX,mousePosY,1,1,entity.x,entity.y,entity.w,entity.h) then
+				love.graphics.rectangle("line", entity.x,entity.y,entity.w,entity.h)
+				return true
+			end
 		end
 	end
 end
@@ -387,4 +412,31 @@ function editor:drawmmap()
 	love.graphics.setColor(255, 255, 255, 255)
 	love.graphics.draw(mmapcanvas, love.window.getWidth()-10-editor.mmapw,love.graphics.getHeight()-10-editor.mmaph )
 
+end
+
+
+function editor:savemap(map)
+	local fh = io.open(map, "w+")
+	fh:write("background=30,70,70,255".."\n")
+	
+	for i, entity in ipairs(platforms) do
+		fh:write("platform="..util:round(entity.xorigin)..","..util:round(entity.yorigin)..","..entity.w..","..entity.h..","..entity.movex..","..entity.movey..","..entity.movespeed..","..entity.movedist.."\n")
+	end
+	
+	for i, entity in ipairs(pickups) do
+		fh:write("pickup="..util:round(entity.x)..","..util:round(entity.y)..","..entity.name.."\n")
+	end
+	for i, entity in ipairs(crates) do
+		fh:write("crate="..util:round(entity.x)..","..util:round(entity.y)..","..entity.item.."\n")
+	end
+	for i, entity in ipairs(checkpoints) do
+		fh:write("checkpoint="..util:round(entity.x)..","..util:round(entity.y).."\n")
+	end
+	for i, entity in ipairs(enemies) do
+		if entity.name == "walker" then
+			fh:write("walker="..util:round(entity.xorigin)..","..util:round(entity.yorigin)..","..entity.movespeed..","..entity.movedist.."\n")
+		end
+	end
+	
+	fh:close()
 end

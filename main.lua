@@ -31,6 +31,9 @@ require("entities/pickups")
 require("entities/enemies")
 
 
+--mode = "title"
+--mode = "game"
+mode = "editing"
 
 function love.load()
 	math.randomseed(os.time())
@@ -42,7 +45,7 @@ function love.load()
 	world:init()
 	player:init()
 
-	world:loadMap("maps/test.map")
+	world:loadMap(world.map)
 end
 
 function love.draw()
@@ -60,6 +63,9 @@ function love.update(dt)
 
 	-- process keyboard events
 	input:checkkeys(dt)
+	if mode  == "title" then
+		--title:run()
+	end
 	
 	world:timer()
 	physics:world(dt)
@@ -68,8 +74,6 @@ function love.update(dt)
 	physics:enemies(dt)
 	collision:checkWorld(dt)
 	player:follow()
-	
-	if editing then editor:run(dt) end
 	
 end
 

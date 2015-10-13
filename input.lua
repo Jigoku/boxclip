@@ -60,8 +60,28 @@ function love.keypressed(key)
 	
 		--quit
 		if key == "escape" then love.event.quit() end
-		if key == "f1" then editing = not editing end
-
+		
+		if mode == "editing" then
+			--free roaming
+			if key == "f1" then 
+				editing = not editing
+				player.xvel = 0
+				player.yvel = 0
+			end
+			--zoom
+			if key == "z" then
+				love.audio.play( sound.beep )
+				if camera.scaleX == 1 and camera.scaleY == 1 then
+					camera.scaleX = 2
+					camera.scaleY = 2
+				else
+					camera.scaleX = 1
+					camera.scaleY = 1 
+				end
+			
+			end
+		end
+		
 		--debug console
 		if key == "`" then
 			love.audio.play( sound.beep )
@@ -71,18 +91,7 @@ function love.keypressed(key)
 		if editing then editor:keypressed(key) end
 
 		
-		--debug console
-		if key == "z" then
-			love.audio.play( sound.beep )
-			if camera.scaleX == 1 and camera.scaleY == 1 then
-				camera.scaleX = 2
-				camera.scaleY = 2
-			else
-				camera.scaleX = 1
-				camera.scaleY = 1 
-			end
-			
-		end
+
 
 		--toggle fullscreen
 		if key == "f5" then

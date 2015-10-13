@@ -1,5 +1,7 @@
 world = {}
 
+world.map = "maps/test.map"
+
 function world:init() 
 	world.gravity = 400
 

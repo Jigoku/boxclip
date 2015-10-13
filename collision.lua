@@ -45,6 +45,8 @@ end
 
 
 function collision:pickups(dt)
+	if mode == "editing" then return end
+
 	if player.alive == 1 then
 		local i, pickup
 		for i, pickup in ipairs(pickups) do
@@ -60,7 +62,11 @@ function collision:pickups(dt)
 	end
 end
 
+
+
+
 function collision:enemies(dt)
+	if mode == "editing" then return end
 	local i, enemy
 	for i, enemy in ipairs(enemies) do
 		if collision:check(player.x,player.newY,player.w,player.h,
@@ -81,6 +87,8 @@ function collision:enemies(dt)
 end
 
 function collision:checkpoints(dt)
+	if mode == "editing" then return end
+	
 	local i, checkpoint
 	for i, checkpoint in ipairs(checkpoints) do
 		if collision:check(player.x,player.y,player.w,player.h,
