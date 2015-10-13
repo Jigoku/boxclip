@@ -124,6 +124,6 @@ end
 
 
 function player:attack()
-	player.yvel = -player.yvel
+	player.yvel = player.mass
 	sound:play(sound.kill)
 end

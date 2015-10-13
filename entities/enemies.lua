@@ -1,5 +1,7 @@
 enemies = {}
 
+walker = love.graphics.newImage( "graphics/enemies/walker.png")
+
 function enemies:walker(x,y,movespeed,movedist)
 	table.insert(enemies, {
 		--dimensions
@@ -20,7 +22,7 @@ function enemies:walker(x,y,movespeed,movedist)
 		yvel = 0,
 		dir = "right",
 		newY = y,
-		gfx = love.graphics.newImage( "graphics/enemies/walker.png"),
+		gfx = walker,
 		alive = true,
 	})
 

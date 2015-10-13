@@ -197,7 +197,9 @@ end
 
 
 function world:run()
-	if player.lives < 0 then
-		mode = "title"
+	if mode == "game" then
+		if player.lives < 0 then
+			mode = "title"
+		end
 	end
 end
