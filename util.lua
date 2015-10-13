@@ -38,6 +38,8 @@ function util:drawConsole()
 		
 		love.graphics.setColor(100,255,100,255)
 		love.graphics.print("FPS: " .. love.timer.getFPS(), 5,5)
+		
+		if not (mode == "title") then
 		love.graphics.setColor(255,255,255,255)
 		love.graphics.print(
 			"X: " .. self:round(player.x,0) .. 
@@ -49,6 +51,8 @@ function util:drawConsole()
 			" | camera scale: " .. camera.scaleX, 
 			5, 20
 		)
+		
+
 		love.graphics.setColor(255,100,255,255)
 		love.graphics.print(
 			"pickups: " .. world:count(pickups) .. "(".. world.pickups .. ")" ..
@@ -59,7 +63,7 @@ function util:drawConsole()
 			" | total: " ..world:count(pickups)+world:count(enemies)+world:count(platforms)+world:count(crates)+world:count(checkpoints) .. "(" .. world.pickups+world.enemies+world.platforms+world.crates+world.checkpoints .. ")",
 			5, 35
 		)
-		
+
 		
 		love.graphics.setColor(255,100,40,255)
 		love.graphics.print(
@@ -67,6 +71,7 @@ function util:drawConsole()
 			world:gettime() .. "][alive: " .. player.alive .."]", 
 			5,50
 		)
+		end
 		love.graphics.setColor(255,255,255,255)
 		love.graphics.print('Memory (kB): ' .. util:round(collectgarbage('count')) .. " entsel: " .. editor.entsel, 5,65)
 		
