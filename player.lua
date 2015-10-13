@@ -94,9 +94,9 @@ function player:follow()
 end
 
 function player:respawn()	
+	sound:play(sound.die)
 	player.x = player.spawnX
 	player.y = player.spawnY
-
 	player.xvel = 0
 	player.yvel = 0
 	player.jumping = 0

@@ -4,26 +4,34 @@ walker = love.graphics.newImage( "graphics/enemies/walker.png")
 
 function enemies:walker(x,y,movespeed,movedist)
 	table.insert(enemies, {
-		--dimensions
-		x = x or 0,
+		--movement
+		movespeed = movespeed or 100,
+		movedist = movedist or 100,
+		
+		--origin
+		xorigin = x,
+		yorigin = y,
+		
+		--position
+		x = math.random(x,x+movedist) or 0,
 		y = y or 0,
+		
+		--dimension
 		w = 30,
 		h = 30,
 		
 		--properties
 		name = "walker",
 		mass = 800,
-		--movement
-		movespeed = movespeed or 100,
-		movedist = movedist or 100,
-		xorigin = x,
-		yorigin = y,
 		xvel = 0,
 		yvel = 0,
 		dir = "right",
-		newY = y,
-		gfx = walker,
 		alive = true,
+		
+		newY = y,
+		
+		gfx = walker,
+		
 	})
 
 end

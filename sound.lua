@@ -33,14 +33,3 @@ function sound:play(effect)
 	effect:play()
 end
 
-function sound:decide(source)
-	if source.name == "platform" then
-		self:play(sound.hit)
-	elseif source.name == "crate" then
-		self:play(sound.crate)
-	elseif source.name == "death" then
-		self:play(sound.die)
-	elseif source.name == "checkpoint" then
-		self:play(sound.checkpoint)
-	end
-end

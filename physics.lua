@@ -98,7 +98,7 @@ function physics:crates(object,dt)
 				
 			if object.jumping == 1 then 
 				crate.destroyed = true
-				sound:decide(crate)
+				sound:play(sound.crate)
 			end
 					
 			if collision:right(object,crate) then
@@ -192,7 +192,7 @@ function physics:platforms(object, dt)
 					if platform.name == "platform" then
 						--sounds on collision
 						if object.jumping == 1 then 
-							sound:decide(platform)
+							sound:play(sound.hit)
 						end
 						
 						--if we are jumping upwards go through the platform
