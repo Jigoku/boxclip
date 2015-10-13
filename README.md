@@ -16,7 +16,8 @@ This is not even a pre-alpha, and end goals may change. Currently the plans are 
 * destroyable containers
 * AABB collision (old vs new test)
 * simple camera
-* debug mode
+* checkpoints
+* map editor
 * simple enemy
 
 #####Editor
@@ -24,6 +25,7 @@ This is not even a pre-alpha, and end goals may change. Currently the plans are 
 * place entitys
 * primitive copy/paste
 * reposition entities
+* save map
 
 Many things are not implemented yet.
 
