@@ -78,7 +78,14 @@ function love.keypressed(key)
 	
 	
 		--quit
-		if key == "escape" then love.event.quit() end
+		if key == "escape" then 
+			if mode == "title" then
+				love.event.quit() 
+			end
+			if mode == "game" or mode == "editing" then
+				mode = "title"
+			end
+		end
 		
 		if mode == "editing" then
 			--free roaming

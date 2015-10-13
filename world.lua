@@ -178,3 +178,11 @@ function world:loadMap(mapname)
     fh:close()
 
 end
+
+
+
+function world:run()
+	if player.lives < 0 then
+		mode = "title"
+	end
+end

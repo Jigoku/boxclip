@@ -17,7 +17,7 @@ function player:init()
 	player.lastdir = "idle"
 	player.score = 0
 	player.alive = 1
-	player.life = 3	
+	player.lives = 3	
 
 end
 
@@ -102,7 +102,7 @@ function player:respawn()
 	player.jumping = 0
 	player.dir = "idle"
 	player.lastdir = "idle"
-	player.life = player.life -1
+	player.lives = player.lives -1
 	player.alive = 1
 	
 	-- set this to checkpoint (when implemented)
@@ -118,7 +118,7 @@ function player:collect(item)
 		player.score = player.score + 100
 	elseif item == "life" then
 		sound:play(sound.lifeup)
-		player.life = player.life +1
+		player.lives = player.lives +1
 	end
 end
 

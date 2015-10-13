@@ -48,6 +48,8 @@ end
 function love.draw()
 	
 	if mode == "title" then
+		love.graphics.setBackgroundColor(0,0,0,255)
+		love.graphics.setColor(255,255,255,255)
 		love.graphics.print("Press 1 for mode 'game'",100,100)
 		love.graphics.print("Press 2 for mode 'editing'",100,150)
 	else
@@ -74,6 +76,7 @@ function love.update(dt)
 		physics:enemies(dt)
 		collision:checkWorld(dt)
 		player:follow()
+		world:run()
 	end
 	
 end
