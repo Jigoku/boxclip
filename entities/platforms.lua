@@ -31,7 +31,6 @@ function platforms:add(x,y,w,h,movex,movey,movespeed,movedist)
 	print("platform added @  X:"..x.." Y: "..y .. "(w:" .. w .. " h:".. h.. ")")
 end
 
-
 function platforms:draw()
 	local count = 0
 	
