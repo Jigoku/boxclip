@@ -13,23 +13,25 @@ This is not even a pre-alpha, and end goals may change. Currently the plans are 
 * friction
 * gravity
 * pickup collection
-* destroyable containers
+* destroyable crates
 * AABB collision (old vs new test)
 * simple camera
 * checkpoints
 * map editor
-* simple enemy
+* enemies
 
 #####Editor
 * remove entitys
-* place entitys
+* drag/drop platforms
+* entity placement
 * primitive copy/paste
 * reposition entities
 * save map
+* camera zoom
+* minimap overlay
 
 Many things are not implemented yet.
 
-![untitled](https://cloud.githubusercontent.com/assets/1535179/10348334/5e7493d8-6d30-11e5-9e34-efd04eccbfcc.png)
-![342421462](https://cloud.githubusercontent.com/assets/1535179/10417640/05495592-703b-11e5-956b-06329fb1bf33.png)
-![342421463](https://cloud.githubusercontent.com/assets/1535179/10417641/054c3f1e-703b-11e5-92dd-5fcc91f23074.png)
-
+![1](https://cloud.githubusercontent.com/assets/1535179/10496281/dd29dfc6-72b7-11e5-9788-bedd85aafc90.png)
+![2](https://cloud.githubusercontent.com/assets/1535179/10496282/dd2d5a84-72b7-11e5-82e9-1444580aa492.png)
+![3](https://cloud.githubusercontent.com/assets/1535179/10496284/dd52d836-72b7-11e5-81b5-5beafbf32339.png)
