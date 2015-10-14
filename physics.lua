@@ -283,25 +283,24 @@ function physics:enemies(dt)
 			if enemy.name == "walker" then
 				self:applyGravity(enemy, dt)
 				self:movex(enemy, dt)
-			end
-			
-			enemy.newX = (enemy.x + enemy.xvel *dt)
-			enemy.newY = (enemy.y - enemy.yvel *dt)
-			
-			if enemy.name == "walker" then
+				enemy.newX = (enemy.x + enemy.xvel *dt)
+				enemy.newY = (enemy.y - enemy.yvel *dt)
 				self:platforms(enemy, dt)
 				self:crates(enemy, dt)
-			end
+				enemy.x = enemy.newX
+				enemy.y = enemy.newY
+				
+				if enemy.y +enemy.h > world.groundLevel  then
+					--ai suicide	
+					sound:play(sound.kill)
+					table.remove(enemies, i)
+				end
+			end	
 		end
 
-		enemy.x = enemy.newX
-		enemy.y = enemy.newY
+
 		
-		if enemy.y +enemy.h > world.groundLevel  then
-			--ai suicide	
-			sound:play(sound.kill)
-			table.remove(enemies, i)
-		end
+
 	end
 end
 

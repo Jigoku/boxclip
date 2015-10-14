@@ -1,12 +1,12 @@
 enemies = {}
 
 walker = love.graphics.newImage( "graphics/enemies/walker.png")
-
+spike = love.graphics.newImage( "graphics/enemies/spike.png")
 function enemies:walker(x,y,movespeed,movedist)
 	table.insert(enemies, {
 		--movement
-		movespeed = movespeed or 100,
-		movedist = movedist or 100,
+		movespeed = movespeed or 0,
+		movedist = movedist or 0,
 		
 		--origin
 		xorigin = x,
@@ -37,10 +37,37 @@ function enemies:walker(x,y,movespeed,movedist)
 end
 
 
+function enemies:spike(x,y)
+	table.insert(enemies, {
+
+		--position
+		x = x or 0,
+		y = y or 0,
+		xorigin = x,
+		yorigin = y,
+		
+		--dimension
+		w = 80,
+		h = 30,
+		
+		--properties
+		name = "spike",
+		alive = true,
+		movedist = 0,
+		gfx = spike,
+		
+	})
+
+end
+
+
 function enemies:draw()
 	local count = 0
 	
 	local i, enemy
+	
+
+	
 	for i, enemy in ipairs(enemies) do
 		if type(enemy) == "table" and enemy.alive and world:inview(enemy) then
 			count = count + 1
@@ -54,7 +81,12 @@ function enemies:draw()
 					love.graphics.draw(enemy.gfx, enemy.x+enemy.gfx:getWidth(), enemy.y, 0, -1, 1)
 				end
 			end
-				
+			
+			love.graphics.setColor(255,255,255,255)
+			if enemy.name == "spike" then
+				love.graphics.draw(enemy.gfx, enemy.x, enemy.y)
+			end
+			
 			if editing then
 				enemies:drawDebug(enemy, i)
 			end
@@ -71,9 +103,12 @@ function enemies:drawDebug(enemy, i)
 	--hitbox
 	love.graphics.setColor(255,200,100,255)
 	love.graphics.rectangle("line", enemy.x, enemy.y, enemy.w, enemy.h)
-	--waypoint
-	love.graphics.setColor(255,0,255,100)
-	love.graphics.rectangle("line", enemy.xorigin, enemy.y, enemy.movedist+enemy.w, enemy.h)
+	
+	if enemy.name == "walker" then
+		--waypoint
+		love.graphics.setColor(255,0,255,100)
+		love.graphics.rectangle("line", enemy.xorigin, enemy.y, enemy.movedist+enemy.w, enemy.h)
+	end
 	
 	util:drawid(enemy,i)
 	util:drawCoordinates(enemy)

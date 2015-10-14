@@ -38,6 +38,8 @@ function editor:keypressed(key)
 	if love.keyboard.isDown("6") then self.entsel = "checkpoint" end
 	if love.keyboard.isDown("7") then self.entsel = "gem" end
 	if love.keyboard.isDown("8") then self.entsel = "life" end
+	if love.keyboard.isDown("9") then self.entsel = "spike" end
+	
 	if love.keyboard.isDown("delete") then self:removesel() end
 	if love.keyboard.isDown("c") then self:copy() end
 	if love.keyboard.isDown("v") then self:paste() end
@@ -109,6 +111,10 @@ function editor:mousepressed(x,y,button)
 		if self.entsel == "life" then
 			self:addpickup(pressedPosX,pressedPosY,"life")
 		end
+		if self.entsel == "spike" then
+			self:addspike(pressedPosX,pressedPosY)
+		end
+		
 	end
 	if button == 'r' then
 		editor:removesel()
@@ -142,6 +148,12 @@ end
 function editor:addwalker(x,y,movespeed,movedist)
 	enemies:walker(math.round(x,-1),math.round(y, -1),movespeed,movedist)
 	print( "walker added @  X:"..math.round(x,-1).." Y: "..math.round(y,-1))
+end
+
+
+function editor:addspike(x,y)
+	enemies:spike(math.round(x,-1),math.round(y, -1))
+	print( "spike added @  X:"..math.round(x,-1).." Y: "..math.round(y,-1))
 end
 
 function editor:addplatform(x1,y1,x2,y2)
@@ -436,6 +448,9 @@ function editor:savemap(map)
 	for i, entity in ipairs(enemies) do
 		if entity.name == "walker" then
 			fh:write("walker="..math.round(entity.xorigin)..","..math.round(entity.yorigin)..","..entity.movespeed..","..entity.movedist.."\n")
+		end
+		if entity.name == "spike" then
+			fh:write("spike="..math.round(entity.x)..","..math.round(entity.y).."\n")
 		end
 	end
 	

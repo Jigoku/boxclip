@@ -189,6 +189,14 @@ function world:loadMap(mapname)
 				enemies:walker(tonumber(x),tonumber(y),tonumber(movespeed),tonumber(movedist))
 				
 			end
+			--parse enemy(spike)
+			if string.find(line, "^spike=(.+)") then
+				local x,y = string.match(
+					line, "^spike=(%-?%d+),(%-?%d+)"
+				)
+				enemies:spike(tonumber(x),tonumber(y))
+				
+			end
     end
     fh:close()
 
