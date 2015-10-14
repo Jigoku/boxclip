@@ -7,7 +7,8 @@ function math.round(num, idp)
 	return math.floor(num * mult + 0.5) / mult
 end
 
-function util:ripairs(t)
+function ripairs(t)
+	--same as ipairs, but reversed order
 	local function ripairs_it(t,i)
 		i=i-1
 		local v=t[i]
@@ -22,7 +23,7 @@ function util:drawCoordinates(object)
 	if editor.showpos then
 		-- co-ordinates
 		love.graphics.setColor(255,255,255,100)
-		love.graphics.print("X:".. self:round(object.x,0) ..",Y:" .. self:round(object.y,0) , object.x-20,object.y-20,0, 0.9*camera.scaleX, 0.9*camera.scaleY)  
+		love.graphics.print("X:".. math.round(object.x,0) ..",Y:" .. math.round(object.y,0) , object.x-20,object.y-20,0, 0.9*camera.scaleX, 0.9*camera.scaleY)  
 	end
 end
 
@@ -42,11 +43,11 @@ function util:drawConsole()
 		if not (mode == "title") then
 		love.graphics.setColor(255,255,255,255)
 		love.graphics.print(
-			"X: " .. self:round(player.x,0) .. 
-			" | Y: " .. self:round(player.y,0) .. 
+			"X: " .. math.round(player.x,0) .. 
+			" | Y: " .. math.round(player.y,0) .. 
 			" | dir: " .. player.dir .. 
-			" | xvel: " .. self:round(player.xvel,0) .. 
-			" | yvel: " .. self:round(player.yvel,0) .. 
+			" | xvel: " .. math.round(player.xvel,0) .. 
+			" | yvel: " .. math.round(player.yvel,0) .. 
 			" | jumping: " .. player.jumping ..
 			" | camera scale: " .. camera.scaleX, 
 			5, 20

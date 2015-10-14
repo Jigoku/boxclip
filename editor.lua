@@ -244,7 +244,7 @@ end
 function editor:selection(entity, x,y,w,h)
 	-- hilights the entity when mouseover 
 	love.graphics.setColor(0,255,0,200)
-	for i, entity in util:ripairs(entity) do
+	for i, entity in ripairs(entity) do
 		if entity.movex == 1 then
 			if collision:check(mousePosX,mousePosY,1,1,entity.xorigin, entity.yorigin, entity.movedist+entity.w, entity.h) then
 				love.graphics.rectangle("line", entity.xorigin, entity.yorigin, entity.movedist+entity.w, entity.h)
@@ -275,7 +275,7 @@ end
 function editor:remove(type, x,y,w,h)
 	--deletes the selected entity
 	
-	for i, item in util:ripairs(type) do
+	for i, item in ripairs(type) do
 		if collision:check(mousePosX,mousePosY,1,1, item.x,item.y,item.w,item.h) then
 			print( item.name .. " (" .. i .. ") removed" )
 			table.remove(type,i)
@@ -286,7 +286,7 @@ end
 
 function editor:copy()
 	--primitive copy (dimensions only for now)
-	for i, platform in util:ripairs(platforms) do
+	for i, platform in ripairs(platforms) do
 		if collision:check(mousePosX,mousePosY,1,1, platform.x,platform.y,platform.w,platform.h) then
 			self.clipboard = {
 				w = platform.w,
