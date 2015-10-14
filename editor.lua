@@ -90,7 +90,7 @@ function editor:checkkeys(dt)
 end
 
 
-function editor:mousepressed(button)
+function editor:mousepressed(x,y,button)
 	
 	local x = math.round(pressedPosX,-1)
 	local y = math.round(pressedPosY,-1)
