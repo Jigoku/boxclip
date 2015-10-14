@@ -12,6 +12,7 @@ function crates:add(x,y,item)
 		gfx = crate,
 		destroyed = false,
 	})
+	print( "crate added @  X:"..x.." Y: "..y)
 end
 
 function crates:addpickup(crate, i)

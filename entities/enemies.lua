@@ -33,7 +33,7 @@ function enemies:walker(x,y,movespeed,movedist)
 		gfx = walker,
 		
 	})
-
+	print( "walker added @  X:"..x.." Y: "..y)
 end
 
 
@@ -57,7 +57,7 @@ function enemies:spike(x,y)
 		gfx = spike,
 		
 	})
-
+	print( "spike added @  X:"..x.." Y: "..y)
 end
 
 

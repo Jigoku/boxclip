@@ -43,7 +43,9 @@ function pickups:add(x,y,item)
 		})
 	else
 		util:dprint("error: unknown pickup type")
+		return
 	end
+	print( item .. " added @  X:"..x.." Y: "..y)
 end
 
 

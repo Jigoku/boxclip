@@ -24,9 +24,9 @@ function world:init()
 	world.pickups = 0
 	world.checkpoints = 0
 	
-	sound.music02:setLooping(true)
-	sound.music02:setVolume(0.5)
-	sound.music02:play()
+	sound.music05:setLooping(true)
+	sound.music05:setVolume(0.5)
+	sound.music05:play()
 end
 
 

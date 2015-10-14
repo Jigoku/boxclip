@@ -30,6 +30,7 @@ function platforms:add(x,y,w,h,movex,movey,movespeed,movedist)
 		gfx = platform_tile
 		
 	})
+	print("platform added @  X:"..x.." Y: "..y .. "(w:" .. w .. " h:".. h.. ")")
 end
 
 

@@ -9,6 +9,7 @@ function checkpoints:add(x,y)
 		name = "checkpoint",
 		activated = false
 	})
+	print( "checkpoint added @  X:"..x.." Y: "..y)
 end
 
 function checkpoints:draw()

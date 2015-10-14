@@ -90,29 +90,34 @@ function editor:checkkeys(dt)
 end
 
 
-function editor:mousepressed(x,y,button)
-		
+function editor:mousepressed(button)
+	
+	local x = math.round(pressedPosX,-1)
+	local y = math.round(pressedPosY,-1)
+	
 	if button == 'l' then
 
 	
 		if self.entsel == "crate" then
-			self:addcrate(pressedPosX,pressedPosY)
+				crates:add(x,y,"gem")
 		end
 		
 		if self.entsel == "walker" then
-			self:addwalker(pressedPosX,pressedPosY, 100, 100)
+			enemies:walker(x,y,movespeed,movedist)
 		end
 		if self.entsel == "checkpoint" then
-			self:addcheckpoint(pressedPosX,pressedPosY)
+			checkpoints:add(x,y)
+
 		end
 		if self.entsel == "gem" then
-			self:addpickup(pressedPosX,pressedPosY,"gem")
+			pickups:add(x,y,"gem")
 		end
 		if self.entsel == "life" then
-			self:addpickup(pressedPosX,pressedPosY,"life")
+			pickups:add(x,y,"life")
 		end
 		if self.entsel == "spike" then
-			self:addspike(pressedPosX,pressedPosY)
+			enemies:spike(x,y)
+
 		end
 		
 	end
@@ -129,32 +134,6 @@ function editor:mousereleased(x,y,button)
 	end
 end
 
-
-function editor:addcrate(x,y)
-	crates:add(math.round(x,-1),math.round(y, -1),"gem")
-	print( "crate added @  X:"..math.round(x,-1).." Y: "..math.round(y,-1))
-end
-
-function editor:addpickup(x,y,item)
-	pickups:add(math.round(x,-1),math.round(y, -1),item)
-	print( item .. " added @  X:"..math.round(x,-1).." Y: "..math.round(y,-1))
-end
-
-function editor:addcheckpoint(x,y)
-	checkpoints:add(math.round(x,-1),math.round(y, -1))
-	print( "checkpoint added @  X:"..math.round(x,-1).." Y: "..math.round(y,-1))
-end
-
-function editor:addwalker(x,y,movespeed,movedist)
-	enemies:walker(math.round(x,-1),math.round(y, -1),movespeed,movedist)
-	print( "walker added @  X:"..math.round(x,-1).." Y: "..math.round(y,-1))
-end
-
-
-function editor:addspike(x,y)
-	enemies:spike(math.round(x,-1),math.round(y, -1))
-	print( "spike added @  X:"..math.round(x,-1).." Y: "..math.round(y,-1))
-end
 
 function editor:addplatform(x1,y1,x2,y2)
 	-- add platform platform
@@ -178,7 +157,7 @@ function editor:addplatform(x1,y1,x2,y2)
 		if self.entsel == "platform_y" then
 			platforms:add(x,y,w,h, 0, 1, 100, 200)
 		end
-		util:dprint("platform added @  X:"..x.." Y: "..y .. "(w:" .. w .. " h:".. h.. ")")
+
 	end
 end
 

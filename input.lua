@@ -56,7 +56,7 @@ function love.mousereleased(x, y, button)
 end
 
 function love.keypressed(key)
-		util:dprint("[KEY        ] '".. key .. "'")
+		--util:dprint("[KEY        ] '".. key .. "'")
 		
 		if mode == "title" then
 			if key == "1" then
