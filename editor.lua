@@ -103,7 +103,7 @@ function editor:mousepressed(x,y,button)
 		end
 		
 		if self.entsel == "walker" then
-			enemies:walker(x,y,movespeed,movedist)
+			enemies:walker(x,y,100,100) --movespeed,movedist should be configurable
 		end
 		if self.entsel == "checkpoint" then
 			checkpoints:add(x,y)

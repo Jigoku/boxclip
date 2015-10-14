@@ -5,8 +5,8 @@ spike = love.graphics.newImage( "graphics/enemies/spike.png")
 function enemies:walker(x,y,movespeed,movedist)
 	table.insert(enemies, {
 		--movement
-		movespeed = movespeed or 0,
-		movedist = movedist or 0,
+		movespeed = movespeed or 100,
+		movedist = movedist or 200,
 		
 		--origin
 		xorigin = x,
