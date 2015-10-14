@@ -52,18 +52,18 @@ function editor:keypressed(key)
 		--fix this for moving platform (yorigin,xorigin etc)
 		if collision:check(mousePosX,mousePosY,1,1, platform.x,platform.y,platform.w,platform.h) then
 			if love.keyboard.isDown("kp8") then 
-				platform.y = util:round(platform.y - 10,-1) --up
+				platform.y = math.round(platform.y - 10,-1) --up
 			end
 			if love.keyboard.isDown("kp2") then 
-				platform.y = util:round(platform.y + 10,-1) --down
+				platform.y = math.round(platform.y + 10,-1) --down
 				platform.yorigin = platform.y
 			end 
 			if love.keyboard.isDown("kp4") then 
-				platform.x = util:round(platform.x - 10,-1) --left
+				platform.x = math.round(platform.x - 10,-1) --left
 				platform.xorigin = platform.x
 			end 
 			if love.keyboard.isDown("kp6") then 
-				platform.x = util:round(platform.x + 10,-1)  --right
+				platform.x = math.round(platform.x + 10,-1)  --right
 				platform.xorigin = platform.x
 			end
 
@@ -125,23 +125,23 @@ end
 
 
 function editor:addcrate(x,y)
-	crates:add(util:round(x,-1),util:round(y, -1),"gem")
-	print( "crate added @  X:"..util:round(x,-1).." Y: "..util:round(y,-1))
+	crates:add(math.round(x,-1),math.round(y, -1),"gem")
+	print( "crate added @  X:"..math.round(x,-1).." Y: "..math.round(y,-1))
 end
 
 function editor:addpickup(x,y,item)
-	pickups:add(util:round(x,-1),util:round(y, -1),item)
-	print( item .. " added @  X:"..util:round(x,-1).." Y: "..util:round(y,-1))
+	pickups:add(math.round(x,-1),math.round(y, -1),item)
+	print( item .. " added @  X:"..math.round(x,-1).." Y: "..math.round(y,-1))
 end
 
 function editor:addcheckpoint(x,y)
-	checkpoints:add(util:round(x,-1),util:round(y, -1))
-	print( "checkpoint added @  X:"..util:round(x,-1).." Y: "..util:round(y,-1))
+	checkpoints:add(math.round(x,-1),math.round(y, -1))
+	print( "checkpoint added @  X:"..math.round(x,-1).." Y: "..math.round(y,-1))
 end
 
 function editor:addwalker(x,y,movespeed,movedist)
-	enemies:walker(util:round(x,-1),util:round(y, -1),movespeed,movedist)
-	print( "walker added @  X:"..util:round(x,-1).." Y: "..util:round(y,-1))
+	enemies:walker(math.round(x,-1),math.round(y, -1),movespeed,movedist)
+	print( "walker added @  X:"..math.round(x,-1).." Y: "..math.round(y,-1))
 end
 
 function editor:addplatform(x1,y1,x2,y2)
@@ -152,8 +152,8 @@ function editor:addplatform(x1,y1,x2,y2)
 		if x2-x1 < 20  then x2 = x1 +20 end
 		if y2-y1 < 20  then y2 = y1 +20 end
 
-		local x = util:round(x1,-1)
-		local y = util:round(y1,-1)
+		local x = math.round(x1,-1)
+		local y = math.round(y1,-1)
 		local w = (x2-x1)
 		local h = (y2-y1)
 		
@@ -175,30 +175,30 @@ function editor:crosshair()
 	love.graphics.setColor(200,200,255,50)
 	--vertical
 	love.graphics.line(
-		util:round(mousePosX,-1),
-		util:round(mousePosY+love.graphics.getHeight()*camera.scaleY,-1),
-		util:round(mousePosX,-1),
-		util:round(mousePosY-love.graphics.getHeight()*camera.scaleY,-1)
+		math.round(mousePosX,-1),
+		math.round(mousePosY+love.graphics.getHeight()*camera.scaleY,-1),
+		math.round(mousePosX,-1),
+		math.round(mousePosY-love.graphics.getHeight()*camera.scaleY,-1)
 	)
 	--horizontal
 	love.graphics.line(
-		util:round(mousePosX-love.graphics.getWidth()*camera.scaleX,-1),
-		util:round(mousePosY,-1),
-		util:round(mousePosX+love.graphics.getWidth()*camera.scaleX-1),
-		util:round(mousePosY,-1)
+		math.round(mousePosX-love.graphics.getWidth()*camera.scaleX,-1),
+		math.round(mousePosY,-1),
+		math.round(mousePosX+love.graphics.getWidth()*camera.scaleX-1),
+		math.round(mousePosY,-1)
 	)
 	love.graphics.setColor(255,200,255,255)
 	love.graphics.line(
-		util:round(mousePosX,-1),
-		util:round(mousePosY,-1),
-		util:round(mousePosX,-1)+10,
-		util:round(mousePosY,-1)
+		math.round(mousePosX,-1),
+		math.round(mousePosY,-1),
+		math.round(mousePosX,-1)+10,
+		math.round(mousePosY,-1)
 	)
 	love.graphics.line(
-		util:round(mousePosX,-1),
-		util:round(mousePosY,-1),
-		util:round(mousePosX,-1),
-		util:round(mousePosY,-1)+10
+		math.round(mousePosX,-1),
+		math.round(mousePosY,-1),
+		math.round(mousePosX,-1),
+		math.round(mousePosY,-1)+10
 	)
 	
 	cursor = { x =mousePosX, y =mousePosY   }
@@ -299,8 +299,8 @@ end
 
 function editor:paste()
 	--paste the new entity with copied paramaters
-	local x = util:round(mousePosX,-1)
-	local y = util:round(mousePosY,-1)
+	local x = math.round(mousePosX,-1)
+	local y = math.round(mousePosY,-1)
 	local w = self.clipboard.w or 20
 	local h = self.clipboard.h or 20
 	
@@ -421,21 +421,21 @@ function editor:savemap(map)
 	fh:write("background=30,70,70,255".."\n")
 	
 	for i, entity in ipairs(platforms) do
-		fh:write("platform="..util:round(entity.xorigin)..","..util:round(entity.yorigin)..","..entity.w..","..entity.h..","..entity.movex..","..entity.movey..","..entity.movespeed..","..entity.movedist.."\n")
+		fh:write("platform="..math.round(entity.xorigin)..","..math.round(entity.yorigin)..","..entity.w..","..entity.h..","..entity.movex..","..entity.movey..","..entity.movespeed..","..entity.movedist.."\n")
 	end
 	
 	for i, entity in ipairs(pickups) do
-		fh:write("pickup="..util:round(entity.x)..","..util:round(entity.y)..","..entity.name.."\n")
+		fh:write("pickup="..math.round(entity.x)..","..math.round(entity.y)..","..entity.name.."\n")
 	end
 	for i, entity in ipairs(crates) do
-		fh:write("crate="..util:round(entity.x)..","..util:round(entity.y)..","..entity.item.."\n")
+		fh:write("crate="..math.round(entity.x)..","..math.round(entity.y)..","..entity.item.."\n")
 	end
 	for i, entity in ipairs(checkpoints) do
-		fh:write("checkpoint="..util:round(entity.x)..","..util:round(entity.y).."\n")
+		fh:write("checkpoint="..math.round(entity.x)..","..math.round(entity.y).."\n")
 	end
 	for i, entity in ipairs(enemies) do
 		if entity.name == "walker" then
-			fh:write("walker="..util:round(entity.xorigin)..","..util:round(entity.yorigin)..","..entity.movespeed..","..entity.movedist.."\n")
+			fh:write("walker="..math.round(entity.xorigin)..","..math.round(entity.yorigin)..","..entity.movespeed..","..entity.movedist.."\n")
 		end
 	end
 	

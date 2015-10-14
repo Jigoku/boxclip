@@ -1,7 +1,7 @@
 util = {}
 console = false
 
-function util:round(num, idp)
+function math.round(num, idp)
 	-- round integer to decimal places
 	local mult = 10^(idp or 0)
 	return math.floor(num * mult + 0.5) / mult
@@ -73,7 +73,7 @@ function util:drawConsole()
 		)
 		end
 		love.graphics.setColor(255,255,255,255)
-		love.graphics.print('Memory (kB): ' .. util:round(collectgarbage('count')) .. " entsel: " .. editor.entsel, 5,65)
+		love.graphics.print('Memory (kB): ' .. math.round(collectgarbage('count')) .. " entsel: " .. editor.entsel, 5,65)
 		
 
 	end
