@@ -318,7 +318,7 @@ function physics:player(dt)
 		player.x = player.newX
 		player.y = player.newY
 	
-		if player.y+player.h > world.groundLevel  then
+		if not (mode == "editing") and player.y+player.h > world.groundLevel  then
 			player:respawn()
 		end
 end
