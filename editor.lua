@@ -19,6 +19,7 @@ editing = false
 mousePosX = 0
 mousePosY = 0
 
+editor.entdir = 0 --(used for some entites 0,1,2,3 = up,down,right,left)
 editor.entsel = "nil"
 editor.showpos = true
 editor.showid  = true
@@ -43,6 +44,7 @@ function editor:keypressed(key)
 	if love.keyboard.isDown("delete") then self:removesel() end
 	if love.keyboard.isDown("c") then self:copy() end
 	if love.keyboard.isDown("v") then self:paste() end
+	if love.keyboard.isDown("r") then self:rotate() end
 	if love.keyboard.isDown("m") then self.drawminimap = not self.drawminimap end
 	
 	if love.keyboard.isDown(",") then self.showpos = not self.showpos end
@@ -116,7 +118,7 @@ function editor:mousepressed(x,y,button)
 			pickups:add(x,y,"life")
 		end
 		if self.entsel == "spike" then
-			enemies:spike(x,y,0)
+			enemies:spike(x,y,editor.entdir)
 			--enemies:spike(x,y,dir)
 		end
 		
@@ -272,6 +274,14 @@ function editor:remove(type, x,y,w,h)
 			table.remove(type,i)
 			return true
 		end
+	end
+end
+
+
+function editor:rotate()
+	editor.entdir = editor.entdir +1
+	if editor.entdir > 3 then
+		editor.entdir = 0
 	end
 end
 
