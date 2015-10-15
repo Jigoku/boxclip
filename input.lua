@@ -144,11 +144,6 @@ function love.keypressed(key)
 						
 					end
 				end
-	
-				--suicide
-				if key == "b" then
-					player:respawn()
-				end
 			end
 		end
 end

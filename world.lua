@@ -24,7 +24,6 @@ function world:init()
 	world.pickups = 0
 	world.checkpoints = 0
 
-
 end
 
 
@@ -152,8 +151,8 @@ function world:loadMap(mapname)
 			end
 			-- parse mapmusic
 			if string.find(line, "^mapmusic=(.+)") then
-				local n = string.match(line, "^mapmusic=(%d+)")
-				sound:playbgm(n)
+				world.mapmusic = string.match(line, "^mapmusic=(%d+)")
+				sound:playbgm(world.mapmusic)
 			end
 			--parse platforms
 			if string.find(line, "^platform=(.+)") then

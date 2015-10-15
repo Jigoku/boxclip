@@ -95,6 +95,7 @@ end
 
 function player:respawn()	
 	sound:play(sound.die)
+	sound:playbgm(world.mapmusic)
 	player.x = player.spawnX
 	player.y = player.spawnY
 	player.xvel = 0

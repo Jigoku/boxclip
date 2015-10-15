@@ -13,14 +13,17 @@ sound.crate = love.audio.newSource(fx .. "crate.ogg", "static")
 sound.lifeup = love.audio.newSource(fx .. "lifeup.ogg", "static")
 sound.kill = love.audio.newSource(fx .. "kill.ogg", "static")
 sound.checkpoint = love.audio.newSource(fx .. "checkpoint.ogg", "static")
-
+sound.bgm = nil
 
 function sound:playbgm(id)
+
 	if id == "1" then  sound.bgm = love.audio.newSource(mt .. "jungle.ogg") end
 	if id == "2" then  sound.bgm = love.audio.newSource(mt .. "underwater.ogg") end
 	if id == "3" then  sound.bgm = love.audio.newSource(mt .. "walking.ogg") end
 	if id == "4" then  sound.bgm = love.audio.newSource(mt .. "intense.ogg") end
 	if id == "5" then  sound.bgm = love.audio.newSource(mt .. "busy.ogg") end
+	
+	love.audio.stop()
 
 	sound.bgm:setLooping(true)
 	sound.bgm:setVolume(0.5)
