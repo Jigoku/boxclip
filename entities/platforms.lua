@@ -66,16 +66,7 @@ function platforms:draw()
 				love.graphics.rectangle("fill", platform.x, platform.y-5, platform.w, 10)	
 
 			end
-		
 
-		
-			if platform.name == "checkpoint" then
-				love.graphics.setColor(255,255,255,100)
-				love.graphics.rectangle("fill", platform.x, platform.y, platform.w, platform.h)	
-			end
-			if editing then
-				self:drawDebug(platform, i)
-			end
 		end
 	end
 	world.platforms = count
