@@ -191,10 +191,10 @@ function world:loadMap(mapname)
 			end
 			--parse enemy(spike)
 			if string.find(line, "^spike=(.+)") then
-				local x,y = string.match(
-					line, "^spike=(%-?%d+),(%-?%d+)"
+				local x,y,dir = string.match(
+					line, "^spike=(%-?%d+),(%-?%d+),(%-?%d+)"
 				)
-				enemies:spike(tonumber(x),tonumber(y))
+				enemies:spike(tonumber(x),tonumber(y),tonumber(dir))
 				
 			end
     end
@@ -210,4 +210,5 @@ function world:run()
 			mode = "title"
 		end
 	end
+	love.audio.stop( )
 end

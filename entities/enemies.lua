@@ -37,9 +37,17 @@ function enemies:walker(x,y,movespeed,movedist)
 end
 
 
-function enemies:spike(x,y)
-	table.insert(enemies, {
+function enemies:spike(x,y,dir)
 
+	if dir == 0 or dir == 1 then
+		width = 80
+		height = 30
+	end
+	if dir == 2 or dir == 3 then
+		width = 30
+		height = 80
+	end
+	table.insert(enemies, {		
 		--position
 		x = x or 0,
 		y = y or 0,
@@ -47,14 +55,15 @@ function enemies:spike(x,y)
 		yorigin = y,
 		
 		--dimension
-		w = 80,
-		h = 30,
+		w = width,
+		h = height,
 		
 		--properties
 		name = "spike",
 		alive = true,
 		movedist = 0,
 		gfx = spike,
+		dir = dir
 		
 	})
 	print( "spike added @  X:"..x.." Y: "..y)
@@ -84,7 +93,15 @@ function enemies:draw()
 			
 			love.graphics.setColor(255,255,255,255)
 			if enemy.name == "spike" then
-				love.graphics.draw(enemy.gfx, enemy.x, enemy.y)
+				if enemy.dir == 0 then
+					love.graphics.draw(enemy.gfx, enemy.x, enemy.y, 0,1,1)
+				elseif enemy.dir == 1 then
+					love.graphics.draw(enemy.gfx, enemy.x, enemy.y, 0,1,-1,0,enemy.h )
+				elseif enemy.dir == 2 then
+					love.graphics.draw(enemy.gfx, enemy.x, enemy.y, math.rad(90),1,1,0,enemy.w )
+				elseif enemy.dir == 3 then
+					love.graphics.draw(enemy.gfx, enemy.x, enemy.y, math.rad(-90),-1,1 )
+				end
 			end
 			
 			if editing then

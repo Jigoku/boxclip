@@ -116,8 +116,8 @@ function editor:mousepressed(x,y,button)
 			pickups:add(x,y,"life")
 		end
 		if self.entsel == "spike" then
-			enemies:spike(x,y)
-
+			enemies:spike(x,y,1)
+			--enemies:spike(x,y,dir)
 		end
 		
 	end
@@ -429,7 +429,7 @@ function editor:savemap(map)
 			fh:write("walker="..math.round(entity.xorigin)..","..math.round(entity.yorigin)..","..entity.movespeed..","..entity.movedist.."\n")
 		end
 		if entity.name == "spike" then
-			fh:write("spike="..math.round(entity.x)..","..math.round(entity.y).."\n")
+			fh:write("spike="..math.round(entity.x)..","..math.round(entity.y)..","..math.round(entity.dir).."\n")
 		end
 	end
 	
