@@ -1,5 +1,5 @@
 background=30,70,70,255
-mapmusic=1
+mapmusic=5
 platform=-470,-60,100,20,0,1,100,200
 platform=490,-250,530,490,0,0,0,0
 platform=-1060,160,560,580,0,0,0,0

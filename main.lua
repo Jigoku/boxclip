@@ -78,7 +78,7 @@ function love.update(dt)
 		physics:enemies(dt)
 		collision:checkWorld(dt)
 		player:follow()
-		world:run()
+		world:run(dt)
 	else
 		love.audio.stop()
 	end

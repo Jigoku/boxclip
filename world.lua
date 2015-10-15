@@ -12,9 +12,12 @@ function world:init()
 	world.seconds = 0
 	world.minutes = 0
 	
+	groundLevel_scroll = 0
+	groundLevel_scrollspeed = 100
 	groundLevel_tile = love.graphics.newImage("graphics/tiles/water.png")
 	groundLevel_tile:setWrap("repeat", "repeat")
 	groundLevel_quad = love.graphics.newQuad( -50,world.groundLevel, 10000, 500, groundLevel_tile:getDimensions() )
+
 	camera:setScale(1,1)
 
 	--initialize entity counts
@@ -23,19 +26,22 @@ function world:init()
 	world.enemies = 0
 	world.pickups = 0
 	world.checkpoints = 0
+	
 
 end
 
 
 
 function world:draw()
+	love.graphics.setColor(255,255,255,255)
+	
 	-- set camera for world
 	camera:set()
 
 	--groundLevel placeholder
-	love.graphics.setColor(255,255,255,255)
+    groundLevel_quad:setViewport(0,-groundLevel_scroll,10000,500 )
 	love.graphics.draw(groundLevel_tile, groundLevel_quad, -1000,world.groundLevel)
-	
+
 
 	platforms:draw()
 	checkpoints:draw()
@@ -207,12 +213,19 @@ end
 
 
 
-function world:run()
+function world:run(dt)
 	if mode == "game" then
 		if player.lives < 0 then
 			mode = "title"
 		end
 	end
 	--love.audio.stop( )
+	
+	--scroll gorundLevel!
+	groundLevel_scroll = groundLevel_scroll + groundLevel_scrollspeed * dt
+	  if groundLevel_scroll > groundLevel_tile:getHeight()then
+        groundLevel_scroll = groundLevel_scroll - groundLevel_tile:getHeight()
+    end
 
+    
 end
