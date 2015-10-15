@@ -27,6 +27,7 @@ function pickups:add(x,y,item)
 			mass = 800,
 			xvel = 0,
 			yvel = 0,
+			score = 200,
 		})	
 	elseif item =="life" then
 		table.insert(pickups, {
@@ -39,7 +40,8 @@ function pickups:add(x,y,item)
 			collected = false,
 			mass = 800,
 			xvel = 0,
-			yvel = 0
+			yvel = 0,
+			score = 1000,
 		})
 	else
 		util:dprint("error: unknown pickup type")

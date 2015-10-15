@@ -11,6 +11,7 @@ function crates:add(x,y,item)
 		item = item or nil,
 		gfx = crate,
 		destroyed = false,
+		score = 50,
 	})
 	print( "crate added @  X:"..x.." Y: "..y)
 end

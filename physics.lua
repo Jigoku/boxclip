@@ -96,6 +96,7 @@ function physics:crates(object,dt)
 				
 				if object.jumping == 1 then 
 					crate.destroyed = true
+					player.score = player.score+crate.score
 					sound:play(sound.crate)
 				end
 					

@@ -27,7 +27,7 @@ function enemies:walker(x,y,movespeed,movedist)
 		yvel = 0,
 		dir = "right",
 		alive = true,
-		
+		score = 230,
 		newY = y,
 		
 		gfx = walker,

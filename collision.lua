@@ -60,7 +60,7 @@ function collision:pickups(dt)
 					pickup.x, pickup.y,pickup.gfx:getWidth(),pickup.gfx:getHeight()) then
 						table.remove(pickups, i)
 						pickup.collected = true
-						player:collect(pickup.name)
+						player:collect(pickup)
 				end
 			end
 		end
@@ -82,7 +82,7 @@ function collision:enemies(dt)
 					if collision:top(player,enemy) and player.jumping == 1 then	
 						player.y = enemy.y - player.h -1 *dt
 						enemy.alive = false
-						player:attack(enemies, i)
+						player:attack(enemy)
 						return true
 					else
 						-- otherwise we die			

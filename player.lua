@@ -114,17 +114,19 @@ end
 function player:collect(item)
 	util:dprint("[PICKUP     ] item")
 	
-	if item == "gem" then
+	if item.name == "gem" then
 		sound:play(sound.gem)
-		player.score = player.score + 100
-	elseif item == "life" then
+		player.score = player.score + item.score
+	elseif item.name == "life" then
 		sound:play(sound.lifeup)
+		player.score = player.score + item.score
 		player.lives = player.lives +1
 	end
 end
 
 
-function player:attack()
+function player:attack(enemy)
+	player.score = player.score + enemy.score
 	player.yvel = player.mass
 	sound:play(sound.kill)
 end

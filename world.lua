@@ -68,6 +68,19 @@ function world:draw()
 		love.graphics.print("C   - copy",10, love.window.getHeight()-60)
 		love.graphics.print("P   - paste",10, love.window.getHeight()-40)
 		love.graphics.print("Z   - camera",10, love.window.getHeight()-20)
+		love.graphics.setColor(0,255,155,155)
+		love.graphics.print("editing",love.window.getWidth()-100, 10,0,2,2)
+	end
+	
+	if mode =="game" then
+		love.graphics.setColor(255,255,255,155)
+		love.graphics.printf("SCORE", 20,20,300,"left",0,1.5,1.5)
+		love.graphics.printf("LIVES", 20,40,300,"left",0,1.5,1.5)
+		love.graphics.printf("TIME", 20,60,300,"left",0,1.5,1.5)
+		love.graphics.printf(player.score, 20,20,150,"right",0,1.5,1.5)
+		love.graphics.printf(player.lives, 20,40,150,"right",0,1.5,1.5)
+		love.graphics.printf(world:gettime(), 20,60,150,"right",0,1.5,1.5)
+			
 	end
 
 	-- overlays
