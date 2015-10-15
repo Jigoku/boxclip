@@ -89,53 +89,54 @@ function physics:crates(object,dt)
 	if mode == "editing" then return end
 	local i, crate
 	for i, crate in ipairs(crates) do
-		
-		
+
+		if world:inview(crate) then
 		if collision:check(crate.x,crate.y,crate.w,crate.h,
 			object.newX,object.newY,object.w,object.h) and not crate.destroyed then
 				
-			if object.jumping == 1 then 
-				crate.destroyed = true
-				sound:play(sound.crate)
-			end
+				if object.jumping == 1 then 
+					crate.destroyed = true
+					sound:play(sound.crate)
+				end
 					
-			if collision:right(object,crate) then
-				if object.jumping == 1 then
-					object.newX = crate.x+crate.w +1
-					object.xvel = -object.mass
-					self:destroy("x",object,crate,i)
-				else
-					object.newX = crate.x+crate.w +1 *dt
-					object.xvel = 0
-				end
-			elseif collision:left(object,crate) then
-				if object.jumping == 1 then
-					object.newX = crate.x-object.w -1
-					object.xvel = object.mass
-					self:destroy("x",object,crate,i)
-				else
-					object.newX = crate.x-object.w -1 *dt
-					object.xvel = 0
-				end
-			elseif collision:bottom(object,crate) then
-				if object.jumping == 1 then
-					object.newY = crate.y +crate.h +1
-					object.yvel = object.mass
-					self:destroy("y",object,crate,i)
-				else
-					object.newY = crate.y +crate.h  +1 *dt
-					object.yvel = 0
-				end
-			elseif collision:top(object,crate) then
-				if object.jumping == 1 then
-					object.newY = crate.y - object.h -1
-					object.yvel = -object.mass
-					self:destroy("y",object,crate,i)
-				else
-					object.newY = crate.y - object.h 
-					object.yvel = 0
-				end
-			end		
+				if collision:right(object,crate) then
+					if object.jumping == 1 then
+						object.newX = crate.x+crate.w +1
+						object.xvel = -object.mass
+						self:destroy("x",object,crate,i)
+					else
+						object.newX = crate.x+crate.w +1 *dt
+						object.xvel = 0
+					end
+				elseif collision:left(object,crate) then
+					if object.jumping == 1 then
+						object.newX = crate.x-object.w -1
+						object.xvel = object.mass
+						self:destroy("x",object,crate,i)
+					else
+						object.newX = crate.x-object.w -1 *dt
+						object.xvel = 0
+					end
+				elseif collision:bottom(object,crate) then
+					if object.jumping == 1 then
+						object.newY = crate.y +crate.h +1
+						object.yvel = object.mass
+						self:destroy("y",object,crate,i)
+					else
+						object.newY = crate.y +crate.h  +1 *dt
+						object.yvel = 0
+					end
+				elseif collision:top(object,crate) then
+					if object.jumping == 1 then
+						object.newY = crate.y - object.h -1
+						object.yvel = -object.mass
+						self:destroy("y",object,crate,i)
+					else
+						object.newY = crate.y - object.h 
+						object.yvel = 0
+					end
+				end		
+			end
 		end
 	end	
 end

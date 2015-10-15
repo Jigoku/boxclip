@@ -17,22 +17,22 @@ function collision:check(x1,y1,w1,h1, x2,y2,w2,h2)
 end
 
 function collision:right(a,b)
-	return a.newX <= b.x+b.w and 
+	return a.newX < b.x+b.w and 
 					a.x > b.x+b.w
 end
 
 function collision:left(a,b)
-	return a.newX+a.w >= b.x and 
+	return a.newX+a.w > b.x and 
 					a.x+a.w < b.x
 end
 
 function collision:top(a,b)
-	return a.newY+a.h >= b.y  and 
+	return a.newY+a.h > b.y  and 
 					a.y < b.y
 end
 
 function collision:bottom(a,b)
-	return a.newY <= b.y+b.h and 
+	return a.newY < b.y+b.h and 
 					a.y+a.h > b.y+b.h
 end
 
@@ -50,7 +50,7 @@ function collision:pickups(dt)
 	if player.alive == 1 then
 		local i, pickup
 		for i, pickup in ipairs(pickups) do
-			if not pickup.collected then
+			if world:inview(pickup) and not pickup.collected then
 				if collision:check(player.x,player.y,player.w,player.h,
 					pickup.x, pickup.y,pickup.gfx:getWidth(),pickup.gfx:getHeight()) then
 						table.remove(pickups, i)
@@ -69,7 +69,7 @@ function collision:enemies(dt)
 	if mode == "editing" then return end
 	local i, enemy
 	for i, enemy in ipairs(enemies) do
-		if enemy.alive then
+		if world:inview(enemy) and enemy.alive then
 			if enemy.name == "walker" then
 				if collision:check(player.x,player.newY,player.w,player.h,
 					enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
@@ -104,13 +104,15 @@ function collision:checkpoints(dt)
 	
 	local i, checkpoint
 	for i, checkpoint in ipairs(checkpoints) do
-		if collision:check(player.x,player.y,player.w,player.h,
+		if world:inview(checkpoint) then
+			if collision:check(player.x,player.y,player.w,player.h,
 				checkpoint.x, checkpoint.y,checkpoint.w,checkpoint.h) then
-			if not checkpoint.activated then
-				sound:play(sound.checkpoint)
-				checkpoint.activated = true
-				player.spawnX = checkpoint.x
-				player.spawnY = checkpoint.y
+				if not checkpoint.activated then
+					sound:play(sound.checkpoint)
+					checkpoint.activated = true
+					player.spawnX = checkpoint.x
+					player.spawnY = checkpoint.y
+				end
 			end
 		end
 	end
