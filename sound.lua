@@ -1,9 +1,9 @@
 sound = {}
 
-local fx = "sounds/effect/"
-local mt = "sounds/music/"
+local fx = "sounds/effect/" --effects path
+local mt = "sounds/music/"  --music tracks path
 
--- place sound filepaths here
+-- place effect filepaths here
 sound.jump = love.audio.newSource(fx .. "jump.ogg", "static")
 sound.gem = love.audio.newSource(fx .. "gem.ogg", "static")
 sound.hit = love.audio.newSource(fx .. "hit.ogg", "static")
@@ -14,16 +14,18 @@ sound.lifeup = love.audio.newSource(fx .. "lifeup.ogg", "static")
 sound.kill = love.audio.newSource(fx .. "kill.ogg", "static")
 sound.checkpoint = love.audio.newSource(fx .. "checkpoint.ogg", "static")
 
--------------
--- map music specific test
-sound.music01 = love.audio.newSource(mt .. "jungle.ogg")
-sound.music02 = love.audio.newSource(mt .. "underwater.ogg")
-sound.music03 = love.audio.newSource(mt .. "walking.ogg")
-sound.music04 = love.audio.newSource(mt .. "intense.ogg")
-sound.music05 = love.audio.newSource(mt .. "busy.ogg")
 
+function sound:playbgm(id)
+	if id == "1" then  sound.bgm = love.audio.newSource(mt .. "jungle.ogg") end
+	if id == "2" then  sound.bgm = love.audio.newSource(mt .. "underwater.ogg") end
+	if id == "3" then  sound.bgm = love.audio.newSource(mt .. "walking.ogg") end
+	if id == "4" then  sound.bgm = love.audio.newSource(mt .. "intense.ogg") end
+	if id == "5" then  sound.bgm = love.audio.newSource(mt .. "busy.ogg") end
 
-
+	sound.bgm:setLooping(true)
+	sound.bgm:setVolume(0.5)
+	sound.bgm:play()
+end
 
 function sound:play(effect)
 	--improve this (temporary fix)

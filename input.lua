@@ -63,7 +63,6 @@ function love.keypressed(key)
 				mode = "game"
 					world:init()
 					player:init()
-
 					world:loadMap(world.map)
 			end
 			if key == "2" then

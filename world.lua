@@ -23,10 +23,8 @@ function world:init()
 	world.enemies = 0
 	world.pickups = 0
 	world.checkpoints = 0
-	
-	sound.music05:setLooping(true)
-	sound.music05:setVolume(0.5)
-	sound.music05:play()
+
+
 end
 
 
@@ -152,6 +150,11 @@ function world:loadMap(mapname)
 				local r,g,b,o = string.match(line, "^background=(%d+),(%d+),(%d+),(%d+)")
 				love.graphics.setBackgroundColor(r,g,b,o)
 			end
+			-- parse mapmusic
+			if string.find(line, "^mapmusic=(.+)") then
+				local n = string.match(line, "^mapmusic=(%d+)")
+				sound:playbgm(n)
+			end
 			--parse platforms
 			if string.find(line, "^platform=(.+)") then
 				
@@ -199,6 +202,7 @@ function world:loadMap(mapname)
 			end
     end
     fh:close()
+    
 
 end
 
@@ -211,4 +215,5 @@ function world:run()
 		end
 	end
 	--love.audio.stop( )
+
 end
