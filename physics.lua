@@ -148,7 +148,7 @@ function physics:platforms(object, dt)
 		for i, platform in ipairs(platforms) do
 		--move the platforms! 
 		-- platform.newX == physics:movex(platform,dt)  <--- (ret val)???
-				
+			
 			if collision:check(platform.x,platform.y,platform.w,platform.h,
 					object.newX,object.newY,object.w,object.h) then
 					

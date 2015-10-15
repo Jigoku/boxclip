@@ -26,7 +26,7 @@ function world:init()
 	world.enemies = 0
 	world.pickups = 0
 	world.checkpoints = 0
-	
+	world.collision = 0
 
 end
 
@@ -131,9 +131,11 @@ function world:inview(entity)
 	and (entity.x+entity.w > player.x - (love.graphics.getWidth()/2*camera.scaleX)-100)  then
 		if (entity.y < player.y + (love.graphics.getHeight()/2*camera.scaleX)+100) 
 		and (entity.y+entity.h > player.y - (love.graphics.getHeight()/2*camera.scaleX)-100) then
-		return true
+			world.collision = world.collision +1
+			return true
 		end
 	end
+	
 end
 
 function world:loadMap(mapname)
@@ -223,6 +225,6 @@ function world:run(dt)
 	  if groundLevel_scroll > groundLevel_tile:getHeight()then
         groundLevel_scroll = groundLevel_scroll - groundLevel_tile:getHeight()
     end
-
+	world.collision = 0
     
 end

@@ -71,8 +71,9 @@ function util:drawConsole()
 			" | platforms: " .. world:count(platforms) .. "(".. world.platforms .. ")" ..
 			" | crates: " .. world:count(crates) .. "("..world.crates .. ")" ..
 			" | checkpoints: " .. world:count(checkpoints) .. "("..world.checkpoints .. ")" ..
-			" | total: " ..world:count(pickups)+world:count(enemies)+world:count(platforms)+world:count(crates)+world:count(checkpoints) .. "(" .. world.pickups+world.enemies+world.platforms+world.crates+world.checkpoints .. ")",
-			5, 35
+			" | t: " ..world:count(pickups)+world:count(enemies)+world:count(platforms)+world:count(crates)+world:count(checkpoints) .. "(" .. world.pickups+world.enemies+world.platforms+world.crates+world.checkpoints .. ")" ..
+			" | ccpf: " .. world.collision,
+			 5, 35
 		)
 
 		
@@ -84,7 +85,7 @@ function util:drawConsole()
 		)
 		end
 		love.graphics.setColor(255,255,255,255)
-		love.graphics.print('Memory (kB): ' .. math.round(collectgarbage('count')) .. " entsel: " .. editor.entsel .. " entdir: " .. editor.entdir, 5,65)
+		love.graphics.print('Memory (kB): ' .. math.round(collectgarbage('count')) .. "| entsel: " .. editor.entsel .. " | entdir: " .. editor.entdir, 5,65)
 		
 
 	end

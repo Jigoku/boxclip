@@ -10,28 +10,33 @@ function collision:checkWorld(dt)
 end
 
 function collision:check(x1,y1,w1,h1, x2,y2,w2,h2)
-  return x1 < x2+w2 and
+	world.collision = world.collision +1
+	return x1 < x2+w2 and
 		 x2 < x1+w1 and
 		 y1 < y2+h2 and
 		 y2 < y1+h1
 end
 
 function collision:right(a,b)
+	world.collision = world.collision +1
 	return a.newX < b.x+b.w and 
 					a.x > b.x+b.w
 end
 
 function collision:left(a,b)
+	world.collision = world.collision +1
 	return a.newX+a.w > b.x and 
 					a.x+a.w < b.x
 end
 
 function collision:top(a,b)
+	world.collision = world.collision +1
 	return a.newY+a.h > b.y  and 
 					a.y < b.y
 end
 
 function collision:bottom(a,b)
+	world.collision = world.collision +1
 	return a.newY < b.y+b.h and 
 					a.y+a.h > b.y+b.h
 end
