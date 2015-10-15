@@ -205,9 +205,7 @@ function world:loadMap(mapname)
 			
 		end
 	end
-    --fh:close()
-    
-
+   
 end
 
 

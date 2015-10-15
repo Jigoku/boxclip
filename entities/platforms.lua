@@ -25,7 +25,35 @@ function platforms:add(x,y,w,h,movex,movey,movespeed,movedist)
 		movedist = movedist or 200,
 		xorigin = x,
 		yorigin = y,
-		gfx = platform_tile
+		gfx = platform_tile,
+
+		vertices = {
+			{
+				-- top-left corner
+				0, 0,
+				0, 0, -- texture coordinate at the vertex position
+				255,255,255 -- color of the vertex
+			},
+			{
+				-- top-right corner
+				w, 0,
+				w/platform_tile:getWidth(), 0,
+				255,255,255
+			},
+			{
+				-- bottom-right corner
+				w-5, h,
+				w/platform_tile:getWidth(), h/platform_tile:getHeight(),
+				255,255,255
+			},
+			{
+				-- bottom-left corner
+				5, h,
+				0, h/platform_tile:getHeight(),
+				255,255,255
+			},
+		}
+		
 		
 	})
 	print("platform added @  X:"..x.." Y: "..y .. "(w:" .. w .. " h:".. h.. ")")
@@ -43,28 +71,32 @@ function platforms:draw()
 	 	
 				if platform.movey == 1 or platform.movex == 1 then
 					love.graphics.setColor(platform.r+40,platform.g+40,platform.b+40,platform.o)
+					local mesh = love.graphics.newMesh(platform.vertices, platform.gfx, "fan")
+					love.graphics.draw(mesh, platform.x, platform.y)
 				else
 					love.graphics.setColor(platform.r,platform.g,platform.b,platform.o)
-				end
+					--tile the texture using quad
+					local quad = love.graphics.newQuad( 0,0, platform.w, platform.h, platform.gfx:getDimensions() )
+					platform.gfx:setWrap("repeat", "repeat")
+					love.graphics.draw(platform.gfx, quad, platform.x,platform.y)
 					
-				--tile the texture using quad
-				local quad = love.graphics.newQuad( 0,0, platform.w, platform.h, platform.gfx:getDimensions() )
-				platform.gfx:setWrap("repeat", "repeat")
-				love.graphics.draw(platform.gfx, quad, platform.x,platform.y)
-
-				--shaded edges
-				love.graphics.setColor(0,0,0,50)
-				--right
-				love.graphics.rectangle("fill", platform.x+platform.w-4, platform.y+4, 4, platform.h-4*2)
-				--bottom
-				love.graphics.rectangle("fill", platform.x, platform.y+platform.h-4, platform.w, 4)
-				--left
-				love.graphics.rectangle("fill", platform.x, platform.y+4, 4, platform.h-8)
+					--shaded edges
+					love.graphics.setColor(0,0,0,50)
+					--right
+					love.graphics.rectangle("fill", platform.x+platform.w-4, platform.y+4, 4, platform.h-4*2)
+					--bottom
+					love.graphics.rectangle("fill", platform.x, platform.y+platform.h-4, platform.w, 4)
+					--left
+					love.graphics.rectangle("fill", platform.x, platform.y+4, 4, platform.h-8)
+					
+				end
+				
 
 				
 				--top (placeholder surface = grass)
 				love.graphics.setColor(30,80,30,platform.o)
 				love.graphics.rectangle("fill", platform.x, platform.y-5, platform.w, 10)	
+
 			end
 		
 
