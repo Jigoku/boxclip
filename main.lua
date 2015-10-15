@@ -42,6 +42,12 @@ function love.load()
 	love.window.setIcon( icon )
 	love.mouse.setVisible( false )
 	
+	fonts = {
+		default = love.graphics.newFont(12),
+		scoreboard = love.graphics.newFont(16),
+		large = love.graphics.newFont(20),
+	}
+
 
 end
 

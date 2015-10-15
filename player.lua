@@ -18,7 +18,7 @@ function player:init()
 	player.score = 0
 	player.alive = 1
 	player.lives = 3	
-
+	player.gems = 0
 end
 
 
@@ -117,6 +117,7 @@ function player:collect(item)
 	if item.name == "gem" then
 		sound:play(sound.gem)
 		player.score = player.score + item.score
+		player.gems = player.gems +1
 	elseif item.name == "life" then
 		sound:play(sound.lifeup)
 		player.score = player.score + item.score
