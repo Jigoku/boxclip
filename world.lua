@@ -145,68 +145,67 @@ function world:loadMap(mapname)
 	repeat world:remove(checkpoints) until world:count(checkpoints) == 0
 
 	--load the mapfile
-	local fh = io.open(mapname, "r")
-
-	while true do
-        line = fh.read(fh)
-        if not line then break end
-			-- parse background color
-			if string.find(line, "^background=(.+)") then
-				local r,g,b,o = string.match(line, "^background=(%d+),(%d+),(%d+),(%d+)")
-				love.graphics.setBackgroundColor(r,g,b,o)
-			end
-			-- parse mapmusic
-			if string.find(line, "^mapmusic=(.+)") then
-				world.mapmusic = string.match(line, "^mapmusic=(%d+)")
-				sound:playbgm(world.mapmusic)
-			end
-			--parse platforms
-			if string.find(line, "^platform=(.+)") then
-				
-				local x,y,w,h,movex,movey,movespeed,movedist = string.match(
-					line, "^platform=(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+)"
-				)
-				platforms:add(tonumber(x),tonumber(y),tonumber(w),tonumber(h),tonumber(movex),tonumber(movey),tonumber(movespeed),tonumber(movedist))
-			end
-			-- parse pickups
-			if string.find(line, "^pickup=(.+)") then
-				local x,y,item = string.match(
-					line, "^pickup=(%-?%d+),(%-?%d+),(.+)"
-				)
-				pickups:add(tonumber(x),tonumber(y),item)
-			end
-			--parse crates
-			if string.find(line, "^crate=(.+)") then
-				local x,y,item = string.match(
-					line, "^crate=(%-?%d+),(%-?%d+),(.+)"
-				)
-				crates:add(tonumber(x),tonumber(y),item)
-			end
-			--parse checkpoints
-			if string.find(line, "^checkpoint=(.+)") then
-				local x,y = string.match(
-					line, "^checkpoint=(%-?%d+),(%-?%d+)"
-				)
-				checkpoints:add(tonumber(x),tonumber(y))
-			end
-			--parse enemy(walker)
-			if string.find(line, "^walker=(.+)") then
-				local x,y,movespeed,movedist = string.match(
-					line, "^walker=(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+)"
-				)
-				enemies:walker(tonumber(x),tonumber(y),tonumber(movespeed),tonumber(movedist))
-				
-			end
-			--parse enemy(spike)
-			if string.find(line, "^spike=(.+)") then
-				local x,y,dir = string.match(
-					line, "^spike=(%-?%d+),(%-?%d+),(%-?%d+)"
-				)
-				enemies:spike(tonumber(x),tonumber(y),tonumber(dir))
-				
-			end
-    end
-    fh:close()
+	local mapdata = love.filesystem.newFileData(mapname)
+	local lines = split(mapdata:getString(), "\n")
+	
+	for _, line in pairs(lines) do
+		-- parse background color
+		if string.find(line, "^background=(.+)") then
+			local r,g,b,o = string.match(line, "^background=(%d+),(%d+),(%d+),(%d+)")
+			love.graphics.setBackgroundColor(r,g,b,o)
+		end
+		-- parse mapmusic
+		if string.find(line, "^mapmusic=(.+)") then
+			world.mapmusic = string.match(line, "^mapmusic=(%d+)")
+			sound:playbgm(world.mapmusic)
+		end
+		--parse platforms
+		if string.find(line, "^platform=(.+)") then
+		
+			local x,y,w,h,movex,movey,movespeed,movedist = string.match(
+				line, "^platform=(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+)"
+			)
+			platforms:add(tonumber(x),tonumber(y),tonumber(w),tonumber(h),tonumber(movex),tonumber(movey),tonumber(movespeed),tonumber(movedist))
+		end
+		-- parse pickups
+		if string.find(line, "^pickup=(.+)") then
+			local x,y,item = string.match(
+				line, "^pickup=(%-?%d+),(%-?%d+),(.+)"
+			)
+			pickups:add(tonumber(x),tonumber(y),item)
+		end
+		--parse crates
+		if string.find(line, "^crate=(.+)") then
+			local x,y,item = string.match(
+				line, "^crate=(%-?%d+),(%-?%d+),(.+)"
+			)
+			crates:add(tonumber(x),tonumber(y),item)
+		end
+		--parse checkpoints
+		if string.find(line, "^checkpoint=(.+)") then
+			local x,y = string.match(
+				line, "^checkpoint=(%-?%d+),(%-?%d+)"
+			)
+			checkpoints:add(tonumber(x),tonumber(y))
+		end
+		--parse enemy(walker)
+		if string.find(line, "^walker=(.+)") then
+			local x,y,movespeed,movedist = string.match(
+				line, "^walker=(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+)"
+			)
+			enemies:walker(tonumber(x),tonumber(y),tonumber(movespeed),tonumber(movedist))
+			
+		end
+		--parse enemy(spike)
+		if string.find(line, "^spike=(.+)") then
+			local x,y,dir = string.match(
+				line, "^spike=(%-?%d+),(%-?%d+),(%-?%d+)"
+			)
+			enemies:spike(tonumber(x),tonumber(y),tonumber(dir))
+			
+		end
+	end
+    --fh:close()
     
 
 end

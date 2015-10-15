@@ -40,7 +40,6 @@ end
 
 
 function physics:movex(object, dt)
-
 	-- traverse x-axis
 	if object.x > object.xorigin + object.movedist then
 		object.x = object.xorigin + object.movedist
@@ -57,7 +56,6 @@ end
 
 
 function physics:movey(object, dt)
-
 	--traverse y-axis
 	if object.y > object.yorigin + object.movedist then
 		object.y = object.yorigin + object.movedist

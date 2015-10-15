@@ -19,6 +19,16 @@ function ripairs(t)
 end
 
 
+function split(s, delimiter)
+	--split string into a table
+    result = {};
+    for match in (s..delimiter):gmatch("(.-)"..delimiter) do
+        table.insert(result, match);
+    end
+    return result;
+end
+
+
 function util:drawCoordinates(object)
 	if editor.showpos then
 		-- co-ordinates
