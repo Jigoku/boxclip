@@ -210,5 +210,5 @@ function world:run()
 			mode = "title"
 		end
 	end
-	love.audio.stop( )
+	--love.audio.stop( )
 end

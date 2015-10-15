@@ -116,7 +116,7 @@ function editor:mousepressed(x,y,button)
 			pickups:add(x,y,"life")
 		end
 		if self.entsel == "spike" then
-			enemies:spike(x,y,1)
+			enemies:spike(x,y,0)
 			--enemies:spike(x,y,dir)
 		end
 		
