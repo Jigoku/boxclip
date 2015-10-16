@@ -86,6 +86,18 @@ function world:draw()
 
 	if mode =="game" then
 		love.graphics.setFont(fonts.scoreboard)
+		love.graphics.setColor(0,0,0,155)
+		love.graphics.printf("SCORE", 21,21,300,"left",0,1,1)
+		love.graphics.printf("LIVES", 21,41,300,"left",0,1,1)
+		love.graphics.printf("TIME", 21,61,300,"left",0,1,1)
+		love.graphics.printf("GEMS", 21,81,300,"left",0,1,1)
+		love.graphics.printf(player.score, 21,21,150,"right",0,1,1)
+		love.graphics.printf(player.lives, 21,41,150,"right",0,1,1)
+		love.graphics.printf(world:gettime(), 21,61,150,"right",0,1,1)
+		love.graphics.printf(player.gems, 21,81,150,"right",0,1,1)
+		love.graphics.setFont(fonts.default)
+		
+		love.graphics.setFont(fonts.scoreboard)
 		love.graphics.setColor(255,255,255,155)
 		love.graphics.printf("SCORE", 20,20,300,"left",0,1,1)
 		love.graphics.printf("LIVES", 20,40,300,"left",0,1,1)
