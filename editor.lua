@@ -13,6 +13,25 @@
 	camera position	: w,a,s,d
 --]]
 
+--[[
+entity id's
+	0 = spawn
+	1 = goal
+	2 = platform
+	3 = platform_x
+	4 = platform_y
+	5 = checkpoint
+	6 = crate
+	7 = spike
+	8 = icicle
+	9 = walker
+	10 = gem
+	11 = life
+	12 = flower
+--]]
+
+
+
 editor = {}
 editing = false
 
@@ -20,7 +39,7 @@ mousePosX = 0
 mousePosY = 0
 
 editor.entdir = 0 --(used for some entites 0,1,2,3 = up,down,right,left)
-editor.entsel = "nil"
+editor.entsel = 0
 editor.showpos = true
 editor.showid  = true
 editor.drawsel = false
@@ -30,17 +49,28 @@ editor.movespeed = 1000
 editor.clipboard = {}
 
 
+function editor:entname(id)
+	if id == 0 then return "spawn" 
+	elseif id == 1 then return "goal" 
+	elseif id == 2 then return "platform" 
+	elseif id == 3 then return "platform_x" 
+	elseif id == 4 then return "platform_y" 
+	elseif id == 5 then return "checkpoint" 
+	elseif id == 6 then return "crate" 
+	elseif id == 7 then return "spike" 
+	elseif id == 8 then return "icicle" 
+	elseif id == 9 then return "walker" 
+	elseif id ==10 then return "gem" 
+	elseif id ==11 then return "life" 
+	elseif id ==12 then return "flower" 
+	else return editor.entsel
+	end
+end
+
 function editor:keypressed(key)
-	if love.keyboard.isDown("1") then self.entsel = "platform" end
-	if love.keyboard.isDown("2") then self.entsel = "platform_y" end
-	if love.keyboard.isDown("3") then self.entsel = "platform_x" end
-	if love.keyboard.isDown("4") then self.entsel = "crate" end
-	if love.keyboard.isDown("5") then self.entsel = "walker" end
-	if love.keyboard.isDown("6") then self.entsel = "checkpoint" end
-	if love.keyboard.isDown("7") then self.entsel = "gem" end
-	if love.keyboard.isDown("8") then self.entsel = "life" end
-	if love.keyboard.isDown("9") then self.entsel = "spike" end
-	if love.keyboard.isDown("0") then self.entsel = "flower" end
+	--print (key)
+	if love.keyboard.isDown("kp+") then editor.entsel = editor.entsel +1 end
+	if love.keyboard.isDown("kp-") then editor.entsel = editor.entsel -1 end
 	
 	if love.keyboard.isDown("delete") then self:removesel() end
 	if love.keyboard.isDown("c") then self:copy() end
@@ -99,30 +129,30 @@ function editor:mousepressed(x,y,button)
 	local y = math.round(pressedPosY,-1)
 	
 	if button == 'l' then
-
+		local selection = self:entname(self.entsel)
 	
-		if self.entsel == "crate" then
+		if selection == "crate" then
 			crates:add(x,y,"gem")
 		end
 		
-		if self.entsel == "walker" then
+		if selection == "walker" then
 			enemies:walker(x,y,100,100) --movespeed,movedist should be configurable
 		end
-		if self.entsel == "checkpoint" then
+		if selection == "checkpoint" then
 			checkpoints:add(x,y)
 
 		end
-		if self.entsel == "gem" then
+		if selection == "gem" then
 			pickups:add(x,y,"gem")
 		end
-		if self.entsel == "life" then
+		if selection == "life" then
 			pickups:add(x,y,"life")
 		end
-		if self.entsel == "spike" then
+		if selection == "spike" then
 			enemies:spike(x,y,editor.entdir)
 			--enemies:spike(x,y,dir)
 		end
-		if self.entsel == "flower" then
+		if selection == "flower" then
 			scenery:add(x,y,"flower")
 		end
 		
@@ -133,7 +163,8 @@ end
 
 function editor:mousereleased(x,y,button)
 	if button == 'l' then
-		if self.entsel == "platform" or self.entsel == "platform_x" or self.entsel == "platform_y" then
+		local selection = self:entname(self.entsel)
+		if selection == "platform" or selection == "platform_x" or selection == "platform_y" then
 			self:addplatform(pressedPosX,pressedPosY,releasedPosX,releasedPosY)
 		end
 		return
@@ -154,13 +185,13 @@ function editor:addplatform(x1,y1,x2,y2)
 		local w = (x2-x1)
 		local h = (y2-y1)
 		
-		if self.entsel == "platform" then
+		if self.entsel == 2 then
 			platforms:add(x,y,w,h, 0,0,0,0)
 		end
-		if self.entsel == "platform_x" then
+		if self.entsel == 3 then
 			platforms:add(x,y,w,h, 1, 0, 100, 200)
 		end
-		if self.entsel == "platform_y" then
+		if self.entsel == 4 then
 			platforms:add(x,y,w,h, 0, 1, 100, 200)
 		end
 
@@ -310,28 +341,19 @@ function editor:paste()
 	local y = math.round(mousePosY,-1)
 	local w = self.clipboard.w or 20
 	local h = self.clipboard.h or 20
-	
-	if self.entsel == "platform" then
+	local selection = editor:entname(self.entsel)
+	if selection == "platform" then
 		platforms:add(x,y,w,h,0,0,0,0)
 	end
-	if self.entsel == "platform_x" then
+	if selection == "platform_x" then
 		platforms:add(x,y,w,h, 1, 0, 100, 200)
 	end
-	if self.entsel == "platform_y" then
+	if selection == "platform_y" then
 		platforms:add(x,y,w,h, 0, 1, 100, 200)
-	end
-	
-	if self.entsel == "crate" then
-		self:addcrate(x,y)
-	end
-		
-	if self.entsel == "walker" then
-		self:addwalker(x,y, 100, 100)
 	end
 end
 
 function editor:run(dt)
-	
 	player.xvel = 0
 	player.yvel = 0
 end
