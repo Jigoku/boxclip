@@ -103,7 +103,7 @@ function physics:crates(object,dt)
 				if collision:right(object,crate) then
 					if object.jumping == 1 then
 						object.newX = crate.x+crate.w +1
-						object.xvel = -player.speed
+						object.xvel = -object.mass
 						self:destroy("x",object,crate,i)
 					else
 						object.newX = crate.x+crate.w +1 *dt
@@ -112,7 +112,7 @@ function physics:crates(object,dt)
 				elseif collision:left(object,crate) then
 					if object.jumping == 1 then
 						object.newX = crate.x-object.w -1
-						object.xvel = player.speed
+						object.xvel = object.mass
 						self:destroy("x",object,crate,i)
 					else
 						object.newX = crate.x-object.w -1 *dt
@@ -121,7 +121,7 @@ function physics:crates(object,dt)
 				elseif collision:bottom(object,crate) then
 					if object.jumping == 1 then
 						object.newY = crate.y +crate.h +1
-						object.yvel = player.speed
+						object.yvel = object.mass
 						self:destroy("y",object,crate,i)
 					else
 						object.newY = crate.y +crate.h  +1 *dt
@@ -130,7 +130,7 @@ function physics:crates(object,dt)
 				elseif collision:top(object,crate) then
 					if object.jumping == 1 then
 						object.newY = crate.y - object.h -1
-						object.yvel = -player.speed
+						object.yvel = -object.mass
 						self:destroy("y",object,crate,i)
 					else
 						object.newY = crate.y - object.h 
