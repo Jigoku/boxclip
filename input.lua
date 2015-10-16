@@ -64,13 +64,15 @@ function love.keypressed(key)
 					world:init()
 					player:init()
 					world:loadMap(world.map)
+					player:respawn()
 			end
 			if key == "2" then
 				mode = "editing"
 					world:init()
 					player:init()
-
 					world:loadMap(world.map)
+					player:respawn()
+					
 			end
 		end
 	

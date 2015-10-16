@@ -86,7 +86,7 @@ function collision:enemies(dt)
 						return true
 					else
 						-- otherwise we die			
-						player:respawn()
+						player:die()
 						util:dprint("killed by " .. enemy.name)		
 					end
 				end
@@ -95,7 +95,7 @@ function collision:enemies(dt)
 			if enemy.name == "spike" then
 				if collision:check(player.x,player.newY,player.w,player.h,
 					enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
-					player:respawn()
+					player:die()
 					util:dprint("killed by " .. enemy.name)	
 				end
 			end

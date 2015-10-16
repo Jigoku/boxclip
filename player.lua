@@ -5,8 +5,6 @@ function player:init()
 	player.h = 50
 	player.x = 0
 	player.y = 0 
-	player.spawnX = 0
-	player.spawnY = 0
 	player.speed = 500
 	player.mass = 800
 	player.xvel = 0
@@ -93,8 +91,7 @@ function player:follow()
 	end
 end
 
-function player:respawn()	
-	sound:play(sound.die)
+function player:respawn()
 	sound:playbgm(world.mapmusic)
 	player.x = player.spawnX
 	player.y = player.spawnY
@@ -103,12 +100,16 @@ function player:respawn()
 	player.jumping = 0
 	player.dir = "idle"
 	player.lastdir = "idle"
-	player.lives = player.lives -1
 	player.alive = 1
-	
 	-- set this to checkpoint (when implemented)
 	player:follow(1)
 --	world:loadMap("maps/test.map")
+end
+
+function player:die()
+	sound:play(sound.die)
+	player.lives = player.lives -1
+	player:respawn()
 end
 
 function player:collect(item)

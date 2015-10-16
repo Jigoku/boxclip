@@ -130,7 +130,10 @@ function editor:mousepressed(x,y,button)
 	
 	if button == 'l' then
 		local selection = self:entname(self.entsel)
-	
+		if selection == "spawn" then
+			self:removeall(portals, "spawn")
+			portals:add(x,y,"spawn")
+		end
 		if selection == "crate" then
 			crates:add(x,y,"gem")
 		end
@@ -262,8 +265,9 @@ function editor:drawselbox()
 end
 
 function editor:drawselected()
-	return self:selection(pickups) or
-			self:selection(enemies) or
+	return self:selection(enemies) or
+			self:selection(pickups) or	
+			self:selection(portals) or		
 			self:selection(crates) or
 			self:selection(checkpoints) or
 			self:selection(scenery) or
@@ -294,12 +298,22 @@ function editor:selection(entity, x,y,w,h)
 end
 
 function editor:removesel()
-	return self:remove(pickups) or
-			self:remove(enemies) or
+	return self:remove(enemies) or
+			self:remove(pickups) or	
+			self:remove(portals) or		
 			self:remove(crates) or
 			self:remove(checkpoints) or
 			self:remove(scenery) or
 			self:remove(platforms)
+end
+
+function editor:removeall(objects, name)
+	for i, entity in ipairs(objects) do
+		if type(entity) == "table" and entity.name == name then
+
+			table.remove(objects,i)
+		end
+	end
 end
 
 function editor:remove(type, x,y,w,h)
@@ -472,6 +486,9 @@ function editor:savemap(map)
 	end
 	for i, entity in ipairs(scenery) do
 		fh:write("scenery="..math.round(entity.x)..","..math.round(entity.y)..","..entity.name.."\n")
+	end
+	for i, entity in ipairs(portals) do
+		fh:write("portal="..math.round(entity.x)..","..math.round(entity.y)..","..entity.name.."\n")
 	end
 	fh:close()
 end

@@ -30,6 +30,7 @@ require("entities/platforms")
 require("entities/checkpoints")
 require("entities/pickups")
 require("entities/enemies")
+require("entities/portals")
 
 
 --mode = "title"

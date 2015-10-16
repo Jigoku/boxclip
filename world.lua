@@ -48,6 +48,7 @@ function world:draw()
 	scenery:draw()
 	checkpoints:draw()
 	crates:draw()
+	portals:draw()
 	pickups:draw()
 	enemies:draw()
 	player:draw()	
@@ -61,6 +62,7 @@ function world:draw()
 	end
 	
 	if mode == "editing" then
+
 		--print some controls
 		love.graphics.setColor(255,255,255,255)
 		love.graphics.print("`   - console",10, love.window.getHeight()-140)
@@ -168,6 +170,7 @@ function world:loadMap(mapname)
 	repeat world:remove(scenery) until world:count(scenery) == 0
 	repeat world:remove(platforms) until world:count(platforms) == 0
 	repeat world:remove(checkpoints) until world:count(checkpoints) == 0
+	repeat world:remove(portals) until world:count(portals) == 0
 
 	--load the mapfile
 	local mapdata = love.filesystem.newFileData(mapname)
@@ -237,7 +240,21 @@ function world:loadMap(mapname)
 			scenery:add(tonumber(x),tonumber(y),type)
 			
 		end
-		
+		--parse portals
+		if string.find(line, "^portal=(.+)") then
+			local x,y,type = string.match(
+				line, "^portal=(%-?%d+),(%-?%d+),(.+)"
+			)
+			portals:add(tonumber(x),tonumber(y),type)
+			
+		end
+		for _, portal in ipairs(portals) do
+			--set starting spawn
+			if portal.name == "spawn" then
+				player.spawnX = portal.x
+				player.spawnY = portal.y
+			end
+		end	
 	end
    
 end

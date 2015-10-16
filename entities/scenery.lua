@@ -31,7 +31,25 @@ function scenery:draw()
 				love.graphics.draw(object.gfx, object.x,object.y,0, 1, 1)
 			end
 
+			if editing then
+				pickups:drawDebug(object, i)
+			end
+
 		end
 	end
 	world.scenery = count
+end
+
+function scenery:drawDebug(object, i)
+	--requires graphic, implement all pickups as graphics/image
+	love.graphics.setColor(255,0,155,100)
+	love.graphics.rectangle(
+		"line", 
+		object.x, 
+		object.y, 
+		object.gfx:getWidth(), 
+		object.gfx:getHeight()
+	)
+	util:drawid(object, i)
+	util:drawCoordinates(object)
 end
