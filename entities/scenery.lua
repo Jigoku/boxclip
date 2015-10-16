@@ -24,7 +24,7 @@ function scenery:draw()
 	
 	for i, object in ipairs(scenery) do
 		if world:inview(object) then
-		count = count + 1
+			count = count +1
 				
 			if object.name == "flower" then
 				love.graphics.setColor(255,255,255,255)
@@ -32,11 +32,12 @@ function scenery:draw()
 			end
 
 			if editing then
-				pickups:drawDebug(object, i)
+				scenery:drawDebug(object, i)
 			end
 
 		end
 	end
+
 	world.scenery = count
 end
 

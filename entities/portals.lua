@@ -34,7 +34,7 @@ function portals:draw()
 
 		end
 	end
-	world.scenery = count
+	world.portals = count
 end
 
 function portals:drawDebug(portal, i)

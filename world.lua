@@ -28,7 +28,7 @@ function world:init()
 	world.checkpoints = 0
 	world.scenery = 0
 	world.collision = 0
-
+	world.portals = 0
 end
 
 
