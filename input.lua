@@ -126,7 +126,7 @@ function love.keypressed(key)
 			if fullscreen then
 				local success = love.window.setFullscreen( false )
 			else
-				local success = love.window.setFullscreen( true)--, "desktop" )
+				local success = love.window.setFullscreen( true, "desktop" )
 			end
 			
 			if not success then

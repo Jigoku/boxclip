@@ -82,27 +82,31 @@ function editor:keypressed(key)
 	if love.keyboard.isDown(".") then self.showid = not self.showid end
 	if love.keyboard.isDown("f12") then self:savemap(world.map) end
 
+	if key == "kp8" or key == "kp2" or key == "kp4" or key == "kp6" then
 	for i, platform in ipairs(platforms) do
 		--fix this for moving platform (yorigin,xorigin etc)
-		if collision:check(mousePosX,mousePosY,1,1, platform.x,platform.y,platform.w,platform.h) then
-			if love.keyboard.isDown("kp8") then 
-				platform.y = math.round(platform.y - 10,-1) --up
-			end
-			if love.keyboard.isDown("kp2") then 
-				platform.y = math.round(platform.y + 10,-1) --down
-				platform.yorigin = platform.y
-			end 
-			if love.keyboard.isDown("kp4") then 
-				platform.x = math.round(platform.x - 10,-1) --left
-				platform.xorigin = platform.x
-			end 
-			if love.keyboard.isDown("kp6") then 
-				platform.x = math.round(platform.x + 10,-1)  --right
-				platform.xorigin = platform.x
-			end
+		if world:inview(platform) then
+			if collision:check(mousePosX,mousePosY,1,1, platform.x,platform.y,platform.w,platform.h) then
+				if love.keyboard.isDown("kp8") then 
+					platform.y = math.round(platform.y - 10,-1) --up
+				end
+				if love.keyboard.isDown("kp2") then 
+					platform.y = math.round(platform.y + 10,-1) --down
+					platform.yorigin = platform.y
+				end 
+				if love.keyboard.isDown("kp4") then 
+					platform.x = math.round(platform.x - 10,-1) --left
+					platform.xorigin = platform.x
+				end 
+				if love.keyboard.isDown("kp6") then 
+					platform.x = math.round(platform.x + 10,-1)  --right
+					platform.xorigin = platform.x
+				end
 
-			return true
+				return true
+			end
 		end
+	end
 	end
 end
 
@@ -281,20 +285,22 @@ function editor:selection(entity, x,y,w,h)
 	-- hilights the entity when mouseover 
 	love.graphics.setColor(0,255,0,200)
 	for i, entity in ripairs(entity) do
-		if entity.movex == 1 then
-			if collision:check(mousePosX,mousePosY,1,1,entity.xorigin, entity.yorigin, entity.movedist+entity.w, entity.h) then
-				love.graphics.rectangle("line", entity.xorigin, entity.yorigin, entity.movedist+entity.w, entity.h)
-				return true
-			end
-		elseif entity.movey == 1 then
-			if collision:check(mousePosX,mousePosY,1,1,entity.xorigin, entity.yorigin, entity.w, entity.h+entity.movedist) then
-				love.graphics.rectangle("line", entity.xorigin, entity.yorigin,entity.w, entity.h+entity.movedist)
-				return true
-			end
-		else
-			if collision:check(mousePosX,mousePosY,1,1,entity.x,entity.y,entity.w,entity.h) then
-				love.graphics.rectangle("line", entity.x,entity.y,entity.w,entity.h)
-				return true
+		if world:inview(entity) then
+			if entity.movex == 1 then
+				if collision:check(mousePosX,mousePosY,1,1,entity.xorigin, entity.yorigin, entity.movedist+entity.w, entity.h) then
+					love.graphics.rectangle("line", entity.xorigin, entity.yorigin, entity.movedist+entity.w, entity.h)
+					return true
+				end
+			elseif entity.movey == 1 then
+				if collision:check(mousePosX,mousePosY,1,1,entity.xorigin, entity.yorigin, entity.w, entity.h+entity.movedist) then
+					love.graphics.rectangle("line", entity.xorigin, entity.yorigin,entity.w, entity.h+entity.movedist)
+					return true
+				end
+			else
+				if collision:check(mousePosX,mousePosY,1,1,entity.x,entity.y,entity.w,entity.h) then
+					love.graphics.rectangle("line", entity.x,entity.y,entity.w,entity.h)
+					return true
+				end
 			end
 		end
 	end
@@ -323,10 +329,12 @@ function editor:remove(type, x,y,w,h)
 	--deletes the selected entity
 	
 	for i, item in ripairs(type) do
-		if collision:check(mousePosX,mousePosY,1,1, item.x,item.y,item.w,item.h) then
-			print( item.name .. " (" .. i .. ") removed" )
-			table.remove(type,i)
-			return true
+		if world:inview(item) then
+			if collision:check(mousePosX,mousePosY,1,1, item.x,item.y,item.w,item.h) then
+				print( item.name .. " (" .. i .. ") removed" )
+				table.remove(type,i)
+				return true
+			end
 		end
 	end
 end
@@ -342,12 +350,14 @@ end
 function editor:copy()
 	--primitive copy (dimensions only for now)
 	for i, platform in ripairs(platforms) do
-		if collision:check(mousePosX,mousePosY,1,1, platform.x,platform.y,platform.w,platform.h) then
-			self.clipboard = {
-				w = platform.w,
-				h = platform.h
-			}
-			return true
+		if world:inview(platform) then
+			if collision:check(mousePosX,mousePosY,1,1, platform.x,platform.y,platform.w,platform.h) then
+				self.clipboard = {
+					w = platform.w,
+					h = platform.h
+				}
+				return true
+			end
 		end
 	end
 end
