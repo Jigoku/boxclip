@@ -105,8 +105,8 @@ function love.keypressed(key)
 					camera.scaleX = 1
 					camera.scaleY = 1 
 				end
-			
 			end
+			
 		end
 		
 		--debug console

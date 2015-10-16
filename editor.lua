@@ -76,11 +76,10 @@ function editor:keypressed(key)
 	if love.keyboard.isDown("c") then self:copy() end
 	if love.keyboard.isDown("v") then self:paste() end
 	if love.keyboard.isDown("r") then self:rotate() end
-	if love.keyboard.isDown("m") then self.drawminimap = not self.drawminimap end
 	
+	if love.keyboard.isDown("m") then self.drawminimap = not self.drawminimap end
 	if love.keyboard.isDown(",") then self.showpos = not self.showpos end
 	if love.keyboard.isDown(".") then self.showid = not self.showid end
-
 	if love.keyboard.isDown("f12") then self:savemap(world.map) end
 
 	for i, platform in ipairs(platforms) do
