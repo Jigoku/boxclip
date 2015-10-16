@@ -149,7 +149,7 @@ function physics:platforms(object, dt)
 	for i, platform in ipairs(platforms) do
 	--move the platforms! 
 	
-		if world:inview(platform) then
+		
 			if collision:check(platform.x,platform.y,platform.w,platform.h,
 					object.newX,object.newY,object.w,object.h) then
 					
@@ -239,7 +239,7 @@ function physics:platforms(object, dt)
 					object.yvel = -object.mass 
 				end
 			end
-		end
+		
 
 	end
 end
@@ -247,6 +247,7 @@ end
 function physics:pickups(dt)
 	local i, pickup
 		for i, pickup in ipairs(pickups) do
+		
 			if world:inview(pickup) then
 			self:applyGravity(pickup, dt)
 			
@@ -259,11 +260,11 @@ function physics:pickups(dt)
 			--update new poisition
 			pickup.x = pickup.newX
 			pickup.y = pickup.newY
+			end
 			
 			-- if pickup goes outside of world, remove it
 			if pickup.y+pickup.h > world.groundLevel  then
 				pickups:destroy(pickups,i)
-			end
 			end
 		end
 end
@@ -287,7 +288,7 @@ end
 function physics:enemies(dt)
 	local i, enemy
 	for i, enemy in ipairs(enemies) do
-		if type(enemy) == "table" and enemy.alive and world:inview(enemy) then
+		if type(enemy) == "table" and enemy.alive then
 		
 			if enemy.name == "walker" then
 				self:applyGravity(enemy, dt)
@@ -306,10 +307,6 @@ function physics:enemies(dt)
 				end
 			end	
 		end
-
-
-		
-
 	end
 end
 

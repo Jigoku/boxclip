@@ -155,10 +155,10 @@ end
 
 function world:inview(entity) 
 	--decides if the entity is visible in the game viewport
-	if (entity.x < player.x + (love.graphics.getWidth()/2*camera.scaleX)+100) 
-	and (entity.x+entity.w > player.x - (love.graphics.getWidth()/2*camera.scaleX)-100)  then
-		if (entity.y < player.y + (love.graphics.getHeight()/2*camera.scaleX)+100) 
-		and (entity.y+entity.h > player.y - (love.graphics.getHeight()/2*camera.scaleX)-100) then
+	if (entity.x < player.x + (love.graphics.getWidth()/2*camera.scaleX)+200) 
+	and (entity.x+entity.w > player.x - (love.graphics.getWidth()/2*camera.scaleX)-200)  then
+		if (entity.y < player.y + (love.graphics.getHeight()/2*camera.scaleX)+200) 
+		and (entity.y+entity.h > player.y - (love.graphics.getHeight()/2*camera.scaleX)-200) then
 			world.collision = world.collision +1
 			return true
 		end

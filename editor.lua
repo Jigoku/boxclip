@@ -491,7 +491,7 @@ function editor:savemap(map)
 	end
 	for i, entity in ipairs(enemies) do
 		if entity.name == "walker" then
-			fh:write("walker="..math.round(entity.xorigin)..","..math.round(entity.yorigin)..","..entity.movespeed..","..entity.movedist.."\n")
+			fh:write("walker="..math.round(entity.xorigin)..","..math.round(entity.y)..","..entity.movespeed..","..entity.movedist.."\n")
 		end
 		if entity.name == "spike" then
 			fh:write("spike="..math.round(entity.x)..","..math.round(entity.y)..","..math.round(entity.dir).."\n")
