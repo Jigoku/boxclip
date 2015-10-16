@@ -89,8 +89,10 @@ function physics:crates(object,dt)
 	if mode == "editing" then return end
 	local i, crate
 	for i, crate in ipairs(crates) do
-		if collision:check(crate.x,crate.y,crate.w,crate.h,
-			object.newX,object.newY,object.w,object.h) and not crate.destroyed then
+	
+		if world:inview(crate) then
+			if collision:check(crate.x,crate.y,crate.w,crate.h,
+				object.newX,object.newY,object.w,object.h) and not crate.destroyed then
 				
 				if object.jumping == 1 then 
 					crate.destroyed = true
@@ -136,17 +138,18 @@ function physics:crates(object,dt)
 					end
 				end		
 			end
+		end
 	end	
 end
 
 function physics:platforms(object, dt)
 	--loop solid platforms
 	
-		local i, platform
-		for i, platform in ipairs(platforms) do
-		--move the platforms! 
-		-- platform.newX == physics:movex(platform,dt)  <--- (ret val)???
-			
+	local i, platform
+	for i, platform in ipairs(platforms) do
+	--move the platforms! 
+	
+		if world:inview(platform) then
 			if collision:check(platform.x,platform.y,platform.w,platform.h,
 					object.newX,object.newY,object.w,object.h) then
 					
@@ -238,7 +241,7 @@ function physics:platforms(object, dt)
 			end
 		end
 
-	
+	end
 end
 
 function physics:pickups(dt)
