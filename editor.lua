@@ -127,6 +127,10 @@ function editor:mousepressed(x,y,button)
 	local x = math.round(pressedPosX,-1)
 	local y = math.round(pressedPosY,-1)
 	
+	-- entity selection with mousescroll
+	if button == 'wu' then editor.entsel = editor.entsel +1 end
+	if button == 'wd' then editor.entsel = editor.entsel -1 end
+	
 	if button == 'l' then
 		local selection = self:entname(self.entsel)
 		if selection == "spawn" then
