@@ -165,6 +165,7 @@ function world:loadMap(mapname)
 	repeat world:remove(enemies) until world:count(enemies) == 0
 	repeat world:remove(pickups) until world:count(pickups) == 0
 	repeat world:remove(crates) until world:count(crates) == 0
+	repeat world:remove(scenery) until world:count(scenery) == 0
 	repeat world:remove(platforms) until world:count(platforms) == 0
 	repeat world:remove(checkpoints) until world:count(checkpoints) == 0
 
