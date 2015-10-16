@@ -1,7 +1,9 @@
 enemies = {}
 
 walker = love.graphics.newImage( "graphics/enemies/walker.png")
-spike = love.graphics.newImage( "graphics/enemies/spike.png")
+--spike = love.graphics.newImage( "graphics/enemies/spike.png")
+spike = love.graphics.newImage( "graphics/enemies/icicle.png")
+
 function enemies:walker(x,y,movespeed,movedist)
 	table.insert(enemies, {
 		--movement
