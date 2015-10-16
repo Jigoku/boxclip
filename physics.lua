@@ -89,8 +89,6 @@ function physics:crates(object,dt)
 	if mode == "editing" then return end
 	local i, crate
 	for i, crate in ipairs(crates) do
-
-		if world:inview(crate) then
 		if collision:check(crate.x,crate.y,crate.w,crate.h,
 			object.newX,object.newY,object.w,object.h) and not crate.destroyed then
 				
@@ -138,7 +136,6 @@ function physics:crates(object,dt)
 					end
 				end		
 			end
-		end
 	end	
 end
 
@@ -247,6 +244,7 @@ end
 function physics:pickups(dt)
 	local i, pickup
 		for i, pickup in ipairs(pickups) do
+			if world:inview(pickup) then
 			self:applyGravity(pickup, dt)
 			
 			pickup.newX = (pickup.x + pickup.xvel *dt)
@@ -262,6 +260,7 @@ function physics:pickups(dt)
 			-- if pickup goes outside of world, remove it
 			if pickup.y+pickup.h > world.groundLevel  then
 				pickups:destroy(pickups,i)
+			end
 			end
 		end
 end
@@ -285,7 +284,7 @@ end
 function physics:enemies(dt)
 	local i, enemy
 	for i, enemy in ipairs(enemies) do
-		if type(enemy) == "table" and enemy.alive then
+		if type(enemy) == "table" and enemy.alive and world:inview(enemy) then
 		
 			if enemy.name == "walker" then
 				self:applyGravity(enemy, dt)
