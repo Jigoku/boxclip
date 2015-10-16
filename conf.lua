@@ -1,7 +1,8 @@
 name = "Boxclip"
 author = "ricky thomson"
 version = 0.1
-print (name .. " " .. version .. " by " .. author)
+build = "-dev"
+print (name .. " " .. version .. build .. " by " .. author)
 function love.conf(t)
 	t.version = "0.9.2"
 	t.window.title = name .. " " .. version

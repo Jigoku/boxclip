@@ -40,6 +40,7 @@ function editor:keypressed(key)
 	if love.keyboard.isDown("7") then self.entsel = "gem" end
 	if love.keyboard.isDown("8") then self.entsel = "life" end
 	if love.keyboard.isDown("9") then self.entsel = "spike" end
+	if love.keyboard.isDown("0") then self.entsel = "flower" end
 	
 	if love.keyboard.isDown("delete") then self:removesel() end
 	if love.keyboard.isDown("c") then self:copy() end
@@ -101,7 +102,7 @@ function editor:mousepressed(x,y,button)
 
 	
 		if self.entsel == "crate" then
-				crates:add(x,y,"gem")
+			crates:add(x,y,"gem")
 		end
 		
 		if self.entsel == "walker" then
@@ -121,9 +122,11 @@ function editor:mousepressed(x,y,button)
 			enemies:spike(x,y,editor.entdir)
 			--enemies:spike(x,y,dir)
 		end
+		if self.entsel == "flower" then
+			scenery:add(x,y,"flower")
+		end
 		
-	end
-	if button == 'r' then
+	elseif button == 'r' then
 		editor:removesel()
 	end
 end
@@ -133,6 +136,7 @@ function editor:mousereleased(x,y,button)
 		if self.entsel == "platform" or self.entsel == "platform_x" or self.entsel == "platform_y" then
 			self:addplatform(pressedPosX,pressedPosY,releasedPosX,releasedPosY)
 		end
+		return
 	end
 end
 
@@ -231,6 +235,7 @@ function editor:drawselected()
 			self:selection(enemies) or
 			self:selection(crates) or
 			self:selection(checkpoints) or
+			self:selection(scenery) or
 			self:selection(platforms)
 end
 
@@ -262,6 +267,7 @@ function editor:removesel()
 			self:remove(enemies) or
 			self:remove(crates) or
 			self:remove(checkpoints) or
+			self:remove(scenery) or
 			self:remove(platforms)
 end
 
@@ -442,6 +448,8 @@ function editor:savemap(map)
 			fh:write("spike="..math.round(entity.x)..","..math.round(entity.y)..","..math.round(entity.dir).."\n")
 		end
 	end
-	
+	for i, entity in ipairs(scenery) do
+		fh:write("scenery="..math.round(entity.x)..","..math.round(entity.y)..","..entity.name.."\n")
+	end
 	fh:close()
 end

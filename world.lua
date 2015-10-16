@@ -26,6 +26,7 @@ function world:init()
 	world.enemies = 0
 	world.pickups = 0
 	world.checkpoints = 0
+	world.scenery = 0
 	world.collision = 0
 
 end
@@ -44,6 +45,7 @@ function world:draw()
 
 
 	platforms:draw()
+	scenery:draw()
 	checkpoints:draw()
 	crates:draw()
 	pickups:draw()
@@ -226,6 +228,15 @@ function world:loadMap(mapname)
 			enemies:spike(tonumber(x),tonumber(y),tonumber(dir))
 			
 		end
+		--parse scenery
+		if string.find(line, "^scenery=(.+)") then
+			local x,y,type = string.match(
+				line, "^scenery=(%-?%d+),(%-?%d+),(.+)"
+			)
+			scenery:add(tonumber(x),tonumber(y),type)
+			
+		end
+		
 	end
    
 end
