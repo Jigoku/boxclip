@@ -11,9 +11,9 @@ function platforms:add(x,y,w,h,movex,movey,movespeed,movedist)
 		w = w or 0, -- width
 		h = h or 0, -- height
 		--colour
-		r = r or 210, -- red
-		g = g or 140, -- green
-		b = b or 40, -- blue
+		r = r or 115, -- red
+		g = g or 170, -- green
+		b = b or 170, -- blue
 		o = o or 255, -- opacity
 		--properties
 		name = "platform",
@@ -62,7 +62,7 @@ function platforms:draw()
 				love.graphics.rectangle("fill", platform.x, platform.y+4, 4, platform.h-8)
 				
 				--top (placeholder surface = grass)
-				love.graphics.setColor(30,80,30,platform.o)
+				love.graphics.setColor(170,180,190,platform.o)
 				love.graphics.rectangle("fill", platform.x, platform.y-5, platform.w, 10)	
 
 			end
