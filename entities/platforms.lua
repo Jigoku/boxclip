@@ -61,10 +61,11 @@ function platforms:draw()
 				--left
 				love.graphics.rectangle("fill", platform.x, platform.y+4, 4, platform.h-8)
 				
-				--top (placeholder surface = grass)
+				--top (placeholder surface)
 				love.graphics.setColor(170,180,190,platform.o)
 				love.graphics.rectangle("fill", platform.x, platform.y-5, platform.w, 10)	
-
+				love.graphics.arc( "fill", platform.x+platform.w, platform.y, -5, math.pi/2, math.pi*1.5 )
+				love.graphics.arc( "fill", platform.x, platform.y, 5, math.pi/2, math.pi*1.5 )
 			end
 
 		end

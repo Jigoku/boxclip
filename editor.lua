@@ -425,8 +425,8 @@ end
 
 function editor:savemap(map)
 	local fh = io.open(map, "w+")
-	fh:write("background=30,70,70,255".."\n")
-	fh:write("mapmusic=5".."\n")
+	fh:write("background=130,150,150,255".."\n")
+	fh:write("mapmusic=2".."\n")
 	for i, entity in ipairs(platforms) do
 		fh:write("platform="..math.round(entity.xorigin)..","..math.round(entity.yorigin)..","..entity.w..","..entity.h..","..entity.movex..","..entity.movey..","..entity.movespeed..","..entity.movedist.."\n")
 	end

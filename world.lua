@@ -249,6 +249,14 @@ function world:run(dt)
 		if player.lives < 0 then
 			mode = "title"
 		end
+		
+		--[[
+		if player.gems == 100 then
+			player.gems = 0
+			player.lives = player.lives +1
+			sound:play(sound.lifeup)
+		end
+		--]]
 	end
 	--love.audio.stop( )
 	
