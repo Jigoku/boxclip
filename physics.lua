@@ -279,7 +279,7 @@ function physics:destroy(axis,object,crate,i)
 		elseif axis == "x" then
 			object.xvel = -object.xvel
 		end
-		crates:addpickup(crate, i)	
+		crates:addpickup(crate, i,true)	
 	end
 end
 

@@ -59,7 +59,7 @@ function collision:pickups(dt)
 			if world:inview(pickup) and not pickup.collected then
 				if collision:check(player.x,player.y,player.w,player.h,
 					pickup.x, pickup.y,pickup.gfx:getWidth(),pickup.gfx:getHeight()) then
-						table.remove(pickups, i)
+						table.remove(pickups,i)
 						pickup.collected = true
 						player:collect(pickup)
 				end
@@ -117,7 +117,7 @@ function collision:checkpoints(dt)
 					sound:play(sound.checkpoint)
 					checkpoint.activated = true
 					player.spawnX = checkpoint.x
-					player.spawnY = checkpoint.y
+					player.spawnY = checkpoint.y					
 				end
 			end
 		end

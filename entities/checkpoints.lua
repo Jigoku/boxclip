@@ -1,5 +1,6 @@
 checkpoints = {}
 
+
 function checkpoints:add(x,y)
 	table.insert(checkpoints, {
 		x = x or 0,
@@ -46,3 +47,4 @@ function checkpoints:drawDebug(checkpoint, i)
 	util:drawCoordinates(checkpoint)
 	
 end
+

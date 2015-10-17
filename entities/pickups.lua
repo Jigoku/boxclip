@@ -11,7 +11,7 @@ function pickups:random(path)
 
 end
 
-function pickups:add(x,y,item)
+function pickups:add(x,y,item,dropped)
 	if item == "gem" then
 		table.insert(pickups, {
 			x =x or 0,
@@ -21,6 +21,7 @@ function pickups:add(x,y,item)
 			name = "gem",
 			gfx = pickups.gem,
 			collected = false,
+			dropped = dropped or false,
 			red = math.random(100,255),
 			green = math.random(200,255),
 			blue = math.random(100,255),
@@ -38,6 +39,7 @@ function pickups:add(x,y,item)
 			name = "life",
 			gfx = pickups.life,
 			collected = false,
+			dropped = dropped or false,
 			mass = 800,
 			xvel = 0,
 			yvel = 0,
