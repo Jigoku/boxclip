@@ -63,6 +63,7 @@ function editor:entname(id)
 	elseif id ==10 then return "gem" 
 	elseif id ==11 then return "life" 
 	elseif id ==12 then return "flower" 
+	elseif id ==13 then return "rock" 
 	else return editor.entsel
 	end
 end
@@ -169,6 +170,9 @@ function editor:mousepressed(x,y,button)
 		end
 		if selection == "flower" then
 			scenery:add(x,y,"flower")
+		end
+		if selection == "rock" then
+			scenery:add(x,y,"rock")
 		end
 		
 	elseif button == 'r' then
