@@ -141,6 +141,11 @@ function editor:mousepressed(x,y,button)
 			self:removeall(portals, "spawn")
 			portals:add(x,y,"spawn")
 		end
+		if selection == "goal" then
+			self:removeall(portals, "goal")
+			portals:add(x,y,"goal")
+		end
+		
 		if selection == "crate" then
 			crates:add(x,y,"gem")
 		end

@@ -6,6 +6,7 @@ function collision:checkWorld(dt)
 		self:pickups(dt)
 		self:enemies(dt)
 		self:checkpoints(dt)
+		self:portals(dt)
 	end
 end
 
@@ -118,6 +119,28 @@ function collision:checkpoints(dt)
 					player.spawnX = checkpoint.x
 					player.spawnY = checkpoint.y
 				end
+			end
+		end
+	end
+end
+
+function collision:portals(dt)
+	if mode == "editing" then return end
+	
+	local i, portal
+	for i, portal in ipairs(portals) do
+		if world:inview(portal) then
+			if collision:check(player.x,player.y,player.w,player.h,
+				portal.x, portal.y,portal.w,portal.h) then
+				
+					if portal.name == "goal" then
+						if not portal.activated then
+							--add paramater for "next map"?
+							portal.activated = true
+							sound:play(sound.goal)
+							print("Reached goal")
+						end
+					end
 			end
 		end
 	end
