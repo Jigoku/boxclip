@@ -5,6 +5,8 @@ function player:init()
 	player.h = 50
 	player.x = 0
 	player.y = 0 
+	player.spawnX = 0
+	player.spawnY = 0 
 	player.speed = 500
 	player.mass = 800
 	player.xvel = 0

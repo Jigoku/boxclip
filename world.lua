@@ -248,6 +248,14 @@ function world:loadMap(mapname)
 			enemies:spike(tonumber(x),tonumber(y),tonumber(dir))
 			
 		end
+		--parse enemy(icicle)
+		if string.find(line, "^icicle=(.+)") then
+			local x,y,dir = string.match(
+				line, "^icicle=(%-?%d+),(%-?%d+),(%-?%d+)"
+			)
+			enemies:icicle(tonumber(x),tonumber(y),tonumber(dir))
+			
+		end
 		--parse scenery
 		if string.find(line, "^scenery=(.+)") then
 			local x,y,type = string.match(

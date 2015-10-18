@@ -168,6 +168,10 @@ function editor:mousepressed(x,y,button)
 			enemies:spike(x,y,editor.entdir)
 			--enemies:spike(x,y,dir)
 		end
+		if selection == "icicle" then
+			enemies:icicle(x,y,editor.entdir)
+			--enemies:spike(x,y,dir)
+		end
 		if selection == "flower" then
 			scenery:add(x,y,"flower")
 		end
@@ -504,6 +508,9 @@ function editor:savemap(map)
 		end
 		if entity.name == "spike" then
 			fh:write("spike="..math.round(entity.x)..","..math.round(entity.y)..","..math.round(entity.dir).."\n")
+		end
+		if entity.name == "icicle" then
+			fh:write("icicle="..math.round(entity.x)..","..math.round(entity.y)..","..math.round(entity.dir).."\n")
 		end
 	end
 	for i, entity in ipairs(scenery) do

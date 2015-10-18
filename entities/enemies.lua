@@ -71,6 +71,37 @@ function enemies:spike(x,y,dir)
 	print( "spike added @  X:"..x.." Y: "..y)
 end
 
+function enemies:icicle(x,y,dir)
+
+	if dir == 0 or dir == 1 then
+		width = 80
+		height = 30
+	end
+	if dir == 2 or dir == 3 then
+		width = 30
+		height = 80
+	end
+	table.insert(enemies, {		
+		--position
+		x = x or 0,
+		y = y or 0,
+		xorigin = x,
+		yorigin = y,
+		
+		--dimension
+		w = width,
+		h = height,
+		
+		--properties
+		name = "spike",
+		alive = true,
+		movedist = 0,
+		gfx = icicle,
+		dir = dir
+		
+	})
+	print( "icicle added @  X:"..x.." Y: "..y)
+end
 
 function enemies:draw()
 	local count = 0
