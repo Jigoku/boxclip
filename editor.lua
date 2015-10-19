@@ -40,6 +40,7 @@ mousePosY = 0
 
 editor.entdir = 0 --(used for some entites 0,1,2,3 = up,down,right,left)
 editor.entsel = 0
+editor.themesel = 0
 editor.showpos = true
 editor.showid  = true
 editor.drawsel = false
@@ -68,6 +69,7 @@ function editor:entname(id)
 	end
 end
 
+
 function editor:keypressed(key)
 	--print (key)
 	if love.keyboard.isDown("kp+") then editor.entsel = editor.entsel +1 end
@@ -81,7 +83,7 @@ function editor:keypressed(key)
 	if love.keyboard.isDown("m") then self.drawminimap = not self.drawminimap end
 	if love.keyboard.isDown(",") then self.showpos = not self.showpos end
 	if love.keyboard.isDown(".") then self.showid = not self.showid end
-	if love.keyboard.isDown("f12") then self:savemap(world.map) end
+	if love.keyboard.isDown("f12") then io:savemap(world.map) end
 
 	if key == "kp8" or key == "kp2" or key == "kp4" or key == "kp6" then
 	for i, platform in ipairs(platforms) do
@@ -481,36 +483,4 @@ function editor:drawmmap()
 end
 
 
-function editor:savemap(map)
-	local fh = io.open(map, "w+")
-	fh:write("mapmusic=1".."\n")
-	fh:write("theme=jungle".."\n")
-	for i, entity in ipairs(platforms) do
-		fh:write("platform="..math.round(entity.xorigin)..","..math.round(entity.yorigin)..","..entity.w..","..entity.h..","..entity.movex..","..entity.movey..","..entity.movespeed..","..entity.movedist.."\n")
-	end
-	
-	for i, entity in ipairs(pickups) do
-		fh:write("pickup="..math.round(entity.x)..","..math.round(entity.y)..","..entity.name.."\n")
-	end
-	for i, entity in ipairs(crates) do
-		fh:write("crate="..math.round(entity.x)..","..math.round(entity.y)..","..entity.item.."\n")
-	end
-	for i, entity in ipairs(checkpoints) do
-		fh:write("checkpoint="..math.round(entity.x)..","..math.round(entity.y).."\n")
-	end
-	for i, entity in ipairs(enemies) do
-		if entity.name == "walker" then
-			fh:write("walker="..math.round(entity.xorigin)..","..math.round(entity.y)..","..entity.movespeed..","..entity.movedist.."\n")
-		end
-		if entity.name == "spike" then
-			fh:write("spike="..math.round(entity.x)..","..math.round(entity.y)..","..math.round(entity.dir).."\n")
-		end
-	end
-	for i, entity in ipairs(scenery) do
-		fh:write("scenery="..math.round(entity.x)..","..math.round(entity.y)..","..entity.name.."\n")
-	end
-	for i, entity in ipairs(portals) do
-		fh:write("portal="..math.round(entity.x)..","..math.round(entity.y)..","..entity.name.."\n")
-	end
-	fh:close()
-end
+

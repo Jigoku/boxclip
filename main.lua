@@ -14,7 +14,7 @@
 	quit         : esc
 	camera scale : z
 --]]
-
+require("mapio")
 require("camera")
 require("sound")
 require("physics")
