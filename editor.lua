@@ -83,7 +83,7 @@ function editor:keypressed(key)
 	if love.keyboard.isDown("m") then self.drawminimap = not self.drawminimap end
 	if love.keyboard.isDown(",") then self.showpos = not self.showpos end
 	if love.keyboard.isDown(".") then self.showid = not self.showid end
-	if love.keyboard.isDown("f12") then io:savemap(world.map) end
+	if love.keyboard.isDown("f12") then mapio:savemap(world.map) end
 
 	if key == "kp8" or key == "kp2" or key == "kp4" or key == "kp6" then
 	for i, platform in ipairs(platforms) do

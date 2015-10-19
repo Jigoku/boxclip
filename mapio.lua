@@ -2,7 +2,7 @@ mapio = {}
 
 function mapio:savemap(map)
 	local fh = io.open(map, "w+")
-	fh:write("mapmusic=1".."\n")
+	fh:write("mapmusic=5".."\n")
 	fh:write("theme="..world.theme.."\n")
 	for i, entity in ipairs(platforms) do
 		fh:write("platform="..math.round(entity.xorigin)..","..math.round(entity.yorigin)..","..entity.w..","..entity.h..","..entity.movex..","..entity.movey..","..entity.movespeed..","..entity.movedist.."\n")
