@@ -187,7 +187,7 @@ function physics:platforms(object, dt)
 					
 					if platform.name == "platform" then
 						--sounds on collision
-						if object.jumping == 1 then 
+						if object.jumping == 1 and (object.yvel < 0) then 
 							sound:play(sound.hit)
 						end
 						
@@ -211,7 +211,7 @@ function physics:platforms(object, dt)
 							object.newX = (object.newX + platform.movespeed *dt)
 						end
 							
-if platform.movey == 1 and object.yvel <= 0 then
+						if platform.movey == 1 and object.yvel <= 0 then
 							--going up
 							if platform.movespeed < 0 then
 								object.newY = (platform.y-object.h -platform.movespeed *dt)
