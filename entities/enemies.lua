@@ -93,7 +93,7 @@ function enemies:icicle(x,y,dir)
 		h = height,
 		
 		--properties
-		name = "spike",
+		name = "icicle",
 		alive = true,
 		movedist = 0,
 		gfx = icicle,
@@ -125,7 +125,7 @@ function enemies:draw()
 			end
 			
 			love.graphics.setColor(255,255,255,255)
-			if enemy.name == "spike" then
+			if enemy.name == "spike" or enemy.name == "icicle" then
 				if enemy.dir == 0 then
 					love.graphics.draw(enemy.gfx, enemy.x, enemy.y, 0,1,1)
 				elseif enemy.dir == 1 then
