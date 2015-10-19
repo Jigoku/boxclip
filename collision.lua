@@ -32,14 +32,21 @@ end
 
 function collision:top(a,b)
 	world.collision = world.collision +1
+	--also allows edge stepping
 	return a.newY+a.h > b.y  and 
-					a.y < b.y
+					a.y+a.h-(a.h/4) < b.y
 end
 
 function collision:bottom(a,b)
 	world.collision = world.collision +1
 	return a.newY < b.y+b.h and 
 					a.y+a.h > b.y+b.h
+end
+
+function collision:above(a,b)
+	world.collision = world.collision +1
+	return a.newY+a.h > b.y  and 
+					a.y < b.y
 end
 
 function collision:bounds() 
@@ -80,7 +87,7 @@ function collision:enemies(dt)
 				if collision:check(player.x,player.newY,player.w,player.h,
 					enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
 					-- if we land on top, kill enemy
-					if collision:top(player,enemy) and player.jumping == 1 then	
+					if collision:above(player,enemy) and player.jumping == 1 then	
 						player.y = enemy.y - player.h -1 *dt
 						enemy.alive = false
 						player:attack(enemy)

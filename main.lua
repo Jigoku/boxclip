@@ -84,6 +84,7 @@ function love.update(dt)
 		physics:player(dt)
 		physics:pickups(dt)
 		physics:enemies(dt)
+				
 		collision:checkWorld(dt)
 		player:follow()
 		world:run(dt)

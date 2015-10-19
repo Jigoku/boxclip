@@ -41,12 +41,12 @@ end
 
 function physics:movex(object, dt)
 	-- traverse x-axis
-	if object.x > object.xorigin + object.movedist then
+	if object.x >= object.xorigin + object.movedist then
 		object.x = object.xorigin + object.movedist
 		object.movespeed = -object.movespeed
 		object.dir = "left"
 	end	
-	if object.x < object.xorigin then
+	if object.x <= object.xorigin then
 		object.x = object.xorigin
 		object.movespeed = -object.movespeed
 		object.dir = "right"
@@ -57,11 +57,11 @@ end
 
 function physics:movey(object, dt)
 	--traverse y-axis
-	if object.y > object.yorigin + object.movedist then
+	if object.y >= object.yorigin + object.movedist then
 		object.y = object.yorigin + object.movedist
-		object.movespeed = -object.movespeed	
+		object.movespeed = -object.movespeed 
 	end
-	if object.y < object.yorigin  then
+	if object.y <= object.yorigin  then
 		object.y = object.yorigin
 		object.movespeed = -object.movespeed
 	end
@@ -77,11 +77,7 @@ function physics:world(dt)
 		if object.movex == 1 then self:movex(object, dt) end
 		if object.movey == 1 then self:movey(object, dt) end
 	end
-	--enemies
-	for i, object in ipairs(enemies) do
-		if object.movex == 1 then self:movex(object, dt) end
-		if object.movey == 1 then self:movey(object, dt) end
-	end
+
 end
 
 
@@ -157,7 +153,7 @@ function physics:platforms(object, dt)
 				-- adjust position/velocity if neccesary
 					
 				-- right side
-				if collision:right(object,platform) then
+				if collision:right(object,platform) and not collision:top(object,platform) then
 					
 					if platform.name == "platform" then
 						if not (platform.movex == 1 or platform.movey == 1) then
@@ -167,7 +163,7 @@ function physics:platforms(object, dt)
 					end	
 					
 				-- left side
-				elseif collision:left(object,platform) then
+				elseif collision:left(object,platform) and not collision:top(object,platform) then
 					
 					if platform.name == "platform" then	
 						if not (platform.movex == 1 or platform.movey == 1) then
@@ -187,7 +183,7 @@ function physics:platforms(object, dt)
 					end
 					
 				-- top side
-				elseif collision:top(object,platform) then
+				elseif collision:top(object,platform)  then
 					
 					if platform.name == "platform" then
 						--sounds on collision
@@ -215,7 +211,7 @@ function physics:platforms(object, dt)
 							object.newX = (object.newX + platform.movespeed *dt)
 						end
 							
-						if platform.movey == 1 and object.yvel <= 0 then
+if platform.movey == 1 and object.yvel <= 0 then
 							--going up
 							if platform.movespeed < 0 then
 								object.newY = (platform.y-object.h -platform.movespeed *dt)
