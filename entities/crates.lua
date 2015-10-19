@@ -34,7 +34,7 @@ function crates:draw()
 		if world:inview(crate) and not crate.destroyed then
 			count = count + 1
 		
-			love.graphics.setColor(200,255,255,255)
+			love.graphics.setColor(crate_r,crate_g,crate_b,255)
 			love.graphics.draw(crate.gfx,crate.x, crate.y, 0, 1, 1)
 		
 			if editing then

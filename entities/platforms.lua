@@ -10,11 +10,7 @@ function platforms:add(x,y,w,h,movex,movey,movespeed,movedist)
 		y = y or 0, -- yco-ord
 		w = w or 0, -- width
 		h = h or 0, -- height
-		--colour
-		r = r or 115, -- red
-		g = g or 170, -- green
-		b = b or 170, -- blue
-		o = o or 255, -- opacity
+
 		--properties
 		name = "platform",
 				
@@ -42,9 +38,19 @@ function platforms:draw()
 			if platform.name == "platform" then
 	 	
 				if platform.movey == 1 or platform.movex == 1 then
-					love.graphics.setColor(platform.r+40,platform.g+40,platform.b+40,platform.o)
+					love.graphics.setColor(
+						platform_wall_r-40,
+						platform_wall_g-40,
+						platform_wall_b-40,
+						255
+					)
 				else
-					love.graphics.setColor(platform.r,platform.g,platform.b,platform.o)	
+					love.graphics.setColor(
+						platform_wall_r,
+						platform_wall_g,
+						platform_wall_b,
+						255
+					)	
 				end
 				
 				--tile the texture using quad
@@ -62,7 +68,12 @@ function platforms:draw()
 				love.graphics.rectangle("fill", platform.x, platform.y+4, 4, platform.h-8)
 				
 				--top (placeholder surface)
-				love.graphics.setColor(170,180,190,platform.o)
+				love.graphics.setColor(
+					platform_top_r,
+					platform_top_g,
+					platform_top_b,
+					255
+				)
 				love.graphics.rectangle("fill", platform.x, platform.y-5, platform.w, 10)	
 				love.graphics.arc( "fill", platform.x+platform.w, platform.y, -5, math.pi/2, math.pi*1.5 )
 				love.graphics.arc( "fill", platform.x, platform.y, 5, math.pi/2, math.pi*1.5 )

@@ -58,7 +58,7 @@ function editor:entname(id)
 	elseif id == 5 then return "checkpoint" 
 	elseif id == 6 then return "crate" 
 	elseif id == 7 then return "spike" 
-	elseif id == 8 then return "icicle" 
+
 	elseif id == 9 then return "walker" 
 	elseif id ==10 then return "gem" 
 	elseif id ==11 then return "life" 
@@ -166,10 +166,6 @@ function editor:mousepressed(x,y,button)
 		end
 		if selection == "spike" then
 			enemies:spike(x,y,editor.entdir)
-			--enemies:spike(x,y,dir)
-		end
-		if selection == "icicle" then
-			enemies:icicle(x,y,editor.entdir)
 			--enemies:spike(x,y,dir)
 		end
 		if selection == "flower" then
@@ -487,8 +483,8 @@ end
 
 function editor:savemap(map)
 	local fh = io.open(map, "w+")
-	fh:write("background=130,150,150,255".."\n")
-	fh:write("mapmusic=2".."\n")
+	fh:write("mapmusic=1".."\n")
+	fh:write("theme=jungle".."\n")
 	for i, entity in ipairs(platforms) do
 		fh:write("platform="..math.round(entity.xorigin)..","..math.round(entity.yorigin)..","..entity.w..","..entity.h..","..entity.movex..","..entity.movey..","..entity.movespeed..","..entity.movedist.."\n")
 	end
@@ -508,9 +504,6 @@ function editor:savemap(map)
 		end
 		if entity.name == "spike" then
 			fh:write("spike="..math.round(entity.x)..","..math.round(entity.y)..","..math.round(entity.dir).."\n")
-		end
-		if entity.name == "icicle" then
-			fh:write("icicle="..math.round(entity.x)..","..math.round(entity.y)..","..math.round(entity.dir).."\n")
 		end
 	end
 	for i, entity in ipairs(scenery) do

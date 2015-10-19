@@ -2,6 +2,49 @@ world = {}
 
 world.map = "maps/test.map"
 
+water = love.graphics.newImage("graphics/tiles/water.png")
+lava = love.graphics.newImage("graphics/tiles/lava.png")
+
+function world:settheme(theme)
+	if theme == "jungle" then
+		background_r = 100
+		background_g = 150
+		background_b = 130
+		platform_wall_r = 210
+		platform_wall_g = 150
+		platform_wall_b = 100
+		platform_top_r = 100
+		platform_top_g = 140
+		platform_top_b = 60
+		crate_r = 230
+		crate_g = 220
+		crate_b = 180
+		spike_gfx = spike
+		groundLevel_tile = water
+		groundLevel_scrollspeed = 100
+	elseif theme == "ice" then
+		background_r = 130
+		background_g = 150
+		background_b = 150
+		platform_wall_r = 115
+		platform_wall_g = 170
+		platform_wall_b = 170
+		platform_top_r = 170
+		platform_top_g = 180
+		platform_top_b = 190
+		crate_r = 200
+		crate_g = 255
+		crate_b = 255
+		spike_gfx = icicle
+		groundLevel_tile = water
+		groundLevel_scrollspeed = 100
+
+	end
+		groundLevel_tile:setWrap("repeat", "repeat")
+		groundLevel_quad = love.graphics.newQuad( -50,world.groundLevel, 10000, 500, groundLevel_tile:getDimensions() )
+	
+end
+
 function world:init() 
 	console = false
 	editing = false
@@ -13,10 +56,6 @@ function world:init()
 	world.minutes = 0
 	
 	groundLevel_scroll = 0
-	groundLevel_scrollspeed = 100
-	groundLevel_tile = love.graphics.newImage("graphics/tiles/water.png")
-	groundLevel_tile:setWrap("repeat", "repeat")
-	groundLevel_quad = love.graphics.newQuad( -50,world.groundLevel, 10000, 500, groundLevel_tile:getDimensions() )
 
 	camera:setScale(1,1)
 
@@ -193,15 +232,17 @@ function world:loadMap(mapname)
 	local lines = split(mapdata:getString(), "\n")
 	
 	for _, line in pairs(lines) do
-		-- parse background color
-		if string.find(line, "^background=(.+)") then
-			local r,g,b,o = string.match(line, "^background=(%d+),(%d+),(%d+),(%d+)")
-			love.graphics.setBackgroundColor(r,g,b,o)
-		end
 		-- parse mapmusic
 		if string.find(line, "^mapmusic=(.+)") then
 			world.mapmusic = string.match(line, "^mapmusic=(%d+)")
 			sound:playbgm(world.mapmusic)
+		end
+		-- parse theme
+		if string.find(line, "^theme=(.+)") then
+			local theme = string.match(line, "^theme=(.+)")
+			self:settheme(theme)
+			love.graphics.setBackgroundColor(background_r,background_g,background_b,255)
+		
 		end
 		--parse platforms
 		if string.find(line, "^platform=(.+)") then
@@ -279,6 +320,8 @@ function world:loadMap(mapname)
 				player.spawnY = portal.y
 			end
 		end	
+		
+
 	end
    
 end

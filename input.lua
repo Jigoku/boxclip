@@ -76,8 +76,7 @@ function love.keypressed(key)
 			end
 		end
 	
-	
-	
+
 		--quit
 		if key == "escape" then 
 			if mode == "title" then
