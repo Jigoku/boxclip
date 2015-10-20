@@ -302,6 +302,10 @@ function physics:enemies(dt)
 					table.remove(enemies, i)
 				end
 			end	
+			
+			if enemy.name == "floater" then
+			self:movex(enemy, dt)
+			end
 		end
 	end
 end

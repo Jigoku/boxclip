@@ -83,7 +83,7 @@ function collision:enemies(dt)
 	local i, enemy
 	for i, enemy in ipairs(enemies) do
 		if world:inview(enemy) and enemy.alive then
-			if enemy.name == "walker" then
+			if enemy.name == "walker" or enemy.name == "floater" then
 				if collision:check(player.x,player.newY,player.w,player.h,
 					enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
 					-- if we land on top, kill enemy

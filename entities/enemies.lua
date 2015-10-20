@@ -3,6 +3,7 @@ enemies = {}
 walker = love.graphics.newImage( "graphics/enemies/walker.png")
 spike = love.graphics.newImage( "graphics/enemies/spike.png")
 icicle = love.graphics.newImage( "graphics/enemies/icicle.png")
+floater = love.graphics.newImage( "graphics/enemies/floater.png")
 
 function enemies:walker(x,y,movespeed,movedist)
 	table.insert(enemies, {
@@ -72,6 +73,41 @@ function enemies:spike(x,y,dir)
 end
 
 
+function enemies:floater(x,y,movespeed,movedist)
+	table.insert(enemies, {
+		--movement
+		movespeed = movespeed or 100,
+		movedist = movedist or 400,
+		
+		--origin
+		xorigin = x,
+		yorigin = y,
+		
+		--position
+		x = math.random(x,x+movedist) or 0,
+		y = y or 0,
+		
+		--dimension
+		w = 50,
+		h = 40,
+		
+		--properties
+		name = "floater",
+		mass = 0,
+		xvel = 0,
+		yvel = 0,
+		dir = "right",
+		alive = true,
+		score = 350,
+		--newY = y,
+		
+		gfx = floater,
+		
+	})
+	print( "walker added @  X:"..x.." Y: "..y)
+end
+
+
 
 function enemies:draw()
 	local count = 0
@@ -84,7 +120,7 @@ function enemies:draw()
 		if type(enemy) == "table" and enemy.alive and world:inview(enemy) then
 			count = count + 1
 				
-			if enemy.name == "walker" then
+			if enemy.name == "walker" or enemy.name == "floater" then
 				love.graphics.setColor(255,255,255,255)
 				--love.graphics.rectangle("fill", enemy.x, enemy.y, enemy.w, enemy.h)
 				if enemy.dir == "left" then
@@ -124,7 +160,7 @@ function enemies:drawDebug(enemy, i)
 	love.graphics.setColor(255,200,100,255)
 	love.graphics.rectangle("line", enemy.x, enemy.y, enemy.w, enemy.h)
 	
-	if enemy.name == "walker" then
+	if enemy.name == "walker" or enemy.name == "floater" then
 		--waypoint
 		love.graphics.setColor(255,0,255,100)
 		love.graphics.rectangle("line", enemy.xorigin, enemy.y, enemy.movedist+enemy.w, enemy.h)

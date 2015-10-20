@@ -59,8 +59,8 @@ function editor:entname(id)
 	elseif id == 5 then return "checkpoint" 
 	elseif id == 6 then return "crate" 
 	elseif id == 7 then return "spike" 
-
-	elseif id == 9 then return "walker" 
+	elseif id == 8 then return "walker" 
+	elseif id == 9 then return "floater" 
 	elseif id ==10 then return "gem" 
 	elseif id ==11 then return "life" 
 	elseif id ==12 then return "flower" 
@@ -156,6 +156,10 @@ function editor:mousepressed(x,y,button)
 		if selection == "walker" then
 			enemies:walker(x,y,100,100) --movespeed,movedist should be configurable
 		end
+		if selection == "floater" then
+			enemies:floater(x,y,100,400) --movespeed,movedist should be configurable
+		end
+		
 		if selection == "checkpoint" then
 			checkpoints:add(x,y)
 

@@ -21,6 +21,9 @@ function mapio:savemap(map)
 		if entity.name == "walker" then
 			fh:write("walker="..math.round(entity.xorigin)..","..math.round(entity.y)..","..entity.movespeed..","..entity.movedist.."\n")
 		end
+		if entity.name == "floater" then
+			fh:write("floater="..math.round(entity.xorigin)..","..math.round(entity.y)..","..entity.movespeed..","..entity.movedist.."\n")
+		end
 		if entity.name == "spike" then
 			fh:write("spike="..math.round(entity.x)..","..math.round(entity.y)..","..math.round(entity.dir).."\n")
 		end
@@ -100,6 +103,15 @@ function mapio:loadmap(mapname)
 			enemies:walker(tonumber(x),tonumber(y),tonumber(movespeed),tonumber(movedist))
 			
 		end
+		--parse enemy(floater)
+		if string.find(line, "^floater=(.+)") then
+			local x,y,movespeed,movedist = string.match(
+				line, "^floater=(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+)"
+			)
+			enemies:floater(tonumber(x),tonumber(y),tonumber(movespeed),tonumber(movedist))
+			
+		end
+		
 		--parse enemy(spike)
 		if string.find(line, "^spike=(.+)") then
 			local x,y,dir = string.match(
