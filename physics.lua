@@ -104,13 +104,13 @@ function physics:crates(object,dt)
 					crate.destroyed = true
 					player.score = player.score+crate.score
 					sound:play(sound.crate)
+					crates:addpickup(crate, i,true)	
 				end
 					
 				if collision:right(object,crate) then
 					if object.jumping == 1 then
 						object.newX = crate.x+crate.w +1
-						object.xvel = -object.mass
-						self:destroy("x",object,crate,i)
+						object.xvel = object.mass
 					else
 						object.newX = crate.x+crate.w +1 *dt
 						object.xvel = 0
@@ -118,8 +118,7 @@ function physics:crates(object,dt)
 				elseif collision:left(object,crate) then
 					if object.jumping == 1 then
 						object.newX = crate.x-object.w -1
-						object.xvel = object.mass
-						self:destroy("x",object,crate,i)
+						object.xvel = -object.mass
 					else
 						object.newX = crate.x-object.w -1 *dt
 						object.xvel = 0
@@ -127,8 +126,7 @@ function physics:crates(object,dt)
 				elseif collision:bottom(object,crate) then
 					if object.jumping == 1 then
 						object.newY = crate.y +crate.h +1
-						object.yvel = object.mass
-						self:destroy("y",object,crate,i)
+						object.yvel = -object.mass
 					else
 						object.newY = crate.y +crate.h  +1 *dt
 						object.yvel = 0
@@ -136,10 +134,10 @@ function physics:crates(object,dt)
 				elseif collision:top(object,crate) then
 					if object.jumping == 1 then
 						object.newY = crate.y - object.h -1
-						object.yvel = -object.mass
-						self:destroy("y",object,crate,i)
+						object.yvel = object.mass
+						
 					else
-						object.newY = crate.y - object.h 
+						object.newY = crate.y - object.h -1 *dt
 						object.yvel = 0
 					end
 				end		
@@ -272,20 +270,6 @@ function physics:pickups(dt)
 				pickups:destroy(pickups,i)
 			end
 		end
-end
-
-
-function physics:destroy(axis,object,crate,i)
-	--axis is used to determine which direction the colliding object
-	--will rebound from
-	if object.jumping == 1 then
-		if axis == "y" then
-			object.yvel = -object.yvel
-		elseif axis == "x" then
-			object.xvel = -object.xvel
-		end
-		crates:addpickup(crate, i,true)	
-	end
 end
 
 
