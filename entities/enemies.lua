@@ -123,9 +123,9 @@ function enemies:draw()
 			if enemy.name == "walker" or enemy.name == "floater" then
 				love.graphics.setColor(255,255,255,255)
 				--love.graphics.rectangle("fill", enemy.x, enemy.y, enemy.w, enemy.h)
-				if enemy.dir == "left" then
+				if enemy.movespeed < 0 then
 					love.graphics.draw(enemy.gfx, enemy.x, enemy.y, 0, 1, 1)
-				elseif enemy.dir == "right" then
+				elseif enemy.movespeed > 0 then
 					love.graphics.draw(enemy.gfx, enemy.x+enemy.gfx:getWidth(), enemy.y, 0, -1, 1)
 				end
 			end

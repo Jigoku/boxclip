@@ -246,7 +246,6 @@ function physics:pickups(dt)
 		
 			if world:inview(pickup) then
 			self:applyGravity(pickup, dt)
-			
 			pickup.newX = (pickup.x + pickup.xvel *dt)
 			pickup.newY = (pickup.y - pickup.yvel *dt)
 			
@@ -310,11 +309,21 @@ function physics:enemies(dt)
 	end
 end
 
+function physics:applyRotation(object,n,dt)
+	if object.jumping == 1 then
+			object.angle = object.angle + dt * n
+			object.angle = object.angle % (2*math.pi)
+	else
+		object.angle = 0
+	end
+end
+
 function physics:player(dt)
 	if editing then return end
 		self:applyVelocity(player, dt)
 		self:applyGravity(player, dt)
-		
+		self:applyRotation(player,math.pi*8,dt)
+
 		player.newX = (player.x + player.xvel *dt)
 		player.newY = (player.y - player.yvel *dt)
 		

@@ -19,11 +19,20 @@ function player:init()
 	player.alive = 1
 	player.lives = 3	
 	player.gems = 0
+	player.angle = 0
 end
 
 
 
 function player:draw()
+	
+	--rotating for jumping
+	if player.jumping == 1 then
+		love.graphics.translate(player.x+player.w/2,player.y+player.h/2)
+		love.graphics.rotate(player.angle)
+		love.graphics.translate(-player.x-player.w/2,-player.y-player.h/2)
+	end
+	
 	--body trails		
 	if not editing then
 	love.graphics.setColor(40,180,120,100)
