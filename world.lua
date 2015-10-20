@@ -4,6 +4,7 @@ world.map = "maps/test.map"
 
 water = love.graphics.newImage("graphics/tiles/water.png")
 lava = love.graphics.newImage("graphics/tiles/lava.png")
+blood = love.graphics.newImage("graphics/tiles/blood.png")
 
 function world:settheme(theme)
 	if theme == "jungle" then
@@ -22,7 +23,7 @@ function world:settheme(theme)
 		spike_gfx = spike
 		groundLevel_tile = water
 		groundLevel_scrollspeed = 100
-	elseif theme == "ice" then
+	elseif theme == "winter" then
 		background_r = 130
 		background_g = 150
 		background_b = 150
@@ -37,6 +38,22 @@ function world:settheme(theme)
 		crate_b = 255
 		spike_gfx = icicle
 		groundLevel_tile = water
+		groundLevel_scrollspeed = 100
+	elseif theme == "hell" then
+		background_r = 35
+		background_g = 30
+		background_b = 30
+		platform_wall_r = 95
+		platform_wall_g = 90
+		platform_wall_b = 90
+		platform_top_r = 80
+		platform_top_g = 30
+		platform_top_b = 30
+		crate_r = 120
+		crate_g = 100
+		crate_b = 100
+		spike_gfx = spike
+		groundLevel_tile = blood
 		groundLevel_scrollspeed = 100
 
 	end
