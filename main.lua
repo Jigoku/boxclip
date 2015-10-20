@@ -33,8 +33,8 @@ require("entities/enemies")
 require("entities/portals")
 
 
---mode = "title"
 --mode = "game"
+--mode = "editing"
 mode = "title"
 
 function love.load()
@@ -46,22 +46,53 @@ function love.load()
 	
 	fonts = {
 		default = love.graphics.newFont(12),
+		menu = love.graphics.newFont(14),
 		scoreboard = love.graphics.newFont(16),
 		large = love.graphics.newFont(20),
+		huge = love.graphics.newFont(30),
 	}
 
-
+	-- title background
+	titlebg = love.graphics.newImage("graphics/tiles/checked_bumped.png")
+	titlebg:setWrap("repeat", "repeat")
+	titlebg_quad = love.graphics.newQuad( 0,0, love.window.getWidth(), love.window.getHeight(), titlebg:getDimensions() )
+	titlebg_scroll = 0
+	titlebg_scrollspeed = 50
+	
+	
 end
 
+
+
+
+
 function love.draw()
-	
+
+
 	if mode == "title" then
 		love.graphics.setBackgroundColor(0,0,0,255)
-		love.graphics.setColor(255,255,255,255)
-		love.graphics.print("Press 1 for mode 'game'",100,100)
-		love.graphics.print("(everything triggers on collision)",140,120)
-		love.graphics.print("Press 2 for mode 'editing'",100,150)
-		love.graphics.print("(some entites will not trigger on collision for editing purposes)",140,170)
+		
+		love.graphics.setColor(50,50,50,255)		
+		titlebg_quad:setViewport(-titlebg_scroll,-titlebg_scroll,love.window.getWidth(), love.window.getHeight() )
+		love.graphics.draw(titlebg, titlebg_quad, 0,0)
+		
+		love.graphics.setColor(10,10,10,200)
+		love.graphics.rectangle("fill", 80, 80, 600,300)
+		
+		love.graphics.setFont(fonts.huge)
+		love.graphics.setColor(255,255,255,155)
+		love.graphics.print("Boxclip",100,100)
+		love.graphics.setFont(fonts.menu)
+		love.graphics.setColor(155,55,55,255)
+		love.graphics.print("Press 1 for mode 'game'",100,150)
+		love.graphics.setColor(155,55,55,155)
+		love.graphics.print("(everything triggers on collision)",140,180)
+		love.graphics.setColor(155,55,55,255)
+		love.graphics.print("Press 2 for mode 'editing'",100,220)
+		love.graphics.setColor(155,55,55,155)
+		love.graphics.print("(some entites will not trigger on collision for editing purposes)",140,250)
+		love.graphics.setFont(fonts.default)
+		
 	else
 		world:draw()
 	end
@@ -77,6 +108,13 @@ function love.update(dt)
 
 	-- process keyboard events
 	input:checkkeys(dt)
+
+	if mode == "title" then
+		titlebg_scroll = titlebg_scroll + titlebg_scrollspeed * dt
+		if titlebg_scroll > titlebg:getHeight()then
+			titlebg_scroll = titlebg_scroll - titlebg:getHeight()
+		end
+	end
 
 	if not (mode == "title") then
 		world:timer()
