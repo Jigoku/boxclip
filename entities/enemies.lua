@@ -12,7 +12,7 @@ function enemies:walker(x,y,movespeed,movedist)
 		--movement
 		movespeed = movespeed or 100,
 		movedist = movedist or 200,
-		
+		movex = 1,
 		--origin
 		xorigin = x,
 		yorigin = y,
@@ -80,7 +80,7 @@ function enemies:floater(x,y,movespeed,movedist)
 		--movement
 		movespeed = movespeed or 100,
 		movedist = movedist or 400,
-		
+		movex = 1,
 		--origin
 		xorigin = x,
 		yorigin = y,

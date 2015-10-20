@@ -296,10 +296,10 @@ function editor:drawselected()
 			self:selection(platforms)
 end
 
-function editor:selection(entity, x,y,w,h)
+function editor:selection(entities, x,y,w,h)
 	-- hilights the entity when mouseover 
 	love.graphics.setColor(0,255,0,200)
-	for i, entity in ripairs(entity) do
+	for i, entity in ripairs(entities) do
 		if world:inview(entity) then
 			if entity.movex == 1 then
 				if collision:check(mousePosX,mousePosY,1,1,entity.xorigin, entity.yorigin, entity.movedist+entity.w, entity.h) then
@@ -311,11 +311,10 @@ function editor:selection(entity, x,y,w,h)
 					love.graphics.rectangle("line", entity.xorigin, entity.yorigin,entity.w, entity.h+entity.movedist)
 					return true
 				end
-			else
-				if collision:check(mousePosX,mousePosY,1,1,entity.x,entity.y,entity.w,entity.h) then
+			elseif collision:check(mousePosX,mousePosY,1,1,entity.x,entity.y,entity.w,entity.h) then
 					love.graphics.rectangle("line", entity.x,entity.y,entity.w,entity.h)
 					return true
-				end
+				
 			end
 		end
 	end
@@ -340,15 +339,28 @@ function editor:removeall(objects, name)
 	end
 end
 
-function editor:remove(type, x,y,w,h)
+function editor:remove(entities, x,y,w,h)
 	--deletes the selected entity
 	
-	for i, item in ripairs(type) do
-		if world:inview(item) then
-			if collision:check(mousePosX,mousePosY,1,1, item.x,item.y,item.w,item.h) then
-				print( item.name .. " (" .. i .. ") removed" )
-				table.remove(type,i)
+	for i, entity in ripairs(entities) do
+		if world:inview(entity) then
+			if entity.movex == 1 then
+				if collision:check(mousePosX,mousePosY,1,1,entity.xorigin, entity.yorigin, entity.movedist+entity.w, entity.h) then
+					table.remove(entities,i)
+					print( entity.name .. " (" .. i .. ") removed" )
+					return true
+				end
+			elseif entity.movey == 1 then
+				if collision:check(mousePosX,mousePosY,1,1,entity.xorigin, entity.yorigin, entity.w, entity.h+entity.movedist) then
+					print( entity.name .. " (" .. i .. ") removed" )
+					table.remove(entities,i)
+					return true
+				end
+			elseif collision:check(mousePosX,mousePosY,1,1, entity.x,entity.y,entity.w,entity.h) then
+				print( entity.name .. " (" .. i .. ") removed" )
+				table.remove(entities,i)
 				return true
+			
 			end
 		end
 	end
