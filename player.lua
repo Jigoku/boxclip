@@ -35,20 +35,7 @@ function player:draw()
 	
 	--body trails		
 	if not editing then
-	love.graphics.setColor(40,180,120,100)
-	love.graphics.rectangle("fill", player.x-player.xvel/(player.mass/10), player.y+player.yvel/(player.jumpheight/10), player.w, player.h)
-	love.graphics.setColor(80,80,80,100)
-	love.graphics.rectangle("line", player.x-player.xvel/(player.mass/10), player.y+player.yvel/(player.jumpheight/10), player.w, player.h)
 	
-	love.graphics.setColor(40,180,120,50)
-	love.graphics.rectangle("fill", player.x-player.xvel/(player.mass/20), player.y+player.yvel/(player.jumpheight/20), player.w, player.h)
-	love.graphics.setColor(80,80,80,50)
-	love.graphics.rectangle("line", player.x-player.xvel/(player.mass/20), player.y+player.yvel/(player.jumpheight/20), player.w, player.h)
-	
-	love.graphics.setColor(40,180,120,25)
-	love.graphics.rectangle("fill", player.x-player.xvel/(player.mass/30), player.y+player.yvel/(player.jumpheight/30), player.w, player.h)
-	love.graphics.setColor(80,80,80,25)
-	love.graphics.rectangle("line", player.x-player.xvel/(player.mass/30), player.y+player.yvel/(player.jumpheight/30), player.w, player.h)
 	
 	--player main	
 	love.graphics.setColor(40,180,120,255)

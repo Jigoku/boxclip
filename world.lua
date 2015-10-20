@@ -36,7 +36,7 @@ function world:settheme(theme)
 		crate_r = 200
 		crate_g = 255
 		crate_b = 255
-		spike_gfx = icicle
+		spike_gfx = spike_winter
 		groundLevel_tile = water
 		groundLevel_scrollspeed = 100
 	elseif theme == "hell" then
@@ -52,7 +52,7 @@ function world:settheme(theme)
 		crate_r = 120
 		crate_g = 100
 		crate_b = 100
-		spike_gfx = spike
+		spike_gfx = spike_hell
 		groundLevel_tile = blood
 		groundLevel_scrollspeed = 100
 
