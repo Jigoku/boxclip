@@ -83,16 +83,40 @@ function collision:enemies(dt)
 	local i, enemy
 	for i, enemy in ipairs(enemies) do
 		if world:inview(enemy) and enemy.alive then
-			if enemy.name == "walker" or enemy.name == "floater" then
+			if enemy.name == "walker" then
 				if collision:check(player.x,player.newY,player.w,player.h,
 					enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
 					-- if we land on top, kill enemy
 					if collision:above(player,enemy) and player.jumping == 1 then	
 						--player.y = enemy.y - player.h -1 *dt
 						enemy.alive = false
+						player.yvel = player.mass
 						player:attack(enemy)
 						return true
 					else
+						-- otherwise we die			
+						player:die()
+						util:dprint("killed by " .. enemy.name)		
+					end
+				end
+			end
+			
+			if enemy.name == "floater" then
+				if collision:check(player.x,player.newY,player.w,player.h,
+					enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
+					-- if we land on top, kill enemy
+					if player.jumping == 1 then	
+											
+						if player.y > enemy.y then
+							player.yvel = -player.mass
+						elseif player.y < enemy.y then
+							player.yvel = player.mass
+						end
+		
+						enemy.alive = false
+						player:attack(enemy)
+							
+					else			
 						-- otherwise we die			
 						player:die()
 						util:dprint("killed by " .. enemy.name)		

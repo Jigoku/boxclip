@@ -141,6 +141,5 @@ end
 
 function player:attack(enemy)
 	player.score = player.score + enemy.score
-	player.yvel = player.mass
 	sound:play(sound.kill)
 end

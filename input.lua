@@ -93,6 +93,8 @@ function love.keypressed(key)
 				editing = not editing
 				player.xvel = 0
 				player.yvel = 0
+				player.angle = 0
+				player.jumping = 0
 			end
 			--zoom
 			if key == "z" then
