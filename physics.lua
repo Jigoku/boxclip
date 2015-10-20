@@ -39,6 +39,16 @@ function physics:applyGravity(object, dt)
 end
 
 
+function physics:applyRotation(object,n,dt)
+	if object.jumping == 1 then
+			object.angle = object.angle + dt * n
+			object.angle = object.angle % (2*math.pi)
+	else
+		object.angle = 0
+	end
+end
+
+
 function physics:movex(object, dt)
 	-- traverse x-axis
 	if object.x >= object.xorigin + object.movedist then
@@ -309,14 +319,6 @@ function physics:enemies(dt)
 	end
 end
 
-function physics:applyRotation(object,n,dt)
-	if object.jumping == 1 then
-			object.angle = object.angle + dt * n
-			object.angle = object.angle % (2*math.pi)
-	else
-		object.angle = 0
-	end
-end
 
 function physics:player(dt)
 	if editing then return end

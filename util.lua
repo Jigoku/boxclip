@@ -73,7 +73,7 @@ function util:drawConsole()
 			" | portals: " .. world:count(portals) .. "("..world.portals .. ")" ..
 			" | crates: " .. world:count(crates) .. "("..world.crates .. ")" ..
 			" | checkpoints: " .. world:count(checkpoints) .. "("..world.checkpoints .. ")" ..
-			" | t: " ..world:count(pickups)+world:count(enemies)+world:count(platforms)+world:count(crates)+world:count(checkpoints) .. "(" .. world.pickups+world.enemies+world.platforms+world.crates+world.checkpoints .. ")" ..
+			" | t: " ..world:totalents() .. "(" .. world:totalentsdrawn() .. ")" ..
 			" | ccpf: " .. world.collision,
 			 5, 35
 		)
@@ -92,6 +92,8 @@ function util:drawConsole()
 
 	end
 end
+
+
 
 function util:drawid(entity,i)
 	if editor.showid then

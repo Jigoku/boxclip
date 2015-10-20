@@ -203,6 +203,16 @@ function world:remove(objects)
 	end
 end
 
+function world:totalents()
+	return world:count(pickups)+world:count(enemies)+world:count(platforms)+
+			world:count(crates)+world:count(checkpoints)+world:count(portals)+world:count(scenery)
+end
+
+function world:totalentsdrawn()
+	return world.pickups+world.enemies+world.platforms+world.crates+
+		world.checkpoints+world.portals+world.scenery
+end
+
 
 function world:inview(entity) 
 	--decides if the entity is visible in the game viewport
