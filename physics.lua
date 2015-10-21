@@ -29,6 +29,8 @@ function physics:applyVelocity(object, dt)
 		-- velocity limits
 		if object.xvel > object.speed then object.xvel = object.speed end
 		if object.xvel < -object.speed then object.xvel = -object.speed end
+				
+		object.newX = (object.x + object.xvel *dt)
 	end
 end
 
@@ -36,6 +38,7 @@ end
 function physics:applyGravity(object, dt)
 	--simulate gravity
 	object.yvel = math.round((object.yvel - ((world.gravity+object.mass*2) *dt)),0)
+	object.newY = (object.y - object.yvel *dt)
 end
 
 
@@ -255,7 +258,6 @@ function physics:pickups(dt)
 			if world:inview(pickup) then
 			self:applyGravity(pickup, dt)
 			pickup.newX = (pickup.x + pickup.xvel *dt)
-			pickup.newY = (pickup.y - pickup.yvel *dt)
 			
 			self:platforms(pickup, dt)
 			self:crates(pickup, dt)
@@ -283,7 +285,7 @@ function physics:enemies(dt)
 				self:applyGravity(enemy, dt)
 				self:movex(enemy, dt)
 				enemy.newX = (enemy.x + enemy.xvel *dt)
-				enemy.newY = (enemy.y - enemy.yvel *dt)
+
 				self:platforms(enemy, dt)
 				self:crates(enemy, dt)
 				enemy.x = enemy.newX
@@ -309,9 +311,6 @@ function physics:player(dt)
 		self:applyVelocity(player, dt)
 		self:applyGravity(player, dt)
 		self:applyRotation(player,math.pi*8,dt)
-
-		player.newX = (player.x + player.xvel *dt)
-		player.newY = (player.y - player.yvel *dt)
 		
 		self:crates(player,dt)
 		self:platforms(player, dt)

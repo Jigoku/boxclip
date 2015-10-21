@@ -1,6 +1,10 @@
 --[[
 	editor binds
 	
+	select/drag     : lmb
+	delete entity   : rmb
+	scroll entities : wu/wd
+	
 	select ent type	: 1-9
 	move up			: numpad 8
 	move down		: numpad 2
@@ -13,22 +17,6 @@
 	camera position	: w,a,s,d
 --]]
 
---[[
-entity id's
-	0 = spawn
-	1 = goal
-	2 = platform
-	3 = platform_x
-	4 = platform_y
-	5 = checkpoint
-	6 = crate
-	7 = spike
-	8 = icicle
-	9 = walker
-	10 = gem
-	11 = life
-	12 = flower
---]]
 
 
 
