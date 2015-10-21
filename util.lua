@@ -69,7 +69,7 @@ function util:drawConsole()
 			"pickups: " .. world:count(pickups) .. "(".. world.pickups .. ")" ..
 			" | enemies: " .. world:count(enemies) .. "(".. world.enemies .. ")" ..
 			" | platforms: " .. world:count(platforms) .. "(".. world.platforms .. ")" ..
-			" | scenery: " .. world:count(scenery) .. "("..world.scenery .. ")" ..
+			" | props: " .. world:count(props) .. "("..world.props .. ")" ..
 			" | portals: " .. world:count(portals) .. "("..world.portals .. ")" ..
 			" | crates: " .. world:count(crates) .. "("..world.crates .. ")" ..
 			" | checkpoints: " .. world:count(checkpoints) .. "("..world.checkpoints .. ")" ..

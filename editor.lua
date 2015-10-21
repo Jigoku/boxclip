@@ -193,10 +193,10 @@ function editor:mousepressed(x,y,button)
 			--enemies:spike(x,y,dir)
 		end
 		if selection == "flower" then
-			scenery:add(x,y,"flower")
+			props:add(x,y,"flower")
 		end
 		if selection == "rock" then
-			scenery:add(x,y,"rock")
+			props:add(x,y,"rock")
 		end
 		
 	elseif button == 'r' then
@@ -315,7 +315,7 @@ function editor:drawselected()
 			self:selection(portals) or		
 			self:selection(crates) or
 			self:selection(checkpoints) or
-			self:selection(scenery) or
+			self:selection(props) or
 			self:selection(platforms)
 end
 
@@ -349,7 +349,7 @@ function editor:removesel()
 			self:remove(portals) or		
 			self:remove(crates) or
 			self:remove(checkpoints) or
-			self:remove(scenery) or
+			self:remove(props) or
 			self:remove(platforms)
 end
 

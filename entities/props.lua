@@ -1,12 +1,12 @@
-scenery = {}
+props = {}
 
 
-flower = love.graphics.newImage("graphics/scenery/flower.png")
-rock = love.graphics.newImage("graphics/scenery/rock.png")
+flower = love.graphics.newImage("graphics/props/flower.png")
+rock = love.graphics.newImage("graphics/props/rock.png")
 
-function scenery:add(x,y,type)
+function props:add(x,y,type)
 	if type == "flower" then
-		table.insert(scenery, {
+		table.insert(props, {
 			--dimensions
 			x = x or 0, -- xco-ord
 			y = y or 0, -- yco-ord
@@ -19,7 +19,7 @@ function scenery:add(x,y,type)
 		print("flower added @  X:"..x.." Y: "..y)
 	end
 	if type == "rock" then
-		table.insert(scenery, {
+		table.insert(props, {
 			--dimensions
 			x = x or 0, -- xco-ord
 			y = y or 0, -- yco-ord
@@ -33,10 +33,10 @@ function scenery:add(x,y,type)
 	end
 end
 
-function scenery:draw()
+function props:draw()
 	local count = 0
 	
-	for i, object in ipairs(scenery) do
+	for i, object in ipairs(props) do
 		if world:inview(object) then
 			count = count +1
 				
@@ -46,16 +46,16 @@ function scenery:draw()
 
 
 			if editing then
-				scenery:drawDebug(object, i)
+				props:drawDebug(object, i)
 			end
 
 		end
 	end
 
-	world.scenery = count
+	world.props = count
 end
 
-function scenery:drawDebug(object, i)
+function props:drawDebug(object, i)
 	--requires graphic, implement all pickups as graphics/image
 	love.graphics.setColor(255,0,155,100)
 	love.graphics.rectangle(

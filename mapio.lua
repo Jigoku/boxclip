@@ -28,8 +28,8 @@ function mapio:savemap(map)
 			fh:write("spike="..math.round(entity.x)..","..math.round(entity.y)..","..math.round(entity.dir).."\n")
 		end
 	end
-	for i, entity in ipairs(scenery) do
-		fh:write("scenery="..math.round(entity.x)..","..math.round(entity.y)..","..entity.name.."\n")
+	for i, entity in ipairs(props) do
+		fh:write("props="..math.round(entity.x)..","..math.round(entity.y)..","..entity.name.."\n")
 	end
 	for i, entity in ipairs(portals) do
 		fh:write("portal="..math.round(entity.x)..","..math.round(entity.y)..","..entity.name.."\n")
@@ -44,7 +44,7 @@ function mapio:loadmap(mapname)
 	repeat world:remove(enemies) until world:count(enemies) == 0
 	repeat world:remove(pickups) until world:count(pickups) == 0
 	repeat world:remove(crates) until world:count(crates) == 0
-	repeat world:remove(scenery) until world:count(scenery) == 0
+	repeat world:remove(props) until world:count(props) == 0
 	repeat world:remove(platforms) until world:count(platforms) == 0
 	repeat world:remove(checkpoints) until world:count(checkpoints) == 0
 	repeat world:remove(portals) until world:count(portals) == 0
@@ -128,12 +128,12 @@ function mapio:loadmap(mapname)
 			enemies:icicle(tonumber(x),tonumber(y),tonumber(dir))
 			
 		end
-		--parse scenery
-		if string.find(line, "^scenery=(.+)") then
+		--parse props
+		if string.find(line, "^props=(.+)") then
 			local x,y,type = string.match(
-				line, "^scenery=(%-?%d+),(%-?%d+),(.+)"
+				line, "^props=(%-?%d+),(%-?%d+),(.+)"
 			)
-			scenery:add(tonumber(x),tonumber(y),type)
+			props:add(tonumber(x),tonumber(y),type)
 			
 		end
 		--parse portals

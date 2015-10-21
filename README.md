@@ -19,7 +19,7 @@ This is not even a pre-alpha, and end goals may change. Currently the plans are 
 * checkpoints
 * map editor
 * enemies
-* scenery
+* props
 
 #####Editor
 * remove entitys

@@ -142,7 +142,7 @@ function world:init()
 	world.enemies = 0
 	world.pickups = 0
 	world.checkpoints = 0
-	world.scenery = 0
+	world.props = 0
 	world.collision = 0
 	world.portals = 0
 end
@@ -161,7 +161,7 @@ function world:draw()
 
 
 	platforms:draw()
-	scenery:draw()
+	props:draw()
 	checkpoints:draw()
 	crates:draw()
 	portals:draw()
@@ -285,13 +285,13 @@ end
 function world:totalents()
 	--returns total entitys
 	return world:count(pickups)+world:count(enemies)+world:count(platforms)+
-			world:count(crates)+world:count(checkpoints)+world:count(portals)+world:count(scenery)
+			world:count(crates)+world:count(checkpoints)+world:count(portals)+world:count(props)
 end
 
 function world:totalentsdrawn()
 	--returns total drawn entities
 	return world.pickups+world.enemies+world.platforms+world.crates+
-		world.checkpoints+world.portals+world.scenery
+		world.checkpoints+world.portals+world.props
 end
 
 
