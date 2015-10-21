@@ -71,6 +71,15 @@ function springs:drawDebug(spring, i)
 			spring.w, 
 			spring.h
 		)
+		love.graphics.setColor(155,255,55,200)
+		love.graphics.rectangle(
+			"line", 
+			spring.x+10, 
+			spring.y+10, 
+			spring.w-20, 
+			spring.h-20
+		)
+		
 	end
 	
 	util:drawid(spring, i)

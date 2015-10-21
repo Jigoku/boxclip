@@ -70,6 +70,7 @@ function util:drawConsole()
 			" | enemies: " .. world:count(enemies) .. "(".. world.enemies .. ")" ..
 			" | platforms: " .. world:count(platforms) .. "(".. world.platforms .. ")" ..
 			" | props: " .. world:count(props) .. "("..world.props .. ")" ..
+			" | springs: " .. world:count(springs) .. "("..world.springs .. ")" ..
 			" | portals: " .. world:count(portals) .. "("..world.portals .. ")" ..
 			" | crates: " .. world:count(crates) .. "("..world.crates .. ")" ..
 			" | checkpoints: " .. world:count(checkpoints) .. "("..world.checkpoints .. ")" ..

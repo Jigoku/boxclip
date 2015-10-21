@@ -51,6 +51,7 @@ function mapio:loadmap(mapname)
 	repeat world:remove(platforms) until world:count(platforms) == 0
 	repeat world:remove(checkpoints) until world:count(checkpoints) == 0
 	repeat world:remove(portals) until world:count(portals) == 0
+	repeat world:remove(springs) until world:count(springs) == 0
 
 	--load the mapfile
 	local mapdata = love.filesystem.newFileData(mapname)
