@@ -42,6 +42,7 @@ function props:add(x,y,type)
 			--properties
 			name = "spring",
 			gfx = spring,
+			vel = 1500,
 		})
 		print("spring added @  X:"..x.." Y: "..y)
 	end

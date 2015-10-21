@@ -188,7 +188,7 @@ function collision:props(dt)
 					prop.x+10, prop.y+10,prop.w-20,prop.h-20) then
 						sound:play(sound.spring)
 						player.y = prop.y-player.h -1 *dt
-						player.yvel = 1500					
+						player.yvel = prop.vel					
 				end
 			end
 		end
