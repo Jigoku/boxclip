@@ -12,6 +12,7 @@ blood = love.graphics.newImage("graphics/tiles/blood.png")
 
 
 
+
 function world:settheme(theme)
 	--theme palettes for different settings
 	--specified in map file as "theme=*"

@@ -87,7 +87,7 @@ function util:drawConsole()
 		)
 		end
 		love.graphics.setColor(255,255,255,255)
-		love.graphics.print('Memory (kB): ' .. math.round(collectgarbage('count')) .. "| entsel: " ..  "("..editor.entsel..")" ..editor:entname(editor.entsel) .." | entdir: " .. editor.entdir, 5,65)
+		love.graphics.print('Memory (kB): ' .. math.round(collectgarbage('count')) .. " | entsel: " ..  "("..editor.entsel..")" ..editor:entname(editor.entsel) .." | entdir: " .. editor.entdir .. " | theme: " .. world.theme, 5,65)
 		
 
 	end

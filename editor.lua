@@ -73,7 +73,7 @@ function editor:themename(id)
 end
 
 function editor:settheme()
-	world.theme = self:themename(editor.themesel)
+	world.theme = self:themename(self.themesel)
 	world:settheme(world.theme)
 	
 	for i,e in ipairs(enemies) do 
