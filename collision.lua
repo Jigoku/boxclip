@@ -44,6 +44,7 @@ function collision:bottom(a,b)
 end
 
 function collision:above(a,b)
+	--use this for a bigger intersect, eg; attacking an enemy from above
 	world.collision = world.collision +1
 	return a.newY+a.h > b.y  and 
 					a.y < b.y

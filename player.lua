@@ -1,6 +1,7 @@
 player = {}
 
 function player:init() 
+	--initialize the player defaults
 	player.w = 40
 	player.h = 50
 	player.x = 0
@@ -63,11 +64,8 @@ function player:draw()
 end
 
 function player:drawDebug()
-	
 	love.graphics.setColor(255,0,0,50)
 	love.graphics.rectangle("line", player.x, player.y, player.w, player.h)
-	--util:drawCoordinates(player)
-	
 end
 
 
@@ -90,7 +88,6 @@ function player:follow()
 end
 
 function player:respawn()
-	
 	sound:playbgm(world.mapmusic)
 	player.x = player.spawnX
 	player.y = player.spawnY
@@ -100,9 +97,7 @@ function player:respawn()
 	player.dir = "idle"
 	player.lastdir = "idle"
 	player.alive = 1
-	-- set this to checkpoint (when implemented)
 	player:follow(1)
---	world:loadMap("maps/test.map")
 end
 
 function player:die()
@@ -112,6 +107,7 @@ function player:die()
 end
 
 function player:collect(item)
+	--increase score when pickups are collected
 	util:dprint("[PICKUP     ] item")
 	
 	if item.name == "gem" then
@@ -127,6 +123,7 @@ end
 
 
 function player:attack(enemy)
+	-- increase score when attacking an enemy
 	player.score = player.score + enemy.score
 	sound:play(sound.kill)
 end

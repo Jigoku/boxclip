@@ -6,10 +6,7 @@ pickups.h = 40
 pickups.gem = love.graphics.newImage("graphics/pickups/gem.png")
 pickups.life = love.graphics.newImage( "graphics/pickups/heart.png")
 
-function pickups:random(path)
-	--return love.graphics.newImage( path .. string.format("%04d",math.random(1, 7)) .. ".png")
 
-end
 
 function pickups:add(x,y,item,dropped)
 	if item == "gem" then
@@ -87,7 +84,6 @@ end
 
 
 function pickups:drawDebug(pickup, i)
-	--requires graphic, implement all pickups as graphics/image
 	love.graphics.setColor(100,255,100,100)
 	love.graphics.rectangle(
 		"line", 
@@ -101,7 +97,7 @@ function pickups:drawDebug(pickup, i)
 end
 
 function pickups:destroy(pickups, i)
-	-- fade/collect animation can be added
+	-- fade/collect animation can be added here
 	table.remove(pickups, i)
 end
 

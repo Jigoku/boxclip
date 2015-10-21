@@ -1,12 +1,18 @@
 world = {}
 
+--add menu option to change this.
+--also portal entity should have parameter for "next map" 
+--which changes this string before reinitializing the world
 world.map = "maps/test.map"
 
+--groundLEvel textures
 water = love.graphics.newImage("graphics/tiles/water.png")
 lava = love.graphics.newImage("graphics/tiles/lava.png")
 blood = love.graphics.newImage("graphics/tiles/blood.png")
 
 function world:settheme(theme)
+	--theme palettes for different settings
+	--specified in map file as "theme=*"
 	if theme == "jungle" then
 		background_r = 100
 		background_g = 150
@@ -65,6 +71,9 @@ end
 function world:init() 
 	console = false
 	editing = false
+	
+	--move this setting into map files
+	--once editor menu can adjust variables
 	world.gravity = 400
 
 	world.groundLevel = 200
@@ -111,7 +120,6 @@ function world:draw()
 	
 	camera:unset()
 	
-	--editor specifics
 	
 	if editing then
 		editor:draw()	
@@ -119,7 +127,7 @@ function world:draw()
 	
 	if mode == "editing" then
 
-		--print some controls
+		--print some editor controls
 		love.graphics.setColor(255,255,255,255)
 		love.graphics.print("comma (axis info)",10, love.window.getHeight()-220)
 		love.graphics.print("period (entity info)",10, love.window.getHeight()-200)
@@ -139,7 +147,7 @@ function world:draw()
 		love.graphics.setFont(fonts.default)
 	end
 	
-
+	--draw the hud/scoreboard
 	if mode =="game" then
 		love.graphics.setFont(fonts.scoreboard)
 		love.graphics.setColor(0,0,0,155)
@@ -172,6 +180,7 @@ end
 
 
 function world:timer()
+	--update the world time
 	local time = os.time()
 	local elapsed =  os.difftime(time-world.startTime)
 	if os.difftime(time-world.startTime) == 60 then
@@ -183,6 +192,7 @@ function world:timer()
 end
 
 function world:gettime()
+	--returns the world time (eg 00:00)
 	return string.format("%02d",world.minutes) .. ":" .. string.format("%02d",world.seconds)
 end
 
@@ -200,6 +210,7 @@ function world:drawWeather()
 end
 
 function world:count(table)
+	--count tables within a table
 	local count = 0
 	for n, object in pairs(table) do 
 		if type(object) == "table" then
@@ -221,11 +232,13 @@ function world:remove(objects)
 end
 
 function world:totalents()
+	--returns total entitys
 	return world:count(pickups)+world:count(enemies)+world:count(platforms)+
 			world:count(crates)+world:count(checkpoints)+world:count(portals)+world:count(scenery)
 end
 
 function world:totalentsdrawn()
+	--returns total drawn entities
 	return world.pickups+world.enemies+world.platforms+world.crates+
 		world.checkpoints+world.portals+world.scenery
 end
@@ -262,7 +275,7 @@ function world:run(dt)
 	end
 	--love.audio.stop( )
 	
-	--scroll gorundLevel!
+	--scroll groundLevel!
 	groundLevel_scroll = groundLevel_scroll + groundLevel_scrollspeed * dt
 	  if groundLevel_scroll > groundLevel_tile:getHeight()then
         groundLevel_scroll = groundLevel_scroll - groundLevel_tile:getHeight()

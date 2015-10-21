@@ -14,6 +14,7 @@
 	quit         : esc
 	camera scale : z
 --]]
+
 require("mapio")
 require("camera")
 require("sound")
@@ -40,10 +41,13 @@ mode = "title"
 function love.load()
 	math.randomseed(os.time())
 	cwd = love.filesystem.getWorkingDirectory( )
+	
+	--windwo settings
 	icon = love.image.newImageData( "graphics/enemies/walker.png")
 	love.window.setIcon( icon )
 	love.mouse.setVisible( false )
 	
+	--store fonts here
 	fonts = {
 		default = love.graphics.newFont(12),
 		menu = love.graphics.newFont(14),
@@ -68,7 +72,7 @@ end
 
 function love.draw()
 
-
+	--draw the titlescreen
 	if mode == "title" then
 		love.graphics.setBackgroundColor(0,0,0,255)
 		
@@ -96,7 +100,8 @@ function love.draw()
 	else
 		world:draw()
 	end
-	-- draw world
+
+
 	if console then
 		-- debug info
 		util:drawConsole()
@@ -116,6 +121,7 @@ function love.update(dt)
 		end
 	end
 
+	--run the world
 	if not (mode == "title") then
 		world:timer()
 		physics:world(dt)

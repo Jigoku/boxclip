@@ -26,19 +26,21 @@ editing = false
 mousePosX = 0
 mousePosY = 0
 
-editor.entdir = 0 --(used for some entites 0,1,2,3 = up,down,right,left)
-editor.entsel = 0
-editor.themesel = 0
-editor.showpos = true
-editor.showid  = true
-editor.drawsel = false
-editor.drawminimap = true
-editor.movespeed = 1000
+editor.entdir = 0 			--(used for some entites 0,1,2,3 = up,down,right,left)
+editor.entsel = 0			--current entity id for placement
+editor.themesel = 0			--theme pallete in use
+editor.showpos = true		--axis info for entitys
+editor.showid  = true		--id info for entities
+editor.drawsel = false		--selection outline
+editor.drawminimap = true	--toggle minimap
+editor.movespeed = 1000		--editing floatspeed
 	
-editor.clipboard = {}
+editor.clipboard = {}		--clipboard contents
 
 
 function editor:entname(id)
+	--list of entity id's (these can be reordered / renumbered
+	--without any issues, as long as "entity.name" is specified
 	if id == 0 then return "spawn" 
 	elseif id == 1 then return "goal" 
 	elseif id == 2 then return "platform" 
@@ -175,6 +177,7 @@ function editor:mousepressed(x,y,button)
 end
 
 function editor:mousereleased(x,y,button)
+	--check if we have selected platforms, then place if neccesary
 	if button == 'l' then
 		local selection = self:entname(self.entsel)
 		if selection == "platform" or selection == "platform_x" or selection == "platform_y" then
@@ -186,10 +189,10 @@ end
 
 
 function editor:addplatform(x1,y1,x2,y2)
-	-- add platform platform
 
+	--we must drag down and right
 	if not (x2 < x1 or y2 < y1) then
-		--min sizes
+		--min sizes (we don't want impossible to select/remove platforms)
 		if x2-x1 < 20  then x2 = x1 +20 end
 		if y2-y1 < 20  then y2 = y1 +20 end
 
@@ -198,6 +201,7 @@ function editor:addplatform(x1,y1,x2,y2)
 		local w = (x2-x1)
 		local h = (y2-y1)
 		
+		--place the platform
 		if self.entsel == 2 then
 			platforms:add(x,y,w,h, 0,0,0,0)
 		end
@@ -228,6 +232,8 @@ function editor:crosshair()
 		math.round(mousePosX+love.graphics.getWidth()*camera.scaleX-1),
 		math.round(mousePosY,-1)
 	)
+	
+	--cursor
 	love.graphics.setColor(255,200,255,255)
 	love.graphics.line(
 		math.round(mousePosX,-1),
@@ -264,6 +270,7 @@ function editor:draw()
 end
 
 function editor:drawselbox()
+	--draw an outline when dragging mouse
 	if editor.drawsel then
 		love.graphics.setColor(0,255,255,100)
 		love.graphics.rectangle(
@@ -318,11 +325,12 @@ function editor:removesel()
 			self:remove(platforms)
 end
 
-function editor:removeall(objects, name)
-	for i, entity in ipairs(objects) do
+function editor:removeall(entities, name)
+	--removes all entity types of given entity
+	for i, entity in ipairs(entities) do
 		if type(entity) == "table" and entity.name == name then
 
-			table.remove(objects,i)
+			table.remove(entities,i)
 		end
 	end
 end
@@ -356,6 +364,8 @@ end
 
 
 function editor:rotate()
+	--set rotation value for the entity
+	--four directions, 0,1,2,3 at 90degree angles
 	editor.entdir = editor.entdir +1
 	if editor.entdir > 3 then
 		editor.entdir = 0
@@ -379,6 +389,7 @@ end
 
 function editor:paste()
 	--paste the new entity with copied paramaters
+	--
 	local x = math.round(mousePosX,-1)
 	local y = math.round(mousePosY,-1)
 	local w = self.clipboard.w or 20
@@ -396,6 +407,7 @@ function editor:paste()
 end
 
 function editor:run(dt)
+	--reset some values we don't want to be updated
 	player.xvel = 0
 	player.yvel = 0
 end
@@ -403,6 +415,7 @@ end
 
 function editor:drawmmap()
 	--experimental! does not work as intended!
+	--fix camera scaling... and remove duplicate code
 	editor.mmapw = love.window.getWidth()/5
 	editor.mmaph = love.window.getHeight()/5
 	editor.mmapscale = 15

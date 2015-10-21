@@ -14,10 +14,11 @@ sound.lifeup = love.audio.newSource(fx .. "lifeup.ogg", "static")
 sound.kill = love.audio.newSource(fx .. "kill.ogg", "static")
 sound.checkpoint = love.audio.newSource(fx .. "checkpoint.ogg", "static")
 sound.goal = love.audio.newSource(fx .. "goal.ogg", "static")
+
 sound.bgm = nil
 
 function sound:playbgm(id)
-
+	--set by "mapmusic=N" within a map file
 	if id == "1" then  sound.bgm = love.audio.newSource(mt .. "jungle.ogg") end
 	if id == "2" then  sound.bgm = love.audio.newSource(mt .. "underwater.ogg") end
 	if id == "3" then  sound.bgm = love.audio.newSource(mt .. "walking.ogg") end
@@ -33,6 +34,7 @@ end
 
 function sound:play(effect)
 	--improve this (temporary fix)
+	--allows sound to be played in quick succession
 	if effect:isPlaying() then
 		effect:stop()
 	end
