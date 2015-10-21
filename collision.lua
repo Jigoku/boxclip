@@ -182,24 +182,23 @@ end
 function collision:springs(dt)
 	local i, spring
 	for i, spring in ipairs(springs) do
-		if spring.name == "spring" then
-			if world:inview(spring) then
-				if collision:check(player.x,player.y,player.w,player.h,
-					spring.x+10, spring.y+10,spring.w-20,spring.h-20) then
-						sound:play(sound.spring)
-						if spring.dir == 0 then
-							player.y = spring.y-player.h -1 *dt
-							player.yvel = spring.vel
-						elseif spring.dir == 1 then
-							player.y = spring.y +spring.h +1 *dt
-							player.yvel = -spring.vel
-						elseif spring.dir == 2 then
-							player.x = spring.x +spring.w +1 *dt
-							player.xvel = spring.vel
-						elseif spring.dir == 3 then
-							player.x = spring.x -player.w -1 *dt
-							player.xvel = -spring.vel
-						end
+		if world:inview(spring) then
+			if collision:check(player.x,player.y,player.w,player.h,
+				spring.x+10, spring.y+10,spring.w-20,spring.h-20) then
+				
+				sound:play(sound.spring)
+				if spring.dir == 0 then
+					player.y = spring.y-player.h -1 *dt
+					player.yvel = spring.vel
+				elseif spring.dir == 1 then
+					player.y = spring.y +spring.h +1 *dt
+					player.yvel = -spring.vel
+				elseif spring.dir == 2 then
+					player.x = spring.x +spring.w +1 *dt
+					player.xvel = spring.vel
+				elseif spring.dir == 3 then
+					player.x = spring.x -player.w -1 *dt
+					player.xvel = -spring.vel
 				end
 			end
 		end

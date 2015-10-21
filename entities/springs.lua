@@ -1,6 +1,8 @@
 springs = {}
 
-spring = love.graphics.newImage("graphics/springs/spring.png")
+spring_s = love.graphics.newImage("graphics/springs/spring_s.png")
+spring_m = love.graphics.newImage("graphics/springs/spring_m.png")
+spring_l = love.graphics.newImage("graphics/springs/spring_l.png")
 
 function springs:add(x,y,dir,type)
 
@@ -13,7 +15,18 @@ function springs:add(x,y,dir,type)
 		height = 40
 	end
 		
-	if type == "spring" then
+	if type == "spring_s" then
+		vel = 1000
+		gfx = spring_s
+	elseif type == "spring_m" then
+		vel = 1500
+		gfx = spring_m
+	elseif type == "spring_l" then
+		vel = 2000
+		gfx = spring_l
+	end
+	
+
 		table.insert(springs, {
 			--dimensions
 			x = x or 0, 
@@ -22,13 +35,12 @@ function springs:add(x,y,dir,type)
 			h = height,
 			
 			--properties
-			name = "spring",
-			gfx = spring,
-			vel = 1500,
+			name = type,
+			gfx = gfx,
+			vel = vel,
 			dir = dir,
 		})
 		print("spring added @  X:"..x.." Y: "..y)
-	end
 	
 end
 

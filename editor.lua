@@ -56,7 +56,9 @@ function editor:entname(id)
 	elseif id ==11 then return "life" 
 	elseif id ==12 then return "flower" 
 	elseif id ==13 then return "rock" 
-	elseif id ==14 then return "spring" 
+	elseif id ==14 then return "spring_s" 
+	elseif id ==15 then return "spring_m" 
+	elseif id ==16 then return "spring_l" 
 	else return editor.entsel
 	end
 end
@@ -159,6 +161,7 @@ function editor:mousepressed(x,y,button)
 	
 	if button == 'l' then
 		local selection = self:entname(self.entsel)
+		
 		if selection == "spawn" then
 			self:removeall(portals, "spawn")
 			portals:add(x,y,"spawn")
@@ -168,9 +171,7 @@ function editor:mousepressed(x,y,button)
 			portals:add(x,y,"goal")
 		end
 		
-		if selection == "crate" then
-			crates:add(x,y,"gem")
-		end
+		if selection == "crate" then crates:add(x,y,"gem") end
 		
 		if selection == "walker" then
 			enemies:walker(x,y,100,100) --movespeed,movedist should be configurable
@@ -179,29 +180,16 @@ function editor:mousepressed(x,y,button)
 			enemies:floater(x,y,100,400) --movespeed,movedist should be configurable
 		end
 		
-		if selection == "checkpoint" then
-			checkpoints:add(x,y)
-
-		end
-		if selection == "gem" then
-			pickups:add(x,y,"gem")
-		end
-		if selection == "life" then
-			pickups:add(x,y,"life")
-		end
-		if selection == "spike" then
-			enemies:spike(x,y,editor.entdir)
-			--enemies:spike(x,y,dir)
-		end
-		if selection == "flower" then
-			props:add(x,y,"flower")
-		end
-		if selection == "rock" then
-			props:add(x,y,"rock")
-		end
-		if selection == "spring" then
-			springs:add(x,y,editor.entdir,"spring")
-		end
+		if selection == "checkpoint" then checkpoints:add(x,y) end
+		if selection == "gem" then pickups:add(x,y,"gem") end
+		if selection == "life" then pickups:add(x,y,"life") end
+		if selection == "spike" then enemies:spike(x,y,editor.entdir) end
+		if selection == "flower" then props:add(x,y,"flower") end
+		if selection == "rock" then props:add(x,y,"rock") end
+		if selection == "spring_s" then springs:add(x,y,editor.entdir,"spring_s") end
+		if selection == "spring_m" then springs:add(x,y,editor.entdir,"spring_m") end
+		if selection == "spring_l" then springs:add(x,y,editor.entdir,"spring_l") end
+		
 	elseif button == 'r' then
 		editor:removesel()
 	end
