@@ -180,17 +180,16 @@ function collision:portals(dt)
 end
 
 function collision:props(dt)
-	--if mode == "editing" then return end
-	
 	local i, prop
 	for i, prop in ipairs(props) do
-		if world:inview(prop) then
-			if collision:check(player.x,player.y,player.w,player.h,
-				prop.x+10, prop.y+10,prop.w-20,prop.h-20) then
-					sound:play(sound.spring)
-					player.y = prop.y-player.h -1 *dt
-					player.yvel = 1500					
-				
+		if prop.name == "spring" then
+			if world:inview(prop) then
+				if collision:check(player.x,player.y,player.w,player.h,
+					prop.x+10, prop.y+10,prop.w-20,prop.h-20) then
+						sound:play(sound.spring)
+						player.y = prop.y-player.h -1 *dt
+						player.yvel = 1500					
+				end
 			end
 		end
 	end
