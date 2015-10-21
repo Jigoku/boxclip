@@ -7,6 +7,7 @@ function collision:checkWorld(dt)
 		self:enemies(dt)
 		self:checkpoints(dt)
 		self:portals(dt)
+		self:props(dt)
 	end
 end
 
@@ -173,6 +174,23 @@ function collision:portals(dt)
 							print("Reached goal")
 						end
 					end
+			end
+		end
+	end
+end
+
+function collision:props(dt)
+	--if mode == "editing" then return end
+	
+	local i, prop
+	for i, prop in ipairs(props) do
+		if world:inview(prop) then
+			if collision:check(player.x,player.y,player.w,player.h,
+				prop.x+10, prop.y+10,prop.w-20,prop.h-20) then
+					sound:play(sound.spring)
+					player.y = prop.y-player.h -1 *dt
+					player.yvel = 1500					
+				
 			end
 		end
 	end

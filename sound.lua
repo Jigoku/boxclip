@@ -14,6 +14,7 @@ sound.lifeup = love.audio.newSource(fx .. "lifeup.ogg", "static")
 sound.kill = love.audio.newSource(fx .. "kill.ogg", "static")
 sound.checkpoint = love.audio.newSource(fx .. "checkpoint.ogg", "static")
 sound.goal = love.audio.newSource(fx .. "goal.ogg", "static")
+sound.spring = love.audio.newSource(fx .. "spring.ogg", "static")
 
 sound.bgm = nil
 

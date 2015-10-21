@@ -3,6 +3,7 @@ props = {}
 
 flower = love.graphics.newImage("graphics/props/flower.png")
 rock = love.graphics.newImage("graphics/props/rock.png")
+spring = love.graphics.newImage("graphics/props/spring.png")
 
 function props:add(x,y,type)
 	if type == "flower" then
@@ -31,6 +32,20 @@ function props:add(x,y,type)
 		})
 		print("rock added @  X:"..x.." Y: "..y)
 	end
+	if type == "spring" then
+		table.insert(props, {
+			--dimensions
+			x = x or 0, -- xco-ord
+			y = y or 0, -- yco-ord
+			w = 40, -- width
+			h = 30, -- height
+			--properties
+			name = "spring",
+			gfx = spring,
+		})
+		print("spring added @  X:"..x.." Y: "..y)
+	end
+	
 end
 
 function props:draw()
@@ -55,16 +70,28 @@ function props:draw()
 	world.props = count
 end
 
-function props:drawDebug(object, i)
+function props:drawDebug(prop, i)
 	--requires graphic, implement all pickups as graphics/image
 	love.graphics.setColor(255,0,155,100)
 	love.graphics.rectangle(
 		"line", 
-		object.x, 
-		object.y, 
-		object.gfx:getWidth(), 
-		object.gfx:getHeight()
+		prop.x, 
+		prop.y, 
+		prop.gfx:getWidth(), 
+		prop.gfx:getHeight()
 	)
-	util:drawid(object, i)
-	util:drawCoordinates(object)
+	
+	if prop.name == "spring" then
+		love.graphics.setColor(155,255,55,200)
+		love.graphics.rectangle(
+			"line", 
+			prop.x+10, 
+			prop.y+10, 
+			prop.gfx:getWidth()-20, 
+			prop.gfx:getHeight()-20
+		)
+	end
+	
+	util:drawid(prop, i)
+	util:drawCoordinates(prop)
 end

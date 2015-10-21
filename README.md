@@ -20,6 +20,7 @@ This is not even a pre-alpha, and end goals may change. Currently the plans are 
 * map editor
 * enemies
 * props
+* springs
 
 #####Editor
 * remove entitys

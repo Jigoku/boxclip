@@ -37,15 +37,15 @@ end
 
 function physics:applyGravity(object, dt)
 	--simulate gravity
-	object.yvel = math.round((object.yvel - ((world.gravity+object.mass*2) *dt)),0)
+	object.yvel = (object.yvel - ((world.gravity+object.mass*2) *dt))
 	object.newY = (object.y - object.yvel *dt)
 end
 
 
 function physics:applyRotation(object,n,dt)
 	if object.jumping == 1 then
-			object.angle = object.angle + dt * n
-			object.angle = object.angle % (2*math.pi)
+		object.angle = object.angle + dt * n
+		object.angle = object.angle % (2*math.pi)
 	else
 		object.angle = 0
 	end

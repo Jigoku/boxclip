@@ -56,6 +56,7 @@ function editor:entname(id)
 	elseif id ==11 then return "life" 
 	elseif id ==12 then return "flower" 
 	elseif id ==13 then return "rock" 
+	elseif id ==14 then return "spring" 
 	else return editor.entsel
 	end
 end
@@ -198,7 +199,9 @@ function editor:mousepressed(x,y,button)
 		if selection == "rock" then
 			props:add(x,y,"rock")
 		end
-		
+		if selection == "spring" then
+			props:add(x,y,"spring")
+		end
 	elseif button == 'r' then
 		editor:removesel()
 	end
