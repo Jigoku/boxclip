@@ -118,8 +118,6 @@ function physics:crates(object,dt)
 	if mode == "editing" then return end
 	local i, crate
 	for i, crate in ipairs(crates) do
-	
-		if world:inview(crate) then
 			if collision:check(crate.x,crate.y,crate.w,crate.h,
 				object.newX,object.newY,object.w,object.h) and not crate.destroyed then
 				
@@ -166,16 +164,13 @@ function physics:crates(object,dt)
 				end		
 			end
 		end
-	end	
 end
 
 function physics:platforms(object, dt)
 	--loop solid platforms
 	
 	local i, platform
-	for i, platform in ipairs(platforms) do
-	--move the platforms! 
-	
+	for i, platform in ipairs(platforms) do	
 		
 			if collision:check(platform.x,platform.y,platform.w,platform.h,
 					object.newX,object.newY,object.w,object.h) then
@@ -255,21 +250,14 @@ function physics:platforms(object, dt)
 						
 						end		
 					end
-
-				else
-					--object.jumping = 1
 				end
 			end
-		
-
 	end
 end
 
 function physics:pickups(dt)
 	local i, pickup
 		for i, pickup in ipairs(pickups) do
-		
-			if world:inview(pickup) then
 			self:applyGravity(pickup, dt)
 			pickup.newX = (pickup.x + pickup.xvel *dt)
 			
@@ -279,7 +267,6 @@ function physics:pickups(dt)
 			--update new poisition
 			pickup.x = pickup.newX
 			pickup.y = pickup.newY
-			end
 			
 			-- if pickup goes outside of world, remove it
 			if pickup.y+pickup.h > world.groundLevel  then
@@ -313,7 +300,7 @@ function physics:enemies(dt)
 			end	
 			
 			if enemy.name == "floater" then
-			self:movex(enemy, dt)
+				self:movex(enemy, dt)
 			end
 		end
 	end
