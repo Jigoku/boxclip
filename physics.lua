@@ -20,12 +20,20 @@ function physics:applyVelocity(object, dt)
 		-- x-axis friction
 		if object.dir == "right" then
 			if object.xvel < object.speed then
-				object.xvel = (object.xvel + ((world.gravity+object.speed) *dt))
+				if object.jumping == 1 then
+					object.xvel = (object.xvel + ((world.gravity+object.speed)/1.5 *dt))
+				else
+					object.xvel = (object.xvel + ((world.gravity+object.speed) *dt))
+				end
 			end
 		end
 		if object.dir == "left"  then
 			if not (object.xvel < -object.speed)  then
-				object.xvel = (object.xvel - ((world.gravity+object.speed) *dt))
+				if object.jumping == 1 then
+					object.xvel = (object.xvel - ((world.gravity+object.speed)/1.5 *dt))
+				else
+					object.xvel = (object.xvel - ((world.gravity+object.speed) *dt))
+				end
 			end
 		end
 		

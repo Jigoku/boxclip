@@ -142,3 +142,14 @@ function player:attack(enemy)
 	player.score = player.score + enemy.score
 	sound:play(sound.kill)
 end
+
+
+function player:moveleft()
+	player.lastdir = player.dir
+	player.dir = "left"
+end
+
+function player:moveright()
+	player.lastdir = player.dir
+	player.dir = "right"	
+end

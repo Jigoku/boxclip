@@ -4,13 +4,12 @@ function input:checkkeys(dt)
 	if not editing then
 		if love.keyboard.isDown("d") or love.keyboard.isDown("right") 
 			and player.alive == 1 then
-			player.lastdir = player.dir
-			player.dir = "right"	
+			player:moveright()
 	
 		elseif love.keyboard.isDown("a") or love.keyboard.isDown("left") 
 			and player.alive == 1 then
-			player.lastdir = player.dir
-			player.dir = "left"
+			player:moveleft()
+			
 			
 		else
 			player.dir = "idle"
