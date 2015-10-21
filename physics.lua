@@ -225,13 +225,6 @@ function physics:platforms(object, dt)
 							object.newY = platform.y - object.h +1 *dt
 						end
 					
-						-- this allows running across closely seperated platforms
-						-- but only works for moving right, figure out how to allow thi
-						-- to work with left edges.
-						--   object.newY = platform.y - object.h -1 *dt
-						
-					
-						
 						if platform.movex == 1 and object.yvel == 0 then
 							-- move along x-axis with platform	
 							object.newX = (object.newX + platform.movespeed *dt)

@@ -71,9 +71,10 @@ function editor:entname(id)
 	elseif id ==11 then return "life" 
 	elseif id ==12 then return "flower" 
 	elseif id ==13 then return "rock" 
-	elseif id ==14 then return "spring_s" 
-	elseif id ==15 then return "spring_m" 
-	elseif id ==16 then return "spring_l" 
+	elseif id ==14 then return "tree" 
+	elseif id ==15 then return "spring_s" 
+	elseif id ==16 then return "spring_m" 
+	elseif id ==17 then return "spring_l" 
 	else return editor.entsel
 	end
 end
@@ -201,6 +202,7 @@ function editor:mousepressed(x,y,button)
 		if selection == "spike" then enemies:spike(x,y,editor.entdir) end
 		if selection == "flower" then props:add(x,y,"flower") end
 		if selection == "rock" then props:add(x,y,"rock") end
+		if selection == "tree" then props:add(x,y,"tree") end
 		if selection == "spring_s" then springs:add(x,y,editor.entdir,"spring_s") end
 		if selection == "spring_m" then springs:add(x,y,editor.entdir,"spring_m") end
 		if selection == "spring_l" then springs:add(x,y,editor.entdir,"spring_l") end

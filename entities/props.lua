@@ -17,6 +17,7 @@
 
 flower = love.graphics.newImage("graphics/props/flower.png")
 rock = love.graphics.newImage("graphics/props/rock.png")
+tree = love.graphics.newImage("graphics/props/tree.png")
 
 
 function props:add(x,y,type)
@@ -46,7 +47,19 @@ function props:add(x,y,type)
 		})
 		print("rock added @  X:"..x.." Y: "..y)
 	end
-
+	if type == "tree" then
+		table.insert(props, {
+			--dimensions
+			x = x or 0, -- xco-ord
+			y = y or 0, -- yco-ord
+			w = 100, -- width
+			h = 200, -- height
+			--properties
+			name = "tree",
+			gfx = tree,
+		})
+		print("tree added @  X:"..x.." Y: "..y)
+	end
 end
 
 function props:draw()
