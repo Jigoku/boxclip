@@ -61,6 +61,38 @@ function world:settheme(theme)
 		spike_gfx = spike_hell
 		groundLevel_tile = blood
 		groundLevel_scrollspeed = 100
+	elseif theme == "mist" then
+		background_r = 135
+		background_g = 130
+		background_b = 120
+		platform_wall_r = 180
+		platform_wall_g = 180
+		platform_wall_b = 180
+		platform_top_r = 110
+		platform_top_g = 160
+		platform_top_b = 80
+		crate_r = 200
+		crate_g = 170
+		crate_b = 170
+		spike_gfx = spike
+		groundLevel_tile = lava
+		groundLevel_scrollspeed = 100
+	elseif theme == "dust" then
+		background_r = 135
+		background_g = 100
+		background_b = 80
+		platform_wall_r = 235
+		platform_wall_g = 180
+		platform_wall_b = 120
+		platform_top_r = 135
+		platform_top_g = 80
+		platform_top_b = 20
+		crate_r = 200
+		crate_g = 170
+		crate_b = 170
+		spike_gfx = spike
+		groundLevel_tile = lava
+		groundLevel_scrollspeed = 100
 
 	end
 		groundLevel_tile:setWrap("repeat", "repeat")
