@@ -10,6 +10,8 @@ water = love.graphics.newImage("graphics/tiles/water.png")
 lava = love.graphics.newImage("graphics/tiles/lava.png")
 blood = love.graphics.newImage("graphics/tiles/blood.png")
 
+
+
 function world:settheme(theme)
 	--theme palettes for different settings
 	--specified in map file as "theme=*"
@@ -93,11 +95,27 @@ function world:settheme(theme)
 		spike_gfx = spike
 		groundLevel_tile = lava
 		groundLevel_scrollspeed = 100
+	elseif theme == "forest" then
+		background_r = 100
+		background_g = 115
+		background_b = 80
+		platform_wall_r = 175
+		platform_wall_g = 120
+		platform_wall_b = 70
+		platform_top_r = 100
+		platform_top_g = 155
+		platform_top_b = 50
+		crate_r = 120
+		crate_g = 175
+		crate_b = 70
+		spike_gfx = spike
+		groundLevel_tile = water
+		groundLevel_scrollspeed = 100
 
 	end
 		groundLevel_tile:setWrap("repeat", "repeat")
 		groundLevel_quad = love.graphics.newQuad( -50,world.groundLevel, 10000, 500, groundLevel_tile:getDimensions() )
-	
+		love.graphics.setBackgroundColor(background_r,background_g,background_b,255)
 end
 
 function world:init() 

@@ -10,6 +10,7 @@
 	move down		: numpad 2
 	move left		: numpad 4
 	move right		: numpad 6
+	theme palette   : t
 	copy dimensions	: c
 	paste			: p	
 	delete entity	: del
@@ -60,6 +61,31 @@ function editor:entname(id)
 end
 
 
+
+function editor:themename(id)
+	if id == 0 then return "jungle" 
+	elseif id == 1 then return "winter" 
+	elseif id == 2 then return "hell" 
+	elseif id == 3 then return "mist" 
+	elseif id == 4 then return "dust" 
+	elseif id == 5 then return "forest" 
+	end
+end
+
+function editor:settheme()
+	world.theme = self:themename(editor.themesel)
+	world:settheme(world.theme)
+	
+	for i,e in ipairs(enemies) do 
+		if e.name == "spike" then
+			e.gfx = spike_gfx
+		end
+	end
+	self.themesel = self.themesel +1
+	if self.themesel > 5 then self.themesel = 0 end
+	
+end
+
 function editor:keypressed(key)
 	--print (key)
 	if love.keyboard.isDown("kp+") then editor.entsel = editor.entsel +1 end
@@ -74,7 +100,9 @@ function editor:keypressed(key)
 	if love.keyboard.isDown(",") then self.showpos = not self.showpos end
 	if love.keyboard.isDown(".") then self.showid = not self.showid end
 	if love.keyboard.isDown("f12") then mapio:savemap(world.map) end
-
+	
+	if love.keyboard.isDown("t") then self:settheme() end
+	
 	if key == "kp8" or key == "kp2" or key == "kp4" or key == "kp6" then
 	for i, platform in ipairs(platforms) do
 		--fix this for moving platform (yorigin,xorigin etc)
