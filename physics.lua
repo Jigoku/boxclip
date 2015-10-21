@@ -38,6 +38,12 @@ end
 function physics:applyGravity(object, dt)
 	--simulate gravity
 	object.yvel = math.round((object.yvel - ((world.gravity+object.mass*2) *dt)),0)
+	
+	--stop increasing velocity if we hit this limit
+	if object.yvel < -world.gravity*3 then 
+		object.yvel = -world.gravity*3 
+	end
+	
 	object.newY = (object.y - object.yvel *dt)
 end
 
@@ -238,12 +244,6 @@ function physics:platforms(object, dt)
 
 				else
 					--object.jumping = 1
-				end
-						
-			else
-				--if we reach maximum velocity and no collision is present, invert by mass
-				if object.yvel < -object.mass then
-					object.yvel = -object.mass 
 				end
 			end
 		
