@@ -1,6 +1,6 @@
 platforms = {}
 
-platform_tile = love.graphics.newImage("graphics/tiles/checked_bumped.png")
+platform_tile = love.graphics.newImage("graphics/tiles/diamond.png")
 
 function platforms:add(x,y,w,h,movex,movey,movespeed,movedist)
 	table.insert(platforms, {

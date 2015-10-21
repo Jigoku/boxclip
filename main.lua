@@ -58,7 +58,7 @@ function love.load()
 	}
 
 	-- title background
-	titlebg = love.graphics.newImage("graphics/tiles/checked_bumped.png")
+	titlebg = love.graphics.newImage("graphics/tiles/fish.png")
 	titlebg:setWrap("repeat", "repeat")
 	titlebg_quad = love.graphics.newQuad( 0,0, love.window.getWidth(), love.window.getHeight(), titlebg:getDimensions() )
 	titlebg_scroll = 0
