@@ -200,7 +200,7 @@ function editor:mousepressed(x,y,button)
 			props:add(x,y,"rock")
 		end
 		if selection == "spring" then
-			props:add(x,y,"spring")
+			springs:add(x,y,editor.entdir,"spring")
 		end
 	elseif button == 'r' then
 		editor:removesel()
@@ -318,6 +318,7 @@ function editor:drawselected()
 			self:selection(portals) or		
 			self:selection(crates) or
 			self:selection(checkpoints) or
+			self:selection(springs) or
 			self:selection(props) or
 			self:selection(platforms)
 end
@@ -352,6 +353,7 @@ function editor:removesel()
 			self:remove(portals) or		
 			self:remove(crates) or
 			self:remove(checkpoints) or
+			self:remove(springs) or
 			self:remove(props) or
 			self:remove(platforms)
 end

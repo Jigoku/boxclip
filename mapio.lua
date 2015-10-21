@@ -31,6 +31,9 @@ function mapio:savemap(map)
 	for i, entity in ipairs(props) do
 		fh:write("props="..math.round(entity.x)..","..math.round(entity.y)..","..entity.name.."\n")
 	end
+	for i, entity in ipairs(springs) do
+		fh:write("spring="..math.round(entity.x)..","..math.round(entity.y)..","..entity.dir.. ","..entity.name.."\n")
+	end
 	for i, entity in ipairs(portals) do
 		fh:write("portal="..math.round(entity.x)..","..math.round(entity.y)..","..entity.name.."\n")
 	end
@@ -136,6 +139,15 @@ function mapio:loadmap(mapname)
 			props:add(tonumber(x),tonumber(y),type)
 			
 		end
+		--parse springs
+		if string.find(line, "^spring=(.+)") then
+			local x,y,dir,type = string.match(
+				line, "^spring=(%-?%d+),(%-?%d+),(%-?%d+),(.+)"
+			)
+			springs:add(tonumber(x),tonumber(y),tonumber(dir),type)
+			
+		end
+		
 		--parse portals
 		if string.find(line, "^portal=(.+)") then
 			local x,y,type = string.match(

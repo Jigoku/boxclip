@@ -7,7 +7,7 @@ function collision:checkWorld(dt)
 		self:enemies(dt)
 		self:checkpoints(dt)
 		self:portals(dt)
-		self:props(dt)
+		self:springs(dt)
 	end
 end
 
@@ -179,16 +179,27 @@ function collision:portals(dt)
 	end
 end
 
-function collision:props(dt)
-	local i, prop
-	for i, prop in ipairs(props) do
-		if prop.name == "spring" then
-			if world:inview(prop) then
+function collision:springs(dt)
+	local i, spring
+	for i, spring in ipairs(springs) do
+		if spring.name == "spring" then
+			if world:inview(spring) then
 				if collision:check(player.x,player.y,player.w,player.h,
-					prop.x+10, prop.y+10,prop.w-20,prop.h-20) then
+					spring.x+10, spring.y+10,spring.w-20,spring.h-20) then
 						sound:play(sound.spring)
-						player.y = prop.y-player.h -1 *dt
-						player.yvel = prop.vel					
+						if spring.dir == 0 then
+							player.y = spring.y-player.h -1 *dt
+							player.yvel = spring.vel
+						elseif spring.dir == 1 then
+							player.y = spring.y +spring.h +1 *dt
+							player.yvel = -spring.vel
+						elseif spring.dir == 2 then
+							player.x = spring.x +spring.w +1 *dt
+							player.xvel = spring.vel
+						elseif spring.dir == 3 then
+							player.x = spring.x -player.w -1 *dt
+							player.xvel = -spring.vel
+						end
 				end
 			end
 		end

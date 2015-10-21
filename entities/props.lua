@@ -1,9 +1,8 @@
 props = {}
 
-
 flower = love.graphics.newImage("graphics/props/flower.png")
 rock = love.graphics.newImage("graphics/props/rock.png")
-spring = love.graphics.newImage("graphics/props/spring.png")
+
 
 function props:add(x,y,type)
 	if type == "flower" then
@@ -32,37 +31,21 @@ function props:add(x,y,type)
 		})
 		print("rock added @  X:"..x.." Y: "..y)
 	end
-	if type == "spring" then
-		table.insert(props, {
-			--dimensions
-			x = x or 0, -- xco-ord
-			y = y or 0, -- yco-ord
-			w = 40, -- width
-			h = 30, -- height
-			--properties
-			name = "spring",
-			gfx = spring,
-			vel = 1500,
-		})
-		print("spring added @  X:"..x.." Y: "..y)
-	end
-	
+
 end
 
 function props:draw()
 	local count = 0
 	
-	for i, object in ipairs(props) do
-		if world:inview(object) then
+	for i, prop in ipairs(props) do
+		if world:inview(prop) then
 			count = count +1
 				
-
 			love.graphics.setColor(255,255,255,255)
-			love.graphics.draw(object.gfx, object.x,object.y,0, 1, 1)
-
+			love.graphics.draw(prop.gfx, prop.x,prop.y,0, 1, 1)
 
 			if editing then
-				props:drawDebug(object, i)
+				props:drawDebug(prop, i)
 			end
 
 		end

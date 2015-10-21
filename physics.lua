@@ -37,7 +37,7 @@ end
 
 function physics:applyGravity(object, dt)
 	--simulate gravity
-	object.yvel = (object.yvel - ((world.gravity+object.mass*2) *dt))
+	object.yvel = math.round((object.yvel - ((world.gravity+object.mass*2) *dt)),0)
 	object.newY = (object.y - object.yvel *dt)
 end
 
