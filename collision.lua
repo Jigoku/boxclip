@@ -200,7 +200,7 @@ function collision:springs(dt)
 		if world:inview(spring) then
 			if collision:check(player.x,player.y,player.w,player.h,
 				spring.x+10, spring.y+10,spring.w-20,spring.h-20) then
-				--player.jumping = 1
+				player.jumping = 1
 				sound:play(sound.spring)
 				if spring.dir == 0 then
 					player.y = spring.y-player.h -1 *dt
