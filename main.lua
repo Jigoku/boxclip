@@ -72,7 +72,7 @@ function love.load()
 	}
 
 	-- title background
-	titlebg = love.graphics.newImage("graphics/tiles/water.png")
+	titlebg = love.graphics.newImage("graphics/tiles/checked.png")
 	titlebg:setWrap("repeat", "repeat")
 	titlebg_quad = love.graphics.newQuad( 0,0, love.window.getWidth(), love.window.getHeight(), titlebg:getDimensions() )
 	titlebg_scroll = 0
@@ -92,7 +92,7 @@ function love.draw()
 		love.graphics.setBackgroundColor(0,0,0,255)
 		
 		love.graphics.setColor(50,50,50,255)		
-		titlebg_quad:setViewport(0,-titlebg_scroll,love.window.getWidth(), love.window.getHeight() )
+		titlebg_quad:setViewport(titlebg_scroll,-titlebg_scroll,love.window.getWidth(), love.window.getHeight() )
 		love.graphics.draw(titlebg, titlebg_quad, 0,0)
 		
 		love.graphics.setColor(10,10,10,200)
