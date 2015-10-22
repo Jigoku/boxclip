@@ -60,21 +60,22 @@ function editor:entname(id)
 	if id == 0 then return "spawn" 
 	elseif id == 1 then return "goal" 
 	elseif id == 2 then return "platform" 
-	elseif id == 3 then return "platform_x" 
-	elseif id == 4 then return "platform_y" 
-	elseif id == 5 then return "checkpoint" 
-	elseif id == 6 then return "crate" 
-	elseif id == 7 then return "spike" 
-	elseif id == 8 then return "walker" 
-	elseif id == 9 then return "floater" 
-	elseif id ==10 then return "gem" 
-	elseif id ==11 then return "life" 
-	elseif id ==12 then return "flower" 
-	elseif id ==13 then return "rock" 
-	elseif id ==14 then return "tree" 
-	elseif id ==15 then return "spring_s" 
-	elseif id ==16 then return "spring_m" 
-	elseif id ==17 then return "spring_l" 
+	elseif id == 3 then return "platform_b" 
+	elseif id == 4 then return "platform_x" 
+	elseif id == 5 then return "platform_y" 
+	elseif id == 6 then return "checkpoint" 
+	elseif id == 7 then return "crate" 
+	elseif id == 8 then return "spike" 
+	elseif id == 9 then return "walker" 
+	elseif id ==10 then return "floater" 
+	elseif id ==11 then return "gem" 
+	elseif id ==12 then return "life" 
+	elseif id ==13 then return "flower" 
+	elseif id ==14 then return "rock" 
+	elseif id ==15 then return "tree" 
+	elseif id ==16 then return "spring_s" 
+	elseif id ==17 then return "spring_m" 
+	elseif id ==18 then return "spring_l" 
 	else return editor.entsel
 	end
 end
@@ -123,7 +124,7 @@ function editor:keypressed(key)
 	if love.keyboard.isDown("t") then self:settheme() end
 	
 	if key == "kp8" or key == "kp2" or key == "kp4" or key == "kp6" then
-	for i, platform in ipairs(platforms) do
+	for i, platform in ripairs(platforms) do
 		--fix this for moving platform (yorigin,xorigin etc)
 		if world:inview(platform) then
 			if collision:check(mousePosX,mousePosY,1,1, platform.x,platform.y,platform.w,platform.h) then
@@ -216,7 +217,7 @@ function editor:mousereleased(x,y,button)
 	--check if we have selected platforms, then place if neccesary
 	if button == 'l' then
 		local selection = self:entname(self.entsel)
-		if selection == "platform" or selection == "platform_x" or selection == "platform_y" then
+		if selection == "platform" or selection == "platform_b" or selection == "platform_x" or selection == "platform_y" then
 			self:addplatform(pressedPosX,pressedPosY,releasedPosX,releasedPosY)
 		end
 		return
@@ -225,6 +226,7 @@ end
 
 
 function editor:addplatform(x1,y1,x2,y2)
+	local ent = self:entname(self.entsel)
 
 	--we must drag down and right
 	if not (x2 < x1 or y2 < y1) then
@@ -238,14 +240,18 @@ function editor:addplatform(x1,y1,x2,y2)
 		local h = (y2-y1)
 		
 		--place the platform
-		if self.entsel == 2 then
-			platforms:add(x,y,w,h, 0,0,0,0)
+		if ent == "platform" then
+			platforms:add(x,y,w,h,1,0,0,0,0)
 		end
-		if self.entsel == 3 then
-			platforms:add(x,y,w,h, 1, 0, 100, 200)
+		
+		if ent == "platform_b" then
+			platforms:add(x,y,w,h,0,0,0,0,0)
 		end
-		if self.entsel == 4 then
-			platforms:add(x,y,w,h, 0, 1, 100, 200)
+		if ent == "platform_x" then
+			platforms:add(x,y,w,h,0, 1, 0, 100, 200)
+		end
+		if ent == "platform_y" then
+			platforms:add(x,y,w,h,0, 0, 1, 100, 200)
 		end
 
 	end
@@ -417,7 +423,8 @@ function editor:copy()
 			if collision:check(mousePosX,mousePosY,1,1, platform.x,platform.y,platform.w,platform.h) then
 				self.clipboard = {
 					w = platform.w,
-					h = platform.h
+					h = platform.h,
+					e = editor.entsel,
 				}
 				return true
 			end
@@ -434,13 +441,16 @@ function editor:paste()
 	local h = self.clipboard.h or 20
 	local selection = editor:entname(self.entsel)
 	if selection == "platform" then
-		platforms:add(x,y,w,h,0,0,0,0)
+		platforms:add(x,y,w,h,1,0,0,0,0)
+	end
+	if selection == "platform_b" then
+		platforms:add(x,y,w,h,0,0,0,0,0)
 	end
 	if selection == "platform_x" then
-		platforms:add(x,y,w,h, 1, 0, 100, 200)
+		platforms:add(x,y,w,h,0, 1, 0, 100, 200)
 	end
 	if selection == "platform_y" then
-		platforms:add(x,y,w,h, 0, 1, 100, 200)
+		platforms:add(x,y,w,h,0,0, 1, 100, 200)
 	end
 end
 

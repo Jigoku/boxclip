@@ -13,11 +13,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  --]]
  
- platforms = {}
+platforms = {}
 
 platform_tile = love.graphics.newImage("graphics/tiles/cubes.png")
 
-function platforms:add(x,y,w,h,movex,movey,movespeed,movedist)
+function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist)
 	table.insert(platforms, {
 		--dimensions
 		x = x or 0, -- xco-ord
@@ -33,6 +33,7 @@ function platforms:add(x,y,w,h,movex,movey,movespeed,movedist)
 		movey = movey or 0,
 		movespeed = movespeed or 100,
 		movedist = movedist or 200,
+		clip = clip or 1,
 		xorigin = x,
 		yorigin = y,
 		gfx = platform_tile,
@@ -48,10 +49,10 @@ function platforms:draw()
 	for i, platform in ipairs(platforms) do
 		if world:inview(platform) then
 		count = count + 1
-				
+			
 			if platform.name == "platform" then
 	 	
-				if platform.movey == 1 or platform.movex == 1 then
+				if platform.clip == 0 or platform.movey == 1 or platform.movex == 1 then
 					love.graphics.setColor(
 						platform_wall_r-40,
 						platform_wall_g-40,
@@ -66,6 +67,7 @@ function platforms:draw()
 						255
 					)	
 				end
+				
 				
 				--tile the texture using quad
 				local quad = love.graphics.newQuad( 0,0, platform.w, platform.h, platform.gfx:getDimensions() )

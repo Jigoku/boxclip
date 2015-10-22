@@ -20,7 +20,7 @@ function mapio:savemap(map)
 	fh:write("mapmusic="..world.mapmusic.."\n")
 	fh:write("theme="..world.theme.."\n")
 	for i, entity in ipairs(platforms) do
-		fh:write("platform="..math.round(entity.xorigin)..","..math.round(entity.yorigin)..","..entity.w..","..entity.h..","..entity.movex..","..entity.movey..","..entity.movespeed..","..entity.movedist.."\n")
+		fh:write("platform="..math.round(entity.xorigin)..","..math.round(entity.yorigin)..","..entity.w..","..entity.h..","..entity.clip..","..entity.movex..","..entity.movey..","..entity.movespeed..","..entity.movedist.."\n")
 	end
 	
 	for i, entity in ipairs(pickups) do
@@ -88,10 +88,10 @@ function mapio:loadmap(mapname)
 		--parse platforms
 		if string.find(line, "^platform=(.+)") then
 		
-			local x,y,w,h,movex,movey,movespeed,movedist = string.match(
-				line, "^platform=(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+)"
+			local x,y,w,h,clip,movex,movey,movespeed,movedist = string.match(
+				line, "^platform=(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+)"
 			)
-			platforms:add(tonumber(x),tonumber(y),tonumber(w),tonumber(h),tonumber(movex),tonumber(movey),tonumber(movespeed),tonumber(movedist))
+			platforms:add(tonumber(x),tonumber(y),tonumber(w),tonumber(h),tonumber(clip),tonumber(movex),tonumber(movey),tonumber(movespeed),tonumber(movedist))
 		end
 		-- parse pickups
 		if string.find(line, "^pickup=(.+)") then

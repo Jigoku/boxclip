@@ -24,6 +24,7 @@ world.map = "maps/test.map"
 water = love.graphics.newImage("graphics/tiles/water.png")
 lava = love.graphics.newImage("graphics/tiles/lava.png")
 blood = love.graphics.newImage("graphics/tiles/blood.png")
+stream = love.graphics.newImage("graphics/tiles/stream.png")
 
 
 
@@ -116,18 +117,17 @@ function world:settheme(theme)
 		background_g = 115
 		background_b = 80
 		platform_wall_r = 175
-		platform_wall_g = 120
+		platform_wall_g = 155
 		platform_wall_b = 70
-		platform_top_r = 100
-		platform_top_g = 155
-		platform_top_b = 50
-		crate_r = 120
-		crate_g = 175
+		platform_top_r = 50
+		platform_top_g = 105
+		platform_top_b = 0
+		crate_r = 175
+		crate_g = 155
 		crate_b = 70
-		spike_gfx = spike
-		groundLevel_tile = water
-		groundLevel_scrollspeed = 100
-
+		spike_gfx = spike_forest
+		groundLevel_tile = stream
+		groundLevel_scrollspeed = 80
 	end
 		groundLevel_tile:setWrap("repeat", "repeat")
 		groundLevel_quad = love.graphics.newQuad( -50,world.groundLevel, 10000, 500, groundLevel_tile:getDimensions() )
