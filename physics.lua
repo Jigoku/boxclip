@@ -62,8 +62,8 @@ function physics:applyGravity(object, dt)
 	object.yvel = math.round((object.yvel - ((world.gravity+object.mass*2) *dt)),0)
 	
 	--stop increasing velocity if we hit this limit
-	if object.yvel < -world.gravity*3 then 
-		object.yvel = -world.gravity*3 
+	if object.yvel < -world.gravity*4 then 
+		object.yvel = -world.gravity*4 
 	end
 	
 	object.newY = (object.y - object.yvel *dt)
