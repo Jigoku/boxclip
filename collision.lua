@@ -13,7 +13,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  --]]
  
- collision = {}
+collision = {}
 
 function collision:checkWorld(dt)
 	if not editing and player.alive == 1 then
