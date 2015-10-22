@@ -72,8 +72,9 @@ function platforms:draw()
 				--tile the texture using quad
 				local quad = love.graphics.newQuad( 0,0, platform.w, platform.h, platform.gfx:getDimensions() )
 				platform.gfx:setWrap("repeat", "repeat")
+				
 				love.graphics.draw(platform.gfx, quad, platform.x,platform.y)
-					
+				
 				--shaded edges
 				love.graphics.setColor(0,0,0,50)
 				--right

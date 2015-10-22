@@ -89,6 +89,7 @@ function player:follow()
 	if player.alive == 1 or editing then
 	-- follow player
 		if camera.scaleX == 1 and camera.scaleY == 1 then
+		
 			camera:setPosition(
 				player.x - (love.graphics.getWidth()/2-player.w/2)  ,
 				player.y - (love.graphics.getHeight()/2-player.h/2 )

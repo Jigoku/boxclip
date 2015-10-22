@@ -18,6 +18,8 @@
 flower = love.graphics.newImage("graphics/props/flower.png")
 rock = love.graphics.newImage("graphics/props/rock.png")
 tree = love.graphics.newImage("graphics/props/tree.png")
+arch = love.graphics.newImage("graphics/props/arch.png")
+pillar = love.graphics.newImage("graphics/props/pillar.png")
 
 
 function props:add(x,y,type)
@@ -60,6 +62,34 @@ function props:add(x,y,type)
 		})
 		print("tree added @  X:"..x.." Y: "..y)
 	end
+	if type == "arch" then
+		table.insert(props, {
+			--dimensions
+			x = x or 0, -- xco-ord
+			y = y or 0, -- yco-ord
+			w = 90, -- width
+			h = 250, -- height
+			--properties
+			name = "arch",
+			gfx = arch,
+		})
+		print("arch added @  X:"..x.." Y: "..y)
+	end
+	
+	if type == "pillar" then
+		table.insert(props, {
+			--dimensions
+			x = x or 0, -- xco-ord
+			y = y or 0, -- yco-ord
+			w = 40, -- width
+			h = 160, -- height
+			--properties
+			name = "pillar",
+			gfx = pillar,
+		})
+		print("pillar added @  X:"..x.." Y: "..y)
+	end
+	
 end
 
 function props:draw()
@@ -69,7 +99,17 @@ function props:draw()
 		if world:inview(prop) then
 			count = count +1
 				
-			love.graphics.setColor(255,255,255,255)
+			if prop.name == "arch" then
+				love.graphics.setColor(
+					platform_wall_r,
+					platform_wall_g,
+					platform_wall_b,
+					255
+				)	
+			else				
+				love.graphics.setColor(255,255,255,255)
+			end
+			
 			love.graphics.draw(prop.gfx, prop.x,prop.y,0, 1, 1)
 
 			if editing then

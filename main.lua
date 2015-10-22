@@ -125,7 +125,6 @@ function love.draw()
 end
 
 function love.update(dt)
-
 	-- process keyboard events
 	input:checkkeys(dt)
 
