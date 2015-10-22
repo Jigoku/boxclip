@@ -58,12 +58,12 @@ function util:drawConsole()
 	
 		--console info
 		love.graphics.setColor(0,0,0,100)
-		love.graphics.rectangle("fill", 1, 1, 700, 80)	
+		love.graphics.rectangle("fill", 1, 1, 700, 100)	
 		love.graphics.setColor(100,100,100,100)
-		love.graphics.rectangle("line", 1, 1, 700, 80)	
+		love.graphics.rectangle("line", 1, 1, 700, 100)	
 		
 		love.graphics.setColor(100,255,100,255)
-		love.graphics.print("FPS: " .. love.timer.getFPS(), 5,5)
+		love.graphics.print("FPS: " .. love.timer.getFPS() .. " | Memory (kB): " .. math.round(collectgarbage('count')), 5,5)
 		
 		if not (mode == "title") then
 		love.graphics.setColor(255,255,255,255)
@@ -86,8 +86,8 @@ function util:drawConsole()
 			" | platforms: " .. world:count(platforms) .. "(".. world.platforms .. ")" ..
 			" | props: " .. world:count(props) .. "("..world.props .. ")" ..
 			" | springs: " .. world:count(springs) .. "("..world.springs .. ")" ..
-			" | portals: " .. world:count(portals) .. "("..world.portals .. ")" ..
-			" | crates: " .. world:count(crates) .. "("..world.crates .. ")" ..
+			" | portals: " .. world:count(portals) .. "("..world.portals .. ")\n" ..
+			"crates: " .. world:count(crates) .. "("..world.crates .. ")" ..
 			" | checkpoints: " .. world:count(checkpoints) .. "("..world.checkpoints .. ")" ..
 			" | t: " ..world:totalents() .. "(" .. world:totalentsdrawn() .. ")" ..
 			" | ccpf: " .. world.collision,
@@ -99,11 +99,13 @@ function util:drawConsole()
 		love.graphics.print(
 			"[lives: " .. player.lives .. "][score: " .. player.score .. "][time: " .. 
 			world:gettime() .. "][alive: " .. player.alive .."]", 
-			5,50
+			5,65
 		)
 		end
-		love.graphics.setColor(255,255,255,255)
-		love.graphics.print('Memory (kB): ' .. math.round(collectgarbage('count')) .. " | entsel: " ..  "("..editor.entsel..")" ..editor:entname(editor.entsel) .." | entdir: " .. editor.entdir .. " | theme: " .. world.theme, 5,65)
+		if editing then
+			love.graphics.setColor(255,255,255,255)
+			love.graphics.print("entsel: " ..  "("..editor.entsel..")" ..editor:entname(editor.entsel) .." | entdir: " .. editor.entdir .. " | theme: " .. world.theme, 5,80)
+		end
 		
 
 	end
