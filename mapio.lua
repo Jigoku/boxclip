@@ -72,10 +72,14 @@ function mapio:loadmap(mapname)
 	local mapdata = love.filesystem.newFileData(mapname)
 	local lines = split(mapdata:getString(), "\n")
 	
+	--defaults in case not specified in map file
+	world.theme = "jungle"
+	world.mapmusic = 0
+	
 	for _, line in pairs(lines) do
 		-- parse mapmusic
 		if string.find(line, "^mapmusic=(.+)") then
-			world.mapmusic = string.match(line, "^mapmusic=(%d+)")
+			world.mapmusic = tonumber(string.match(line, "^mapmusic=(%d+)"))
 			sound:playbgm(world.mapmusic)
 		end
 		-- parse theme

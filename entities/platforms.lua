@@ -52,11 +52,18 @@ function platforms:draw()
 			
 			if platform.name == "platform" then
 	 	
-				if platform.clip == 0 or platform.movey == 1 or platform.movex == 1 then
+				if platform.movey == 1 or platform.movex == 1 then
 					love.graphics.setColor(
 						platform_wall_r-40,
 						platform_wall_g-40,
 						platform_wall_b-40,
+						255
+					)
+				elseif platform.clip == 0 then
+					love.graphics.setColor(
+						platform_wall_r-60,
+						platform_wall_g-60,
+						platform_wall_b-60,
 						255
 					)
 				else
@@ -75,14 +82,16 @@ function platforms:draw()
 				
 				love.graphics.draw(platform.gfx, quad, platform.x,platform.y)
 				
+		
+				local offset = 4
 				--shaded edges
 				love.graphics.setColor(0,0,0,50)
 				--right
-				love.graphics.rectangle("fill", platform.x+platform.w-4, platform.y+4, 4, platform.h-4*2)
+				love.graphics.rectangle("fill", platform.x+platform.w-offset, platform.y+offset, offset, platform.h-offset*2)
 				--bottom
-				love.graphics.rectangle("fill", platform.x, platform.y+platform.h-4, platform.w, 4)
+				love.graphics.rectangle("fill", platform.x, platform.y+platform.h-offset, platform.w, offset)
 				--left
-				love.graphics.rectangle("fill", platform.x, platform.y+4, 4, platform.h-8)
+				love.graphics.rectangle("fill", platform.x, platform.y+offset, offset, platform.h-offset*2)
 				
 				--top (placeholder surface)
 				love.graphics.setColor(

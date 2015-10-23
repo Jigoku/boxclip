@@ -23,7 +23,7 @@ function player:init()
 	player.y = 0 
 	player.spawnX = 0
 	player.spawnY = 0 
-	player.speed = 500
+	player.speed = 600
 	player.mass = 800
 	player.xvel = 0
 	player.yvel = 0
@@ -92,7 +92,7 @@ function player:follow()
 		
 			camera:setPosition(
 				player.x - (love.graphics.getWidth()/2-player.w/2)  ,
-				player.y - (love.graphics.getHeight()/2-player.h/2 )
+				player.y - (love.graphics.getHeight()/2+player.h/2 )
 			)
 		elseif camera.scaleX == 2 and camera.scaleY == 2 then
 			camera:setPosition(

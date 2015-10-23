@@ -13,7 +13,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  --]]
  
- sound = {}
+sound = {}
 
 local fx = "sounds/effect/" --effects path
 local mt = "sounds/music/"  --music tracks path
@@ -35,17 +35,20 @@ sound.bgm = nil
 
 function sound:playbgm(id)
 	--set by "mapmusic=N" within a map file
-	if id == "1" then  sound.bgm = love.audio.newSource(mt .. "jungle.ogg") end
-	if id == "2" then  sound.bgm = love.audio.newSource(mt .. "underwater.ogg") end
-	if id == "3" then  sound.bgm = love.audio.newSource(mt .. "walking.ogg") end
-	if id == "4" then  sound.bgm = love.audio.newSource(mt .. "intense.ogg") end
-	if id == "5" then  sound.bgm = love.audio.newSource(mt .. "busy.ogg") end
+	if id == 0 then  sound.bgm = nil end
+	if id == 1 then  sound.bgm = love.audio.newSource(mt .. "jungle.ogg") end
+	if id == 2 then  sound.bgm = love.audio.newSource(mt .. "underwater.ogg") end
+	if id == 3 then  sound.bgm = love.audio.newSource(mt .. "walking.ogg") end
+	if id == 4 then  sound.bgm = love.audio.newSource(mt .. "intense.ogg") end
+	if id == 5 then  sound.bgm = love.audio.newSource(mt .. "busy.ogg") end
 	
 	love.audio.stop()
 
-	sound.bgm:setLooping(true)
-	sound.bgm:setVolume(0.5)
-	sound.bgm:play()
+	if id ~= 0 then
+		sound.bgm:setLooping(true)
+		sound.bgm:setVolume(0.5)
+		sound.bgm:play()
+	end
 end
 
 function sound:play(effect)

@@ -63,7 +63,7 @@ function world:settheme(theme)
 		crate_b = 255
 		spike_gfx = spike_winter
 		groundLevel_tile = water
-		groundLevel_scrollspeed = 100
+		groundLevel_scrollspeed = 60
 	elseif theme == "hell" then
 		background_r = 35
 		background_g = 30
@@ -79,7 +79,7 @@ function world:settheme(theme)
 		crate_b = 100
 		spike_gfx = spike_hell
 		groundLevel_tile = blood
-		groundLevel_scrollspeed = 100
+		groundLevel_scrollspeed = 40
 	elseif theme == "mist" then
 		background_r = 135
 		background_g = 130
@@ -95,7 +95,7 @@ function world:settheme(theme)
 		crate_b = 170
 		spike_gfx = spike
 		groundLevel_tile = lava
-		groundLevel_scrollspeed = 100
+		groundLevel_scrollspeed = 20
 	elseif theme == "dust" then
 		background_r = 135
 		background_g = 100
@@ -111,7 +111,7 @@ function world:settheme(theme)
 		crate_b = 170
 		spike_gfx = spike
 		groundLevel_tile = lava
-		groundLevel_scrollspeed = 100
+		groundLevel_scrollspeed = 30
 	elseif theme == "forest" then
 		background_r = 100
 		background_g = 115

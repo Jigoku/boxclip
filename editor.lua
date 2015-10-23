@@ -480,8 +480,13 @@ function editor:drawmmap()
 	love.graphics.rectangle("fill", 0,0,editor.mmapw,editor.mmaph )
 	
 
-	love.graphics.setColor(255,50,0,255)
+	
 	for i, platform in ipairs(platforms) do
+		if platform.clip == 1 then
+			love.graphics.setColor(255,50,0,255)
+		else
+			love.graphics.setColor(155,0,0,255)
+		end
 		love.graphics.rectangle(
 			"fill", 
 			(platform.x/editor.mmapscale)-(camera.x/editor.mmapscale)+editor.mmapw/3, 

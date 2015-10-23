@@ -190,33 +190,20 @@ function physics:platforms(object, dt)
 				if platform.clip == 1 then
 					-- right side
 					if collision:right(object,platform) and not collision:top(object,platform) then
-					
-						if platform.name == "platform" then
-							if not (platform.movex == 1 or platform.movey == 1) then
-								object.xvel = 0
-								object.newX = platform.x+platform.w +1 *dt
-							end
-						end	
+	
+						object.xvel = 0
+						object.newX = platform.x+platform.w +1 *dt
+
 					
 					-- left side
 					elseif collision:left(object,platform) and not collision:top(object,platform) then
-						
-						if platform.name == "platform" then	
-							if not (platform.movex == 1 or platform.movey == 1) then
-								object.xvel = 0
-								object.newX = platform.x-object.w -1 *dt
-							end
-						end
+						object.xvel = 0
+						object.newX = platform.x-object.w -1 *dt
 						
 					-- bottom side	
 					elseif collision:bottom(object,platform) then	
-					
-						if platform.name == "platform" then
-							if not (platform.movey == 1 or platform.movex == 1) then 
-								object.yvel = 0
-								object.newY = platform.y +platform.h +1 *dt
-							end				
-						end
+						object.yvel = 0
+						object.newY = platform.y +platform.h +1 *dt
 					end
 				end
 				
