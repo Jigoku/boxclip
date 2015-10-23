@@ -84,6 +84,7 @@ function collision:pickups(dt)
 				if collision:check(player.x,player.y,player.w,player.h,
 					pickup.x, pickup.y,pickup.gfx:getWidth(),pickup.gfx:getHeight()) then
 						table.remove(pickups,i)
+						util:dprint(pickup.name.."("..i..") collected")	
 						pickup.collected = true
 						player:collect(pickup)
 				end
@@ -108,12 +109,13 @@ function collision:enemies(dt)
 						--player.y = enemy.y - player.h -1 *dt
 						enemy.alive = false
 						player.yvel = player.mass
-						player:attack(enemy)
+						player:attack(enemy,i)
+					
 						return true
 					else
 						-- otherwise we die			
-						player:die()
-						util:dprint("killed by " .. enemy.name)		
+						player:die(enemy.name)
+							
 					end
 				end
 			end
@@ -131,12 +133,12 @@ function collision:enemies(dt)
 						end
 		
 						enemy.alive = false
-						player:attack(enemy)
+						player:attack(enemy,i)
+						
 							
 					else			
 						-- otherwise we die			
-						player:die()
-						util:dprint("killed by " .. enemy.name)		
+						player:die(enemy.name)
 					end
 				end
 			end
@@ -144,8 +146,7 @@ function collision:enemies(dt)
 			if enemy.name == "spike" or enemy.name == "icicle" then
 				if collision:check(player.x,player.newY,player.w,player.h,
 					enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
-					player:die()
-					util:dprint("killed by " .. enemy.name)	
+					player:die(enemy.name)
 				end
 			end
 			
@@ -162,6 +163,7 @@ function collision:checkpoints(dt)
 			if collision:check(player.x,player.y,player.w,player.h,
 				checkpoint.x, checkpoint.y,checkpoint.w,checkpoint.h) then
 				if not checkpoint.activated then
+					util:dprint("checkpoint activated")	
 					sound:play(sound.checkpoint)
 					checkpoint.activated = true
 					player.spawnX = checkpoint.x
@@ -180,13 +182,13 @@ function collision:portals(dt)
 		if world:inview(portal) then
 			if collision:check(player.x,player.y,player.w,player.h,
 				portal.x, portal.y,portal.w,portal.h) then
-				
+					
 					if portal.name == "goal" then
 						if not portal.activated then
 							--add paramater for "next map"?
 							portal.activated = true
 							sound:play(sound.goal)
-							print("Reached goal")
+							util:dprint("goal reached")	
 						end
 					end
 			end

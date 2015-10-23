@@ -36,6 +36,7 @@ function player:init()
 	player.lives = 3	
 	player.gems = 0
 	player.angle = 0
+	util:dprint("initialized player")
 end
 
 
@@ -114,9 +115,11 @@ function player:respawn()
 	player.lastdir = "idle"
 	player.alive = 1
 	player:follow(1)
+	util:dprint("respawn player")
 end
 
-function player:die()
+function player:die(this)
+	util:dprint("killed by "..this)	
 	sound:play(sound.die)
 	player.lives = player.lives -1
 	player:respawn()
@@ -124,7 +127,6 @@ end
 
 function player:collect(item)
 	--increase score when pickups are collected
-	util:dprint("[PICKUP     ] item")
 	
 	if item.name == "gem" then
 		sound:play(sound.gem)
@@ -138,10 +140,11 @@ function player:collect(item)
 end
 
 
-function player:attack(enemy)
+function player:attack(enemy,i)
 	-- increase score when attacking an enemy
 	player.score = player.score + enemy.score
 	sound:play(sound.kill)
+	util:dprint(enemy.name.."("..i..") killed")	
 end
 
 

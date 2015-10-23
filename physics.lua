@@ -130,6 +130,7 @@ function physics:crates(object,dt)
 				object.newX,object.newY,object.w,object.h) and not crate.destroyed then
 				
 				if object.jumping == 1 then 
+					util:dprint("crate(" .. i..") destroyed, item ="..crate.item)
 					crate.destroyed = true
 					player.score = player.score+crate.score
 					sound:play(sound.crate)
@@ -286,8 +287,10 @@ function physics:enemies(dt)
 				
 				if enemy.y +enemy.h > world.groundLevel  then
 					--ai suicide	
+					util:dprint(enemy.name .. "("..i..") suicided")
 					sound:play(sound.kill)
 					table.remove(enemies, i)
+					
 				end
 			end	
 			
@@ -312,6 +315,6 @@ function physics:player(dt)
 		player.y = player.newY
 	
 		if not (mode == "editing") and player.y+player.h > world.groundLevel  then
-			player:die()
+			player:die("out of bounds")
 		end
 end

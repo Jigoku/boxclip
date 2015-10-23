@@ -161,6 +161,7 @@ function world:init()
 	world.collision = 0
 	world.portals = 0
 	world.springs = 0
+	util:dprint("initialized world")
 end
 
 

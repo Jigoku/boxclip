@@ -16,6 +16,16 @@
 util = {}
 console = false
 
+cbuff = {
+	--really shitty console
+	--can hold 5 lines
+	l1 = "",
+	l2 = "",
+	l3 = "",
+	l4 = "",
+	l5 = ""
+}
+
 function math.round(num, idp)
 	-- round integer to decimal places
 	local mult = 10^(idp or 0)
@@ -58,14 +68,25 @@ function util:drawConsole()
 	
 		--console info
 		love.graphics.setColor(0,0,0,100)
-		love.graphics.rectangle("fill", 1, 1, 700, 100)	
+		love.graphics.rectangle("fill", 1, 1, love.window.getWidth()-2, 150)	
 		love.graphics.setColor(100,100,100,100)
-		love.graphics.rectangle("line", 1, 1, 700, 100)	
+		love.graphics.rectangle("line", 1, 1, love.window.getWidth()-2, 150)
 		
+		--sysinfo
 		love.graphics.setColor(100,255,100,255)
-		love.graphics.print("FPS: " .. love.timer.getFPS() .. " | Memory (kB): " .. math.round(collectgarbage('count')), 5,5)
+		love.graphics.print("FPS: " .. love.timer.getFPS() .. " | Memory (kB): " ..  gcinfo(), 5,5)
+		
+
 		
 		if not (mode == "title") then
+		--score etc
+		love.graphics.setColor(255,100,40,255)
+		love.graphics.print(
+			"[lives: " .. player.lives .. "][score: " .. player.score .. "][time: " .. 
+			world:gettime() .. "][alive: " .. player.alive .."]", 
+			200,5
+		)
+		
 		love.graphics.setColor(255,255,255,255)
 		love.graphics.print(
 			"X: " .. math.round(player.x,0) .. 
@@ -86,8 +107,8 @@ function util:drawConsole()
 			" | platforms: " .. world:count(platforms) .. "(".. world.platforms .. ")" ..
 			" | props: " .. world:count(props) .. "("..world.props .. ")" ..
 			" | springs: " .. world:count(springs) .. "("..world.springs .. ")" ..
-			" | portals: " .. world:count(portals) .. "("..world.portals .. ")\n" ..
-			"crates: " .. world:count(crates) .. "("..world.crates .. ")" ..
+			" | portals: " .. world:count(portals) .. "("..world.portals .. ")" ..
+			" | crates: " .. world:count(crates) .. "("..world.crates .. ")" ..
 			" | checkpoints: " .. world:count(checkpoints) .. "("..world.checkpoints .. ")" ..
 			" | t: " ..world:totalents() .. "(" .. world:totalentsdrawn() .. ")" ..
 			" | ccpf: " .. world.collision,
@@ -95,19 +116,19 @@ function util:drawConsole()
 		)
 
 		
-		love.graphics.setColor(255,100,40,255)
-		love.graphics.print(
-			"[lives: " .. player.lives .. "][score: " .. player.score .. "][time: " .. 
-			world:gettime() .. "][alive: " .. player.alive .."]", 
-			5,65
-		)
+
 		end
 		if editing then
 			love.graphics.setColor(255,255,255,255)
-			love.graphics.print("entsel: " ..  "("..editor.entsel..")" ..editor:entname(editor.entsel) .." | entdir: " .. editor.entdir .. " | theme: " .. world.theme, 5,80)
+			love.graphics.print("entsel: " ..  "("..editor.entsel..")" ..editor:entname(editor.entsel) .." | entdir: " .. editor.entdir .. " | theme: " .. world.theme, 5,50)
 		end
 		
-
+		love.graphics.setColor(155,155,155,255)
+		love.graphics.print(cbuff.l1,5,65)
+		love.graphics.print(cbuff.l2,5,80)
+		love.graphics.print(cbuff.l3,5,95)
+		love.graphics.print(cbuff.l4,5,110)
+		love.graphics.print(cbuff.l5,5,125)
 	end
 end
 
@@ -120,11 +141,13 @@ function util:drawid(entity,i)
 	end
 end
 
-function util:dprint(out)
-	-- add this to a console buffer maybe
-	if console then
-		print(out)
-	end
+function util:dprint(event)
+	line = world:gettime() .. ": " .. event
+	cbuff.l1 = cbuff.l2
+	cbuff.l2 = cbuff.l3
+	cbuff.l3 = cbuff.l4
+	cbuff.l4 = cbuff.l5
+	cbuff.l5 = line
 end
 
 
