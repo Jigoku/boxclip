@@ -203,11 +203,11 @@ function editor:mousepressed(x,y,button)
 		if selection == "gem" then pickups:add(x,y,"gem") end
 		if selection == "life" then pickups:add(x,y,"life") end
 		if selection == "spike" then enemies:spike(x,y,editor.entdir) end
-		if selection == "flower" then props:add(x,y,"flower") end
-		if selection == "rock" then props:add(x,y,"rock") end
-		if selection == "tree" then props:add(x,y,"tree") end
-		if selection == "arch" then props:add(x,y,"arch") end
-		if selection == "pillar" then props:add(x,y,"pillar") end
+		if selection == "flower" then props:add(x,y,editor.entdir,"flower") end
+		if selection == "rock" then props:add(x,y,editor.entdir,"rock") end
+		if selection == "tree" then props:add(x,y,editor.entdir,"tree") end
+		if selection == "arch" then props:add(x,y,editor.entdir,"arch") end
+		if selection == "pillar" then props:add(x,y,editor.entdir,"pillar") end
 		if selection == "spring_s" then springs:add(x,y,editor.entdir,"spring_s") end
 		if selection == "spring_m" then springs:add(x,y,editor.entdir,"spring_m") end
 		if selection == "spring_l" then springs:add(x,y,editor.entdir,"spring_l") end
@@ -344,8 +344,8 @@ function editor:selection(entities, x,y,w,h)
 	for i, entity in ripairs(entities) do
 		if world:inview(entity) then
 			if entity.movex == 1 then
-				if collision:check(mousePosX,mousePosY,1,1,entity.xorigin, entity.yorigin, entity.movedist+entity.w, entity.h) then
-					love.graphics.rectangle("line", entity.xorigin, entity.yorigin, entity.movedist+entity.w, entity.h)
+				if collision:check(mousePosX,mousePosY,1,1,entity.xorigin, entity.y, entity.movedist+entity.w, entity.h) then
+					love.graphics.rectangle("line", entity.xorigin, entity.y, entity.movedist+entity.w, entity.h)
 					return true
 				end
 			elseif entity.movey == 1 then
@@ -389,7 +389,7 @@ function editor:remove(entities, x,y,w,h)
 	for i, entity in ripairs(entities) do
 		if world:inview(entity) then
 			if entity.movex == 1 then
-				if collision:check(mousePosX,mousePosY,1,1,entity.xorigin, entity.yorigin, entity.movedist+entity.w, entity.h) then
+				if collision:check(mousePosX,mousePosY,1,1,entity.xorigin, entity.y, entity.movedist+entity.w, entity.h) then
 					table.remove(entities,i)
 					print( entity.name .. " (" .. i .. ") removed" )
 					return true
