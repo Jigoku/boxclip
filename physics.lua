@@ -52,7 +52,17 @@ function physics:applyVelocity(object, dt)
 		if object.xvel > object.speed then object.xvel = object.speed end
 		if object.xvel < -object.speed then object.xvel = -object.speed end
 				
-		object.newX = (object.x + object.xvel *dt)
+		--boost (spring forces etc)
+		if object.xvelboost > 0 then
+			object.xvelboost = (object.xvelboost - ((world.gravity+object.mass) *dt))
+			if object.xvelboost < 0 then object.xvelboost = 0 end
+		elseif object.xvelboost < 0 then
+			object.xvelboost = (object.xvelboost + ((world.gravity+object.mass) *dt))
+			if object.xvelboost > 0 then object.xvelboost = 0 end
+		end
+
+		object.newX = (object.x + (object.xvel+object.xvelboost)  *dt)
+		
 	end
 end
 

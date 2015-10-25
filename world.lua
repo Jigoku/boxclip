@@ -32,7 +32,7 @@ stream = love.graphics.newImage("graphics/tiles/stream.png")
 function world:settheme(theme)
 	--theme palettes for different settings
 	--specified in map file as "theme=*"
-	if theme == "jungle" then
+	if theme == "sunny" then
 		background_r = 120
 		background_g = 170
 		background_b = 200
@@ -48,7 +48,7 @@ function world:settheme(theme)
 		spike_gfx = spike
 		groundLevel_tile = water
 		groundLevel_scrollspeed = 100
-	elseif theme == "winter" then
+	elseif theme == "frost" then
 		background_r = 130
 		background_g = 150
 		background_b = 150
@@ -112,7 +112,7 @@ function world:settheme(theme)
 		spike_gfx = spike
 		groundLevel_tile = lava
 		groundLevel_scrollspeed = 30
-	elseif theme == "forest" then
+	elseif theme == "swamp" then
 		background_r = 100
 		background_g = 115
 		background_b = 80

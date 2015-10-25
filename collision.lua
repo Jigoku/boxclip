@@ -212,10 +212,12 @@ function collision:springs(dt)
 					player.yvel = -spring.vel
 				elseif spring.dir == 2 then
 					player.x = spring.x +spring.w +1 *dt
-					player.xvel = spring.vel
+					player.xvel = 0
+					player.xvelboost = spring.vel
 				elseif spring.dir == 3 then
 					player.x = spring.x -player.w -1 *dt
-					player.xvel = -spring.vel
+					player.xvel = 0
+					player.xvelboost = -spring.vel
 				end
 			end
 		end

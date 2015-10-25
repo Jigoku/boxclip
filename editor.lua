@@ -20,8 +20,8 @@
 	delete entity   : rmb
 	scroll entities : wu/wd
 	
-	select ent type	: 1-9
-	move up			: numpad 8
+	rotate/entdir	: r
+	move up	    	: numpad 8
 	move down		: numpad 2
 	move left		: numpad 4
 	move right		: numpad 6
@@ -85,12 +85,12 @@ end
 
 
 function editor:themename(id)
-	if id == 0 then return "jungle" 
-	elseif id == 1 then return "winter" 
+	if id == 0 then return "sunny" 
+	elseif id == 1 then return "frost" 
 	elseif id == 2 then return "hell" 
 	elseif id == 3 then return "mist" 
 	elseif id == 4 then return "dust" 
-	elseif id == 5 then return "forest" 
+	elseif id == 5 then return "swamp" 
 	end
 end
 
