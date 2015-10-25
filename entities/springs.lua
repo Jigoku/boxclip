@@ -31,13 +31,13 @@ function springs:add(x,y,dir,type)
 	end
 		
 	if type == "spring_s" then
-		vel = 1000
+		vel = 1200
 		gfx = spring_s
 	elseif type == "spring_m" then
 		vel = 1500
 		gfx = spring_m
 	elseif type == "spring_l" then
-		vel = 2000
+		vel = 1800
 		gfx = spring_l
 	end
 	

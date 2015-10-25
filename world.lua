@@ -33,9 +33,9 @@ function world:settheme(theme)
 	--theme palettes for different settings
 	--specified in map file as "theme=*"
 	if theme == "sunny" then
-		background_r = 120
-		background_g = 170
-		background_b = 200
+		background_r = 100
+		background_g = 150
+		background_b = 160
 		platform_wall_r = 210
 		platform_wall_g = 150
 		platform_wall_b = 100
