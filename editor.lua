@@ -461,6 +461,7 @@ end
 function editor:run(dt)
 	--reset some values we don't want to be updated
 	player.xvel = 0
+	player.xvelboost = 0
 	player.yvel = 0
 end
 

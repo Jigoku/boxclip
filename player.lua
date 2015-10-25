@@ -110,6 +110,7 @@ function player:respawn()
 	player.x = player.spawnX
 	player.y = player.spawnY
 	player.xvel = 0
+	player.xvelboost = 0
 	player.yvel = 0
 	player.jumping = 0
 	player.dir = "idle"
