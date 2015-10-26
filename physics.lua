@@ -19,31 +19,31 @@ function physics:applyVelocity(object, dt)
 	if object.alive == 1 then
 		-- x-axis friction
 		if object.dir == "right" then
-			if object.xvel < object.speed then
+			if object.xvel < object.speed and not (object.xvelboost < 0) then
 				if object.jumping == 1 then
-					object.xvel = (object.xvel + ((world.gravity+object.speed)/1.5 *dt))
+					object.xvel = (object.xvel + ((object.speed*2)/1.5 *dt))
 				else
-					object.xvel = (object.xvel + ((world.gravity+object.speed) *dt))
+					object.xvel = (object.xvel + ((object.speed*2) *dt))
 				end
 			end
 		end
 		if object.dir == "left"  then
-			if not (object.xvel < -object.speed)  then
+			if not (object.xvel < -object.speed) and not (object.xvelboost > 0) then
 				if object.jumping == 1 then
-					object.xvel = (object.xvel - ((world.gravity+object.speed)/1.5 *dt))
+					object.xvel = (object.xvel - ((object.speed*2)/1.5 *dt))
 				else
-					object.xvel = (object.xvel - ((world.gravity+object.speed) *dt))
+					object.xvel = (object.xvel - ((object.speed*2) *dt))
 				end
 			end
 		end
 		
-		-- increase friction when 'idle' under velocity is nullified
+		-- increase friction when 'idle' until velocity is nullified
 		if object.dir == "idle" and object.xvel ~= 0 then
 			if object.xvel > 0 then
-				object.xvel = (object.xvel - ((world.gravity+object.mass)/4 *dt))
+				object.xvel = (object.xvel - ((object.mass*2)/8 *dt))
 				if object.xvel < 0 then object.xvel = 0 end
 			elseif object.xvel < 0 then
-				object.xvel = (object.xvel + ((world.gravity+object.mass)/4 *dt))
+				object.xvel = (object.xvel + ((object.mass*2)/8 *dt))
 				if object.xvel > 0 then object.xvel = 0 end
 			end
 		end
@@ -54,10 +54,10 @@ function physics:applyVelocity(object, dt)
 				
 		--boost (spring forces etc)
 		if object.xvelboost > 0 then
-			object.xvelboost = (object.xvelboost - ((world.gravity+object.mass) *dt))
+			object.xvelboost = (object.xvelboost - ((object.mass) *dt))
 			if object.xvelboost < 0 then object.xvelboost = 0 end
 		elseif object.xvelboost < 0 then
-			object.xvelboost = (object.xvelboost + ((world.gravity+object.mass) *dt))
+			object.xvelboost = (object.xvelboost + ((object.mass) *dt))
 			if object.xvelboost > 0 then object.xvelboost = 0 end
 		end
 
