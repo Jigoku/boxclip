@@ -74,10 +74,11 @@ function editor:entname(id)
 	elseif id ==14 then return "rock" 
 	elseif id ==15 then return "tree" 
 	elseif id ==16 then return "arch" 
-	elseif id ==17 then return "pillar" 
-	elseif id ==18 then return "spring_s" 
-	elseif id ==19 then return "spring_m" 
-	elseif id ==20 then return "spring_l" 
+	elseif id ==17 then return "arch2" 
+	elseif id ==18 then return "pillar" 
+	elseif id ==19 then return "spring_s" 
+	elseif id ==20 then return "spring_m" 
+	elseif id ==21 then return "spring_l" 
 	else return editor.entsel
 	end
 end
@@ -207,6 +208,7 @@ function editor:mousepressed(x,y,button)
 		if selection == "rock" then props:add(x,y,"rock") end
 		if selection == "tree" then props:add(x,y,"tree") end
 		if selection == "arch" then props:add(x,y,"arch") end
+		if selection == "arch2" then props:add(x,y,"arch2") end
 		if selection == "pillar" then props:add(x,y,"pillar") end
 		if selection == "spring_s" then springs:add(x,y,editor.entdir,"spring_s") end
 		if selection == "spring_m" then springs:add(x,y,editor.entdir,"spring_m") end

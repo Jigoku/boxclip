@@ -19,6 +19,7 @@ flower = love.graphics.newImage("graphics/props/flower.png")
 rock = love.graphics.newImage("graphics/props/rock.png")
 tree = love.graphics.newImage("graphics/props/tree.png")
 arch = love.graphics.newImage("graphics/props/arch.png")
+arch2 = love.graphics.newImage("graphics/props/arch2.png")
 pillar = love.graphics.newImage("graphics/props/pillar.png")
 
 
@@ -75,7 +76,19 @@ function props:add(x,y,type)
 		})
 		print("arch added @  X:"..x.." Y: "..y)
 	end
-	
+	if type == "arch2" then
+		table.insert(props, {
+			--dimensions
+			x = x or 0, -- xco-ord
+			y = y or 0, -- yco-ord
+			w = 400, -- width
+			h = 200, -- height
+			--properties
+			name = "arch2",
+			gfx = arch2,
+		})
+		print("arch2 added @  X:"..x.." Y: "..y)
+	end
 	if type == "pillar" then
 		table.insert(props, {
 			--dimensions
@@ -99,7 +112,7 @@ function props:draw()
 		if world:inview(prop) then
 			count = count +1
 				
-			if prop.name == "arch" then
+			if prop.name == "arch" or prop.name == "arch2" then
 				love.graphics.setColor(
 					platform_wall_r,
 					platform_wall_g,
