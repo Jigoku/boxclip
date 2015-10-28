@@ -113,6 +113,7 @@ function love.draw()
 		love.graphics.setFont(fonts.default)
 		
 	else
+		--love.graphics.scale( 1.5,1.5 )
 		world:draw()
 	end
 
