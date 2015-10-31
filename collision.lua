@@ -60,13 +60,14 @@ function collision:bottom(a,b)
 end
 
 function collision:above(a,b)
-	--use this for a bigger intersect, eg; attacking an enemy from above
+	--use this for a bigger intersect, eg; attacking a small enemy from above
 	world.collision = world.collision +1
 	return a.newY+a.h > b.y  and 
-					a.y < b.y
+					a.y-a.h/2 < b.y
 end
 
 function collision:bounds() 
+	-- we might not need these, if map size can be unlimited?
 	--if player.x < 0 then
 	--	player.x = 0
 	--	player.xvel = 0

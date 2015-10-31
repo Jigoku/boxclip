@@ -460,16 +460,11 @@ function editor:paste()
 	end
 end
 
-function editor:run(dt)
-	--reset some values we don't want to be updated
-	player.xvel = 0
-	player.xvelboost = 0
-	player.yvel = 0
-end
+
 
 
 function editor:drawmmap()
-	--experimental! does not work as intended!
+	--experimental! does not work as intended! (but is still useful)
 	--fix camera scaling... and remove duplicate code
 	editor.mmapw = love.window.getWidth()/5
 	editor.mmaph = love.window.getHeight()/5

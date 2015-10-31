@@ -59,19 +59,10 @@ function love.keypressed(key)
 		
 		if mode == "title" then
 			if key == "1" then
-				mode = "game"
-					world:init()
-					player:init()
-					mapio:loadmap(world.map)
-					player:respawn()
+				world:init("game")
 			end
 			if key == "2" then
-				mode = "editing"
-					world:init()
-					player:init()
-					mapio:loadmap(world.map)
-					player:respawn()
-					
+				world:init("editing")
 			end
 		end
 	
@@ -94,6 +85,7 @@ function love.keypressed(key)
 				player.yvel = 0
 				player.angle = 0
 				player.jumping = 0
+				player.xvelboost = 0
 			end
 			--zoom
 			if key == "z" then

@@ -27,14 +27,18 @@ cbuff = {
 }
 
 
---redefine this function so all images are not put through linear filter
---which makes things more crisp on the pixel level (less blur)
+-- this function redefine love.graphics.newImage( ), so all images are
+-- not put through linear filter, which makes things more crisp on the
+--  pixel level (less blur)... should this be used?
+--[[
+
 local _newImage = love.graphics.newImage
 function love.graphics.newImage(...)
 	local img = _newImage(...)
 	img:setFilter('nearest', 'nearest')
 	return img
 end
+--]]
 
 
 function math.round(num, idp)
@@ -44,7 +48,7 @@ function math.round(num, idp)
 end
 
 function ripairs(t)
-	--same as ipairs, but reversed order
+	--same as ipairs, but itterate from last to first
 	local function ripairs_it(t,i)
 		i=i-1
 		local v=t[i]

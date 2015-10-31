@@ -134,9 +134,11 @@ function world:settheme(theme)
 		love.graphics.setBackgroundColor(background_r,background_g,background_b,255)
 end
 
-function world:init() 
+function world:init(gamemode) 
+	mode = gamemode
 	console = false
 	editing = false
+	
 	
 	--move this setting into map files
 	--once editor menu can adjust variables
@@ -161,6 +163,12 @@ function world:init()
 	world.collision = 0
 	world.portals = 0
 	world.springs = 0
+	
+	
+	player:init()
+	mapio:loadmap(world.map)
+	player:respawn()
+	
 	util:dprint("initialized world")
 end
 
