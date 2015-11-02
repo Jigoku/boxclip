@@ -83,9 +83,9 @@ function util:drawConsole()
 	
 		--console info
 		love.graphics.setColor(0,0,0,100)
-		love.graphics.rectangle("fill", 1, 1, love.window.getWidth()-2, 150)	
+		love.graphics.rectangle("fill", 1, 1, WIDTH-2, 150)	
 		love.graphics.setColor(100,100,100,100)
-		love.graphics.rectangle("line", 1, 1, love.window.getWidth()-2, 150)
+		love.graphics.rectangle("line", 1, 1, WIDTH-2, 150)
 		
 		--sysinfo
 		love.graphics.setColor(100,255,100,255)

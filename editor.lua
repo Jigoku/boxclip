@@ -466,8 +466,8 @@ end
 function editor:drawmmap()
 	--experimental! does not work as intended! (but is still useful)
 	--fix camera scaling... and remove duplicate code
-	editor.mmapw = love.window.getWidth()/5
-	editor.mmaph = love.window.getHeight()/5
+	editor.mmapw = WIDTH/5
+	editor.mmaph = HEIGHT/5
 	editor.mmapscale = 15
 	mmapcanvas = love.graphics.newCanvas( editor.mmapw, editor.mmaph )
 	love.graphics.setCanvas(mmapcanvas)
@@ -550,7 +550,7 @@ function editor:drawmmap()
 
 	love.graphics.setCanvas()
 	love.graphics.setColor(255, 255, 255, 255)
-	love.graphics.draw(mmapcanvas, love.window.getWidth()-10-editor.mmapw,love.graphics.getHeight()-10-editor.mmaph )
+	love.graphics.draw(mmapcanvas, WIDTH-10-editor.mmapw,love.graphics.getHeight()-10-editor.mmaph )
 
 end
 
