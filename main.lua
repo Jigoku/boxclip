@@ -61,6 +61,10 @@ function love.load()
 	cwd = love.filesystem.getWorkingDirectory( )
 	
 	--windwo settings
+	
+	WIDTH = love.window.getWidth()
+	HEIGHT = love.window.getHeight()
+	
 	icon = love.image.newImageData( "graphics/enemies/walker.png")
 	love.window.setIcon( icon )
 	love.mouse.setVisible( false )
@@ -88,6 +92,15 @@ function love.draw()
 	if console then util:drawConsole() end
 	
 end
+
+function love.resize(w,h)
+	WIDTH = w
+	HEIGHT = h
+	util:dprint("resized window ("..w.."x"..h..")")
+	
+end
+
+
 
 function love.update(dt)
 	-- process keyboard events

@@ -41,6 +41,7 @@ function sound:playbgm(id)
 	if id == 3 then  sound.bgm = love.audio.newSource(mt .. "walking.ogg") end
 	if id == 4 then  sound.bgm = love.audio.newSource(mt .. "intense.ogg") end
 	if id == 5 then  sound.bgm = love.audio.newSource(mt .. "busy.ogg") end
+	if id == 6 then  sound.bgm = love.audio.newSource(mt .. "tropics.ogg") end
 	
 	love.audio.stop()
 

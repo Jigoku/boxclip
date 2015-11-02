@@ -58,21 +58,13 @@ function love.keypressed(key)
 		--util:dprint("[KEY        ] '".. key .. "'")
 		
 		if mode == "title" then
-			if key == "1" then
-				world:init("game")
-			end
-			if key == "2" then
-				world:init("editing")
-			end
+			title:keypressed(key)
 		end
 	
 
 		--quit
-		if key == "escape" then 
-			if mode == "title" then
-				love.event.quit() 
-			end
-			if mode == "game" or mode == "editing" then
+		if mode == "game" or mode == "editing" then
+			if key == "escape" then
 				title:init()
 				mode = "title"
 			end
