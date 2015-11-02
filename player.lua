@@ -56,7 +56,7 @@ function player:draw()
 	
 	
 	--player main	
-	love.graphics.setColor(40,180,120,255)
+	love.graphics.setColor(80,220,160,255)
 	love.graphics.rectangle("fill", player.x, player.y, player.w, player.h)
 	love.graphics.setColor(80,80,80,255)
 	love.graphics.rectangle("line", player.x, player.y, player.w, player.h)

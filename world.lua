@@ -28,7 +28,6 @@ stream = love.graphics.newImage("graphics/tiles/stream.png")
 
 
 
-
 function world:settheme(theme)
 	--theme palettes for different settings
 	--specified in map file as "theme=*"
@@ -48,6 +47,8 @@ function world:settheme(theme)
 		spike_gfx = spike
 		groundLevel_tile = water
 		groundLevel_scrollspeed = 100
+		background = love.graphics.newImage("graphics/backgrounds/sky.png")
+
 	elseif theme == "frost" then
 		background_r = 130
 		background_g = 150
@@ -64,13 +65,14 @@ function world:settheme(theme)
 		spike_gfx = spike_winter
 		groundLevel_tile = water
 		groundLevel_scrollspeed = 60
+		background = ""
 	elseif theme == "hell" then
 		background_r = 35
 		background_g = 30
 		background_b = 30
 		platform_wall_r = 95
-		platform_wall_g = 90
-		platform_wall_b = 90
+		platform_wall_g = 70
+		platform_wall_b = 70
 		platform_top_r = 80
 		platform_top_g = 30
 		platform_top_b = 30
@@ -80,6 +82,7 @@ function world:settheme(theme)
 		spike_gfx = spike_hell
 		groundLevel_tile = blood
 		groundLevel_scrollspeed = 40
+		background = love.graphics.newImage("graphics/backgrounds/dark.png")
 	elseif theme == "mist" then
 		background_r = 135
 		background_g = 130
@@ -96,6 +99,7 @@ function world:settheme(theme)
 		spike_gfx = spike
 		groundLevel_tile = lava
 		groundLevel_scrollspeed = 20
+		background = love.graphics.newImage("graphics/backgrounds/cloudy.png")
 	elseif theme == "dust" then
 		background_r = 135
 		background_g = 100
@@ -112,6 +116,7 @@ function world:settheme(theme)
 		spike_gfx = spike
 		groundLevel_tile = lava
 		groundLevel_scrollspeed = 30
+		background = love.graphics.newImage("graphics/backgrounds/dusk.png")
 	elseif theme == "swamp" then
 		background_r = 100
 		background_g = 115
@@ -128,10 +133,17 @@ function world:settheme(theme)
 		spike_gfx = spike_forest
 		groundLevel_tile = stream
 		groundLevel_scrollspeed = 80
+		background = love.graphics.newImage("graphics/backgrounds/forest.png")
 	end
 		groundLevel_tile:setWrap("repeat", "repeat")
 		groundLevel_quad = love.graphics.newQuad( -50,world.groundLevel, 10000, 500, groundLevel_tile:getDimensions() )
 		love.graphics.setBackgroundColor(background_r,background_g,background_b,255)
+		
+		if type(background) == "userdata" then
+			background:setWrap("repeat", "repeat")
+			background_quad = love.graphics.newQuad( 0,0, love.graphics.getWidth(),love.graphics.getHeight(), background:getDimensions() )
+		end
+
 end
 
 function world:init(gamemode) 
@@ -184,7 +196,19 @@ function world:draw()
     groundLevel_quad:setViewport(0,-groundLevel_scroll,10000,500 )
 	love.graphics.draw(groundLevel_tile, groundLevel_quad, -1000,world.groundLevel)
 
-
+	--paralax background
+	if editing then
+		--easier on the eyes for entity placement)
+		love.graphics.setColor(255,255,255,50)
+	end
+	
+	if type(background) == "userdata" then
+		background_quad:setViewport(player.x/3,player.y/3,love.graphics.getWidth(),love.graphics.getHeight() )
+		love.graphics.draw(background, background_quad,camera.x,camera.y)
+	end
+	
+	
+	
 	platforms:draw()
 	props:draw()
 	springs:draw()
