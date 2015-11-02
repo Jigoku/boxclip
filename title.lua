@@ -24,7 +24,7 @@ function title:init()
 	
 	self.frame = love.graphics.newImage("graphics/tiles/checked.png")
 	self.frame:setWrap("repeat", "repeat")
-	self.framequad = love.graphics.newQuad( 0,0, WIDTH/2+160,HEIGHT/2+60, self.frame:getDimensions() )
+
 	
 	sound:playbgm(6)
 	self.sel = 0
@@ -75,6 +75,7 @@ function title:draw()
 		
 	--frames	
 	love.graphics.setColor(210,150,100,255)		
+	self.framequad = love.graphics.newQuad( 0,0, WIDTH/2+160,HEIGHT/2+60, self.frame:getDimensions() ) -- update this
 	love.graphics.draw(self.frame, self.framequad, WIDTH/4-80, HEIGHT/4-30)
 	
 	love.graphics.setColor(10,10,10,150)
