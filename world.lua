@@ -226,6 +226,9 @@ function world:draw()
 	
 	--draw the hud/scoreboard
 	if mode =="game" then
+		--love.graphics.setColor(0,0,0,50)
+		--love.graphics.rectangle("fill",10,10,170,100)
+		
 		love.graphics.setFont(fonts.scoreboard)
 		love.graphics.setColor(0,0,0,155)
 		love.graphics.printf("SCORE", 21,21,300,"left",0,1,1)
