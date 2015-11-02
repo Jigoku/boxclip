@@ -90,6 +90,8 @@ function title:draw()
 	if self.menu == "main" then
 		self:drawmain()
 	end
+	
+	love.graphics.setFont(fonts.default)
 end
 
 
@@ -150,5 +152,5 @@ function title:drawmain()
 	love.graphics.setColor(100,150,160,255)
 	love.graphics.printf("Quit",WIDTH/4,HEIGHT/4+220,WIDTH/3,"left")
 	
-	love.graphics.setFont(fonts.default)
+
 end
