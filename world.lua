@@ -164,7 +164,7 @@ function world:init(gamemode)
 	world.portals = 0
 	world.springs = 0
 	
-	
+	world:empty()
 	player:init()
 	mapio:loadmap(world.map)
 	player:respawn()
@@ -308,6 +308,17 @@ function world:remove(objects)
 	end
 end
 
+function world:empty()
+	repeat world:remove(enemies) until world:count(enemies) == 0
+	repeat world:remove(pickups) until world:count(pickups) == 0
+	repeat world:remove(crates) until world:count(crates) == 0
+	repeat world:remove(props) until world:count(props) == 0
+	repeat world:remove(platforms) until world:count(platforms) == 0
+	repeat world:remove(checkpoints) until world:count(checkpoints) == 0
+	repeat world:remove(portals) until world:count(portals) == 0
+	repeat world:remove(springs) until world:count(springs) == 0
+end
+
 function world:totalents()
 	--returns total entitys
 	return world:count(pickups)+world:count(enemies)+world:count(platforms)+
@@ -337,6 +348,15 @@ end
 
 
 function world:run(dt)
+
+	world:timer()
+	physics:world(dt)
+	physics:player(dt)
+	physics:pickups(dt)
+	physics:enemies(dt)			
+	collision:checkWorld(dt)
+	player:follow()
+
 	if mode == "game" then
 		if player.lives < 0 then
 			util:dprint("game over")

@@ -73,6 +73,7 @@ function love.keypressed(key)
 				love.event.quit() 
 			end
 			if mode == "game" or mode == "editing" then
+				title:init()
 				mode = "title"
 			end
 		end

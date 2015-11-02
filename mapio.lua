@@ -58,15 +58,7 @@ end
 
 
 function mapio:loadmap(mapname)
-	--cleanup the map
-	repeat world:remove(enemies) until world:count(enemies) == 0
-	repeat world:remove(pickups) until world:count(pickups) == 0
-	repeat world:remove(crates) until world:count(crates) == 0
-	repeat world:remove(props) until world:count(props) == 0
-	repeat world:remove(platforms) until world:count(platforms) == 0
-	repeat world:remove(checkpoints) until world:count(checkpoints) == 0
-	repeat world:remove(portals) until world:count(portals) == 0
-	repeat world:remove(springs) until world:count(springs) == 0
+
 
 	--load the mapfile
 	local mapdata = love.filesystem.newFileData(mapname)

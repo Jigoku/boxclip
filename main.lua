@@ -29,6 +29,7 @@
 	camera scale : z
 --]]
 
+require("title")
 require("mapio")
 require("camera")
 require("sound")
@@ -55,6 +56,8 @@ mode = "title"
 
 function love.load()
 	math.randomseed(os.time())
+	runtime = os.time()
+	
 	cwd = love.filesystem.getWorkingDirectory( )
 	
 	--windwo settings
@@ -71,57 +74,18 @@ function love.load()
 		huge = love.graphics.newFont(30),
 	}
 
-	-- title background
-	titlebg = love.graphics.newImage("graphics/tiles/checked.png")
-	titlebg:setWrap("repeat", "repeat")
-	titlebg_quad = love.graphics.newQuad( 0,0, love.window.getWidth(), love.window.getHeight(), titlebg:getDimensions() )
-	titlebg_scroll = 0
-	titlebg_scrollspeed = 50
-	
+
+	title:init()
 	
 end
 
 
 
 
-
 function love.draw()
 
-	--draw the titlescreen
-	if mode == "title" then
-		love.graphics.setBackgroundColor(0,0,0,255)
-		
-		love.graphics.setColor(50,50,50,255)		
-		titlebg_quad:setViewport(titlebg_scroll,-titlebg_scroll,love.window.getWidth(), love.window.getHeight() )
-		love.graphics.draw(titlebg, titlebg_quad, 0,0)
-		
-		love.graphics.setColor(10,10,10,200)
-		love.graphics.rectangle("fill", 80, 80, 600,300)
-		
-		love.graphics.setFont(fonts.huge)
-		love.graphics.setColor(255,255,255,155)
-		love.graphics.print("Boxclip",100,100)
-		love.graphics.setFont(fonts.menu)
-		love.graphics.setColor(155,55,55,255)
-		love.graphics.print("Press 1 for mode 'game'",100,150)
-		love.graphics.setColor(155,55,55,155)
-		love.graphics.print("(everything triggers on collision)",140,180)
-		love.graphics.setColor(155,55,55,255)
-		love.graphics.print("Press 2 for mode 'editing'",100,220)
-		love.graphics.setColor(155,55,55,155)
-		love.graphics.print("(some entites will not trigger on collision for editing purposes)",140,250)
-		love.graphics.setFont(fonts.default)
-		
-	else
-		--love.graphics.scale( 1.5,1.5 )
-		world:draw()
-	end
-
-
-	if console then
-		-- debug info
-		util:drawConsole()
-	end
+	if mode == "title" then title:draw() else world:draw() end
+	if console then util:drawConsole() end
 	
 end
 
@@ -129,27 +93,8 @@ function love.update(dt)
 	-- process keyboard events
 	input:checkkeys(dt)
 
-	if mode == "title" then
-		titlebg_scroll = titlebg_scroll + titlebg_scrollspeed * dt
-		if titlebg_scroll > titlebg:getHeight()then
-			titlebg_scroll = titlebg_scroll - titlebg:getHeight()
-		end
-	end
-
 	--run the world
-	if not (mode == "title") then
-		world:timer()
-		physics:world(dt)
-		physics:player(dt)
-		physics:pickups(dt)
-		physics:enemies(dt)
-				
-		collision:checkWorld(dt)
-		player:follow()
-		world:run(dt)
-	else
-		love.audio.stop()
-	end
+	if mode == "title" then	title:run(dt) else world:run(dt) end
 
 end
 
