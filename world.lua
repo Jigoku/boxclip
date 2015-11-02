@@ -192,10 +192,6 @@ function world:draw()
 	-- set camera for world
 	camera:set()
 
-	--groundLevel placeholder
-    groundLevel_quad:setViewport(0,-groundLevel_scroll,10000,500 )
-	love.graphics.draw(groundLevel_tile, groundLevel_quad, -1000,world.groundLevel)
-
 	--paralax background
 	if editing then
 		--easier on the eyes for entity placement)
@@ -207,6 +203,12 @@ function world:draw()
 		love.graphics.draw(background, background_quad,camera.x,camera.y)
 	end
 	
+
+	--groundLevel placeholder
+    groundLevel_quad:setViewport(0,-groundLevel_scroll,10000,500 )
+	love.graphics.draw(groundLevel_tile, groundLevel_quad, -1000,world.groundLevel)
+
+
 	
 	
 	platforms:draw()
