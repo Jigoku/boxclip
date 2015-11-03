@@ -538,6 +538,18 @@ function editor:drawmmap()
 		)
 	end
 
+	love.graphics.setColor(0,255,0,255)
+	for i, spring in ipairs(springs) do
+		love.graphics.rectangle(
+			"fill", 
+			(spring.x/editor.mmapscale)-camera.x/editor.mmapscale+editor.mmapw/3, 
+			(spring.y/editor.mmapscale)-camera.y/editor.mmapscale+editor.mmaph/3, 
+			spring.w/editor.mmapscale, 
+			spring.h/editor.mmapscale
+		)
+	end
+
+
 	love.graphics.setColor(255,255,255,255)
 	love.graphics.rectangle(
 		"line", 

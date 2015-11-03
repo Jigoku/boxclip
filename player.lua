@@ -43,23 +43,30 @@ end
 
 
 function player:draw()
+
+	if not editing then
 	
 	--rotating for jumping
 	if player.jumping == 1 then
 		love.graphics.translate(player.x+player.w/2,player.y+player.h/2)
 		love.graphics.rotate(player.angle)
 		love.graphics.translate(-player.x-player.w/2,-player.y-player.h/2)
+		
+		--player main (circle)
+		love.graphics.setColor(80,220,160,255)
+		love.graphics.circle("fill", player.x+player.w/2, player.y+player.h/2, player.w/1.5, player.h)
+		love.graphics.setColor(80,80,80,255)
+		love.graphics.circle("line", player.x+player.w/2, player.y+player.h/2, player.w/1.5, player.h)
+		
+	else
+	--player main (square)
+		love.graphics.setColor(80,220,160,255)
+		love.graphics.rectangle("fill", player.x, player.y, player.w, player.h)
+		love.graphics.setColor(80,80,80,255)
+		love.graphics.rectangle("line", player.x, player.y, player.w, player.h)
 	end
 	
-	--body trails		
-	if not editing then
 	
-	
-	--player main	
-	love.graphics.setColor(80,220,160,255)
-	love.graphics.rectangle("fill", player.x, player.y, player.w, player.h)
-	love.graphics.setColor(80,80,80,255)
-	love.graphics.rectangle("line", player.x, player.y, player.w, player.h)
 	
 	--eyes
 	love.graphics.setColor(0,0,0,255)
@@ -142,6 +149,13 @@ function player:attack(enemy,i)
 	util:dprint(enemy.name.."("..i..") killed")	
 end
 
+function player:jump()
+	if player.jumping == 0 then
+		sound:play(sound.jump)
+		player.jumping = 1
+		player.yvel = player.jumpheight					
+	end
+end
 
 function player:moveleft()
 	player.lastdir = player.dir

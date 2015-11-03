@@ -123,12 +123,7 @@ function love.keypressed(key)
 			if player.alive == 1 then
 				--jump
 				if key == " " then
-					if player.jumping == 0 then
-						sound:play(sound.jump)
-						player.jumping = 1
-						player.yvel = player.jumpheight
-						
-					end
+					player:jump()
 				end
 			end
 		end
