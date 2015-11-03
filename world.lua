@@ -199,7 +199,7 @@ function world:draw()
 	end
 	
 	if type(background) == "userdata" then
-		background_quad:setViewport(player.x/3,player.y/3,love.graphics.getWidth()*camera.scaleX,love.graphics.getHeight()*camera.scaleY )
+		background_quad:setViewport(player.x/4,player.y/4,love.graphics.getWidth()*camera.scaleX,love.graphics.getHeight()*camera.scaleY )
 		love.graphics.draw(background, background_quad,camera.x,camera.y)
 	end
 	
