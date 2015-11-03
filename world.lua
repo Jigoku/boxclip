@@ -281,7 +281,7 @@ function world:draw()
 	end
 
 	-- overlays
-	world:drawWeather()
+	--world:drawWeather()
 end
 
 
