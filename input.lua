@@ -66,7 +66,6 @@ function love.keypressed(key)
 		if mode == "game" or mode == "editing" then
 			if key == "escape" then
 				title:init()
-				mode = "title"
 			end
 		end
 		

@@ -50,9 +50,6 @@ require("entities/enemies")
 require("entities/portals")
 
 
---mode = "game"
---mode = "editing"
-mode = "title"
 
 function love.load()
 	math.randomseed(os.time())

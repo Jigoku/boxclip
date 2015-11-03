@@ -130,7 +130,7 @@ function world:settheme(theme)
 		crate_r = 175
 		crate_g = 155
 		crate_b = 70
-		spike_gfx = spike_forest
+		spike_gfx = spike
 		groundLevel_tile = stream
 		groundLevel_scrollspeed = 80
 		background = love.graphics.newImage("graphics/backgrounds/forest.png")
@@ -199,11 +199,11 @@ function world:draw()
 	end
 	
 	if type(background) == "userdata" then
-		background_quad:setViewport(player.x/3,player.y/3,love.graphics.getWidth(),love.graphics.getHeight() )
+		background_quad:setViewport(player.x/3,player.y/3,love.graphics.getWidth()*camera.scaleX,love.graphics.getHeight()*camera.scaleY )
 		love.graphics.draw(background, background_quad,camera.x,camera.y)
 	end
 	
-
+	love.graphics.setColor(255,255,255,200)
 	--groundLevel placeholder
     groundLevel_quad:setViewport(0,-groundLevel_scroll,10000,500 )
 	love.graphics.draw(groundLevel_tile, groundLevel_quad, -1000,world.groundLevel)
@@ -281,7 +281,7 @@ function world:draw()
 	end
 
 	-- overlays
-	--world:drawWeather()
+	world:drawWeather()
 end
 
 
@@ -389,7 +389,7 @@ function world:run(dt)
 	if mode == "game" then
 		if player.lives < 0 then
 			util:dprint("game over")
-			mode = "title"
+			title:init()
 		end
 		
 

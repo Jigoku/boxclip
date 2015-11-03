@@ -21,7 +21,7 @@ floater = love.graphics.newImage( "graphics/enemies/floater.png")
 spike = love.graphics.newImage( "graphics/enemies/spike.png")
 spike_winter = love.graphics.newImage( "graphics/enemies/spike_winter.png")
 spike_hell = love.graphics.newImage( "graphics/enemies/spike_hell.png")
-spike_forest = love.graphics.newImage( "graphics/enemies/spike_forest.png")
+
 
 function enemies:walker(x,y,movespeed,movedist)
 	table.insert(enemies, {

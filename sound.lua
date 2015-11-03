@@ -17,6 +17,7 @@ sound = {}
 
 local fx = "sounds/effect/" --effects path
 local mt = "sounds/music/"  --music tracks path
+local am = "sounds/ambient/"  --ambient tracks
 
 -- place effect filepaths here
 sound.jump = love.audio.newSource(fx .. "jump.ogg", "static")
@@ -32,7 +33,8 @@ sound.goal = love.audio.newSource(fx .. "goal.ogg", "static")
 sound.spring = love.audio.newSource(fx .. "spring.ogg", "static")
 sound.blip = love.audio.newSource(fx .. "blip.ogg", "static")
 
-sound.bgm = nil
+
+
 
 function sound:playbgm(id)
 	--set by "mapmusic=N" within a map file
@@ -50,8 +52,25 @@ function sound:playbgm(id)
 		sound.bgm:setLooping(true)
 		sound.bgm:setVolume(0.5)
 		sound.bgm:play()
+
 	end
 end
+
+function sound:playambient(id)
+
+	if id == 0 then  sound.ambient = nil end
+	if id == 1 then  sound.ambient = love.audio.newSource(am .. "swamp.ogg") end
+	if id == 2 then  sound.ambient = love.audio.newSource(am .. "stream.ogg") end
+	if id == 3 then  sound.ambient = love.audio.newSource(am .. "drip.ogg") end
+	if id == 4 then  sound.ambient = love.audio.newSource(am .. "storm.ogg") end
+
+	if id ~= 0 then
+		sound.ambient:setLooping(true)
+		sound.ambient:setVolume(1)
+		sound.ambient:play()
+	end
+end
+
 
 function sound:play(effect)
 	--improve this (temporary fix)

@@ -18,6 +18,7 @@
 function mapio:savemap(map)
 	local fh = io.open(map, "w+")
 	fh:write("mapmusic="..world.mapmusic.."\n")
+	fh:write("ambient="..world.mapambient.."\n")
 	fh:write("theme="..world.theme.."\n")
 	for i, entity in ipairs(platforms) do
 		fh:write("platform="..math.round(entity.xorigin)..","..math.round(entity.yorigin)..","..entity.w..","..entity.h..","..entity.clip..","..entity.movex..","..entity.movey..","..entity.movespeed..","..entity.movedist.."\n")
@@ -65,14 +66,20 @@ function mapio:loadmap(mapname)
 	local lines = split(mapdata:getString(), "\n")
 	
 	--defaults in case not specified in map file
-	world.theme = "jungle"
+	world.theme = "sunny"
 	world.mapmusic = 0
+	world.mapambient = 0
 	
 	for _, line in pairs(lines) do
 		-- parse mapmusic
 		if string.find(line, "^mapmusic=(.+)") then
 			world.mapmusic = tonumber(string.match(line, "^mapmusic=(%d+)"))
 			sound:playbgm(world.mapmusic)
+		end
+		-- parse ambient track
+		if string.find(line, "^ambient=(.+)") then
+			world.mapambient = tonumber(string.match(line, "^ambient=(%d+)"))
+			sound:playambient(world.mapambient)
 		end
 		-- parse theme
 		if string.find(line, "^theme=(.+)") then
@@ -175,7 +182,7 @@ function mapio:loadmap(mapname)
 				player.spawnY = portal.y
 			end
 		end	
-		
+			
 
 	end
    
