@@ -66,9 +66,7 @@ function player:draw()
 		love.graphics.rectangle("line", player.x, player.y, player.w, player.h)
 	end
 	
-	
-	
-	--eyes
+	-- eyes
 	love.graphics.setColor(0,0,0,255)
 	if player.lastdir == "right" then
 		love.graphics.rectangle("fill", player.x+player.w-10, player.y+10, 3, 4)
