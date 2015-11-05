@@ -31,16 +31,24 @@ stream = love.graphics.newImage("graphics/tiles/stream.png")
 function world:settheme(theme)
 	--theme palettes for different settings
 	--specified in map file as "theme=*"
+	
+	--add defaults/fallbacks here?
+	background_scrollspeed = 0
+	background_scroll = 0
+
+	groundLevel_scrollspeed = 0
+	groundLevel_scroll = 0	
+	
 	if theme == "sunny" then
 		background_r = 100
 		background_g = 150
 		background_b = 160
-		platform_wall_r = 210
-		platform_wall_g = 150
-		platform_wall_b = 100
-		platform_top_r = 100
-		platform_top_g = 140
-		platform_top_b = 60
+		platform_wall_r = 240
+		platform_wall_g = 170
+		platform_wall_b = 120
+		platform_top_r = 120
+		platform_top_g = 160
+		platform_top_b = 80
 		crate_r = 230
 		crate_g = 220
 		crate_b = 180
@@ -48,7 +56,7 @@ function world:settheme(theme)
 		groundLevel_tile = water
 		groundLevel_scrollspeed = 100
 		background = love.graphics.newImage("graphics/backgrounds/sky.png")
-
+		background_scrollspeed = 20
 	elseif theme == "frost" then
 		background_r = 130
 		background_g = 150
@@ -116,7 +124,9 @@ function world:settheme(theme)
 		spike_gfx = spike
 		groundLevel_tile = lava
 		groundLevel_scrollspeed = 30
+		
 		background = love.graphics.newImage("graphics/backgrounds/dusk.png")
+		background_scrollspeed = -50
 	elseif theme == "swamp" then
 		background_r = 100
 		background_g = 115
@@ -160,8 +170,7 @@ function world:init(gamemode)
 	world.startTime = os.time()
 	world.seconds = 0
 	world.minutes = 0
-	
-	groundLevel_scroll = 0
+
 
 	camera:setScale(1,1)
 
@@ -199,7 +208,7 @@ function world:draw()
 	end
 	
 	if type(background) == "userdata" then
-		background_quad:setViewport(player.x/4,player.y/4,love.graphics.getWidth()*camera.scaleX,love.graphics.getHeight()*camera.scaleY )
+		background_quad:setViewport(player.x/4-background_scroll,player.y/4,love.graphics.getWidth()*camera.scaleX,love.graphics.getHeight()*camera.scaleY )
 		love.graphics.draw(background, background_quad,camera.x,camera.y)
 	end
 	
@@ -220,10 +229,17 @@ function world:draw()
 	pickups:draw()
 	enemies:draw()
 	player:draw()	
-	
+
 	camera:unset()
 	
+	-- overlay tests
+	--world:drawWeather()
 	
+	---cloud front layer?
+	--love.graphics.setColor(255,255,255,155)
+	--love.graphics.draw(background, background_quad,0,0)
+	
+
 	if editing then
 		editor:draw()	
 	end
@@ -280,8 +296,6 @@ function world:draw()
 		love.graphics.setFont(fonts.default)
 	end
 
-	-- overlays
-	--world:drawWeather()
 end
 
 
@@ -405,9 +419,21 @@ function world:run(dt)
 	
 	--scroll groundLevel!
 	groundLevel_scroll = groundLevel_scroll + groundLevel_scrollspeed * dt
-	  if groundLevel_scroll > groundLevel_tile:getHeight()then
+	 if groundLevel_scroll > groundLevel_tile:getHeight()then
         groundLevel_scroll = groundLevel_scroll - groundLevel_tile:getHeight()
     end
+    
+    --scroll background
+
+	if type(background) == "userdata" then
+		background_scroll = background_scroll + background_scrollspeed * dt
+		if background_scroll > background:getWidth()then
+			background_scroll = background_scroll - background:getWidth()
+		end
+	else
+		background_scroll = 0
+	end
+
 	world.collision = 0
     
 end
