@@ -55,13 +55,9 @@ function love.load()
 	math.randomseed(os.time())
 	runtime = os.time()
 	
-	cwd = love.filesystem.getWorkingDirectory( )
-	
-	--windwo settings
-	
+	--global window settings
 	WIDTH = love.window.getWidth()
 	HEIGHT = love.window.getHeight()
-	
 	icon = love.image.newImageData( "graphics/enemies/walker.png")
 	love.window.setIcon( icon )
 	love.mouse.setVisible( false )

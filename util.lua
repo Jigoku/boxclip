@@ -162,6 +162,21 @@ function util:dprint(event)
 	cbuff.l5 = cbuff.l6
 	cbuff.l6 = cbuff.l7
 	cbuff.l7 = line
+	print (line)
 end
 
 
+function util:togglefullscreen()
+
+	local fullscreen, fstype = love.window.getFullscreen()
+
+	if fullscreen then
+		local success = love.window.setFullscreen( false )
+	else
+		local success = love.window.setFullscreen( true, "desktop" )
+	end
+			
+	if not success then
+		util:dprint("Failed to toggle fullscreen mode!")
+	end
+end

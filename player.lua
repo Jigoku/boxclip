@@ -60,9 +60,12 @@ function player:draw()
 		
 	else
 	--player main (square)
-		love.graphics.setColor(80,220,160,255)
+		local opacity = 255
+		if player.alive == 0 then  opacity = 100 end
+		
+		love.graphics.setColor(80,220,160,opacity)
 		love.graphics.rectangle("fill", player.x, player.y, player.w, player.h)
-		love.graphics.setColor(80,80,80,255)
+		love.graphics.setColor(80,80,80,opacity)
 		love.graphics.rectangle("line", player.x, player.y, player.w, player.h)
 	end
 	
@@ -121,9 +124,14 @@ end
 function player:die(this)
 	util:dprint("killed by "..this)	
 	sound:play(sound.die)
-	player.lives = player.lives -1
-	player:respawn()
+	player.alive = 0
+	--player.dir = "idle" (change "dir" to state, left,right,idle,dead,jumping, etc)
+	player.angle = 0
+	player.jumping = 0
 end
+
+
+
 
 function player:collect(item)
 	--increase score when pickups are collected
@@ -164,3 +172,4 @@ function player:moveright()
 	player.lastdir = player.dir
 	player.dir = "right"	
 end
+

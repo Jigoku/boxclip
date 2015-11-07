@@ -318,17 +318,30 @@ end
 
 function physics:player(dt)
 	if editing then return end
-		self:applyVelocity(player, dt)
-		self:applyGravity(player, dt)
-		self:applyRotation(player,math.pi*8,dt)
+		if player.alive == 1  then
+			self:applyVelocity(player, dt)
+			self:applyGravity(player, dt)
+			self:applyRotation(player,math.pi*8,dt)
 		
-		self:crates(player,dt)
-		self:platforms(player, dt)
+			self:crates(player,dt)
+			self:platforms(player, dt)
 
-		player.x = player.newX
-		player.y = player.newY
+			player.x = player.newX
+			player.y = player.newY
 	
-		if not (mode == "editing") and player.y+player.h > world.groundLevel  then
-			player:die("out of bounds")
+			if  not (mode == "editing") and player.y+player.h > world.groundLevel  then
+				player:die("out of bounds")
+			end
+			
+			
+		else
+			--death physics (float up)
+			player.y = player.y - 250 * dt
+			if player.y < player.newY-400 then
+				player.lives = player.lives -1
+				player:respawn()
+			end
+			
 		end
+	
 end

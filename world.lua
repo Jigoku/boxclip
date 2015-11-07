@@ -208,7 +208,7 @@ function world:draw()
 	end
 	
 	if type(background) == "userdata" then
-		background_quad:setViewport(player.x/4-background_scroll,player.y/4,love.graphics.getWidth()*camera.scaleX,love.graphics.getHeight()*camera.scaleY )
+		background_quad:setViewport(camera.x/4-background_scroll,camera.y/4,love.graphics.getWidth()*camera.scaleX,love.graphics.getHeight()*camera.scaleY )
 		love.graphics.draw(background, background_quad,camera.x,camera.y)
 	end
 	
@@ -364,10 +364,10 @@ end
 function world:inview(entity) 
 
 	--decides if the entity is visible in the game viewport
-	if (entity.x < player.x + (love.graphics.getWidth()/2*camera.scaleX)+200) 
-	and (entity.x+entity.w > player.x - (love.graphics.getWidth()/2*camera.scaleX)-200)  then
-		if (entity.y < player.y + (love.graphics.getHeight()/2*camera.scaleX)+200) 
-		and (entity.y+entity.h > player.y - (love.graphics.getHeight()/2*camera.scaleX)-200) then
+	if (entity.x < player.x + (WIDTH/2*camera.scaleX)+200) 
+	and (entity.x+entity.w > player.x - (WIDTH/2*camera.scaleX)-200)  then
+		if (entity.y < player.y + (HEIGHT/2*camera.scaleX)+200) 
+		and (entity.y+entity.h > player.y - (HEIGHT/2*camera.scaleX)-200) then
 			world.collision = world.collision +1
 			return true
 		end

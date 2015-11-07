@@ -1,18 +1,18 @@
 input = {}
 
 function input:checkkeys(dt)
-	if not editing then
-		if love.keyboard.isDown("d") or love.keyboard.isDown("right") 
-			and player.alive == 1 then
+	if not editing and player.alive == 1 then
+
+		if love.keyboard.isDown("d") or love.keyboard.isDown("right")  then
 			player:moveright()
 	
-		elseif love.keyboard.isDown("a") or love.keyboard.isDown("left") 
-			and player.alive == 1 then
+		elseif love.keyboard.isDown("a") or love.keyboard.isDown("left") then
 			player:moveleft()
 			
 			
 		else
 			player.dir = "idle"
+
 
 		end
 	end
@@ -106,16 +106,7 @@ function love.keypressed(key)
 
 		--toggle fullscreen
 		if key == "f5" then
-			local fullscreen, fstype = love.window.getFullscreen()
-			if fullscreen then
-				local success = love.window.setFullscreen( false )
-			else
-				local success = love.window.setFullscreen( true, "desktop" )
-			end
-			
-			if not success then
-				util:dprint("Failed to toggle fullscreen mode!")
-			end
+			util:togglefullscreen()
 		end
 		
 
