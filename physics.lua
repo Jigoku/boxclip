@@ -267,27 +267,30 @@ function physics:pickups(dt)
 		for i, pickup in ipairs(pickups) do
 		
 			--maybe use this for a powerup too? 
-			--pulls all gems to player when in radius?
-			if cheats.magnet then
-				if collision:check(player.x-300,player.y-300,player.w+600,player.h+600,
-						pickup.x, pickup.y,pickup.gfx:getWidth(),pickup.gfx:getHeight()) then
-						return
+			--pulls all gems to player when attract = true
+			if pickup.attract then
+				local angle = math.atan2(player.y - pickup.y, player.x - pickup.x)
+				pickup.x = pickup.x + (math.cos(angle) * pickup.mass/2 * dt)
+				pickup.y = pickup.y + (math.sin(angle) * pickup.mass/2 * dt)
+			else
+			
+				self:applyGravity(pickup, dt)
+				pickup.newX = (pickup.x + pickup.xvel *dt)
+			
+				self:platforms(pickup, dt)
+				self:crates(pickup, dt)
+		
+				--update new poisition
+				pickup.x = pickup.newX
+				pickup.y = pickup.newY
+			
+				-- if pickup goes outside of world, remove it
+				if pickup.y+pickup.h > world.groundLevel  then
+					pickups:destroy(pickups,i)
 				end
 			end
-			self:applyGravity(pickup, dt)
-			pickup.newX = (pickup.x + pickup.xvel *dt)
 			
-			self:platforms(pickup, dt)
-			self:crates(pickup, dt)
-		
-			--update new poisition
-			pickup.x = pickup.newX
-			pickup.y = pickup.newY
-			
-			-- if pickup goes outside of world, remove it
-			if pickup.y+pickup.h > world.groundLevel  then
-				pickups:destroy(pickups,i)
-			end
+
 		end
 end
 

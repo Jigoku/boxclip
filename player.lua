@@ -134,6 +134,10 @@ function player:die(this)
 	--player.dir = "idle" (change "dir" to state, left,right,idle,dead,jumping, etc)
 	player.angle = 0
 	player.jumping = 0
+	
+	for _,pickup in ipairs(pickups) do
+		pickup.attract = false
+	end
 end
 
 
