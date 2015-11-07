@@ -239,26 +239,12 @@ function world:draw()
 	--love.graphics.setColor(255,255,255,155)
 	--love.graphics.draw(background, background_quad,0,0)
 	
-
-	if editing then
-		editor:draw()	
-	end
-	
 	if mode == "editing" then
-
-		--print some editor controls
-		love.graphics.setColor(255,255,255,255)
-		love.graphics.print("comma (axis info)",10, HEIGHT-220)
-		love.graphics.print("period (entity info)",10, HEIGHT-200)
-		love.graphics.print("M (mmap)",10, HEIGHT-180)
-		love.graphics.print("` (console)",10, HEIGHT-160)
-		love.graphics.print("F1 (edit)",10, HEIGHT-140)
-		love.graphics.print("F12 - savemap)",10, HEIGHT-120)
-		love.graphics.print("kp2/4/6/8 (reposition platforms)",10, HEIGHT-100)
-		love.graphics.print("kp+/kp- (select entity)",10, HEIGHT-80)
-		love.graphics.print("C (copy)",10, HEIGHT-60)
-		love.graphics.print("P (paste)",10, HEIGHT-40)
-		love.graphics.print("Z (zoom)",10, HEIGHT-20)
+	
+		if editing then
+			editor:draw()	
+		end
+	
 		love.graphics.setColor(0,255,155,155)
 		
 		love.graphics.setFont(fonts.large)

@@ -17,13 +17,14 @@ util = {}
 console = false
 
 cbuff = {
-	--really shitty console
-	--can hold 5 lines
+	--make this configurable (maxconlines etc)
 	l1 = "",
 	l2 = "",
 	l3 = "",
 	l4 = "",
-	l5 = ""
+	l5 = "",
+	l6 = "",
+	l7 = ""
 }
 
 
@@ -83,9 +84,9 @@ function util:drawConsole()
 	
 		--console info
 		love.graphics.setColor(0,0,0,100)
-		love.graphics.rectangle("fill", 1, 1, WIDTH-2, 150)	
+		love.graphics.rectangle("fill", 1, 1, WIDTH-2, 160)	
 		love.graphics.setColor(100,100,100,100)
-		love.graphics.rectangle("line", 1, 1, WIDTH-2, 150)
+		love.graphics.rectangle("line", 1, 1, WIDTH-2, 160)
 		
 		--sysinfo
 		love.graphics.setColor(100,255,100,255)
@@ -129,21 +130,16 @@ function util:drawConsole()
 			" | ccpf: " .. world.collision,
 			 5, 35
 		)
-
-		
-
-		end
-		if editing then
-			love.graphics.setColor(255,255,255,255)
-			love.graphics.print("entsel: " ..  "("..editor.entsel..")" ..editor:entname(editor.entsel) .." | entdir: " .. editor.entdir .. " | theme: " .. world.theme, 5,50)
 		end
 		
 		love.graphics.setColor(155,155,155,255)
-		love.graphics.print(cbuff.l1,5,65)
-		love.graphics.print(cbuff.l2,5,80)
-		love.graphics.print(cbuff.l3,5,95)
-		love.graphics.print(cbuff.l4,5,110)
-		love.graphics.print(cbuff.l5,5,125)
+		love.graphics.print(cbuff.l1,5,50)
+		love.graphics.print(cbuff.l2,5,65)
+		love.graphics.print(cbuff.l3,5,80)
+		love.graphics.print(cbuff.l4,5,95)
+		love.graphics.print(cbuff.l5,5,110)
+		love.graphics.print(cbuff.l6,5,125)
+		love.graphics.print(cbuff.l7,5,140)
 	end
 end
 
@@ -163,7 +159,9 @@ function util:dprint(event)
 	cbuff.l2 = cbuff.l3
 	cbuff.l3 = cbuff.l4
 	cbuff.l4 = cbuff.l5
-	cbuff.l5 = line
+	cbuff.l5 = cbuff.l6
+	cbuff.l6 = cbuff.l7
+	cbuff.l7 = line
 end
 
 

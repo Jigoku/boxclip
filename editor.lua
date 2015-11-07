@@ -48,9 +48,13 @@ editor.themesel = 0			--theme pallete in use
 editor.showpos = true		--axis info for entitys
 editor.showid  = true		--id info for entities
 editor.drawsel = false		--selection outline
-editor.drawminimap = true	--toggle minimap
+editor.showmmap = true	    --toggle minimap
+editor.showentmenu = true  -- toggle entmenu
 editor.movespeed = 1000		--editing floatspeed
+editor.entmenuw = 150       --entmenu width
+editor.entmenuh = 300		--entmenu height
 	
+
 editor.clipboard = {}		--clipboard contents
 
 
@@ -79,7 +83,7 @@ function editor:entname(id)
 	elseif id ==19 then return "spring_s" 
 	elseif id ==20 then return "spring_m" 
 	elseif id ==21 then return "spring_l" 
-	else return editor.entsel
+	else return "----"
 	end
 end
 
@@ -111,15 +115,15 @@ end
 
 function editor:keypressed(key)
 	--print (key)
-	if love.keyboard.isDown("kp+") then editor.entsel = editor.entsel +1 end
-	if love.keyboard.isDown("kp-") then editor.entsel = editor.entsel -1 end
+	if love.keyboard.isDown("kp+") then self.entsel = self.entsel +1 end
+	if love.keyboard.isDown("kp-") then self.entsel = self.entsel -1 end
 	
 	if love.keyboard.isDown("delete") then self:removesel() end
 	if love.keyboard.isDown("c") then self:copy() end
 	if love.keyboard.isDown("v") then self:paste() end
 	if love.keyboard.isDown("r") then self:rotate() end
-	
-	if love.keyboard.isDown("m") then self.drawminimap = not self.drawminimap end
+	if love.keyboard.isDown("e") then self.showentmenu = not self.showentmenu end
+	if love.keyboard.isDown("m") then self.showmmap = not self.showmmap end
 	if love.keyboard.isDown(",") then self.showpos = not self.showpos end
 	if love.keyboard.isDown(".") then self.showid = not self.showid end
 	if love.keyboard.isDown("f12") then mapio:savemap(world.map) end
@@ -156,16 +160,16 @@ end
 
 function editor:checkkeys(dt)
 		if love.keyboard.isDown("d") or love.keyboard.isDown("right")  then
-			player.x = player.x + editor.movespeed *dt
+			player.x = player.x + self.movespeed *dt
 		end
 		if love.keyboard.isDown("a") or love.keyboard.isDown("left") then
-			player.x = player.x - editor.movespeed *dt
+			player.x = player.x - self.movespeed *dt
 		end
 		if love.keyboard.isDown("w") or love.keyboard.isDown("up") then
-			player.y = player.y - editor.movespeed *dt
+			player.y = player.y - self.movespeed *dt
 		end
 		if love.keyboard.isDown("s") or love.keyboard.isDown("down") then
-			player.y = player.y + editor.movespeed *dt
+			player.y = player.y + self.movespeed *dt
 		end
 end
 
@@ -176,8 +180,8 @@ function editor:mousepressed(x,y,button)
 	local y = math.round(pressedPosY,-1)
 	
 	-- entity selection with mousescroll
-	if button == 'wu' then editor.entsel = editor.entsel +1 end
-	if button == 'wd' then editor.entsel = editor.entsel -1 end
+	if button == 'wd' then editor.entsel = editor.entsel +1 end
+	if button == 'wu' then editor.entsel = editor.entsel -1 end
 	
 	if button == 'l' then
 		local selection = self:entname(self.entsel)
@@ -203,19 +207,19 @@ function editor:mousepressed(x,y,button)
 		if selection == "checkpoint" then checkpoints:add(x,y) end
 		if selection == "gem" then pickups:add(x,y,"gem") end
 		if selection == "life" then pickups:add(x,y,"life") end
-		if selection == "spike" then enemies:spike(x,y,editor.entdir) end
+		if selection == "spike" then enemies:spike(x,y,self.entdir) end
 		if selection == "flower" then props:add(x,y,"flower") end
 		if selection == "rock" then props:add(x,y,"rock") end
 		if selection == "tree" then props:add(x,y,"tree") end
 		if selection == "arch" then props:add(x,y,"arch") end
 		if selection == "arch2" then props:add(x,y,"arch2") end
 		if selection == "pillar" then props:add(x,y,"pillar") end
-		if selection == "spring_s" then springs:add(x,y,editor.entdir,"spring_s") end
-		if selection == "spring_m" then springs:add(x,y,editor.entdir,"spring_m") end
-		if selection == "spring_l" then springs:add(x,y,editor.entdir,"spring_l") end
+		if selection == "spring_s" then springs:add(x,y,self.entdir,"spring_s") end
+		if selection == "spring_m" then springs:add(x,y,self.entdir,"spring_m") end
+		if selection == "spring_l" then springs:add(x,y,self.entdir,"spring_l") end
 		
 	elseif button == 'r' then
-		editor:removesel()
+		self:removesel()
 	end
 end
 
@@ -305,21 +309,25 @@ end
 function editor:draw()
 	camera:set()
 	
-	editor:crosshair()
-	editor:drawselected()
-	editor:drawselbox()
+	self:crosshair()
+	self:drawselected()
+	self:drawselbox()
 	
 	camera:unset()
 	
-	if editor.drawminimap then
-		editor:drawmmap()
+	if self.showmmap then
+		self:drawmmap()
+	end
+	
+	if self.showentmenu then
+		self:drawentmenu()
 	end
 	
 end
 
 function editor:drawselbox()
 	--draw an outline when dragging mouse
-	if editor.drawsel then
+	if self.drawsel then
 		love.graphics.setColor(0,255,255,100)
 		love.graphics.rectangle(
 			"line", 
@@ -328,6 +336,81 @@ function editor:drawselbox()
 		)
 	end
 end
+
+function editor:drawentmenu()
+	--gui scrolling list for entity selection
+	entmenu = love.graphics.newCanvas(self.entmenuw,self.entmenuh)
+	love.graphics.setCanvas(entmenu)
+	entmenu:clear()
+		
+	--frame
+	love.graphics.setColor(0,0,0,150)
+	love.graphics.rectangle(
+		"fill",0,0, entmenu:getWidth(), entmenu:getHeight()
+	)
+	
+	--border
+	love.graphics.setColor(255,255,255,150)
+	love.graphics.rectangle(
+		"fill",0,0, entmenu:getWidth(), 5
+	)
+	
+	love.graphics.setColor(255,255,255,255)
+	love.graphics.print("entity selection",10,10)
+	
+	--hrule
+	love.graphics.setColor(255,255,255,150)
+	love.graphics.rectangle(
+		"fill",10,25, entmenu:getWidth()-10, 1
+	)
+	
+	local s = 15 -- vertical spacing
+	local entname = self:entname(self.entsel)
+	
+	love.graphics.setColor(255,255,255,155)
+	love.graphics.setFont(fonts.menu)
+	love.graphics.print(self:entname(self.entsel-4),10,s*2)
+	love.graphics.print(self:entname(self.entsel-3),10,s*3)
+	love.graphics.print(self:entname(self.entsel-2),10,s*4)
+	love.graphics.print(self:entname(self.entsel-1),10,s*5)
+	
+	--selected
+	love.graphics.setColor(200,200,200,150)
+
+	love.graphics.rectangle(
+		"fill",10,s*6, entmenu:getWidth()-20, 15
+	)
+	----------
+	
+	love.graphics.setColor(0,0,0,255)
+	love.graphics.print(self:entname(self.entsel  ),10,s*6)
+	
+	
+	love.graphics.setColor(255,255,255,155)
+	love.graphics.print(self:entname(self.entsel+1),10,s*7)
+	love.graphics.print(self:entname(self.entsel+2),10,s*8)
+	love.graphics.print(self:entname(self.entsel+3),10,s*9)
+	love.graphics.print(self:entname(self.entsel+4),10,s*10)
+	love.graphics.setFont(fonts.default)
+	
+	--entdir
+	love.graphics.setColor(255,255,255,255)
+	local dir
+	if self.entdir == 0 then dir = "up" 
+		elseif self.entdir == 1 then dir = "down"
+		elseif self.entdir == 2 then dir = "right"
+		elseif self.entdir == 3 then dir = "left"
+	end
+	love.graphics.print("entdir: "..dir,10,s*12)
+	
+	
+	
+	love.graphics.setCanvas()
+	
+	love.graphics.setColor(255,255,255,255)
+	love.graphics.draw(entmenu, 10, HEIGHT-self.entmenuh-10 )
+end
+
 
 function editor:drawselected()
 	return self:selection(enemies) or
@@ -416,9 +499,9 @@ end
 function editor:rotate()
 	--set rotation value for the entity
 	--four directions, 0,1,2,3 at 90degree angles
-	editor.entdir = editor.entdir +1
-	if editor.entdir > 3 then
-		editor.entdir = 0
+	self.entdir = self.entdir +1
+	if self.entdir > 3 then
+		self.entdir = 0
 	end
 end
 
@@ -430,7 +513,7 @@ function editor:copy()
 				self.clipboard = {
 					w = platform.w,
 					h = platform.h,
-					e = editor.entsel,
+					e = self.entsel,
 				}
 				return true
 			end
@@ -445,7 +528,7 @@ function editor:paste()
 	local y = math.round(mousePosY,-1)
 	local w = self.clipboard.w or 20
 	local h = self.clipboard.h or 20
-	local selection = editor:entname(self.entsel)
+	local selection = self:entname(self.entsel)
 	if selection == "platform" then
 		platforms:add(x,y,w,h,1,0,0,0,0)
 	end
@@ -466,16 +549,16 @@ end
 function editor:drawmmap()
 	--experimental! does not work as intended! (but is still useful)
 	--fix camera scaling... and remove duplicate code
-	editor.mmapw = WIDTH/5
-	editor.mmaph = HEIGHT/5
-	editor.mmapscale = 15
-	mmapcanvas = love.graphics.newCanvas( editor.mmapw, editor.mmaph )
+	self.mmapw = WIDTH/5
+	self.mmaph = HEIGHT/5
+	self.mmapscale = 15
+	mmapcanvas = love.graphics.newCanvas( self.mmapw, self.mmaph )
 	love.graphics.setCanvas(mmapcanvas)
 	mmapcanvas:clear()
 
 
 	love.graphics.setColor(0,0,0,100)
-	love.graphics.rectangle("fill", 0,0,editor.mmapw,editor.mmaph )
+	love.graphics.rectangle("fill", 0,0,self.mmapw,self.mmaph )
 	
 
 	
@@ -487,10 +570,10 @@ function editor:drawmmap()
 		end
 		love.graphics.rectangle(
 			"fill", 
-			(platform.x/editor.mmapscale)-(camera.x/editor.mmapscale)+editor.mmapw/3, 
-			(platform.y/editor.mmapscale)-(camera.y/editor.mmapscale)+editor.mmaph/3, 
-			platform.w/editor.mmapscale, 
-			platform.h/editor.mmapscale
+			(platform.x/self.mmapscale)-(camera.x/self.mmapscale)+self.mmapw/3, 
+			(platform.y/self.mmapscale)-(camera.y/self.mmapscale)+self.mmaph/3, 
+			platform.w/self.mmapscale, 
+			platform.h/self.mmapscale
 		)
 	end
 
@@ -498,10 +581,10 @@ function editor:drawmmap()
 	for i, crate in ipairs(crates) do
 		love.graphics.rectangle(
 			"fill", 
-			(crate.x/editor.mmapscale)-camera.x/editor.mmapscale+editor.mmapw/3, 
-			(crate.y/editor.mmapscale)-camera.y/editor.mmapscale+editor.mmaph/3, 
-			crate.w/editor.mmapscale, 
-			crate.h/editor.mmapscale
+			(crate.x/self.mmapscale)-camera.x/self.mmapscale+self.mmapw/3, 
+			(crate.y/self.mmapscale)-camera.y/self.mmapscale+self.mmaph/3, 
+			crate.w/self.mmapscale, 
+			crate.h/self.mmapscale
 		)
 	end
 	
@@ -509,10 +592,10 @@ function editor:drawmmap()
 	for i, enemy in ipairs(enemies) do
 		love.graphics.rectangle(
 			"line", 
-			(enemy.x/editor.mmapscale)-camera.x/editor.mmapscale+editor.mmapw/3, 
-			(enemy.y/editor.mmapscale)-camera.y/editor.mmapscale+editor.mmaph/3, 
-			enemy.w/editor.mmapscale, 
-			enemy.h/editor.mmapscale
+			(enemy.x/self.mmapscale)-camera.x/self.mmapscale+self.mmapw/3, 
+			(enemy.y/self.mmapscale)-camera.y/self.mmapscale+self.mmaph/3, 
+			enemy.w/self.mmapscale, 
+			enemy.h/self.mmapscale
 		)
 	end
 	
@@ -520,10 +603,10 @@ function editor:drawmmap()
 	for i, pickup in ipairs(pickups) do
 		love.graphics.rectangle(
 			"line", 
-			(pickup.x/editor.mmapscale)-camera.x/editor.mmapscale+editor.mmapw/3, 
-			(pickup.y/editor.mmapscale)-camera.y/editor.mmapscale+editor.mmaph/3, 
-			pickup.w/editor.mmapscale, 
-			pickup.h/editor.mmapscale
+			(pickup.x/self.mmapscale)-camera.x/self.mmapscale+self.mmapw/3, 
+			(pickup.y/self.mmapscale)-camera.y/self.mmapscale+self.mmaph/3, 
+			pickup.w/self.mmapscale, 
+			pickup.h/self.mmapscale
 		)
 	end
 	
@@ -531,10 +614,10 @@ function editor:drawmmap()
 	for i, checkpoint in ipairs(checkpoints) do
 		love.graphics.rectangle(
 			"fill", 
-			(checkpoint.x/editor.mmapscale)-camera.x/editor.mmapscale+editor.mmapw/3, 
-			(checkpoint.y/editor.mmapscale)-camera.y/editor.mmapscale+editor.mmaph/3, 
-			checkpoint.w/editor.mmapscale, 
-			checkpoint.h/editor.mmapscale
+			(checkpoint.x/self.mmapscale)-camera.x/self.mmapscale+self.mmapw/3, 
+			(checkpoint.y/self.mmapscale)-camera.y/self.mmapscale+self.mmaph/3, 
+			checkpoint.w/self.mmapscale, 
+			checkpoint.h/self.mmapscale
 		)
 	end
 
@@ -542,10 +625,10 @@ function editor:drawmmap()
 	for i, spring in ipairs(springs) do
 		love.graphics.rectangle(
 			"fill", 
-			(spring.x/editor.mmapscale)-camera.x/editor.mmapscale+editor.mmapw/3, 
-			(spring.y/editor.mmapscale)-camera.y/editor.mmapscale+editor.mmaph/3, 
-			spring.w/editor.mmapscale, 
-			spring.h/editor.mmapscale
+			(spring.x/self.mmapscale)-camera.x/self.mmapscale+self.mmapw/3, 
+			(spring.y/self.mmapscale)-camera.y/self.mmapscale+self.mmaph/3, 
+			spring.w/self.mmapscale, 
+			spring.h/self.mmapscale
 		)
 	end
 
@@ -553,18 +636,15 @@ function editor:drawmmap()
 	love.graphics.setColor(255,255,255,255)
 	love.graphics.rectangle(
 		"line", 
-		(player.x/editor.mmapscale)-(camera.x/editor.mmapscale)+editor.mmapw/3, 
-		(player.y/editor.mmapscale)-(camera.y/editor.mmapscale)+editor.mmaph/3, 
-		player.w/editor.mmapscale, 
-		player.h/editor.mmapscale
+		(player.x/self.mmapscale)-(camera.x/self.mmapscale)+self.mmapw/3, 
+		(player.y/self.mmapscale)-(camera.y/self.mmapscale)+self.mmaph/3, 
+		player.w/self.mmapscale, 
+		player.h/self.mmapscale
 	)
 	
 
 	love.graphics.setCanvas()
 	love.graphics.setColor(255, 255, 255, 255)
-	love.graphics.draw(mmapcanvas, WIDTH-10-editor.mmapw,love.graphics.getHeight()-10-editor.mmaph )
+	love.graphics.draw(mmapcanvas, WIDTH-10-self.mmapw,love.graphics.getHeight()-10-self.mmaph )
 
 end
-
-
-

@@ -17,7 +17,7 @@
 
 function title:init()
 	mode = "title"
-	self.bg = love.graphics.newImage("graphics/tiles/water.png")
+	self.bg = love.graphics.newImage("graphics/backgrounds/sky.png")
 	self.bg:setWrap("repeat", "repeat")
 	self.bgquad = love.graphics.newQuad( 0,0, WIDTH, HEIGHT, self.bg:getDimensions() )
 	self.bgscroll = 0
