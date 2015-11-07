@@ -82,6 +82,18 @@ function collision:pickups(dt)
 		local i, pickup
 		for i, pickup in ipairs(pickups) do
 			if world:inview(pickup) and not pickup.collected then
+			
+				if cheats.magnet then
+					if collision:check(player.x-300,player.y-300,player.w+600,player.h+600,
+						pickup.x, pickup.y,pickup.gfx:getWidth(),pickup.gfx:getHeight()) then
+						if pickup.x < player.x then pickup.x = pickup.x + 500*dt end
+						if pickup.y < player.y then pickup.y = pickup.y + 500*dt end
+						if pickup.x > player.x then pickup.x = pickup.x - 500*dt end
+						if pickup.y > player.y then pickup.y = pickup.y - 500*dt end
+					end
+				end
+			
+			
 				if collision:check(player.x,player.y,player.w,player.h,
 					pickup.x, pickup.y,pickup.gfx:getWidth(),pickup.gfx:getHeight()) then
 						table.remove(pickups,i)

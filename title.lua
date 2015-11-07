@@ -16,8 +16,8 @@
 title = {}
 title.keystr = ""
 
-title.cheat9lives = false
-title.cheatjetpack = false
+
+
 
 function title:init()
 	mode = "title"
@@ -34,6 +34,14 @@ function title:init()
 	sound:playbgm(6)
 	self.sel = 0
 	self.menu = "main"
+	
+	cheats = {
+		catlife = false,
+		jetpack = false,
+		magnet = false,
+	}
+	
+	
 	util:dprint("initialized title")
 end
 
@@ -60,14 +68,19 @@ function title:keypressed(key)
 	--cheatcodes?
 	self.keystr = self.keystr .. key
 	
-	if string.match(self.keystr, "9lives") then
-		util:dprint("cheat: 9lives enabled")
-		self.cheat9lives = true
+	if string.match(self.keystr, "catlife") then
+		util:dprint("cheat: catlife enabled")
+		cheats.catlife = true
 		self.keystr = ""
 	end
 	if string.match(self.keystr, "jetpack") then
 		util:dprint("cheat: jetpack enabled")
-		self.cheatjetpack = true
+		cheats.jetpack = true
+		self.keystr = ""
+	end
+	if string.match(self.keystr, "magnet") then
+		util:dprint("cheat: magnet enabled")
+		cheats.magnet = true
 		self.keystr = ""
 	end
 	
@@ -172,3 +185,6 @@ function title:drawmain()
 	
 
 end
+
+
+

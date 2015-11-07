@@ -43,7 +43,7 @@ function player:init()
 end
 
 function player:cheats()
-		if title.cheat9lives then
+		if cheats.catlife then
 			player.lives = 9
 		end
 end
@@ -162,7 +162,7 @@ function player:attack(enemy,i)
 end
 
 function player:jump()
-	if player.jumping == 0 or title.cheatjetpack then
+	if player.jumping == 0 or cheats.jetpack then
 		sound:play(sound.jump)
 		player.jumping = 1
 		player.yvel = player.jumpheight					

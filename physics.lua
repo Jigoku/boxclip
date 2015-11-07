@@ -265,6 +265,15 @@ end
 function physics:pickups(dt)
 	local i, pickup
 		for i, pickup in ipairs(pickups) do
+		
+			--maybe use this for a powerup too? 
+			--pulls all gems to player when in radius?
+			if cheats.magnet then
+				if collision:check(player.x-300,player.y-300,player.w+600,player.h+600,
+						pickup.x, pickup.y,pickup.gfx:getWidth(),pickup.gfx:getHeight()) then
+						return
+				end
+			end
 			self:applyGravity(pickup, dt)
 			pickup.newX = (pickup.x + pickup.xvel *dt)
 			
