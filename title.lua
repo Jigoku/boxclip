@@ -13,7 +13,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  --]]
  
- title = {}
+title = {}
+title.keystr = ""
+
+title.cheat9lives = false
+title.cheatjetpack = false
 
 function title:init()
 	mode = "title"
@@ -53,6 +57,19 @@ end
 
 function title:keypressed(key)
 
+	--cheatcodes?
+	self.keystr = self.keystr .. key
+	
+	if string.match(self.keystr, "9lives") then
+		util:dprint("cheat: 9lives enabled")
+		self.cheat9lives = true
+		self.keystr = ""
+	end
+	if string.match(self.keystr, "jetpack") then
+		util:dprint("cheat: jetpack enabled")
+		self.cheatjetpack = true
+		self.keystr = ""
+	end
 	
 	if self.menu == "main" then
 		if key == "escape" then love.event.quit() end

@@ -38,9 +38,15 @@ function player:init()
 	player.gems = 0
 	player.angle = 0
 	util:dprint("initialized player")
+	
+	self:cheats()
 end
 
-
+function player:cheats()
+		if title.cheat9lives then
+			player.lives = 9
+		end
+end
 
 function player:draw()
 
@@ -156,7 +162,7 @@ function player:attack(enemy,i)
 end
 
 function player:jump()
-	if player.jumping == 0 then
+	if player.jumping == 0 or title.cheatjetpack then
 		sound:play(sound.jump)
 		player.jumping = 1
 		player.yvel = player.jumpheight					

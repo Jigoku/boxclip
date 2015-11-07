@@ -389,6 +389,8 @@ function world:run(dt)
 	if mode == "game" then
 		if player.lives < 0 then
 			util:dprint("game over")
+			--add game over transition screen
+			--should fade in, press button to exit to title
 			title:init()
 		end
 		
