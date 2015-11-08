@@ -18,11 +18,12 @@ collision = {}
 function collision:checkWorld(dt)
 	if not editing and player.alive == 1 then
 		self:bounds()
+		self:springs(dt)
 		self:pickups(dt)
 		self:enemies(dt)
 		self:checkpoints(dt)
 		self:portals(dt)
-		self:springs(dt)
+		
 	end
 end
 
