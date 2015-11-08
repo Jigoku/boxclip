@@ -21,6 +21,7 @@ This is not even a pre-alpha, and end goals may change. Currently the plans are 
 * simple camera
 * checkpoints
 * map editor
+* draw filtering
 * enemies
 * props
 * springs
