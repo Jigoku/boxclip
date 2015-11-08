@@ -83,7 +83,7 @@ function collision:pickups(dt)
 		for i, pickup in ipairs(pickups) do
 			if world:inview(pickup) and not pickup.collected then
 			
-				if cheats.magnet then
+				if player.hasmagnet then
 					if collision:check(player.x-300,player.y-300,player.w+600,player.h+600,
 						pickup.x, pickup.y,pickup.gfx:getWidth(),pickup.gfx:getHeight()) then
 							if not pickup.attract then
@@ -115,8 +115,8 @@ function collision:enemies(dt)
 	for i, enemy in ipairs(enemies) do
 		if world:inview(enemy) and enemy.alive then
 			if enemy.name == "walker" then
-				if collision:check(player.x,player.newY,player.w,player.h,
-					enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
+				if collision:check(player.newX,player.newY,player.w,player.h,
+					enemy.x+5,enemy.y+10,enemy.w-10,enemy.h-10) then
 					-- if we land on top, kill enemy
 					if collision:above(player,enemy) and player.jumping == 1 then	
 						--player.y = enemy.y - player.h -1 *dt
@@ -134,7 +134,7 @@ function collision:enemies(dt)
 			end
 			
 			if enemy.name == "floater" then
-				if collision:check(player.x,player.newY,player.w,player.h,
+				if collision:check(player.newX,player.newY,player.w,player.h,
 					enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
 					-- if we land on top, kill enemy
 					if player.jumping == 1 then	
@@ -156,8 +156,8 @@ function collision:enemies(dt)
 				end
 			end
 			
-			if enemy.name == "spike" or enemy.name == "icicle" then
-				if collision:check(player.x,player.newY,player.w,player.h,
+			if enemy.name == "spike" then
+				if collision:check(player.newX,player.newY,player.w,player.h,
 					enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
 					player:die(enemy.name)
 				end

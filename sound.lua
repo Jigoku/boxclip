@@ -32,8 +32,7 @@ sound.checkpoint = love.audio.newSource(fx .. "checkpoint.ogg", "static")
 sound.goal = love.audio.newSource(fx .. "goal.ogg", "static")
 sound.spring = love.audio.newSource(fx .. "spring.ogg", "static")
 sound.blip = love.audio.newSource(fx .. "blip.ogg", "static")
-
-
+sound.magnet = love.audio.newSource(fx .. "magnet.ogg", "static")
 
 
 function sound:playbgm(id)

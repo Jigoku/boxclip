@@ -101,7 +101,7 @@ function title:draw()
 	---background
 	love.graphics.setBackgroundColor(0,0,0,255)
 	love.graphics.setColor(255,255,255,255)		
-	self.bgquad:setViewport(0,-self.bgscroll,WIDTH, HEIGHT )
+	self.bgquad:setViewport(-self.bgscroll,0,WIDTH, HEIGHT )
 	love.graphics.draw(self.bg, self.bgquad, 0,0)
 		
 	--frames	
@@ -130,7 +130,7 @@ end
 function title:run(dt)
 	self.bgscroll = self.bgscroll + self.bgscrollspeed * dt
 	if self.bgscroll > self.bg:getHeight()then
-		self.bgscroll = self.bgscroll - self.bg:getHeight()
+		self.bgscroll = self.bgscroll - self.bg:getWidth()
 	end
 end
 

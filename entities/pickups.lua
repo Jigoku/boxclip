@@ -20,6 +20,7 @@ pickups.h = 40
 
 pickups.gem = love.graphics.newImage("graphics/pickups/gem.png")
 pickups.life = love.graphics.newImage( "graphics/pickups/heart.png")
+pickups.magnet = love.graphics.newImage( "graphics/pickups/magnet.png")
 
 
 
@@ -48,9 +49,25 @@ function pickups:add(x,y,item,dropped)
 			x =x or 0,
 			y =y or 0,
 			w = pickups.w,
-			h = pickups.w,
+			h = pickups.h,
 			name = "life",
 			gfx = pickups.life,
+			collected = false,
+			dropped = dropped or false,
+			attract = false,
+			mass = 800,
+			xvel = 0,
+			yvel = 0,
+			score = 1000,
+		})
+	elseif item =="magnet" then
+		table.insert(pickups, {
+			x =x or 0,
+			y =y or 0,
+			w = pickups.w,
+			h = pickups.h,
+			name = "magnet",
+			gfx = pickups.magnet,
 			collected = false,
 			dropped = dropped or false,
 			attract = false,
@@ -89,7 +106,15 @@ function pickups:draw()
 					pickup.y, 0, 1, 1
 				)
 			end
-		
+
+			if pickup.name == "magnet" then
+				love.graphics.setColor(255,255,255, 255)	
+				love.graphics.draw(
+					pickup.gfx, pickup.x, 
+					pickup.y, 0, 1, 1
+				)
+			end
+
 			if editing then
 				pickups:drawDebug(pickup, i)
 			end

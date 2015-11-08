@@ -37,6 +37,13 @@ function player:init()
 	player.lives = 3	
 	player.gems = 0
 	player.angle = 0
+	
+	--powerups
+	if cheats.magnet then
+		player.hasmagnet = true
+	else
+		player.hasmagnet = false
+	end
 	util:dprint("initialized player")
 	
 	self:cheats()
@@ -154,6 +161,9 @@ function player:collect(item)
 		sound:play(sound.lifeup)
 		player.score = player.score + item.score
 		player.lives = player.lives +1
+	elseif item.name == "magnet" then
+		sound:play(sound.magnet)
+		player.hasmagnet = true
 	end
 end
 
