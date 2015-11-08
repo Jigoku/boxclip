@@ -27,10 +27,10 @@ function props:add(x,y,type)
 	if type == "flower" then
 		table.insert(props, {
 			--dimensions
-			x = x or 0, -- xco-ord
-			y = y or 0, -- yco-ord
-			w = 20, -- width
-			h = 40, -- height
+			x = x or 0, 
+			y = y or 0,
+			w = 20, 
+			h = 40,
 			--properties
 			name = "flower",
 			gfx = flower,
@@ -40,10 +40,10 @@ function props:add(x,y,type)
 	if type == "rock" then
 		table.insert(props, {
 			--dimensions
-			x = x or 0, -- xco-ord
-			y = y or 0, -- yco-ord
-			w = 80, -- width
-			h = 50, -- height
+			x = x or 0,
+			y = y or 0,
+			w = 80,
+			h = 50,
 			--properties
 			name = "rock",
 			gfx = rock,
@@ -53,10 +53,10 @@ function props:add(x,y,type)
 	if type == "tree" then
 		table.insert(props, {
 			--dimensions
-			x = x or 0, -- xco-ord
-			y = y or 0, -- yco-ord
-			w = 100, -- width
-			h = 200, -- height
+			x = x or 0, 
+			y = y or 0, 
+			w = 100, 
+			h = 200, 
 			--properties
 			name = "tree",
 			gfx = tree,
@@ -66,10 +66,10 @@ function props:add(x,y,type)
 	if type == "arch" then
 		table.insert(props, {
 			--dimensions
-			x = x or 0, -- xco-ord
-			y = y or 0, -- yco-ord
-			w = 90, -- width
-			h = 250, -- height
+			x = x or 0,
+			y = y or 0,
+			w = 90,
+			h = 250,
 			--properties
 			name = "arch",
 			gfx = arch,
@@ -79,10 +79,10 @@ function props:add(x,y,type)
 	if type == "arch2" then
 		table.insert(props, {
 			--dimensions
-			x = x or 0, -- xco-ord
-			y = y or 0, -- yco-ord
-			w = 400, -- width
-			h = 200, -- height
+			x = x or 0, 
+			y = y or 0, 
+			w = 400,
+			h = 200,
 			--properties
 			name = "arch2",
 			gfx = arch2,
@@ -92,10 +92,10 @@ function props:add(x,y,type)
 	if type == "pillar" then
 		table.insert(props, {
 			--dimensions
-			x = x or 0, -- xco-ord
-			y = y or 0, -- yco-ord
-			w = 40, -- width
-			h = 160, -- height
+			x = x or 0,
+			y = y or 0,
+			w = 40,
+			h = 160,
 			--properties
 			name = "pillar",
 			gfx = pillar,
@@ -136,7 +136,6 @@ function props:draw()
 end
 
 function props:drawDebug(prop, i)
-	--requires graphic, implement all pickups as graphics/image
 	love.graphics.setColor(255,0,155,100)
 	love.graphics.rectangle(
 		"line", 

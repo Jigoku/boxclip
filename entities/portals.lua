@@ -22,10 +22,10 @@ function portals:add(x,y,type)
 	if type == "spawn" then
 		table.insert(portals, {
 			--dimensions
-			x = x or 0, -- xco-ord
-			y = y or 0, -- yco-ord
-			w = player.w, -- width
-			h = player.h, -- height
+			x = x or 0,
+			y = y or 0,
+			w = player.w,
+			h = player.h,
 			--properties
 			name = "spawn",
 		})
@@ -33,10 +33,10 @@ function portals:add(x,y,type)
 	elseif type == "goal" then
 		table.insert(portals, {
 			--dimensions
-			x = x or 0, -- xco-ord
-			y = y or 0, -- yco-ord
-			w = 60, -- width
-			h = 60, -- height
+			x = x or 0,
+			y = y or 0,
+			w = 60,
+			h = 60,
 			--properties
 			name = "goal",
 			activated = false,

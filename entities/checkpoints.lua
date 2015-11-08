@@ -54,7 +54,6 @@ end
 
 function checkpoints:drawDebug(checkpoint, i)
 
-	-- collision area
 	love.graphics.setColor(255,0,0,100)
 	love.graphics.rectangle("line", checkpoint.x, checkpoint.y, checkpoint.w, checkpoint.h)
 	

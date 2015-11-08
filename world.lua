@@ -20,7 +20,7 @@
 --which changes this string before reinitializing the world
 world.map = "maps/test.map"
 
---groundLEvel textures
+--groundLevel textures
 water = love.graphics.newImage("graphics/tiles/water.png")
 lava = love.graphics.newImage("graphics/tiles/lava.png")
 blood = love.graphics.newImage("graphics/tiles/blood.png")

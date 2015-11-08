@@ -31,6 +31,8 @@
 	delete entity	: del
 	camera scale	: z
 	camera position	: w,a,s,d
+	
+	some may be undocumented, check this when adding help menu for editor
 --]]
 
 

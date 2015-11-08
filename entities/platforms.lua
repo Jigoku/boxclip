@@ -20,10 +20,10 @@ platform_tile = love.graphics.newImage("graphics/tiles/cubes.png")
 function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist)
 	table.insert(platforms, {
 		--dimensions
-		x = x or 0, -- xco-ord
-		y = y or 0, -- yco-ord
-		w = w or 0, -- width
-		h = h or 0, -- height
+		x = x or 0, 
+		y = y or 0,
+		w = w or 0,
+		h = h or 0,
 
 		--properties
 		name = "platform",
