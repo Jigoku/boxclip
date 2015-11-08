@@ -39,11 +39,9 @@ function player:init()
 	player.angle = 0
 	
 	--powerups
-	if cheats.magnet then
-		player.hasmagnet = true
-	else
-		player.hasmagnet = false
-	end
+	if cheats.magnet then player.hasmagnet = true else player.hasmagnet = false end
+	if cheats.shield then player.hasshield = true else player.hasshield = false end
+	
 	util:dprint("initialized player")
 	
 	self:cheats()
@@ -96,9 +94,12 @@ function player:draw()
 	
 	end
 	
+	 player:drawpowerups()
+	
 	if editing then
 		player:drawDebug()
 	end
+	
 end
 
 function player:drawDebug()
@@ -107,6 +108,20 @@ function player:drawDebug()
 end
 
 
+
+
+
+function player:drawpowerups()
+	if player.hasmagnet then
+		--
+	end
+	if player.hasshield then
+		love.graphics.setColor(105,255,255,100)
+		love.graphics.circle("fill", player.x+player.w/2, player.y+player.h/2, player.w, player.h)
+		love.graphics.setColor(25,55,55,100)
+		love.graphics.circle("line", player.x+player.w/2, player.y+player.h/2, player.w, player.h)
+	end
+end
 
 function player:follow()
 	if player.alive == 1 or editing then
@@ -135,6 +150,14 @@ function player:respawn()
 end
 
 function player:die(this)
+
+	if player.hasshield then
+		player:jump()
+		sound:play(sound.shield)
+		player.hasshield = false
+		return
+	end
+
 	util:dprint("killed by "..this)	
 	sound:play(sound.die)
 	player.alive = 0
@@ -164,6 +187,9 @@ function player:collect(item)
 	elseif item.name == "magnet" then
 		sound:play(sound.magnet)
 		player.hasmagnet = true
+	elseif item.name == "shield" then
+		sound:play(sound.shield)
+		player.hasshield = true
 	end
 end
 

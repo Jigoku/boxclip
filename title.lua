@@ -83,6 +83,11 @@ function title:keypressed(key)
 		cheats.magnet = true
 		self.keystr = ""
 	end
+	if string.match(self.keystr, "shield") then
+		util:dprint("cheat: shield enabled")
+		cheats.shield = true
+		self.keystr = ""
+	end
 	
 	if self.menu == "main" then
 		if key == "escape" then love.event.quit() end

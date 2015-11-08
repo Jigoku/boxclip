@@ -75,15 +75,16 @@ function editor:entname(id)
 	elseif id ==11 then return "gem" 
 	elseif id ==12 then return "life" 
 	elseif id ==13 then return "magnet" 
-	elseif id ==14 then return "flower" 
-	elseif id ==15 then return "rock" 
-	elseif id ==16 then return "tree" 
-	elseif id ==17 then return "arch" 
-	elseif id ==18 then return "arch2" 
-	elseif id ==19 then return "pillar" 
-	elseif id ==20 then return "spring_s" 
-	elseif id ==21 then return "spring_m" 
-	elseif id ==22 then return "spring_l" 
+	elseif id ==14 then return "shield" 
+	elseif id ==15 then return "flower" 
+	elseif id ==16 then return "rock" 
+	elseif id ==17 then return "tree" 
+	elseif id ==18 then return "arch" 
+	elseif id ==19 then return "arch2" 
+	elseif id ==20 then return "pillar" 
+	elseif id ==21 then return "spring_s" 
+	elseif id ==22 then return "spring_m" 
+	elseif id ==23 then return "spring_l" 
 	else return "----"
 	end
 end
@@ -209,6 +210,7 @@ function editor:mousepressed(x,y,button)
 		if selection == "gem" then pickups:add(x,y,"gem") end
 		if selection == "life" then pickups:add(x,y,"life") end
 		if selection == "magnet" then pickups:add(x,y,"magnet") end
+		if selection == "shield" then pickups:add(x,y,"shield") end
 		if selection == "spike" then enemies:spike(x,y,self.entdir) end
 		if selection == "flower" then props:add(x,y,"flower") end
 		if selection == "rock" then props:add(x,y,"rock") end

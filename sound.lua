@@ -33,6 +33,7 @@ sound.goal = love.audio.newSource(fx .. "goal.ogg", "static")
 sound.spring = love.audio.newSource(fx .. "spring.ogg", "static")
 sound.blip = love.audio.newSource(fx .. "blip.ogg", "static")
 sound.magnet = love.audio.newSource(fx .. "magnet.ogg", "static")
+sound.shield = love.audio.newSource(fx .. "shield.ogg", "static")
 
 
 function sound:playbgm(id)
