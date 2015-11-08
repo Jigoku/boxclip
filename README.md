@@ -17,20 +17,23 @@ This is not even a pre-alpha, and end goals may change. Currently the plans are 
 * pickup collection
 * destroyable crates
 * AABB collision (old vs new test)
+* debug/console mode
 * simple camera
 * checkpoints
 * map editor
 * enemies
 * props
 * springs
+* powerups
 
 #####Editor
 * remove entitys
 * drag/drop platforms
-* entity placement
+* entity browser
 * primitive copy/paste
 * reposition platforms
 * save map
+* theme palettes
 * camera zoom
 * minimap overlay
 
