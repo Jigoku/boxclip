@@ -25,6 +25,7 @@ This is not even a pre-alpha, and end goals may change. Currently the plans are 
 * props
 * springs
 * powerups
+* portals (spawn/goal etc)
 
 #####Editor
 * remove entitys
