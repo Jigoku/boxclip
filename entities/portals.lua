@@ -63,13 +63,6 @@ function portals:draw()
 			end				
 				
 			if editing or debug then
-				--don't need to see spawn outside of editing
-				if portal.name == "spawn" then
-					love.graphics.setColor(255,100,0,100)
-					love.graphics.rectangle("fill", portal.x,portal.y,portal.w,portal.h)
-					love.graphics.setColor(255,0,0,255)
-					love.graphics.rectangle("line", portal.x,portal.y,portal.w,portal.h)
-				end
 				portals:drawDebug(portal, i)
 			end
 
@@ -79,7 +72,11 @@ function portals:draw()
 end
 
 function portals:drawDebug(portal, i)
-	--requires graphic, implement all pickups as graphics/image
+	love.graphics.setColor(255,100,0,50)
+	love.graphics.rectangle("fill", portal.x,portal.y,portal.w,portal.h)
+	love.graphics.setColor(255,0,0,255)
+	love.graphics.rectangle("line", portal.x,portal.y,portal.w,portal.h)
+	
 	util:drawid(portal, i)
 	util:drawCoordinates(portal)
 end
