@@ -31,16 +31,33 @@ stream = love.graphics.newImage("graphics/tiles/stream.png")
 function world:settheme(theme)
 	--theme palettes for different settings
 	--specified in map file as "theme=*"
-	
-	--add defaults/fallbacks here?
+
+	--fallbacks
 	background_scrollspeed = 0
 	background_scroll = 0
-
 	groundLevel_scrollspeed = 0
 	groundLevel_scroll = 0	
-	
 	spike_gfx = spike
 	icicle_gfx = icicle
+	background_r = 100
+	background_g = 100
+	background_b = 100
+	platform_wall_r = 220
+	platform_wall_g = 220
+	platform_wall_b = 220
+	platform_top_r = 140
+	platform_top_g = 140
+	platform_top_b = 140
+	crate_r = 255
+	crate_g = 255
+	crate_b = 255
+	groundLevel_tile = water
+	groundLevel_scrollspeed = 100
+	background = ""
+	background_scrollspeed = 20
+	
+	
+	--theme definitions (overrides fallbacks)
 	
 	if theme == "sunny" then
 		background_r = 100
