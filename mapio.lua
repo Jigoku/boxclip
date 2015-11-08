@@ -155,14 +155,7 @@ function mapio:loadmap(mapname)
 			enemies:spike(tonumber(x),tonumber(y),tonumber(dir))
 			
 		end
-		--parse enemy(icicle)
-		if string.find(line, "^icicle=(.+)") then
-			local x,y = string.match(
-				line, "^icicle=(%-?%d+),(%-?%d+)"
-			)
-			enemies:icicle(tonumber(x),tonumber(y))
-			
-		end
+
 		--parse props
 		if string.find(line, "^props=(.+)") then
 			local x,y,type = string.match(

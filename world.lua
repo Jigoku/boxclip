@@ -39,6 +39,9 @@ function world:settheme(theme)
 	groundLevel_scrollspeed = 0
 	groundLevel_scroll = 0	
 	
+	spike_gfx = spike
+	icicle_gfx = icicle
+	
 	if theme == "sunny" then
 		background_r = 100
 		background_g = 150
@@ -52,7 +55,6 @@ function world:settheme(theme)
 		crate_r = 230
 		crate_g = 220
 		crate_b = 180
-		spike_gfx = spike
 		groundLevel_tile = water
 		groundLevel_scrollspeed = 100
 		background = love.graphics.newImage("graphics/backgrounds/sky.png")
@@ -71,6 +73,7 @@ function world:settheme(theme)
 		crate_g = 255
 		crate_b = 255
 		spike_gfx = spike_winter
+		icicle_gfx = icicle_winter
 		groundLevel_tile = water
 		groundLevel_scrollspeed = 60
 		background = ""
@@ -88,6 +91,7 @@ function world:settheme(theme)
 		crate_g = 100
 		crate_b = 100
 		spike_gfx = spike_hell
+		icicle_gfx = icicle_hell
 		groundLevel_tile = blood
 		groundLevel_scrollspeed = 40
 		background = love.graphics.newImage("graphics/backgrounds/dark.png")
@@ -104,7 +108,6 @@ function world:settheme(theme)
 		crate_r = 200
 		crate_g = 170
 		crate_b = 170
-		spike_gfx = spike
 		groundLevel_tile = lava
 		groundLevel_scrollspeed = 20
 		background = love.graphics.newImage("graphics/backgrounds/cloudy.png")
@@ -121,7 +124,6 @@ function world:settheme(theme)
 		crate_r = 200
 		crate_g = 170
 		crate_b = 170
-		spike_gfx = spike
 		groundLevel_tile = lava
 		groundLevel_scrollspeed = 30
 		
@@ -140,7 +142,6 @@ function world:settheme(theme)
 		crate_r = 175
 		crate_g = 155
 		crate_b = 70
-		spike_gfx = spike
 		groundLevel_tile = stream
 		groundLevel_scrollspeed = 80
 		background = love.graphics.newImage("graphics/backgrounds/forest.png")

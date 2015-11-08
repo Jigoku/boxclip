@@ -149,12 +149,13 @@ function collision:enemies(dt)
 							player.yvel = player.mass
 						end
 						
+						--[[
 						if player.x > enemy.x then
 							player.xvel = player.mass/2
 						elseif player.x < enemy.x then
 							player.xvel = -player.mass/2
 						end
-		
+						--]]
 						enemy.alive = false
 						player:attack(enemy,i)
 						

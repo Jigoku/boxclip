@@ -23,6 +23,8 @@ spike_winter = love.graphics.newImage( "graphics/enemies/spike_winter.png")
 spike_hell = love.graphics.newImage( "graphics/enemies/spike_hell.png")
 
 icicle = love.graphics.newImage( "graphics/enemies/icicle.png")
+icicle_winter = love.graphics.newImage( "graphics/enemies/icicle_winter.png")
+icicle_hell = love.graphics.newImage( "graphics/enemies/icicle_hell.png")
 
 
 function enemies:walker(x,y,movespeed,movedist)
@@ -109,7 +111,7 @@ function enemies:icicle(x,y)
 		alive = true,
 		falling = false,
 		mass = 800,
-		gfx = icicle,
+		gfx = icicle_gfx,
 		yvel = 0,
 		jumping = 0,
 		

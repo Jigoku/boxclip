@@ -107,9 +107,8 @@ function editor:settheme()
 	world:settheme(world.theme)
 	
 	for i,e in ipairs(enemies) do 
-		if e.name == "spike" then
-			e.gfx = spike_gfx
-		end
+		if e.name == "spike" then e.gfx = spike_gfx end
+		if e.name == "icicle" then e.gfx = icicle_gfx end
 	end
 	self.themesel = self.themesel +1
 	if self.themesel > 5 then self.themesel = 0 end
