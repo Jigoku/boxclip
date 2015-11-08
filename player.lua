@@ -157,6 +157,10 @@ function player:die(this)
 		return
 	end
 
+	if player.hasmagnet then
+		player.hasmagnet = false
+	end
+	
 	util:dprint("killed by "..this)	
 	sound:play(sound.die)
 	player.alive = 0
