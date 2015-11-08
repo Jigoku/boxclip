@@ -22,6 +22,8 @@ spike = love.graphics.newImage( "graphics/enemies/spike.png")
 spike_winter = love.graphics.newImage( "graphics/enemies/spike_winter.png")
 spike_hell = love.graphics.newImage( "graphics/enemies/spike_hell.png")
 
+icicle = love.graphics.newImage( "graphics/enemies/icicle.png")
+
 
 function enemies:walker(x,y,movespeed,movedist)
 	table.insert(enemies, {
@@ -90,6 +92,30 @@ function enemies:spike(x,y,dir)
 	print( "spike added @  X:"..x.." Y: "..y)
 end
 
+function enemies:icicle(x,y)
+	table.insert(enemies, {		
+		--position
+		x = x or 0,
+		y = y or 0,
+		xorigin = x,
+		yorigin = y,
+		
+		--dimension
+		w = 20,
+		h = 30,
+		
+		--properties
+		name = "icicle",
+		alive = true,
+		falling = false,
+		mass = 800,
+		gfx = icicle,
+		yvel = 0,
+		jumping = 0,
+		
+	})
+	print( "icicle added @  X:"..x.." Y: "..y)
+end
 
 function enemies:floater(x,y,movespeed,movedist)
 	table.insert(enemies, {
@@ -160,6 +186,10 @@ function enemies:draw()
 				elseif enemy.dir == 3 then
 					love.graphics.draw(enemy.gfx, enemy.x, enemy.y, math.rad(-90),-1,1 )
 				end
+			end
+			
+			if enemy.name == "icicle" then
+				love.graphics.draw(enemy.gfx, enemy.x, enemy.y, 0,1,1)
 			end
 			
 			if editing or debug then

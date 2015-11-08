@@ -173,6 +173,19 @@ function collision:enemies(dt)
 				end
 			end
 			
+			if enemy.name == "icicle" then
+				if collision:check(player.newX,player.newY,player.w,player.h,
+					enemy.x-50,enemy.y,enemy.w+50,enemy.h+200) and enemy.y == enemy.yorigin then
+					enemy.falling = true
+				end
+			
+				if collision:check(player.newX,player.newY,player.w,player.h,
+					enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) and enemy.jumping == 1 then
+						player:die(enemy.name)
+					
+				end
+			end
+			
 		end
 	end
 end

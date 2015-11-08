@@ -70,21 +70,22 @@ function editor:entname(id)
 	elseif id == 6 then return "checkpoint" 
 	elseif id == 7 then return "crate" 
 	elseif id == 8 then return "spike" 
-	elseif id == 9 then return "walker" 
-	elseif id ==10 then return "floater" 
-	elseif id ==11 then return "gem" 
-	elseif id ==12 then return "life" 
-	elseif id ==13 then return "magnet" 
-	elseif id ==14 then return "shield" 
-	elseif id ==15 then return "flower" 
-	elseif id ==16 then return "rock" 
-	elseif id ==17 then return "tree" 
-	elseif id ==18 then return "arch" 
-	elseif id ==19 then return "arch2" 
-	elseif id ==20 then return "pillar" 
-	elseif id ==21 then return "spring_s" 
-	elseif id ==22 then return "spring_m" 
-	elseif id ==23 then return "spring_l" 
+	elseif id == 9 then return "icicle" 
+	elseif id ==10 then return "walker" 
+	elseif id ==11 then return "floater" 
+	elseif id ==12 then return "gem" 
+	elseif id ==13 then return "life" 
+	elseif id ==14 then return "magnet" 
+	elseif id ==15 then return "shield" 
+	elseif id ==16 then return "flower" 
+	elseif id ==17 then return "rock" 
+	elseif id ==18 then return "tree" 
+	elseif id ==19 then return "arch" 
+	elseif id ==20 then return "arch2" 
+	elseif id ==21 then return "pillar" 
+	elseif id ==22 then return "spring_s" 
+	elseif id ==23 then return "spring_m" 
+	elseif id ==24 then return "spring_l" 
 	else return "----"
 	end
 end
@@ -212,6 +213,7 @@ function editor:mousepressed(x,y,button)
 		if selection == "magnet" then pickups:add(x,y,"magnet") end
 		if selection == "shield" then pickups:add(x,y,"shield") end
 		if selection == "spike" then enemies:spike(x,y,self.entdir) end
+		if selection == "icicle" then enemies:icicle(x,y) end
 		if selection == "flower" then props:add(x,y,"flower") end
 		if selection == "rock" then props:add(x,y,"rock") end
 		if selection == "tree" then props:add(x,y,"tree") end

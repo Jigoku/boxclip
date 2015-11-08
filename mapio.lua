@@ -43,6 +43,9 @@ function mapio:savemap(map)
 		if entity.name == "spike" then
 			fh:write("spike="..math.round(entity.x)..","..math.round(entity.y)..","..math.round(entity.dir).."\n")
 		end
+		if entity.name == "icicle" then
+			fh:write("icicle="..math.round(entity.x)..","..math.round(entity.y).."\n")
+		end
 	end
 	for i, entity in ipairs(props) do
 		fh:write("props="..math.round(entity.x)..","..math.round(entity.y)..","..entity.name.."\n")
@@ -125,6 +128,16 @@ function mapio:loadmap(mapname)
 			enemies:walker(tonumber(x),tonumber(y),tonumber(movespeed),tonumber(movedist))
 			
 		end
+		
+		--parse enemy(icicle)
+		if string.find(line, "^icicle=(.+)") then
+			local x,y = string.match(
+				line, "^icicle=(%-?%d+),(%-?%d+)"
+			)
+			enemies:icicle(tonumber(x),tonumber(y))
+			
+		end
+		
 		--parse enemy(floater)
 		if string.find(line, "^floater=(.+)") then
 			local x,y,movespeed,movedist = string.match(
@@ -144,10 +157,10 @@ function mapio:loadmap(mapname)
 		end
 		--parse enemy(icicle)
 		if string.find(line, "^icicle=(.+)") then
-			local x,y,dir = string.match(
-				line, "^icicle=(%-?%d+),(%-?%d+),(%-?%d+)"
+			local x,y = string.match(
+				line, "^icicle=(%-?%d+),(%-?%d+)"
 			)
-			enemies:icicle(tonumber(x),tonumber(y),tonumber(dir))
+			enemies:icicle(tonumber(x),tonumber(y))
 			
 		end
 		--parse props

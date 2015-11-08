@@ -323,9 +323,33 @@ function physics:enemies(dt)
 			if enemy.name == "floater" then
 				self:movex(enemy, dt)
 			end
+			
+			if enemy.name == "icicle" then
+				
+				if enemy.falling then
+					enemy.jumping = 1
+					self:applyGravity(enemy, dt)
+					enemy.newY = (enemy.y - enemy.yvel *dt)
+					enemy.newX = enemy.x
+					self:platforms(enemy, dt)
+					enemy.y = enemy.newY
+					
+					for i,platform in ipairs(platforms) do
+						if collision:check(platform.x,platform.y,platform.w,platform.h,
+							enemy.newX,enemy.newY,enemy.w,enemy.h) then
+							enemy.falling = false
+						end
+					end
+				else
+				
+					--make dropped spikes act like platforms???
+				end
+			end
 		end
 	end
 end
+
+
 
 
 function physics:player(dt)
