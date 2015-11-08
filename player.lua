@@ -124,8 +124,11 @@ function player:follow()
 	if player.alive == 1 or editing then
 	-- follow player
 
-		camera.x = (player.x -(love.graphics.getWidth()/2*camera.scaleX)+ player.w/2) 
-		camera.y = (player.y -(love.graphics.getHeight()/2*camera.scaleY) + player.h/2) 
+		--camera.x = (player.x -(love.graphics.getWidth()/2*camera.scaleX)+ player.w/2) 
+		--camera.y = (player.y -(love.graphics.getHeight()/2*camera.scaleY) + player.h/2) 
+		
+		camera.x = (player.x + player.w/2) 
+		camera.y = (player.y  + player.h/2) 
 
 	end
 end
