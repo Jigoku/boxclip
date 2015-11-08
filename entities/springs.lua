@@ -77,7 +77,7 @@ function springs:draw()
 			elseif spring.dir == 3 then
 				love.graphics.draw(spring.gfx, spring.x, spring.y, math.rad(-90),-1,1 )
 			end
-			if editing then
+			if editing or debug then
 				springs:drawDebug(spring, i)
 			end
 

@@ -104,7 +104,7 @@ function platforms:draw()
 				love.graphics.arc( "fill", platform.x+platform.w, platform.y, -5, math.pi/2, math.pi*1.5 )
 				love.graphics.arc( "fill", platform.x, platform.y, 5, math.pi/2, math.pi*1.5 )
 				
-				if editing then platforms:drawDebug(platform, i) end
+				if editing or debug then platforms:drawDebug(platform, i) end
 			end
 
 		end

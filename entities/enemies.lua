@@ -150,6 +150,7 @@ function enemies:draw()
 			
 			love.graphics.setColor(255,255,255,255)
 			if enemy.name == "spike" then
+
 				if enemy.dir == 0 then
 					love.graphics.draw(enemy.gfx, enemy.x, enemy.y, 0,1,1)
 				elseif enemy.dir == 1 then
@@ -161,7 +162,7 @@ function enemies:draw()
 				end
 			end
 			
-			if editing then
+			if editing or debug then
 				enemies:drawDebug(enemy, i)
 			end
 		end

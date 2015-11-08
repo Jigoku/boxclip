@@ -43,7 +43,7 @@ function checkpoints:draw()
 			end
 			love.graphics.rectangle("fill", checkpoint.x, checkpoint.y, checkpoint.w, checkpoint.h)	
 			
-			if editing then
+			if editing or debug then
 				self:drawDebug(checkpoint, i)
 			end
 		end

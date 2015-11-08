@@ -9,11 +9,8 @@ function input:checkkeys(dt)
 		elseif love.keyboard.isDown("a") or love.keyboard.isDown("left") then
 			player:moveleft()
 			
-			
 		else
 			player.dir = "idle"
-
-
 		end
 	end
 	
@@ -97,6 +94,7 @@ function love.keypressed(key)
 		if key == "`" then
 			love.audio.play( sound.beep )
 			console = not console
+			debug = not debug
 		end
 
 		if editing then editor:keypressed(key) end

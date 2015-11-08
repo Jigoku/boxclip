@@ -125,7 +125,7 @@ function props:draw()
 			
 			love.graphics.draw(prop.gfx, prop.x,prop.y,0, 1, 1)
 
-			if editing then
+			if editing or debug then
 				props:drawDebug(prop, i)
 			end
 

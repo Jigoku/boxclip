@@ -81,7 +81,6 @@ end
 
 function util:drawConsole()
 	if console then
-	
 		--console info
 		love.graphics.setColor(0,0,0,100)
 		love.graphics.rectangle("fill", 1, 1, WIDTH-2, 160)	
@@ -140,6 +139,7 @@ function util:drawConsole()
 		love.graphics.print(cbuff.l5,5,110)
 		love.graphics.print(cbuff.l6,5,125)
 		love.graphics.print(cbuff.l7,5,140)
+
 	end
 end
 

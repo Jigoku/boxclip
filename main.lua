@@ -48,7 +48,7 @@ require("entities/checkpoints")
 require("entities/pickups")
 require("entities/enemies")
 require("entities/portals")
-
+debug = false
 
 
 function love.load()

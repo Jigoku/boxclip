@@ -38,19 +38,16 @@ function player:init()
 	player.gems = 0
 	player.angle = 0
 	
-	--powerups
-	if cheats.magnet then player.hasmagnet = true else player.hasmagnet = false end
-	if cheats.shield then player.hasshield = true else player.hasshield = false end
+	self:cheats()
 	
 	util:dprint("initialized player")
-	
-	self:cheats()
+
 end
 
 function player:cheats()
-		if cheats.catlife then
-			player.lives = 9
-		end
+	if cheats.catlife then player.lives = 9 end
+	if cheats.magnet then player.hasmagnet = true else player.hasmagnet = false end
+	if cheats.shield then player.hasshield = true else player.hasshield = false end
 end
 
 function player:draw()
@@ -138,6 +135,8 @@ function player:respawn()
 	sound:playambient(world.mapambient)
 	player.x = player.spawnX
 	player.y = player.spawnY
+	player.newX = player.spawnX
+	player.newY = player.spawnY
 	player.xvel = 0
 	player.xvelboost = 0
 	player.yvel = 0

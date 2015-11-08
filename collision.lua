@@ -116,7 +116,7 @@ function collision:enemies(dt)
 		if world:inview(enemy) and enemy.alive then
 			if enemy.name == "walker" then
 				if collision:check(player.newX,player.newY,player.w,player.h,
-					enemy.x+5,enemy.y+10,enemy.w-10,enemy.h-10) then
+					enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
 					-- if we land on top, kill enemy
 					if collision:above(player,enemy) then	
 						if player.jumping == 1 then
@@ -147,6 +147,12 @@ function collision:enemies(dt)
 							player.yvel = -player.mass
 						elseif player.y < enemy.y then
 							player.yvel = player.mass
+						end
+						
+						if player.x > enemy.x then
+							player.xvel = player.mass/2
+						elseif player.x < enemy.x then
+							player.xvel = -player.mass/2
 						end
 		
 						enemy.alive = false

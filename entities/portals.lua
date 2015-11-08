@@ -62,7 +62,7 @@ function portals:draw()
 				end
 			end				
 				
-			if editing then
+			if editing or debug then
 				--don't need to see spawn outside of editing
 				if portal.name == "spawn" then
 					love.graphics.setColor(255,100,0,100)

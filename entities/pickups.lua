@@ -140,7 +140,7 @@ function pickups:draw()
 				)
 			end
 
-			if editing then
+			if editing or debug then
 				pickups:drawDebug(pickup, i)
 			end
 		end
