@@ -234,10 +234,12 @@ end
 
 function editor:mousereleased(x,y,button)
 	--check if we have selected platforms, then place if neccesary
-	if button == 'l' then
-		local selection = self:entname(self.entsel)
-		if selection == "platform" or selection == "platform_b" or selection == "platform_x" or selection == "platform_y" then
-			self:addplatform(pressedPosX,pressedPosY,releasedPosX,releasedPosY)
+	if button == 'l' then 
+		local draggable = {"platform", "platform_b", "platform_x", "platform_y"}
+		for _,entity in ipairs(draggable) do
+			if self:entname(self.entsel) == entity then
+				self:addplatform(pressedPosX,pressedPosY,releasedPosX,releasedPosY)
+			end
 		end
 		return
 	end
