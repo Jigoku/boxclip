@@ -52,48 +52,34 @@ function love.mousereleased(x, y, button)
 end
 
 function love.keypressed(key)
-		--util:dprint("[KEY        ] '".. key .. "'")
-		
-		if mode == "title" then
-			title:keypressed(key)
-		end
 	
+	if mode == "title" then title:keypressed(key) end
+	if mode == "editing" then editor:keypressed(key) end
 
-		--quit
-		if mode == "game" or mode == "editing" then
-			if key == "escape" then
-				title:init()
+	--quit
+	if mode == "game" or mode == "editing" then
+		if key == "escape" then
+			title:init()
+		end
+	end
+	
+	--debug mode console
+	if key == "`" then
+		love.audio.play( sound.beep )
+		console = not console
+		debug = not debug
+	end
+
+	--toggle fullscreen
+	if key == "f5" then util:togglefullscreen() end
+		
+
+	if not editing then
+		if player.alive == 1 then
+			--jump
+			if key == " " then
+				player:jump()
 			end
 		end
-		
-		if mode == "editing" then
-			editor:keypressed(key)
-		end
-		
-		--debug console
-		if key == "`" then
-			love.audio.play( sound.beep )
-			console = not console
-			debug = not debug
-		end
-
-		
-
-		
-
-
-		--toggle fullscreen
-		if key == "f5" then
-			util:togglefullscreen()
-		end
-		
-
-		if not editing then
-			if player.alive == 1 then
-				--jump
-				if key == " " then
-					player:jump()
-				end
-			end
-		end
+	end
 end

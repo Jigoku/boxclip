@@ -38,14 +38,14 @@ function player:init()
 	player.gems = 0
 	player.angle = 0
 	
-	self:cheats()
+	if cheats.catlife then player.lives = 9 end
 	
 	util:dprint("initialized player")
 
 end
 
 function player:cheats()
-	if cheats.catlife then player.lives = 9 end
+	--cheats enabled for entire game
 	if cheats.magnet then player.hasmagnet = true else player.hasmagnet = false end
 	if cheats.shield then player.hasshield = true else player.hasshield = false end
 end
@@ -148,6 +148,7 @@ function player:respawn()
 	player.lastdir = "idle"
 	player.alive = 1
 	player:follow(1)
+	self:cheats()
 	util:dprint("respawn player")
 end
 
