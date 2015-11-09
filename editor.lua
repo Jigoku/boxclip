@@ -55,8 +55,8 @@ editor.movespeed = 1000		--editing floatspeed
 
 editor.entmenuw = 150       --entmenu width
 editor.entmenuh = 300		--entmenu height
-editor.helpmenuw = 500
-editor.helpmenuh = 500
+editor.helpmenuw = 240
+editor.helpmenuh = 400
 
 editor.clipboard = {}		--clipboard contents
 
@@ -120,48 +120,64 @@ end
 
 function editor:keypressed(key)
 	--print (key)
-	if love.keyboard.isDown("kp+") then self.entsel = self.entsel +1 end
-	if love.keyboard.isDown("kp-") then self.entsel = self.entsel -1 end
-	
-	if love.keyboard.isDown("delete") then self:removesel() end
-	if love.keyboard.isDown("c") then self:copy() end
-	if love.keyboard.isDown("v") then self:paste() end
-	if love.keyboard.isDown("r") then self:rotate() end
-	if love.keyboard.isDown("e") then self.showentmenu = not self.showentmenu end
-	if love.keyboard.isDown("h") then self.showhelpmenu = not self.showhelpmenu end	
-	if love.keyboard.isDown("g") then self.showguide = not self.showguide end
-	if love.keyboard.isDown("m") then self.showmmap = not self.showmmap end
-	if love.keyboard.isDown(",") then self.showpos = not self.showpos end
-	if love.keyboard.isDown(".") then self.showid = not self.showid end
-	if love.keyboard.isDown("f12") then mapio:savemap(world.map) end
-	
-	if love.keyboard.isDown("t") then self:settheme() end
-	
-	if key == "kp8" or key == "kp2" or key == "kp4" or key == "kp6" then
-	for i, platform in ripairs(platforms) do
-		--fix this for moving platform (yorigin,xorigin etc)
-		if world:inview(platform) then
-			if collision:check(mousePosX,mousePosY,1,1, platform.x,platform.y,platform.w,platform.h) then
-				if love.keyboard.isDown("kp8") then 
-					platform.y = math.round(platform.y - 10,-1) --up
-				end
-				if love.keyboard.isDown("kp2") then 
-					platform.y = math.round(platform.y + 10,-1) --down
-					platform.yorigin = platform.y
-				end 
-				if love.keyboard.isDown("kp4") then 
-					platform.x = math.round(platform.x - 10,-1) --left
-					platform.xorigin = platform.x
-				end 
-				if love.keyboard.isDown("kp6") then 
-					platform.x = math.round(platform.x + 10,-1)  --right
-					platform.xorigin = platform.x
-				end
 
-				return true
+	if key == "f1" then 
+		editing = not editing
+		player.xvel = 0
+		player.yvel = 0
+		player.angle = 0
+		player.jumping = 0
+		player.xvelboost = 0
+	end
+
+	if key == "z" then self:zoom() end
+	if key == "h" then self.showhelpmenu = not self.showhelpmenu end	
+	if key == "m" then self.showmmap = not self.showmmap end
+	
+	
+	--free roaming	
+	if editing then
+		if key == "kp+" then self.entsel = self.entsel +1 end
+		if key == "kp-" then self.entsel = self.entsel -1 end
+	
+		if key == "delete" then self:removesel() end
+		if key == "c" then self:copy() end
+		if key == "v" then self:paste() end
+		if key == "r" then self:rotate() end
+		if key == "e" then self.showentmenu = not self.showentmenu end
+
+		if key == "g" then self.showguide = not self.showguide end
+
+		if key == "," then self.showpos = not self.showpos end
+		if key == "." then self.showid = not self.showid end
+		if key == "f12" then mapio:savemap(world.map) end
+	
+		if key == "t" then self:settheme() end
+	
+		for i, platform in ripairs(platforms) do
+			--fix this for moving platform (yorigin,xorigin etc)
+			if world:inview(platform) then
+				if collision:check(mousePosX,mousePosY,1,1, platform.x,platform.y,platform.w,platform.h) then
+					if love.keyboard.isDown("kp8") then 
+						platform.y = math.round(platform.y - 10,-1) --up
+					end
+					if love.keyboard.isDown("kp2") then 
+						platform.y = math.round(platform.y + 10,-1) --down
+						platform.yorigin = platform.y
+					end 
+					if love.keyboard.isDown("kp4") then 
+						platform.x = math.round(platform.x - 10,-1) --left
+						platform.xorigin = platform.x
+					end 
+					if love.keyboard.isDown("kp6") then 
+						platform.x = math.round(platform.x + 10,-1)  --right
+						platform.xorigin = platform.x
+					end
+	
+					return true
+				end
 			end
 		end
-	end
 	end
 end
 
@@ -178,8 +194,20 @@ function editor:checkkeys(dt)
 		if love.keyboard.isDown("s") or love.keyboard.isDown("down") then
 			player.y = player.y + self.movespeed *dt
 		end
+		
+
 end
 
+function editor:zoom()
+	love.audio.play( sound.beep )
+	if camera.scaleX == 1 and camera.scaleY == 1 then
+		camera.scaleX = 2
+		camera.scaleY = 2
+	else
+		camera.scaleX = 1
+		camera.scaleY = 1 
+	end
+end
 
 function editor:mousepressed(x,y,button)
 	
@@ -323,18 +351,26 @@ end
 
 
 function editor:draw()
-	camera:set()
+	love.graphics.setColor(0,255,155,155)
+		
+	love.graphics.setFont(fonts.large)
+	love.graphics.print("editing",WIDTH-80, 10,0,1,1)
+	love.graphics.setFont(fonts.default)
 	
-	self:drawguide()
-	self:drawcursor()
-	self:drawselected()
-	self:drawselbox()
+	if editing then
+		camera:set()
 	
-	camera:unset()
+		self:drawguide()
+		self:drawcursor()
+		self:drawselected()
+		self:drawselbox()
 	
-	--overlays
+		camera:unset()
+		if self.showentmenu then self:drawentmenu() end
+	end
+	
+	
 	if self.showmmap then self:drawmmap() end
-	if self.showentmenu then self:drawentmenu() end
 	if self.showhelpmenu then self:drawhelpmenu() end
 	
 end
@@ -371,7 +407,8 @@ function editor:drawhelpmenu()
 	love.graphics.rectangle("fill",0,0, menu:getWidth(), 5)
 	--title
 	love.graphics.setColor(255,255,255,255)
-	love.graphics.print("Editor Help / Controls",10,10)
+	love.graphics.print("Editor Help",10,10)
+	
 	--hrule
 	love.graphics.setColor(255,255,255,150)
 	love.graphics.rectangle("fill",10,25, menu:getWidth()-10, 1)
@@ -380,21 +417,95 @@ function editor:drawhelpmenu()
 
 	
 	love.graphics.setColor(255,255,255,155)
+	love.graphics.printf("[h] to close",menu:getWidth()-110,10,100,"right")
+		
 	love.graphics.setFont(fonts.menu)
-	love.graphics.print("F1\t\t\t\t- toggle editmode",10,s*2); 
-	love.graphics.print("W/A/S/D\t\t\t\t- move",10,s*3)
-	love.graphics.print("LMB\t\t\t\t- select/drag",10,s*4)
-	love.graphics.print("RMB/DEL\t\t\t\t- remove entity",10,s*5)
-	love.graphics.print("mousewheel\t\t\t\t- select entity type",10,s*6)
-	love.graphics.print("R\t\t\t\t- entity direction",10,s*7)
-	love.graphics.print("kp2/4/6/8\t\t\t\t- reposition entity",10,s*8)
-	love.graphics.print("T\t\t\t\t- change theme",10,s*9)
-	love.graphics.print("C\t\t\t\t- copy",10,s*10)
-	love.graphics.print("P\t\t\t\t- paste",10,s*11)
-	love.graphics.print("Z\t\t\t\t- camera zoom",10,s*12)
-	love.graphics.print("F12\t\t\t\t- save map",10,s*13)
-	love.graphics.print("ESC\t\t\t\t- exit",10,s*14)
-	love.graphics.print("`\t\t\t\t- console",10,s*15)
+
+	love.graphics.setColor(155,255,255,155)
+	love.graphics.print("f1",10,s*2); 
+	love.graphics.setColor(255,255,255,155)
+	love.graphics.printf("toggle editmode",menu:getWidth()/8,s*2,200,"right")
+	
+	love.graphics.setColor(155,255,255,155)
+	love.graphics.print("wasd",10,s*3)
+	love.graphics.setColor(255,255,255,155)
+	love.graphics.printf("move",menu:getWidth()/8,s*3,200,"right")
+	
+	love.graphics.setColor(155,255,255,155)
+	love.graphics.print("left mouse",10,s*4)
+	love.graphics.setColor(255,255,255,155)
+	love.graphics.printf("select/drag",menu:getWidth()/8,s*4,200,"right")
+	
+	love.graphics.setColor(155,255,255,155)
+	love.graphics.print("right mouse",10,s*5)
+	love.graphics.setColor(255,255,255,155)
+	love.graphics.printf("remove entity",menu:getWidth()/8,s*5,200,"right")
+	
+	love.graphics.setColor(155,255,255,155)
+	love.graphics.print("mousewheel",10,s*6)
+	love.graphics.setColor(255,255,255,155)
+	love.graphics.printf("select entity type",menu:getWidth()/8,s*6,200,"right")
+	
+	love.graphics.setColor(155,255,255,155)
+	love.graphics.print("r",10,s*7)
+	love.graphics.setColor(255,255,255,155)
+	love.graphics.printf("entity direction",menu:getWidth()/8,s*7,200,"right")
+	
+	love.graphics.setColor(155,255,255,155)
+	love.graphics.print("keypad arrow",10,s*8)
+	love.graphics.setColor(255,255,255,155)
+	love.graphics.printf("reposition entity",menu:getWidth()/8,s*8,200,"right")
+	
+	love.graphics.setColor(155,255,255,155)
+	love.graphics.print("t",10,s*9)
+	love.graphics.setColor(255,255,255,155)
+	love.graphics.printf("change theme",menu:getWidth()/8,s*9,200,"right")
+	
+	love.graphics.setColor(155,255,255,155)
+	love.graphics.print("c",10,s*10)
+	love.graphics.setColor(255,255,255,155)
+	love.graphics.printf("copy",menu:getWidth()/8,s*10,200,"right")
+	
+	love.graphics.setColor(155,255,255,155)
+	love.graphics.print("p",10,s*11)
+	love.graphics.setColor(255,255,255,155)
+	love.graphics.printf("paste",menu:getWidth()/8,s*11,200,"right")
+	
+	love.graphics.setColor(155,255,255,155)
+	love.graphics.print("z",10,s*12)
+	love.graphics.setColor(255,255,255,155)
+	love.graphics.printf("camera zoom",menu:getWidth()/8,s*12,200,"right")
+	
+	love.graphics.setColor(155,255,255,155)
+	love.graphics.print("f12",10,s*13)
+	love.graphics.setColor(255,255,255,155)
+	love.graphics.printf("savemap",menu:getWidth()/8,s*13,200,"right")
+	
+	love.graphics.setColor(155,255,255,155)
+	love.graphics.print("escape",10,s*14)
+	love.graphics.setColor(255,255,255,155)
+	love.graphics.printf("exit to title",menu:getWidth()/8,s*14,200,"right")
+	
+	love.graphics.setColor(155,255,255,155)
+	love.graphics.print("`",10,s*15)
+	love.graphics.setColor(255,255,255,155)
+	love.graphics.printf("toggle console",menu:getWidth()/8,s*15,200,"right")
+	
+	love.graphics.setColor(155,255,255,155)
+	love.graphics.print("g",10,s*16)
+	love.graphics.setColor(255,255,255,155)
+	love.graphics.printf("toggle guidelines",menu:getWidth()/8,s*16,200,"right")
+	
+	love.graphics.setColor(155,255,255,155)
+	love.graphics.print("m",10,s*17)
+	love.graphics.setColor(255,255,255,155)
+	love.graphics.printf("toggle minimap",menu:getWidth()/8,s*17,200,"right")
+	
+	love.graphics.setColor(155,255,255,155)
+	love.graphics.print("h",10,s*18)
+	love.graphics.setColor(255,255,255,155)
+	love.graphics.printf("show help",menu:getWidth()/8,s*18,200,"right")
+	
 	love.graphics.setFont(fonts.default)
 		
 	love.graphics.setCanvas()

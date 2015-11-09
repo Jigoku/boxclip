@@ -258,16 +258,7 @@ function world:draw()
 	--love.graphics.draw(background, background_quad,0,0)
 	
 	if mode == "editing" then
-	
-		if editing then
-			editor:draw()	
-		end
-	
-		love.graphics.setColor(0,255,155,155)
-		
-		love.graphics.setFont(fonts.large)
-		love.graphics.print("editing",WIDTH-80, 10,0,1,1)
-		love.graphics.setFont(fonts.default)
+		editor:draw()
 	end
 	
 	--draw the hud/scoreboard
