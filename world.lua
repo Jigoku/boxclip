@@ -204,7 +204,7 @@ function world:init(gamemode)
 	world.springs = 0
 	
 	world:empty()
-	player:init()
+	player:init() 
 	mapio:loadmap(world.map)
 	player:respawn()
 	

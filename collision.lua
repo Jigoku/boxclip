@@ -184,7 +184,6 @@ function collision:enemies(dt)
 				if collision:check(player.newX,player.newY,player.w,player.h,
 					enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) and enemy.jumping == 1 then
 						player:die(enemy.name)
-					
 				end
 			end
 			

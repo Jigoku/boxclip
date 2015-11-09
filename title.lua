@@ -40,6 +40,7 @@ function title:init()
 		catlife = false,
 		jetpack = false,
 		magnet = false,
+		millionare = false,
 	}
 	
 	
@@ -67,29 +68,7 @@ end
 
 function title:keypressed(key)
 
-	--cheatcodes?
-	self.keystr = self.keystr .. key
-	
-	if string.match(self.keystr, "catlife") then
-		util:dprint("cheat: catlife enabled")
-		cheats.catlife = true
-		self.keystr = ""
-	end
-	if string.match(self.keystr, "jetpack") then
-		util:dprint("cheat: jetpack enabled")
-		cheats.jetpack = true
-		self.keystr = ""
-	end
-	if string.match(self.keystr, "magnet") then
-		util:dprint("cheat: magnet enabled")
-		cheats.magnet = true
-		self.keystr = ""
-	end
-	if string.match(self.keystr, "shield") then
-		util:dprint("cheat: shield enabled")
-		cheats.shield = true
-		self.keystr = ""
-	end
+	self:checkcheatcodes(key)
 	
 	if self.menu == "main" then
 		if key == "escape" then love.event.quit() end
@@ -140,10 +119,40 @@ function title:run(dt)
 		self.bgscroll = self.bgscroll - self.bg:getWidth()
 	end
 	
-
-	
 end
 
+
+function title:checkcheatcodes(key)
+
+	self.keystr = self.keystr .. key
+	
+	if string.match(self.keystr, "catlife") then
+		util:dprint("cheat: catlife enabled")
+		cheats.catlife = true
+		self.keystr = ""
+	end
+	if string.match(self.keystr, "jetpack") then
+		util:dprint("cheat: jetpack enabled")
+		cheats.jetpack = true
+		self.keystr = ""
+	end
+	if string.match(self.keystr, "magnet") then
+		util:dprint("cheat: magnet enabled")
+		cheats.magnet = true
+		self.keystr = ""
+	end
+	if string.match(self.keystr, "shield") then
+		util:dprint("cheat: shield enabled")
+		cheats.shield = true
+		self.keystr = ""
+	end
+	
+	if string.match(self.keystr, "millionare") then
+		util:dprint("cheat: millionare enabled")
+		cheats.millionare = true
+		self.keystr = ""
+	end
+end
 
 
 function title:drawmain()

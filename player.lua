@@ -19,10 +19,11 @@ function player:init()
 	--initialize the player defaults
 	player.w = 40
 	player.h = 50
-	player.x = 0
-	player.y = 0 
 	player.spawnX = 0
 	player.spawnY = 0 
+	player.x = spawnX
+	player.y = spawnY 
+
 	player.speed = 600
 	player.mass = 800
 	player.xvel = 0
@@ -39,6 +40,7 @@ function player:init()
 	player.angle = 0
 	
 	if cheats.catlife then player.lives = 9 end
+	if cheats.millionare then player.score = "1000000" end
 	
 	util:dprint("initialized player")
 
