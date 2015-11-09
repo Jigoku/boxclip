@@ -35,9 +35,6 @@
 	some may be undocumented, check this when adding help menu for editor
 --]]
 
-
-
-
 editor = {}
 editing = false
 
@@ -50,13 +47,16 @@ editor.themesel = 0			--theme pallete in use
 editor.showpos = true		--axis info for entitys
 editor.showid  = true		--id info for entities
 editor.showmmap = true	    --toggle minimap
-editor.showguide = true--toggle guidelines
-editor.showentmenu = true  -- toggle entmenu
+editor.showguide = true     --toggle guidelines
+editor.showentmenu = true   --toggle entmenu
+editor.showhelpmenu = true  --toggle helpmenu
 editor.drawsel = false		--selection outline
 editor.movespeed = 1000		--editing floatspeed
+
 editor.entmenuw = 150       --entmenu width
 editor.entmenuh = 300		--entmenu height
-	
+editor.helpmenuw = 500
+editor.helpmenuh = 500
 
 editor.clipboard = {}		--clipboard contents
 
@@ -128,6 +128,7 @@ function editor:keypressed(key)
 	if love.keyboard.isDown("v") then self:paste() end
 	if love.keyboard.isDown("r") then self:rotate() end
 	if love.keyboard.isDown("e") then self.showentmenu = not self.showentmenu end
+	if love.keyboard.isDown("h") then self.showhelpmenu = not self.showhelpmenu end	
 	if love.keyboard.isDown("g") then self.showguide = not self.showguide end
 	if love.keyboard.isDown("m") then self.showmmap = not self.showmmap end
 	if love.keyboard.isDown(",") then self.showpos = not self.showpos end
@@ -331,20 +332,17 @@ function editor:draw()
 	
 	camera:unset()
 	
-	if self.showmmap then
-		self:drawmmap()
-	end
-	
-	if self.showentmenu then
-		self:drawentmenu()
-	end
+	--overlays
+	if self.showmmap then self:drawmmap() end
+	if self.showentmenu then self:drawentmenu() end
+	if self.showhelpmenu then self:drawhelpmenu() end
 	
 end
 
 function editor:drawselbox()
-	--draw an outline when dragging mouse
+	--draw an outline when dragging mouse when entsel is one of these types
 	if self.drawsel then
-		local draggable = { "platform", "platform_b", "platform_x", "platform,y"}
+		local draggable = { "platform", "platform_b", "platform_x", "platform_y"}
 		for _,entity in ipairs(draggable) do
 			if self:entname(self.entsel) == entity then
 				love.graphics.setColor(0,255,255,100)
@@ -358,22 +356,72 @@ function editor:drawselbox()
 	end
 end
 
+
+function editor:drawhelpmenu()
+	
+	local menu = love.graphics.newCanvas(self.helpmenuw,self.helpmenuh)
+	love.graphics.setCanvas(menu)
+	menu:clear()
+	
+	--frame
+	love.graphics.setColor(0,0,0,200)
+	love.graphics.rectangle("fill",0,0, menu:getWidth(), menu:getHeight())
+	--border
+	love.graphics.setColor(255,255,255,150)
+	love.graphics.rectangle("fill",0,0, menu:getWidth(), 5)
+	--title
+	love.graphics.setColor(255,255,255,255)
+	love.graphics.print("Editor Help / Controls",10,10)
+	--hrule
+	love.graphics.setColor(255,255,255,150)
+	love.graphics.rectangle("fill",10,25, menu:getWidth()-10, 1)
+	
+	local s = 15 -- vertical spacing
+
+	
+	love.graphics.setColor(255,255,255,155)
+	love.graphics.setFont(fonts.menu)
+	love.graphics.print("F1\t\t\t\t- toggle editmode",10,s*2); 
+	love.graphics.print("W/A/S/D\t\t\t\t- move",10,s*3)
+	love.graphics.print("LMB\t\t\t\t- select/drag",10,s*4)
+	love.graphics.print("RMB/DEL\t\t\t\t- remove entity",10,s*5)
+	love.graphics.print("mousewheel\t\t\t\t- select entity type",10,s*6)
+	love.graphics.print("R\t\t\t\t- entity direction",10,s*7)
+	love.graphics.print("kp2/4/6/8\t\t\t\t- reposition entity",10,s*8)
+	love.graphics.print("T\t\t\t\t- change theme",10,s*9)
+	love.graphics.print("C\t\t\t\t- copy",10,s*10)
+	love.graphics.print("P\t\t\t\t- paste",10,s*11)
+	love.graphics.print("Z\t\t\t\t- camera zoom",10,s*12)
+	love.graphics.print("F12\t\t\t\t- save map",10,s*13)
+	love.graphics.print("ESC\t\t\t\t- exit",10,s*14)
+	love.graphics.print("`\t\t\t\t- console",10,s*15)
+	love.graphics.setFont(fonts.default)
+		
+	love.graphics.setCanvas()
+	
+	love.graphics.setColor(255,255,255,255)
+	love.graphics.draw(menu, WIDTH/2-menu:getWidth()/2, HEIGHT/2-menu:getHeight()/2 )
+	
+	
+end
+
+
 function editor:drawentmenu()
 	--gui scrolling list for entity selection
-	entmenu = love.graphics.newCanvas(self.entmenuw,self.entmenuh)
-	love.graphics.setCanvas(entmenu)
-	entmenu:clear()
+	local menu = love.graphics.newCanvas(self.entmenuw,self.entmenuh)
+	love.graphics.setCanvas(menu)
+	menu:clear()
 		
 	--frame
 	love.graphics.setColor(0,0,0,150)
 	love.graphics.rectangle(
-		"fill",0,0, entmenu:getWidth(), entmenu:getHeight()
+		"fill",0,0, menu:getWidth(), menu:getHeight()
 	)
 	
 	--border
 	love.graphics.setColor(255,255,255,150)
 	love.graphics.rectangle(
-		"fill",0,0, entmenu:getWidth(), 5
+		"fill",0,0, menu:getWidth(), 5
 	)
 	
 	love.graphics.setColor(255,255,255,255)
@@ -382,7 +430,7 @@ function editor:drawentmenu()
 	--hrule
 	love.graphics.setColor(255,255,255,150)
 	love.graphics.rectangle(
-		"fill",10,25, entmenu:getWidth()-10, 1
+		"fill",10,25, menu:getWidth()-10, 1
 	)
 	
 	local s = 15 -- vertical spacing
@@ -399,7 +447,7 @@ function editor:drawentmenu()
 	love.graphics.setColor(200,200,200,150)
 
 	love.graphics.rectangle(
-		"fill",10,s*6, entmenu:getWidth()-20, 15
+		"fill",10,s*6, menu:getWidth()-20, 15
 	)
 	----------
 	
@@ -429,7 +477,7 @@ function editor:drawentmenu()
 	love.graphics.setCanvas()
 	
 	love.graphics.setColor(255,255,255,255)
-	love.graphics.draw(entmenu, 10, HEIGHT-self.entmenuh-10 )
+	love.graphics.draw(menu, 10, HEIGHT-menu:getHeight()-10 )
 end
 
 
