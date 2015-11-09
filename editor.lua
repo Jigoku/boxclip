@@ -49,9 +49,10 @@ editor.entsel = 0			--current entity id for placement
 editor.themesel = 0			--theme pallete in use
 editor.showpos = true		--axis info for entitys
 editor.showid  = true		--id info for entities
-editor.drawsel = false		--selection outline
 editor.showmmap = true	    --toggle minimap
+editor.showguide = true--toggle guidelines
 editor.showentmenu = true  -- toggle entmenu
+editor.drawsel = false		--selection outline
 editor.movespeed = 1000		--editing floatspeed
 editor.entmenuw = 150       --entmenu width
 editor.entmenuh = 300		--entmenu height
@@ -127,6 +128,7 @@ function editor:keypressed(key)
 	if love.keyboard.isDown("v") then self:paste() end
 	if love.keyboard.isDown("r") then self:rotate() end
 	if love.keyboard.isDown("e") then self.showentmenu = not self.showentmenu end
+	if love.keyboard.isDown("g") then self.showguide = not self.showguide end
 	if love.keyboard.isDown("m") then self.showmmap = not self.showmmap end
 	if love.keyboard.isDown(",") then self.showpos = not self.showpos end
 	if love.keyboard.isDown(".") then self.showid = not self.showid end
@@ -274,24 +276,28 @@ function editor:addplatform(x1,y1,x2,y2)
 	end
 end
 
+function editor:drawguide()
 
-function editor:crosshair()
-	love.graphics.setColor(200,200,255,50)
-	--vertical
-	love.graphics.line(
-		math.round(mousePosX,-1),
-		math.round(mousePosY+love.graphics.getHeight()*camera.scaleY,-1),
-		math.round(mousePosX,-1),
-		math.round(mousePosY-love.graphics.getHeight()*camera.scaleY,-1)
-	)
-	--horizontal
-	love.graphics.line(
-		math.round(mousePosX-love.graphics.getWidth()*camera.scaleX,-1),
-		math.round(mousePosY,-1),
-		math.round(mousePosX+love.graphics.getWidth()*camera.scaleX-1),
-		math.round(mousePosY,-1)
-	)
-	
+	if self.showguide then
+		love.graphics.setColor(200,200,255,50)
+		--vertical
+		love.graphics.line(
+			math.round(mousePosX,-1),
+			math.round(mousePosY+love.graphics.getHeight()*camera.scaleY,-1),
+			math.round(mousePosX,-1),
+			math.round(mousePosY-love.graphics.getHeight()*camera.scaleY,-1)
+		)
+		--horizontal
+		love.graphics.line(
+			math.round(mousePosX-love.graphics.getWidth()*camera.scaleX,-1),
+			math.round(mousePosY,-1),
+			math.round(mousePosX+love.graphics.getWidth()*camera.scaleX-1),
+			math.round(mousePosY,-1)
+		)
+	end
+end
+
+function editor:drawcursor()
 	--cursor
 	love.graphics.setColor(255,200,255,255)
 	love.graphics.line(
@@ -316,7 +322,8 @@ end
 function editor:draw()
 	camera:set()
 	
-	self:crosshair()
+	self:drawguide()
+	self:drawcursor()
 	self:drawselected()
 	self:drawselbox()
 	
@@ -335,12 +342,17 @@ end
 function editor:drawselbox()
 	--draw an outline when dragging mouse
 	if self.drawsel then
-		love.graphics.setColor(0,255,255,100)
-		love.graphics.rectangle(
-			"line", 
-			pressedPosX,pressedPosY, 
-			mousePosX-pressedPosX, mousePosY-pressedPosY
-		)
+		local draggable = { "platform", "platform_b", "platform_x", "platform,y"}
+		for _,entity in ipairs(draggable) do
+			if self:entname(self.entsel) == entity then
+				love.graphics.setColor(0,255,255,100)
+				love.graphics.rectangle(
+					"line", 
+					pressedPosX,pressedPosY, 
+					mousePosX-pressedPosX, mousePosY-pressedPosY
+				)
+			end
+		end
 	end
 end
 
