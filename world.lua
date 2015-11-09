@@ -402,7 +402,7 @@ function world:run(dt)
 	physics:pickups(dt)
 	physics:enemies(dt)			
 	collision:checkWorld(dt)
-	player:follow()
+	player:follow(dt)
 
 	if mode == "game" then
 		if player.lives < 0 then

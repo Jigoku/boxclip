@@ -43,6 +43,7 @@ function title:init()
 	}
 	
 	
+
 	util:dprint("initialized title")
 end
 
@@ -138,6 +139,9 @@ function title:run(dt)
 	if self.bgscroll > self.bg:getHeight()then
 		self.bgscroll = self.bgscroll - self.bg:getWidth()
 	end
+	
+
+	
 end
 
 
@@ -191,6 +195,7 @@ function title:drawmain()
 	
 
 end
+
 
 
 

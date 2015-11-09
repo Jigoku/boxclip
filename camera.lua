@@ -10,7 +10,7 @@ function camera:set()
   love.graphics.rotate(-self.rotation)
   love.graphics.scale(1 / self.scaleX, 1 / self.scaleY)
   --love.graphics.translate(-self.x,-self.y)
-  love.graphics.translate(-self.x+(love.graphics.getWidth()/2*camera.scaleX), -self.y+(love.graphics.getHeight()/2*camera.scaleX))
+  love.graphics.translate(-self.x+(WIDTH/2*camera.scaleX), -self.y+(HEIGHT/2*camera.scaleX))
 end
 
 function camera:unset()
