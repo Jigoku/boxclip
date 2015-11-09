@@ -620,7 +620,7 @@ function editor:drawmmap()
 	--fix camera scaling... and remove duplicate code
 	self.mmapw = WIDTH/5
 	self.mmaph = HEIGHT/5
-	self.mmapscale = 15
+	self.mmapscale = 15*camera.scaleX
 	mmapcanvas = love.graphics.newCanvas( self.mmapw, self.mmaph )
 	love.graphics.setCanvas(mmapcanvas)
 	mmapcanvas:clear()
@@ -639,8 +639,8 @@ function editor:drawmmap()
 		end
 		love.graphics.rectangle(
 			"fill", 
-			(platform.x/self.mmapscale)-(camera.x/self.mmapscale)+self.mmapw/3, 
-			(platform.y/self.mmapscale)-(camera.y/self.mmapscale)+self.mmaph/3, 
+			(platform.x/self.mmapscale)-(camera.x/self.mmapscale)+self.mmapw/2, 
+			(platform.y/self.mmapscale)-(camera.y/self.mmapscale)+self.mmaph/2, 
 			platform.w/self.mmapscale, 
 			platform.h/self.mmapscale
 		)
@@ -650,8 +650,8 @@ function editor:drawmmap()
 	for i, crate in ipairs(crates) do
 		love.graphics.rectangle(
 			"fill", 
-			(crate.x/self.mmapscale)-camera.x/self.mmapscale+self.mmapw/3, 
-			(crate.y/self.mmapscale)-camera.y/self.mmapscale+self.mmaph/3, 
+			(crate.x/self.mmapscale)-camera.x/self.mmapscale+self.mmapw/2, 
+			(crate.y/self.mmapscale)-camera.y/self.mmapscale+self.mmaph/2, 
 			crate.w/self.mmapscale, 
 			crate.h/self.mmapscale
 		)
@@ -661,8 +661,8 @@ function editor:drawmmap()
 	for i, enemy in ipairs(enemies) do
 		love.graphics.rectangle(
 			"line", 
-			(enemy.x/self.mmapscale)-camera.x/self.mmapscale+self.mmapw/3, 
-			(enemy.y/self.mmapscale)-camera.y/self.mmapscale+self.mmaph/3, 
+			(enemy.x/self.mmapscale)-camera.x/self.mmapscale+self.mmapw/2, 
+			(enemy.y/self.mmapscale)-camera.y/self.mmapscale+self.mmaph/2, 
 			enemy.w/self.mmapscale, 
 			enemy.h/self.mmapscale
 		)
@@ -672,8 +672,8 @@ function editor:drawmmap()
 	for i, pickup in ipairs(pickups) do
 		love.graphics.rectangle(
 			"line", 
-			(pickup.x/self.mmapscale)-camera.x/self.mmapscale+self.mmapw/3, 
-			(pickup.y/self.mmapscale)-camera.y/self.mmapscale+self.mmaph/3, 
+			(pickup.x/self.mmapscale)-camera.x/self.mmapscale+self.mmapw/2, 
+			(pickup.y/self.mmapscale)-camera.y/self.mmapscale+self.mmaph/2, 
 			pickup.w/self.mmapscale, 
 			pickup.h/self.mmapscale
 		)
@@ -683,8 +683,8 @@ function editor:drawmmap()
 	for i, checkpoint in ipairs(checkpoints) do
 		love.graphics.rectangle(
 			"fill", 
-			(checkpoint.x/self.mmapscale)-camera.x/self.mmapscale+self.mmapw/3, 
-			(checkpoint.y/self.mmapscale)-camera.y/self.mmapscale+self.mmaph/3, 
+			(checkpoint.x/self.mmapscale)-camera.x/self.mmapscale+self.mmapw/2, 
+			(checkpoint.y/self.mmapscale)-camera.y/self.mmapscale+self.mmaph/2, 
 			checkpoint.w/self.mmapscale, 
 			checkpoint.h/self.mmapscale
 		)
@@ -694,8 +694,8 @@ function editor:drawmmap()
 	for i, spring in ipairs(springs) do
 		love.graphics.rectangle(
 			"fill", 
-			(spring.x/self.mmapscale)-camera.x/self.mmapscale+self.mmapw/3, 
-			(spring.y/self.mmapscale)-camera.y/self.mmapscale+self.mmaph/3, 
+			(spring.x/self.mmapscale)-camera.x/self.mmapscale+self.mmapw/2, 
+			(spring.y/self.mmapscale)-camera.y/self.mmapscale+self.mmaph/2, 
 			spring.w/self.mmapscale, 
 			spring.h/self.mmapscale
 		)
@@ -705,8 +705,8 @@ function editor:drawmmap()
 	love.graphics.setColor(255,255,255,255)
 	love.graphics.rectangle(
 		"line", 
-		(player.x/self.mmapscale)-(camera.x/self.mmapscale)+self.mmapw/3, 
-		(player.y/self.mmapscale)-(camera.y/self.mmapscale)+self.mmaph/3, 
+		(player.x/self.mmapscale)-(camera.x/self.mmapscale)+self.mmapw/2, 
+		(player.y/self.mmapscale)-(camera.y/self.mmapscale)+self.mmaph/2, 
 		player.w/self.mmapscale, 
 		player.h/self.mmapscale
 	)
