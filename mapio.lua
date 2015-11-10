@@ -43,6 +43,10 @@ function mapio:savemap(map)
 		if entity.name == "spike" then
 			fh:write("spike="..math.round(entity.x)..","..math.round(entity.y)..","..math.round(entity.dir).."\n")
 		end
+		if entity.name == "spike_large" then
+			fh:write("spike_large="..math.round(entity.x)..","..math.round(entity.y)..","..math.round(entity.dir).."\n")
+		end
+		
 		if entity.name == "icicle" then
 			fh:write("icicle="..math.round(entity.x)..","..math.round(entity.y).."\n")
 		end
@@ -156,6 +160,15 @@ function mapio:loadmap(mapname)
 			
 		end
 
+		--parse enemy(spike_large)
+		if string.find(line, "^spike_large=(.+)") then
+			local x,y,dir = string.match(
+				line, "^spike_large=(%-?%d+),(%-?%d+),(%-?%d+)"
+			)
+			enemies:spike_large(tonumber(x),tonumber(y),tonumber(dir))
+			
+		end
+		
 		--parse props
 		if string.find(line, "^props=(.+)") then
 			local x,y,type = string.match(

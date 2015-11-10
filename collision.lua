@@ -167,7 +167,7 @@ function collision:enemies(dt)
 				end
 			end
 			
-			if enemy.name == "spike" then
+			if enemy.name == "spike" or enemy.name == "spike_large" then
 				if collision:check(player.newX,player.newY,player.w,player.h,
 					enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
 					player:die(enemy.name)

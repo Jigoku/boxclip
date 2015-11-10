@@ -38,7 +38,9 @@ function world:settheme(theme)
 	groundLevel_scrollspeed = 0
 	groundLevel_scroll = 0	
 	spike_gfx = spike
+	spike_large_gfx = spike_large
 	icicle_gfx = icicle
+	icicle_d_gfx = icicle_d
 	background_r = 100
 	background_g = 100
 	background_b = 100
@@ -90,7 +92,9 @@ function world:settheme(theme)
 		crate_g = 255
 		crate_b = 255
 		spike_gfx = spike_winter
+		spike_large_gfx = spike_large_winter
 		icicle_gfx = icicle_winter
+		icicle_d_gfx = icicle_d_winter
 		groundLevel_tile = water
 		groundLevel_scrollspeed = 60
 		background = ""
@@ -108,7 +112,9 @@ function world:settheme(theme)
 		crate_g = 100
 		crate_b = 100
 		spike_gfx = spike_hell
+		spike_large_gfx = spike_large_hell
 		icicle_gfx = icicle_hell
+		icicle_d_gfx = icicle_d_hell
 		groundLevel_tile = blood
 		groundLevel_scrollspeed = 40
 		background = love.graphics.newImage("graphics/backgrounds/dark.png")

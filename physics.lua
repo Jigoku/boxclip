@@ -342,18 +342,9 @@ function physics:enemies(dt)
 					enemy.newY = (enemy.y - enemy.yvel *dt)
 					enemy.newX = enemy.x
 					self:platforms(enemy, dt)
-					self:update(enemy)
-					
-					--stop falling when colliding with platform
-					for i,platform in ipairs(platforms) do
-						if collision:check(platform.x,platform.y,platform.w,platform.h,
-							enemy.newX,enemy.newY,enemy.w,enemy.h) then
-							enemy.falling = false
-						end
-					end
 					
 					--kill enemies hit by icicle
-					local i, e
+					local i,e
 					for i, e in ipairs(enemies) do
 						if type(e) == "table" and e.alive and not (e.name == "icicle") then
 							if collision:check(e.x,e.y,e.w,e.h,
@@ -363,6 +354,21 @@ function physics:enemies(dt)
 						end
 					end
 					
+					--stop falling when colliding with platform
+					local i,platform
+					for i,platform in ipairs(platforms) do
+						if collision:check(platform.x,platform.y,platform.w,platform.h,
+							enemy.newX,enemy.newY,enemy.w,enemy.h) then
+							enemy.falling = false
+							enemy.gfx = icicle_d_gfx
+							enemy.h = 30
+							enemy.newY = platform.y-enemy.h
+						end
+					end
+					
+
+					
+					self:update(enemy)
 				else
 				
 					--make dropped spikes act like platforms???

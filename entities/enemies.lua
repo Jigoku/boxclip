@@ -22,9 +22,17 @@ spike = love.graphics.newImage( "graphics/enemies/spike.png")
 spike_winter = love.graphics.newImage( "graphics/enemies/spike_winter.png")
 spike_hell = love.graphics.newImage( "graphics/enemies/spike_hell.png")
 
+spike_large = love.graphics.newImage( "graphics/enemies/spike_large.png")
+spike_large_winter = love.graphics.newImage( "graphics/enemies/spike_large_winter.png")
+spike_large_hell = love.graphics.newImage( "graphics/enemies/spike_large_hell.png")
+
 icicle = love.graphics.newImage( "graphics/enemies/icicle.png")
 icicle_winter = love.graphics.newImage( "graphics/enemies/icicle_winter.png")
 icicle_hell = love.graphics.newImage( "graphics/enemies/icicle_hell.png")
+
+icicle_d = love.graphics.newImage( "graphics/enemies/icicle_d.png")
+icicle_d_winter = love.graphics.newImage( "graphics/enemies/icicle_d_winter.png")
+icicle_d_hell = love.graphics.newImage( "graphics/enemies/icicle_d_hell.png")
 
 
 function enemies:walker(x,y,movespeed,movedist)
@@ -92,6 +100,39 @@ function enemies:spike(x,y,dir)
 		
 	})
 	print( "spike added @  X:"..x.." Y: "..y)
+end
+
+
+function enemies:spike_large(x,y,dir)
+
+	if dir == 0 or dir == 1 then
+		width = 160
+		height = 50
+	end
+	if dir == 2 or dir == 3 then
+		width = 50
+		height = 160
+	end
+	table.insert(enemies, {		
+		--position
+		x = x or 0,
+		y = y or 0,
+		xorigin = x,
+		yorigin = y,
+		
+		--dimension
+		w = width,
+		h = height,
+		
+		--properties
+		name = "spike_large",
+		alive = true,
+		movedist = 0,
+		gfx = spike_large_gfx,
+		dir = dir
+		
+	})
+	print( "spike_large added @  X:"..x.." Y: "..y)
 end
 
 function enemies:icicle(x,y)
@@ -177,7 +218,7 @@ function enemies:draw()
 			end
 			
 			love.graphics.setColor(255,255,255,255)
-			if enemy.name == "spike" then
+			if enemy.name == "spike" or enemy.name == "spike_large" then
 
 				if enemy.dir == 0 then
 					love.graphics.draw(enemy.gfx, enemy.x, enemy.y, 0,1,1)
