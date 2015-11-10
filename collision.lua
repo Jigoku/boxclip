@@ -122,9 +122,8 @@ function collision:enemies(dt)
 					if collision:above(player,enemy) then	
 						if player.jumping == 1 then
 						--player.y = enemy.y - player.h -1 *dt
-							enemy.alive = false
 							player.yvel = player.mass
-							player:attack(enemy,i)
+							player:attack(enemy)
 							return true
 							
 						else
@@ -158,7 +157,7 @@ function collision:enemies(dt)
 						end
 						--]]
 						enemy.alive = false
-						player:attack(enemy,i)
+						player:attack(enemy)
 						
 							
 					else			

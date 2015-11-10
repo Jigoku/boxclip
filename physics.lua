@@ -262,6 +262,13 @@ function physics:platforms(object, dt)
 	end
 end
 
+
+function physics:update(object)
+	object.y = object.newY
+	object.x = object.newX
+end
+
+
 function physics:pickups(dt)
 	local i, pickup
 		for i, pickup in ipairs(pickups) do
@@ -269,9 +276,14 @@ function physics:pickups(dt)
 			--maybe use this for a powerup too? 
 			--pulls all gems to player when attract = true
 			if pickup.attract then
-				local angle = math.atan2(player.y - pickup.y, player.x - pickup.x)
-				pickup.x = pickup.x + (math.cos(angle) * pickup.mass/2 * dt)
-				pickup.y = pickup.y + (math.sin(angle) * pickup.mass/2 * dt)
+				if player.alive == 1 then
+					local angle = math.atan2(player.y - pickup.y, player.x - pickup.x)
+					pickup.newX = pickup.x + (math.cos(angle) * pickup.mass/2 * dt)
+					pickup.newY = pickup.y + (math.sin(angle) * pickup.mass/2 * dt)
+				else
+					self:applyGravity(pickup, dt)
+				end
+				self:update(pickup)
 			else
 			
 				self:applyGravity(pickup, dt)
@@ -281,8 +293,7 @@ function physics:pickups(dt)
 				self:crates(pickup, dt)
 		
 				--update new poisition
-				pickup.x = pickup.newX
-				pickup.y = pickup.newY
+				self:update(pickup)
 			
 				-- if pickup goes outside of world, remove it
 				if pickup.y+pickup.h > world.groundLevel  then
@@ -308,11 +319,10 @@ function physics:enemies(dt)
 
 				self:platforms(enemy, dt)
 				self:crates(enemy, dt)
-				enemy.x = enemy.newX
-				enemy.y = enemy.newY
+				self:update(enemy)
 				
 				if enemy.y +enemy.h > world.groundLevel  then
-					--ai suicide	
+					--ai suicide (also editor misplacement, remove from world)
 					util:dprint(enemy.name .. "("..i..") suicided")
 					sound:play(sound.kill)
 					table.remove(enemies, i)
@@ -332,7 +342,7 @@ function physics:enemies(dt)
 					enemy.newY = (enemy.y - enemy.yvel *dt)
 					enemy.newX = enemy.x
 					self:platforms(enemy, dt)
-					enemy.y = enemy.newY
+					self:update(enemy)
 					
 					--stop falling when colliding with platform
 					for i,platform in ipairs(platforms) do
@@ -348,9 +358,7 @@ function physics:enemies(dt)
 						if type(e) == "table" and e.alive and not (e.name == "icicle") then
 							if collision:check(e.x,e.y,e.w,e.h,
 							enemy.newX,enemy.newY,enemy.w,enemy.h) then
-								util:dprint(e.name .. "("..i..") killed by ".. enemy.name .. "("..i..")" )
-								sound:play(sound.kill)
-								e.alive = false
+								enemies:kill(e)
 							end
 						end
 					end
@@ -376,9 +384,7 @@ function physics:player(dt)
 		
 			self:crates(player,dt)
 			self:platforms(player, dt)
-
-			player.x = player.newX
-			player.y = player.newY
+			self:update(player)
 	
 			if  not (mode == "editing") and player.y+player.h > world.groundLevel  then
 				player:die("out of bounds")

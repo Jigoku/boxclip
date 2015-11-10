@@ -157,6 +157,7 @@ end
 function player:die(this)
 
 	if player.hasshield then
+		player.xvel = -player.xvel
 		player:jump()
 		sound:play(sound.shield)
 		player.hasshield = false
@@ -174,9 +175,7 @@ function player:die(this)
 	player.angle = 0
 	player.jumping = 0
 	
-	for _,pickup in ipairs(pickups) do
-		pickup.attract = false
-	end
+
 end
 
 
@@ -203,11 +202,10 @@ function player:collect(item)
 end
 
 
-function player:attack(enemy,i)
+function player:attack(enemy)
 	-- increase score when attacking an enemy
 	player.score = player.score + enemy.score
-	sound:play(sound.kill)
-	util:dprint(enemy.name.."("..i..") killed")	
+	enemies:kill(enemy)
 end
 
 function player:jump()

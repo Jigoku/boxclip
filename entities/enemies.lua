@@ -66,10 +66,10 @@ function enemies:spike(x,y,dir)
 
 	if dir == 0 or dir == 1 then
 		width = 80
-		height = 30
+		height = 50
 	end
 	if dir == 2 or dir == 3 then
-		width = 30
+		width = 50
 		height = 80
 	end
 	table.insert(enemies, {		
@@ -104,7 +104,7 @@ function enemies:icicle(x,y)
 		
 		--dimension
 		w = 20,
-		h = 30,
+		h = 50,
 		
 		--properties
 		name = "icicle",
@@ -223,4 +223,8 @@ end
 
 
 
-
+function enemies:kill(enemy)
+	enemy.alive = false
+	sound:play(sound.kill)
+	util:dprint(enemy.name .." killed")	
+end
