@@ -70,26 +70,27 @@ function editor:entname(id)
 	elseif id == 3 then return "platform_b" 
 	elseif id == 4 then return "platform_x" 
 	elseif id == 5 then return "platform_y" 
-	elseif id == 6 then return "checkpoint" 
-	elseif id == 7 then return "crate" 
-	elseif id == 8 then return "spike" 
-	elseif id == 9 then return "spike_large" 
-	elseif id ==10 then return "icicle" 
-	elseif id ==11 then return "walker" 
-	elseif id ==12 then return "floater" 
-	elseif id ==13 then return "gem" 
-	elseif id ==14 then return "life" 
-	elseif id ==15 then return "magnet" 
-	elseif id ==16 then return "shield" 
-	elseif id ==17 then return "flower" 
-	elseif id ==18 then return "rock" 
-	elseif id ==19 then return "tree" 
-	elseif id ==20 then return "arch" 
-	elseif id ==21 then return "arch2" 
-	elseif id ==22 then return "pillar" 
-	elseif id ==23 then return "spring_s" 
-	elseif id ==24 then return "spring_m" 
-	elseif id ==25 then return "spring_l" 
+	elseif id == 6 then return "platform_s" 
+	elseif id == 7 then return "checkpoint" 
+	elseif id == 8 then return "crate" 
+	elseif id == 9 then return "spike" 
+	elseif id ==10 then return "spike_large" 
+	elseif id ==11 then return "icicle" 
+	elseif id ==12 then return "walker" 
+	elseif id ==13 then return "floater" 
+	elseif id ==14 then return "gem" 
+	elseif id ==15 then return "life" 
+	elseif id ==16 then return "magnet" 
+	elseif id ==17 then return "shield" 
+	elseif id ==18 then return "flower" 
+	elseif id ==19 then return "rock" 
+	elseif id ==20 then return "tree" 
+	elseif id ==21 then return "arch" 
+	elseif id ==22 then return "arch2" 
+	elseif id ==23 then return "pillar" 
+	elseif id ==24 then return "spring_s" 
+	elseif id ==25 then return "spring_m" 
+	elseif id ==26 then return "spring_l" 
 	else return "----"
 	end
 end
@@ -240,7 +241,8 @@ function editor:mousepressed(x,y,button)
 		if selection == "floater" then
 			enemies:floater(x,y,100,400) --movespeed,movedist should be configurable
 		end
-		
+
+		if selection == "platform_s" then platforms:add(x-50,y-10,100,20,0,0,0,0,0,1) end
 		if selection == "checkpoint" then checkpoints:add(x,y) end
 		if selection == "gem" then pickups:add(x,y,"gem") end
 		if selection == "life" then pickups:add(x,y,"life") end

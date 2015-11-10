@@ -218,6 +218,7 @@ function world:init(gamemode)
 end
 
 
+    
 
 function world:draw()
 	love.graphics.setColor(255,255,255,255)
@@ -251,6 +252,8 @@ function world:draw()
 	portals:draw()
 	pickups:draw()
 	enemies:draw()
+	
+	
 	player:draw()	
 
 	camera:unset()
@@ -399,7 +402,9 @@ function world:run(dt)
 	physics:enemies(dt)			
 	collision:checkWorld(dt)
 	player:follow(dt)
-
+	
+	
+	
 	if mode == "game" then
 		if player.lives < 0 then
 			util:dprint("game over")

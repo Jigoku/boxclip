@@ -17,7 +17,7 @@ platforms = {}
 
 platform_tile = love.graphics.newImage("graphics/tiles/cubes.png")
 
-function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist)
+function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing)
 	table.insert(platforms, {
 		--dimensions
 		x = x or 0, 
@@ -37,10 +37,19 @@ function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist)
 		xorigin = x,
 		yorigin = y,
 		gfx = platform_tile,
+		
+		--swing platforms
+		swing = swing or 0,
+		angle = 0,
+		radius = 200,
 
 	})
 	print("platform added @  X:"..x.." Y: "..y .. "(w:" .. w .. " h:".. h.. ")")
 end
+
+
+
+
 
 function platforms:draw()
 	local count = 0
@@ -79,10 +88,24 @@ function platforms:draw()
 				--tile the texture using quad
 				local quad = love.graphics.newQuad( 0,0, platform.w, platform.h, platform.gfx:getDimensions() )
 				platform.gfx:setWrap("repeat", "repeat")
+
 				
 				love.graphics.draw(platform.gfx, quad, platform.x,platform.y)
+
+			
+				if platform.swing == 1 then
+					love.graphics.setColor(120,120,120,255)
+					love.graphics.circle("fill", platform.xorigin+platform.w/2,platform.yorigin+platform.h/2,10,10)	
+					
+					love.graphics.setColor(140,140,140,255)	
+					love.graphics.circle("line", platform.xorigin+platform.w/2,platform.yorigin+platform.h/2,10,10)	
 				
 		
+					
+					love.graphics.line( platform.x+platform.w/2,platform.y+platform.h/2,platform.xorigin+platform.w/2,platform.yorigin+platform.h/2)	
+				end
+				
+				
 				local offset = 4
 				--shaded edges
 				love.graphics.setColor(0,0,0,50)
@@ -100,11 +123,16 @@ function platforms:draw()
 					platform_top_b,
 					255
 				)
-				love.graphics.rectangle("fill", platform.x, platform.y-5, platform.w, 10)	
-				love.graphics.arc( "fill", platform.x+platform.w, platform.y, -5, math.pi/2, math.pi*1.5 )
-				love.graphics.arc( "fill", platform.x, platform.y, 5, math.pi/2, math.pi*1.5 )
+				
+					love.graphics.rectangle("fill", platform.x, platform.y-5, platform.w, 10)	
+					love.graphics.arc( "fill", platform.x+platform.w, platform.y, -5, math.pi/2, math.pi*1.5 )
+					love.graphics.arc( "fill", platform.x, platform.y, 5, math.pi/2, math.pi*1.5 )
 				
 				if editing or debug then platforms:drawDebug(platform, i) end
+				
+				
+
+					
 			end
 
 		end

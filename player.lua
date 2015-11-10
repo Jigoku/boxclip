@@ -17,8 +17,8 @@
 
 function player:init() 
 	--initialize the player defaults
-	player.w = 40
-	player.h = 50
+	player.w = 50
+	player.h = 60
 	player.spawnX = 0
 	player.spawnY = 0 
 	player.x = spawnX

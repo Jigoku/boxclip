@@ -127,6 +127,13 @@ function physics:world(dt)
 	for i, object in ipairs(platforms) do
 		if object.movex == 1 then self:movex(object, dt) end
 		if object.movey == 1 then self:movey(object, dt) end
+		
+		if object.swing == 1 then
+			object.angle = object.angle + dt
+			object.x = object.radius * math.cos(object.angle) + object.xorigin
+			object.y = object.radius * math.sin(object.angle) + object.yorigin
+			
+		end
 	end
 
 end
@@ -192,7 +199,7 @@ function physics:platforms(object, dt)
 	
 	local i, platform
 	for i, platform in ipairs(platforms) do	
-		
+			
 			if collision:check(platform.x,platform.y,platform.w,platform.h,
 					object.newX,object.newY,object.w,object.h) then
 					
@@ -253,9 +260,19 @@ function physics:platforms(object, dt)
 							if platform.movespeed > 0 then
 								object.newY = (platform.y-object.h +platform.movespeed *dt)
 							end
-						else
 						
 						end		
+						
+						
+						if platform.swing == 1 then
+			
+							object.newX = platform.x+platform.w/2-object.w/2
+						
+							
+							if object.yvel == 0 then
+								object.newY = (platform.y-object.h +platform.radius *dt)
+							end
+						end
 					end
 				end
 			end
