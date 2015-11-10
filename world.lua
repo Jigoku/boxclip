@@ -77,7 +77,7 @@ function world:settheme(theme)
 		groundLevel_tile = water
 		groundLevel_scrollspeed = 100
 		background = love.graphics.newImage("graphics/backgrounds/sky.png")
-		background_scrollspeed = 20
+		background_scrollspeed = 30
 	elseif theme == "frost" then
 		background_r = 130
 		background_g = 150
@@ -232,13 +232,12 @@ function world:draw()
 	end
 	
 	if type(background) == "userdata" then
-		background_quad:setViewport(camera.x/6-background_scroll,camera.y/6,WIDTH*camera.scaleX,HEIGHT*camera.scaleY )
 		love.graphics.draw(background, background_quad,camera.x-WIDTH/2*camera.scaleX,camera.y-HEIGHT/2*camera.scaleY)
 	end
 	
 	love.graphics.setColor(255,255,255,200)
+	
 	--groundLevel placeholder
-    groundLevel_quad:setViewport(0,-groundLevel_scroll,10000,500 )
 	love.graphics.draw(groundLevel_tile, groundLevel_quad, -1000,world.groundLevel)
 
 
@@ -426,13 +425,20 @@ function world:run(dt)
         groundLevel_scroll = groundLevel_scroll - groundLevel_tile:getHeight()
     end
     
+    groundLevel_quad:setViewport(0,-groundLevel_scroll,10000,500 )
     --scroll background
 
+
+
 	if type(background) == "userdata" then
+
 		background_scroll = background_scroll + background_scrollspeed * dt
 		if background_scroll > background:getWidth()then
 			background_scroll = background_scroll - background:getWidth()
 		end
+		
+		background_quad:setViewport(camera.x/6-background_scroll,camera.y/6,WIDTH*camera.scaleX,HEIGHT*camera.scaleY )
+		
 	else
 		background_scroll = 0
 	end
