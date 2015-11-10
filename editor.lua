@@ -392,7 +392,7 @@ end
 function editor:drawselbox()
 	--draw an outline when dragging mouse when entsel is one of these types
 	if self.drawsel then
-		local draggable = { "platform", "platform_b", "platform_x", "platform_y"}
+		local draggable = { "platform", "platform_b", "platform_b_x", "platform_b_y", "platform_x", "platform_y"}
 		for _,entity in ipairs(draggable) do
 			if self:entname(self.entsel) == entity then
 				love.graphics.setColor(0,255,255,100)
@@ -728,6 +728,12 @@ function editor:paste()
 	end
 	if selection == "platform_b" then
 		platforms:add(x,y,w,h,0,0,0,0,0)
+	end
+	if selection == "platform_b_x" then
+		platforms:add(x,y,w,h,1, 1, 0, 100, 200)
+	end
+	if selection == "platform_b_y" then
+		platforms:add(x,y,w,h,1,0, 1, 100, 200)
 	end
 	if selection == "platform_x" then
 		platforms:add(x,y,w,h,0, 1, 0, 100, 200)

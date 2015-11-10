@@ -264,7 +264,7 @@ end
 
 
 
-function enemies:kill(enemy)
+function enemies:die(enemy)
 	enemy.alive = false
 	sound:play(sound.kill)
 	util:dprint(enemy.name .." killed")	

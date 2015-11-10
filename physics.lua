@@ -248,8 +248,15 @@ function physics:platforms(object, dt)
 						
 					-- bottom side	
 					elseif collision:bottom(object,platform) then	
-						object.yvel = 0
+						if platform.clip == 1 and platform.movey == 1 then
+							object.yvel = -object.yvel
+						else
+							object.yvel = 0
+						end
+												
 						object.newY = platform.y +platform.h +1 *dt
+						
+
 					end
 				end
 				
@@ -298,7 +305,9 @@ function physics:platforms(object, dt)
 						end
 					end
 				end
-				if object.cc > 1 then object:die("platform") end
+				----disabled because overlapping platforms also kill when 
+				----stood on top and running across....
+				--if object.name == "player" and object.cc > 1 then object:die("platform") end
 			end
 		
 	end

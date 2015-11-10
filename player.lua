@@ -17,6 +17,7 @@
 
 function player:init() 
 	--initialize the player defaults
+	player.name = "player"
 	player.w = 50
 	player.h = 60
 	player.spawnX = 0
@@ -156,24 +157,24 @@ end
 
 function player:die(this)
 	if mode == "game" then
-		if player.hasshield then
-			player.xvel = -player.xvel
-			player:jump()
+		if self.hasshield then
+			self.xvel = -self.xvel
+			self:jump()
 			sound:play(sound.shield)
-			player.hasshield = false
+			self.hasshield = false
 			return
 		end
 	
-		if player.hasmagnet then
-			player.hasmagnet = false
+		if self.hasmagnet then
+			self.hasmagnet = false
 		end
 	
-		util:dprint("killed by "..this)	
+		util:dprint("player killed by " .. this)	
 		sound:play(sound.die)
-		player.alive = 0
+		self.alive = 0
 		--player.dir = "idle" (change "dir" to state, left,right,idle,dead,jumping, etc)
-		player.angle = 0
-		player.jumping = 0
+		self.angle = 0
+		self.jumping = 0
 	end
 	
 
@@ -206,7 +207,7 @@ end
 function player:attack(enemy)
 	-- increase score when attacking an enemy
 	player.score = player.score + enemy.score
-	enemies:kill(enemy)
+	enemies:die(enemy)
 end
 
 function player:jump()
