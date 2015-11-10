@@ -61,6 +61,39 @@ function platforms:draw()
 			
 			if platform.name == "platform" then
 	 	
+
+				
+				--quick hack for conecting swinging platforms (optimize/improve this)
+				if platform.swing == 1 then
+					love.graphics.setColor(
+						50,50,50,255
+					)
+					love.graphics.circle("fill", platform.xorigin+platform.w/2,platform.yorigin+platform.h/2,10,10)	
+					
+					love.graphics.setColor(140,140,140,255)	
+					love.graphics.circle("line", platform.xorigin+platform.w/2,platform.yorigin+platform.h/2,10,10)	
+				
+					local r = 40
+					local x = r * math.cos(platform.angle) + platform.xorigin
+					local y = r * math.sin(platform.angle) + platform.yorigin
+					love.graphics.circle("fill", x+platform.w/2,y+platform.h/2,10,10)	
+					local r = 80
+					local x = r * math.cos(platform.angle) + platform.xorigin
+					local y = r * math.sin(platform.angle) + platform.yorigin
+					love.graphics.circle("fill", x+platform.w/2,y+platform.h/2,10,10)	
+					local r = 120
+					local x = r * math.cos(platform.angle) + platform.xorigin
+					local y = r * math.sin(platform.angle) + platform.yorigin
+					love.graphics.circle("fill", x+platform.w/2,y+platform.h/2,10,10)	
+					local r = 160
+					local x = r * math.cos(platform.angle) + platform.xorigin
+					local y = r * math.sin(platform.angle) + platform.yorigin
+					love.graphics.circle("fill", x+platform.w/2,y+platform.h/2,10,10)	
+					
+					--love.graphics.line( platform.x+platform.w/2,platform.y+platform.h/2,platform.xorigin+platform.w/2,platform.yorigin+platform.h/2)	
+				end
+				
+				
 				if platform.movey == 1 or platform.movex == 1 then
 					love.graphics.setColor(
 						platform_wall_r-40,
@@ -83,27 +116,12 @@ function platforms:draw()
 						255
 					)	
 				end
-				
-				
 				--tile the texture using quad
 				local quad = love.graphics.newQuad( 0,0, platform.w, platform.h, platform.gfx:getDimensions() )
 				platform.gfx:setWrap("repeat", "repeat")
 
 				
 				love.graphics.draw(platform.gfx, quad, platform.x,platform.y)
-
-			
-				if platform.swing == 1 then
-					love.graphics.setColor(120,120,120,255)
-					love.graphics.circle("fill", platform.xorigin+platform.w/2,platform.yorigin+platform.h/2,10,10)	
-					
-					love.graphics.setColor(140,140,140,255)	
-					love.graphics.circle("line", platform.xorigin+platform.w/2,platform.yorigin+platform.h/2,10,10)	
-				
-		
-					
-					love.graphics.line( platform.x+platform.w/2,platform.y+platform.h/2,platform.xorigin+platform.w/2,platform.yorigin+platform.h/2)	
-				end
 				
 				
 				local offset = 4

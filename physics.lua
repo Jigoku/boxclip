@@ -129,9 +129,28 @@ function physics:world(dt)
 		if object.movey == 1 then self:movey(object, dt) end
 		
 		if object.swing == 1 then
-			object.angle = object.angle + dt
+object.vel = 100 *dt
+		--	if object.angle > math.pi*2 then object.angle = 0 end
+			if object.reverse then
+				object.angle = object.angle -1 * object.vel * dt
+			else
+				object.angle = object.angle +1 * object.vel * dt
+			end
+			
+			if object.angle > math.pi then
+				object.angle = math.pi
+				object.reverse = true
+			end
+			
+			
+			if object.angle < 0 then
+				object.angle = 0
+				object.reverse = false
+			end
+			
 			object.x = object.radius * math.cos(object.angle) + object.xorigin
 			object.y = object.radius * math.sin(object.angle) + object.yorigin
+			
 			
 		end
 	end
@@ -265,8 +284,9 @@ function physics:platforms(object, dt)
 						
 						
 						if platform.swing == 1 then
-			
-							object.newX = platform.x+platform.w/2-object.w/2
+							object.newX =  platform.x+platform.w/2-player.w/2
+		
+						
 						
 							
 							if object.yvel == 0 then
@@ -276,7 +296,9 @@ function physics:platforms(object, dt)
 					end
 				end
 			end
+		
 	end
+	
 end
 
 
