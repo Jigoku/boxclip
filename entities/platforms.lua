@@ -61,47 +61,64 @@ function platforms:draw()
 			
 			if platform.name == "platform" then
 	 	
+				--tile the texture using quad
+			
 
 				
 				--quick hack for conecting swinging platforms (optimize/improve this)
 				if platform.swing == 1 then
-					love.graphics.setColor(
-						50,50,50,255
-					)
+					love.graphics.setColor(100,100,100,255)
 					love.graphics.circle("fill", platform.xorigin+platform.w/2,platform.yorigin+platform.h/2,10,10)	
 					
-					love.graphics.setColor(140,140,140,255)	
+					love.graphics.setColor(150,150,150,255)	
 					love.graphics.circle("line", platform.xorigin+platform.w/2,platform.yorigin+platform.h/2,10,10)	
 				
 					local r = 40
 					local x = r * math.cos(platform.angle) + platform.xorigin
 					local y = r * math.sin(platform.angle) + platform.yorigin
-					love.graphics.circle("fill", x+platform.w/2,y+platform.h/2,10,10)	
+					love.graphics.setColor(100,100,100,255)
+					love.graphics.circle("fill", x+platform.w/2,y+platform.h/2,5,5)	
+					love.graphics.setColor(150,150,150,255)	
+					love.graphics.circle("line", x+platform.w/2,y+platform.h/2,5,5)	
 					local r = 80
 					local x = r * math.cos(platform.angle) + platform.xorigin
 					local y = r * math.sin(platform.angle) + platform.yorigin
-					love.graphics.circle("fill", x+platform.w/2,y+platform.h/2,10,10)	
+					love.graphics.setColor(100,100,100,255)
+					love.graphics.circle("fill", x+platform.w/2,y+platform.h/2,5,5)
+					love.graphics.setColor(150,150,150,255)	
+					love.graphics.circle("line", x+platform.w/2,y+platform.h/2,5,5)		
 					local r = 120
 					local x = r * math.cos(platform.angle) + platform.xorigin
 					local y = r * math.sin(platform.angle) + platform.yorigin
-					love.graphics.circle("fill", x+platform.w/2,y+platform.h/2,10,10)	
+					love.graphics.setColor(100,100,100,255)
+					love.graphics.circle("fill", x+platform.w/2,y+platform.h/2,5,5)	
+					love.graphics.setColor(150,150,150,255)	
+					love.graphics.circle("line", x+platform.w/2,y+platform.h/2,5,5)	
 					local r = 160
 					local x = r * math.cos(platform.angle) + platform.xorigin
 					local y = r * math.sin(platform.angle) + platform.yorigin
-					love.graphics.circle("fill", x+platform.w/2,y+platform.h/2,10,10)	
+					love.graphics.setColor(100,100,100,255)
+					love.graphics.circle("fill", x+platform.w/2,y+platform.h/2,5,5)	
+					love.graphics.setColor(150,150,150,255)	
+					love.graphics.circle("line", x+platform.w/2,y+platform.h/2,5,5)	
 					
-					--love.graphics.line( platform.x+platform.w/2,platform.y+platform.h/2,platform.xorigin+platform.w/2,platform.yorigin+platform.h/2)	
-				end
-				
-				
-				if platform.movey == 1 or platform.movex == 1 then
-					love.graphics.setColor(
-						platform_wall_r-40,
-						platform_wall_g-40,
-						platform_wall_b-40,
+					--love.graphics.rectangle("fill", platform.x-25, platform.y-10, platform.w+50,platform.h)
+				love.graphics.line( platform.x+platform.w/2,platform.y+platform.h/2,platform.xorigin+platform.w/2,platform.yorigin+platform.h/2)		
+					local quad = love.graphics.newQuad( 0,0, platform.w+50, platform.h/1.5, platform.gfx:getDimensions() )
+					platform.gfx:setWrap("repeat", "repeat")	
+										love.graphics.setColor(
+						platform_wall_r,
+						platform_wall_g,
+						platform_wall_b,
 						255
-					)
-				elseif platform.clip == 0 then
+					)	
+					love.graphics.draw(platform.gfx, quad, platform.x-25,platform.y)
+					--love.graphics.rectangle("fill", platform.x-25, platform.y-5, platform.w+50,platform.h-10)
+				
+				else
+				
+				
+				if  platform.clip == 0 then
 					love.graphics.setColor(
 						platform_wall_r-60,
 						platform_wall_g-60,
@@ -116,11 +133,9 @@ function platforms:draw()
 						255
 					)	
 				end
-				--tile the texture using quad
+
 				local quad = love.graphics.newQuad( 0,0, platform.w, platform.h, platform.gfx:getDimensions() )
 				platform.gfx:setWrap("repeat", "repeat")
-
-				
 				love.graphics.draw(platform.gfx, quad, platform.x,platform.y)
 				
 				
@@ -145,6 +160,8 @@ function platforms:draw()
 					love.graphics.rectangle("fill", platform.x, platform.y-5, platform.w, 10)	
 					love.graphics.arc( "fill", platform.x+platform.w, platform.y, -5, math.pi/2, math.pi*1.5 )
 					love.graphics.arc( "fill", platform.x, platform.y, 5, math.pi/2, math.pi*1.5 )
+				
+				end
 				
 				if editing or debug then platforms:drawDebug(platform, i) end
 				

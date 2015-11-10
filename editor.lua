@@ -68,29 +68,31 @@ function editor:entname(id)
 	elseif id == 1 then return "goal" 
 	elseif id == 2 then return "platform" 
 	elseif id == 3 then return "platform_b" 
-	elseif id == 4 then return "platform_x" 
-	elseif id == 5 then return "platform_y" 
-	elseif id == 6 then return "platform_s" 
-	elseif id == 7 then return "checkpoint" 
-	elseif id == 8 then return "crate" 
-	elseif id == 9 then return "spike" 
-	elseif id ==10 then return "spike_large" 
-	elseif id ==11 then return "icicle" 
-	elseif id ==12 then return "walker" 
-	elseif id ==13 then return "floater" 
-	elseif id ==14 then return "gem" 
-	elseif id ==15 then return "life" 
-	elseif id ==16 then return "magnet" 
-	elseif id ==17 then return "shield" 
-	elseif id ==18 then return "flower" 
-	elseif id ==19 then return "rock" 
-	elseif id ==20 then return "tree" 
-	elseif id ==21 then return "arch" 
-	elseif id ==22 then return "arch2" 
-	elseif id ==23 then return "pillar" 
-	elseif id ==24 then return "spring_s" 
-	elseif id ==25 then return "spring_m" 
-	elseif id ==26 then return "spring_l" 
+	elseif id == 4 then return "platform_b_x" 
+	elseif id == 5 then return "platform_b_y" 
+	elseif id == 6 then return "platform_x" 
+	elseif id == 7 then return "platform_y" 
+	elseif id == 8 then return "platform_s" 
+	elseif id == 9 then return "checkpoint" 
+	elseif id ==10 then return "crate" 
+	elseif id ==11 then return "spike" 
+	elseif id ==12 then return "spike_large" 
+	elseif id ==13 then return "icicle" 
+	elseif id ==14 then return "walker" 
+	elseif id ==15 then return "floater" 
+	elseif id ==16 then return "gem" 
+	elseif id ==17 then return "life" 
+	elseif id ==18 then return "magnet" 
+	elseif id ==19 then return "shield" 
+	elseif id ==20 then return "flower" 
+	elseif id ==21 then return "rock" 
+	elseif id ==22 then return "tree" 
+	elseif id ==23 then return "arch" 
+	elseif id ==24 then return "arch2" 
+	elseif id ==25 then return "pillar" 
+	elseif id ==26 then return "spring_s" 
+	elseif id ==27 then return "spring_m" 
+	elseif id ==28 then return "spring_l" 
 	else return "----"
 	end
 end
@@ -242,7 +244,7 @@ function editor:mousepressed(x,y,button)
 			enemies:floater(x,y,100,400) --movespeed,movedist should be configurable
 		end
 
-		if selection == "platform_s" then platforms:add(x-50,y-10,100,20,0,0,0,0,0,1) end
+		if selection == "platform_s" then platforms:add(x-5,y-10,10,20,0,0,0,0,0,1) end
 		if selection == "checkpoint" then checkpoints:add(x,y) end
 		if selection == "gem" then pickups:add(x,y,"gem") end
 		if selection == "life" then pickups:add(x,y,"life") end
@@ -269,7 +271,7 @@ end
 function editor:mousereleased(x,y,button)
 	--check if we have selected platforms, then place if neccesary
 	if button == 'l' then 
-		local draggable = {"platform", "platform_b", "platform_x", "platform_y"}
+		local draggable = {"platform", "platform_b", "platform_x", "platform_y", "platform_b_y", "platform_b_x"}
 		for _,entity in ipairs(draggable) do
 			if self:entname(self.entsel) == entity then
 				self:addplatform(pressedPosX,pressedPosY,releasedPosX,releasedPosY)
@@ -302,11 +304,18 @@ function editor:addplatform(x1,y1,x2,y2)
 		if ent == "platform_b" then
 			platforms:add(x,y,w,h,0,0,0,0,0)
 		end
-		if ent == "platform_x" then
+		if ent == "platform_b_x" then
 			platforms:add(x,y,w,h,0, 1, 0, 100, 200)
 		end
-		if ent == "platform_y" then
+		if ent == "platform_b_y" then
 			platforms:add(x,y,w,h,0, 0, 1, 100, 200)
+		end
+		
+		if ent == "platform_x" then
+			platforms:add(x,y,w,h,1, 1, 0, 100, 200)
+		end
+		if ent == "platform_y" then
+			platforms:add(x,y,w,h,1, 0, 1, 100, 200)
 		end
 
 	end

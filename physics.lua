@@ -216,6 +216,9 @@ end
 function physics:platforms(object, dt)
 	--loop solid platforms
 	
+	--collision count
+	object.cc = 0
+	
 	local i, platform
 	for i, platform in ipairs(platforms) do	
 			
@@ -228,6 +231,8 @@ function physics:platforms(object, dt)
 				-- only check these when clip is true
 				if platform.clip == 1 then
 					-- right side
+					object.cc = object.cc +1
+					
 					if collision:right(object,platform) and not collision:top(object,platform) then
 	
 						object.xvel = 0
@@ -284,17 +289,16 @@ function physics:platforms(object, dt)
 						
 						
 						if platform.swing == 1 then
-							object.newX =  platform.x+platform.w/2-player.w/2
-		
-						
-						
-							
-							if object.yvel == 0 then
-								object.newY = (platform.y-object.h +platform.radius *dt)
-							end
+							object.yvel = -1000
+							--if object.xvel == 0 then
+								
+								object.newX = platform.radius * math.cos(platform.angle) + platform.xorigin +platform.w/2 - object.w/2
+							--end
+
 						end
 					end
 				end
+				if object.cc > 1 then object:die("platform") end
 			end
 		
 	end

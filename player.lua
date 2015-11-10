@@ -155,25 +155,26 @@ function player:respawn()
 end
 
 function player:die(this)
-
-	if player.hasshield then
-		player.xvel = -player.xvel
-		player:jump()
-		sound:play(sound.shield)
-		player.hasshield = false
-		return
-	end
-
-	if player.hasmagnet then
-		player.hasmagnet = false
-	end
+	if mode == "game" then
+		if player.hasshield then
+			player.xvel = -player.xvel
+			player:jump()
+			sound:play(sound.shield)
+			player.hasshield = false
+			return
+		end
 	
-	util:dprint("killed by "..this)	
-	sound:play(sound.die)
-	player.alive = 0
-	--player.dir = "idle" (change "dir" to state, left,right,idle,dead,jumping, etc)
-	player.angle = 0
-	player.jumping = 0
+		if player.hasmagnet then
+			player.hasmagnet = false
+		end
+	
+		util:dprint("killed by "..this)	
+		sound:play(sound.die)
+		player.alive = 0
+		--player.dir = "idle" (change "dir" to state, left,right,idle,dead,jumping, etc)
+		player.angle = 0
+		player.jumping = 0
+	end
 	
 
 end
