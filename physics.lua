@@ -89,6 +89,30 @@ function physics:applyRotation(object,n,dt)
 	end
 end
 
+function physics:swing(object,dt)
+	if  editing then return end
+	object.vel = 100 *dt
+		--	if object.angle > math.pi*2 then object.angle = 0 end
+	if object.reverse then
+		object.angle = object.angle -1 * object.vel * dt
+	else
+		object.angle = object.angle +1 * object.vel * dt
+	end
+			
+	if object.angle > math.pi then
+		object.angle = math.pi
+		object.reverse = true
+	end
+						
+	if object.angle < 0 then
+		object.angle = 0
+		object.reverse = false
+	end
+			
+	object.x = object.radius * math.cos(object.angle) + object.xorigin
+	object.y = object.radius * math.sin(object.angle) + object.yorigin
+			
+end
 
 function physics:movex(object, dt)
 	-- traverse x-axis
@@ -128,31 +152,7 @@ function physics:world(dt)
 		if object.movex == 1 then self:movex(object, dt) end
 		if object.movey == 1 then self:movey(object, dt) end
 		
-		if object.swing == 1 then
-object.vel = 100 *dt
-		--	if object.angle > math.pi*2 then object.angle = 0 end
-			if object.reverse then
-				object.angle = object.angle -1 * object.vel * dt
-			else
-				object.angle = object.angle +1 * object.vel * dt
-			end
-			
-			if object.angle > math.pi then
-				object.angle = math.pi
-				object.reverse = true
-			end
-			
-			
-			if object.angle < 0 then
-				object.angle = 0
-				object.reverse = false
-			end
-			
-			object.x = object.radius * math.cos(object.angle) + object.xorigin
-			object.y = object.radius * math.sin(object.angle) + object.yorigin
-			
-			
-		end
+		if object.swing == 1 then self:swing(object,dt) end
 	end
 
 end
@@ -426,6 +426,21 @@ function physics:enemies(dt)
 					--make dropped spikes act like platforms???
 				end
 			end
+			
+			
+			if enemy.name == "spikeball" then
+			
+				enemy.angle = enemy.angle -1 * (enemy.vel*dt) * dt
+				
+				if enemy.angle > math.pi*2 then enemy.angle = 0 end
+		
+				enemy.newX = enemy.radius * math.cos(enemy.angle) + enemy.xorigin
+				enemy.newY = enemy.radius * math.sin(enemy.angle) + enemy.yorigin
+				
+				self:update(enemy)
+			end
+			
+			
 		end
 	end
 end

@@ -49,7 +49,7 @@ editor.showid  = true		--id info for entities
 editor.showmmap = true	    --toggle minimap
 editor.showguide = true     --toggle guidelines
 editor.showentmenu = true   --toggle entmenu
-editor.showhelpmenu = true  --toggle helpmenu
+editor.showhelpmenu = false  --toggle helpmenu
 editor.drawsel = false		--selection outline
 editor.movespeed = 1000		--editing floatspeed
 
@@ -80,19 +80,20 @@ function editor:entname(id)
 	elseif id ==13 then return "icicle" 
 	elseif id ==14 then return "walker" 
 	elseif id ==15 then return "floater" 
-	elseif id ==16 then return "gem" 
-	elseif id ==17 then return "life" 
-	elseif id ==18 then return "magnet" 
-	elseif id ==19 then return "shield" 
-	elseif id ==20 then return "flower" 
-	elseif id ==21 then return "rock" 
-	elseif id ==22 then return "tree" 
-	elseif id ==23 then return "arch" 
-	elseif id ==24 then return "arch2" 
-	elseif id ==25 then return "pillar" 
-	elseif id ==26 then return "spring_s" 
-	elseif id ==27 then return "spring_m" 
-	elseif id ==28 then return "spring_l" 
+	elseif id ==16 then return "spikeball" 
+	elseif id ==17 then return "gem" 
+	elseif id ==18 then return "life" 
+	elseif id ==19 then return "magnet" 
+	elseif id ==20 then return "shield" 
+	elseif id ==21 then return "flower" 
+	elseif id ==22 then return "rock" 
+	elseif id ==23 then return "tree" 
+	elseif id ==24 then return "arch" 
+	elseif id ==25 then return "arch2" 
+	elseif id ==26 then return "pillar" 
+	elseif id ==27 then return "spring_s" 
+	elseif id ==28 then return "spring_m" 
+	elseif id ==29 then return "spring_l" 
 	else return "----"
 	end
 end
@@ -236,14 +237,9 @@ function editor:mousepressed(x,y,button)
 		end
 		
 		if selection == "crate" then crates:add(x,y,"gem") end
-		
-		if selection == "walker" then
-			enemies:walker(x,y,100,100) --movespeed,movedist should be configurable
-		end
-		if selection == "floater" then
-			enemies:floater(x,y,100,400) --movespeed,movedist should be configurable
-		end
-
+		if selection == "walker" then enemies:walker(x,y,100,100) end
+		if selection == "floater" then enemies:floater(x,y,100,400) end
+		if selection == "spikeball" then enemies:spikeball(x,y) end
 		if selection == "platform_s" then platforms:add(x-5,y-10,10,20,0,0,0,0,0,1) end
 		if selection == "checkpoint" then checkpoints:add(x,y) end
 		if selection == "gem" then pickups:add(x,y,"gem") end
