@@ -429,7 +429,7 @@ function physics:enemies(dt)
 			
 			
 			if enemy.name == "spikeball" then
-			
+				if editing then return end
 				enemy.angle = enemy.angle -1 * (enemy.vel*dt) * dt
 				
 				if enemy.angle > math.pi*2 then enemy.angle = 0 end

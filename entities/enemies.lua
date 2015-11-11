@@ -198,6 +198,12 @@ end
 
 function enemies:spikeball(x,y)
 	table.insert(enemies, {
+		
+		gfx = spikeball,
+		
+		--dimension
+		w = 70,
+		h = 70,
 		--origin
 		xorigin = x,
 		yorigin = y,
@@ -206,11 +212,7 @@ function enemies:spikeball(x,y)
 		x = x or 0,
 		y = y or 0,
 		
-		gfx = spikeball,
-		
-		--dimension
-		w = 70,
-		h = 70,
+
 		
 		--properties
 		name = "spikeball",

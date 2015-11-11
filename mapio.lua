@@ -41,7 +41,7 @@ function mapio:savemap(map)
 			fh:write("floater="..math.round(entity.xorigin)..","..math.round(entity.y)..","..entity.movespeed..","..entity.movedist.."\n")
 		end
 		if entity.name == "spikeball" then
-			fh:write("spikeball="..math.round(entity.x)..","..math.round(entity.y).."\n")
+			fh:write("spikeball="..math.round(entity.xorigin)..","..math.round(entity.yorigin).."\n")
 		end
 		if entity.name == "spike" then
 			fh:write("spike="..math.round(entity.x)..","..math.round(entity.y)..","..math.round(entity.dir).."\n")
@@ -155,10 +155,10 @@ function mapio:loadmap(mapname)
 		end
 		--parse enemy(spikeball)
 		if string.find(line, "^spikeball=(.+)") then
-			local x,y = string.match(
+			local xorigin,yorigin = string.match(
 				line, "^spikeball=(%-?%d+),(%-?%d+)"
 			)
-			enemies:spikeball(tonumber(x),tonumber(y))
+			enemies:spikeball(tonumber(xorigin),tonumber(yorigin))
 			
 		end
 
