@@ -268,42 +268,8 @@ function enemies:draw()
 			end
 			
 			if enemy.name == "spikeball" then
-				love.graphics.setColor(100,100,100,255)
-				love.graphics.circle("fill", enemy.xorigin+enemy.w/2,enemy.yorigin+enemy.h/2,10,10)	
-				--fix this
-									local r = 40
-					local x = r * math.cos(enemy.angle) + enemy.xorigin
-					local y = r * math.sin(enemy.angle) + enemy.yorigin
-					love.graphics.setColor(100,100,100,255)
-					love.graphics.circle("fill", x+enemy.w/2,y+enemy.h/2,5,5)	
-					love.graphics.setColor(150,150,150,255)	
-					love.graphics.circle("line", x+enemy.w/2,y+enemy.h/2,5,5)	
-					local r = 80
-					local x = r * math.cos(enemy.angle) + enemy.xorigin
-					local y = r * math.sin(enemy.angle) + enemy.yorigin
-					love.graphics.setColor(100,100,100,255)
-					love.graphics.circle("fill", x+enemy.w/2,y+enemy.h/2,5,5)
-					love.graphics.setColor(150,150,150,255)	
-					love.graphics.circle("line", x+enemy.w/2,y+enemy.h/2,5,5)		
-					local r = 120
-					local x = r * math.cos(enemy.angle) + enemy.xorigin
-					local y = r * math.sin(enemy.angle) + enemy.yorigin
-					love.graphics.setColor(100,100,100,255)
-					love.graphics.circle("fill", x+enemy.w/2,y+enemy.h/2,5,5)	
-					love.graphics.setColor(150,150,150,255)	
-					love.graphics.circle("line", x+enemy.w/2,y+enemy.h/2,5,5)	
-					local r = 160
-					local x = r * math.cos(enemy.angle) + enemy.xorigin
-					local y = r * math.sin(enemy.angle) + enemy.yorigin
-					love.graphics.setColor(100,100,100,255)
-					love.graphics.circle("fill", x+enemy.w/2,y+enemy.h/2,5,5)	
-					love.graphics.setColor(150,150,150,255)	
-					love.graphics.circle("line", x+enemy.w/2,y+enemy.h/2,5,5)	
-				
-				
-				
-				love.graphics.setColor(255,255,255,255)
-				love.graphics.draw(enemy.gfx, enemy.x, enemy.y, 0,1,1)
+				platforms:drawlink(enemy)
+				love.graphics.draw(enemy.gfx, enemy.x-enemy.gfx:getWidth()/2, enemy.y-enemy.gfx:getHeight()/2, 0,1,1)
 			end
 			
 			if editing or debug then
@@ -316,18 +282,39 @@ end
 
 
 function enemies:drawDebug(enemy, i)
-	--bounds
-	love.graphics.setColor(255,0,0,255)
-	love.graphics.rectangle("line", enemy.x+5, enemy.y+5, enemy.gfx:getWidth()-10, enemy.gfx:getHeight()-10)
-	--hitbox
-	love.graphics.setColor(255,200,100,255)
-	love.graphics.rectangle("line", enemy.x, enemy.y, enemy.gfx:getWidth(), enemy.gfx:getHeight())
+
+	--enemies with gfx offset by half width/height
+	if enemy.name == "spikeball" then
+		--bounds
+		love.graphics.setColor(255,0,0,255)
+		love.graphics.rectangle("line", enemy.x-enemy.gfx:getWidth()/2+5, enemy.y-enemy.gfx:getHeight()/2+5, enemy.gfx:getWidth()-10, enemy.gfx:getHeight()-10)
+		--hitbox
+		love.graphics.setColor(255,200,100,255)
+		love.graphics.rectangle("line", enemy.x-enemy.gfx:getWidth()/2, enemy.y-enemy.gfx:getHeight()/2, enemy.gfx:getWidth(), enemy.gfx:getHeight())
+		--debug connector
 	
+		love.graphics.setColor(255,0,255,100)
+		love.graphics.line( enemy.xorigin,enemy.yorigin,
+							enemy.x,enemy.y
+		)	
+
+	else
+	--all other enemies
+		--bounds
+		love.graphics.setColor(255,0,0,255)
+		love.graphics.rectangle("line", enemy.x+5, enemy.y+5, enemy.gfx:getWidth()-10, enemy.gfx:getHeight()-10)
+		--hitbox
+		love.graphics.setColor(255,200,100,255)
+		love.graphics.rectangle("line", enemy.x, enemy.y, enemy.gfx:getWidth(), enemy.gfx:getHeight())
+	end
+
+	--waypoint	
 	if enemy.name == "walker" or enemy.name == "floater" then
-		--waypoint
+
 		love.graphics.setColor(255,0,255,100)
 		love.graphics.rectangle("line", enemy.xorigin, enemy.y, enemy.movedist+enemy.gfx:getWidth(), enemy.gfx:getHeight())
 	end
+
 	
 	util:drawid(enemy,i)
 	util:drawCoordinates(enemy)

@@ -188,7 +188,7 @@ function collision:enemies(dt)
 			
 			if enemy.name == "spikeball" then
 				if collision:check(player.newX,player.newY,player.w,player.h,
-					enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10)  then
+					enemy.x-enemy.gfx:getWidth()/2+5,enemy.y-enemy.gfx:getHeight()/2+5,enemy.w-10,enemy.h-10)  then
 					player:die(enemy.name)
 				end
 			end

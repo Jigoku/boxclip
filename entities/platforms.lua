@@ -16,6 +16,7 @@
 platforms = {}
 
 platform_tile = love.graphics.newImage("graphics/tiles/cubes.png")
+platform_link = love.graphics.newImage("graphics/tiles/link.png")
 
 function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing)
 	table.insert(platforms, {
@@ -49,7 +50,25 @@ end
 
 
 
+function platforms:drawlink(platform)
 
+	--origin
+	love.graphics.setColor(255,255,255,255)
+	love.graphics.draw(platform_link, platform.xorigin-platform_link:getWidth()/2, platform.yorigin-platform_link:getHeight()/2, 0,1,1)
+	
+	local r = 0
+
+	--link
+	while r < platform.radius -platform_link:getHeight() do
+		r = r + platform_link:getHeight()
+		local x = r * math.cos(platform.angle) + platform.xorigin
+		local y = r * math.sin(platform.angle) + platform.yorigin
+
+		love.graphics.draw(platform_link, x-platform_link:getWidth()/2, y-platform_link:getHeight()/2, 0,1,1)
+
+	end
+	
+end
 
 function platforms:draw()
 	local count = 0
@@ -61,64 +80,26 @@ function platforms:draw()
 			
 			if platform.name == "platform" then
 	 	
-				--tile the texture using quad
-			
 
-				
-				--quick hack for conecting swinging platforms (optimize/improve this)
 				if platform.swing == 1 then
-					love.graphics.setColor(100,100,100,255)
-					love.graphics.circle("fill", platform.xorigin+platform.w/2,platform.yorigin+platform.h/2,10,10)	
-					
-					love.graphics.setColor(150,150,150,255)	
-					love.graphics.circle("line", platform.xorigin+platform.w/2,platform.yorigin+platform.h/2,10,10)	
-				
-					local r = 40
-					local x = r * math.cos(platform.angle) + platform.xorigin
-					local y = r * math.sin(platform.angle) + platform.yorigin
-					love.graphics.setColor(100,100,100,255)
-					love.graphics.circle("fill", x+platform.w/2,y+platform.h/2,5,5)	
-					love.graphics.setColor(150,150,150,255)	
-					love.graphics.circle("line", x+platform.w/2,y+platform.h/2,5,5)	
-					local r = 80
-					local x = r * math.cos(platform.angle) + platform.xorigin
-					local y = r * math.sin(platform.angle) + platform.yorigin
-					love.graphics.setColor(100,100,100,255)
-					love.graphics.circle("fill", x+platform.w/2,y+platform.h/2,5,5)
-					love.graphics.setColor(150,150,150,255)	
-					love.graphics.circle("line", x+platform.w/2,y+platform.h/2,5,5)		
-					local r = 120
-					local x = r * math.cos(platform.angle) + platform.xorigin
-					local y = r * math.sin(platform.angle) + platform.yorigin
-					love.graphics.setColor(100,100,100,255)
-					love.graphics.circle("fill", x+platform.w/2,y+platform.h/2,5,5)	
-					love.graphics.setColor(150,150,150,255)	
-					love.graphics.circle("line", x+platform.w/2,y+platform.h/2,5,5)	
-					local r = 160
-					local x = r * math.cos(platform.angle) + platform.xorigin
-					local y = r * math.sin(platform.angle) + platform.yorigin
-					love.graphics.setColor(100,100,100,255)
-					love.graphics.circle("fill", x+platform.w/2,y+platform.h/2,5,5)	
-					love.graphics.setColor(150,150,150,255)	
-					love.graphics.circle("line", x+platform.w/2,y+platform.h/2,5,5)	
-					
-					--love.graphics.rectangle("fill", platform.x-25, platform.y-10, platform.w+50,platform.h)
-				love.graphics.line( platform.x+platform.w/2,platform.y+platform.h/2,platform.xorigin+platform.w/2,platform.yorigin+platform.h/2)		
+
+					platforms:drawlink(platform, radius)
+
 					local quad = love.graphics.newQuad( 0,0, platform.w+50, platform.h/1.5, platform.gfx:getDimensions() )
 					platform.gfx:setWrap("repeat", "repeat")	
-										love.graphics.setColor(
+					
+					love.graphics.setColor(
 						platform_wall_r,
 						platform_wall_g,
 						platform_wall_b,
 						255
 					)	
 					love.graphics.draw(platform.gfx, quad, platform.x-25,platform.y)
-					--love.graphics.rectangle("fill", platform.x-25, platform.y-5, platform.w+50,platform.h-10)
 				
 				else
 				
 				
-				if  platform.clip == 0 then
+				if platform.clip == 0 then
 					love.graphics.setColor(
 						platform_wall_r-60,
 						platform_wall_g-60,
@@ -196,6 +177,15 @@ function platforms:drawDebug(platform, i)
 		love.graphics.setColor(255,0,255,100)
 		love.graphics.rectangle("line", platform.xorigin, platform.yorigin, platform.movedist+platform.w, platform.h)
 	end 
+	
+	--debug connector
+	if platform.swing == 1 then 
+		love.graphics.setColor(255,0,255,100)
+		love.graphics.line( platform.xorigin,platform.yorigin,
+							platform.x,platform.y
+		)	
+	end
+	
 	util:drawid(platform,i)
 	util:drawCoordinates(platform)
 	
