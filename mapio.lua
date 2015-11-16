@@ -84,12 +84,12 @@ function mapio:loadmap(mapname)
 		-- parse mapmusic
 		if string.find(line, "^mapmusic=(.+)") then
 			world.mapmusic = tonumber(string.match(line, "^mapmusic=(%d+)"))
-			sound:playbgm(world.mapmusic)
+
 		end
 		-- parse ambient track
 		if string.find(line, "^ambient=(.+)") then
 			world.mapambient = tonumber(string.match(line, "^ambient=(%d+)"))
-			sound:playambient(world.mapambient)
+			
 		end
 		-- parse theme
 		if string.find(line, "^theme=(.+)") then

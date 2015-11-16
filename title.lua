@@ -129,6 +129,7 @@ function title:run(dt)
 		if self.fade > 255 then
 			self.fade = 0
 			self.transition = false
+			love.audio.stop()
 			love.audio.setVolume(1)
 			world:init(self.mode)
 		end

@@ -212,8 +212,9 @@ function world:init(gamemode)
 	world:empty()
 	player:init() 
 	mapio:loadmap(world.map)
-	player:respawn()
 	
+	player:respawn()
+			
 	util:dprint("initialized world")
 end
 

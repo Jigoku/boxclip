@@ -137,8 +137,10 @@ function player:follow(dt)
 end
 
 function player:respawn()
-	sound:playbgm(world.mapmusic)
-	sound:playambient(world.mapambient)
+	if mode == "game" then
+		sound:playbgm(world.mapmusic)
+		sound:playambient(world.mapambient)
+	end
 	player.x = player.spawnX
 	player.y = player.spawnY
 	player.newX = player.spawnX
