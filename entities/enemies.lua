@@ -302,10 +302,10 @@ function enemies:drawDebug(enemy, i)
 	--all other enemies
 		--bounds
 		love.graphics.setColor(255,0,0,255)
-		love.graphics.rectangle("line", enemy.x+5, enemy.y+5, enemy.gfx:getWidth()-10, enemy.gfx:getHeight()-10)
+		love.graphics.rectangle("line", enemy.x+5, enemy.y+5, enemy.w-10, enemy.h-10)
 		--hitbox
 		love.graphics.setColor(255,200,100,255)
-		love.graphics.rectangle("line", enemy.x, enemy.y, enemy.gfx:getWidth(), enemy.gfx:getHeight())
+		love.graphics.rectangle("line", enemy.x, enemy.y, enemy.w, enemy.h)
 	end
 
 	--waypoint	

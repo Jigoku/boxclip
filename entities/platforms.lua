@@ -16,7 +16,9 @@
 platforms = {}
 
 platform_tile = love.graphics.newImage("graphics/tiles/cubes.png")
+
 platform_link = love.graphics.newImage("graphics/tiles/link.png")
+platform_link_origin = love.graphics.newImage("graphics/tiles/link_origin.png")
 
 function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing)
 	table.insert(platforms, {
@@ -54,7 +56,7 @@ function platforms:drawlink(platform)
 
 	--origin
 	love.graphics.setColor(255,255,255,255)
-	love.graphics.draw(platform_link, platform.xorigin-platform_link:getWidth()/2, platform.yorigin-platform_link:getHeight()/2, 0,1,1)
+	love.graphics.draw(platform_link_origin, platform.xorigin-platform_link_origin:getWidth()/2, platform.yorigin-platform_link_origin:getHeight()/2, 0,1,1)
 	
 	local r = 0
 
