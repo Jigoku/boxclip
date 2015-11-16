@@ -1,6 +1,6 @@
-mapmusic=6
-ambient=1
-theme=swamp
+mapmusic=5
+ambient=0
+theme=sunny
 platform=-200,60,460,370,1,0,0,0,0,0
 platform=190,-680,590,290,1,0,0,0,0,0
 platform=-420,-680,590,290,1,0,0,0,0,0

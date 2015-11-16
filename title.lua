@@ -125,13 +125,18 @@ function title:run(dt)
 	
 	if self.transition then
 		self.fade = self.fade +500 *dt
+		love.audio.setVolume( love.audio.getVolume()-2*dt)
+		if self.fade > 255 then
+			self.fade = 0
+			self.transition = false
+			love.audio.setVolume(1)
+			world:init(self.mode)
+		end
 	end
 
-	if self.fade > 255 then
-		self.fade = 0
-		self.transition = false
-		world:init(self.mode)
-	end
+
+	
+	--love.audio.setVolume( volume )
 end
 
 
