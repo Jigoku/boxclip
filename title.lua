@@ -36,6 +36,9 @@ function title:init()
 	self.sel = 0
 	self.menu = "main"
 	
+	--use for fade transition
+	self.fade = 0
+	
 	cheats = {
 		catlife = false,
 		jetpack = false,
@@ -54,8 +57,8 @@ function title:mainselect(cmd)
 	if cmd == "down" then self.sel = self.sel +1 end
 	
 	if cmd == "go" then
-		if self.sel == 0 then world:init("game") end
-		if self.sel == 1 then world:init("editing") end
+		if self.sel == 0 then self:fadetomode("game") end
+		if self.sel == 1 then self:fadetomode("editing") end
 		if self.sel == 2 then self.menu = "options" end
 		if self.sel == 3 then love.event.quit() end
 	end
@@ -67,18 +70,19 @@ end
 
 
 function title:keypressed(key)
-
-	self:checkcheatcodes(key)
+	if not self.transition then
+		self:checkcheatcodes(key)
 	
-	if self.menu == "main" then
-		if key == "escape" then love.event.quit() end
-		if key == "up"     then title:mainselect("up") end
-		if key == "down"   then title:mainselect("down") end
-		if key == "return"   then title:mainselect("go") end
-	end
+		if self.menu == "main" then
+			if key == "escape" then love.event.quit() end
+			if key == "up"     then title:mainselect("up") end
+			if key == "down"   then title:mainselect("down") end
+			if key == "return"   then title:mainselect("go") end
+		end
 	
-	if self.menu == "options" then
-		if key == "escape" then self.menu = "main" end
+		if self.menu == "options" then
+			if key == "escape" then self.menu = "main" end
+		end
 	end
 end
 
@@ -119,8 +123,22 @@ function title:run(dt)
 		self.bgscroll = self.bgscroll - self.bg:getWidth()
 	end
 	
+	if self.transition then
+		self.fade = self.fade +500 *dt
+	end
+
+	if self.fade > 255 then
+		self.fade = 0
+		self.transition = false
+		world:init(self.mode)
+	end
 end
 
+
+function title:fadetomode(mode)
+	self.mode = mode
+	self.transition = true
+end
 
 function title:checkcheatcodes(key)
 
@@ -202,6 +220,8 @@ function title:drawmain()
 	love.graphics.setColor(100,150,160,255)
 	love.graphics.printf("Quit",WIDTH/4,HEIGHT/4+220,WIDTH/3,"left")
 	
+	love.graphics.setColor(0,0,0,self.fade)
+	love.graphics.rectangle("fill", 0,0,WIDTH,HEIGHT)
 
 end
 
