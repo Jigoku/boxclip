@@ -399,7 +399,7 @@ function physics:enemies(dt)
 						if type(e) == "table" and e.alive and not (e.name == "icicle") then
 							if collision:check(e.x,e.y,e.w,e.h,
 							enemy.newX,enemy.newY,enemy.w,enemy.h) then
-								enemies:kill(e)
+								enemies:die(e)
 							end
 						end
 					end
