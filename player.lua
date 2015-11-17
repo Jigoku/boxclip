@@ -154,6 +154,14 @@ function player:respawn()
 	self.alive = true
 	self:follow(1)
 	self:cheats()
+	
+	--temp fix for attracted pickups on respawn
+	for i,pickup in ipairs(pickups) do
+		if pickup.attract then
+			table.remove(pickups, i)
+		end
+	end
+	
 	util:dprint("respawn player")
 end
 
