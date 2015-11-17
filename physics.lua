@@ -61,7 +61,8 @@ function physics:applyVelocity(object, dt)
 			if object.xvelboost > 0 then object.xvelboost = 0 end
 		end
 
-		object.newX = (object.x + (object.xvel+object.xvelboost)  *dt)
+		local vel = object.xvel+object.xvelboost
+		object.newX = (object.x + vel  *dt)
 		
 	end
 end
@@ -75,7 +76,7 @@ function physics:applyGravity(object, dt)
 	if object.yvel < -world.gravity*4 then 
 		object.yvel = -world.gravity*4 
 	end
-	
+
 	object.newY = (object.y - object.yvel *dt)
 end
 
@@ -316,6 +317,8 @@ end
 
 
 function physics:update(object)
+	--object.y = math.round(object.newY,0)
+	--object.x = math.round(object.newX,0)
 	object.y = object.newY
 	object.x = object.newX
 end
@@ -458,7 +461,7 @@ function physics:player(dt)
 			self:crates(player,dt)
 			self:platforms(player, dt)
 			self:update(player)
-	
+
 			if  not (mode == "editing") and player.y+player.h > world.groundLevel  then
 				player:die("out of bounds")
 			end

@@ -33,9 +33,7 @@ function world:settheme(theme)
 	--specified in map file as "theme=*"
 
 	--fallbacks
-	background_scrollspeed = 0
 	background_scroll = 0
-	groundLevel_scrollspeed = 0
 	groundLevel_scroll = 0	
 	spike_gfx = spike
 	spike_large_gfx = spike_large
@@ -55,8 +53,9 @@ function world:settheme(theme)
 	crate_b = 255
 	groundLevel_tile = water
 	groundLevel_scrollspeed = 100
+	background_scrollspeed = 0
 	background = ""
-	background_scrollspeed = 20
+
 	
 	
 	--theme definitions (overrides fallbacks)
@@ -168,6 +167,22 @@ function world:settheme(theme)
 		groundLevel_tile = stream
 		groundLevel_scrollspeed = 80
 		background = love.graphics.newImage("graphics/backgrounds/forest.png")
+	elseif theme == "night" then
+		background_r = 40
+		background_g = 55
+		background_b = 60
+		platform_wall_r = 70
+		platform_wall_g = 75
+		platform_wall_b = 90
+		platform_top_r = 60
+		platform_top_g = 80
+		platform_top_b = 100
+		crate_r = 105
+		crate_g = 85
+		crate_b = 100
+		groundLevel_tile = water
+		groundLevel_scrollspeed = 40
+		background = love.graphics.newImage("graphics/backgrounds/stars.png")
 	end
 		groundLevel_tile:setWrap("repeat", "repeat")
 		groundLevel_quad = love.graphics.newQuad( -50,world.groundLevel, 10000, 500, groundLevel_tile:getDimensions() )

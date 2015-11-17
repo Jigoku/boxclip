@@ -13,6 +13,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  --]]
  
+ 
+ -- https://love2d.org/wiki/love.textinput
+ -- https://love2d.org/wiki/love.keyboard.setTextInput
 title = {}
 title.keystr = ""
 
@@ -57,8 +60,8 @@ function title:mainselect(cmd)
 	if cmd == "down" then self.sel = self.sel +1 end
 	
 	if cmd == "go" then
-		if self.sel == 0 then self:fadetomode("game") end
-		if self.sel == 1 then self:fadetomode("editing") end
+		if self.sel == 0 then self:setmode("game") end
+		if self.sel == 1 then self:setmode("editing") end
 		if self.sel == 2 then self.menu = "options" end
 		if self.sel == 3 then love.event.quit() end
 	end
@@ -141,7 +144,7 @@ function title:run(dt)
 end
 
 
-function title:fadetomode(mode)
+function title:setmode(mode)
 	self.mode = mode
 	self.transition = true
 end

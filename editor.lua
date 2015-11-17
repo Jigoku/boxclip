@@ -107,6 +107,7 @@ function editor:themename(id)
 	elseif id == 3 then return "mist" 
 	elseif id == 4 then return "dust" 
 	elseif id == 5 then return "swamp" 
+	elseif id == 6 then return "night" 
 	end
 end
 
@@ -120,7 +121,7 @@ function editor:settheme()
 		if e.name == "icicle" then e.gfx = icicle_gfx end
 	end
 	self.themesel = self.themesel +1
-	if self.themesel > 5 then self.themesel = 0 end
+	if self.themesel > 6 then self.themesel = 0 end
 	
 end
 
@@ -628,7 +629,18 @@ function editor:selection(entities, x,y,w,h)
 					love.graphics.rectangle("line", entity.xorigin, entity.yorigin,entity.w, entity.h+entity.movedist)
 					return true
 				end
-
+			elseif entity.swing == 1 then
+				if collision:check(mousePosX,mousePosY,1,1,
+						entity.xorigin-platform_link_origin:getWidth()/2, entity.yorigin-platform_link_origin:getHeight()/2,  
+						platform_link_origin:getWidth(),platform_link_origin:getHeight()
+					) then
+						
+						love.graphics.rectangle("line", 
+							entity.xorigin-platform_link_origin:getWidth()/2, entity.yorigin-platform_link_origin:getHeight()/2,  
+							platform_link_origin:getWidth(),platform_link_origin:getHeight()
+						)
+						return true
+				end
 			elseif collision:check(mousePosX,mousePosY,1,1,entity.x,entity.y,entity.w,entity.h) then
 					love.graphics.rectangle("line", entity.x,entity.y,entity.w,entity.h)
 					return true
@@ -676,6 +688,19 @@ function editor:remove(entities, x,y,w,h)
 					table.remove(entities,i)
 					return true
 				end
+				
+			elseif entity.swing == 1 then
+			
+				if collision:check(mousePosX,mousePosY,1,1,
+						entity.xorigin-platform_link_origin:getWidth()/2, entity.yorigin-platform_link_origin:getHeight()/2,  
+						platform_link_origin:getWidth(),platform_link_origin:getHeight()
+					) then
+						print( entity.name .. " (" .. i .. ") removed" )
+						table.remove(entities,i)
+						return true
+						
+				end
+			
 			elseif collision:check(mousePosX,mousePosY,1,1, entity.x,entity.y,entity.w,entity.h) then
 				print( entity.name .. " (" .. i .. ") removed" )
 				table.remove(entities,i)

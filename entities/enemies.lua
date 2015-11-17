@@ -283,7 +283,6 @@ end
 
 function enemies:drawDebug(enemy, i)
 
-	--enemies with gfx offset by half width/height
 	if enemy.name == "spikeball" then
 		--bounds
 		love.graphics.setColor(255,0,0,255)
@@ -291,12 +290,18 @@ function enemies:drawDebug(enemy, i)
 		--hitbox
 		love.graphics.setColor(255,200,100,255)
 		love.graphics.rectangle("line", enemy.x-enemy.gfx:getWidth()/2, enemy.y-enemy.gfx:getHeight()/2, enemy.gfx:getWidth(), enemy.gfx:getHeight())
-		--debug connector
-	
+
+		--waypoint
 		love.graphics.setColor(255,0,255,100)
-		love.graphics.line( enemy.xorigin,enemy.yorigin,
-							enemy.x,enemy.y
-		)	
+		love.graphics.line(enemy.xorigin,enemy.yorigin,enemy.x,enemy.y)	
+		love.graphics.circle("line", enemy.xorigin,enemy.yorigin, enemy.radius,enemy.radius)	
+		
+		--selectable area in editor
+		love.graphics.setColor(255,0,0,100)
+		love.graphics.rectangle("line", 
+			enemy.xorigin-platform_link_origin:getWidth()/2,enemy.yorigin-platform_link_origin:getHeight()/2,
+			platform_link_origin:getWidth(),platform_link_origin:getHeight()
+		)
 
 	else
 	--all other enemies
