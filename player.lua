@@ -17,31 +17,31 @@
 
 function player:init() 
 	--initialize the player defaults
-	player.name = "player"
-	player.w = 50
-	player.h = 60
-	player.spawnX = 0
-	player.spawnY = 0 
-	player.x = spawnX
-	player.y = spawnY 
+	self.name = "player"
+	self.w = 50
+	self.h = 60
+	self.spawnX = 0
+	self.spawnY = 0 
+	self.x = spawnX
+	self.y = spawnY 
 
-	player.speed = 600
-	player.mass = 800
-	player.xvel = 0
-	player.yvel = 0
-	player.xvelboost = 0
-	player.jumpheight = 800
-	player.jumping = 0
-	player.dir = "idle"
-	player.lastdir = "idle"
-	player.score = 0
-	player.alive = 1
-	player.lives = 3	
-	player.gems = 0
-	player.angle = 0
+	self.speed = 600
+	self.mass = 800
+	self.xvel = 0
+	self.yvel = 0
+	self.xvelboost = 0
+	self.jumpheight = 800
+	self.jumping = false
+	self.dir = "idle"
+	self.lastdir = "idle"
+	self.score = 0
+	self.alive = true
+	self.lives = 3	
+	self.gems = 0
+	self.angle = 0
 	
-	if cheats.catlife then player.lives = 9 end
-	if cheats.millionare then player.score = "1000000" end
+	if cheats.catlife then self.lives = 9 end
+	if cheats.millionare then self.score = "1000000" end
 	
 	util:dprint("initialized player")
 
@@ -49,8 +49,8 @@ end
 
 function player:cheats()
 	--cheats enabled for entire game
-	if cheats.magnet then player.hasmagnet = true else player.hasmagnet = false end
-	if cheats.shield then player.hasshield = true else player.hasshield = false end
+	if cheats.magnet then self.hasmagnet = true else self.hasmagnet = false end
+	if cheats.shield then self.hasshield = true else self.hasshield = false end
 end
 
 function player:draw()
@@ -58,53 +58,53 @@ function player:draw()
 	if not editing then
 	
 	--rotating for jumping
-	if player.jumping == 1 then
-		love.graphics.translate(player.x+player.w/2,player.y+player.h/2)
-		love.graphics.rotate(player.angle)
-		love.graphics.translate(-player.x-player.w/2,-player.y-player.h/2)
+	if self.jumping then
+		love.graphics.translate(self.x+self.w/2,self.y+self.h/2)
+		love.graphics.rotate(self.angle)
+		love.graphics.translate(-self.x-self.w/2,-self.y-self.h/2)
 		
 		--player main (circle)
 		love.graphics.setColor(80,220,160,255)
-		love.graphics.circle("fill", player.x+player.w/2, player.y+player.h/2, player.w/1.5, player.h)
+		love.graphics.circle("fill", self.x+self.w/2, self.y+self.h/2, self.w/1.5, self.h)
 		love.graphics.setColor(80,80,80,255)
-		love.graphics.circle("line", player.x+player.w/2, player.y+player.h/2, player.w/1.5, player.h)
+		love.graphics.circle("line", self.x+self.w/2, self.y+self.h/2, self.w/1.5, self.h)
 		
 	else
 	--player main (square)
 		local opacity = 255
-		if player.alive == 0 then  opacity = 100 end
+		if not self.alive then  opacity = 100 end
 		
 		love.graphics.setColor(80,220,160,opacity)
-		love.graphics.rectangle("fill", player.x, player.y, player.w, player.h)
+		love.graphics.rectangle("fill", self.x, self.y, self.w, self.h)
 		love.graphics.setColor(80,80,80,opacity)
-		love.graphics.rectangle("line", player.x, player.y, player.w, player.h)
+		love.graphics.rectangle("line", self.x, self.y, self.w, self.h)
 	end
 	
 	-- eyes
 	love.graphics.setColor(0,0,0,255)
-	if player.lastdir == "right" then
-		love.graphics.rectangle("fill", player.x+player.w-10, player.y+10, 3, 4)
-		love.graphics.rectangle("fill", player.x+player.w-20, player.y+10, 3, 4 )
+	if self.lastdir == "right" then
+		love.graphics.rectangle("fill", self.x+self.w-10, self.y+10, 3, 4)
+		love.graphics.rectangle("fill", self.x+self.w-20, self.y+10, 3, 4 )
 	end
 	
-	if player.lastdir == "left" then
-		love.graphics.rectangle("fill", player.x+10, player.y+10, 3, 4)
-		love.graphics.rectangle("fill", player.x+20, player.y+10, 3, 4 )
+	if self.lastdir == "left" then
+		love.graphics.rectangle("fill", self.x+10, self.y+10, 3, 4)
+		love.graphics.rectangle("fill", self.x+20, self.y+10, 3, 4 )
 	end
 	
 	end
 	
-	 player:drawpowerups()
+	 self:drawpowerups()
 	
 	if editing then
-		player:drawDebug()
+		self:drawDebug()
 	end
 	
 end
 
 function player:drawDebug()
 	love.graphics.setColor(255,0,0,50)
-	love.graphics.rectangle("line", player.x, player.y, player.w, player.h)
+	love.graphics.rectangle("line", self.x, self.y, self.w, self.h)
 end
 
 
@@ -112,26 +112,26 @@ end
 
 
 function player:drawpowerups()
-	if player.hasmagnet then
+	if self.hasmagnet then
 		--
 	end
-	if player.hasshield then
+	if self.hasshield then
 		love.graphics.setColor(105,255,255,100)
-		love.graphics.circle("fill", player.x+player.w/2, player.y+player.h/2, player.w, player.h)
+		love.graphics.circle("fill", self.x+self.w/2, self.y+self.h/2, self.w, self.h)
 		love.graphics.setColor(25,55,55,100)
-		love.graphics.circle("line", player.x+player.w/2, player.y+player.h/2, player.w, player.h)
+		love.graphics.circle("line", self.x+self.w/2, self.y+self.h/2, self.w, self.h)
 	end
 end
 
 function player:follow(dt)
-	if player.alive == 1 or editing then
+	if self.alive or editing then
 	-- follow player
 
 		--camera.x = (player.x -(love.graphics.getWidth()/2*camera.scaleX)+ player.w/2) 
 		--camera.y = (player.y -(love.graphics.getHeight()/2*camera.scaleY) + player.h/2) 
 		
-		camera.x = (player.x+player.w/2)
-		camera.y = (player.y +player.h/2)
+		camera.x = (self.x+self.w/2)
+		camera.y = (self.y +self.h/2)
 
 	end
 end
@@ -141,18 +141,18 @@ function player:respawn()
 		sound:playbgm(world.mapmusic)
 		sound:playambient(world.mapambient)
 	end
-	player.x = player.spawnX
-	player.y = player.spawnY
-	player.newX = player.spawnX
-	player.newY = player.spawnY
-	player.xvel = 0
-	player.xvelboost = 0
-	player.yvel = 0
-	player.jumping = 0
-	player.dir = "idle"
-	player.lastdir = "idle"
-	player.alive = 1
-	player:follow(1)
+	self.x = self.spawnX
+	self.y = self.spawnY
+	self.newX = self.spawnX
+	self.newY = self.spawnY
+	self.xvel = 0
+	self.xvelboost = 0
+	self.yvel = 0
+	self.jumping = false
+	self.dir = "idle"
+	self.lastdir = "idle"
+	self.alive = true
+	self:follow(1)
 	self:cheats()
 	util:dprint("respawn player")
 end
@@ -173,10 +173,10 @@ function player:die(this)
 	
 		util:dprint("player killed by " .. this)	
 		sound:play(sound.die)
-		self.alive = 0
+		self.alive = false
 		--player.dir = "idle" (change "dir" to state, left,right,idle,dead,jumping, etc)
 		self.angle = 0
-		self.jumping = 0
+		self.jumping = false
 	end
 	
 
@@ -190,59 +190,59 @@ function player:collect(item)
 	
 	if item.name == "gem" then
 		sound:play(sound.gem)
-		player.score = player.score + item.score
-		player.gems = player.gems +1
+		self.score = self.score + item.score
+		self.gems = self.gems +1
 	elseif item.name == "life" then
 		sound:play(sound.lifeup)
-		player.score = player.score + item.score
-		player.lives = player.lives +1
+		self.score = self.score + item.score
+		self.lives = self.lives +1
 	elseif item.name == "magnet" then
 		sound:play(sound.magnet)
-		player.hasmagnet = true
+		self.hasmagnet = true
 	elseif item.name == "shield" then
 		sound:play(sound.shield)
-		player.hasshield = true
+		self.hasshield = true
 	end
 end
 
 
 function player:attack(enemy)
 	-- increase score when attacking an enemy
-	player.score = player.score + enemy.score
+	self.score = self.score + enemy.score
 	enemies:die(enemy)
 end
 
 function player:jump()
-	if player.jumping == 0 or cheats.jetpack then
+	if not self.jumping or cheats.jetpack then
 		sound:play(sound.jump)
-		player.jumping = 1
-		player.yvel = player.jumpheight					
+		self.jumping = true
+		self.yvel = self.jumpheight					
 	end
 end
 
 function player:moveleft()
-	player.lastdir = player.dir
-	player.dir = "left"
+	self.lastdir = self.dir
+	self.dir = "left"
 end
 
 function player:moveright()
-	player.lastdir = player.dir
-	player.dir = "right"	
+	self.lastdir = self.dir
+	self.dir = "right"	
 end
 
 
 function player:checkkeys(dt)
 	if paused or editing then return end
 	
-	if player.alive == 1 then
+	if self.alive then
 		if love.keyboard.isDown("d") or love.keyboard.isDown("right")  then
-			player:moveright()
+			self:moveright()
 	
 		elseif love.keyboard.isDown("a") or love.keyboard.isDown("left") then
-			player:moveleft()
+			self:moveleft()
 			
 		else
-			player.dir = "idle"
+			self.dir = "idle"
 		end
 	end
 end
@@ -250,10 +250,10 @@ end
 function player:keypressed(key)
 	if paused or editing then return end
 	
-	if player.alive == 1 then
+	if self.alive then
 		--jump
 		if key == " " then
-			player:jump()
+			self:jump()
 		end
 	end
 

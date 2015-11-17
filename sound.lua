@@ -52,7 +52,6 @@ function sound:playbgm(id)
 		sound.bgm:setLooping(true)
 		sound.bgm:setVolume(0.5)
 		sound.bgm:play()
-
 	end
 end
 

@@ -97,8 +97,10 @@ function util:drawConsole()
 		--score etc
 		love.graphics.setColor(255,100,40,255)
 		love.graphics.print(
-			"[lives: " .. player.lives .. "][score: " .. player.score .. "][time: " .. 
-			world:gettime() .. "][alive: " .. player.alive .."]", 
+			"[lives: " .. player.lives .. "]"..
+			"[score: " .. player.score .. "]"..
+			"[time: " .. world:gettime() .. "]"..
+			"[alive: "..(player.alive and 1 or 0).."]", 
 			200,5
 		)
 		
@@ -109,7 +111,7 @@ function util:drawConsole()
 			" | dir: " .. player.dir .. 
 			" | xvel: " .. math.round(player.xvel,0) .. 
 			" | yvel: " .. math.round(player.yvel,0) .. 
-			" | jumping: " .. player.jumping ..
+			" | jumping: " .. (player.jumping and 1 or 0) ..
 			" | camera scale: " .. camera.scaleX, 
 			5, 20
 		)

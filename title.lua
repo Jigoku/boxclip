@@ -38,9 +38,7 @@ function title:init()
 	sound:playbgm(6)
 	self.sel = 0
 	self.menu = "main"
-	
-	--use for fade transition
-	self.fade = 0
+
 	
 	cheats = {
 		catlife = false,
@@ -49,7 +47,10 @@ function title:init()
 		millionare = false,
 	}
 	
-	
+		
+	--use for fade transition
+	self.fade = 255
+	self:fadein()
 
 	util:dprint("initialized title")
 end
@@ -60,8 +61,8 @@ function title:mainselect(cmd)
 	if cmd == "down" then self.sel = self.sel +1 end
 	
 	if cmd == "go" then
-		if self.sel == 0 then self:setmode("game") end
-		if self.sel == 1 then self:setmode("editing") end
+		if self.sel == 0 then self:fadeto("game") end
+		if self.sel == 1 then self:fadeto("editing") end
 		if self.sel == 2 then self.menu = "options" end
 		if self.sel == 3 then love.event.quit() end
 	end
@@ -73,7 +74,7 @@ end
 
 
 function title:keypressed(key)
-	if not self.transition then
+	if not self.trans_fadein or self.trans_fadeout then
 		self:checkcheatcodes(key)
 	
 		if self.menu == "main" then
@@ -126,27 +127,38 @@ function title:run(dt)
 		self.bgscroll = self.bgscroll - self.bg:getWidth()
 	end
 	
-	if self.transition then
+	if self.trans_fadeout then
 		self.fade = self.fade +500 *dt
 		love.audio.setVolume( love.audio.getVolume()-2*dt)
 		if self.fade > 255 then
 			self.fade = 0
-			self.transition = false
+			self.trans_fadeout = false
 			love.audio.stop()
 			love.audio.setVolume(1)
 			world:init(self.mode)
 		end
 	end
-
+	
+	if self.trans_fadein then
+		self.fade = self.fade -500 *dt
+		if self.fade < 0 then
+			self.fade = 0
+			self.trans_fadein = false
+		end
+	end
 
 	
 	--love.audio.setVolume( volume )
 end
 
 
-function title:setmode(mode)
+function title:fadeto(mode)
 	self.mode = mode
-	self.transition = true
+	self.trans_fadeout = true
+end
+
+function title:fadein()
+	self.trans_fadein = true
 end
 
 function title:checkcheatcodes(key)

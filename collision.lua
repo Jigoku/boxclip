@@ -16,7 +16,7 @@
 collision = {}
 
 function collision:checkWorld(dt)
-	if not editing and player.alive == 1 then
+	if not editing and player.alive then
 		self:bounds()
 		self:springs(dt)
 		self:pickups(dt)
@@ -79,7 +79,7 @@ end
 function collision:pickups(dt)
 	if mode == "editing" then return end
 
-	if player.alive == 1 then
+	if player.alive then
 		local i, pickup
 		for i, pickup in ipairs(pickups) do
 			if world:inview(pickup) and not pickup.collected then
@@ -120,7 +120,7 @@ function collision:enemies(dt)
 					enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
 					-- if we land on top, kill enemy
 					if collision:above(player,enemy) then	
-						if player.jumping == 1 then
+						if player.jumping then
 						--player.y = enemy.y - player.h -1 *dt
 							player.yvel = player.mass
 							player:attack(enemy)
@@ -141,7 +141,7 @@ function collision:enemies(dt)
 				if collision:check(player.newX,player.newY,player.w,player.h,
 					enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
 					-- if we land on top, kill enemy
-					if player.jumping == 1 then	
+					if player.jumping then	
 											
 						if player.y > enemy.y then
 							player.yvel = -player.mass
@@ -244,7 +244,7 @@ function collision:springs(dt)
 		if world:inview(spring) then
 			if collision:check(player.x,player.y,player.w,player.h,
 				spring.x+10, spring.y+10,spring.w-20,spring.h-20) then
-				player.jumping = 1
+				player.jumping = true
 				sound:play(sound.spring)
 				if spring.dir == 0 then
 					player.y = spring.y-player.h -1 *dt

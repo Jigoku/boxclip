@@ -16,11 +16,11 @@
 physics = {}
 
 function physics:applyVelocity(object, dt) 
-	if object.alive == 1 then
+	if object.alive then
 		-- x-axis friction
 		if object.dir == "right" then
 			if object.xvel < object.speed and not (object.xvelboost < 0) then
-				if object.jumping == 1 then
+				if object.jumping then
 					object.xvel = (object.xvel + ((object.speed*2)/1.5 *dt))
 				else
 					object.xvel = (object.xvel + ((object.speed*2) *dt))
@@ -29,7 +29,7 @@ function physics:applyVelocity(object, dt)
 		end
 		if object.dir == "left"  then
 			if not (object.xvel < -object.speed) and not (object.xvelboost > 0) then
-				if object.jumping == 1 then
+				if object.jumping then
 					object.xvel = (object.xvel - ((object.speed*2)/1.5 *dt))
 				else
 					object.xvel = (object.xvel - ((object.speed*2) *dt))
@@ -82,7 +82,7 @@ end
 
 
 function physics:applyRotation(object,n,dt)
-	if object.jumping == 1 then
+	if object.jumping then
 		object.angle = object.angle + dt * n
 		object.angle = object.angle % (2*math.pi)
 	else
@@ -166,7 +166,7 @@ function physics:crates(object,dt)
 			if collision:check(crate.x,crate.y,crate.w,crate.h,
 				object.newX,object.newY,object.w,object.h) and not crate.destroyed then
 				
-				if object.jumping == 1 then 
+				if object.jumping then 
 					util:dprint("crate(" .. i..") destroyed, item ="..crate.item)
 					crate.destroyed = true
 					player.score = player.score+crate.score
@@ -176,7 +176,7 @@ function physics:crates(object,dt)
 					
 				if collision:right(object,crate) then
 				object.xvelboost = 0
-					if object.jumping == 1 then
+					if object.jumping then
 						object.newX = crate.x+crate.w +1
 						object.xvel = object.mass
 					else
@@ -185,7 +185,7 @@ function physics:crates(object,dt)
 					end
 				elseif collision:left(object,crate) then
 				object.xvelboost = 0
-					if object.jumping == 1 then
+					if object.jumping then
 						object.newX = crate.x-object.w -1
 						object.xvel = -object.mass
 					else
@@ -193,7 +193,7 @@ function physics:crates(object,dt)
 						object.xvel = 0
 					end
 				elseif collision:bottom(object,crate) then
-					if object.jumping == 1 then
+					if object.jumping then
 						object.newY = crate.y +crate.h +1
 						object.yvel = -object.mass
 					else
@@ -201,7 +201,7 @@ function physics:crates(object,dt)
 						object.yvel = 0
 					end
 				elseif collision:top(object,crate) then
-					if object.jumping == 1 then
+					if object.jumping then
 						object.newY = crate.y - object.h -1
 						object.yvel = object.mass
 						
@@ -266,15 +266,15 @@ function physics:platforms(object, dt)
 					
 					if platform.name == "platform" then
 						--sounds on collision
-						if object.jumping == 1 and (object.yvel < 0) then 
+						if object.jumping and (object.yvel < 0) then 
 							sound:play(sound.hit)
 						end
 						
 						--if we are jumping upwards go through the platform
 						--only  'fix' to surface if we are going down
-						if not (object.yvel > 0 and object.jumping == 1) then
+						if not (object.yvel > 0 and object.jumping ) then
 							object.yvel = 0
-							object.jumping = 0
+							object.jumping = false
 							object.newY = platform.y - object.h +1 *dt
 						end
 					
@@ -328,17 +328,15 @@ function physics:pickups(dt)
 	local i, pickup
 		for i, pickup in ipairs(pickups) do
 		
-			--maybe use this for a powerup too? 
 			--pulls all gems to player when attract = true
 			if pickup.attract then
-				if player.alive == 1 then
+				if player.alive then
 					local angle = math.atan2(player.y - pickup.y, player.x - pickup.x)
 					pickup.newX = pickup.x + (math.cos(angle) * pickup.mass/2 * dt)
 					pickup.newY = pickup.y + (math.sin(angle) * pickup.mass/2 * dt)
 				else
 					self:applyGravity(pickup, dt)
 				end
-				self:update(pickup)
 			else
 			
 				self:applyGravity(pickup, dt)
@@ -347,16 +345,13 @@ function physics:pickups(dt)
 				self:platforms(pickup, dt)
 				self:crates(pickup, dt)
 		
-				--update new poisition
-				self:update(pickup)
-			
 				-- if pickup goes outside of world, remove it
 				if pickup.y+pickup.h > world.groundLevel  then
 					pickups:destroy(pickups,i)
 				end
 			end
 			
-
+			self:update(pickup)
 		end
 end
 
@@ -453,7 +448,7 @@ end
 
 function physics:player(dt)
 	if editing then return end
-		if player.alive == 1  then
+		if player.alive  then
 			self:applyVelocity(player, dt)
 			self:applyGravity(player, dt)
 			self:applyRotation(player,math.pi*8,dt)
@@ -462,15 +457,15 @@ function physics:player(dt)
 			self:platforms(player, dt)
 			self:update(player)
 
-			if  not (mode == "editing") and player.y+player.h > world.groundLevel  then
+			if mode == "game" and player.y+player.h > world.groundLevel  then
 				player:die("out of bounds")
 			end
 			
 			
 		else
 			--death physics (float up)
-			player.y = player.y - 250 * dt
-			if player.y < player.newY-400 then
+			player.y = player.y - 200 * dt
+			if player.y < player.newY-500 then
 				player.lives = player.lives -1
 				player:respawn()
 			end

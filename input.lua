@@ -47,6 +47,12 @@ function love.keypressed(key)
 	if mode == "game" then
 		if key == "p" then
 			paused = not paused
+			
+			if not paused then
+				love.audio.resume()
+			else
+				love.audio.pause()
+			end
 		end
 	end
 	

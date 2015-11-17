@@ -133,7 +133,7 @@ function editor:keypressed(key)
 		player.xvel = 0
 		player.yvel = 0
 		player.angle = 0
-		player.jumping = 0
+		player.jumping = false
 		player.xvelboost = 0
 	end
 
