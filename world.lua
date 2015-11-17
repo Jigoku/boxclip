@@ -13,7 +13,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  --]]
  
- world = {}
+world = {}
 
 --add menu option to change this.
 --also portal entity should have parameter for "next map" 
@@ -199,7 +199,7 @@ function world:init(gamemode)
 	mode = gamemode
 	console = false
 	editing = false
-	
+	paused = false
 	
 	--move this setting into map files
 	--once editor menu can adjust variables
@@ -238,7 +238,7 @@ end
 
 function world:draw()
 	love.graphics.setColor(255,255,255,255)
-	
+		
 	-- set camera for world
 	camera:set()
 
@@ -259,7 +259,7 @@ function world:draw()
 
 
 	
-	
+
 	platforms:draw()
 	props:draw()
 	springs:draw()
@@ -314,7 +314,15 @@ function world:draw()
 		love.graphics.printf(player.gems, 20,80,150,"right",0,1,1)
 		love.graphics.setFont(fonts.default)
 	end
-
+	
+	if paused then
+		love.graphics.setColor(0,0,0,155)
+		love.graphics.rectangle("fill",0,0,WIDTH,HEIGHT)
+		love.graphics.setColor(255,255,255,155)
+		love.graphics.setFont(fonts.huge)
+		love.graphics.printf("PAUSED", WIDTH/2,HEIGHT/3,0,"center",0,1,1)
+		love.graphics.setFont(fonts.default)
+	end
 end
 
 
@@ -422,7 +430,7 @@ end
 
 
 function world:run(dt)
-
+	if paused then return end
 	world:timer()
 	physics:world(dt)
 	physics:player(dt)

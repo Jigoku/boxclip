@@ -1,19 +1,7 @@
 input = {}
 
 function input:checkkeys(dt)
-	if not editing and player.alive == 1 then
-
-		if love.keyboard.isDown("d") or love.keyboard.isDown("right")  then
-			player:moveright()
-	
-		elseif love.keyboard.isDown("a") or love.keyboard.isDown("left") then
-			player:moveleft()
-			
-		else
-			player.dir = "idle"
-		end
-	end
-	
+	if mode == "game" or mode == "editing" then player:checkkeys(dt) end
 	if editing then editor:checkkeys(dt) end
 end
 
@@ -55,9 +43,17 @@ function love.keypressed(key)
 	
 	if mode == "title" then title:keypressed(key) end
 	if mode == "editing" then editor:keypressed(key) end
-
+	
+	if mode == "game" then
+		if key == "p" then
+			paused = not paused
+		end
+	end
+	
 	--quit
 	if mode == "game" or mode == "editing" then
+		player:keypressed(key) 
+		
 		if key == "escape" then
 			title:init()
 		end
@@ -74,12 +70,5 @@ function love.keypressed(key)
 	if key == "f5" then util:togglefullscreen() end
 		
 
-	if not editing then
-		if player.alive == 1 then
-			--jump
-			if key == " " then
-				player:jump()
-			end
-		end
-	end
+
 end

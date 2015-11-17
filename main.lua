@@ -51,6 +51,7 @@ require("entities/portals")
 debug = false
 
 
+
 function love.load()
 	math.randomseed(os.time())
 	runtime = os.time()

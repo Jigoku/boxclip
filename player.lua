@@ -230,3 +230,31 @@ function player:moveright()
 	player.dir = "right"	
 end
 
+
+function player:checkkeys(dt)
+	if paused or editing then return end
+	
+	if player.alive == 1 then
+		if love.keyboard.isDown("d") or love.keyboard.isDown("right")  then
+			player:moveright()
+	
+		elseif love.keyboard.isDown("a") or love.keyboard.isDown("left") then
+			player:moveleft()
+			
+		else
+			player.dir = "idle"
+		end
+	end
+end
+
+function player:keypressed(key)
+	if paused or editing then return end
+	
+	if player.alive == 1 then
+		--jump
+		if key == " " then
+			player:jump()
+		end
+	end
+
+end
