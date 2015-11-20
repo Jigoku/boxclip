@@ -21,7 +21,7 @@ function mapio:savemap(map)
 	fh:write("ambient="..world.mapambient.."\n")
 	fh:write("theme="..world.theme.."\n")
 	for i, entity in ipairs(platforms) do
-		fh:write("platform="..math.round(entity.xorigin)..","..math.round(entity.yorigin)..","..entity.w..","..entity.h..","..entity.clip..","..entity.movex..","..entity.movey..","..entity.movespeed..","..entity.movedist..","..entity.swing.."\n")
+		fh:write("platform="..math.round(entity.xorigin)..","..math.round(entity.yorigin)..","..entity.w..","..entity.h..","..entity.clip..","..entity.movex..","..entity.movey..","..entity.movespeed..","..entity.movedist..","..entity.swing..","..entity.angle.."\n")
 	end
 	
 	for i, entity in ipairs(pickups) do
@@ -101,10 +101,10 @@ function mapio:loadmap(mapname)
 		--parse platforms
 		if string.find(line, "^platform=(.+)") then
 		
-			local x,y,w,h,clip,movex,movey,movespeed,movedist,swing = string.match(
-				line, "^platform=(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+)"
+			local x,y,w,h,clip,movex,movey,movespeed,movedist,swing,angle = string.match(
+				line, "^platform=(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+)"
 			)
-			platforms:add(tonumber(x),tonumber(y),tonumber(w),tonumber(h),tonumber(clip),tonumber(movex),tonumber(movey),tonumber(movespeed),tonumber(movedist),tonumber(swing))
+			platforms:add(tonumber(x),tonumber(y),tonumber(w),tonumber(h),tonumber(clip),tonumber(movex),tonumber(movey),tonumber(movespeed),tonumber(movedist),tonumber(swing),tonumber(angle))
 		end
 		-- parse pickups
 		if string.find(line, "^pickup=(.+)") then

@@ -20,7 +20,7 @@ platform_tile = love.graphics.newImage("graphics/tiles/brick.png")
 platform_link = love.graphics.newImage("graphics/tiles/link.png")
 platform_link_origin = love.graphics.newImage("graphics/tiles/link_origin.png")
 
-function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing)
+function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing,angle)
 	table.insert(platforms, {
 		--dimensions
 		x = x or 0, 
@@ -43,10 +43,12 @@ function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing)
 		
 		--swing platforms
 		swing = swing or 0,
-		angle = 0,
+		angle = angle or 0,
 		radius = 200,
 
 	})
+	
+	
 	print("platform added @  X:"..x.." Y: "..y .. "(w:" .. w .. " h:".. h.. ")")
 end
 

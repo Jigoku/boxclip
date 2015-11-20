@@ -70,7 +70,7 @@ end
 
 function physics:applyGravity(object, dt)
 	--simulate gravity
-	object.yvel = math.round((object.yvel - ((world.gravity+object.mass*2) *dt)),0)
+	object.yvel = (object.yvel - ((world.gravity+object.mass*2) *dt))
 	
 	--stop increasing velocity if we hit this limit
 	if object.yvel < -world.gravity*4 then 
@@ -91,7 +91,6 @@ function physics:applyRotation(object,n,dt)
 end
 
 function physics:swing(object,dt)
-	if  editing then return end
 	object.vel = 100 *dt
 		--	if object.angle > math.pi*2 then object.angle = 0 end
 	if object.reverse then
@@ -146,7 +145,7 @@ end
 
 function physics:world(dt)
 
-
+	if editing then return end
 	-- moving platforms etc
 	local i, object
 	for i, object in ipairs(platforms) do
@@ -297,10 +296,11 @@ function physics:platforms(object, dt)
 						
 						
 						if platform.swing == 1 then
-							object.yvel = -1000
-							--if object.xvel == 0 then
+							object.yvel = -world.gravity
+							object.xvel = 0
+							
 								
-								object.newX = platform.radius * math.cos(platform.angle) + platform.xorigin +platform.w/2 - object.w/2
+								object.newX =  platform.radius * math.cos(platform.angle) + platform.xorigin +platform.w/2 - object.w/2
 							--end
 
 						end

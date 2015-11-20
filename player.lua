@@ -155,18 +155,12 @@ function player:respawn()
 	self:follow(1)
 	self:cheats()
 	
-	--temp fix for attracted pickups on respawn
-	for i,pickup in ipairs(pickups) do
-		if pickup.attract then
-			table.remove(pickups, i)
-		end
-	end
-	
 	util:dprint("respawn player")
 end
 
 function player:die(this)
 	if mode == "game" then
+	
 		if self.hasshield then
 			self.xvel = -self.xvel
 			self:jump()

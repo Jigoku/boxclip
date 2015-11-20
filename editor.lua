@@ -202,7 +202,44 @@ function editor:checkkeys(dt)
 			player.y = player.y + self.movespeed *dt
 		end
 		
+		if love.keyboard.isDown("[") then
+			self:adjustent(-1,dt)
+		end
+		if love.keyboard.isDown("]") then
+			self:adjustent(1,dt)
+		end
+end
 
+
+function editor:adjustent(dir,dt)
+			
+	for _,platform in ipairs(platforms) do
+		if world:inview(platform) then
+			if platform.swing and collision:check(mousePosX,mousePosY,1,1,
+				platform.xorigin-platform_link_origin:getWidth()/2, platform.yorigin-platform_link_origin:getHeight()/2,  
+				platform_link_origin:getWidth(),platform_link_origin:getHeight()) then
+
+				platform.angle = platform.angle - dir*2 *dt
+				if platform.angle > math.pi then platform.angle = math.pi end			
+				if platform.angle < 0 then platform.angle = 0 end
+				return true
+			end
+
+			if platform.movex and collision:check(mousePosX,mousePosY,1,1,
+				platform.xorigin, platform.y, platform.movedist+platform.w, platform.h) then
+				print (platform.movedist)
+				platform.movedist = platform.movedist + dir*2
+				return true
+			end
+			if platform.movey and collision:check(mousePosX,mousePosY,1,1,
+				platform.xorigin, platform.yorigin, platform.w, platform.h+platform.movedist) then
+				
+				platform.movedist = platform.movedist + dir*2
+				return true
+			end
+		end
+	end
+	
 end
 
 function editor:zoom()
