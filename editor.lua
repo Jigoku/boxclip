@@ -225,21 +225,32 @@ function editor:adjustent(dir,dt)
 				return true
 			end
 
-			if platform.movex and collision:check(mousePosX,mousePosY,1,1,
+			if platform.movex == 1 and collision:check(mousePosX,mousePosY,1,1,
 				platform.xorigin, platform.y, platform.movedist+platform.w, platform.h) then
-				print (platform.movedist)
 				platform.movedist = platform.movedist + dir*2
+				if platform.movedist < platform.w then platform.movedist = platform.w end
 				return true
 			end
-			if platform.movey and collision:check(mousePosX,mousePosY,1,1,
+			if platform.movey == 1 and collision:check(mousePosX,mousePosY,1,1,
 				platform.xorigin, platform.yorigin, platform.w, platform.h+platform.movedist) then
 				
 				platform.movedist = platform.movedist + dir*2
+				if platform.movedist < platform.h then platform.movedist = platform.h end
 				return true
 			end
 		end
 	end
 	
+	for _,enemy in ipairs(enemies) do
+		if world:inview(enemy) then
+			if enemy.movex == 1 and collision:check(mousePosX,mousePosY,1,1,
+				enemy.xorigin, enemy.y, enemy.movedist+enemy.w, enemy.h) then
+				enemy.movedist = enemy.movedist + dir*2
+				if enemy.movedist < enemy.w then enemy.movedist = enemy.w end
+				return true
+			end
+		end
+	end
 end
 
 function editor:zoom()
