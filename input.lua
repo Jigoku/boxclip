@@ -48,11 +48,10 @@ function love.keypressed(key)
 		if key == "p" then
 			paused = not paused
 			
-			if not paused then
-				love.audio.resume()
-			else
-				love.audio.pause()
-			end
+			if not paused then love.audio.resume()
+				else love.audio.pause() end
+				
+			love.audio.play( sound.beep )
 		end
 	end
 	

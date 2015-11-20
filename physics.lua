@@ -93,19 +93,19 @@ end
 function physics:swing(object,dt)
 	object.vel = 100 *dt
 		--	if object.angle > math.pi*2 then object.angle = 0 end
-		
+
 	if not editing then 
 		if object.reverse then
 			object.angle = object.angle -1 * object.vel * dt
 		else
 			object.angle = object.angle +1 * object.vel * dt
 		end
-			
+
 		if object.angle > math.pi then
 			object.angle = math.pi
 			object.reverse = true
 		end
-						
+
 		if object.angle < 0 then
 			object.angle = 0
 			object.reverse = false
@@ -148,14 +148,12 @@ end
 
 function physics:world(dt)
 
-
 	-- moving platforms etc
 	local i, object
 	for i, object in ipairs(platforms) do
 		if object.movex == 1 then self:movex(object, dt) end
 		if object.movey == 1 then self:movey(object, dt) end
-		
-		if object.swing == 1 then self:swing(object,dt) end
+		if object.swing == 1 then self:swing(object, dt) end
 	end
 
 end
@@ -310,7 +308,7 @@ function physics:platforms(object, dt)
 					end
 				end
 				----disabled because overlapping platforms also kill when 
-				----stood on top and running across....
+				----stood on top and running across or hitting a corner....
 				--if object.name == "player" and object.cc > 1 then object:die("platform") end
 			end
 		
@@ -430,15 +428,16 @@ function physics:enemies(dt)
 			
 			
 			if enemy.name == "spikeball" then
-				if editing then return end
-				enemy.angle = enemy.angle -1 * (enemy.vel*dt) * dt
+				if not editing then
+					enemy.angle = enemy.angle -1 * (enemy.vel*dt) * dt
 				
-				if enemy.angle > math.pi*2 then enemy.angle = 0 end
+					if enemy.angle > math.pi*2 then enemy.angle = 0 end
 		
-				enemy.newX = enemy.radius * math.cos(enemy.angle) + enemy.xorigin
-				enemy.newY = enemy.radius * math.sin(enemy.angle) + enemy.yorigin
-				
-				self:update(enemy)
+					enemy.newX = enemy.radius * math.cos(enemy.angle) + enemy.xorigin
+					enemy.newY = enemy.radius * math.sin(enemy.angle) + enemy.yorigin
+					
+					self:update(enemy)
+				end
 			end
 			
 			
