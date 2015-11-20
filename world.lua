@@ -197,7 +197,7 @@ end
 
 function world:init(gamemode) 
 	mode = gamemode
-	console = false
+	--console = false
 	editing = false
 	paused = false
 	
