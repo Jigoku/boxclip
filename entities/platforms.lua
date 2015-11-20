@@ -165,7 +165,7 @@ function platforms:drawDebug(platform, i)
 	-- debug mode drawing
 	
 	-- collision area
-	if platform.name == "platform" then
+	if platform.name == "platform" and not (platform.swing == 1) then
 		love.graphics.setColor(255,0,0,100)
 		love.graphics.rectangle("line", platform.x, platform.y, platform.w, platform.h)
 	end
@@ -188,6 +188,8 @@ function platforms:drawDebug(platform, i)
 		love.graphics.line( platform.xorigin,platform.yorigin,
 							platform.x,platform.y
 		)	
+		love.graphics.setColor(255,0,0,100)
+		love.graphics.rectangle("line", platform.xorigin-platform_link_origin:getWidth()/2, platform.yorigin-platform_link_origin:getHeight()/2,platform_link_origin:getWidth(),platform_link_origin:getHeight())
 	end
 	
 	util:drawid(platform,i)

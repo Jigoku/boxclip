@@ -93,22 +93,25 @@ end
 function physics:swing(object,dt)
 	object.vel = 100 *dt
 		--	if object.angle > math.pi*2 then object.angle = 0 end
-	if object.reverse then
-		object.angle = object.angle -1 * object.vel * dt
-	else
-		object.angle = object.angle +1 * object.vel * dt
-	end
+		
+	if not editing then 
+		if object.reverse then
+			object.angle = object.angle -1 * object.vel * dt
+		else
+			object.angle = object.angle +1 * object.vel * dt
+		end
 			
-	if object.angle > math.pi then
-		object.angle = math.pi
-		object.reverse = true
-	end
+		if object.angle > math.pi then
+			object.angle = math.pi
+			object.reverse = true
+		end
 						
-	if object.angle < 0 then
-		object.angle = 0
-		object.reverse = false
+		if object.angle < 0 then
+			object.angle = 0
+			object.reverse = false
+		end
 	end
-			
+	
 	object.x = object.radius * math.cos(object.angle) + object.xorigin
 	object.y = object.radius * math.sin(object.angle) + object.yorigin
 			
@@ -145,7 +148,7 @@ end
 
 function physics:world(dt)
 
-	if editing then return end
+
 	-- moving platforms etc
 	local i, object
 	for i, object in ipairs(platforms) do
