@@ -15,7 +15,7 @@
  
 platforms = {}
 
-platform_tile = love.graphics.newImage("graphics/tiles/brick.png")
+platform_tile = love.graphics.newImage("graphics/tiles/checked.png")
 
 platform_link = love.graphics.newImage("graphics/tiles/link.png")
 platform_link_origin = love.graphics.newImage("graphics/tiles/link_origin.png")
