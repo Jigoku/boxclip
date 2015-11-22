@@ -404,7 +404,7 @@ end
 
 function world:inview(entity) 
 	--check if entity is offset (probably swinging or rotating)
-		if entity.radius then
+		if entity.swing == 1 then
 			if (entity.xorigin-entity.radius < camera.x + (WIDTH/2*camera.scaleX)) 
 			and (entity.xorigin+entity.w+entity.radius > camera.x - (WIDTH/2*camera.scaleX))  then
 				if (entity.yorigin-entity.radius < camera.y + (HEIGHT/2*camera.scaleX)) 
