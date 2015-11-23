@@ -9,6 +9,7 @@ Install [love2d](https://love2d.org/), and simply type
 This is not even a pre-alpha, and end goals may change. Currently the plans are to have a box collision based world with a map editor, and simple path-based enemies.
 
 #####Current features
+* title screen
 * moving platforms
 * friction
 * gravity
@@ -32,6 +33,7 @@ This is not even a pre-alpha, and end goals may change. Currently the plans are 
 * entity browser
 * primitive copy/paste
 * reposition platforms
+* adjustable distance/angle
 * save map
 * theme palettes
 * camera zoom
