@@ -174,7 +174,7 @@ function physics:crates(object,dt)
 					crates:addpickup(crate, i,true)	
 				end
 					
-				if collision:right(object,crate) then
+				if collision:right(object,crate) and not collision:top(object,crate) then
 				object.xvelboost = 0
 					if object.jumping then
 						object.newX = crate.x+crate.w +1
@@ -183,7 +183,7 @@ function physics:crates(object,dt)
 						object.newX = crate.x+crate.w +1 *dt
 						object.xvel = 0
 					end
-				elseif collision:left(object,crate) then
+				elseif collision:left(object,crate) and not collision:top(object,crate) then
 				object.xvelboost = 0
 					if object.jumping then
 						object.newX = crate.x-object.w -1
