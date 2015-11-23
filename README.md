@@ -40,10 +40,8 @@ This is not even a pre-alpha, and end goals may change. Currently the plans are 
 Many things are not implemented yet.
 
 ##### Screenshots
-![1](https://cloud.githubusercontent.com/assets/1535179/11027544/579db0e8-86ae-11e5-8a20-fe2afc5b8dbd.png)
-![2](https://cloud.githubusercontent.com/assets/1535179/11027546/57a44de0-86ae-11e5-979d-fdbb4f4d1053.png)
-![3](https://cloud.githubusercontent.com/assets/1535179/11027545/57a3746a-86ae-11e5-9a85-c6ab218ce58d.png)
-![2](https://cloud.githubusercontent.com/assets/1535179/10905003/2fa4ccc8-820f-11e5-9d88-3bba111260db.png)
-![4](https://cloud.githubusercontent.com/assets/1535179/11027547/57a62dc2-86ae-11e5-9340-42874eb5d962.png)
 
-
+![16](https://cloud.githubusercontent.com/assets/1535179/11330843/2668982e-91aa-11e5-9748-b048a71af86f.png)
+![18](https://cloud.githubusercontent.com/assets/1535179/11330845/266903fe-91aa-11e5-8e44-7e71e19c4ca7.png)
+![19](https://cloud.githubusercontent.com/assets/1535179/11330846/266a446c-91aa-11e5-824e-1f86ea3c8961.png)
+![20](https://cloud.githubusercontent.com/assets/1535179/11330844/2669064c-91aa-11e5-834c-2f886846b531.png)
