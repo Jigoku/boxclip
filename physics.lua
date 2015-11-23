@@ -91,14 +91,13 @@ function physics:applyRotation(object,n,dt)
 end
 
 function physics:swing(object,dt)
-	object.vel = 100 *dt
-		--	if object.angle > math.pi*2 then object.angle = 0 end
-
+	
 	if not editing then 
+	
 		if object.reverse then
-			object.angle = object.angle -1 * object.vel * dt
+			object.angle = object.angle -1 * (object.movespeed*dt) * dt
 		else
-			object.angle = object.angle +1 * object.vel * dt
+			object.angle = object.angle +1 * (object.movespeed*dt) * dt
 		end
 
 		if object.angle > math.pi then
@@ -110,6 +109,7 @@ function physics:swing(object,dt)
 			object.angle = 0
 			object.reverse = false
 		end
+		
 	end
 	
 	object.x = object.radius * math.cos(object.angle) + object.xorigin 

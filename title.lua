@@ -23,7 +23,6 @@ title.keystr = ""
 
 
 function title:init()
-	debug = false
 	mode = "title"
 	self.bg = love.graphics.newImage("graphics/backgrounds/sky.png")
 	self.bg:setWrap("repeat", "repeat")

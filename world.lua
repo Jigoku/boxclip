@@ -257,7 +257,7 @@ function world:draw()
 		love.graphics.draw(background, background_quad,camera.x-WIDTH/2*camera.scaleX,camera.y-HEIGHT/2*camera.scaleY)
 	end
 	
-	love.graphics.setColor(255,255,255,200)
+	love.graphics.setColor(255,255,255,255)
 	
 	--groundLevel placeholder
 	love.graphics.draw(groundLevel_tile, groundLevel_quad, -1000,world.groundLevel)
@@ -276,7 +276,7 @@ function world:draw()
 	
 	
 	player:draw()	
-	world:drawWeather()
+	--world:drawWeather()
 	camera:unset()
 
 	-- overlay tests

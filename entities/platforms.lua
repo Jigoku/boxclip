@@ -20,6 +20,8 @@ platform_tile = love.graphics.newImage("graphics/tiles/checked.png")
 platform_link = love.graphics.newImage("graphics/tiles/link.png")
 platform_link_origin = love.graphics.newImage("graphics/tiles/link_origin.png")
 
+platform_cradle = love.graphics.newImage("graphics/tiles/cradle.png")
+
 function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing,angle)
 
 	table.insert(platforms, {
@@ -46,6 +48,7 @@ function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing,angle)
 		swing = swing or 0,
 		angle = angle or 0,
 		radius = 200,
+		
 
 	})
 	
@@ -93,13 +96,14 @@ function platforms:draw()
 					local quad = love.graphics.newQuad( 0,0, platform.w+50, platform.h/1.5, platform.gfx:getDimensions() )
 					platform.gfx:setWrap("repeat", "repeat")	
 					
-					love.graphics.setColor(
+										love.graphics.setColor(
 						platform_wall_r,
 						platform_wall_g,
 						platform_wall_b,
 						255
-					)	
-					love.graphics.draw(platform.gfx, quad, platform.x-25,platform.y)
+					)
+					love.graphics.draw(platform_cradle, platform.x-platform_cradle:getWidth()/2,platform.y-platform_cradle:getHeight()/1.5)
+					--love.graphics.rectangle("fill", platform.x-25,platform.y, platform.w+50, platform.h/1.5)
 				
 				else
 				
