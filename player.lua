@@ -56,19 +56,20 @@ end
 function player:draw()
 
 	if not editing then
-	
+	love.graphics.push()
 	--rotating for jumping
 	if self.jumping then
+		
 		love.graphics.translate(self.x+self.w/2,self.y+self.h/2)
 		love.graphics.rotate(self.angle)
 		love.graphics.translate(-self.x-self.w/2,-self.y-self.h/2)
-		
+
 		--player main (circle)
 		love.graphics.setColor(80,220,160,255)
 		love.graphics.circle("fill", self.x+self.w/2, self.y+self.h/2, self.w/1.5, self.h)
 		love.graphics.setColor(80,80,80,255)
 		love.graphics.circle("line", self.x+self.w/2, self.y+self.h/2, self.w/1.5, self.h)
-		
+				
 	else
 	--player main (square)
 		local opacity = 255
@@ -91,15 +92,15 @@ function player:draw()
 		love.graphics.rectangle("fill", self.x+10, self.y+10, 3, 4)
 		love.graphics.rectangle("fill", self.x+20, self.y+10, 3, 4 )
 	end
-	
+	love.graphics.pop()
 	end
 	
-	 self:drawpowerups()
+	self:drawpowerups()
 	
 	if editing then
 		self:drawDebug()
 	end
-	
+
 end
 
 function player:drawDebug()

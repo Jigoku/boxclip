@@ -154,7 +154,7 @@ function editor:keypressed(key)
 		if key == "e" then self.showentmenu = not self.showentmenu end
 
 		if key == "g" then self.showguide = not self.showguide end
-
+		if key == "x" then self:sendtospawn(player) end
 		if key == "," then self.showpos = not self.showpos end
 		if key == "." then self.showid = not self.showid end
 		if key == "f12" then mapio:savemap(world.map) end
@@ -326,6 +326,20 @@ function editor:mousereleased(x,y,button)
 	end
 end
 
+
+function editor:sendtospawn(entity)
+	for _,portal in ipairs(portals) do
+		if portal.name == "spawn" then
+			entity.x = portal.x
+			entity.y = portal.y
+			return true
+		end
+	end
+	
+	entity.x = 0
+	entity.y = 0
+	
+end
 
 function editor:addplatform(x1,y1,x2,y2)
 	local ent = self:entname(self.entsel)

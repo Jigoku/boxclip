@@ -466,8 +466,8 @@ function physics:player(dt)
 			
 		else
 			--death physics (float up)
-			player.y = player.y - 200 * dt
-			if player.y < player.newY-500 then
+			player.y = player.y - 250 * dt
+			if player.y < player.newY-600 then
 				player.lives = player.lives -1
 				player:respawn()
 			end

@@ -32,6 +32,10 @@ function world:settheme(theme)
 	--theme palettes for different settings
 	--specified in map file as "theme=*"
 
+	--overlay test
+	overlay = love.graphics.newImage("graphics/backgrounds/fog.png")
+	overlay:setWrap("repeat", "repeat")
+
 	--fallbacks
 	background_scroll = 0
 	groundLevel_scroll = 0	
@@ -271,11 +275,11 @@ function world:draw()
 	
 	
 	player:draw()	
-
+	world:drawWeather()
 	camera:unset()
-	
+
 	-- overlay tests
-	--world:drawWeather()
+
 	
 	---cloud front layer?
 	--love.graphics.setColor(255,255,255,155)
@@ -345,7 +349,9 @@ end
 
 
 function world:drawWeather()
+	if editing then return end
 	--rain gimick overlay
+	--[[
 	maxParticle=5000
 	local i = 0
 	for star = i, maxParticle do
@@ -354,6 +360,15 @@ function world:drawWeather()
 			love.graphics.setColor(255,255,255,15)
 			love.graphics.line(x, y, x-5, y+40)
 	end
+	--]]
+
+
+	love.graphics.setColor(255,135,55,100)
+	overlay_quad = love.graphics.newQuad( 0,0, WIDTH, HEIGHT, overlay:getDimensions() )
+	overlay_quad:setViewport(camera.x/2,camera.y/2-background_scroll/2,WIDTH*camera.scaleX,HEIGHT*camera.scaleY )
+	love.graphics.draw(overlay, overlay_quad,camera.x-WIDTH/2*camera.scaleX,camera.y-HEIGHT/2*camera.scaleY)
+			
+			
 end
 
 function world:count(table)
