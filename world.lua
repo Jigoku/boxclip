@@ -35,7 +35,8 @@ function world:settheme(theme)
 	--overlay test
 	overlay = love.graphics.newImage("graphics/backgrounds/fog.png")
 	overlay:setWrap("repeat", "repeat")
-
+	overlay_quad = love.graphics.newQuad( 0,0, WIDTH, HEIGHT, overlay:getDimensions() )
+	
 	--fallbacks
 	background_scroll = 0
 	groundLevel_scroll = 0	
@@ -362,10 +363,8 @@ function world:drawWeather()
 	end
 	--]]
 
-
-	love.graphics.setColor(255,135,55,100)
-	overlay_quad = love.graphics.newQuad( 0,0, WIDTH, HEIGHT, overlay:getDimensions() )
-	overlay_quad:setViewport(camera.x/2,camera.y/2-background_scroll/2,WIDTH*camera.scaleX,HEIGHT*camera.scaleY )
+	love.graphics.setColor(255,255,255,100)
+	overlay_quad:setViewport(camera.x/2,camera.y/2,WIDTH*camera.scaleX,HEIGHT*camera.scaleY )
 	love.graphics.draw(overlay, overlay_quad,camera.x-WIDTH/2*camera.scaleX,camera.y-HEIGHT/2*camera.scaleY)
 			
 			

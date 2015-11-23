@@ -112,7 +112,7 @@ function physics:swing(object,dt)
 		end
 	end
 	
-	object.x = object.radius * math.cos(object.angle) + object.xorigin
+	object.x = object.radius * math.cos(object.angle) + object.xorigin 
 	object.y = object.radius * math.sin(object.angle) + object.yorigin
 			
 end

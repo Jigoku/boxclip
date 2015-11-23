@@ -289,7 +289,7 @@ function editor:mousepressed(x,y,button)
 		if selection == "walker" then enemies:walker(x,y,100,100) end
 		if selection == "floater" then enemies:floater(x,y,100,400) end
 		if selection == "spikeball" then enemies:spikeball(x,y) end
-		if selection == "platform_s" then platforms:add(x,y,10,20,0,0,0,0,0,1) end
+		if selection == "platform_s" then platforms:add(x,y,1,20,0,0,0,0,0,1) end
 		if selection == "checkpoint" then checkpoints:add(x,y) end
 		if selection == "gem" then pickups:add(x,y,"gem") end
 		if selection == "life" then pickups:add(x,y,"life") end

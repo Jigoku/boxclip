@@ -64,7 +64,7 @@ function platforms:drawlink(platform)
 	local r = 0
 
 	--link
-	while r < platform.radius -platform_link:getHeight() do
+	while r < platform.radius do
 		r = r + platform_link:getHeight()
 		local x = r * math.cos(platform.angle) + platform.xorigin
 		local y = r * math.sin(platform.angle) + platform.yorigin
