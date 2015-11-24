@@ -48,8 +48,8 @@ function title:init()
 	
 		
 	--use for fade transition
-	self.fade = 255
-	self:fadein()
+	--self.fade = 255
+	transitions:fadein()
 
 	util:dprint("initialized title")
 end
@@ -60,8 +60,8 @@ function title:mainselect(cmd)
 	if cmd == "down" then self.sel = self.sel +1 end
 	
 	if cmd == "go" then
-		if self.sel == 0 then self:fadeto("game") end
-		if self.sel == 1 then self:fadeto("editing") end
+		if self.sel == 0 then transitions:fadeout("game") end
+		if self.sel == 1 then transitions:fadeout("editing") end
 		if self.sel == 2 then self.menu = "options" end
 		if self.sel == 3 then love.event.quit() end
 	end
@@ -73,7 +73,7 @@ end
 
 
 function title:keypressed(key)
-	if not self.trans_fadein or self.trans_fadeout then
+	if not transitions.active then
 		self:checkcheatcodes(key)
 	
 		if self.menu == "main" then
@@ -124,41 +124,14 @@ function title:run(dt)
 	self.bgscroll = self.bgscroll + self.bgscrollspeed * dt
 	if self.bgscroll > self.bg:getHeight()then
 		self.bgscroll = self.bgscroll - self.bg:getWidth()
-	end
-	
-	if self.trans_fadeout then
-		self.fade = self.fade +500 *dt
-		love.audio.setVolume( love.audio.getVolume()-2*dt)
-		if self.fade > 255 then
-			self.fade = 0
-			self.trans_fadeout = false
-			love.audio.stop()
-			love.audio.setVolume(1)
-			world:init(self.mode)
-		end
-	end
-	
-	if self.trans_fadein then
-		self.fade = self.fade -500 *dt
-		if self.fade < 0 then
-			self.fade = 0
-			self.trans_fadein = false
-		end
-	end
-
-	
+	end	
 	--love.audio.setVolume( volume )
 end
 
 
-function title:fadeto(mode)
-	self.mode = mode
-	self.trans_fadeout = true
-end
 
-function title:fadein()
-	self.trans_fadein = true
-end
+
+
 
 function title:checkcheatcodes(key)
 
@@ -240,8 +213,7 @@ function title:drawmain()
 	love.graphics.setColor(100,150,160,255)
 	love.graphics.printf("Quit",WIDTH/4,HEIGHT/4+220,WIDTH/3,"left")
 	
-	love.graphics.setColor(0,0,0,self.fade)
-	love.graphics.rectangle("fill", 0,0,WIDTH,HEIGHT)
+
 
 end
 

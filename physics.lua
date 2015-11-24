@@ -178,7 +178,7 @@ function physics:crates(object,dt)
 				object.xvelboost = 0
 					if object.jumping then
 						object.newX = crate.x+crate.w +1
-						object.xvel = object.mass
+						object.xvel = -object.xvel
 					else
 						object.newX = crate.x+crate.w +1 *dt
 						object.xvel = 0
@@ -187,7 +187,7 @@ function physics:crates(object,dt)
 				object.xvelboost = 0
 					if object.jumping then
 						object.newX = crate.x-object.w -1
-						object.xvel = -object.mass
+						object.xvel = -object.xvel
 					else
 						object.newX = crate.x-object.w -1 *dt
 						object.xvel = 0
@@ -195,7 +195,7 @@ function physics:crates(object,dt)
 				elseif collision:bottom(object,crate) then
 					if object.jumping then
 						object.newY = crate.y +crate.h +1
-						object.yvel = -object.mass
+						object.yvel = -object.yvel
 					else
 						object.newY = crate.y +crate.h  +1 *dt
 						object.yvel = 0
@@ -203,7 +203,7 @@ function physics:crates(object,dt)
 				elseif collision:top(object,crate) then
 					if object.jumping then
 						object.newY = crate.y - object.h -1
-						object.yvel = object.mass
+						object.yvel = -object.yvel
 						
 					else
 						object.newY = crate.y - object.h -1 *dt

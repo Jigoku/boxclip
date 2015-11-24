@@ -30,6 +30,7 @@
 --]]
 
 require("title")
+require("transitions")
 require("mapio")
 require("camera")
 require("sound")
@@ -82,9 +83,21 @@ end
 
 function love.draw()
 
-	if mode == "title" then title:draw() else world:draw() end
-	if console then util:drawConsole() end
+	--titlescreen
+	if mode == "title" then 
+		title:draw() 
+	end
 	
+	--world
+	if mode == "game" or mode =="editing" then
+		world:draw() 
+	end
+	
+	--transition overlay
+	transitions:draw()
+	
+	if console then util:drawConsole() end
+
 end
 
 function love.resize(w,h)
@@ -97,7 +110,7 @@ end
 
 
 function love.update(dt)
-	-- process keyboard events
+	transitions:run(dt)
 	input:checkkeys(dt)
 
 	--run the world
