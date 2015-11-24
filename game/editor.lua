@@ -429,6 +429,8 @@ function editor:draw()
 	love.graphics.setFont(fonts.large)
 	love.graphics.print("editing",WIDTH-80, 10,0,1,1)
 	love.graphics.setFont(fonts.default)
+	love.graphics.print("press 'h' for help",WIDTH-115, 30,0,1,1)
+
 	
 	if editing then
 		camera:set()
@@ -578,6 +580,21 @@ function editor:drawhelpmenu()
 	love.graphics.print("h",10,s*18)
 	love.graphics.setColor(255,255,255,155)
 	love.graphics.printf("show help",menu:getWidth()/8,s*18,200,"right")
+	
+	love.graphics.setColor(155,255,255,155)
+	love.graphics.print("x",10,s*19)
+	love.graphics.setColor(255,255,255,155)
+	love.graphics.printf("set camera to origin/spawn",menu:getWidth()/8,s*19,200,"right")
+	
+	love.graphics.setColor(155,255,255,155)
+	love.graphics.print(",",10,s*20)
+	love.graphics.setColor(255,255,255,155)
+	love.graphics.printf("toggle co-ord display",menu:getWidth()/8,s*20,200,"right")
+	
+	love.graphics.setColor(155,255,255,155)
+	love.graphics.print(".",10,s*21)
+	love.graphics.setColor(255,255,255,155)
+	love.graphics.printf("toggle id display",menu:getWidth()/8,s*21,200,"right")
 	
 	love.graphics.setFont(fonts.default)
 		
