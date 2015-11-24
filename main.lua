@@ -29,18 +29,21 @@
 	camera scale : z
 --]]
 
-require("title")
-require("transitions")
 require("mapio")
-require("camera")
 require("sound")
-require("physics")
-require("collision")
-require("world")
 require("util")
-require("player")
 require("input")
-require("editor")
+
+require("menus/title")
+require("menus/transitions")
+
+require("game/camera")
+require("game/physics")
+require("game/collision")
+require("game/world")
+require("game/player")
+require("game/editor")
+
 require("entities/props")
 require("entities/springs")
 require("entities/crates")
