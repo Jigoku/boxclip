@@ -13,20 +13,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  --]]
  
+ 
 --[[
 	Boxclip 2d engine by ricky thomson
-
-	CONTROLS
-	left         : a / leftarrow
-	right        : d / rightarrow
-	jump         : space
-	suicide      : b
-	
-	fullscreen   : F5
-	editor mode  : F1
-	console      : `
-	quit         : esc
-	camera scale : z
 --]]
 
 require("mapio")
