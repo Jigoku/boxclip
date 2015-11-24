@@ -61,8 +61,10 @@ function physics:applyVelocity(object, dt)
 			if object.xvelboost > 0 then object.xvelboost = 0 end
 		end
 
-		local vel = object.xvel+object.xvelboost
-		object.newX = (object.x + vel  *dt)
+		local vel = math.round(object.xvel+object.xvelboost)
+
+		object.newX = object.x + (vel  *dt)
+
 		
 	end
 end
@@ -77,7 +79,7 @@ function physics:applyGravity(object, dt)
 		object.yvel = -world.gravity*4 
 	end
 
-	object.newY = (object.y - object.yvel *dt)
+	object.newY = math.round(object.y - (object.yvel *dt))
 end
 
 
@@ -95,9 +97,9 @@ function physics:swing(object,dt)
 	if not editing then 
 	
 		if object.reverse then
-			object.angle = object.angle -1 * (object.movespeed*dt) * dt
+			object.angle = object.angle -(object.movespeed * dt)
 		else
-			object.angle = object.angle +1 * (object.movespeed*dt) * dt
+			object.angle = object.angle + (object.movespeed * dt)
 		end
 
 		if object.angle > math.pi then
@@ -120,7 +122,7 @@ end
 function physics:movex(object, dt)
 	-- traverse x-axis
 	if object.x >= object.xorigin + object.movedist then
-		object.x = object.xorigin + object.movedist
+		object.x = object.xorigin + object.movedist 
 		object.movespeed = -object.movespeed
 		object.dir = "left"
 	end	
@@ -129,7 +131,7 @@ function physics:movex(object, dt)
 		object.movespeed = -object.movespeed
 		object.dir = "right"
 	end
-	object.x = (object.x + object.movespeed *dt)
+	object.newX = math.round(object.x + (object.movespeed *dt))
 end
 
 
@@ -143,7 +145,7 @@ function physics:movey(object, dt)
 		object.y = object.yorigin
 		object.movespeed = -object.movespeed
 	end
-	object.y = (object.y + object.movespeed *dt)
+	object.y = math.round(object.y + (object.movespeed *dt))
 end
 
 function physics:world(dt)
@@ -151,6 +153,7 @@ function physics:world(dt)
 	-- moving platforms etc
 	local i, object
 	for i, object in ipairs(platforms) do
+		self:update(object)
 		if object.movex == 1 then self:movex(object, dt) end
 		if object.movey == 1 then self:movey(object, dt) end
 		if object.swing == 1 then self:swing(object, dt) end
@@ -280,17 +283,17 @@ function physics:platforms(object, dt)
 					
 						if platform.movex == 1 and object.yvel == 0 then
 							-- move along x-axis with platform	
-							object.newX = (object.newX + platform.movespeed *dt)
+							object.newX = math.round(object.newX + (platform.movespeed *dt))
 						end
 							
 						if platform.movey == 1 and object.yvel <= 0 then
 							--going up
 							if platform.movespeed < 0 then
-								object.newY = (platform.y-object.h -platform.movespeed *dt)
+								object.newY = math.round(platform.y-object.h -(platform.movespeed *dt))
 							end
 							--going down
 							if platform.movespeed > 0 then
-								object.newY = (platform.y-object.h +platform.movespeed *dt)
+								object.newY = math.round(platform.y-object.h +(platform.movespeed *dt))
 							end
 						
 						end		
@@ -299,9 +302,8 @@ function physics:platforms(object, dt)
 						if platform.swing == 1 then
 							object.yvel = -world.gravity
 							object.xvel = 0
-							
 								
-								object.newX =  platform.radius * math.cos(platform.angle) + platform.xorigin +platform.w/2 - object.w/2
+							object.newX =  platform.radius * math.cos(platform.angle) + platform.xorigin +platform.w/2 - object.w/2
 							--end
 
 						end
@@ -320,8 +322,9 @@ end
 function physics:update(object)
 	--object.y = math.round(object.newY,0)
 	--object.x = math.round(object.newX,0)
-	object.y = object.newY
-	object.x = object.newX
+	if object.newY then object.y = object.newY end
+	if object.newX then object.x = object.newX end
+	
 end
 
 
@@ -341,7 +344,7 @@ function physics:pickups(dt)
 			else
 			
 				self:applyGravity(pickup, dt)
-				pickup.newX = (pickup.x + pickup.xvel *dt)
+				pickup.newX = pickup.x + (pickup.xvel *dt)
 			
 				self:platforms(pickup, dt)
 				self:crates(pickup, dt)
@@ -366,8 +369,6 @@ function physics:enemies(dt)
 			if enemy.name == "walker" then
 				self:applyGravity(enemy, dt)
 				self:movex(enemy, dt)
-				enemy.newX = (enemy.x + enemy.xvel *dt)
-
 				self:platforms(enemy, dt)
 				self:crates(enemy, dt)
 				self:update(enemy)
@@ -383,43 +384,52 @@ function physics:enemies(dt)
 			
 			if enemy.name == "floater" then
 				self:movex(enemy, dt)
+				self:update(enemy)
 			end
 			
 			if enemy.name == "icicle" then
 				
 				if enemy.falling then
-					enemy.jumping = 1
+					
 					self:applyGravity(enemy, dt)
-					enemy.newY = (enemy.y - enemy.yvel *dt)
-					enemy.newX = enemy.x
-					self:platforms(enemy, dt)
 					
 					--kill enemies hit by icicle
 					local i,e
 					for i, e in ipairs(enemies) do
 						if type(e) == "table" and e.alive and not (e.name == "icicle") then
 							if collision:check(e.x,e.y,e.w,e.h,
-							enemy.newX,enemy.newY,enemy.w,enemy.h) then
+							enemy.x,enemy.newY,enemy.w,enemy.h) then
 								enemies:die(e)
 							end
+
 						end
 					end
 					
 					--stop falling when colliding with platform
 					local i,platform
 					for i,platform in ipairs(platforms) do
-						if collision:check(platform.x,platform.y,platform.w,platform.h,
-							enemy.newX,enemy.newY,enemy.w,enemy.h) then
-							enemy.falling = false
-							enemy.gfx = icicle_d_gfx
-							enemy.h = 30
-							enemy.newY = platform.y-enemy.h
-						end
+							if collision:check(platform.x,platform.y,platform.w,platform.h,
+								enemy.x,enemy.newY,enemy.w,enemy.h) then
+								
+								if platform.clip == 1 and platform.movex == 0 and platform.movey == 0 then
+									enemy.falling = false
+									enemy.gfx = icicle_d_gfx
+									enemy.h = 30
+									enemy.newY = platform.y-enemy.h
+								end
+							end
+						
 					end
 					
-
+					if enemy.y > world.groundLevel  then
+						enemy.falling = false
+						enemy.alive = false
+					end
+					
 					
 					self:update(enemy)
+					
+					
 				else
 				
 					--make dropped spikes act like platforms???
@@ -429,7 +439,7 @@ function physics:enemies(dt)
 			
 			if enemy.name == "spikeball" then
 				if not editing then
-					enemy.angle = enemy.angle -1 * (enemy.vel*dt) * dt
+					enemy.angle = enemy.angle - (enemy.speed * dt)
 				
 					if enemy.angle > math.pi*2 then enemy.angle = 0 end
 		
@@ -458,7 +468,7 @@ function physics:player(dt)
 			self:crates(player,dt)
 			self:platforms(player, dt)
 			self:update(player)
-
+			
 			if mode == "game" and player.y+player.h > world.groundLevel  then
 				player:die("out of bounds")
 			end
@@ -466,7 +476,7 @@ function physics:player(dt)
 			
 		else
 			--death physics (float up)
-			player.y = player.y - 250 * dt
+			player.y = math.round(player.y - (250 * dt))
 			if player.y < player.newY-600 then
 				player.lives = player.lives -1
 				player:respawn()

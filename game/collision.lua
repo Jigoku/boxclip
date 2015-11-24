@@ -44,7 +44,7 @@ end
 function collision:left(a,b)
 	world.collision = world.collision +1
 	return a.newX+a.w > b.x and 
-					a.x+a.w < b.x
+					a.x+a.w < b.x 
 end
 
 function collision:top(a,b)
@@ -178,10 +178,11 @@ function collision:enemies(dt)
 				if collision:check(player.newX,player.newY,player.w,player.h,
 					enemy.x-50,enemy.y,enemy.w+50,enemy.h+200) and enemy.y == enemy.yorigin then
 					enemy.falling = true
+				
 				end
 			
 				if collision:check(player.newX,player.newY,player.w,player.h,
-					enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) and enemy.jumping == 1 then
+					enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) and enemy.falling then
 						player:die(enemy.name)
 				end
 			end

@@ -446,11 +446,12 @@ end
 function world:run(dt)
 	if paused then return end
 	world:timer()
+	collision:checkWorld(dt)
 	physics:world(dt)
 	physics:player(dt)
 	physics:pickups(dt)
 	physics:enemies(dt)			
-	collision:checkWorld(dt)
+
 	player:follow(dt)
 	
 	

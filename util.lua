@@ -106,11 +106,11 @@ function util:drawConsole()
 		
 		love.graphics.setColor(255,255,255,255)
 		love.graphics.print(
-			"X: " .. math.round(player.x,0) .. 
-			" | Y: " .. math.round(player.y,0) .. 
+			"X: " .. player.x .. 
+			" | Y: " .. player.y .. 
 			" | dir: " .. player.dir .. 
-			" | xvel: " .. math.round(player.xvel,0) .. 
-			" | yvel: " .. math.round(player.yvel,0) .. 
+			" | xvel: " .. player.xvel .. 
+			" | yvel: " .. player.yvel .. 
 			" | jumping: " .. (player.jumping and 1 or 0) ..
 			" | camera scale: " .. camera.scaleX, 
 			5, 20

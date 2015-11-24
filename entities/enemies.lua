@@ -217,7 +217,7 @@ function enemies:spikeball(x,y)
 		--properties
 		name = "spikeball",
 		
-		vel = 100,
+		speed = 2,
 		alive = true,
 		--newY = y,
 		swing = 1,
