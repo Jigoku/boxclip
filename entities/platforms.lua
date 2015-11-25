@@ -108,7 +108,7 @@ function platforms:draw()
 				else
 				
 				
-				if platform.clip == 0 then
+				if platform.clip == 0 or (platform.movex == 1) or (platform.movey == 1) then
 					love.graphics.setColor(
 						platform_wall_r-60,
 						platform_wall_g-60,

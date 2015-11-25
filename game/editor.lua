@@ -68,8 +68,6 @@ function editor:entname(id)
 	elseif id == 1 then return "goal" 
 	elseif id == 2 then return "platform" 
 	elseif id == 3 then return "platform_b" 
-	elseif id == 4 then return "platform_b_x" 
-	elseif id == 5 then return "platform_b_y" 
 	elseif id == 6 then return "platform_x" 
 	elseif id == 7 then return "platform_y" 
 	elseif id == 8 then return "platform_s" 
@@ -227,14 +225,14 @@ function editor:adjustent(dir,dt)
 
 			if platform.movex == 1 and collision:check(mousePosX,mousePosY,1,1,
 				platform.xorigin, platform.y, platform.movedist+platform.w, platform.h) then
-				platform.movedist = platform.movedist + dir*2
+				platform.movedist = math.round(platform.movedist + dir*2,1)
 				if platform.movedist < platform.w then platform.movedist = platform.w end
 				return true
 			end
 			if platform.movey == 1 and collision:check(mousePosX,mousePosY,1,1,
 				platform.xorigin, platform.yorigin, platform.w, platform.h+platform.movedist) then
 				
-				platform.movedist = platform.movedist + dir*2
+				platform.movedist = math.round(platform.movedist + dir*2,1)
 				if platform.movedist < platform.h then platform.movedist = platform.h end
 				return true
 			end
@@ -316,7 +314,7 @@ end
 function editor:mousereleased(x,y,button)
 	--check if we have selected platforms, then place if neccesary
 	if button == 'l' then 
-		local draggable = {"platform", "platform_b", "platform_x", "platform_y", "platform_b_y", "platform_b_x"}
+		local draggable = {"platform", "platform_b", "platform_x", "platform_y"}
 		for _,entity in ipairs(draggable) do
 			if self:entname(self.entsel) == entity then
 				self:addplatform(pressedPosX,pressedPosY,releasedPosX,releasedPosY)
@@ -356,26 +354,10 @@ function editor:addplatform(x1,y1,x2,y2)
 		local h = (y2-y1)
 		
 		--place the platform
-		if ent == "platform" then
-			platforms:add(x,y,w,h,1,0,0,0,0)
-		end
-		
-		if ent == "platform_b" then
-			platforms:add(x,y,w,h,0,0,0,0,0)
-		end
-		if ent == "platform_b_x" then
-			platforms:add(x,y,w,h,0, 1, 0, 100, 200)
-		end
-		if ent == "platform_b_y" then
-			platforms:add(x,y,w,h,0, 0, 1, 100, 200)
-		end
-		
-		if ent == "platform_x" then
-			platforms:add(x,y,w,h,1, 1, 0, 100, 200)
-		end
-		if ent == "platform_y" then
-			platforms:add(x,y,w,h,1, 0, 1, 100, 200)
-		end
+		if ent == "platform" then platforms:add(x,y,w,h,1,0,0,0,0) end
+		if ent == "platform_b" then platforms:add(x,y,w,h,0,0,0,0,0) end
+		if ent == "platform_x" then platforms:add(x,y,w,h,0, 1, 0, 100, 200) end
+		if ent == "platform_y" then platforms:add(x,y,w,h,0, 0, 1, 100, 200) end
 
 	end
 end
@@ -453,7 +435,7 @@ end
 function editor:drawselbox()
 	--draw an outline when dragging mouse when entsel is one of these types
 	if self.drawsel then
-		local draggable = { "platform", "platform_b", "platform_b_x", "platform_b_y", "platform_x", "platform_y"}
+		local draggable = { "platform", "platform_b", "platform_x", "platform_y"}
 		for _,entity in ipairs(draggable) do
 			if self:entname(self.entsel) == entity then
 				love.graphics.setColor(0,255,255,100)

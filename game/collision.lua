@@ -37,14 +37,14 @@ end
 
 function collision:right(a,b)
 	world.collision = world.collision +1
-	return a.newX < b.x+b.w and 
-					a.x > b.x+b.w
+	return a.newX <= b.x+b.w and 
+					a.x >= b.x+b.w 
 end
 
 function collision:left(a,b)
 	world.collision = world.collision +1
-	return a.newX+a.w > b.x and 
-					a.x+a.w < b.x 
+	return a.newX+a.w >= b.x and 
+					a.x+a.w <= b.x 
 end
 
 function collision:top(a,b)

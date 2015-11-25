@@ -61,9 +61,10 @@ function physics:applyVelocity(object, dt)
 			if object.xvelboost > 0 then object.xvelboost = 0 end
 		end
 
-		local vel = math.round(object.xvel+object.xvelboost)
+		object.xvel = math.floor(object.xvel)
+		object.xvelboost = math.floor(object.xvelboost)
 
-		object.newX = object.x + (vel  *dt)
+		object.newX = math.floor(object.x + ((object.xvel +object.xvelboost)  *dt))
 
 		
 	end
@@ -72,7 +73,7 @@ end
 
 function physics:applyGravity(object, dt)
 	--simulate gravity
-	object.yvel = (object.yvel - ((world.gravity+object.mass*2) *dt))
+	object.yvel = math.round(object.yvel - ((world.gravity+object.mass*2) *dt))
 	
 	--stop increasing velocity if we hit this limit
 	if object.yvel < -world.gravity*4 then 
@@ -252,12 +253,7 @@ function physics:platforms(object, dt)
 						
 					-- bottom side	
 					elseif collision:bottom(object,platform) then	
-						if platform.clip == 1 and platform.movey == 1 then
-							object.yvel = -object.yvel
-						else
-							object.yvel = 0
-						end
-												
+						object.yvel = 0		
 						object.newY = platform.y +platform.h +1 *dt
 						
 
