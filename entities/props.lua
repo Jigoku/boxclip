@@ -114,9 +114,9 @@ function props:draw()
 				
 			if prop.name == "arch" or prop.name == "arch2" then
 				love.graphics.setColor(
-					platform_wall_r,
-					platform_wall_g,
-					platform_wall_b,
+					platform_r,
+					platform_g,
+					platform_b,
 					255
 				)	
 			else				

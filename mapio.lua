@@ -76,7 +76,7 @@ function mapio:loadmap(mapname)
 	local lines = split(mapdata:getString(), "\n")
 	
 	--defaults in case not specified in map file
-	world.theme = "sunny"
+	world.theme = ""
 	world.mapmusic = 0
 	world.mapambient = 0
 	
@@ -84,19 +84,15 @@ function mapio:loadmap(mapname)
 		-- parse mapmusic
 		if string.find(line, "^mapmusic=(.+)") then
 			world.mapmusic = tonumber(string.match(line, "^mapmusic=(%d+)"))
-
 		end
 		-- parse ambient track
 		if string.find(line, "^ambient=(.+)") then
 			world.mapambient = tonumber(string.match(line, "^ambient=(%d+)"))
-			
 		end
 		-- parse theme
 		if string.find(line, "^theme=(.+)") then
 			world.theme = string.match(line, "^theme=(.+)")
-			world:settheme(world.theme)
-			love.graphics.setBackgroundColor(background_r,background_g,background_b,255)
-		
+			world:settheme(world.theme)	
 		end
 		--parse platforms
 		if string.find(line, "^platform=(.+)") then
@@ -104,7 +100,8 @@ function mapio:loadmap(mapname)
 			local x,y,w,h,clip,movex,movey,movespeed,movedist,swing,angle = string.match(
 				line, "^platform=(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+),(%-?%d+)"
 			)
-			platforms:add(tonumber(x),tonumber(y),tonumber(w),tonumber(h),tonumber(clip),tonumber(movex),tonumber(movey),tonumber(movespeed),tonumber(movedist),tonumber(swing),tonumber(angle))
+			platforms:add(tonumber(x),tonumber(y),tonumber(w),tonumber(h),tonumber(clip),
+				tonumber(movex),tonumber(movey),tonumber(movespeed),tonumber(movedist),tonumber(swing),tonumber(angle))
 		end
 		-- parse pickups
 		if string.find(line, "^pickup=(.+)") then
@@ -205,15 +202,19 @@ function mapio:loadmap(mapname)
 			portals:add(tonumber(x),tonumber(y),type)
 			
 		end
-		for _, portal in ipairs(portals) do
-			--set starting spawn
-			if portal.name == "spawn" then
-				player.spawnX = portal.x
-				player.spawnY = portal.y
-			end
-		end	
+
 			
 
 	end
-   
+
+				
+	for _, portal in ipairs(portals) do
+		--set starting spawn
+		if portal.name == "spawn" then
+			player.spawnX = portal.x
+			player.spawnY = portal.y
+		end
+	end	
+	
+
 end

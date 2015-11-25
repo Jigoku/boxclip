@@ -15,7 +15,7 @@
  
 platforms = {}
 
-platform_tile = love.graphics.newImage("graphics/tiles/checked.png")
+platform_tile = love.graphics.newImage("graphics/tiles/brick.png")
 
 platform_link = love.graphics.newImage("graphics/tiles/link.png")
 platform_link_origin = love.graphics.newImage("graphics/tiles/link_origin.png")
@@ -96,10 +96,10 @@ function platforms:draw()
 					local quad = love.graphics.newQuad( 0,0, platform.w+50, platform.h/1.5, platform.gfx:getDimensions() )
 					platform.gfx:setWrap("repeat", "repeat")	
 					
-										love.graphics.setColor(
-						platform_wall_r,
-						platform_wall_g,
-						platform_wall_b,
+					love.graphics.setColor(
+						platform_behind_r,
+						platform_behind_g,
+						platform_behind_b,
 						255
 					)
 					love.graphics.draw(platform_cradle, platform.x-platform_cradle:getWidth()/2,platform.y-platform_cradle:getHeight()/1.5)
@@ -108,20 +108,27 @@ function platforms:draw()
 				else
 				
 				
-				if platform.clip == 0 or (platform.movex == 1) or (platform.movey == 1) then
+				if (platform.movex == 1) or (platform.movey == 1) then
 					love.graphics.setColor(
-						platform_wall_r-60,
-						platform_wall_g-60,
-						platform_wall_b-60,
+						platform_move_r,
+						platform_move_g,
+						platform_move_b,
 						255
 					)
-				else
+				elseif platform.clip == 0 then
 					love.graphics.setColor(
-						platform_wall_r,
-						platform_wall_g,
-						platform_wall_b,
+						platform_behind_r,
+						platform_behind_g,
+						platform_behind_b,
 						255
 					)	
+				else
+					love.graphics.setColor(
+						platform_r,
+						platform_g,
+						platform_b,
+						255
+					)
 				end
 
 				local quad = love.graphics.newQuad( 0,0, platform.w, platform.h, platform.gfx:getDimensions() )

@@ -38,8 +38,7 @@ function world:settheme(theme)
 	overlay_quad = love.graphics.newQuad( 0,0, WIDTH, HEIGHT, overlay:getDimensions() )
 	
 	--fallbacks
-	background_scroll = 0
-	groundLevel_scroll = 0	
+
 	spike_gfx = spike
 	spike_large_gfx = spike_large
 	icicle_gfx = icicle
@@ -47,19 +46,29 @@ function world:settheme(theme)
 	background_r = 100
 	background_g = 100
 	background_b = 100
-	platform_wall_r = 220
-	platform_wall_g = 220
-	platform_wall_b = 220
+	platform_r = 220
+	platform_g = 220
+	platform_b = 220
+	platform_behind_r = 160
+	platform_behind_g = 160
+	platform_behind_b = 160
+	platform_move_r = 100
+	platform_move_g = 100
+	platform_move_b = 100
 	platform_top_r = 140
 	platform_top_g = 140
 	platform_top_b = 140
 	crate_r = 255
 	crate_g = 255
 	crate_b = 255
-	groundLevel_tile = water
-	groundLevel_scrollspeed = 100
+	
+	background_scroll = 0
 	background_scrollspeed = 0
 	background = ""
+	
+	groundLevel_scroll = 0
+	groundLevel_scrollspeed = 100
+	groundLevel_tile = water
 
 	
 	
@@ -69,12 +78,15 @@ function world:settheme(theme)
 		background_r = 100
 		background_g = 150
 		background_b = 160
-		platform_wall_r = 240
-		platform_wall_g = 170
-		platform_wall_b = 120
+		platform_r = 240
+		platform_g = 170
+		platform_b = 120
 		platform_top_r = 120
 		platform_top_g = 160
 		platform_top_b = 80
+		platform_move_r = 180
+		platform_move_g = 110
+		platform_move_b = 60
 		crate_r = 230
 		crate_g = 220
 		crate_b = 180
@@ -86,12 +98,18 @@ function world:settheme(theme)
 		background_r = 130
 		background_g = 150
 		background_b = 150
-		platform_wall_r = 115
-		platform_wall_g = 170
-		platform_wall_b = 170
+		platform_r = 40 
+		platform_g = 190
+		platform_b =  200
 		platform_top_r = 170
 		platform_top_g = 180
 		platform_top_b = 190
+		platform_move_r = 115
+		platform_move_g = 170
+		platform_move_b =170
+		platform_behind_r = 115
+		platform_behind_g = 170
+		platform_behind_b = 170
 		crate_r = 200
 		crate_g = 255
 		crate_b = 255
@@ -106,12 +124,18 @@ function world:settheme(theme)
 		background_r = 35
 		background_g = 30
 		background_b = 30
-		platform_wall_r = 95
-		platform_wall_g = 70
-		platform_wall_b = 70
-		platform_top_r = 80
-		platform_top_g = 30
-		platform_top_b = 30
+		platform_r = 90
+		platform_g = 30
+		platform_b = 20
+		platform_top_r = 35
+		platform_top_g = 35
+		platform_top_b = 35
+		platform_move_r = 130
+		platform_move_g = 70
+		platform_move_b =70
+		platform_behind_r = 96
+		platform_behind_g = 70
+		platform_behind_b = 70
 		crate_r = 120
 		crate_g = 100
 		crate_b = 100
@@ -126,12 +150,18 @@ function world:settheme(theme)
 		background_r = 135
 		background_g = 130
 		background_b = 120
-		platform_wall_r = 180
-		platform_wall_g = 180
-		platform_wall_b = 180
+		platform_r = 180
+		platform_g = 180
+		platform_b = 180
 		platform_top_r = 110
 		platform_top_g = 160
 		platform_top_b = 80
+		platform_behind_r =170
+		platform_behind_g =140
+		platform_behind_b =170
+		platform_move_r = 170
+		platform_move_g = 170
+		platform_move_b =170
 		crate_r = 200
 		crate_g = 170
 		crate_b = 170
@@ -142,12 +172,19 @@ function world:settheme(theme)
 		background_r = 135
 		background_g = 100
 		background_b = 80
-		platform_wall_r = 235
-		platform_wall_g = 180
-		platform_wall_b = 120
+		
+		platform_r = 174
+		platform_g = 77
+		platform_b = 43
 		platform_top_r = 135
 		platform_top_g = 80
 		platform_top_b = 20
+		platform_move_r = 144
+		platform_move_g = 47
+		platform_move_b =13
+		platform_behind_r = 150
+		platform_behind_g = 100
+		platform_behind_b = 70
 		crate_r = 200
 		crate_g = 170
 		crate_b = 170
@@ -160,12 +197,19 @@ function world:settheme(theme)
 		background_r = 100
 		background_g = 115
 		background_b = 80
-		platform_wall_r = 175
-		platform_wall_g = 155
-		platform_wall_b = 70
+		platform_r = 175
+		platform_g = 155
+		platform_b = 70
 		platform_top_r = 50
 		platform_top_g = 105
 		platform_top_b = 0
+		platform_move_r = 117
+		platform_move_g = 93
+		platform_move_b = 77
+		platform_behind_r = 80
+		platform_behind_g = 116
+		platform_behind_b = 80
+		
 		crate_r = 175
 		crate_g = 155
 		crate_b = 70
@@ -176,12 +220,19 @@ function world:settheme(theme)
 		background_r = 40
 		background_g = 55
 		background_b = 60
-		platform_wall_r = 70
-		platform_wall_g = 75
-		platform_wall_b = 90
+		platform_r = 47
+		platform_g = 54
+		platform_b = 62
 		platform_top_r = 60
 		platform_top_g = 80
 		platform_top_b = 100
+		platform_move_r = 57
+		platform_move_g = 57
+		platform_move_b = 77
+		platform_behind_r = 70
+		platform_behind_g = 75
+		platform_behind_b =90
+		
 		crate_r = 105
 		crate_g = 85
 		crate_b = 100
@@ -189,15 +240,19 @@ function world:settheme(theme)
 		groundLevel_scrollspeed = 40
 		background = love.graphics.newImage("graphics/backgrounds/stars.png")
 	end
-		groundLevel_tile:setWrap("repeat", "repeat")
-		groundLevel_quad = love.graphics.newQuad( -50,world.groundLevel, 10000, 500, groundLevel_tile:getDimensions() )
-		love.graphics.setBackgroundColor(background_r,background_g,background_b,255)
+	
+	
+	
+	groundLevel_tile:setWrap("repeat", "repeat")
+	groundLevel_quad = love.graphics.newQuad( -50,world.groundLevel, 10000, 500, groundLevel_tile:getDimensions() )
+	love.graphics.setBackgroundColor(background_r,background_g,background_b,255)
 		
-		if type(background) == "userdata" then
-			background:setWrap("repeat", "repeat")
-			background_quad = love.graphics.newQuad( 0,0, love.graphics.getWidth(),love.graphics.getHeight(), background:getDimensions() )
-		end
-
+	if type(background) == "userdata" then
+		background:setWrap("repeat", "repeat")
+		background_quad = love.graphics.newQuad( 0,0, love.graphics.getWidth(),love.graphics.getHeight(), background:getDimensions() )
+	end
+		
+	love.graphics.setBackgroundColor(background_r,background_g,background_b,255)	
 end
 
 function world:init(gamemode) 
@@ -476,7 +531,7 @@ function world:run(dt)
 	--love.audio.stop( )
 	
 	--scroll groundLevel!
-	groundLevel_scroll = groundLevel_scroll + groundLevel_scrollspeed * dt
+	groundLevel_scroll = groundLevel_scroll + (groundLevel_scrollspeed * dt)
 	 if groundLevel_scroll > groundLevel_tile:getHeight()then
         groundLevel_scroll = groundLevel_scroll - groundLevel_tile:getHeight()
     end
