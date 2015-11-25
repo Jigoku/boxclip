@@ -790,6 +790,8 @@ function editor:copy()
 				self.clipboard = {
 					w = platform.w,
 					h = platform.h,
+					m = platform.movedist,
+					s = platform.movespeed,
 					e = self.entsel,
 				}
 				return true
@@ -805,6 +807,8 @@ function editor:paste()
 	local y = math.round(mousePosY,-1)
 	local w = self.clipboard.w or 20
 	local h = self.clipboard.h or 20
+	local m = self.clipboard.m or 0
+	local s = self.clipboard.s or 0
 	local selection = self:entname(self.entsel)
 	if selection == "platform" then
 		platforms:add(x,y,w,h,1,0,0,0,0)
@@ -812,17 +816,11 @@ function editor:paste()
 	if selection == "platform_b" then
 		platforms:add(x,y,w,h,0,0,0,0,0)
 	end
-	if selection == "platform_b_x" then
-		platforms:add(x,y,w,h,1, 1, 0, 100, 200)
-	end
-	if selection == "platform_b_y" then
-		platforms:add(x,y,w,h,1,0, 1, 100, 200)
-	end
 	if selection == "platform_x" then
-		platforms:add(x,y,w,h,0, 1, 0, 100, 200)
+		platforms:add(x,y,w,h,0, 1, 0,s,m)
 	end
 	if selection == "platform_y" then
-		platforms:add(x,y,w,h,0,0, 1, 100, 200)
+		platforms:add(x,y,w,h,0,0, 1,s,m)
 	end
 end
 

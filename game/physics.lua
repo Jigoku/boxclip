@@ -182,7 +182,7 @@ function physics:crates(object,dt)
 				object.xvelboost = 0
 					if object.jumping then
 						object.newX = crate.x+crate.w +1
-						object.xvel = -object.xvel
+						object.xvel = object.mass
 					else
 						object.newX = crate.x+crate.w +1 *dt
 						object.xvel = 0
@@ -191,7 +191,7 @@ function physics:crates(object,dt)
 				object.xvelboost = 0
 					if object.jumping then
 						object.newX = crate.x-object.w -1
-						object.xvel = -object.xvel
+						object.xvel = -object.mass
 					else
 						object.newX = crate.x-object.w -1 *dt
 						object.xvel = 0
@@ -199,7 +199,7 @@ function physics:crates(object,dt)
 				elseif collision:bottom(object,crate) then
 					if object.jumping then
 						object.newY = crate.y +crate.h +1
-						object.yvel = -object.yvel
+						object.yvel = -object.mass
 					else
 						object.newY = crate.y +crate.h  +1 *dt
 						object.yvel = 0
@@ -207,7 +207,7 @@ function physics:crates(object,dt)
 				elseif collision:top(object,crate) then
 					if object.jumping then
 						object.newY = crate.y - object.h -1
-						object.yvel = -object.yvel
+						object.yvel = object.mass
 						
 					else
 						object.newY = crate.y - object.h -1 *dt
@@ -274,7 +274,7 @@ function physics:platforms(object, dt)
 						if not (object.yvel > 0 and object.jumping ) then
 							object.yvel = 0
 							object.jumping = false
-							object.newY = platform.y - object.h +1 *dt
+							object.newY = math.round(platform.y - object.h +(1 *dt))
 						end
 					
 						if platform.movex == 1 and object.yvel == 0 then
@@ -463,6 +463,7 @@ function physics:player(dt)
 		
 			self:crates(player,dt)
 			self:platforms(player, dt)
+			
 			self:update(player)
 			
 			if mode == "game" and player.y+player.h > world.groundLevel  then
