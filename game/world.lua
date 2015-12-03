@@ -75,25 +75,26 @@ function world:settheme(theme)
 	--theme definitions (overrides fallbacks)
 	
 	if theme == "sunny" then
-		background_r = 100
-		background_g = 150
-		background_b = 160
-		platform_r = 240
-		platform_g = 170
-		platform_b = 120
-		platform_top_r = 120
-		platform_top_g = 160
-		platform_top_b = 80
-		platform_move_r = 180
-		platform_move_g = 110
-		platform_move_b = 60
+
+		platform_r = 250
+		platform_g = 160
+		platform_b = 60
+		platform_behind_r = 180
+		platform_behind_g = 110
+		platform_behind_b = 60
+		platform_top_r = 100
+		platform_top_g = 140
+		platform_top_b = 50
+		platform_move_r = 220
+		platform_move_g = 130
+		platform_move_b = 70
 		crate_r = 230
 		crate_g = 220
 		crate_b = 180
 		groundLevel_tile = water
 		groundLevel_scrollspeed = 100
 		background = love.graphics.newImage("graphics/backgrounds/sky.png")
-		background_scrollspeed = 30
+		background_scrollspeed = 10
 	elseif theme == "frost" then
 		background_r = 130
 		background_g = 150
@@ -151,8 +152,8 @@ function world:settheme(theme)
 		background_g = 130
 		background_b = 120
 		platform_r = 180
-		platform_g = 180
-		platform_b = 180
+		platform_g = 190
+		platform_b = 195
 		platform_top_r = 110
 		platform_top_g = 160
 		platform_top_b = 80
@@ -167,7 +168,8 @@ function world:settheme(theme)
 		crate_b = 170
 		groundLevel_tile = lava
 		groundLevel_scrollspeed = 20
-		background = love.graphics.newImage("graphics/backgrounds/cloudy.png")
+		background = love.graphics.newImage("graphics/backgrounds/mist.png")
+		background_scrollspeed = -15
 	elseif theme == "dust" then
 		background_r = 135
 		background_g = 100

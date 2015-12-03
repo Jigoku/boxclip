@@ -14,6 +14,7 @@
  --]]
  
 sound = {}
+sound.enabled = true
 
 local fx = "sounds/effect/" --effects path
 local mt = "sounds/music/"  --music tracks path
@@ -37,6 +38,8 @@ sound.shield = love.audio.newSource(fx .. "shield.ogg", "static")
 
 
 function sound:playbgm(id)
+	if not sound.enabled then return true end
+	
 	--set by "mapmusic=N" within a map file
 	if id == 0 then  sound.bgm = nil end
 	if id == 1 then  sound.bgm = love.audio.newSource(mt .. "jungle.ogg") end
@@ -56,7 +59,8 @@ function sound:playbgm(id)
 end
 
 function sound:playambient(id)
-
+	if not sound.enabled then return true end
+	
 	if id == 0 then  sound.ambient = nil end
 	if id == 1 then  sound.ambient = love.audio.newSource(am .. "swamp.ogg") end
 	if id == 2 then  sound.ambient = love.audio.newSource(am .. "stream.ogg") end
@@ -72,6 +76,8 @@ end
 
 
 function sound:play(effect)
+	if not sound.enabled then return true end
+	
 	--improve this (temporary fix)
 	--allows sound to be played in quick succession
 	if effect:isPlaying() then

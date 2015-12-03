@@ -61,10 +61,10 @@ function physics:applyVelocity(object, dt)
 			if object.xvelboost > 0 then object.xvelboost = 0 end
 		end
 
-		object.xvel = math.floor(object.xvel)
-		object.xvelboost = math.floor(object.xvelboost)
+		object.xvel = object.xvel
+		object.xvelboost = object.xvelboost
 
-		object.newX = math.floor(object.x + ((object.xvel +object.xvelboost)  *dt))
+		object.newX =object.x + ((object.xvel +object.xvelboost)  *dt)
 
 		
 	end
@@ -73,14 +73,14 @@ end
 
 function physics:applyGravity(object, dt)
 	--simulate gravity
-	object.yvel = math.round(object.yvel - ((world.gravity+object.mass*2) *dt))
+	object.yvel = object.yvel - ((world.gravity+object.mass*2) *dt)
 	
 	--stop increasing velocity if we hit this limit
 	if object.yvel < -world.gravity*4 then 
 		object.yvel = -world.gravity*4 
 	end
 
-	object.newY = math.round(object.y - (object.yvel *dt))
+	object.newY = object.y - (object.yvel *dt)
 end
 
 
@@ -342,6 +342,7 @@ function physics:pickups(dt)
 				self:applyGravity(pickup, dt)
 				pickup.newX = pickup.x + (pickup.xvel *dt)
 			
+				self:props(pickup,dt)
 				self:platforms(pickup, dt)
 				self:crates(pickup, dt)
 		
@@ -365,6 +366,7 @@ function physics:enemies(dt)
 			if enemy.name == "walker" then
 				self:applyGravity(enemy, dt)
 				self:movex(enemy, dt)
+				self:props(enemy, dt)
 				self:platforms(enemy, dt)
 				self:crates(enemy, dt)
 				self:update(enemy)
@@ -460,7 +462,8 @@ function physics:player(dt)
 			self:applyVelocity(player, dt)
 			self:applyGravity(player, dt)
 			self:applyRotation(player,math.pi*8,dt)
-		
+			
+			self:props(player,dt)
 			self:crates(player,dt)
 			self:platforms(player, dt)
 			
@@ -482,3 +485,24 @@ function physics:player(dt)
 		end
 	
 end
+
+
+
+function physics:props(object,dt)
+	--if mode == "editing" then return end
+	local i, prop
+	for i, prop in ipairs(props) do
+		if prop.name == "log" then
+			if collision:check(prop.x,prop.y,prop.w,prop.h,
+				object.newX,object.newY,object.w,object.h) then
+					
+				if collision:top(object,prop) and object.yvel < 0 then
+					object.newY = prop.y - object.h -1 *dt
+					object.yvel = 0
+					object.jumping = false
+				end		
+			end
+		end
+	end
+end
+

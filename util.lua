@@ -31,8 +31,8 @@ cbuff = {
 -- this function redefine love.graphics.newImage( ), so all images are
 -- not put through linear filter, which makes things more crisp on the
 --  pixel level (less blur)... should this be used?
-
 --[[
+
 local _newImage = love.graphics.newImage
 function love.graphics.newImage(...)
 	local img = _newImage(...)
@@ -169,16 +169,23 @@ end
 
 
 function util:togglefullscreen()
-
-	local fullscreen, fstype = love.window.getFullscreen()
-
-	if fullscreen then
+	paused = true
+	local fs, fstype = love.window.getFullscreen()
+	
+	if fs then
+		camera.scaleX = 1
+		camera.scaleY = 1
 		local success = love.window.setFullscreen( false )
+
 	else
+		camera.scaleX = 0.75
+		camera.scaleY = 0.75
 		local success = love.window.setFullscreen( true, "desktop" )
+
 	end
 			
 	if not success then
 		util:dprint("Failed to toggle fullscreen mode!")
 	end
+	paused = false
 end

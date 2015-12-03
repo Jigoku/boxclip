@@ -15,12 +15,13 @@
  
  props = {}
 
-flower = love.graphics.newImage("graphics/props/flower.png")
-rock = love.graphics.newImage("graphics/props/rock.png")
-tree = love.graphics.newImage("graphics/props/tree.png")
-arch = love.graphics.newImage("graphics/props/arch.png")
-arch2 = love.graphics.newImage("graphics/props/arch2.png")
-pillar = love.graphics.newImage("graphics/props/pillar.png")
+flower_gfx = love.graphics.newImage("graphics/props/flower.png")
+rock_gfx = love.graphics.newImage("graphics/props/rock.png")
+tree_gfx = love.graphics.newImage("graphics/props/tree.png")
+arch_gfx = love.graphics.newImage("graphics/props/arch.png")
+arch2_gfx = love.graphics.newImage("graphics/props/arch2.png")
+pillar_gfx = love.graphics.newImage("graphics/props/pillar.png")
+log_gfx = love.graphics.newImage("graphics/tiles/log.png")
 
 
 function props:add(x,y,type)
@@ -33,7 +34,7 @@ function props:add(x,y,type)
 			h = 40,
 			--properties
 			name = "flower",
-			gfx = flower,
+			gfx = flower_gfx,
 		})
 		print("flower added @  X:"..x.." Y: "..y)
 	end
@@ -46,7 +47,7 @@ function props:add(x,y,type)
 			h = 50,
 			--properties
 			name = "rock",
-			gfx = rock,
+			gfx = rock_gfx,
 		})
 		print("rock added @  X:"..x.." Y: "..y)
 	end
@@ -59,7 +60,7 @@ function props:add(x,y,type)
 			h = 200, 
 			--properties
 			name = "tree",
-			gfx = tree,
+			gfx = tree_gfx,
 		})
 		print("tree added @  X:"..x.." Y: "..y)
 	end
@@ -72,7 +73,7 @@ function props:add(x,y,type)
 			h = 250,
 			--properties
 			name = "arch",
-			gfx = arch,
+			gfx = arch_gfx,
 		})
 		print("arch added @  X:"..x.." Y: "..y)
 	end
@@ -85,7 +86,7 @@ function props:add(x,y,type)
 			h = 200,
 			--properties
 			name = "arch2",
-			gfx = arch2,
+			gfx = arch2_gfx,
 		})
 		print("arch2 added @  X:"..x.." Y: "..y)
 	end
@@ -98,9 +99,22 @@ function props:add(x,y,type)
 			h = 160,
 			--properties
 			name = "pillar",
-			gfx = pillar,
+			gfx = pillar_gfx,
 		})
 		print("pillar added @  X:"..x.." Y: "..y)
+	end
+	if type == "log" then
+		table.insert(props, {
+			--dimensions
+			x = x or 0,
+			y = y or 0,
+			w = 30,
+			h = 30,
+			--properties
+			name = "log",
+			gfx = log_gfx,
+		})
+		print("log added @  X:"..x.." Y: "..y)
 	end
 	
 end

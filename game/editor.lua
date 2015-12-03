@@ -68,9 +68,10 @@ function editor:entname(id)
 	elseif id == 1 then return "goal" 
 	elseif id == 2 then return "platform" 
 	elseif id == 3 then return "platform_b" 
-	elseif id == 6 then return "platform_x" 
-	elseif id == 7 then return "platform_y" 
-	elseif id == 8 then return "platform_s" 
+	elseif id == 4 then return "platform_x" 
+	elseif id == 5 then return "platform_y" 
+	elseif id == 6 then return "platform_s" 
+	elseif id == 7 then return "log"
 	elseif id == 9 then return "checkpoint" 
 	elseif id ==10 then return "crate" 
 	elseif id ==11 then return "spike" 
@@ -287,7 +288,7 @@ function editor:mousepressed(x,y,button)
 		if selection == "walker" then enemies:walker(x,y,100,100) end
 		if selection == "floater" then enemies:floater(x,y,100,400) end
 		if selection == "spikeball" then enemies:spikeball(x,y) end
-		if selection == "platform_s" then platforms:add(x,y,1,20,0,0,0,1,0,1,0) end
+		if selection == "platform_s" then platforms:add(x,y,1,20,0,0,0,2,0,1,0) end
 		if selection == "checkpoint" then checkpoints:add(x,y) end
 		if selection == "gem" then pickups:add(x,y,"gem") end
 		if selection == "life" then pickups:add(x,y,"life") end
@@ -297,6 +298,7 @@ function editor:mousepressed(x,y,button)
 		if selection == "spike_large" then enemies:spike_large(x,y,self.entdir) end
 		if selection == "icicle" then enemies:icicle(x,y) end
 		if selection == "flower" then props:add(x,y,"flower") end
+		if selection == "log" then props:add(x,y,"log") end
 		if selection == "rock" then props:add(x,y,"rock") end
 		if selection == "tree" then props:add(x,y,"tree") end
 		if selection == "arch" then props:add(x,y,"arch") end

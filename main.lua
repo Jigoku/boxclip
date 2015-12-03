@@ -41,11 +41,16 @@ require("entities/checkpoints")
 require("entities/pickups")
 require("entities/enemies")
 require("entities/portals")
-debug = false
-
 
 
 function love.load()
+
+	debug = false
+	max_fps = 60
+
+	min_dt = 1/max_fps
+	next_time = love.timer.getTime()
+
 	math.randomseed(os.time())
 	runtime = os.time()
 	
@@ -72,6 +77,19 @@ end
 
 
 
+function love.update(dt)
+	-- caps fps
+    next_time = next_time + min_dt
+    
+	transitions:run(dt)
+	input:checkkeys(dt)
+
+	--run the world
+	if mode == "title" then	title:run(dt) else world:run(dt) end
+
+end
+
+
 
 function love.draw()
 
@@ -90,23 +108,20 @@ function love.draw()
 	
 	if console then util:drawConsole() end
 
+	-- caps fps
+	local cur_time = love.timer.getTime()
+	if next_time <= cur_time then
+		next_time = cur_time
+		return
+	end
+	love.timer.sleep(next_time - cur_time)
 end
 
 function love.resize(w,h)
 	WIDTH = w
 	HEIGHT = h
 	util:dprint("resized window ("..w.."x"..h..")")
-	
 end
 
 
-
-function love.update(dt)
-	transitions:run(dt)
-	input:checkkeys(dt)
-
-	--run the world
-	if mode == "title" then	title:run(dt) else world:run(dt) end
-
-end
 
