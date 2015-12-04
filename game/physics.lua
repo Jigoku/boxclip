@@ -61,9 +61,6 @@ function physics:applyVelocity(object, dt)
 			if object.xvelboost > 0 then object.xvelboost = 0 end
 		end
 
-		object.xvel = object.xvel
-		object.xvelboost = object.xvelboost
-
 		object.newX =object.x + ((object.xvel +object.xvelboost)  *dt)
 
 		
@@ -132,7 +129,7 @@ function physics:movex(object, dt)
 		object.movespeed = -object.movespeed
 		object.dir = "right"
 	end
-	object.newX = math.round(object.x + (object.movespeed *dt))
+	object.newX = object.x + (object.movespeed *dt)
 end
 
 
@@ -146,20 +143,19 @@ function physics:movey(object, dt)
 		object.y = object.yorigin
 		object.movespeed = -object.movespeed
 	end
-	object.y = math.round(object.y + (object.movespeed *dt))
+	object.newY = object.y + (object.movespeed *dt)
 end
 
-function physics:world(dt)
 
+function physics:world(dt)
 	-- moving platforms etc
 	local i, object
 	for i, object in ipairs(platforms) do
-		self:update(object)
 		if object.movex == 1 then self:movex(object, dt) end
 		if object.movey == 1 then self:movey(object, dt) end
 		if object.swing == 1 then self:swing(object, dt) end
+		self:update(object)
 	end
-
 end
 
 
@@ -181,7 +177,7 @@ function physics:crates(object,dt)
 				if collision:right(object,crate) and not collision:top(object,crate) then
 				object.xvelboost = 0
 					if object.jumping then
-						object.newX = crate.x+crate.w +1
+						object.newX = crate.x+crate.w +1 *dt
 						object.xvel = object.mass
 					else
 						object.newX = crate.x+crate.w +1 *dt
@@ -190,7 +186,7 @@ function physics:crates(object,dt)
 				elseif collision:left(object,crate) and not collision:top(object,crate) then
 				object.xvelboost = 0
 					if object.jumping then
-						object.newX = crate.x-object.w -1
+						object.newX = crate.x-object.w -1 *dt
 						object.xvel = -object.mass
 					else
 						object.newX = crate.x-object.w -1 *dt
@@ -198,7 +194,7 @@ function physics:crates(object,dt)
 					end
 				elseif collision:bottom(object,crate) then
 					if object.jumping then
-						object.newY = crate.y +crate.h +1
+						object.newY = crate.y +crate.h +1 *dt
 						object.yvel = -object.mass
 					else
 						object.newY = crate.y +crate.h  +1 *dt
@@ -206,7 +202,7 @@ function physics:crates(object,dt)
 					end
 				elseif collision:top(object,crate) then
 					if object.jumping then
-						object.newY = crate.y - object.h -1
+						object.newY = crate.y - object.h -1 *dt
 						object.yvel = object.mass
 						
 					else
@@ -219,10 +215,7 @@ function physics:crates(object,dt)
 end
 
 function physics:platforms(object, dt)
-	--loop solid platforms
-	
-	--collision count
-	object.cc = 0
+	--loop platforms
 	
 	local i, platform
 	for i, platform in ipairs(platforms) do	
@@ -236,27 +229,26 @@ function physics:platforms(object, dt)
 				-- only check these when clip is true
 				if platform.clip == 1 then
 					-- right side
-					object.cc = object.cc +1
-					
-					if collision:right(object,platform) and not collision:top(object,platform) then
-	
+					if collision:right(object,platform) 
+					and not collision:top(object,platform) then
 						object.xvel = 0
 						object.xvelboost = 0
 						object.newX = platform.x+platform.w +1 *dt
 
-					
 					-- left side
-					elseif collision:left(object,platform) and not collision:top(object,platform) then
+					elseif collision:left(object,platform) 
+					and not collision:top(object,platform) then
 						object.xvel = 0
 						object.xvelboost = 0
 						object.newX = platform.x-object.w -1 *dt
 						
 					-- bottom side	
-					elseif collision:bottom(object,platform) then	
+					elseif collision:bottom(object,platform) 
+					and not collision:right(object,platform) 
+					and not collision:left(object,platform) then	
 						object.yvel = 0		
 						object.newY = platform.y +platform.h +1 *dt
-						
-
+			
 					end
 				end
 				
@@ -274,24 +266,24 @@ function physics:platforms(object, dt)
 						if not (object.yvel > 0 and object.jumping ) then
 							object.yvel = 0
 							object.jumping = false
-							object.newY = math.round(platform.y - object.h +(1 *dt))
+							object.newY = platform.y - object.h +1 *dt
 						end
 					
 						if platform.movex == 1 and object.yvel == 0 then
 							-- move along x-axis with platform	
-							object.newX = math.round(object.newX + (platform.movespeed *dt))
+							object.newX = object.newX + platform.movespeed *dt
 						end
 							
 						if platform.movey == 1 and object.yvel <= 0 then
-							--going up
-							if platform.movespeed < 0 then
-								object.newY = math.round(platform.y-object.h -(platform.movespeed *dt))
+							if platform.movespeed <= 0 then
+								--going up
+								object.yvel = 0
+								object.newY = platform.y - object.h - platform.movespeed *dt
+							else
+								--going down
+								object.yvel = platform.movespeed *dt
+								object.newY = platform.y - object.h + platform.movespeed *dt
 							end
-							--going down
-							if platform.movespeed > 0 then
-								object.newY = math.round(platform.y-object.h +(platform.movespeed *dt))
-							end
-						
 						end		
 						
 						
@@ -300,27 +292,22 @@ function physics:platforms(object, dt)
 							object.xvel = 0
 								
 							object.newX =  platform.radius * math.cos(platform.angle) + platform.xorigin +platform.w/2 - object.w/2
-							--end
 
 						end
 					end
 				end
-				----disabled because overlapping platforms also kill when 
-				----stood on top and running across or hitting a corner....
-				--if object.name == "player" and object.cc > 1 then object:die("platform") end
+
 			end
 		
+
 	end
 	
 end
 
 
 function physics:update(object)
-	--object.y = math.round(object.newY,0)
-	--object.x = math.round(object.newX,0)
-	if object.newY then object.y = object.newY end
-	if object.newX then object.x = object.newX end
-	
+	if object.newY then object.y = math.round(object.newY) end
+	if object.newX then object.x = math.round(object.newX) end
 end
 
 
@@ -368,7 +355,7 @@ function physics:enemies(dt)
 				self:movex(enemy, dt)
 				self:props(enemy, dt)
 				self:platforms(enemy, dt)
-				self:crates(enemy, dt)
+				--self:crates(enemy, dt)
 				self:update(enemy)
 				
 				if enemy.y +enemy.h > world.groundLevel  then
@@ -462,7 +449,7 @@ function physics:player(dt)
 			self:applyVelocity(player, dt)
 			self:applyGravity(player, dt)
 			self:applyRotation(player,math.pi*8,dt)
-			
+	
 			self:props(player,dt)
 			self:crates(player,dt)
 			self:platforms(player, dt)
@@ -476,7 +463,7 @@ function physics:player(dt)
 			
 		else
 			--death physics (float up)
-			player.y = math.round(player.y - (250 * dt))
+			player.y = player.y - (250 * dt)
 			if player.y < player.newY-600 then
 				player.lives = player.lives -1
 				player:respawn()

@@ -135,16 +135,20 @@ function platforms:draw()
 				platform.gfx:setWrap("repeat", "repeat")
 				love.graphics.draw(platform.gfx, quad, platform.x,platform.y)
 				
-				
-				local offset = 4
+				local offset
+				if platform.movex == 1 or (platform.movey == 1) then
+					 offset = 4
+				else
+					 offset = 8
+				end
 				--shaded edges
 				love.graphics.setColor(0,0,0,50)
 				--right
-				love.graphics.rectangle("fill", platform.x+platform.w-offset, platform.y+offset, offset, platform.h-offset*2)
+				love.graphics.rectangle("fill", platform.x+platform.w-offset, platform.y, offset, platform.h -offset)
 				--bottom
 				love.graphics.rectangle("fill", platform.x, platform.y+platform.h-offset, platform.w, offset)
 				--left
-				love.graphics.rectangle("fill", platform.x, platform.y+offset, offset, platform.h-offset*2)
+				love.graphics.rectangle("fill", platform.x, platform.y, offset, platform.h - offset)
 				
 				--top (placeholder surface)
 				love.graphics.setColor(
@@ -155,8 +159,8 @@ function platforms:draw()
 				)
 				
 					love.graphics.rectangle("fill", platform.x, platform.y-5, platform.w, 10)	
-					love.graphics.arc( "fill", platform.x+platform.w, platform.y, -5, math.pi/2, math.pi*1.5 )
-					love.graphics.arc( "fill", platform.x, platform.y, 5, math.pi/2, math.pi*1.5 )
+				--	love.graphics.arc( "fill", platform.x+platform.w, platform.y, -5, math.pi/2, math.pi*1.5 )
+				--	love.graphics.arc( "fill", platform.x, platform.y, 5, math.pi/2, math.pi*1.5 )
 				
 				end
 				
