@@ -306,8 +306,8 @@ end
 
 
 function physics:update(object)
-	if object.newY then object.y = math.round(object.newY) end
-	if object.newX then object.x = math.round(object.newX) end
+	if object.newY then object.y = object.newY end
+	if object.newX then object.x = object.newX end
 end
 
 
