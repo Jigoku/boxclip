@@ -21,18 +21,18 @@ function physics:applyVelocity(object, dt)
 		if object.dir == "right" then
 			if object.xvel < object.speed and not (object.xvelboost < 0) then
 				if object.jumping then
-					object.xvel = (object.xvel + ((object.speed*2)/1.5 *dt))
+					object.xvel = (object.xvel + object.speed*2/1.5 *dt)
 				else
-					object.xvel = (object.xvel + ((object.speed*2) *dt))
+					object.xvel = (object.xvel + object.speed*2 *dt)
 				end
 			end
 		end
 		if object.dir == "left"  then
 			if not (object.xvel < -object.speed) and not (object.xvelboost > 0) then
 				if object.jumping then
-					object.xvel = (object.xvel - ((object.speed*2)/1.5 *dt))
+					object.xvel = (object.xvel - object.speed*2/1.5 *dt)
 				else
-					object.xvel = (object.xvel - ((object.speed*2) *dt))
+					object.xvel = (object.xvel - object.speed*2 *dt)
 				end
 			end
 		end

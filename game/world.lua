@@ -390,14 +390,18 @@ end
 
 function world:timer()
 	--update the world time
+	if paused then return end
 	local time = os.time()
 	local elapsed =  os.difftime(time-world.startTime)
+	
 	if os.difftime(time-world.startTime) == 60 then
 		world.startTime = os.time()
 		world.seconds = 0
 		world.minutes = world.minutes +1
+		
 	end
 	world.seconds = elapsed
+	
 end
 
 function world:gettime()
@@ -501,8 +505,9 @@ end
 
 
 function world:run(dt)
-	if paused then return end
 	world:timer()
+	if paused then return end
+
 	collision:checkWorld(dt)
 	physics:world(dt)
 	physics:player(dt)

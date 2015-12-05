@@ -15,15 +15,25 @@
  
 platforms = {}
 
-platform_tile = love.graphics.newImage("graphics/tiles/checked.png")
-
 platform_link = love.graphics.newImage("graphics/tiles/link.png")
 platform_link_origin = love.graphics.newImage("graphics/tiles/link_origin.png")
-
 platform_cradle = love.graphics.newImage("graphics/tiles/cradle.png")
 
 function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing,angle)
 
+	if clip == 1 then
+		--normal platform texture
+		gfx = love.graphics.newImage("graphics/tiles/checked.png")
+	else
+		--background platform texture
+		gfx = love.graphics.newImage("graphics/tiles/brick.png")
+	end
+
+	--moving platform texture
+	if movex == 1 or (movey == 1) then
+		gfx = love.graphics.newImage("graphics/tiles/checked.png")
+	end
+	
 	table.insert(platforms, {
 		--dimensions
 		x = x or 0, 
@@ -42,7 +52,7 @@ function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing,angle)
 		clip = clip or 1,
 		xorigin = x,
 		yorigin = y,
-		gfx = platform_tile,
+		gfx = gfx or nil,
 		
 		--swing platforms
 		swing = swing or 0,
@@ -121,7 +131,7 @@ function platforms:draw()
 						platform_behind_g,
 						platform_behind_b,
 						255
-					)	
+					)
 				else
 					love.graphics.setColor(
 						platform_r,
@@ -129,6 +139,7 @@ function platforms:draw()
 						platform_b,
 						255
 					)
+
 				end
 
 				local quad = love.graphics.newQuad( 0,0, platform.w, platform.h, platform.gfx:getDimensions() )
@@ -159,8 +170,8 @@ function platforms:draw()
 				)
 				
 					love.graphics.rectangle("fill", platform.x, platform.y-5, platform.w, 10)	
-				--	love.graphics.arc( "fill", platform.x+platform.w, platform.y, -5, math.pi/2, math.pi*1.5 )
-				--	love.graphics.arc( "fill", platform.x, platform.y, 5, math.pi/2, math.pi*1.5 )
+					love.graphics.arc( "fill", platform.x+platform.w, platform.y, -5, math.pi/2, math.pi*1.5 )
+					love.graphics.arc( "fill", platform.x, platform.y, 5, math.pi/2, math.pi*1.5 )
 				
 				end
 				
@@ -181,15 +192,25 @@ function platforms:drawDebug(platform, i)
 	-- debug mode drawing
 	
 	-- collision area
-	if platform.name == "platform" and not (platform.swing == 1) then
-		love.graphics.setColor(255,0,0,100)
+	if not (platform.swing == 1) and (platform.clip == 1) then
+		love.graphics.setColor(255,0,0,80)
+		love.graphics.rectangle("fill", platform.x, platform.y, platform.w, platform.h)
+		love.graphics.setColor(255,0,0,255)
 		love.graphics.rectangle("line", platform.x, platform.y, platform.w, platform.h)
 	end
 	
+	if platform.clip == 0 then
+		love.graphics.setColor(0,255,0,80)
+		love.graphics.rectangle("fill", platform.x, platform.y, platform.w, platform.h)
+		love.graphics.setColor(255,0,0,255)
+		love.graphics.rectangle("line", platform.x, platform.y, platform.w, platform.h)
+	end
 	
 	-- yaxis waypoint
 	if platform.movey == 1 then
-		love.graphics.setColor(255,0,255,100)
+		love.graphics.setColor(255,0,255,50)
+		love.graphics.rectangle("fill", platform.xorigin, platform.yorigin, platform.w, platform.h+platform.movedist)
+		love.graphics.setColor(255,0,255,255)
 		love.graphics.rectangle("line", platform.xorigin, platform.yorigin, platform.w, platform.h+platform.movedist)
 	end
 	-- xaxis waypoint

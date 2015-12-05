@@ -46,7 +46,7 @@ require("entities/portals")
 function love.load()
 
 	debug = false
-	max_fps = 300
+	max_fps = 60
 
 	min_dt = 1/max_fps
 	next_time = love.timer.getTime()
