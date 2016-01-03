@@ -173,13 +173,13 @@ function util:togglefullscreen()
 	local fs, fstype = love.window.getFullscreen()
 	
 	if fs then
-		camera.scaleX = 1
-		camera.scaleY = 1
+		--camera.scaleX = 1
+		--camera.scaleY = 1
 		local success = love.window.setFullscreen( false )
 
 	else
-		camera.scaleX = 0.75
-		camera.scaleY = 0.75
+		--camera.scaleX = 0.75
+		--camera.scaleY = 0.75
 		local success = love.window.setFullscreen( true, "desktop" )
 
 	end

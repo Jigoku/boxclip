@@ -315,8 +315,10 @@ function enemies:drawDebug(enemy, i)
 
 	--waypoint	
 	if enemy.name == "walker" or enemy.name == "floater" then
-
-		love.graphics.setColor(255,0,255,100)
+		
+		love.graphics.setColor(255,0,255,50)
+		love.graphics.rectangle("fill", enemy.xorigin, enemy.y, enemy.movedist+enemy.gfx:getWidth(), enemy.gfx:getHeight())
+		love.graphics.setColor(255,0,255,255)
 		love.graphics.rectangle("line", enemy.xorigin, enemy.y, enemy.movedist+enemy.gfx:getWidth(), enemy.gfx:getHeight())
 	end
 

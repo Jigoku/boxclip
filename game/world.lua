@@ -151,9 +151,9 @@ function world:settheme(theme)
 		background_r = 135
 		background_g = 130
 		background_b = 120
-		platform_r = 180
-		platform_g = 190
-		platform_b = 195
+		platform_r = 160
+		platform_g = 170
+		platform_b = 170
 		platform_top_r = 110
 		platform_top_g = 160
 		platform_top_b = 80
@@ -273,7 +273,7 @@ function world:init(gamemode)
 	world.minutes = 0
 
 
-	camera:setScale(1,1)
+	--camera:setScale(1,1)
 
 	--initialize entity counts
 	world.platforms = 0

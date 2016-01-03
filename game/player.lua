@@ -25,7 +25,7 @@ function player:init()
 	self.x = spawnX
 	self.y = spawnY 
 
-	self.speed = 600
+	self.speed = 500
 	self.mass = 800
 	self.xvel = 0
 	self.yvel = 0
@@ -65,7 +65,7 @@ function player:draw()
 		love.graphics.translate(-self.x-self.w/2,-self.y-self.h/2)
 
 		--player main (circle)
-		love.graphics.setColor(80,220,160,255)
+		love.graphics.setColor(80,170,120,255)
 		love.graphics.circle("fill", self.x+self.w/2, self.y+self.h/2, self.w/1.5, self.h)
 		love.graphics.setColor(80,80,80,255)
 		love.graphics.circle("line", self.x+self.w/2, self.y+self.h/2, self.w/1.5, self.h)
@@ -75,7 +75,7 @@ function player:draw()
 		local opacity = 255
 		if not self.alive then  opacity = 100 end
 		
-		love.graphics.setColor(80,220,160,opacity)
+		love.graphics.setColor(80,170,120,opacity)
 		love.graphics.rectangle("fill", self.x, self.y, self.w, self.h)
 		love.graphics.setColor(80,80,80,opacity)
 		love.graphics.rectangle("line", self.x, self.y, self.w, self.h)
@@ -97,14 +97,14 @@ function player:draw()
 	
 	self:drawpowerups()
 	
-	if editing then
+	if  debug then
 		self:drawDebug()
 	end
 
 end
 
 function player:drawDebug()
-	love.graphics.setColor(255,0,0,50)
+	love.graphics.setColor(255,0,0,255)
 	love.graphics.rectangle("line", self.x, self.y, self.w, self.h)
 end
 

@@ -23,7 +23,7 @@ function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing,angle)
 
 	if clip == 1 then
 		--normal platform texture
-		gfx = love.graphics.newImage("graphics/tiles/checked.png")
+		gfx = love.graphics.newImage("graphics/tiles/brick.png")
 	else
 		--background platform texture
 		gfx = love.graphics.newImage("graphics/tiles/brick.png")
@@ -215,7 +215,9 @@ function platforms:drawDebug(platform, i)
 	end
 	-- xaxis waypoint
 	if platform.movex == 1 then
-		love.graphics.setColor(255,0,255,100)
+		love.graphics.setColor(255,0,255,50)
+		love.graphics.rectangle("fill", platform.xorigin, platform.yorigin, platform.movedist+platform.w, platform.h)
+		love.graphics.setColor(255,0,255,255)
 		love.graphics.rectangle("line", platform.xorigin, platform.yorigin, platform.movedist+platform.w, platform.h)
 	end 
 	
