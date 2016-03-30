@@ -19,19 +19,23 @@ platform_link = love.graphics.newImage("graphics/tiles/link.png")
 platform_link_origin = love.graphics.newImage("graphics/tiles/link_origin.png")
 platform_cradle = love.graphics.newImage("graphics/tiles/cradle.png")
 
+platform_rockface  = love.graphics.newImage("graphics/tiles/rockface.png")
+platform_brick  = love.graphics.newImage("graphics/tiles/brick.png")
+platform_checked = love.graphics.newImage("graphics/tiles/checked.png")
+platform_cubes  = love.graphics.newImage("graphics/tiles/cubes.png")
 function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing,angle)
 
 	if clip == 1 then
 		--normal platform texture
-		gfx = love.graphics.newImage("graphics/tiles/brick.png")
+		gfx = platform_cubes
 	else
 		--background platform texture
-		gfx = love.graphics.newImage("graphics/tiles/brick.png")
+		gfx = platform_brick
 	end
 
 	--moving platform texture
 	if movex == 1 or (movey == 1) then
-		gfx = love.graphics.newImage("graphics/tiles/checked.png")
+		gfx = platform_checked
 	end
 	
 	table.insert(platforms, {
@@ -53,7 +57,7 @@ function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing,angle)
 		xorigin = x,
 		yorigin = y,
 		gfx = gfx or nil,
-		
+		carrying = false,
 		--swing platforms
 		swing = swing or 0,
 		angle = angle or 0,

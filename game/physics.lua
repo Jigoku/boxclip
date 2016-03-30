@@ -272,6 +272,7 @@ function physics:platforms(object, dt)
 						if platform.movex == 1 and object.yvel == 0 then
 							-- move along x-axis with platform	
 							object.newX = object.newX + platform.movespeed *dt
+							platform.carrying = true
 						end
 							
 						if platform.movey == 1 and object.yvel <= 0 then
@@ -284,6 +285,7 @@ function physics:platforms(object, dt)
 								object.yvel = platform.movespeed *dt
 								object.newY = platform.y - object.h + platform.movespeed *dt
 							end
+							platform.carrying = true
 						end		
 						
 						
@@ -295,6 +297,8 @@ function physics:platforms(object, dt)
 
 						end
 					end
+				else
+					platform.carrying = false
 				end
 
 			end
@@ -318,9 +322,10 @@ function physics:pickups(dt)
 			--pulls all gems to player when attract = true
 			if pickup.attract then
 				if player.alive then
-					local angle = math.atan2(player.y - pickup.y, player.x - pickup.x)
+					local angle = math.atan2(player.y+player.h/2 - pickup.h/2 - pickup.y, player.x+player.w/2 - pickup.w/2 - pickup.x)
 					pickup.newX = pickup.x + (math.cos(angle) * pickup.mass/2 * dt)
 					pickup.newY = pickup.y + (math.sin(angle) * pickup.mass/2 * dt)
+					
 				else
 					self:applyGravity(pickup, dt)
 				end
@@ -460,6 +465,7 @@ function physics:player(dt)
 				player:die("out of bounds")
 			end
 			
+
 			
 		else
 			--death physics (float up)

@@ -46,7 +46,7 @@ require("entities/portals")
 function love.load()
 
 	debug = false
-	max_fps = 60
+	max_fps = 61
 
 	min_dt = 1/max_fps
 	next_time = love.timer.getTime()
@@ -100,7 +100,7 @@ function love.draw()
 	
 	--world
 	if mode == "game" or mode =="editing" then
-		world:draw() 
+		world:draw(dt) 
 	end
 	
 	--transition overlay

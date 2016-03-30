@@ -39,6 +39,9 @@ function player:init()
 	self.lives = 3	
 	self.gems = 0
 	self.angle = 0
+	self.camerashift = 40
+	self.carried = false
+
 	
 	if cheats.catlife then self.lives = 9 end
 	if cheats.millionare then self.score = "1000000" end
@@ -134,6 +137,14 @@ function player:follow(dt)
 		camera.x = (self.x+self.w/2)
 		camera.y = (self.y +self.h/2)
 
+		
+		--			local angle = math.atan2(player.y+player.h/2 - camera.y, player.x+player.w/2 - camera.x)
+	--		if angle > 1 or angle < -1 then
+	--			camera.x = camera.x + (math.cos(angle) * player.speed *dt)
+	--			camera.y = camera.y + (math.sin(angle) * player.speed *dt)
+	--		end
+
+
 	end
 end
 
@@ -153,7 +164,10 @@ function player:respawn()
 	self.dir = "idle"
 	self.lastdir = "idle"
 	self.alive = true
-	self:follow(1)
+	
+	camera:setPosition(self.x+self.w/2, self.y+self.h/2)
+		
+	self:follow()
 	self:cheats()
 	
 	util:dprint("respawn player")

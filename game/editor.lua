@@ -127,6 +127,11 @@ end
 function editor:keypressed(key)
 	--print (key)
 
+	-- entity selection with mousescroll
+	if key == "down" then editor.entsel = editor.entsel +1 end
+	if key == "up" then editor.entsel = editor.entsel -1 end
+	
+
 	if key == "f1" then 
 		editing = not editing
 		player.xvel = 0
@@ -188,16 +193,19 @@ function editor:keypressed(key)
 end
 
 function editor:checkkeys(dt)
-		if love.keyboard.isDown("d") or love.keyboard.isDown("right")  then
+
+
+
+		if love.keyboard.isDown("d")  then
 			player.x = player.x + self.movespeed *dt
 		end
-		if love.keyboard.isDown("a") or love.keyboard.isDown("left") then
+		if love.keyboard.isDown("a")  then
 			player.x = player.x - self.movespeed *dt
 		end
-		if love.keyboard.isDown("w") or love.keyboard.isDown("up") then
+		if love.keyboard.isDown("w") then
 			player.y = player.y - self.movespeed *dt
 		end
-		if love.keyboard.isDown("s") or love.keyboard.isDown("down") then
+		if love.keyboard.isDown("s") then
 			player.y = player.y + self.movespeed *dt
 		end
 		
@@ -268,9 +276,26 @@ function editor:mousepressed(x,y,button)
 	local x = math.round(pressedPosX,-1)
 	local y = math.round(pressedPosY,-1)
 	
-	-- entity selection with mousescroll
-	if button == 'wd' then editor.entsel = editor.entsel +1 end
-	if button == 'wu' then editor.entsel = editor.entsel -1 end
+
+	if button == "wu" then 
+		if camera.scaleX > 0.4 then
+			camera.scaleX = camera.scaleX - 0.1
+			camera.scaleY = camera.scaleY - 0.1
+		else
+			camera.scaleX = 0.4
+			camera.scaleY = 0.4
+		end
+	end
+	if button == "wd" then 
+		if camera.scaleX < 4 then
+			camera.scaleX = camera.scaleX + 0.1
+			camera.scaleY = camera.scaleY + 0.1
+		else
+			camera.scaleX = 4
+			camera.scaleY = 4
+		end
+	end
+	
 	
 	if button == 'l' then
 		local selection = self:entname(self.entsel)
