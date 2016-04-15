@@ -268,9 +268,8 @@ function world:init(gamemode)
 	world.gravity = 400
 
 	world.groundLevel = 200
-	world.startTime = os.time()
-	world.seconds = 0
-	world.minutes = 0
+	world.time = 0
+
 
 
 	--camera:setScale(1,1)
@@ -361,7 +360,7 @@ function world:draw()
 		love.graphics.printf("GEMS", 21,81,300,"left",0,1,1)
 		love.graphics.printf(player.score, 21,21,150,"right",0,1,1)
 		love.graphics.printf(player.lives, 21,41,150,"right",0,1,1)
-		love.graphics.printf(world:gettime(), 21,61,150,"right",0,1,1)
+		love.graphics.printf(world:formatTime(world.time), 21,61,150,"right",0,1,1)
 		love.graphics.printf(player.gems, 21,81,150,"right",0,1,1)
 		love.graphics.setFont(fonts.default)
 		
@@ -373,7 +372,7 @@ function world:draw()
 		love.graphics.printf("GEMS", 20,80,300,"left",0,1,1)
 		love.graphics.printf(player.score, 20,20,150,"right",0,1,1)
 		love.graphics.printf(player.lives, 20,40,150,"right",0,1,1)
-		love.graphics.printf(world:gettime(), 20,60,150,"right",0,1,1)
+		love.graphics.printf(world:formatTime(world.time), 20,60,150,"right",0,1,1)
 		love.graphics.printf(player.gems, 20,80,150,"right",0,1,1)
 		love.graphics.setFont(fonts.default)
 	end
@@ -389,25 +388,18 @@ function world:draw()
 end
 
 
-function world:timer()
+function world:timer(dt)
 	--update the world time
 	if paused then return end
-	local time = os.time()
-	local elapsed =  os.difftime(time-world.startTime)
-	
-	if os.difftime(time-world.startTime) == 60 then
-		world.startTime = os.time()
-		world.seconds = 0
-		world.minutes = world.minutes +1
-		
-	end
-	world.seconds = elapsed
+	world.time = world.time + 1 *dt
 	
 end
 
-function world:gettime()
-	--returns the world time (eg 00:00)
-	return string.format("%02d",world.minutes) .. ":" .. string.format("%02d",world.seconds)
+
+function world:formatTime(n)
+	return  
+		string.format("%02d",n / 60 % 60) .. ":" .. 
+		string.format("%02d",n % 60)
 end
 
 
@@ -506,7 +498,7 @@ end
 
 
 function world:update(dt)
-	world:timer()
+	world:timer(dt)
 	if paused then return end
 
 	collision:checkWorld(dt)

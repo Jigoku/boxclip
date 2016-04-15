@@ -114,7 +114,7 @@ function props:add(x,y,type)
 			name = "log",
 			gfx = log_gfx,
 			falling = false,
-			timer = 0.25,
+			timer = 0.1,
 			mass = 800,
 			yvel = 0,
 		})

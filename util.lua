@@ -99,7 +99,7 @@ function util:drawConsole()
 		love.graphics.print(
 			"[lives: " .. player.lives .. "]"..
 			"[score: " .. player.score .. "]"..
-			"[time: " .. world:gettime() .. "]"..
+			"[time: " .. world:formatTime(world.time) .. "]"..
 			"[alive: "..(player.alive and 1 or 0).."]", 
 			200,5
 		)

@@ -501,8 +501,6 @@ end
 
 
 function physics:props(object, dt)
-
-	
 	for i, prop in ipairs(props) do
 		if prop.name == "log" then
 				if collision:check(object.x,object.y,object.w,object.h, prop.x,prop.y,prop.w,prop.h) then
@@ -511,6 +509,7 @@ function physics:props(object, dt)
 						object.yvel = 0
 						object.jumping = false
 						
+						-- only player can make logs fall
 						if object.name == "player" and mode == "game" then
 							prop.falling = true
 						end
