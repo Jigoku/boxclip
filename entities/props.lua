@@ -113,6 +113,10 @@ function props:add(x,y,type)
 			--properties
 			name = "log",
 			gfx = log_gfx,
+			falling = false,
+			timer = 0.25,
+			mass = 800,
+			yvel = 0,
 		})
 		print("log added @  X:"..x.." Y: "..y)
 	end
@@ -148,6 +152,8 @@ function props:draw()
 
 	world.props = count
 end
+
+
 
 function props:drawDebug(prop, i)
 	love.graphics.setColor(255,0,155,100)

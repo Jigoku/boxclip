@@ -305,14 +305,15 @@ function world:draw()
 	camera:set()
 
 	--paralax background
-	if editing then
-		--easier on the eyes for entity placement)
-		love.graphics.setColor(255,255,255,50)
-	end
-	
+	if not editing then
 	if type(background) == "userdata" then
 		love.graphics.draw(background, background_quad,camera.x-WIDTH/2*camera.scaleX,camera.y-HEIGHT/2*camera.scaleY)
 	end
+		---easier on the eyes for entity placement)
+		--love.graphics.setColor(255,255,255,50)
+	end
+	
+	
 	
 	love.graphics.setColor(255,255,255,255)
 	
@@ -504,7 +505,7 @@ function world:inview(entity)
 end
 
 
-function world:run(dt)
+function world:update(dt)
 	world:timer()
 	if paused then return end
 
@@ -513,7 +514,6 @@ function world:run(dt)
 	physics:player(dt)
 	physics:pickups(dt)
 	physics:enemies(dt)			
-
 	player:follow(dt)
 	
 	

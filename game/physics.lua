@@ -156,6 +156,8 @@ function physics:world(dt)
 		if object.swing == 1 then self:swing(object, dt) end
 		self:update(object)
 	end
+	
+	self:propsworld(dt)
 end
 
 
@@ -479,23 +481,45 @@ function physics:player(dt)
 	
 end
 
-
-
-function physics:props(object,dt)
-	--if mode == "editing" then return end
-	local i, prop
+function physics:propsworld(dt)
 	for i, prop in ipairs(props) do
-		if prop.name == "log" then
-			if collision:check(prop.x,prop.y,prop.w,prop.h,
-				object.newX,object.newY,object.w,object.h) then
-					
-				if collision:top(object,prop) and object.yvel < 0 then
-					object.newY = prop.y - object.h -1 *dt
-					object.yvel = 0
-					object.jumping = false
-				end		
+		if prop.falling then
+			prop.timer = math.max(0, prop.timer - dt)
+				
+			if prop.timer <= 0 then
+				physics:applyGravity(prop, dt)
+				physics:update(prop)
+				if not world:inview(prop) then
+					table.remove(props, i)
+				end
+						
 			end
-		end
+		end	
 	end
 end
 
+
+
+function physics:props(object, dt)
+
+	
+	for i, prop in ipairs(props) do
+		if prop.name == "log" then
+				if collision:check(object.x,object.y,object.w,object.h, prop.x,prop.y,prop.w,prop.h) then
+					if collision:top(object,prop) and object.yvel < 0 then
+						object.newY = prop.y - object.h -1 *dt
+						object.yvel = 0
+						object.jumping = false
+						
+						if object.name == "player" and mode == "game" then
+							prop.falling = true
+						end
+						
+					end		
+				
+				end
+					
+			
+		end
+	end
+end

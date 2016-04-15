@@ -19,7 +19,6 @@
 	select/drag     : lmb
 	delete entity   : rmb
 	scroll entities : wu/wd
-	
 	rotate/entdir	: r
 	move up	    	: numpad 8
 	move down		: numpad 2
@@ -29,7 +28,7 @@
 	copy dimensions	: c
 	paste			: p	
 	delete entity	: del
-	camera scale	: z
+	camera scale	: ctrl + scroll
 	camera position	: w,a,s,d
 	
 	some may be undocumented, check this when adding help menu for editor
@@ -127,9 +126,7 @@ end
 function editor:keypressed(key)
 	--print (key)
 
-	-- entity selection with mousescroll
-	if key == "down" then editor.entsel = editor.entsel +1 end
-	if key == "up" then editor.entsel = editor.entsel -1 end
+
 	
 
 	if key == "f1" then 
@@ -141,7 +138,6 @@ function editor:keypressed(key)
 		player.xvelboost = 0
 	end
 
-	if key == "z" then self:zoom() end
 	if key == "h" then self.showhelpmenu = not self.showhelpmenu end	
 	if key == "m" then self.showmmap = not self.showmmap end
 	
@@ -260,41 +256,40 @@ function editor:adjustent(dir,dt)
 	end
 end
 
-function editor:zoom()
-	love.audio.play( sound.beep )
-	if camera.scaleX == 1 and camera.scaleY == 1 then
-		camera.scaleX = 2
-		camera.scaleY = 2
-	else
-		camera.scaleX = 1
-		camera.scaleY = 1 
-	end
-end
 
 function editor:mousepressed(x,y,button)
 	
 	local x = math.round(pressedPosX,-1)
 	local y = math.round(pressedPosY,-1)
 	
-
-	if button == "wu" then 
-		if camera.scaleX > 0.4 then
-			camera.scaleX = camera.scaleX - 0.1
-			camera.scaleY = camera.scaleY - 0.1
-		else
-			camera.scaleX = 0.4
-			camera.scaleY = 0.4
+	if love.keyboard.isDown("lctrl") then
+		if button == "wu" then 
+			if camera.scaleX > 0.4 then
+				camera.scaleX = camera.scaleX - 0.1
+				camera.scaleY = camera.scaleY - 0.1
+			else
+				camera.scaleX = 0.4
+				camera.scaleY = 0.4
+			end
+		end
+		if button == "wd" then 
+			if camera.scaleX < 4 then
+				camera.scaleX = camera.scaleX + 0.1
+				camera.scaleY = camera.scaleY + 0.1
+			else
+				camera.scaleX = 4
+				camera.scaleY = 4
+			end
+		end
+	else
+		if button == "wu" then 
+			editor.entsel = editor.entsel -1
+		end
+		if button == "wd" then
+			editor.entsel = editor.entsel +1
 		end
 	end
-	if button == "wd" then 
-		if camera.scaleX < 4 then
-			camera.scaleX = camera.scaleX + 0.1
-			camera.scaleY = camera.scaleY + 0.1
-		else
-			camera.scaleX = 4
-			camera.scaleY = 4
-		end
-	end
+	
 	
 	
 	if button == 'l' then

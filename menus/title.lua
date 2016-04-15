@@ -120,7 +120,7 @@ end
 
 
 
-function title:run(dt)
+function title:update(dt)
 	self.bgscroll = self.bgscroll + self.bgscrollspeed * dt
 	if self.bgscroll > self.bg:getHeight()then
 		self.bgscroll = self.bgscroll - self.bg:getWidth()

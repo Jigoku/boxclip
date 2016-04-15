@@ -85,7 +85,7 @@ function love.update(dt)
 	input:checkkeys(dt)
 
 	--run the world
-	if mode == "title" then	title:run(dt) else world:run(dt) end
+	if mode == "title" then	title:update(dt) else world:update(dt) end
 
 end
 

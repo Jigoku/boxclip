@@ -23,6 +23,7 @@ platform_rockface  = love.graphics.newImage("graphics/tiles/rockface.png")
 platform_brick  = love.graphics.newImage("graphics/tiles/brick.png")
 platform_checked = love.graphics.newImage("graphics/tiles/checked.png")
 platform_cubes  = love.graphics.newImage("graphics/tiles/cubes.png")
+
 function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing,angle)
 
 	if clip == 1 then
