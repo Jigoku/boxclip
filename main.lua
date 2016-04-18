@@ -46,7 +46,7 @@ require("entities/portals")
 function love.load()
 
 	debug = false
-	max_fps = 120
+	max_fps = 61
 
 	min_dt = 1/max_fps
 	next_time = love.timer.getTime()
@@ -60,15 +60,16 @@ function love.load()
 	icon = love.image.newImageData( "graphics/enemies/walker.png")
 	love.window.setIcon( icon )
 	love.mouse.setVisible( false )
-	
+
 	--store fonts here
 	fonts = {
-		default = love.graphics.newFont(12),
-		menu = love.graphics.newFont(14),
-		scoreboard = love.graphics.newFont(16),
-		large = love.graphics.newFont(20),
-		huge = love.graphics.newFont(30),
+		default = love.graphics.newFont("fonts/Hanken/Hanken-Book.ttf",12),
+		menu = love.graphics.newFont("fonts/Hanken/Hanken-Book.ttf",14),
+		scoreboard = love.graphics.newFont("fonts/Hanken/Hanken-Book.ttf",16),
+		large = love.graphics.newFont("fonts/Hanken/Hanken-Book.ttf",20),
+		huge = love.graphics.newFont("fonts/Hanken/Hanken-Book.ttf",30),
 	}
+
 
 
 	title:init()
