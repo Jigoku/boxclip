@@ -46,7 +46,7 @@ require("entities/portals")
 function love.load()
 
 	debug = false
-	max_fps = 61
+	max_fps = 120
 
 	min_dt = 1/max_fps
 	next_time = love.timer.getTime()
@@ -78,9 +78,16 @@ end
 
 
 function love.update(dt)
-	-- caps fps
-    next_time = next_time + min_dt
-    
+	
+	--[ frame rate cap
+		-- fix for lag (ex; caused by dragging window)
+		--   stops collision failures when dt drops below min_dt
+		dt = math.min(dt, min_dt)
+
+		-- caps fps for drawing
+		next_time = next_time + min_dt
+	--]
+	
 	transitions:run(dt)
 	input:checkkeys(dt)
 
