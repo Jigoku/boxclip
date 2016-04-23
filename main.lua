@@ -21,6 +21,8 @@
 require("mapio")
 require("sound")
 require("util")
+
+require("binds")
 require("input")
 
 require("menus/title")

@@ -155,8 +155,8 @@ function util:drawid(entity,i)
 end
 
 function util:dprint(event)
-	local elapsed =  os.difftime(os.time()-runtime)
-	local line = elapsed .. ": " .. event
+	local elapsed =  world:formatTime(os.difftime(os.time()-runtime))
+	local line = elapsed .. " | " ..  event
 	cbuff.l1 = cbuff.l2
 	cbuff.l2 = cbuff.l3
 	cbuff.l3 = cbuff.l4

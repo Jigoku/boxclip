@@ -45,7 +45,7 @@ function love.keypressed(key)
 	if mode == "editing" then editor:keypressed(key) end
 	
 	if mode == "game" then
-		if key == "p" then
+		if key == binds.pause then
 			paused = not paused
 			
 			if not paused then 
@@ -62,20 +62,20 @@ function love.keypressed(key)
 	if mode == "game" or mode == "editing" then
 		player:keypressed(key) 
 		
-		if key == "escape" then
+		if key == binds.exit then
 			title:init()
 		end
 	end
 	
 	--debug mode console
-	if key == "`" then
+	if key == binds.debug then
 		love.audio.play( sound.beep )
 		console = not console
 		debug = not debug
 	end
 
 	--toggle fullscreen
-	if key == "f5" then util:togglefullscreen() end
+	if key == binds.fullscreen then util:togglefullscreen() end
 		
 
 

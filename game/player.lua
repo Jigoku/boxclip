@@ -263,10 +263,10 @@ function player:checkkeys(dt)
 	if paused or editing then return end
 	
 	if self.alive then
-		if love.keyboard.isDown("d") or love.keyboard.isDown("right")  then
+		if love.keyboard.isDown(binds.right)  then
 			self:moveright()
 	
-		elseif love.keyboard.isDown("a") or love.keyboard.isDown("left") then
+		elseif love.keyboard.isDown(binds.left) then
 			self:moveleft()
 			
 		else
@@ -280,8 +280,8 @@ function player:keypressed(key)
 	
 	if self.alive then
 		--jump
-		if key == " " then
-			if love.keyboard.isDown("s") then
+		if key == binds.jump then
+			if love.keyboard.isDown(binds.down) then
 				self:drop()
 			else
 				self:jump()
