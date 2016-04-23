@@ -270,9 +270,7 @@ function world:init(gamemode)
 	world.groundLevel = 200
 	world.time = 0
 
-
-
-	--camera:setScale(1,1)
+	camera:setScale(camera.defaultscale,camera.defaultscale)
 
 	--initialize entity counts
 	world.platforms = 0
@@ -390,9 +388,7 @@ end
 
 function world:timer(dt)
 	--update the world time
-	if paused then return end
-	world.time = world.time + 1 *dt
-	
+	world.time = world.time + 1 *dt	
 end
 
 
@@ -498,9 +494,8 @@ end
 
 
 function world:update(dt)
-	world:timer(dt)
 	if paused then return end
-
+	world:timer(dt)
 	collision:checkWorld(dt)
 	physics:world(dt)
 	physics:player(dt)

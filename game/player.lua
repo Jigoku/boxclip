@@ -40,8 +40,7 @@ function player:init()
 	self.gems = 0
 	self.angle = 0
 	self.camerashift = 40
-	self.carried = false
-
+	self.candrop = false
 	
 	if cheats.catlife then self.lives = 9 end
 	if cheats.millionare then self.score = "1000000" end
@@ -164,7 +163,7 @@ function player:respawn()
 	self.dir = "idle"
 	self.lastdir = "idle"
 	self.alive = true
-	
+	self.candrop = false
 	camera:setPosition(self.x+self.w/2, self.y+self.h/2)
 		
 	self:follow()
@@ -237,6 +236,18 @@ function player:jump()
 	end
 end
 
+function player:drop()
+	if not self.jumping then
+		if self.candrop then
+			self.jumping = true
+
+			--fix this value to stop twitching
+			player.y = player.y + player.h/3
+			self.yvel = -20
+		end
+	end
+end
+
 function player:moveleft()
 	self.lastdir = self.dir
 	self.dir = "left"
@@ -270,7 +281,11 @@ function player:keypressed(key)
 	if self.alive then
 		--jump
 		if key == " " then
-			self:jump()
+			if love.keyboard.isDown("s") then
+				self:drop()
+			else
+				self:jump()
+			end
 		end
 	end
 

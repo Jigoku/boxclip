@@ -14,27 +14,30 @@
  --]]
  
 sound = {}
-sound.enabled = true
 
-local fx = "sounds/effect/" --effects path
-local mt = "sounds/music/"  --music tracks path
-local am = "sounds/ambient/"  --ambient tracks
+-- add menu / keybind to toggle this
+sound.enabled = false
+
+-- sound data paths
+local sfx     = "sounds/effect/" 
+local music   = "sounds/music/"  
+local ambient = "sounds/ambient/"
 
 -- place effect filepaths here
-sound.jump = love.audio.newSource(fx .. "jump.ogg", "static")
-sound.gem = love.audio.newSource(fx .. "gem.ogg", "static")
-sound.hit = love.audio.newSource(fx .. "hit.ogg", "static")
-sound.beep = love.audio.newSource(fx .. "beep.ogg", "static")
-sound.die = love.audio.newSource(fx .. "die.ogg", "static")
-sound.crate = love.audio.newSource(fx .. "crate.ogg", "static")
-sound.lifeup = love.audio.newSource(fx .. "lifeup.ogg", "static")
-sound.kill = love.audio.newSource(fx .. "kill.ogg", "static")
-sound.checkpoint = love.audio.newSource(fx .. "checkpoint.ogg", "static")
-sound.goal = love.audio.newSource(fx .. "goal.ogg", "static")
-sound.spring = love.audio.newSource(fx .. "spring.ogg", "static")
-sound.blip = love.audio.newSource(fx .. "blip.ogg", "static")
-sound.magnet = love.audio.newSource(fx .. "magnet.ogg", "static")
-sound.shield = love.audio.newSource(fx .. "shield.ogg", "static")
+sound.jump = love.audio.newSource(sfx .. "jump.ogg", "static")
+sound.gem = love.audio.newSource(sfx .. "gem.ogg", "static")
+sound.hit = love.audio.newSource(sfx .. "hit.ogg", "static")
+sound.beep = love.audio.newSource(sfx .. "beep.ogg", "static")
+sound.die = love.audio.newSource(sfx .. "die.ogg", "static")
+sound.crate = love.audio.newSource(sfx .. "crate.ogg", "static")
+sound.lifeup = love.audio.newSource(sfx .. "lifeup.ogg", "static")
+sound.kill = love.audio.newSource(sfx .. "kill.ogg", "static")
+sound.checkpoint = love.audio.newSource(sfx .. "checkpoint.ogg", "static")
+sound.goal = love.audio.newSource(sfx .. "goal.ogg", "static")
+sound.spring = love.audio.newSource(sfx .. "spring.ogg", "static")
+sound.blip = love.audio.newSource(sfx .. "blip.ogg", "static")
+sound.magnet = love.audio.newSource(sfx .. "magnet.ogg", "static")
+sound.shield = love.audio.newSource(sfx .. "shield.ogg", "static")
 
 
 function sound:playbgm(id)
@@ -42,12 +45,12 @@ function sound:playbgm(id)
 	
 	--set by "mapmusic=N" within a map file
 	if id == 0 then  sound.bgm = nil end
-	if id == 1 then  sound.bgm = love.audio.newSource(mt .. "jungle.ogg") end
-	if id == 2 then  sound.bgm = love.audio.newSource(mt .. "underwater.ogg") end
-	if id == 3 then  sound.bgm = love.audio.newSource(mt .. "walking.ogg") end
-	if id == 4 then  sound.bgm = love.audio.newSource(mt .. "intense.ogg") end
-	if id == 5 then  sound.bgm = love.audio.newSource(mt .. "busy.ogg") end
-	if id == 6 then  sound.bgm = love.audio.newSource(mt .. "tropics.ogg") end
+	if id == 1 then  sound.bgm = love.audio.newSource(music .. "jungle.ogg") end
+	if id == 2 then  sound.bgm = love.audio.newSource(music .. "underwater.ogg") end
+	if id == 3 then  sound.bgm = love.audio.newSource(music .. "walking.ogg") end
+	if id == 4 then  sound.bgm = love.audio.newSource(music .. "intense.ogg") end
+	if id == 5 then  sound.bgm = love.audio.newSource(music .. "busy.ogg") end
+	if id == 6 then  sound.bgm = love.audio.newSource(music .. "tropics.ogg") end
 	
 	love.audio.stop()
 
@@ -62,10 +65,10 @@ function sound:playambient(id)
 	if not sound.enabled then return true end
 	
 	if id == 0 then  sound.ambient = nil end
-	if id == 1 then  sound.ambient = love.audio.newSource(am .. "swamp.ogg") end
-	if id == 2 then  sound.ambient = love.audio.newSource(am .. "stream.ogg") end
-	if id == 3 then  sound.ambient = love.audio.newSource(am .. "drip.ogg") end
-	if id == 4 then  sound.ambient = love.audio.newSource(am .. "storm.ogg") end
+	if id == 1 then  sound.ambient = love.audio.newSource(ambient .. "swamp.ogg") end
+	if id == 2 then  sound.ambient = love.audio.newSource(ambient .. "stream.ogg") end
+	if id == 3 then  sound.ambient = love.audio.newSource(ambient .. "drip.ogg") end
+	if id == 4 then  sound.ambient = love.audio.newSource(ambient .. "storm.ogg") end
 
 	if id ~= 0 then
 		sound.ambient:setLooping(true)

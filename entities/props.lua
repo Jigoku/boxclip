@@ -13,9 +13,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  --]]
  
- props = {}
+props = {}
 
 flower_gfx = love.graphics.newImage("graphics/props/flower.png")
+grass_gfx = love.graphics.newImage("graphics/props/grass.png")
 rock_gfx = love.graphics.newImage("graphics/props/rock.png")
 tree_gfx = love.graphics.newImage("graphics/props/tree.png")
 arch_gfx = love.graphics.newImage("graphics/props/arch.png")
@@ -37,6 +38,19 @@ function props:add(x,y,type)
 			gfx = flower_gfx,
 		})
 		print("flower added @  X:"..x.." Y: "..y)
+	end
+	if type == "grass" then
+		table.insert(props, {
+			--dimensions
+			x = x or 0, 
+			y = y or 0,
+			w = 40, 
+			h = 20,
+			--properties
+			name = "grass",
+			gfx = grass_gfx,
+		})
+		print("grass added @  X:"..x.." Y: "..y)
 	end
 	if type == "rock" then
 		table.insert(props, {
@@ -114,7 +128,7 @@ function props:add(x,y,type)
 			name = "log",
 			gfx = log_gfx,
 			falling = false,
-			timer = 0.1,
+			timer = 0.05,
 			mass = 800,
 			yvel = 0,
 		})

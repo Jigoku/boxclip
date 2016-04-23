@@ -84,14 +84,15 @@ function editor:entname(id)
 	elseif id ==19 then return "magnet" 
 	elseif id ==20 then return "shield" 
 	elseif id ==21 then return "flower" 
-	elseif id ==22 then return "rock" 
-	elseif id ==23 then return "tree" 
-	elseif id ==24 then return "arch" 
-	elseif id ==25 then return "arch2" 
-	elseif id ==26 then return "pillar" 
-	elseif id ==27 then return "spring_s" 
-	elseif id ==28 then return "spring_m" 
-	elseif id ==29 then return "spring_l" 
+	elseif id ==22 then return "grass" 
+	elseif id ==23 then return "rock" 
+	elseif id ==24 then return "tree" 
+	elseif id ==25 then return "arch" 
+	elseif id ==26 then return "arch2" 
+	elseif id ==27 then return "pillar" 
+	elseif id ==28 then return "spring_s" 
+	elseif id ==29 then return "spring_m" 
+	elseif id ==30 then return "spring_l" 
 	else return "----"
 	end
 end
@@ -318,6 +319,7 @@ function editor:mousepressed(x,y,button)
 		if selection == "spike_large" then enemies:spike_large(x,y,self.entdir) end
 		if selection == "icicle" then enemies:icicle(x,y) end
 		if selection == "flower" then props:add(x,y,"flower") end
+		if selection == "grass" then props:add(x,y,"grass") end
 		if selection == "log" then props:add(x,y,"log") end
 		if selection == "rock" then props:add(x,y,"rock") end
 		if selection == "tree" then props:add(x,y,"tree") end

@@ -167,7 +167,8 @@ function physics:crates(object,dt)
 	for i, crate in ipairs(crates) do
 			if collision:check(crate.x,crate.y,crate.w,crate.h,
 				object.newX,object.newY,object.w,object.h) and not crate.destroyed then
-				
+				object.candrop = false
+
 				if object.jumping then 
 					util:dprint("crate(" .. i..") destroyed, item ="..crate.item)
 					crate.destroyed = true
@@ -218,10 +219,9 @@ end
 
 function physics:platforms(object, dt)
 	--loop platforms
-	
+		
 	local i, platform
 	for i, platform in ipairs(platforms) do	
-			
 			if collision:check(platform.x,platform.y,platform.w,platform.h,
 					object.newX,object.newY,object.w,object.h) then
 					
@@ -253,10 +253,15 @@ function physics:platforms(object, dt)
 			
 					end
 				end
-				
+
 				-- top side
 				if collision:top(object,platform)  then
-					
+
+					if platform.clip == 0 then
+						object.candrop = true
+					else
+						object.candrop = false
+					end
 					if platform.name == "platform" then
 						--sounds on collision
 						if object.jumping and (object.yvel < 0) then 

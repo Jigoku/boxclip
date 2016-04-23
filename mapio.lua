@@ -69,16 +69,18 @@ end
 
 
 function mapio:loadmap(mapname)
-
-
-	--load the mapfile
-	local mapdata = love.filesystem.newFileData(mapname)
-	local lines = split(mapdata:getString(), "\n")
 	
 	--defaults in case not specified in map file
 	world.theme = ""
 	world.mapmusic = 0
 	world.mapambient = 0
+
+	--load the mapfile
+	local mapdata = love.filesystem.newFileData(mapname)
+	if not mapdata then return end
+
+	local lines = split(mapdata:getString(), "\n")
+
 	
 	for _, line in pairs(lines) do
 		-- parse mapmusic
