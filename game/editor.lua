@@ -496,17 +496,17 @@ function editor:drawhelpmenu()
 
 	
 	love.graphics.setColor(255,255,255,155)
-	love.graphics.printf("[h] to close",menu:getWidth()-110,10,100,"right")
+	love.graphics.printf("["..editbinds.helptoggle.."] to close",menu:getWidth()-110,10,100,"right")
 		
 	love.graphics.setFont(fonts.menu)
 
 	love.graphics.setColor(155,255,255,155)
-	love.graphics.print("f1",10,s*2); 
+	love.graphics.print(editbinds.edittoggle,10,s*2); 
 	love.graphics.setColor(255,255,255,155)
 	love.graphics.printf("toggle editmode",menu:getWidth()/8,s*2,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
-	love.graphics.print("wasd",10,s*3)
+	love.graphics.print(editbinds.up..","..editbinds.left..","..editbinds.down..","..editbinds.right ,10,s*3)
 	love.graphics.setColor(255,255,255,155)
 	love.graphics.printf("move",menu:getWidth()/8,s*3,200,"right")
 	
@@ -526,77 +526,72 @@ function editor:drawhelpmenu()
 	love.graphics.printf("select entity type",menu:getWidth()/8,s*6,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
-	love.graphics.print("r",10,s*7)
+	love.graphics.print(editbinds.entrotate,10,s*7)
 	love.graphics.setColor(255,255,255,155)
 	love.graphics.printf("entity direction",menu:getWidth()/8,s*7,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
-	love.graphics.print("keypad arrow",10,s*8)
+	love.graphics.print(editbinds.moveup..","..editbinds.moveleft..","..editbinds.movedown..","..editbinds.moveright,10,s*8)
 	love.graphics.setColor(255,255,255,155)
 	love.graphics.printf("reposition entity",menu:getWidth()/8,s*8,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
-	love.graphics.print("t",10,s*9)
+	love.graphics.print(editbinds.themecycle,10,s*9)
 	love.graphics.setColor(255,255,255,155)
 	love.graphics.printf("change theme",menu:getWidth()/8,s*9,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
-	love.graphics.print("c",10,s*10)
+	love.graphics.print(editbinds.entcopy,10,s*10)
 	love.graphics.setColor(255,255,255,155)
 	love.graphics.printf("copy",menu:getWidth()/8,s*10,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
-	love.graphics.print("p",10,s*11)
+	love.graphics.print(editbinds.entpaste,10,s*11)
 	love.graphics.setColor(255,255,255,155)
 	love.graphics.printf("paste",menu:getWidth()/8,s*11,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
-	love.graphics.print("z",10,s*12)
-	love.graphics.setColor(255,255,255,155)
-	love.graphics.printf("camera zoom",menu:getWidth()/8,s*12,200,"right")
-	
-	love.graphics.setColor(155,255,255,155)
-	love.graphics.print("f12",10,s*13)
+	love.graphics.print(editbinds.savemap,10,s*13)
 	love.graphics.setColor(255,255,255,155)
 	love.graphics.printf("savemap",menu:getWidth()/8,s*13,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
-	love.graphics.print("escape",10,s*14)
+	love.graphics.print(binds.exit,10,s*14)
 	love.graphics.setColor(255,255,255,155)
 	love.graphics.printf("exit to title",menu:getWidth()/8,s*14,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
-	love.graphics.print("`",10,s*15)
+	love.graphics.print(binds.debug,10,s*15)
 	love.graphics.setColor(255,255,255,155)
 	love.graphics.printf("toggle console",menu:getWidth()/8,s*15,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
-	love.graphics.print("g",10,s*16)
+	love.graphics.print(editbinds.guidetoggle,10,s*16)
 	love.graphics.setColor(255,255,255,155)
 	love.graphics.printf("toggle guidelines",menu:getWidth()/8,s*16,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
-	love.graphics.print("m",10,s*17)
+	love.graphics.print(editbinds.maptoggle,10,s*17)
 	love.graphics.setColor(255,255,255,155)
 	love.graphics.printf("toggle minimap",menu:getWidth()/8,s*17,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
-	love.graphics.print("h",10,s*18)
+	love.graphics.print(editbinds.helptoggle,10,s*18)
 	love.graphics.setColor(255,255,255,155)
 	love.graphics.printf("show help",menu:getWidth()/8,s*18,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
-	love.graphics.print("x",10,s*19)
+	love.graphics.print(editbinds.respawn,10,s*19)
 	love.graphics.setColor(255,255,255,155)
 	love.graphics.printf("set camera to origin/spawn",menu:getWidth()/8,s*19,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
-	love.graphics.print(",",10,s*20)
+	love.graphics.print(editbinds.showpos,10,s*20)
 	love.graphics.setColor(255,255,255,155)
 	love.graphics.printf("toggle co-ord display",menu:getWidth()/8,s*20,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
-	love.graphics.print(".",10,s*21)
+	love.graphics.print(editbinds.showid,10,s*21)
 	love.graphics.setColor(255,255,255,155)
 	love.graphics.printf("toggle id display",menu:getWidth()/8,s*21,200,"right")
 	
