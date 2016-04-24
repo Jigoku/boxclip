@@ -70,9 +70,10 @@ function world:settheme(theme)
 
 	-- load the theme file
 	if love.filesystem.load( "themes/".. theme ..".lua" )( ) then 
-		util:dprint("set theme: " .. theme)
-	else
 		util:dprint("failed to set theme:  " .. theme)
+	else
+		util:dprint("set theme: " .. theme)
+		
 	end
 	
 	

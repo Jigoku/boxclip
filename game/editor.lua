@@ -130,7 +130,7 @@ function editor:keypressed(key)
 
 	
 
-	if key == "f1" then 
+	if key == editbinds.edittoggle then 
 		editing = not editing
 		player.xvel = 0
 		player.yvel = 0
@@ -139,45 +139,45 @@ function editor:keypressed(key)
 		player.xvelboost = 0
 	end
 
-	if key == "h" then self.showhelpmenu = not self.showhelpmenu end	
-	if key == "m" then self.showmmap = not self.showmmap end
+	if key == editbinds.helptoggle then self.showhelpmenu = not self.showhelpmenu end	
+	if key == editbinds.maptoggle then self.showmmap = not self.showmmap end
 	
 	
 	--free roaming	
 	if editing then
-		if key == "kp+" then self.entsel = self.entsel +1 end
-		if key == "kp-" then self.entsel = self.entsel -1 end
+		if key == editbinds.entselup then self.entsel = self.entsel +1 end
+		if key == editbinds.entseldown then self.entsel = self.entsel -1 end
 	
-		if key == "delete" then self:removesel() end
-		if key == "c" then self:copy() end
-		if key == "v" then self:paste() end
-		if key == "r" then self:rotate() end
-		if key == "e" then self.showentmenu = not self.showentmenu end
+		if key == editbinds.delete then self:removesel() end
+		if key == editbinds.entcopy then self:copy() end
+		if key == editbinds.entpaste then self:paste() end
+		if key == editbinds.entrotate then self:rotate() end
+		if key == editbinds.entmenutoggle then self.showentmenu = not self.showentmenu end
 
-		if key == "g" then self.showguide = not self.showguide end
-		if key == "x" then self:sendtospawn(player) end
-		if key == "," then self.showpos = not self.showpos end
-		if key == "." then self.showid = not self.showid end
-		if key == "f12" then mapio:savemap(world.map) end
+		if key == editbinds.guidetoggle then self.showguide = not self.showguide end
+		if key == editbinds.respawn then self:sendtospawn(player) end
+		if key == editbinds.showpos then self.showpos = not self.showpos end
+		if key == editbinds.showid then self.showid = not self.showid end
+		if key == editbinds.savemap then mapio:savemap(world.map) end
 	
-		if key == "t" then self:settheme() end
+		if key == editbinds.themecycle then self:settheme() end
 	
 		for i, platform in ripairs(platforms) do
 			--fix this for moving platform (yorigin,xorigin etc)
 			if world:inview(platform) then
 				if collision:check(mousePosX,mousePosY,1,1, platform.x,platform.y,platform.w,platform.h) then
-					if love.keyboard.isDown("kp8") then 
+					if love.keyboard.isDown(editbinds.moveup) then 
 						platform.y = math.round(platform.y - 10,-1) --up
 					end
-					if love.keyboard.isDown("kp2") then 
+					if love.keyboard.isDown(editbinds.movedown) then 
 						platform.y = math.round(platform.y + 10,-1) --down
 						platform.yorigin = platform.y
 					end 
-					if love.keyboard.isDown("kp4") then 
+					if love.keyboard.isDown(editbinds.moveleft) then 
 						platform.x = math.round(platform.x - 10,-1) --left
 						platform.xorigin = platform.x
 					end 
-					if love.keyboard.isDown("kp6") then 
+					if love.keyboard.isDown(editbinds.moveright) then 
 						platform.x = math.round(platform.x + 10,-1)  --right
 						platform.xorigin = platform.x
 					end
@@ -191,25 +191,23 @@ end
 
 function editor:checkkeys(dt)
 
-
-
-		if love.keyboard.isDown("d")  then
+		if love.keyboard.isDown(editbinds.right)  then
 			player.x = player.x + self.movespeed *dt
 		end
-		if love.keyboard.isDown("a")  then
+		if love.keyboard.isDown(editbinds.left)  then
 			player.x = player.x - self.movespeed *dt
 		end
-		if love.keyboard.isDown("w") then
+		if love.keyboard.isDown(editbinds.up) then
 			player.y = player.y - self.movespeed *dt
 		end
-		if love.keyboard.isDown("s") then
+		if love.keyboard.isDown(editbinds.down) then
 			player.y = player.y + self.movespeed *dt
 		end
 		
-		if love.keyboard.isDown("[") then
+		if love.keyboard.isDown(editbinds.decrease) then
 			self:adjustent(-1,dt)
 		end
-		if love.keyboard.isDown("]") then
+		if love.keyboard.isDown(editbinds.increase) then
 			self:adjustent(1,dt)
 		end
 end
