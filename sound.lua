@@ -16,7 +16,7 @@
 sound = {}
 
 -- add menu / keybind to toggle this
-sound.enabled = false
+sound.enabled = true
 
 -- sound data paths
 local sfx     = "sounds/effect/" 

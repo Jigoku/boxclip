@@ -77,6 +77,10 @@ function love.keypressed(key)
 	--toggle fullscreen
 	if key == binds.fullscreen then util:togglefullscreen() end
 		
+	--toggle sound
+	if key == binds.mute then 
+		sound.enabled = not sound.enabled
+	end
 
 
 end
