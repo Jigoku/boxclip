@@ -52,6 +52,12 @@ editor.showhelpmenu = false  --toggle helpmenu
 editor.drawsel = false		--selection outline
 editor.movespeed = 1000		--editing floatspeed
 
+editor.mmapw = 200
+editor.mmaph = 200
+editor.mmapscale = 15*camera.scaleX
+editor.mmapcanvas = love.graphics.newCanvas( editor.mmapw, editor.mmaph )
+
+	
 editor.entmenuw = 150       --entmenu width
 editor.entmenuh = 300		--entmenu height
 editor.helpmenuw = 240
@@ -854,14 +860,9 @@ end
 
 
 function editor:drawmmap()
-	--experimental! does not work as intended! (but is still useful)
-	--fix camera scaling... and remove duplicate code
-	self.mmapw = WIDTH/5
-	self.mmaph = HEIGHT/5
-	self.mmapscale = 15*camera.scaleX
-	mmapcanvas = love.graphics.newCanvas( self.mmapw, self.mmaph )
-	love.graphics.setCanvas(mmapcanvas)
-	mmapcanvas:clear()
+	
+	love.graphics.setCanvas(self.mmapcanvas)
+	self.mmapcanvas:clear()
 
 
 	love.graphics.setColor(0,0,0,100)
@@ -952,6 +953,6 @@ function editor:drawmmap()
 
 	love.graphics.setCanvas()
 	love.graphics.setColor(255, 255, 255, 255)
-	love.graphics.draw(mmapcanvas, WIDTH-10-self.mmapw,love.graphics.getHeight()-10-self.mmaph )
+	love.graphics.draw(self.mmapcanvas, WIDTH-10-self.mmapw,love.graphics.getHeight()-10-self.mmaph )
 
 end
