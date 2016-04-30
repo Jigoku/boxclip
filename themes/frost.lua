@@ -1,7 +1,7 @@
 background_r = 130
 background_g = 150
 background_b = 150
-platform_r = 40 
+platform_r = 120 
 platform_g = 190
 platform_b =  200
 platform_top_r = 170

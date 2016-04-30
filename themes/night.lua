@@ -10,9 +10,9 @@
 		platform_move_r = 57
 		platform_move_g = 57
 		platform_move_b = 77
-		platform_behind_r = 70
-		platform_behind_g = 75
-		platform_behind_b =90
+		platform_behind_r = 100
+		platform_behind_g = 105
+		platform_behind_b =120
 		
 		crate_r = 105
 		crate_g = 85
