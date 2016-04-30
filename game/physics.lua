@@ -338,16 +338,18 @@ function physics:pickups(dt)
 				end
 			else
 			
-				self:applyGravity(pickup, dt)
-				pickup.newX = pickup.x + (pickup.xvel *dt)
+				if not pickup.name == "gem" then
+					self:applyGravity(pickup, dt)
+					pickup.newX = pickup.x + (pickup.xvel *dt)
 			
-				self:props(pickup,dt)
-				self:platforms(pickup, dt)
-				self:crates(pickup, dt)
+					self:props(pickup,dt)
+					self:platforms(pickup, dt)
+					self:crates(pickup, dt)
 		
-				-- if pickup goes outside of world, remove it
-				if pickup.y+pickup.h > world.groundLevel  then
-					pickups:destroy(pickups,i)
+					-- if pickup goes outside of world, remove it
+					if pickup.y+pickup.h > world.groundLevel  then
+						pickups:destroy(pickups,i)
+					end
 				end
 			end
 			
