@@ -60,8 +60,11 @@ editor.mmapcanvas = love.graphics.newCanvas( editor.mmapw, editor.mmaph )
 	
 editor.entmenuw = 150       --entmenu width
 editor.entmenuh = 300		--entmenu height
+editor.entmenu = love.graphics.newCanvas(editor.entmenuw,editor.entmenuh)
+	
 editor.helpmenuw = 240
 editor.helpmenuh = 400
+editor.helpmenu = love.graphics.newCanvas(editor.helpmenuw,editor.helpmenuh)
 
 editor.clipboard = {}		--clipboard contents
 
@@ -483,133 +486,133 @@ end
 
 function editor:drawhelpmenu()
 	
-	local menu = love.graphics.newCanvas(self.helpmenuw,self.helpmenuh)
-	love.graphics.setCanvas(menu)
-	menu:clear()
+	
+	love.graphics.setCanvas(self.helpmenu)
+	self.helpmenu:clear()
 	
 	--frame
 	love.graphics.setColor(0,0,0,200)
-	love.graphics.rectangle("fill",0,0, menu:getWidth(), menu:getHeight())
+	love.graphics.rectangle("fill",0,0, self.helpmenu:getWidth(), self.helpmenu:getHeight())
 	--border
 	love.graphics.setColor(255,255,255,150)
-	love.graphics.rectangle("fill",0,0, menu:getWidth(), 5)
+	love.graphics.rectangle("fill",0,0, self.helpmenu:getWidth(), 5)
 	--title
 	love.graphics.setColor(255,255,255,255)
 	love.graphics.print("Editor Help",10,10)
 	
 	--hrule
 	love.graphics.setColor(255,255,255,150)
-	love.graphics.rectangle("fill",10,25, menu:getWidth()-10, 1)
+	love.graphics.rectangle("fill",10,25, self.helpmenu:getWidth()-10, 1)
 	
 	local s = 15 -- vertical spacing
 
 	
 	love.graphics.setColor(255,255,255,155)
-	love.graphics.printf("["..editbinds.helptoggle.."] to close",menu:getWidth()-110,10,100,"right")
+	love.graphics.printf("["..editbinds.helptoggle.."] to close",self.helpmenu:getWidth()-110,10,100,"right")
 		
 	love.graphics.setFont(fonts.menu)
 
 	love.graphics.setColor(155,255,255,155)
 	love.graphics.print(editbinds.edittoggle,10,s*2); 
 	love.graphics.setColor(255,255,255,155)
-	love.graphics.printf("toggle editmode",menu:getWidth()/8,s*2,200,"right")
+	love.graphics.printf("toggle editmode",self.helpmenu:getWidth()/8,s*2,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
 	love.graphics.print(editbinds.up..","..editbinds.left..","..editbinds.down..","..editbinds.right ,10,s*3)
 	love.graphics.setColor(255,255,255,155)
-	love.graphics.printf("move",menu:getWidth()/8,s*3,200,"right")
+	love.graphics.printf("move",self.helpmenu:getWidth()/8,s*3,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
 	love.graphics.print("left mouse",10,s*4)
 	love.graphics.setColor(255,255,255,155)
-	love.graphics.printf("select/drag",menu:getWidth()/8,s*4,200,"right")
+	love.graphics.printf("select/drag",self.helpmenu:getWidth()/8,s*4,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
 	love.graphics.print("right mouse",10,s*5)
 	love.graphics.setColor(255,255,255,155)
-	love.graphics.printf("remove entity",menu:getWidth()/8,s*5,200,"right")
+	love.graphics.printf("remove entity",self.helpmenu:getWidth()/8,s*5,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
 	love.graphics.print("mousewheel",10,s*6)
 	love.graphics.setColor(255,255,255,155)
-	love.graphics.printf("select entity type",menu:getWidth()/8,s*6,200,"right")
+	love.graphics.printf("select entity type",self.helpmenu:getWidth()/8,s*6,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
 	love.graphics.print(editbinds.entrotate,10,s*7)
 	love.graphics.setColor(255,255,255,155)
-	love.graphics.printf("entity direction",menu:getWidth()/8,s*7,200,"right")
+	love.graphics.printf("entity direction",self.helpmenu:getWidth()/8,s*7,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
 	love.graphics.print(editbinds.moveup..","..editbinds.moveleft..","..editbinds.movedown..","..editbinds.moveright,10,s*8)
 	love.graphics.setColor(255,255,255,155)
-	love.graphics.printf("reposition entity",menu:getWidth()/8,s*8,200,"right")
+	love.graphics.printf("reposition entity",self.helpmenu:getWidth()/8,s*8,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
 	love.graphics.print(editbinds.themecycle,10,s*9)
 	love.graphics.setColor(255,255,255,155)
-	love.graphics.printf("change theme",menu:getWidth()/8,s*9,200,"right")
+	love.graphics.printf("change theme",self.helpmenu:getWidth()/8,s*9,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
 	love.graphics.print(editbinds.entcopy,10,s*10)
 	love.graphics.setColor(255,255,255,155)
-	love.graphics.printf("copy",menu:getWidth()/8,s*10,200,"right")
+	love.graphics.printf("copy",self.helpmenu:getWidth()/8,s*10,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
 	love.graphics.print(editbinds.entpaste,10,s*11)
 	love.graphics.setColor(255,255,255,155)
-	love.graphics.printf("paste",menu:getWidth()/8,s*11,200,"right")
+	love.graphics.printf("paste",self.helpmenu:getWidth()/8,s*11,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
 	love.graphics.print(editbinds.savemap,10,s*13)
 	love.graphics.setColor(255,255,255,155)
-	love.graphics.printf("savemap",menu:getWidth()/8,s*13,200,"right")
+	love.graphics.printf("savemap",self.helpmenu:getWidth()/8,s*13,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
 	love.graphics.print(binds.exit,10,s*14)
 	love.graphics.setColor(255,255,255,155)
-	love.graphics.printf("exit to title",menu:getWidth()/8,s*14,200,"right")
+	love.graphics.printf("exit to title",self.helpmenu:getWidth()/8,s*14,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
 	love.graphics.print(binds.debug,10,s*15)
 	love.graphics.setColor(255,255,255,155)
-	love.graphics.printf("toggle console",menu:getWidth()/8,s*15,200,"right")
+	love.graphics.printf("toggle console",self.helpmenu:getWidth()/8,s*15,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
 	love.graphics.print(editbinds.guidetoggle,10,s*16)
 	love.graphics.setColor(255,255,255,155)
-	love.graphics.printf("toggle guidelines",menu:getWidth()/8,s*16,200,"right")
+	love.graphics.printf("toggle guidelines",self.helpmenu:getWidth()/8,s*16,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
 	love.graphics.print(editbinds.maptoggle,10,s*17)
 	love.graphics.setColor(255,255,255,155)
-	love.graphics.printf("toggle minimap",menu:getWidth()/8,s*17,200,"right")
+	love.graphics.printf("toggle minimap",self.helpmenu:getWidth()/8,s*17,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
 	love.graphics.print(editbinds.helptoggle,10,s*18)
 	love.graphics.setColor(255,255,255,155)
-	love.graphics.printf("show help",menu:getWidth()/8,s*18,200,"right")
+	love.graphics.printf("show help",self.helpmenu:getWidth()/8,s*18,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
 	love.graphics.print(editbinds.respawn,10,s*19)
 	love.graphics.setColor(255,255,255,155)
-	love.graphics.printf("set camera to origin/spawn",menu:getWidth()/8,s*19,200,"right")
+	love.graphics.printf("set camera to origin/spawn",self.helpmenu:getWidth()/8,s*19,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
 	love.graphics.print(editbinds.showpos,10,s*20)
 	love.graphics.setColor(255,255,255,155)
-	love.graphics.printf("toggle co-ord display",menu:getWidth()/8,s*20,200,"right")
+	love.graphics.printf("toggle co-ord display",self.helpmenu:getWidth()/8,s*20,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
 	love.graphics.print(editbinds.showid,10,s*21)
 	love.graphics.setColor(255,255,255,155)
-	love.graphics.printf("toggle id display",menu:getWidth()/8,s*21,200,"right")
+	love.graphics.printf("toggle id display",self.helpmenu:getWidth()/8,s*21,200,"right")
 	
 	love.graphics.setFont(fonts.default)
 		
 	love.graphics.setCanvas()
 	
 	love.graphics.setColor(255,255,255,255)
-	love.graphics.draw(menu, WIDTH/2-menu:getWidth()/2, HEIGHT/2-menu:getHeight()/2 )
+	love.graphics.draw(self.helpmenu, WIDTH/2-self.helpmenu:getWidth()/2, HEIGHT/2-self.helpmenu:getHeight()/2 )
 	
 	
 end
@@ -617,20 +620,20 @@ end
 
 function editor:drawentmenu()
 	--gui scrolling list for entity selection
-	local menu = love.graphics.newCanvas(self.entmenuw,self.entmenuh)
-	love.graphics.setCanvas(menu)
-	menu:clear()
+
+	love.graphics.setCanvas(self.entmenu)
+	self.entmenu:clear()
 		
 	--frame
 	love.graphics.setColor(0,0,0,150)
 	love.graphics.rectangle(
-		"fill",0,0, menu:getWidth(), menu:getHeight()
+		"fill",0,0, self.entmenu:getWidth(), self.entmenu:getHeight()
 	)
 	
 	--border
 	love.graphics.setColor(255,255,255,150)
 	love.graphics.rectangle(
-		"fill",0,0, menu:getWidth(), 5
+		"fill",0,0, self.entmenu:getWidth(), 5
 	)
 	
 	love.graphics.setColor(255,255,255,255)
@@ -639,7 +642,7 @@ function editor:drawentmenu()
 	--hrule
 	love.graphics.setColor(255,255,255,150)
 	love.graphics.rectangle(
-		"fill",10,25, menu:getWidth()-10, 1
+		"fill",10,25, self.entmenu:getWidth()-10, 1
 	)
 	
 	local s = 15 -- vertical spacing
@@ -656,7 +659,7 @@ function editor:drawentmenu()
 	love.graphics.setColor(200,200,200,150)
 
 	love.graphics.rectangle(
-		"fill",10,s*6, menu:getWidth()-20, 15
+		"fill",10,s*6, self.entmenu:getWidth()-20, 15
 	)
 	----------
 	
@@ -686,7 +689,7 @@ function editor:drawentmenu()
 	love.graphics.setCanvas()
 	
 	love.graphics.setColor(255,255,255,255)
-	love.graphics.draw(menu, 10, HEIGHT-menu:getHeight()-10 )
+	love.graphics.draw(self.entmenu, 10, HEIGHT-self.entmenu:getHeight()-10 )
 end
 
 
