@@ -18,7 +18,7 @@ world = {}
 --add menu option to change this.
 --also portal entity should have parameter for "next map" 
 --which changes this string before reinitializing the world
-world.map = "maps/test.map"
+world.map = "maps/test"
 
 --groundLevel textures
 water = love.graphics.newImage("graphics/tiles/water.png")
@@ -119,6 +119,7 @@ function world:init(gamemode)
 	world:empty()
 	player:init() 
 	mapio:loadmap(world.map)
+	
 	
 	player:respawn()
 			

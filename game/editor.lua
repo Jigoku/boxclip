@@ -112,6 +112,7 @@ end
 
 function editor:settheme()
 	world.theme = self:themename(self.themesel)
+
 	world:settheme(world.theme)
 	
 	for i,e in ipairs(enemies) do 
@@ -434,7 +435,9 @@ function editor:draw()
 	love.graphics.print("editing",WIDTH-80, 10,0,1,1)
 	love.graphics.setFont(fonts.default)
 	love.graphics.print("press 'h' for help",WIDTH-115, 30,0,1,1)
-
+	love.graphics.setColor(255,255,255,255)
+	love.graphics.print("active selection:",WIDTH-115, 65,0,1,1)
+	love.graphics.print(editor.selname or "",WIDTH-115, 80,0,1,1)
 	
 	if editing then
 		camera:set()
@@ -694,17 +697,22 @@ end
 
 function editor:selection(entities, x,y,w,h)
 	-- hilights the entity when mouseover 
+	editor.selname = "null"
 	love.graphics.setColor(0,255,0,200)
 	for i, entity in ripairs(entities) do
+				
 		if world:inview(entity) then
+
 			if entity.movex == 1 then
 				if collision:check(mousePosX,mousePosY,1,1,entity.xorigin, entity.y, entity.movedist+entity.w, entity.h) then
 					love.graphics.rectangle("line", entity.xorigin, entity.y, entity.movedist+entity.w, entity.h)
+					editor.selname = entity.name .. "("..i..")"
 					return true
 				end
 			elseif entity.movey == 1 then
 				if collision:check(mousePosX,mousePosY,1,1,entity.xorigin, entity.yorigin, entity.w, entity.h+entity.movedist) then
 					love.graphics.rectangle("line", entity.xorigin, entity.yorigin,entity.w, entity.h+entity.movedist)
+					editor.selname = entity.name .. "("..i..")"
 					return true
 				end
 			elseif entity.swing == 1 then
@@ -717,12 +725,13 @@ function editor:selection(entities, x,y,w,h)
 							entity.xorigin-platform_link_origin:getWidth()/2, entity.yorigin-platform_link_origin:getHeight()/2,  
 							platform_link_origin:getWidth(),platform_link_origin:getHeight()
 						)
+						editor.selname = entity.name .. "("..i..")"
 						return true
 				end
 			elseif collision:check(mousePosX,mousePosY,1,1,entity.x,entity.y,entity.w,entity.h) then
 					love.graphics.rectangle("line", entity.x,entity.y,entity.w,entity.h)
+					editor.selname = entity.name .. "("..i..")"
 					return true
-
 			end
 		end
 	end
