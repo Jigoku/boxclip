@@ -89,7 +89,7 @@ function util:drawConsole()
 		
 		--sysinfo
 		love.graphics.setColor(100,255,100,255)
-		love.graphics.print("FPS: " .. love.timer.getFPS() .. " | Memory (kB): " ..  gcinfo(), 5,5)
+		love.graphics.print("FPS: " .. love.timer.getFPS() .. " | Memory (kB): " ..  gcinfo() ..string.format(" | vram: %.2fMB", love.graphics.getStats().texturememory / 1024 / 1024), 5,5)
 		
 
 		
@@ -101,7 +101,7 @@ function util:drawConsole()
 			"[score: " .. player.score .. "]"..
 			"[time: " .. world:formatTime(world.time) .. "]"..
 			"[alive: "..(player.alive and 1 or 0).."]", 
-			200,5
+			250,5
 		)
 		
 		love.graphics.setColor(255,255,255,255)
