@@ -75,7 +75,7 @@ end
 
 function mapio:loadmap(mapname)
 	--defaults in case not specified in map file
-	world.theme = "sunny"
+	world:settheme("default")
 	world.mapmusic = 0
 	world.mapambient = 0
 	

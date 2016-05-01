@@ -37,37 +37,6 @@ function world:settheme(theme)
 	overlay:setWrap("repeat", "repeat")
 	overlay_quad = love.graphics.newQuad( 0,0, WIDTH, HEIGHT, overlay:getDimensions() )
 	
-	--fallbacks
-	spike_gfx = spike
-	spike_large_gfx = spike_large
-	icicle_gfx = icicle
-	icicle_d_gfx = icicle_d
-	background_r = 100
-	background_g = 100
-	background_b = 100
-	platform_r = 220
-	platform_g = 220
-	platform_b = 220
-	platform_behind_r = 160
-	platform_behind_g = 160
-	platform_behind_b = 160
-	platform_move_r = 100
-	platform_move_g = 100
-	platform_move_b = 100
-	platform_top_r = 140
-	platform_top_g = 140
-	platform_top_b = 140
-	crate_r = 255
-	crate_g = 255
-	crate_b = 255
-	background_scroll = 0
-	background_scrollspeed = 0
-	background = ""
-	groundLevel_scroll = 0
-	groundLevel_scrollspeed = 100
-	groundLevel_tile = water
-
-
 	-- load the theme file
 	if love.filesystem.load( "themes/".. theme ..".lua" )( ) then 
 		util:dprint("failed to set theme:  " .. theme)
@@ -75,7 +44,6 @@ function world:settheme(theme)
 		util:dprint("set theme: " .. theme)
 		
 	end
-	
 	
 	groundLevel_tile:setWrap("repeat", "repeat")
 	groundLevel_quad = love.graphics.newQuad( -50,world.groundLevel, 10000, 500, groundLevel_tile:getDimensions() )
@@ -137,20 +105,19 @@ function world:draw()
 
 	--paralax background
 	if not editing then
-	if type(background) == "userdata" then
-		love.graphics.draw(background, background_quad,camera.x-WIDTH/2*camera.scaleX,camera.y-HEIGHT/2*camera.scaleY)
-	end
-		---easier on the eyes for entity placement)
-		--love.graphics.setColor(255,255,255,50)
+		if type(background) == "userdata" then
+			love.graphics.draw(background, background_quad,camera.x-WIDTH/2*camera.scaleX,camera.y-HEIGHT/2*camera.scaleY)
+		end
 	end
 	
-	
-	
+	if type(groundLevel_tile) == "userdata" then
+		love.graphics.draw(groundLevel_tile, groundLevel_quad, -1000,world.groundLevel)
+	end
+
 	love.graphics.setColor(255,255,255,255)
 	
 	--groundLevel placeholder
-	love.graphics.draw(groundLevel_tile, groundLevel_quad, -1000,world.groundLevel)
-
+	
 
 	
 
@@ -356,28 +323,27 @@ function world:update(dt)
 		end
 		--]]
 	end
-	--love.audio.stop( )
+
 	
-	--scroll groundLevel!
-	groundLevel_scroll = groundLevel_scroll + (groundLevel_scrollspeed * dt)
-	 if groundLevel_scroll > groundLevel_tile:getHeight()then
-        groundLevel_scroll = groundLevel_scroll - groundLevel_tile:getHeight()
-    end
-    
-    groundLevel_quad:setViewport(0,-groundLevel_scroll,10000,500 )
-    --scroll background
+	
+	--scroll groundLevel
+	if type(groundLevel_tile) == "userdata" then
+		groundLevel_scroll = groundLevel_scroll + (groundLevel_scrollspeed * dt)
+		if groundLevel_scroll > groundLevel_tile:getHeight()then
+			groundLevel_scroll = groundLevel_scroll - groundLevel_tile:getHeight()
+		end
+		groundLevel_quad:setViewport(0,-groundLevel_scroll,10000,500 )
+	else
+		groundLevel_scroll = 0
+	end
 
-
-
+	--scroll background
 	if type(background) == "userdata" then
-
 		background_scroll = background_scroll + background_scrollspeed * dt
 		if background_scroll > background:getWidth()then
 			background_scroll = background_scroll - background:getWidth()
 		end
-		
 		background_quad:setViewport(camera.x/6-background_scroll,camera.y/6,WIDTH*camera.scaleX,HEIGHT*camera.scaleY )
-		
 	else
 		background_scroll = 0
 	end
