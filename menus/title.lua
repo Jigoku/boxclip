@@ -17,12 +17,24 @@
  -- https://love2d.org/wiki/love.textinput
  -- https://love2d.org/wiki/love.keyboard.setTextInput
 title = {}
-title.keystr = ""
+
+
+function title:getmaps()
+	return love.filesystem.getDirectoryItems( "maps/" )
+end
+
+function title:mapname(id)
+	for i,map in ipairs(title:getmaps()) do
+		if i == id then return map end
+	end
+end
 
 
 
 
 function title:init()
+
+
 	mode = "title"
 	self.bg = love.graphics.newImage("graphics/backgrounds/sky.png")
 	self.bg:setWrap("repeat", "repeat")
@@ -35,9 +47,10 @@ function title:init()
 
 	
 	sound:playbgm(6)
-	self.sel = 0
+	self.sel = 1
 	self.menu = "main"
-
+	self.keystr = ""
+	self.mapsel = 1
 	
 	cheats = {
 		catlife = false,
@@ -59,15 +72,24 @@ function title:mainselect(cmd)
 	if cmd == "up" then self.sel = self.sel -1 end
 	if cmd == "down" then self.sel = self.sel +1 end
 	
+ 
+		if cmd == "left" then self.mapsel = self.mapsel -1 end
+		if cmd == "right" then self.mapsel = self.mapsel +1 end
+		
+		if self.mapsel < 1 then self.mapsel = 1 end
+		if self.mapsel > #self:getmaps() then self.mapsel = #self:getmaps() end
+
+	
 	if cmd == "go" then
-		if self.sel == 0 then transitions:fadeout("game") end
-		if self.sel == 1 then transitions:fadeout("editing") end
-		if self.sel == 2 then self.menu = "options" end
-		if self.sel == 3 then love.event.quit() end
+		world.map = self:mapname(self.mapsel)
+		if self.sel == 1 then transitions:fadeout("game") end
+		if self.sel == 2 then transitions:fadeout("editing") end
+		if self.sel == 3 then self.menu = "options" end
+		if self.sel == 4 then love.event.quit() end
 	end
 	
-	if self.sel < 0 then self.sel = 0 return end
-	if self.sel > 3 then self.sel = 3 return end
+	if self.sel < 1 then self.sel = 1 return end
+	if self.sel > 4 then self.sel = 4 return end
 	sound:play(sound.blip)
 end
 
@@ -81,6 +103,8 @@ function title:keypressed(key)
 			if key == "up"     then title:mainselect("up") end
 			if key == "down"   then title:mainselect("down") end
 			if key == "return"   then title:mainselect("go") end
+			if key == "left"   then title:mainselect("left") end
+			if key == "right"   then title:mainselect("right") end
 		end
 	
 		if self.menu == "options" then
@@ -122,7 +146,7 @@ end
 
 function title:update(dt)
 	self.bgscroll = self.bgscroll + self.bgscrollspeed * dt
-	if self.bgscroll > self.bg:getHeight()then
+	if self.bgscroll > self.bg:getHeight() then
 		self.bgscroll = self.bgscroll - self.bg:getWidth()
 	end	
 	--love.audio.setVolume( volume )
@@ -170,48 +194,60 @@ function title:drawmain()
 	--options
 	love.graphics.setFont(fonts.menu)
 
-	--play 
+
 	if self.sel == 0 then
 		love.graphics.setColor(0,0,0,155)
 		love.graphics.rectangle("fill", WIDTH/4-10,HEIGHT/4+90,WIDTH/2+20,40)
 	end
-		
-	love.graphics.setColor(100,150,160,255)
-	love.graphics.printf("Play",WIDTH/4,HEIGHT/4+100,WIDTH/3,"left")
-	love.graphics.setColor(100,140,60,155)
-	love.graphics.printf("(load maps/test.map)",WIDTH/4,HEIGHT/4+100,WIDTH/2,"right")
+	love.graphics.setColor(255,255,255,255)
+	love.graphics.printf("Pres left/right to select map",WIDTH/4,HEIGHT/4+100,WIDTH/3,"left")
 
-	--editing 
-		
+
+
+
+
+	--play 
 	if self.sel == 1 then
 		love.graphics.setColor(0,0,0,155)
 		love.graphics.rectangle("fill", WIDTH/4-10,HEIGHT/4+130,WIDTH/2+20,40)
 	end
 		
 	love.graphics.setColor(100,150,160,255)
-	love.graphics.printf("Map Editor",WIDTH/4,HEIGHT/4+140,WIDTH/3,"left")
+	love.graphics.printf("Play",WIDTH/4,HEIGHT/4+140,WIDTH/3,"left")
 	love.graphics.setColor(100,140,60,155)
-	love.graphics.printf("(load maps/test.map)",WIDTH/4,HEIGHT/4+140,WIDTH/2,"right")
+	love.graphics.printf("play " .. self:mapname(self.mapsel),WIDTH/4,HEIGHT/4+140,WIDTH/2,"right")
+
+	--editing 
 		
-	--options
 	if self.sel == 2 then
 		love.graphics.setColor(0,0,0,155)
 		love.graphics.rectangle("fill", WIDTH/4-10,HEIGHT/4+170,WIDTH/2+20,40)
 	end
 		
 	love.graphics.setColor(100,150,160,255)
-	love.graphics.printf("Options",WIDTH/4,HEIGHT/4+180,WIDTH/3,"left")
+	love.graphics.printf("Map Editor",WIDTH/4,HEIGHT/4+180,WIDTH/3,"left")
 	love.graphics.setColor(100,140,60,155)
-	love.graphics.printf("(unimplemented)",WIDTH/4,HEIGHT/4+180,WIDTH/2,"right")
-	
-	--quit
+	love.graphics.printf("edit " .. self:mapname(self.mapsel),WIDTH/4,HEIGHT/4+180,WIDTH/2,"right")
+		
+	--options
 	if self.sel == 3 then
 		love.graphics.setColor(0,0,0,155)
 		love.graphics.rectangle("fill", WIDTH/4-10,HEIGHT/4+210,WIDTH/2+20,40)
 	end
+		
+	love.graphics.setColor(100,150,160,255)
+	love.graphics.printf("Options",WIDTH/4,HEIGHT/4+220,WIDTH/3,"left")
+	love.graphics.setColor(100,140,60,155)
+	love.graphics.printf("(unimplemented)",WIDTH/4,HEIGHT/4+220,WIDTH/2,"right")
+	
+	--quit
+	if self.sel == 4 then
+		love.graphics.setColor(0,0,0,155)
+		love.graphics.rectangle("fill", WIDTH/4-10,HEIGHT/4+250,WIDTH/2+20,40)
+	end
 	
 	love.graphics.setColor(100,150,160,255)
-	love.graphics.printf("Quit",WIDTH/4,HEIGHT/4+220,WIDTH/3,"left")
+	love.graphics.printf("Quit",WIDTH/4,HEIGHT/4+260,WIDTH/3,"left")
 	
 
 

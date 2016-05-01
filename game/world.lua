@@ -18,7 +18,7 @@ world = {}
 --add menu option to change this.
 --also portal entity should have parameter for "next map" 
 --which changes this string before reinitializing the world
-world.map = "maps/test"
+--   world.map = "maps/test"
 
 --groundLevel textures
 water = love.graphics.newImage("graphics/tiles/water.png")

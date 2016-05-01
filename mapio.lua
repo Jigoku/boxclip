@@ -17,7 +17,7 @@
 
 function mapio:savemap(map)
 
-	local fh = io.open(map ..".lua", "w+")
+	local fh = io.open("maps/" .. map, "w+")
 	fh:write("world.mapmusic = ".. world.mapmusic .."\n")
 	fh:write("world.mapambient = "..world.mapambient.."\n")
 	
@@ -79,7 +79,7 @@ function mapio:loadmap(mapname)
 	world.mapmusic = 0
 	world.mapambient = 0
 	
-	if love.filesystem.load( mapname ..".lua" )( ) then 
+	if love.filesystem.load("maps/".. mapname  )( ) then 
 		util:dprint("failed to load map:  " .. mapname)
 	else
 		util:dprint("load map: " .. mapname)
