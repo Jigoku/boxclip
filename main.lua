@@ -18,9 +18,9 @@
 	Boxclip 2d engine by ricky thomson
 --]]
 
+require("util")
 require("mapio")
 require("sound")
-require("util")
 
 require("binds")
 require("input")

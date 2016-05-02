@@ -31,7 +31,8 @@ stream = love.graphics.newImage("graphics/tiles/stream.png")
 function world:settheme(theme)
 	--theme palettes for different settings
 	--specified in map file as "theme=*"
-
+	world.theme = theme or "default"
+	
 	--overlay test
 	overlay = love.graphics.newImage("graphics/backgrounds/fog.png")
 	overlay:setWrap("repeat", "repeat")
@@ -302,7 +303,7 @@ function world:update(dt)
 	physics:player(dt)
 	physics:pickups(dt)
 	physics:enemies(dt)			
-	player:follow(dt)
+	player:setcamera(dt)
 	
 	
 	

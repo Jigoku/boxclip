@@ -255,8 +255,11 @@ function physics:platforms(object, dt)
 				end
 
 				-- top side
+				object.carried = false
+				platform.carrying = false
 				if collision:top(object,platform)  then
-
+					
+					
 					if platform.clip == 0 then
 						object.candrop = true
 					else
@@ -279,6 +282,7 @@ function physics:platforms(object, dt)
 						if platform.movex == 1 and object.yvel == 0 then
 							-- move along x-axis with platform	
 							object.newX = object.newX + platform.movespeed *dt
+							object.carried = true
 							platform.carrying = true
 						end
 							
@@ -292,6 +296,7 @@ function physics:platforms(object, dt)
 								object.yvel = platform.movespeed *dt
 								object.newY = platform.y - object.h + platform.movespeed *dt
 							end
+							object.carried = true
 							platform.carrying = true
 						end		
 						
@@ -304,8 +309,6 @@ function physics:platforms(object, dt)
 
 						end
 					end
-				else
-					platform.carrying = false
 				end
 
 			end

@@ -17,7 +17,7 @@ util = {}
 console = false
 
 cbuff = {
-	--make this configurable (maxconlines etc)
+	--make this configurable (maxconlines etc, with scrollback buffer)
 	l1 = "",
 	l2 = "",
 	l3 = "",

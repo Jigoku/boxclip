@@ -39,7 +39,7 @@ function player:init()
 	self.lives = 3	
 	self.gems = 0
 	self.angle = 0
-	self.camerashift = 40
+	self.camerashift = 50
 	self.candrop = false
 	
 	if cheats.catlife then self.lives = 9 end
@@ -126,26 +126,55 @@ function player:drawpowerups()
 	end
 end
 
-function player:follow(dt)
-	if self.alive or editing then
-	-- follow player
-
-		--camera.x = (player.x -(love.graphics.getWidth()/2*camera.scaleX)+ player.w/2) 
-		--camera.y = (player.y -(love.graphics.getHeight()/2*camera.scaleY) + player.h/2) 
-		
-		camera.x = (self.x+self.w/2)
-		camera.y = (self.y +self.h/2)
-
-		
-		--			local angle = math.atan2(player.y+player.h/2 - camera.y, player.x+player.w/2 - camera.x)
-	--		if angle > 1 or angle < -1 then
-	--			camera.x = camera.x + (math.cos(angle) * player.speed *dt)
-	--			camera.y = camera.y + (math.sin(angle) * player.speed *dt)
-	--		end
 
 
+
+function player:setcamera(dt)
+
+
+	--static camera
+	if self.alive then
+		camera.x = player.x+player.w/2
+		camera.y = player.y+player.h/2
 	end
+	
+	--floating camera, broken!
+	--[[
+	if self.alive then
+
+		if player.x < camera.x -self.camerashift 
+			or player.x+player.w > camera.x +self.camerashift then
+			camera.x = camera.x + player.xvel *dt
+		end
+	
+		if player.y < camera.y -self.camerashift 
+		or player.y+player.h > camera.y +self.camerashift then
+			camera.y = camera.y - player.yvel *dt
+		end
+	
+		if player.carried then
+			-- move to player center
+			for i, platform in ipairs(platforms) do	
+				if platform.carrying then
+					if platform.movex == 1 and object.yvel == 0 then
+					camera.x = camera.x - platform.movespeed *dt
+					end
+					if platform.movey == "1" then
+					camera.y = camera.y - platform.movespeed *dt
+					end
+					
+						
+				end
+			end
+			
+
+		end
+	
+	end
+	--]]
 end
+
+
 
 function player:respawn()
 	if mode == "game" then
@@ -165,8 +194,7 @@ function player:respawn()
 	self.alive = true
 	self.candrop = false
 	camera:setPosition(self.x+self.w/2, self.y+self.h/2)
-		
-	self:follow()
+
 	self:cheats()
 	
 	util:dprint("respawn player")

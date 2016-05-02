@@ -5,7 +5,7 @@ camera.defaultscale = 0.8
 camera.scaleX = 0.8
 camera.scaleY = 0.8
 camera.rotation = 0
-
+camera.floatspeed = 500
 function camera:set()
   love.graphics.push()
   love.graphics.rotate(-self.rotation)
