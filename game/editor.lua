@@ -358,6 +358,7 @@ end
 
 
 function editor:sendtospawn(entity)
+	
 	for _,portal in ipairs(portals) do
 		if portal.name == "spawn" then
 			entity.x = portal.x
@@ -370,6 +371,8 @@ function editor:sendtospawn(entity)
 	entity.y = 0
 	
 end
+
+
 
 function editor:addplatform(x1,y1,x2,y2)
 	local ent = self:entname(self.entsel)
@@ -458,8 +461,17 @@ function editor:draw()
 	
 		camera:unset()
 		if self.showentmenu then self:drawentmenu() end
+		
+		--notify keybind for spawn position
+		if world.collision == 0 then
+			love.graphics.setColor(255,255,255,255)
+			love.graphics.setFont(fonts.menu)
+			love.graphics.print("(Tip: press \"".. editbinds.respawn .. "\" to reset camera)", 200, HEIGHT-50,0,1,1)
+			love.graphics.setFont(fonts.default)
+		end
 	end
 	
+
 	
 	if self.showmmap then self:drawmmap() end
 	if self.showhelpmenu then self:drawhelpmenu() end
