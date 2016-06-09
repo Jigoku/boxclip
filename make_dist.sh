@@ -1,3 +1,5 @@
 #!/bin/sh
 _OUT=dist/boxclip.love
-zip -9 -q -r ${_OUT} . && echo "created ${_OUT}"
+rm ${_OUT}
+zip -9 -q -r -v --exclude=*.git* ${_OUT} . && echo "created ${_OUT}"
+du -sh ${_OUT}
