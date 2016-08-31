@@ -29,33 +29,31 @@ stream = love.graphics.newImage("graphics/tiles/stream.png")
 
 
 function world:settheme(theme)
-	--theme palettes for different settings
-	--specified in map file as "theme=*"
+	--theme palettes for different level style
+
+	--intialize default fallbacks
+	love.filesystem.load( "themes/default.lua" )( )
+	
 	world.theme = theme or "default"
-	
-	--overlay test
-	overlay = love.graphics.newImage("graphics/backgrounds/fog.png")
-	overlay:setWrap("repeat", "repeat")
-	overlay_quad = love.graphics.newQuad( 0,0, WIDTH, HEIGHT, overlay:getDimensions() )
-	
+
 	-- load the theme file
 	if love.filesystem.load( "themes/".. theme ..".lua" )( ) then 
 		util:dprint("failed to set theme:  " .. theme)
 	else
+		groundLevel_tile:setWrap("repeat", "repeat")
+		groundLevel_quad = love.graphics.newQuad( -50,world.groundLevel, 10000, 500, groundLevel_tile:getDimensions() )
+		love.graphics.setBackgroundColor(background_r,background_g,background_b,255)
+		
+		--only set background if it exists
+		if type(background) == "userdata" then
+			background:setWrap("repeat", "repeat")
+			background_quad = love.graphics.newQuad( 0,0, love.graphics.getWidth(),love.graphics.getHeight(), background:getDimensions() )
+		end
+	
 		util:dprint("set theme: " .. theme)
 		
 	end
 	
-	groundLevel_tile:setWrap("repeat", "repeat")
-	groundLevel_quad = love.graphics.newQuad( -50,world.groundLevel, 10000, 500, groundLevel_tile:getDimensions() )
-	love.graphics.setBackgroundColor(background_r,background_g,background_b,255)
-		
-	--only set background if it exists
-	if type(background) == "userdata" then
-		background:setWrap("repeat", "repeat")
-		background_quad = love.graphics.newQuad( 0,0, love.graphics.getWidth(),love.graphics.getHeight(), background:getDimensions() )
-	end
-		
 	love.graphics.setBackgroundColor(background_r,background_g,background_b,255)	
 end
 
@@ -117,10 +115,6 @@ function world:draw()
 
 	love.graphics.setColor(255,255,255,255)
 	
-	--groundLevel placeholder
-	
-
-	
 
 	platforms:draw()
 	props:draw()
@@ -131,17 +125,9 @@ function world:draw()
 	pickups:draw()
 	enemies:draw()
 	
-	
 	player:draw()	
-	--world:drawWeather()
+
 	camera:unset()
-
-	-- overlay tests
-
-	
-	---cloud front layer?
-	--love.graphics.setColor(255,255,255,155)
-	--love.graphics.draw(background, background_quad,0,0)
 	
 	if mode == "editing" then
 		editor:draw()
@@ -149,8 +135,6 @@ function world:draw()
 	
 	--draw the hud/scoreboard
 	if mode =="game" then
-		--love.graphics.setColor(0,0,0,50)
-		--love.graphics.rectangle("fill",10,10,170,100)
 		
 		love.graphics.setFont(fonts.scoreboard)
 		love.graphics.setColor(0,0,0,155)
@@ -201,26 +185,7 @@ function world:formatTime(n)
 end
 
 
-function world:drawWeather()
-	if editing then return end
-	--rain gimick overlay
-	--[[
-	maxParticle=5000
-	local i = 0
-	for star = i, maxParticle do
-		local x = math.random(-400,4000)
-		local y = math.random(-400,4000)
-			love.graphics.setColor(255,255,255,15)
-			love.graphics.line(x, y, x-5, y+40)
-	end
-	--]]
 
-	love.graphics.setColor(255,255,255,100)
-	overlay_quad:setViewport(camera.x/2,camera.y/2,WIDTH*camera.scaleX,HEIGHT*camera.scaleY )
-	love.graphics.draw(overlay, overlay_quad,camera.x-WIDTH/2*camera.scaleX,camera.y-HEIGHT/2*camera.scaleY)
-			
-			
-end
 
 function world:count(table)
 	--count tables within a table
@@ -237,7 +202,7 @@ function world:remove(objects)
 	-- pass table here
 	-- removes all entity types from world
 	local n = 0
-	for n, object in pairs(objects) do 
+	for n, object in ripairs(objects) do 
 		if type(object) == "table" then
 			table.remove(objects, n)
 		end
@@ -245,14 +210,14 @@ function world:remove(objects)
 end
 
 function world:empty()
-	repeat world:remove(enemies) until world:count(enemies) == 0
-	repeat world:remove(pickups) until world:count(pickups) == 0
-	repeat world:remove(crates) until world:count(crates) == 0
-	repeat world:remove(props) until world:count(props) == 0
-	repeat world:remove(platforms) until world:count(platforms) == 0
-	repeat world:remove(checkpoints) until world:count(checkpoints) == 0
-	repeat world:remove(portals) until world:count(portals) == 0
-	repeat world:remove(springs) until world:count(springs) == 0
+	 world:remove(enemies) 
+	 world:remove(pickups) 
+	 world:remove(crates) 
+	 world:remove(props) 
+	 world:remove(platforms)
+	 world:remove(checkpoints)
+	 world:remove(portals) 
+	 world:remove(springs) 
 end
 
 function world:totalents()

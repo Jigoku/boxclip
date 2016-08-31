@@ -129,7 +129,7 @@ function physics:movex(object, dt)
 		object.movespeed = -object.movespeed
 		object.dir = "right"
 	end
-	object.newX = object.x + (object.movespeed *dt)
+	object.newX = object.x + math.round(object.movespeed *dt)
 end
 
 
@@ -143,7 +143,7 @@ function physics:movey(object, dt)
 		object.y = object.yorigin
 		object.movespeed = -object.movespeed
 	end
-	object.newY = object.y + (object.movespeed *dt)
+	object.newY = object.y + math.round(object.movespeed *dt)
 end
 
 
@@ -281,7 +281,7 @@ function physics:platforms(object, dt)
 					
 						if platform.movex == 1 and object.yvel == 0 then
 							-- move along x-axis with platform	
-							object.newX = object.newX + platform.movespeed *dt
+							object.newX = object.newX + math.round(platform.movespeed *dt)
 							object.carried = true
 							platform.carrying = true
 						end

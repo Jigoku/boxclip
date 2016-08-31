@@ -70,13 +70,6 @@ function split(s, delimiter)
 end
 
 
-function util:drawCoordinates(object)
-	if editor.showpos then
-		-- co-ordinates
-		love.graphics.setColor(255,255,255,100)
-		love.graphics.print("X:".. math.round(object.x,0) ..",Y:" .. math.round(object.y,0) , object.x-20,object.y-20,0, 0.9*camera.scaleX, 0.9*camera.scaleY)  
-	end
-end
 
 
 function util:drawConsole()
@@ -153,7 +146,15 @@ end
 function util:drawid(entity,i)
 	if editor.showid then
 		love.graphics.setColor(255,255,0,100)       
-		love.graphics.print(entity.name .. "(" .. i .. ")", entity.x-20, entity.y-40, 0, 0.9*camera.scaleX, 0.9*camera.scaleY)
+		love.graphics.print(entity.name .. "(" .. i .. ")", entity.x-20, entity.y-40, 0)
+	end
+end
+
+function util:drawCoordinates(object)
+	if editor.showpos then
+		-- co-ordinates
+		love.graphics.setColor(255,255,255,100)
+		love.graphics.print("X:".. object.x ..",Y:" .. object.y , object.x-20,object.y-20,0)  
 	end
 end
 
