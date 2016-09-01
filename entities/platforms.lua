@@ -19,25 +19,41 @@ platform_link = love.graphics.newImage("graphics/tiles/link.png")
 platform_link_origin = love.graphics.newImage("graphics/tiles/link_origin.png")
 platform_cradle = love.graphics.newImage("graphics/tiles/cradle.png")
 
-platform_rockface  = love.graphics.newImage("graphics/tiles/rockface.png")
-platform_brick  = love.graphics.newImage("graphics/tiles/brick.png")
-platform_checked = love.graphics.newImage("graphics/tiles/checked.png")
-platform_cubes  = love.graphics.newImage("graphics/tiles/cubes.png")
+
+
+platforms.textures = {
+	[1] = love.graphics.newImage("graphics/tiles/stoned.png"),
+	[2] = love.graphics.newImage("graphics/tiles/brick.png"),
+	[3] = love.graphics.newImage("graphics/tiles/checked.png"),
+	[4] = love.graphics.newImage("graphics/tiles/cubes.png"),
+	[5] = love.graphics.newImage("graphics/tiles/circuit.png"),
+	[6] = love.graphics.newImage("graphics/tiles/striped.png"),
+	[7] = love.graphics.newImage("graphics/tiles/crystal.png"),
+	[8] = love.graphics.newImage("graphics/tiles/diamond.png"),
+	[9] = love.graphics.newImage("graphics/tiles/marble.png"),
+	[10] = love.graphics.newImage("graphics/tiles/sandy.png"),
+	[11] = love.graphics.newImage("graphics/tiles/tiles.png"),
+	[12] = love.graphics.newImage("graphics/tiles/zig.png"),
+}
 
 function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing,angle)
-
+	--[[
 	if clip == 1 then
 		--normal platform texture
-		gfx = platform_cubes
+		
 	else
 		--background platform texture
-		gfx = platform_brick
+		
 	end
 
 	--moving platform texture
 	if movex == 1 or (movey == 1) then
-		gfx = platform_checked
+		
 	end
+	
+	--]]
+	
+
 	
 	table.insert(platforms, {
 		--dimensions
@@ -57,7 +73,7 @@ function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing,angle)
 		clip = clip or 1,
 		xorigin = x,
 		yorigin = y,
-		gfx = gfx or nil,
+		gfx = self.textures[math.random(#self.textures)] or nil, -- temporary (add textrue sleection to editor, and store in map file)
 		carrying = false,
 		--swing platforms
 		swing = swing or 0,
@@ -240,6 +256,7 @@ function platforms:drawDebug(platform, i)
 	util:drawCoordinates(platform)
 	
 end
+
 
 
 

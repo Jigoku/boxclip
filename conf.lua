@@ -5,6 +5,7 @@ build = "-dev"
 print (name .. " " .. version .. build .. " by " .. author)
 default_width = 1024
 default_height = 768
+
 function love.conf(t)
 	t.version = "0.9.2"
 	t.window.title = name .. " " .. version
