@@ -27,6 +27,8 @@ function crates:add(x,y,item)
 		gfx = crate,
 		destroyed = false,
 		score = 50,
+		mass = 300,
+		yvel = 0,
 	})
 	print( "crate added @  X:"..x.." Y: "..y)
 end

@@ -1,11 +1,11 @@
-world.mapmusic = 0
+world.mapmusic = 4
 world.mapambient = 0
-world:settheme("hell")
+world:settheme("mist")
 platforms:add(-30,130,360,140,1,0,0,0,0,0,0)
 platforms:add(450,30,360,300,1,0,0,0,0,0,0)
 platforms:add(910,-70,410,450,1,0,0,0,0,0,0)
 platforms:add(1420,-490,230,1060,1,0,0,0,0,0,0)
-platforms:add(360,-280,100,20,0,0,1,-100,200,0,0)
+platforms:add(360,-280,100,20,0,0,1,100,200,0,0)
 platforms:add(-300,130,220,140,1,0,0,0,0,0,0)
 platforms:add(1770,-550,310,60,1,0,0,0,0,0,0)
 platforms:add(330,130,120,20,0,0,0,0,0,0,0)
@@ -46,7 +46,7 @@ enemies:spikeball(1420,-490)
 enemies:floater(480,-170,100,400)
 enemies:floater(-120,-190,-100,400)
 enemies:floater(-240,-120,100,400)
-enemies:walker(580,0,-100,100)
+enemies:walker(580,0,100,100)
 enemies:spike(110,80,0)
 enemies:spike_large(740,-400,1)
 props:add(810,30,"log")

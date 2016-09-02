@@ -36,7 +36,7 @@ platforms.textures = {
 	[12] = love.graphics.newImage("graphics/tiles/zig.png"),
 }
 
-function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing,angle)
+function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing,angle,texture)
 	--[[
 	if clip == 1 then
 		--normal platform texture
@@ -78,8 +78,7 @@ function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing,angle)
 		--swing platforms
 		swing = swing or 0,
 		angle = angle or 0,
-		radius = 200,
-		
+		radius = 200 or 0,
 
 	})
 	

@@ -217,6 +217,7 @@ function physics:crates(object,dt)
 		end
 end
 
+
 function physics:platforms(object, dt)
 	--loop platforms
 		
@@ -230,13 +231,14 @@ function physics:platforms(object, dt)
 				
 				-- only check these when clip is true
 				if platform.clip == 1 then
+					
 					-- right side
 					if collision:right(object,platform) 
 					and not collision:top(object,platform) then
 						object.xvel = 0
 						object.xvelboost = 0
 						object.newX = platform.x+platform.w +1 *dt
-
+						
 					-- left side
 					elseif collision:left(object,platform) 
 					and not collision:top(object,platform) then
@@ -320,8 +322,8 @@ end
 
 
 function physics:update(object)
-	if object.newY then object.y = object.newY end
-	if object.newX then object.x = object.newX end
+	if object.newY then object.y = math.round(object.newY,2) end
+	if object.newX then object.x = math.round(object.newX,2) end
 end
 
 
@@ -335,25 +337,22 @@ function physics:pickups(dt)
 					local angle = math.atan2(player.y+player.h/2 - pickup.h/2 - pickup.y, player.x+player.w/2 - pickup.w/2 - pickup.x)
 					pickup.newX = pickup.x + (math.cos(angle) * pickup.mass/2 * dt)
 					pickup.newY = pickup.y + (math.sin(angle) * pickup.mass/2 * dt)
-					
-				else
-					self:applyGravity(pickup, dt)
 				end
 			else
 			
-				if not pickup.name == "gem" then
-					self:applyGravity(pickup, dt)
-					pickup.newX = pickup.x + (pickup.xvel *dt)
 			
-					self:props(pickup,dt)
-					self:platforms(pickup, dt)
-					self:crates(pickup, dt)
+				self:applyGravity(pickup, dt)
+				pickup.newX = pickup.x + (pickup.xvel *dt)
+			
+				self:props(pickup,dt)
+				self:platforms(pickup, dt)
+				self:crates(pickup, dt)
 		
-					-- if pickup goes outside of world, remove it
-					if pickup.y+pickup.h > world.groundLevel  then
-						pickups:destroy(pickups,i)
-					end
+				-- if pickup goes outside of world, remove it
+				if pickup.y+pickup.h > world.groundLevel  then
+					pickups:destroy(pickups,i)
 				end
+				
 			end
 			
 			self:update(pickup)
@@ -416,7 +415,7 @@ function physics:enemies(dt)
 								if platform.clip == 1 and platform.movex == 0 and platform.movey == 0 then
 									enemy.falling = false
 									enemy.gfx = icicle_d_gfx
-									enemy.h = 30
+									enemy.h = icicle_d_gfx:getHeight()
 									enemy.newY = platform.y-enemy.h
 								end
 							end

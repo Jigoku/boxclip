@@ -1,6 +1,6 @@
-world.mapmusic = 0
-world.mapambient = 0
-world:settheme("sunny")
+world.mapmusic = 2
+world.mapambient = 1
+world:settheme("swamp")
 platforms:add(-380,-30,600,730,1,0,0,0,0,0,0)
 platforms:add(610,-30,340,730,1,0,0,0,0,0,0)
 platforms:add(970,-30,90,20,0,0,1,-100,200,0,0)
@@ -15,7 +15,7 @@ platforms:add(2930,-680,190,130,0,0,0,0,0,0,0)
 platforms:add(3320,-700,220,1400,1,0,0,0,0,0,0)
 platforms:add(3120,-700,200,400,1,0,0,0,0,0,0)
 platforms:add(2240,-700,690,400,1,0,0,0,0,0,0)
-platforms:add(2980,-260,90,20,0,0,1,100,238,0,0)
+platforms:add(2980,-260,90,20,0,0,1,-100,238,0,0)
 platforms:add(2610,-60,160,100,1,0,0,0,0,0,0)
 platforms:add(-380,-1100,2620,750,1,0,0,0,0,0,0)
 platforms:add(-1010,-1100,630,1800,1,0,0,0,0,0,0)
@@ -56,7 +56,7 @@ enemies:icicle(3210,-300)
 enemies:spike(3230,-300,1)
 enemies:spike(560,50,3)
 enemies:floater(1270,0,-100,498)
-enemies:floater(810,-150,-100,468)
+enemies:floater(810,-150,100,468)
 enemies:spikeball(2690,-50)
 props:add(220,-30,"log")
 props:add(250,-30,"log")

@@ -261,59 +261,61 @@ end
 
 
 function world:update(dt)
-	if paused then return end
-	world:timer(dt)
-	collision:checkWorld(dt)
-	physics:world(dt)
-	physics:player(dt)
-	physics:pickups(dt)
-	physics:enemies(dt)			
-	player:setcamera(dt)
+
+
+	if not paused then 
+		world:timer(dt)
+		collision:checkWorld(dt)
+		physics:world(dt)
+		physics:player(dt)
+		physics:pickups(dt)
+		physics:enemies(dt)			
+		player:setcamera(dt)
 	
-	
-	
-	if mode == "game" then
-		if player.lives < 0 then
-			util:dprint("game over")
-			--add game over transition screen
-			--should fade in, press button to exit to title
-			title:init()
-		end
+		if mode == "game" then
+			if player.lives < 0 then
+				util:dprint("game over")
+				--add game over transition screen
+				--should fade in, press button to exit to title
+				title:init()
+			end
 			
 
-		--[[
-		if player.gems == 100 then
-			player.gems = 0
-			player.lives = player.lives +1
-			sound:play(sound.lifeup)
+			--[[
+			if player.gems == 100 then
+				player.gems = 0
+				player.lives = player.lives +1
+				sound:play(sound.lifeup)
+			end
+			--]]
 		end
-		--]]
-	end
 
 	
 	
-	--scroll groundLevel
-	if type(groundLevel_tile) == "userdata" then
-		groundLevel_scroll = groundLevel_scroll + (groundLevel_scrollspeed * dt)
-		if groundLevel_scroll > groundLevel_tile:getHeight()then
-			groundLevel_scroll = groundLevel_scroll - groundLevel_tile:getHeight()
+		--scroll groundLevel
+		if type(groundLevel_tile) == "userdata" then
+			groundLevel_scroll = groundLevel_scroll + (groundLevel_scrollspeed * dt)
+			if groundLevel_scroll > groundLevel_tile:getHeight()then
+				groundLevel_scroll = groundLevel_scroll - groundLevel_tile:getHeight()
+			end
+			groundLevel_quad:setViewport(0,-groundLevel_scroll,10000,500 )
+		else
+			groundLevel_scroll = 0
 		end
-		groundLevel_quad:setViewport(0,-groundLevel_scroll,10000,500 )
-	else
-		groundLevel_scroll = 0
-	end
-
-	--scroll background
-	if type(background) == "userdata" then
-		background_scroll = background_scroll + background_scrollspeed * dt
-		if background_scroll > background:getWidth()then
-			background_scroll = background_scroll - background:getWidth()
+	
+		--scroll background
+		if type(background) == "userdata" then
+			background_scroll = background_scroll + background_scrollspeed * dt
+			if background_scroll > background:getWidth()then
+				background_scroll = background_scroll - background:getWidth()
+			end
+			background_quad:setViewport(camera.x/6-background_scroll,camera.y/6,WIDTH*camera.scaleX,HEIGHT*camera.scaleY )
+		else
+			background_scroll = 0
 		end
-		background_quad:setViewport(camera.x/6-background_scroll,camera.y/6,WIDTH*camera.scaleX,HEIGHT*camera.scaleY )
-	else
-		background_scroll = 0
+		
 	end
-
+		
 	world.collision = 0
-    
+		
 end
