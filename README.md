@@ -5,6 +5,8 @@ a 2d platform engine using the love2d framework
 Install [love2d](https://love2d.org/), and simply type
 `love .` in the directory or you can run the script *make_dist.sh* to create a love executable which can be double-clicked or run with `love platform_engine.love` (saving maps isn't supported with this method yet)
 
+Currently this project is only compatible with love2d version 0.9.2. Hopefully the code will be ported to work with love 0.10 in the near future.
+
 #####Please note
 This is not even a pre-alpha, and end goals may change. Currently the plans are to have a box collision based world with a map editor, and simple path-based enemies.
 
@@ -16,10 +18,10 @@ This is not even a pre-alpha, and end goals may change. Currently the plans are 
 * pickup collection
 * destroyable crates
 * AABB collision (old vs new test)
-* debug/console mode
+* detailed debug/console mode
 * simple camera
 * checkpoints
-* map editor
+* interactive map editor
 * draw filtering
 * enemies
 * props
