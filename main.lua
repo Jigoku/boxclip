@@ -35,6 +35,7 @@ require("game/world")
 require("game/player")
 require("game/editor")
 
+require("entities/decals")
 require("entities/props")
 require("entities/springs")
 require("entities/crates")

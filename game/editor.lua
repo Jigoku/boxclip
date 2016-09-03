@@ -73,6 +73,10 @@ function editor:entname(id)
 	--list of entity id's (these can be reordered / renumbered
 	--without any issues, as long as "entity.name" is specified
 	if id == 0 then return "spawn" 
+	elseif id == -1 then return "water"
+	elseif id == -2 then return "stream"
+	elseif id == -3 then return "lava"
+	elseif id == -4 then return "blood"
 	elseif id == 1 then return "goal" 
 	elseif id == 2 then return "platform" 
 	elseif id == 3 then return "platform_b" 
@@ -346,7 +350,7 @@ end
 function editor:mousereleased(x,y,button)
 	--check if we have selected platforms, then place if neccesary
 	if button == 'l' then 
-		local draggable = {"platform", "platform_b", "platform_x", "platform_y"}
+		local draggable = {"platform", "platform_b", "platform_x", "platform_y", "blood", "lava", "water", "stream" }
 		for _,entity in ipairs(draggable) do
 			if self:entname(self.entsel) == entity then
 				self:addplatform(pressedPosX,pressedPosY,releasedPosX,releasedPosY)
@@ -393,7 +397,11 @@ function editor:addplatform(x1,y1,x2,y2)
 		if ent == "platform_b" then platforms:add(x,y,w,h,0,0,0,0,0) end
 		if ent == "platform_x" then platforms:add(x,y,w,h,0, 1, 0, 100, 200) end
 		if ent == "platform_y" then platforms:add(x,y,w,h,0, 0, 1, 100, 200) end
-
+		
+		if ent == "blood" then decals:add(x,y,w,h,"blood") end
+		if ent == "lava" then decals:add(x,y,w,h,"lava") end
+		if ent == "water" then decals:add(x,y,w,h,"water") end
+		if ent == "stream" then decals:add(x,y,w,h,"stream") end
 	end
 end
 
@@ -481,7 +489,7 @@ end
 function editor:drawselbox()
 	--draw an outline when dragging mouse when entsel is one of these types
 	if self.drawsel then
-		local draggable = { "platform", "platform_b", "platform_x", "platform_y"}
+		local draggable = { "platform", "platform_b", "platform_x", "platform_y", "blood", "lava", "water", "stream"}
 		for _,entity in ipairs(draggable) do
 			if self:entname(self.entsel) == entity then
 				love.graphics.setColor(0,255,255,100)
@@ -713,7 +721,8 @@ function editor:drawselected()
 			self:selection(checkpoints) or
 			self:selection(springs) or
 			self:selection(props) or
-			self:selection(platforms)
+			self:selection(platforms) or
+			self:selection(decals) 
 end
 
 function editor:selection(entities, x,y,w,h)
@@ -766,7 +775,8 @@ function editor:removesel()
 			self:remove(checkpoints) or
 			self:remove(springs) or
 			self:remove(props) or
-			self:remove(platforms)
+			self:remove(platforms) or
+			self:remove(decals)
 end
 
 function editor:removeall(entities, name)

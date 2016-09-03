@@ -20,11 +20,6 @@ world = {}
 --which changes this string before reinitializing the world
 --   world.map = "maps/test"
 
---groundLevel textures
-water = love.graphics.newImage("graphics/tiles/water.png")
-lava = love.graphics.newImage("graphics/tiles/lava.png")
-blood = love.graphics.newImage("graphics/tiles/blood.png")
-stream = love.graphics.newImage("graphics/tiles/stream.png")
 
 
 
@@ -98,8 +93,9 @@ end
     
 
 function world:draw()
+	
 	love.graphics.setColor(255,255,255,255)
-		
+	
 	-- set camera for world
 	camera:set()
 
@@ -110,13 +106,15 @@ function world:draw()
 		end
 	end
 	
-	--if type(groundLevel_tile) == "userdata" then
-	--	love.graphics.draw(groundLevel_tile, groundLevel_quad, -1000,world.groundLevel)
-	--end
+	--[[ draw bedrock here
+	
+	--]]
+	
+
 
 	love.graphics.setColor(255,255,255,255)
 	
-
+	decals:draw()
 	platforms:draw()
 	props:draw()
 	springs:draw()
@@ -219,18 +217,19 @@ function world:empty()
 	 world:remove(checkpoints)
 	 world:remove(portals) 
 	 world:remove(springs) 
+	 world:remove(decals) 
 end
 
 function world:totalents()
 	--returns total entitys
 	return world:count(pickups)+world:count(enemies)+world:count(platforms)+
-			world:count(crates)+world:count(checkpoints)+world:count(portals)+world:count(props)+world:count(springs)
+			world:count(crates)+world:count(checkpoints)+world:count(portals)+world:count(props)+world:count(springs)+world:count(decals)
 end
 
 function world:totalentsdrawn()
 	--returns total drawn entities
 	return world.pickups+world.enemies+world.platforms+world.crates+
-		world.checkpoints+world.portals+world.props+world.springs
+		world.checkpoints+world.portals+world.props+world.springs+world.decals
 end
 
 
@@ -272,7 +271,8 @@ function world:update(dt)
 		physics:pickups(dt)
 		physics:enemies(dt)			
 		player:setcamera(dt)
-	
+		decals:update(dt)
+		
 		if mode == "game" then
 			if player.lives < 0 then
 				util:dprint("game over")
