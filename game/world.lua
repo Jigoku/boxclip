@@ -40,8 +40,8 @@ function world:settheme(theme)
 	if love.filesystem.load( "themes/".. theme ..".lua" )( ) then 
 		util:dprint("failed to set theme:  " .. theme)
 	else
-		groundLevel_tile:setWrap("repeat", "repeat")
-		groundLevel_quad = love.graphics.newQuad( -50,world.groundLevel, 10000, 500, groundLevel_tile:getDimensions() )
+		--groundLevel_tile:setWrap("repeat", "repeat")
+		--groundLevel_quad = love.graphics.newQuad( -50,world.groundLevel, 10000, 500, groundLevel_tile:getDimensions() )
 		love.graphics.setBackgroundColor(background_r,background_g,background_b,255)
 		
 		--only set background if it exists
@@ -67,7 +67,8 @@ function world:init(gamemode)
 	--once editor menu can adjust variables
 	world.gravity = 400
 
-	world.groundLevel = 200
+	world.bedrock = 200
+	--world.groundLevel = 200
 	world.time = 0
 
 	camera:setScale(camera.defaultscale,camera.defaultscale)
@@ -109,9 +110,9 @@ function world:draw()
 		end
 	end
 	
-	if type(groundLevel_tile) == "userdata" then
-		love.graphics.draw(groundLevel_tile, groundLevel_quad, -1000,world.groundLevel)
-	end
+	--if type(groundLevel_tile) == "userdata" then
+	--	love.graphics.draw(groundLevel_tile, groundLevel_quad, -1000,world.groundLevel)
+	--end
 
 	love.graphics.setColor(255,255,255,255)
 	
@@ -293,7 +294,7 @@ function world:update(dt)
 	
 	
 		--scroll groundLevel
-		if type(groundLevel_tile) == "userdata" then
+	--[[	if type(groundLevel_tile) == "userdata" then
 			groundLevel_scroll = groundLevel_scroll + (groundLevel_scrollspeed * dt)
 			if groundLevel_scroll > groundLevel_tile:getHeight()then
 				groundLevel_scroll = groundLevel_scroll - groundLevel_tile:getHeight()
@@ -301,7 +302,7 @@ function world:update(dt)
 			groundLevel_quad:setViewport(0,-groundLevel_scroll,10000,500 )
 		else
 			groundLevel_scroll = 0
-		end
+		end --]]
 	
 		--scroll background
 		if type(background) == "userdata" then
@@ -309,7 +310,7 @@ function world:update(dt)
 			if background_scroll > background:getWidth()then
 				background_scroll = background_scroll - background:getWidth()
 			end
-			background_quad:setViewport(camera.x/6-background_scroll,camera.y/6,WIDTH*camera.scaleX,HEIGHT*camera.scaleY )
+			background_quad:setViewport(camera.x/5-background_scroll,camera.y/10,WIDTH*camera.scaleX,HEIGHT*camera.scaleY )
 		else
 			background_scroll = 0
 		end

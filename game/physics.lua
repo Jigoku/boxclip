@@ -346,16 +346,17 @@ function physics:pickups(dt)
 			
 				self:props(pickup,dt)
 				self:platforms(pickup, dt)
-				self:crates(pickup, dt)
-		
-				-- if pickup goes outside of world, remove it
-				if pickup.y+pickup.h > world.groundLevel  then
-					pickups:destroy(pickups,i)
-				end
+				self:crates(pickup, dt)			
 				
 			end
 			
 			self:update(pickup)
+			
+			if pickup.y+pickup.h > world.bedrock  then
+				pickup.yvel = 0
+				pickup.jumping = false
+				pickup.y = world.bedrock - pickup.h +1 *dt
+			end
 		end
 end
 
@@ -372,15 +373,23 @@ function physics:enemies(dt)
 				self:props(enemy, dt)
 				self:platforms(enemy, dt)
 				--self:crates(enemy, dt)
+				
 				self:update(enemy)
 				
-				if enemy.y +enemy.h > world.groundLevel  then
+				if enemy.y+enemy.h > world.bedrock  then
+					enemy.yvel = 0
+					enemy.jumping = false
+					enemy.y = world.bedrock - enemy.h +1 *dt
+				end
+				
+				
+				--[[if enemy.y +enemy.h > world.groundLevel  then
 					--ai suicide (also editor misplacement, remove from world)
 					util:dprint(enemy.name .. "("..i..") suicided")
 					sound:play(sound.kill)
 					table.remove(enemies, i)
 					
-				end
+				end--]]
 			end	
 			
 			if enemy.name == "floater" then
@@ -422,14 +431,14 @@ function physics:enemies(dt)
 						
 					end
 					
-					if enemy.y > world.groundLevel  then
+					self:update(enemy)
+					
+					
+					if enemy.y+enemy.h > world.bedrock  then
 						enemy.falling = false
 						enemy.alive = false
 					end
-					
-					
-					self:update(enemy)
-					
+				
 					
 				else
 				
@@ -469,13 +478,22 @@ function physics:player(dt)
 			self:props(player,dt)
 			self:crates(player,dt)
 			self:platforms(player, dt)
-			
 			self:update(player)
 			
-			if mode == "game" and player.y+player.h > world.groundLevel  then
-				player:die("out of bounds")
+			if player.y+player.h > world.bedrock  then
+				player.yvel = 0
+				player.jumping = false
+				player.y = world.bedrock - player.h +1 *dt
 			end
 			
+			
+			
+		--	if mode == "game" and player.y+player.h > world.groundLevel  then
+		--		player:die("out of bounds")
+		--	end
+			
+
+
 
 			
 		else

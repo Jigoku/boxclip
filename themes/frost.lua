@@ -20,6 +20,4 @@ spike_gfx = spike_winter
 spike_large_gfx = spike_large_winter
 icicle_gfx = icicle_winter
 icicle_d_gfx = icicle_d_winter
-groundLevel_tile = water
-groundLevel_scrollspeed = 60
 background = ""
