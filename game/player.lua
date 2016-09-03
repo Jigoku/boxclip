@@ -134,8 +134,7 @@ function player:setcamera(dt)
 
 	--static camera
 	if self.alive then
-		camera.x = player.x+player.w/2
-		camera.y = player.y+player.h/2
+		camera:setPosition(player.x+player.w/2, player.y+player.h/2)
 	end
 	
 	--floating camera, broken!

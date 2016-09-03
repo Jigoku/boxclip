@@ -15,27 +15,31 @@
  
 decals = {}
 
-decals.textures = {
-	water = love.graphics.newImage("graphics/tiles/water.png"),
-	lava = love.graphics.newImage("graphics/tiles/lava.png"),
-	blood = love.graphics.newImage("graphics/tiles/blood.png"),
-	stream = love.graphics.newImage("graphics/tiles/stream.png"),
-}
+decal_water = love.graphics.newImage("graphics/tiles/water.png")
+decal_lava = love.graphics.newImage("graphics/tiles/lava.png")
+decal_blood = love.graphics.newImage("graphics/tiles/blood.png")
+decal_stream = love.graphics.newImage("graphics/tiles/stream.png")
 
-
-
+decal_water_scroll = 100
+decal_lava_scroll = 36
+decal_blood_scroll = 80
+decal_stream_scroll = 80
 
 function decals:add(x,y,w,h,t)
-	local gfx
+	local gfx, scrollspeed
 	
 	if t == "blood" then
-		gfx = self.textures.blood
+		gfx = decal_blood
+		scrollspeed = decal_blood_scroll
 	elseif t == "lava" then
-		gfx = self.textures.lava
+		gfx = decal_lava
+		scrollspeed = decal_lava_scroll
 	elseif t == "stream" then
-		gfx = self.textures.stream
+		gfx = decal_stream
+		scrollspeed = decal_stream_scroll
 	elseif t == "water" then
-		gfx = self.textures.water
+		gfx = decal_water
+		scrollspeed = decal_water_scroll
 	end
 	gfx:setWrap("repeat", "repeat")
 	
@@ -48,7 +52,7 @@ function decals:add(x,y,w,h,t)
 		
 		--properties
 		scroll = 0,
-		scrollspeed = 100,
+		scrollspeed = scrollspeed,
 		name = t,
 		type = type,
 		gfx = gfx,
@@ -59,8 +63,6 @@ function decals:add(x,y,w,h,t)
 end
 
 function decals:update(dt)
-		--scroll groundLevel
-		
 	for i, decal in ipairs(self) do
 		if type(decal.gfx) == "userdata" then
 			decal.scroll = decal.scroll + (decal.scrollspeed * dt)
@@ -70,7 +72,7 @@ function decals:update(dt)
 			decal.quad:setViewport(0,-decal.scroll, decal.w,decal.h )
 		else
 			decal.scroll = 0
-		end --]]
+		end
 	end
 	
 end
@@ -78,12 +80,11 @@ end
 function decals:draw()
 	local count = 0
 	
-	local i, decal
+
 	for i, decal in ipairs(self) do
 		if world:inview(decal) then
 			count = count + 1
-			
-			love.graphics.setColor(255,255,255,255)
+				love.graphics.setColor(255,255,255,255)
 			love.graphics.draw(decal.gfx, decal.quad, decal.x,decal.y)
 
 			if editing or debug then

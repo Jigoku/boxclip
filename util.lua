@@ -31,8 +31,8 @@ cbuff = {
 -- this function redefine love.graphics.newImage( ), so all images are
 -- not put through linear filter, which makes things more crisp on the
 --  pixel level (less blur)... should this be used?
---[[
 
+--[[
 local _newImage = love.graphics.newImage
 function love.graphics.newImage(...)
 	local img = _newImage(...)
@@ -40,6 +40,7 @@ function love.graphics.newImage(...)
 	return img
 end
 --]]
+
 
 
 function math.round(num, idp)
