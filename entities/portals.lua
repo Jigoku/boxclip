@@ -15,8 +15,8 @@
  
  portals = {}
 
-goal = love.graphics.newImage("graphics/portals/goal.png")
-goal_activated = love.graphics.newImage("graphics/portals/goal_activated.png")
+goal = love.graphics.newImage("data/images/portals/goal.png")
+goal_activated = love.graphics.newImage("data/images/portals/goal_activated.png")
 
 function portals:add(x,y,type)
 	if type == "spawn" then

@@ -18,10 +18,10 @@
 pickups.w = 40
 pickups.h = 40
 
-pickups.gem = love.graphics.newImage("graphics/pickups/gem.png")
-pickups.life = love.graphics.newImage( "graphics/pickups/heart.png")
-pickups.magnet = love.graphics.newImage( "graphics/pickups/magnet.png")
-pickups.shield = love.graphics.newImage( "graphics/pickups/shield.png")
+pickups.gem = love.graphics.newImage("data/images/pickups/gem.png")
+pickups.life = love.graphics.newImage( "data/images/pickups/heart.png")
+pickups.magnet = love.graphics.newImage( "data/images/pickups/magnet.png")
+pickups.shield = love.graphics.newImage( "data/images/pickups/shield.png")
 
 
 function pickups:add(x,y,item,dropped)
@@ -167,7 +167,5 @@ function pickups:destroy(pickups, i)
 	-- fade/collect animation can be added here
 	table.remove(pickups, i)
 end
-
-
 
 

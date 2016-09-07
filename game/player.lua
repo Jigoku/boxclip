@@ -176,10 +176,18 @@ end
 
 
 function player:respawn()
-	if mode == "game" then
+	--if mode == "game" then
 		sound:playbgm(world.mapmusic)
-		sound:playambient(world.mapambient)
+		sound:playambient(world.mapambient)	
+	--end
+	
+	--remove active pickup attraction
+	for i, pickup in ripairs(pickups) do
+		if pickup.attract then
+			table.remove(pickups, i)
+		end
 	end
+	
 	self.x = self.spawnX
 	self.y = self.spawnY
 	self.newX = self.spawnX

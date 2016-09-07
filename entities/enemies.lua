@@ -15,26 +15,26 @@
  
  enemies = {}
 
-walker = love.graphics.newImage( "graphics/enemies/walker.png")
-floater = love.graphics.newImage( "graphics/enemies/floater.png")
+walker = love.graphics.newImage( "data/images/enemies/walker.png")
+floater = love.graphics.newImage( "data/images/enemies/floater.png")
 
-spike = love.graphics.newImage( "graphics/enemies/spike.png")
-spike_winter = love.graphics.newImage( "graphics/enemies/spike_winter.png")
-spike_hell = love.graphics.newImage( "graphics/enemies/spike_hell.png")
+spike = love.graphics.newImage( "data/images/enemies/spike.png")
+spike_winter = love.graphics.newImage( "data/images/enemies/spike_winter.png")
+spike_hell = love.graphics.newImage( "data/images/enemies/spike_hell.png")
 
-spike_large = love.graphics.newImage( "graphics/enemies/spike_large.png")
-spike_large_winter = love.graphics.newImage( "graphics/enemies/spike_large_winter.png")
-spike_large_hell = love.graphics.newImage( "graphics/enemies/spike_large_hell.png")
+spike_large = love.graphics.newImage( "data/images/enemies/spike_large.png")
+spike_large_winter = love.graphics.newImage( "data/images/enemies/spike_large_winter.png")
+spike_large_hell = love.graphics.newImage( "data/images/enemies/spike_large_hell.png")
 
-icicle = love.graphics.newImage( "graphics/enemies/icicle.png")
-icicle_winter = love.graphics.newImage( "graphics/enemies/icicle_winter.png")
-icicle_hell = love.graphics.newImage( "graphics/enemies/icicle_hell.png")
+icicle = love.graphics.newImage( "data/images/enemies/icicle.png")
+icicle_winter = love.graphics.newImage( "data/images/enemies/icicle_winter.png")
+icicle_hell = love.graphics.newImage( "data/images/enemies/icicle_hell.png")
 
-icicle_d = love.graphics.newImage( "graphics/enemies/icicle_d.png")
-icicle_d_winter = love.graphics.newImage( "graphics/enemies/icicle_d_winter.png")
-icicle_d_hell = love.graphics.newImage( "graphics/enemies/icicle_d_hell.png")
+icicle_d = love.graphics.newImage( "data/images/enemies/icicle_d.png")
+icicle_d_winter = love.graphics.newImage( "data/images/enemies/icicle_d_winter.png")
+icicle_d_hell = love.graphics.newImage( "data/images/enemies/icicle_d_hell.png")
 
-spikeball = love.graphics.newImage( "graphics/enemies/spikeball.png")
+spikeball = love.graphics.newImage( "data/images/enemies/spikeball.png")
 
 
 function enemies:walker(x,y,movespeed,movedist)

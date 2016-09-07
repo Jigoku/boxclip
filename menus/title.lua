@@ -36,13 +36,13 @@ function title:init()
 
 
 	mode = "title"
-	self.bg = love.graphics.newImage("graphics/backgrounds/sky.png")
+	self.bg = love.graphics.newImage("data/images/backgrounds/sky.png")
 	self.bg:setWrap("repeat", "repeat")
 	self.bgquad = love.graphics.newQuad( 0,0, WIDTH, HEIGHT, self.bg:getDimensions() )
 	self.bgscroll = 0
 	self.bgscrollspeed = 60
 	
-	self.frame = love.graphics.newImage("graphics/tiles/checked.png")
+	self.frame = love.graphics.newImage("data/images/tiles/checked.png")
 	self.frame:setWrap("repeat", "repeat")
 
 	

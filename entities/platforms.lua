@@ -15,25 +15,25 @@
  
 platforms = {}
 
-platform_link = love.graphics.newImage("graphics/tiles/link.png")
-platform_link_origin = love.graphics.newImage("graphics/tiles/link_origin.png")
-platform_cradle = love.graphics.newImage("graphics/tiles/cradle.png")
+platform_link = love.graphics.newImage("data/images/tiles/link.png")
+platform_link_origin = love.graphics.newImage("data/images/tiles/link_origin.png")
+platform_cradle = love.graphics.newImage("data/images/tiles/cradle.png")
 
 
 
 platforms.textures = {
-	[1] = love.graphics.newImage("graphics/tiles/stoned.png"),
-	[2] = love.graphics.newImage("graphics/tiles/brick.png"),
-	[3] = love.graphics.newImage("graphics/tiles/checked.png"),
-	[4] = love.graphics.newImage("graphics/tiles/cubes.png"),
-	[5] = love.graphics.newImage("graphics/tiles/circuit.png"),
-	[6] = love.graphics.newImage("graphics/tiles/striped.png"),
-	[7] = love.graphics.newImage("graphics/tiles/crystal.png"),
-	[8] = love.graphics.newImage("graphics/tiles/diamond.png"),
-	[9] = love.graphics.newImage("graphics/tiles/marble.png"),
-	[10] = love.graphics.newImage("graphics/tiles/sandy.png"),
-	[11] = love.graphics.newImage("graphics/tiles/tiles.png"),
-	[12] = love.graphics.newImage("graphics/tiles/zig.png"),
+	[1] = love.graphics.newImage("data/images/tiles/stoned.png"),
+	[2] = love.graphics.newImage("data/images/tiles/brick.png"),
+	[3] = love.graphics.newImage("data/images/tiles/checked.png"),
+	[4] = love.graphics.newImage("data/images/tiles/cubes.png"),
+	[5] = love.graphics.newImage("data/images/tiles/circuit.png"),
+	[6] = love.graphics.newImage("data/images/tiles/striped.png"),
+	[7] = love.graphics.newImage("data/images/tiles/crystal.png"),
+	[8] = love.graphics.newImage("data/images/tiles/diamond.png"),
+	[9] = love.graphics.newImage("data/images/tiles/marble.png"),
+	[10] = love.graphics.newImage("data/images/tiles/sandy.png"),
+	[11] = love.graphics.newImage("data/images/tiles/tiles.png"),
+	[12] = love.graphics.newImage("data/images/tiles/zig.png"),
 }
 
 function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing,angle,texture)

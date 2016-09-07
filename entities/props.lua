@@ -15,14 +15,14 @@
  
 props = {}
 
-flower_gfx = love.graphics.newImage("graphics/props/flower.png")
-grass_gfx = love.graphics.newImage("graphics/props/grass.png")
-rock_gfx = love.graphics.newImage("graphics/props/rock.png")
-tree_gfx = love.graphics.newImage("graphics/props/tree.png")
-arch_gfx = love.graphics.newImage("graphics/props/arch.png")
-arch2_gfx = love.graphics.newImage("graphics/props/arch2.png")
-pillar_gfx = love.graphics.newImage("graphics/props/pillar.png")
-log_gfx = love.graphics.newImage("graphics/tiles/log.png")
+flower_gfx = love.graphics.newImage("data/images/props/flower.png")
+grass_gfx = love.graphics.newImage("data/images/props/grass.png")
+rock_gfx = love.graphics.newImage("data/images/props/rock.png")
+tree_gfx = love.graphics.newImage("data/images/props/tree.png")
+arch_gfx = love.graphics.newImage("data/images/props/arch.png")
+arch2_gfx = love.graphics.newImage("data/images/props/arch2.png")
+pillar_gfx = love.graphics.newImage("data/images/props/pillar.png")
+log_gfx = love.graphics.newImage("data/images/tiles/log.png")
 
 
 function props:add(x,y,type)

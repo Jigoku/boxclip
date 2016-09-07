@@ -13,5 +13,5 @@ platform_move_b = 70
 crate_r = 230
 crate_g = 220
 crate_b = 180
-background = love.graphics.newImage("graphics/backgrounds/sky.png")
+background = love.graphics.newImage("data/images/backgrounds/sky.png")
 background_scrollspeed = 10

@@ -60,17 +60,17 @@ function love.load()
 	--global window settings
 	WIDTH = love.window.getWidth()
 	HEIGHT = love.window.getHeight()
-	icon = love.image.newImageData( "graphics/enemies/walker.png")
+	icon = love.image.newImageData( "data/images/enemies/walker.png")
 	love.window.setIcon( icon )
 	love.mouse.setVisible( false )
 
 	--store fonts here
 	fonts = {
-		default = love.graphics.newFont("fonts/Hanken/Hanken-Book.ttf",12),
-		menu = love.graphics.newFont("fonts/Hanken/Hanken-Book.ttf",14),
-		scoreboard = love.graphics.newFont("fonts/Hanken/Hanken-Book.ttf",16),
-		large = love.graphics.newFont("fonts/Hanken/Hanken-Book.ttf",20),
-		huge = love.graphics.newFont("fonts/Hanken/Hanken-Book.ttf",30),
+		default = love.graphics.newFont("data/fonts/Hanken/Hanken-Book.ttf",12),
+		menu = love.graphics.newFont("data/fonts/Hanken/Hanken-Book.ttf",14),
+		scoreboard = love.graphics.newFont("data/fonts/Hanken/Hanken-Book.ttf",16),
+		large = love.graphics.newFont("data/fonts/Hanken/Hanken-Book.ttf",20),
+		huge = love.graphics.newFont("data/fonts/Hanken/Hanken-Book.ttf",30),
 	}
 
 

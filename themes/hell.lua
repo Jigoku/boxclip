@@ -20,4 +20,4 @@ spike_gfx = spike_hell
 spike_large_gfx = spike_large_hell
 icicle_gfx = icicle_hell
 icicle_d_gfx = icicle_d_hell
-background = love.graphics.newImage("graphics/backgrounds/dark.png")
+background = love.graphics.newImage("data/images/backgrounds/dark.png")

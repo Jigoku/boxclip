@@ -15,10 +15,10 @@
  
 decals = {}
 
-decal_water = love.graphics.newImage("graphics/tiles/water.png")
-decal_lava = love.graphics.newImage("graphics/tiles/lava.png")
-decal_blood = love.graphics.newImage("graphics/tiles/blood.png")
-decal_stream = love.graphics.newImage("graphics/tiles/stream.png")
+decal_water = love.graphics.newImage("data/images/tiles/water.png")
+decal_lava = love.graphics.newImage("data/images/tiles/lava.png")
+decal_blood = love.graphics.newImage("data/images/tiles/blood.png")
+decal_stream = love.graphics.newImage("data/images/tiles/stream.png")
 
 decal_water_scroll = 100
 decal_lava_scroll = 36

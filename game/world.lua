@@ -62,8 +62,8 @@ function world:init(gamemode)
 	--once editor menu can adjust variables
 	world.gravity = 400
 
-	world.bedrock = 200
-	--world.groundLevel = 200
+	world.bedrock = 2000
+	
 	world.time = 0
 
 	camera:setScale(camera.defaultscale,camera.defaultscale)
@@ -84,8 +84,9 @@ function world:init(gamemode)
 	mapio:loadmap(world.map)
 	
 	
+	
 	player:respawn()
-			
+
 	util:dprint("initialized world")
 end
 

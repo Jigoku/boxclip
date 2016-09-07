@@ -15,9 +15,9 @@
  
  springs = {}
 
-spring_s = love.graphics.newImage("graphics/springs/spring_s.png")
-spring_m = love.graphics.newImage("graphics/springs/spring_m.png")
-spring_l = love.graphics.newImage("graphics/springs/spring_l.png")
+spring_s = love.graphics.newImage("data/images/springs/spring_s.png")
+spring_m = love.graphics.newImage("data/images/springs/spring_m.png")
+spring_l = love.graphics.newImage("data/images/springs/spring_l.png")
 
 function springs:add(x,y,dir,type)
 

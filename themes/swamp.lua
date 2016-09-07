@@ -16,4 +16,4 @@ platform_behind_b = 80
 crate_r = 175
 crate_g = 155
 crate_b = 70
-background = love.graphics.newImage("graphics/backgrounds/forest.png")
+background = love.graphics.newImage("data/images/backgrounds/forest.png")

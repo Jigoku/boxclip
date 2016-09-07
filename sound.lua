@@ -19,9 +19,9 @@ sound = {}
 sound.enabled = true
 
 -- sound data paths
-local sfx     = "sounds/effect/" 
-local music   = "sounds/music/"  
-local ambient = "sounds/ambient/"
+local sfx     = "data/sounds/effect/" 
+local music   = "data/sounds/music/"  
+local ambient = "data/sounds/ambient/"
 
 -- place effect filepaths here
 sound.jump = love.audio.newSource(sfx .. "jump.ogg", "static")
@@ -38,6 +38,7 @@ sound.spring = love.audio.newSource(sfx .. "spring.ogg", "static")
 sound.blip = love.audio.newSource(sfx .. "blip.ogg", "static")
 sound.magnet = love.audio.newSource(sfx .. "magnet.ogg", "static")
 sound.shield = love.audio.newSource(sfx .. "shield.ogg", "static")
+sound.creak = love.audio.newSource(sfx .. "creak.ogg", "static")
 
 
 function sound:playbgm(id)

@@ -337,6 +337,8 @@ function physics:pickups(dt)
 					local angle = math.atan2(player.y+player.h/2 - pickup.h/2 - pickup.y, player.x+player.w/2 - pickup.w/2 - pickup.x)
 					pickup.newX = pickup.x + (math.cos(angle) * pickup.mass/2 * dt)
 					pickup.newY = pickup.y + (math.sin(angle) * pickup.mass/2 * dt)
+				else
+					self:applyGravity(pickup, dt)
 				end
 			else
 			
@@ -539,6 +541,7 @@ function physics:props(object, dt)
 						-- only player can make logs fall
 						if object.name == "player" and mode == "game" then
 							prop.falling = true
+							sound:play(sound.creak)
 						end
 						
 					end		

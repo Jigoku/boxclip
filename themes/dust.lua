@@ -16,5 +16,5 @@ platform_behind_b = 70
 crate_r = 200
 crate_g = 170
 crate_b = 170	
-background = love.graphics.newImage("graphics/backgrounds/dusk.png")
+background = love.graphics.newImage("data/images/backgrounds/dusk.png")
 background_scrollspeed = -50
