@@ -532,12 +532,12 @@ end
 function physics:props(object, dt)
 	for i, prop in ipairs(props) do
 		if prop.name == "log" then
-				if collision:check(object.x,object.y,object.w,object.h, prop.x,prop.y,prop.w,prop.h) then
+				if collision:check(object.newX,object.newY,object.w,object.h, prop.x,prop.y,prop.w,prop.h) then
 					if collision:top(object,prop) and object.yvel < 0 then
 						object.newY = prop.y - object.h -1 *dt
 						object.yvel = 0
 						object.jumping = false
-						
+
 						-- only player can make logs fall
 						if object.name == "player" and mode == "game" then
 							prop.falling = true

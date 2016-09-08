@@ -19,8 +19,6 @@ platform_link = love.graphics.newImage("data/images/tiles/link.png")
 platform_link_origin = love.graphics.newImage("data/images/tiles/link_origin.png")
 platform_cradle = love.graphics.newImage("data/images/tiles/cradle.png")
 
-
-
 platforms.textures = {
 	[1] = love.graphics.newImage("data/images/tiles/stoned.png"),
 	[2] = love.graphics.newImage("data/images/tiles/brick.png"),
@@ -152,6 +150,7 @@ function platforms:draw()
 						platform_behind_b,
 						255
 					)
+
 				else
 					love.graphics.setColor(
 						platform_r,
@@ -180,6 +179,7 @@ function platforms:draw()
 				love.graphics.rectangle("fill", platform.x, platform.y+platform.h-offset, platform.w, offset)
 				--left
 				love.graphics.rectangle("fill", platform.x, platform.y, offset, platform.h - offset)
+
 				
 				--top (placeholder surface)
 				love.graphics.setColor(
@@ -188,6 +188,7 @@ function platforms:draw()
 					platform_top_b,
 					255
 				)
+				
 				
 					love.graphics.rectangle("fill", platform.x, platform.y-5, platform.w, 10)	
 					love.graphics.arc( "fill", platform.x+platform.w, platform.y, -5, math.pi/2, math.pi*1.5 )
