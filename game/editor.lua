@@ -106,6 +106,7 @@ function editor:entname(id)
 	elseif id ==28 then return "spring_s" 
 	elseif id ==29 then return "spring_m" 
 	elseif id ==30 then return "spring_l" 
+	elseif id ==31 then return "bumper" 
 	else return "----"
 	end
 end
@@ -341,6 +342,7 @@ function editor:mousepressed(x,y,button)
 		if selection == "spring_s" then springs:add(x,y,self.entdir,"spring_s") end
 		if selection == "spring_m" then springs:add(x,y,self.entdir,"spring_m") end
 		if selection == "spring_l" then springs:add(x,y,self.entdir,"spring_l") end
+		if selection == "bumper" then bumpers:add(x,y) end
 		
 	elseif button == 'r' then
 		self:removesel()
@@ -776,7 +778,8 @@ function editor:removesel()
 			self:remove(springs) or
 			self:remove(props) or
 			self:remove(platforms) or
-			self:remove(decals)
+			self:remove(decals) or 
+			self:remove(bumpers)
 end
 
 function editor:removeall(entities, name)

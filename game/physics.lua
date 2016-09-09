@@ -218,6 +218,51 @@ function physics:crates(object,dt)
 end
 
 
+
+
+
+function physics:bumpers(object,dt)
+	local i, bumper
+	for i, bumper in ipairs(bumpers) do
+		if collision:check(bumper.x,bumper.y,bumper.w,bumper.h,
+				object.newX,object.newY,object.w,object.h) then
+			
+			if bumper.score > 0 then
+				player.score = player.score + 10
+				bumper.score = bumper.score - 10
+			end
+			
+			sound:play(sound.spring)
+			
+			if collision:right(object,bumper) and not collision:top(object,bumper) then
+					object.xvelboost = 0
+					object.newX = bumper.x+bumper.w +1 *dt
+					object.xvel = -object.xvel
+					object.xvelboost = bumper.force/2
+
+					
+				elseif collision:left(object,bumper) and not collision:top(object,bumper) then
+					object.xvelboost = 0
+					object.newX = bumper.x-object.w -1 *dt
+					object.xvel = -object.xvel
+					object.xvelboost = -bumper.force/2
+
+			
+				elseif collision:bottom(object,bumper) then
+					object.newY = bumper.y +bumper.h +1 *dt
+					object.yvel = -bumper.force
+			
+				elseif collision:top(object,bumper) then
+					object.newY = bumper.y - object.h -1 *dt
+					object.yvel = bumper.force
+				end		
+			
+		end
+	end
+end
+
+
+
 function physics:platforms(object, dt)
 	--loop platforms
 		
@@ -479,6 +524,7 @@ function physics:player(dt)
 	
 			self:props(player,dt)
 			self:crates(player,dt)
+			self:bumpers(player,dt)
 			self:platforms(player, dt)
 			self:update(player)
 			

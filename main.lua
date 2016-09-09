@@ -44,6 +44,7 @@ require("entities/checkpoints")
 require("entities/pickups")
 require("entities/enemies")
 require("entities/portals")
+require("entities/bumpers")
 
 
 function love.load()
