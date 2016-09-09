@@ -21,7 +21,18 @@ world = {}
 --   world.map = "maps/test"
 
 
-
+--loading/act display
+function world:initSplash()
+	world.splash = {}
+	world.splash.active = true
+	world.splash.opacity = 255
+	world.splash.timer = 3
+	world.splash.canvas = love.graphics.newCanvas(love.graphics.getWidth(),love.graphics.getHeight())
+	world.splash.fadespeed = 400
+	world.splash.text_y = love.graphics.getHeight()/2
+	world.splash.box_h = 100
+	world.splash.box_y = love.graphics.getHeight()/2-world.splash.box_h/2
+end
 
 function world:settheme(theme)
 	--theme palettes for different level style
@@ -52,11 +63,20 @@ function world:settheme(theme)
 	love.graphics.setBackgroundColor(background_r,background_g,background_b,255)	
 end
 
+
+
 function world:init(gamemode) 
 	mode = gamemode
 	--console = false
 	editing = false
 	paused = false
+	
+	--world loading/splash/act display
+	if mode == "game" then
+		world:initSplash()
+	else
+		world.splash.active = false
+	end
 	
 	--move this setting into map files
 	--once editor menu can adjust variables
@@ -136,6 +156,8 @@ function world:draw()
 	--draw the hud/scoreboard
 	if mode =="game" then
 		
+
+		
 		love.graphics.setFont(fonts.scoreboard)
 		love.graphics.setColor(0,0,0,155)
 		love.graphics.printf("SCORE", 21,21,300,"left",0,1,1)
@@ -159,6 +181,10 @@ function world:draw()
 		love.graphics.printf(world:formatTime(world.time), 20,60,150,"right",0,1,1)
 		love.graphics.printf(player.gems, 20,80,150,"right",0,1,1)
 		love.graphics.setFont(fonts.default)
+		
+		if world.splash.opacity > 0 then 
+			world:drawSplash()
+		end
 	end
 	
 	if paused then
@@ -169,6 +195,33 @@ function world:draw()
 		love.graphics.printf("PAUSED", WIDTH/2,HEIGHT/3,0,"center",0,1,1)
 		love.graphics.setFont(fonts.default)
 	end
+end
+
+
+
+function world:drawSplash()
+	love.graphics.setColor(255,255,255,255)
+	love.graphics.setCanvas(world.splash.canvas)
+			
+		love.graphics.setColor(0,0,0,255)
+			
+		--background
+		love.graphics.rectangle("fill", 0,0,love.graphics.getWidth(), love.graphics.getHeight() )
+		
+		--box
+		love.graphics.setColor(255,0,0,155)
+		love.graphics.rectangle("fill", 0,world.splash.box_y,love.graphics.getWidth(), world.splash.box_h )
+		love.graphics.setFont(fonts.huge)
+		
+		--text
+		love.graphics.setColor(255,255,255,255)
+		love.graphics.print(world.maptitle, love.graphics.getWidth()/1.5, world.splash.text_y)
+		love.graphics.setFont(fonts.default)
+			
+	love.graphics.setCanvas()
+			
+	love.graphics.setColor(255,255,255,world.splash.opacity)
+	love.graphics.draw(world.splash.canvas, 0,0)
 end
 
 
@@ -261,11 +314,14 @@ function world:inview(entity)
 end
 
 
-function world:update(dt)
 
+
+function world:update(dt)
+	
 
 	if not paused then 
-		world:timer(dt)
+	 
+		testing = true
 		collision:checkWorld(dt)
 		physics:world(dt)
 		physics:player(dt)
@@ -273,6 +329,33 @@ function world:update(dt)
 		physics:enemies(dt)			
 		player:setcamera(dt)
 		decals:update(dt)
+		
+		if type(background) == "userdata" then
+			background_scroll = background_scroll + background_scrollspeed * dt
+			if background_scroll > background:getWidth()then
+				background_scroll = background_scroll - background:getWidth()
+			end
+			background_quad:setViewport(camera.x/5-background_scroll,camera.y/10,WIDTH*camera.scaleX,HEIGHT*camera.scaleY )
+		else
+			background_scroll = 0
+		end
+		
+		
+		--trigger world splash/act display
+		if world.splash.opacity > 0 then 
+			world.splash.timer = math.max(0, world.splash.timer - dt)
+		
+			if world.splash.timer <= 0 then
+				world.splash.timer = 0
+				world.splash.active = false
+				world.splash.opacity = world.splash.opacity -world.splash.fadespeed *dt
+				world.splash.text_y = world.splash.text_y + world.splash.fadespeed *dt
+				world.splash.box_y = world.splash.box_y + world.splash.fadespeed *dt
+			end
+			return 
+		end
+		
+		world:timer(dt)
 		
 		if mode == "game" then
 			if player.lives < 0 then
@@ -293,28 +376,7 @@ function world:update(dt)
 		end
 
 	
-	
-		--scroll groundLevel
-	--[[	if type(groundLevel_tile) == "userdata" then
-			groundLevel_scroll = groundLevel_scroll + (groundLevel_scrollspeed * dt)
-			if groundLevel_scroll > groundLevel_tile:getHeight()then
-				groundLevel_scroll = groundLevel_scroll - groundLevel_tile:getHeight()
-			end
-			groundLevel_quad:setViewport(0,-groundLevel_scroll,10000,500 )
-		else
-			groundLevel_scroll = 0
-		end --]]
-	
-		--scroll background
-		if type(background) == "userdata" then
-			background_scroll = background_scroll + background_scrollspeed * dt
-			if background_scroll > background:getWidth()then
-				background_scroll = background_scroll - background:getWidth()
-			end
-			background_quad:setViewport(camera.x/5-background_scroll,camera.y/10,WIDTH*camera.scaleX,HEIGHT*camera.scaleY )
-		else
-			background_scroll = 0
-		end
+
 		
 	end
 		

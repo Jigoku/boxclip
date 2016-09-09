@@ -1,5 +1,6 @@
 world.mapmusic = 5
 world.mapambient = 4
+world.maptitle = "test"
 world:settheme("sunny")
 platforms:add(-220,170,350,100,1,0,0,0,0,0,0)
 platforms:add(310,170,330,100,1,0,0,0,0,0,0)

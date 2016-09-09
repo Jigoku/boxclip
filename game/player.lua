@@ -132,45 +132,26 @@ end
 function player:setcamera(dt)
 
 
-	--static camera
+	--fixed camera
 	if self.alive then
 		camera:setPosition(player.x+player.w/2, player.y+player.h/2)
+		
 	end
 	
-	--floating camera, broken!
+	--follow camera
 	--[[
 	if self.alive then
-
-		if player.x < camera.x -self.camerashift 
-			or player.x+player.w > camera.x +self.camerashift then
-			camera.x = camera.x + player.xvel *dt
-		end
-	
-		if player.y < camera.y -self.camerashift 
-		or player.y+player.h > camera.y +self.camerashift then
-			camera.y = camera.y - player.yvel *dt
-		end
-	
-		if player.carried then
-			-- move to player center
-			for i, platform in ipairs(platforms) do	
-				if platform.carrying then
-					if platform.movex == 1 and object.yvel == 0 then
-					camera.x = camera.x - platform.movespeed *dt
-					end
-					if platform.movey == "1" then
-					camera.y = camera.y - platform.movespeed *dt
-					end
-					
-						
-				end
-			end
-			
-
-		end
-	
+		local camspeed = 200
+		local angle = math.atan2(player.y+player.h/2 - camera.y, player.x+player.w/2 - camera.x)
+		camera.x = camera.x + (math.cos(angle) *camspeed * dt)
+		camera.y = camera.y + (math.sin(angle) *camspeed * dt)
 	end
 	--]]
+	
+	--float camera
+	--
+	-- port code from dungeon project (camera starts moving on box collision)
+	--
 end
 
 
@@ -295,7 +276,7 @@ end
 
 
 function player:checkkeys(dt)
-	if paused or editing then return end
+	if paused or editing or world.splash.active then return end
 	
 	if self.alive then
 		if love.keyboard.isDown(binds.right)  then
@@ -311,7 +292,7 @@ function player:checkkeys(dt)
 end
 
 function player:keypressed(key)
-	if paused or editing then return end
+	if paused or editing or world.splash.active then return end 
 	
 	if self.alive then
 		--jump

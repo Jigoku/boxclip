@@ -132,6 +132,7 @@ function love.resize(w,h)
 	WIDTH = w
 	HEIGHT = h
 	util:dprint("resized window ("..w.."x"..h..")")
+	
 end
 
 

@@ -1,5 +1,6 @@
 world.mapmusic = 4
 world.mapambient = 3
+world.maptitle = "test3"
 world:settheme("swamp")
 platforms:add(-2140,-1570,1160,2270,1,0,0,0,0,0,0)
 platforms:add(-980,-750,630,950,0,0,0,0,0,0,0)

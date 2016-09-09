@@ -1,5 +1,6 @@
 world.mapmusic = 4
 world.mapambient = 0
+world.maptitle = "test2"
 world:settheme("mist")
 platforms:add(-30,130,360,140,1,0,0,0,0,0,0)
 platforms:add(450,30,360,300,1,0,0,0,0,0,0)

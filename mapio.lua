@@ -20,6 +20,7 @@ function mapio:savemap(map)
 	local fh = io.open("maps/" .. map, "w+")
 	fh:write("world.mapmusic = ".. world.mapmusic .."\n")
 	fh:write("world.mapambient = "..world.mapambient.."\n")
+	fh:write("world.maptitle = \""..world.maptitle .."\"\n" or "\"unnamed map".."\"\n")
 	
 
 	fh:write("world:settheme(\""..world.theme.."\")\n")
@@ -82,6 +83,7 @@ function mapio:loadmap(mapname)
 	world:settheme("default")
 	world.mapmusic = 0
 	world.mapambient = 0
+	world.maptitle = "unnamed map"
 	
 	if love.filesystem.load("maps/".. mapname  )( ) then 
 		util:dprint("failed to load map:  " .. mapname)
