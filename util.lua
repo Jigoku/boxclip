@@ -125,6 +125,7 @@ function util:drawConsole()
 			" | crates: " .. world:count(crates) .. "("..world.crates .. ")" ..
 			" | checkpoints: " .. world:count(checkpoints) .. "("..world.checkpoints .. ")" ..
 			" | decals: " .. world:count(decals) .. "("..world.decals .. ")" ..
+			" | bumpers: " .. world:count(bumpers) .. "("..world.bumpers .. ")" ..
 			" | t: " ..world:totalents() .. "(" .. world:totalentsdrawn() .. ")" ..
 			" | ccpf: " .. world.collision,
 			 5, 35

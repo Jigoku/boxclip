@@ -69,19 +69,24 @@ end
 
 function decals:update(dt)
 	for i, decal in ipairs(self) do
-		if type(decal.gfx) == "userdata" then
-			decal.scroll = decal.scroll + (decal.scrollspeed * dt)
-			if decal.scroll > decal.gfx:getHeight()then
-				decal.scroll = decal.scroll - decal.gfx:getHeight()
+	
+		if world:inview(decal) then
+			if type(decal.gfx) == "userdata" then
+				decal.scroll = decal.scroll + (decal.scrollspeed * dt)
+				if decal.scroll > decal.gfx:getHeight()then
+					decal.scroll = decal.scroll - decal.gfx:getHeight()
+				end
+				decal.quad:setViewport(0,-decal.scroll, decal.w,decal.h )
+			else
+				decal.scroll = 0
 			end
-			decal.quad:setViewport(0,-decal.scroll, decal.w,decal.h )
-		else
-			decal.scroll = 0
 		end
 	end
 	
-	decal_waterfallspin = decal_waterfallspin + dt * 10
-	decal_waterfallspin = decal_waterfallspin % (2*math.pi)
+	if world.decals and world.decals > 0 then
+		decal_waterfallspin = decal_waterfallspin + dt * 10
+		decal_waterfallspin = decal_waterfallspin % (2*math.pi)
+	end
 	
 end
 

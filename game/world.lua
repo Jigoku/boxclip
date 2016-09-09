@@ -329,6 +329,7 @@ function world:update(dt)
 		physics:enemies(dt)			
 		player:setcamera(dt)
 		decals:update(dt)
+		world.collision = 0
 		
 		if type(background) == "userdata" then
 			background_scroll = background_scroll + background_scrollspeed * dt
@@ -380,7 +381,6 @@ function world:update(dt)
 		world:timer(dt)
 		
 	end
-		
-	world.collision = 0
+
 		
 end

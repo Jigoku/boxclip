@@ -38,7 +38,9 @@ end
 
 function bumpers:update(dt)
 	for i, bumper in ipairs(self) do
-		
+		--[[
+			animate on collision
+		--]]
 	end
 	
 end
@@ -62,7 +64,7 @@ function bumpers:draw()
 			end
 		end
 	end
-	world.decals = count
+	world.bumpers = count
 end
 
 

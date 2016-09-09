@@ -227,6 +227,8 @@ function physics:bumpers(object,dt)
 		if collision:check(bumper.x,bumper.y,bumper.w,bumper.h,
 				object.newX,object.newY,object.w,object.h) then
 			
+			object.jumping = true
+			
 			if bumper.score > 0 then
 				player.score = player.score + 10
 				bumper.score = bumper.score - 10
