@@ -1,9 +1,9 @@
 platform_r = 250
-platform_g = 160
-platform_b = 60
+platform_g = 180
+platform_b = 106
 platform_behind_r = 180
 platform_behind_g = 110
-platform_behind_b = 60
+platform_behind_b = 80
 platform_top_r = 100
 platform_top_g = 140
 platform_top_b = 50

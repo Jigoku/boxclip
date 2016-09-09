@@ -19,7 +19,7 @@ world = {}
 --also portal entity should have parameter for "next map" 
 --which changes this string before reinitializing the world
 --   world.map = "maps/test"
-
+world.splash = {}
 
 --loading/act display
 function world:initSplash()
@@ -318,10 +318,8 @@ end
 
 function world:update(dt)
 	
-
 	if not paused then 
-	 
-		testing = true
+
 		collision:checkWorld(dt)
 		physics:world(dt)
 		physics:player(dt)
@@ -339,25 +337,26 @@ function world:update(dt)
 		else
 			background_scroll = 0
 		end
+	
 		
-		
-		--trigger world splash/act display
-		if world.splash.opacity > 0 then 
-			world.splash.timer = math.max(0, world.splash.timer - dt)
-		
-			if world.splash.timer <= 0 then
-				world.splash.timer = 0
-				world.splash.active = false
-				world.splash.opacity = world.splash.opacity -world.splash.fadespeed *dt
-				world.splash.text_y = world.splash.text_y + world.splash.fadespeed *dt
-				world.splash.box_y = world.splash.box_y + world.splash.fadespeed *dt
-			end
-			return 
-		end
-		
-		world:timer(dt)
 		
 		if mode == "game" then
+		
+			--trigger world splash/act display
+			if world.splash.opacity > 0 then 
+				world.splash.timer = math.max(0, world.splash.timer - dt)
+		
+				if world.splash.timer <= 0 then
+					world.splash.timer = 0
+					world.splash.active = false
+					world.splash.opacity = world.splash.opacity -world.splash.fadespeed *dt
+					world.splash.text_y = world.splash.text_y + world.splash.fadespeed *dt
+					world.splash.box_y = world.splash.box_y + world.splash.fadespeed *dt
+				end
+				return 
+			end
+		
+		
 			if player.lives < 0 then
 				util:dprint("game over")
 				--add game over transition screen
@@ -376,7 +375,7 @@ function world:update(dt)
 		end
 
 	
-
+		world:timer(dt)
 		
 	end
 		

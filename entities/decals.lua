@@ -20,6 +20,11 @@ decal_lava = love.graphics.newImage("data/images/tiles/lava.png")
 decal_blood = love.graphics.newImage("data/images/tiles/blood.png")
 decal_stream = love.graphics.newImage("data/images/tiles/stream.png")
 
+--draw on water decal topside
+decal_waterfall = love.graphics.newImage("data/images/tiles/waterfall.png")
+
+decal_waterfallspin = 0
+
 decal_water_scroll = 100
 decal_lava_scroll = 36
 decal_blood_scroll = 80
@@ -75,6 +80,9 @@ function decals:update(dt)
 		end
 	end
 	
+	decal_waterfallspin = decal_waterfallspin + dt * 10
+	decal_waterfallspin = decal_waterfallspin % (2*math.pi)
+	
 end
 
 function decals:draw()
@@ -84,8 +92,28 @@ function decals:draw()
 	for i, decal in ipairs(self) do
 		if world:inview(decal) then
 			count = count + 1
-				love.graphics.setColor(255,255,255,255)
+			love.graphics.setColor(255,255,255,255)
 			love.graphics.draw(decal.gfx, decal.quad, decal.x,decal.y)
+			
+			--waterfall trim animation
+			if decal.name == "water" then
+				love.graphics.setColor(190,240,255,255)
+				for i=0, decal.w, decal_waterfall:getWidth()/2 do
+				
+					local r = math.random(0,1)
+					if r == 0 then
+						love.graphics.draw(decal_waterfall, decal.x+i,decal.y,
+										-decal_waterfallspin,1,1,decal_waterfall:getWidth()/2,decal_waterfall:getHeight()/2
+						)
+					else
+						love.graphics.draw(decal_waterfall, decal.x+i,decal.y,
+										decal_waterfallspin,1,1,decal_waterfall:getWidth()/2,decal_waterfall:getHeight()/2
+						)
+					
+					end
+				end
+			end
+
 
 			if editing or debug then
 				util:drawid(decal,i)
