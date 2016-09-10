@@ -332,5 +332,5 @@ end
 function enemies:die(enemy)
 	enemy.alive = false
 	sound:play(sound.kill)
-	editor:dprint(enemy.name .." killed")	
+	console:print(enemy.name .." killed")	
 end
