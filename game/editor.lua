@@ -400,6 +400,8 @@ function editor:sendtospawn(entity)
 		if portal.name == "spawn" then
 			entity.x = portal.x
 			entity.y = portal.y
+			camera.scaleX = camera.defaultscale
+			camera.scaleY = camera.defaultscale
 			return true
 		end
 	end
