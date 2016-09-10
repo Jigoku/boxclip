@@ -190,6 +190,6 @@ function props:drawDebug(prop, i)
 		)
 	end
 	
-	util:drawid(prop, i)
-	util:drawCoordinates(prop)
+	editor:drawid(prop, i)
+	editor:drawCoordinates(prop)
 end

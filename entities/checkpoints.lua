@@ -57,8 +57,8 @@ function checkpoints:drawDebug(checkpoint, i)
 	love.graphics.setColor(255,0,0,100)
 	love.graphics.rectangle("line", checkpoint.x, checkpoint.y, checkpoint.w, checkpoint.h)
 	
-	util:drawid(checkpoint,i)
-	util:drawCoordinates(checkpoint)
+	editor:drawid(checkpoint,i)
+	editor:drawCoordinates(checkpoint)
 	
 end
 

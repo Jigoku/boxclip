@@ -98,7 +98,7 @@ function collision:pickups(dt)
 				if collision:check(player.x,player.y,player.w,player.h,
 					pickup.x, pickup.y,pickup.gfx:getWidth(),pickup.gfx:getHeight()) then
 						table.remove(pickups,i)
-						util:dprint(pickup.name.."("..i..") collected")	
+						console:print(pickup.name.."("..i..") collected")	
 						pickup.collected = true
 						player:collect(pickup)
 				end
@@ -206,7 +206,7 @@ function collision:checkpoints(dt)
 			if collision:check(player.x,player.y,player.w,player.h,
 				checkpoint.x, checkpoint.y,checkpoint.w,checkpoint.h) then
 				if not checkpoint.activated then
-					util:dprint("checkpoint activated")	
+					console:print("checkpoint activated")	
 					sound:play(sound.checkpoint)
 					checkpoint.activated = true
 					player.spawnX = checkpoint.x
@@ -231,7 +231,7 @@ function collision:portals(dt)
 							--add paramater for "next map"?
 							portal.activated = true
 							sound:play(sound.goal)
-							util:dprint("goal reached")	
+							console:print("goal reached")	
 						end
 					end
 			end

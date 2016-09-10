@@ -45,7 +45,7 @@ function world:settheme(theme)
 
 	-- load the theme file
 	if love.filesystem.load( "themes/".. theme ..".lua" )( ) then 
-		util:dprint("failed to set theme:  " .. theme)
+		console:print("failed to set theme:  " .. theme)
 	else
 		--groundLevel_tile:setWrap("repeat", "repeat")
 		--groundLevel_quad = love.graphics.newQuad( -50,world.groundLevel, 10000, 500, groundLevel_tile:getDimensions() )
@@ -57,7 +57,7 @@ function world:settheme(theme)
 			background_quad = love.graphics.newQuad( 0,0, love.graphics.getWidth(),love.graphics.getHeight(), background:getDimensions() )
 		end
 	
-		util:dprint("set theme: " .. theme)
+		console:print("set theme: " .. theme)
 		
 	end
 	
@@ -110,7 +110,7 @@ function world:init(gamemode)
 	
 	player:respawn()
 
-	util:dprint("initialized world")
+	console:print("initialized world")
 end
 
 
@@ -366,7 +366,7 @@ function world:update(dt)
 		
 		
 			if player.lives < 0 then
-				util:dprint("game over")
+				console:print("game over")
 				--add game over transition screen
 				--should fade in, press button to exit to title
 				title:init()

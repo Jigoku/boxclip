@@ -94,7 +94,7 @@ function pickups:add(x,y,item,dropped)
 		})
 		
 	else
-		util:dprint("error: unknown pickup type")
+		editor:dprint("error: unknown pickup type")
 		return
 	end
 	print( item .. " added @  X:"..x.." Y: "..y)
@@ -159,8 +159,8 @@ function pickups:drawDebug(pickup, i)
 		pickup.gfx:getWidth(), 
 		pickup.gfx:getHeight()
 	)
-	util:drawid(pickup, i)
-	util:drawCoordinates(pickup)
+	editor:drawid(pickup, i)
+	editor:drawCoordinates(pickup)
 end
 
 function pickups:destroy(pickups, i)

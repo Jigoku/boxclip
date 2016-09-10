@@ -44,8 +44,8 @@ function materials:draw()
 					love.graphics.rectangle("line",mat.x,mat.y,mat.w,mat.h)
 				end
 			end
-			util:drawid(mat,i)
-			util:drawCoordinates(mat)
+			editor:drawid(mat,i)
+			editor:drawCoordinates(mat)
 		end
 				
 

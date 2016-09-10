@@ -170,7 +170,7 @@ function physics:crates(object,dt)
 				object.candrop = false
 
 				if object.jumping then 
-					util:dprint("crate(" .. i..") destroyed, item ="..crate.item)
+					console:print("crate(" .. i..") destroyed, item ="..crate.item)
 					crate.destroyed = true
 					player.score = player.score+crate.score
 					sound:play(sound.crate)
@@ -434,7 +434,7 @@ function physics:enemies(dt)
 				
 				--[[if enemy.y +enemy.h > world.groundLevel  then
 					--ai suicide (also editor misplacement, remove from world)
-					util:dprint(enemy.name .. "("..i..") suicided")
+					console:print(enemy.name .. "("..i..") suicided")
 					sound:play(sound.kill)
 					table.remove(enemies, i)
 					

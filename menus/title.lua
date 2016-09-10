@@ -64,7 +64,7 @@ function title:init()
 	--self.fade = 255
 	transitions:fadein()
 
-	util:dprint("initialized title")
+	console:print("initialized title")
 end
 
 function title:mainselect(cmd)
@@ -162,28 +162,28 @@ function title:checkcheatcodes(key)
 	self.keystr = self.keystr .. key
 	
 	if string.match(self.keystr, "catlife") then
-		util:dprint("cheat: catlife enabled")
+		console:print("cheat: catlife enabled")
 		cheats.catlife = true
 		self.keystr = ""
 	end
 	if string.match(self.keystr, "jetpack") then
-		util:dprint("cheat: jetpack enabled")
+		console:print("cheat: jetpack enabled")
 		cheats.jetpack = true
 		self.keystr = ""
 	end
 	if string.match(self.keystr, "magnet") then
-		util:dprint("cheat: magnet enabled")
+		console:print("cheat: magnet enabled")
 		cheats.magnet = true
 		self.keystr = ""
 	end
 	if string.match(self.keystr, "shield") then
-		util:dprint("cheat: shield enabled")
+		console:print("cheat: shield enabled")
 		cheats.shield = true
 		self.keystr = ""
 	end
 	
 	if string.match(self.keystr, "millionare") then
-		util:dprint("cheat: millionare enabled")
+		console:print("cheat: millionare enabled")
 		cheats.millionare = true
 		self.keystr = ""
 	end

@@ -77,6 +77,6 @@ function portals:drawDebug(portal, i)
 	love.graphics.setColor(255,0,0,255)
 	love.graphics.rectangle("line", portal.x,portal.y,portal.w,portal.h)
 	
-	util:drawid(portal, i)
-	util:drawCoordinates(portal)
+	editor:drawid(portal, i)
+	editor:drawCoordinates(portal)
 end

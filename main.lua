@@ -19,6 +19,7 @@
 --]]
 
 require("util")
+require("console")
 require("mapio")
 require("sound")
 require("binds")
@@ -103,7 +104,7 @@ function love.draw()
 	--transition overlay
 	transitions:draw()
 	
-	if console then util:drawConsole() end
+	if console.show then console:draw() end
 
 	-- caps fps
 	local cur_time = love.timer.getTime()
@@ -117,7 +118,7 @@ end
 function love.resize(w,h)
 	WIDTH = w
 	HEIGHT = h
-	util:dprint("resized window ("..w.."x"..h..")")
+	console:print("resized window ("..w.."x"..h..")")
 	
 end
 

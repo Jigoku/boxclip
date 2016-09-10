@@ -253,8 +253,8 @@ function platforms:drawDebug(platform, i)
 		love.graphics.rectangle("line", platform.xorigin-platform_link_origin:getWidth()/2, platform.yorigin-platform_link_origin:getHeight()/2,platform_link_origin:getWidth(),platform_link_origin:getHeight())
 	end
 	
-	util:drawid(platform,i)
-	util:drawCoordinates(platform)
+	editor:drawid(platform,i)
+	editor:drawCoordinates(platform)
 	
 end
 

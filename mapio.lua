@@ -91,9 +91,9 @@ function mapio:loadmap(mapname)
 	world.maptitle = "unnamed map"
 	
 	if love.filesystem.load("maps/".. mapname  )( ) then 
-		util:dprint("failed to load map:  " .. mapname)
+		console:print("failed to load map:  " .. mapname)
 	else
-		util:dprint("load map: " .. mapname)
+		console:print("load map: " .. mapname)
 	
 	end
 	

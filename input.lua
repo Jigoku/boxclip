@@ -70,7 +70,7 @@ function love.keypressed(key)
 	--debug mode console
 	if key == binds.debug then
 		love.audio.play( sound.beep )
-		console = not console
+		console.show = not console.show
 		debug = not debug
 	end
 

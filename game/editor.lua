@@ -478,7 +478,7 @@ function editor:drawcursor()
 	)
 	
 	cursor = { x =mousePosX, y =mousePosY   }
-	util:drawCoordinates(cursor)
+	self:drawCoordinates(cursor)
 	
 end
 
@@ -1016,4 +1016,21 @@ function editor:drawmmap()
 	love.graphics.setColor(255, 255, 255, 255)
 	love.graphics.draw(self.mmapcanvas, WIDTH-10-self.mmapw,love.graphics.getHeight()-10-self.mmaph )
 
+end
+
+
+
+function editor:drawid(entity,i)
+	if editor.showid then
+		love.graphics.setColor(255,255,0,100)       
+		love.graphics.print(entity.name .. "(" .. i .. ")", entity.x-20, entity.y-40, 0)
+	end
+end
+
+function editor:drawCoordinates(object)
+	if editor.showpos then
+		-- co-ordinates
+		love.graphics.setColor(255,255,255,100)
+		love.graphics.print("X:".. object.x ..",Y:" .. object.y , object.x-20,object.y-20,0)  
+	end
 end

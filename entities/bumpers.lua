@@ -59,8 +59,8 @@ function bumpers:draw()
 				love.graphics.setColor(255,150,0,255)
 				love.graphics.rectangle("line", bumper.x, bumper.y, bumper.w, bumper.h)
 			
-				util:drawid(bumper,i)
-				util:drawCoordinates(bumper)
+				editor:drawid(bumper,i)
+				editor:drawCoordinates(bumper)
 			end
 		end
 	end

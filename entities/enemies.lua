@@ -323,8 +323,8 @@ function enemies:drawDebug(enemy, i)
 	end
 
 	
-	util:drawid(enemy,i)
-	util:drawCoordinates(enemy)
+	editor:drawid(enemy,i)
+	editor:drawCoordinates(enemy)
 end
 
 
@@ -332,5 +332,5 @@ end
 function enemies:die(enemy)
 	enemy.alive = false
 	sound:play(sound.kill)
-	util:dprint(enemy.name .." killed")	
+	editor:dprint(enemy.name .." killed")	
 end

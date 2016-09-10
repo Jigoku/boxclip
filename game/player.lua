@@ -45,7 +45,7 @@ function player:init()
 	if cheats.catlife then self.lives = 9 end
 	if cheats.millionare then self.score = "1000000" end
 	
-	util:dprint("initialized player")
+	console:print("initialized player")
 
 end
 
@@ -185,7 +185,7 @@ function player:respawn()
 
 	self:cheats()
 	
-	util:dprint("respawn player")
+	console:print("respawn player")
 end
 
 function player:die(this)
@@ -203,7 +203,7 @@ function player:die(this)
 			self.hasmagnet = false
 		end
 	
-		util:dprint("player killed by " .. this)	
+		console:print("player killed by " .. this)	
 		sound:play(sound.die)
 		self.alive = false
 		--player.dir = "idle" (change "dir" to state, left,right,idle,dead,jumping, etc)

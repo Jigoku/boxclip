@@ -109,6 +109,6 @@ function springs:drawDebug(spring, i)
 		
 	end
 	
-	util:drawid(spring, i)
-	util:drawCoordinates(spring)
+	editor:drawid(spring, i)
+	editor:drawCoordinates(spring)
 end
