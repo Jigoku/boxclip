@@ -20,18 +20,17 @@ platform_link_origin = love.graphics.newImage("data/images/tiles/link_origin.png
 platform_cradle = love.graphics.newImage("data/images/tiles/cradle.png")
 
 platforms.textures = {
-	[1] = love.graphics.newImage("data/images/tiles/stoned.png"),
-	[2] = love.graphics.newImage("data/images/tiles/brick.png"),
-	[3] = love.graphics.newImage("data/images/tiles/checked.png"),
-	[4] = love.graphics.newImage("data/images/tiles/cubes.png"),
-	[5] = love.graphics.newImage("data/images/tiles/circuit.png"),
-	[6] = love.graphics.newImage("data/images/tiles/striped.png"),
-	[7] = love.graphics.newImage("data/images/tiles/crystal.png"),
-	[8] = love.graphics.newImage("data/images/tiles/diamond.png"),
-	[9] = love.graphics.newImage("data/images/tiles/marble.png"),
-	[10] = love.graphics.newImage("data/images/tiles/sandy.png"),
-	[11] = love.graphics.newImage("data/images/tiles/tiles.png"),
-	[12] = love.graphics.newImage("data/images/tiles/zig.png"),
+	[1] = love.graphics.newImage("data/images/tiles/brick.png"),
+	[2] = love.graphics.newImage("data/images/tiles/checked.png"),
+	[3] = love.graphics.newImage("data/images/tiles/cubes.png"),
+	[4] = love.graphics.newImage("data/images/tiles/circuit.png"),
+	[5] = love.graphics.newImage("data/images/tiles/striped.png"),
+	[6] = love.graphics.newImage("data/images/tiles/crystal.png"),
+	[7] = love.graphics.newImage("data/images/tiles/diamond.png"),
+	[8] = love.graphics.newImage("data/images/tiles/marble.png"),
+	[9] = love.graphics.newImage("data/images/tiles/sandy.png"),
+	[10] = love.graphics.newImage("data/images/tiles/tiles.png"),
+	[11] = love.graphics.newImage("data/images/tiles/zig.png"),
 }
 
 function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing,angle,texture)
@@ -71,7 +70,7 @@ function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing,angle,t
 		clip = clip or 1,
 		xorigin = x,
 		yorigin = y,
-		gfx = self.textures[4],
+		gfx = self.textures[3],
 		--gfx = self.textures[math.random(#self.textures)] or nil, -- temporary (add textrue sleection to editor, and store in map file)
 		carrying = false,
 		--swing platforms

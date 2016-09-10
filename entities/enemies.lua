@@ -13,7 +13,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  --]]
  
- enemies = {}
+enemies = {}
 
 walker = love.graphics.newImage( "data/images/enemies/walker.png")
 floater = love.graphics.newImage( "data/images/enemies/floater.png")
