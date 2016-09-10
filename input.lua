@@ -75,7 +75,29 @@ function love.keypressed(key)
 	end
 
 	--toggle fullscreen
-	if key == binds.fullscreen then util:togglefullscreen() end
+	if key == binds.fullscreen then 
+	
+		paused = true
+		local fs, fstype = love.window.getFullscreen()
+	
+		if fs then
+			--camera.scaleX = 1
+			--camera.scaleY = 1
+			local success = love.window.setFullscreen( false )
+
+		else
+			--camera.scaleX = 0.75
+			--camera.scaleY = 0.75
+			local success = love.window.setFullscreen( true, "desktop" )
+
+		end
+				
+		if not success then
+			console:print("Failed to toggle fullscreen mode!")
+		end
+		paused = false
+	
+	 end
 		
 	--toggle sound
 	if key == binds.mute then 

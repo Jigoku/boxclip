@@ -12,24 +12,9 @@
  * u should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  --]]
-
-util = {}
-
-
--- this function redefine love.graphics.newImage( ), so all images are
--- not put through linear filter, which makes things more crisp on the
---  pixel level (less blur)... should this be used?
-
---[[
-local _newImage = love.graphics.newImage
-function love.graphics.newImage(...)
-	local img = _newImage(...)
-	img:setFilter('nearest', 'nearest')
-	return img
-end
---]]
-
-
+ 
+--global functions
+tools = {}
 
 function math.round(num, idp)
 	-- round integer to decimal places
@@ -48,7 +33,6 @@ function ripairs(t)
 	return ripairs_it, t, #t+1
 end
 
-
 function split(s, delimiter)
 	--split string into a table
     result = {};
@@ -58,25 +42,17 @@ function split(s, delimiter)
     return result;
 end
 
+-- this function redefines love.graphics.newImage( ), so all images are
+-- not put through linear filter, which makes things more crisp on the
+-- pixel level (less blur)... should this be used?
+-- possibly add as an option in graphics settings when implemented
 
-function util:togglefullscreen()
-	paused = true
-	local fs, fstype = love.window.getFullscreen()
-	
-	if fs then
-		--camera.scaleX = 1
-		--camera.scaleY = 1
-		local success = love.window.setFullscreen( false )
-
-	else
-		--camera.scaleX = 0.75
-		--camera.scaleY = 0.75
-		local success = love.window.setFullscreen( true, "desktop" )
-
-	end
-			
-	if not success then
-		console:print("Failed to toggle fullscreen mode!")
-	end
-	paused = false
+--[[
+local _newImage = love.graphics.newImage
+function love.graphics.newImage(...)
+	local img = _newImage(...)
+	img:setFilter('nearest', 'nearest')
+	return img
 end
+--]]
+
