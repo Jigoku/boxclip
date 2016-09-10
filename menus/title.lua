@@ -82,8 +82,8 @@ function title:mainselect(cmd)
 	
 	if cmd == "go" then
 		world.map = self:mapname(self.mapsel)
-		if self.sel == 1 then transitions:fadeout("game") end
-		if self.sel == 2 then transitions:fadeout("editing") end
+		if self.sel == 1 then transitions:fadeoutmode("game") end
+		if self.sel == 2 then transitions:fadeoutmode("editing") end
 		if self.sel == 3 then self.menu = "options" end
 		if self.sel == 4 then love.event.quit() end
 	end

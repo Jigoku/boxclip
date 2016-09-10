@@ -32,6 +32,7 @@ function world:initSplash()
 	world.splash.text_y = love.graphics.getHeight()/2
 	world.splash.box_h = 100
 	world.splash.box_y = love.graphics.getHeight()/2-world.splash.box_h/2
+	transitions:fadein()
 end
 
 function world:settheme(theme)
@@ -147,6 +148,7 @@ function world:draw()
 	portals:draw()
 	pickups:draw()
 	enemies:draw()
+	materials:draw()
 	
 	player:draw()	
 
@@ -276,6 +278,7 @@ function world:empty()
 	 world:remove(springs) 
 	 world:remove(decals) 
 	 world:remove(bumpers) 
+	 world:remove(materials) 
 end
 
 function world:totalents()

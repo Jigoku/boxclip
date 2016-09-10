@@ -23,7 +23,7 @@ function collision:checkWorld(dt)
 		self:enemies(dt)
 		self:checkpoints(dt)
 		self:portals(dt)
-		
+		self:materials()
 	end
 end
 
@@ -268,3 +268,16 @@ function collision:springs(dt)
 end
 
 
+function collision:materials()
+	if mode == "editing" then return end
+	for i, mat in ipairs(materials) do
+		if world:inview(mat) then
+			if collision:check(player.x,player.y,player.w,player.h,mat.x,mat.y,mat.w,mat.h) then
+				if mat.name == "death" then
+					player:die("death material @ x:".. math.floor(player.x) .. " y:"..math.floor(player.y))
+				end
+			end
+		end
+		
+	end
+end

@@ -74,6 +74,9 @@ function mapio:savemap(map)
 	for i, entity in ipairs(bumpers) do
 		fh:write("bumpers:add("..math.round(entity.x)..","..math.round(entity.y)..")\n")
 	end
+	for i, entity in ipairs(materials) do
+		fh:write("materials:add("..math.round(entity.x)..","..math.round(entity.y)..","..entity.w..","..entity.h..",\""..entity.name.."\")\n")
+	end
 	fh:close()
 end
 

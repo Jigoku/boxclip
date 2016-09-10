@@ -20,12 +20,14 @@ function transitions:fadein()
 	transitions.fade = 255
 	self.state_fadein = true
 	self.active = true
-
 end
 
-function transitions:fadeout(mode)
+
+
+--fade out and then execute gamemode change
+function transitions:fadeoutmode(mode)
 	transitions.fade = 0
-	self.state_fadeout = true
+	self.state_fadeoutmode = true
 	self.active = true
 	self.mode = mode
 end
@@ -34,12 +36,12 @@ end
 
 
 function transitions:run(dt)
-	if self.state_fadeout then
+	if self.state_fadeoutmode then
 		self.fade = self.fade +500 *dt
 		love.audio.setVolume( love.audio.getVolume()-2*dt)
 		if self.fade > 255 then
 			self.fade = 0
-			self.state_fadeout = false
+			self.state_fadeoutmode = false
 			self.active = false
 			love.audio.stop()
 			love.audio.setVolume(1)
@@ -55,6 +57,7 @@ function transitions:run(dt)
 			self.active = false
 		end
 	end
+
 end
 
 

@@ -69,6 +69,12 @@ editor.helpmenu = love.graphics.newCanvas(editor.helpmenuw,editor.helpmenuh)
 
 editor.clipboard = {}		--clipboard contents
 
+-- entities which are draggable (size placement)
+editor.draggable = {
+	"platform", "platform_b", "platform_x", "platform_y", 
+	"blood", "lava", "water", "stream", 
+	"death" 
+}
 
 function editor:entname(id)
 	--list of entity id's (these can be reordered / renumbered
@@ -78,6 +84,7 @@ function editor:entname(id)
 	elseif id == -2 then return "stream"
 	elseif id == -3 then return "lava"
 	elseif id == -4 then return "blood"
+	elseif id == -5 then return "death"
 	elseif id == 1 then return "goal" 
 	elseif id == 2 then return "platform" 
 	elseif id == 3 then return "platform_b" 
@@ -368,18 +375,18 @@ function editor:mousepressed(x,y,button)
 		if selection == "spring_l" then springs:add(x,y,self.entdir,"spring_l") end
 		if selection == "bumper" then bumpers:add(x,y) end
 		
+		
 	elseif button == 'r' then
 		self:removesel()
 	end
 end
 
 function editor:mousereleased(x,y,button)
-	--check if we have selected platforms, then place if neccesary
+	--check if we have selected draggable entity, then place if neccesary
 	if button == 'l' then 
-		local draggable = {"platform", "platform_b", "platform_x", "platform_y", "blood", "lava", "water", "stream" }
-		for _,entity in ipairs(draggable) do
+		for _,entity in ipairs(self.draggable) do
 			if self:entname(self.entsel) == entity then
-				self:addplatform(pressedPosX,pressedPosY,releasedPosX,releasedPosY)
+				self:placedraggable(pressedPosX,pressedPosY,releasedPosX,releasedPosY)
 			end
 		end
 		return
@@ -404,7 +411,7 @@ end
 
 
 
-function editor:addplatform(x1,y1,x2,y2)
+function editor:placedraggable(x1,y1,x2,y2)
 	local ent = self:entname(self.entsel)
 
 	--we must drag down and right
@@ -428,6 +435,8 @@ function editor:addplatform(x1,y1,x2,y2)
 		if ent == "lava" then decals:add(x,y,w,h,"lava") end
 		if ent == "water" then decals:add(x,y,w,h,"water") end
 		if ent == "stream" then decals:add(x,y,w,h,"stream") end
+		
+		if ent == "death" then materials:add(x,y,w,h,"death") end
 	end
 end
 
@@ -515,8 +524,7 @@ end
 function editor:drawselbox()
 	--draw an outline when dragging mouse when entsel is one of these types
 	if self.drawsel then
-		local draggable = { "platform", "platform_b", "platform_x", "platform_y", "blood", "lava", "water", "stream"}
-		for _,entity in ipairs(draggable) do
+		for _,entity in ipairs(self.draggable) do
 			if self:entname(self.entsel) == entity then
 				love.graphics.setColor(0,255,255,100)
 				love.graphics.rectangle(
@@ -803,7 +811,8 @@ function editor:removesel()
 			self:remove(props) or
 			self:remove(platforms) or
 			self:remove(decals) or 
-			self:remove(bumpers)
+			self:remove(bumpers) or 
+			self:remove(materials)
 end
 
 function editor:removeall(entities, name)
