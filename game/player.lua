@@ -108,6 +108,9 @@ end
 function player:drawDebug()
 	love.graphics.setColor(255,0,0,255)
 	love.graphics.rectangle("line", self.x, self.y, self.w, self.h)
+	
+	love.graphics.setColor(255,255,0,50)
+	love.graphics.rectangle("line",camera.x - self.camerashift, camera.y - self.camerashift, self.camerashift*2, self.camerashift*2)
 end
 
 
@@ -133,12 +136,14 @@ function player:setcamera(dt)
 
 
 	--fixed camera
-	if self.alive then
+	if self.alive or editing then
 		camera:setPosition(player.x+player.w/2, player.y+player.h/2)
 		
 	end
 	
-	--follow camera
+	
+	--follow camera (could be used for levels where you are being chased)
+	--  collide player with screen boundaries?
 	--[[
 	if self.alive then
 		local camspeed = 200
@@ -151,7 +156,7 @@ function player:setcamera(dt)
 	--float camera
 	--
 	-- port code from dungeon project (camera starts moving on box collision)
-	--
+	-- seems incompatible though... find a different way.
 end
 
 

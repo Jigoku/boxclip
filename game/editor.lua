@@ -487,12 +487,12 @@ function editor:draw()
 	love.graphics.setColor(0,255,155,155)
 		
 	love.graphics.setFont(fonts.large)
-	love.graphics.print("editing",WIDTH-80, 10,0,1,1)
+	love.graphics.print("editing",game.width-80, 10,0,1,1)
 	love.graphics.setFont(fonts.default)
-	love.graphics.print("press 'h' for help",WIDTH-115, 30,0,1,1)
+	love.graphics.print("press 'h' for help",game.width-115, 30,0,1,1)
 	love.graphics.setColor(255,255,255,255)
-	love.graphics.print("active selection:",WIDTH-115, 65,0,1,1)
-	love.graphics.print(editor.selname or "",WIDTH-115, 80,0,1,1)
+	love.graphics.print("active selection:",game.width-115, 65,0,1,1)
+	love.graphics.print(editor.selname or "",game.width-115, 80,0,1,1)
 	
 	if editing then
 		camera:set()
@@ -509,7 +509,7 @@ function editor:draw()
 		if world.collision == 0 then
 			love.graphics.setColor(255,255,255,255)
 			love.graphics.setFont(fonts.menu)
-			love.graphics.print("(Tip: press \"".. editbinds.respawn .. "\" to reset camera)", 200, HEIGHT-50,0,1,1)
+			love.graphics.print("(Tip: press \"".. editbinds.respawn .. "\" to reset camera)", 200, game.height-50,0,1,1)
 			love.graphics.setFont(fonts.default)
 		end
 	end
@@ -666,7 +666,7 @@ function editor:drawhelpmenu()
 	love.graphics.setCanvas()
 	
 	love.graphics.setColor(255,255,255,255)
-	love.graphics.draw(self.helpmenu, WIDTH/2-self.helpmenu:getWidth()/2, HEIGHT/2-self.helpmenu:getHeight()/2 )
+	love.graphics.draw(self.helpmenu, game.width/2-self.helpmenu:getWidth()/2, game.height/2-self.helpmenu:getHeight()/2 )
 	
 	
 end
@@ -743,7 +743,7 @@ function editor:drawentmenu()
 	love.graphics.setCanvas()
 	
 	love.graphics.setColor(255,255,255,255)
-	love.graphics.draw(self.entmenu, 10, HEIGHT-self.entmenu:getHeight()-10 )
+	love.graphics.draw(self.entmenu, 10, game.height-self.entmenu:getHeight()-10 )
 end
 
 
@@ -1014,7 +1014,7 @@ function editor:drawmmap()
 
 	love.graphics.setCanvas()
 	love.graphics.setColor(255, 255, 255, 255)
-	love.graphics.draw(self.mmapcanvas, WIDTH-10-self.mmapw,love.graphics.getHeight()-10-self.mmaph )
+	love.graphics.draw(self.mmapcanvas, game.width-10-self.mmapw,love.graphics.getHeight()-10-self.mmaph )
 
 end
 

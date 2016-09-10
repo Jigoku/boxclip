@@ -17,6 +17,6 @@ function love.conf(t)
 	t.modules.physics = false
 	t.window.fsaa = 0
 	t.window.resizable = true
-	t.window.vsync = true
+	t.window.vsync = false
 	t.window.fullscreen = false
 end

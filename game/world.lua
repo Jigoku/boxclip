@@ -126,7 +126,7 @@ function world:draw()
 	--paralax background
 	if not editing then
 		if type(background) == "userdata" then
-			love.graphics.draw(background, background_quad,camera.x-WIDTH/2*camera.scaleX,camera.y-HEIGHT/2*camera.scaleY)
+			love.graphics.draw(background, background_quad,camera.x-game.width/2*camera.scaleX,camera.y-game.height/2*camera.scaleY)
 		end
 	end
 	
@@ -194,10 +194,10 @@ function world:draw()
 	
 	if paused then
 		love.graphics.setColor(0,0,0,155)
-		love.graphics.rectangle("fill",0,0,WIDTH,HEIGHT)
+		love.graphics.rectangle("fill",0,0,game.width,game.height)
 		love.graphics.setColor(255,255,255,155)
 		love.graphics.setFont(fonts.huge)
-		love.graphics.printf("PAUSED", WIDTH/2,HEIGHT/3,0,"center",0,1,1)
+		love.graphics.printf("PAUSED", game.width/2,game.height/3,0,"center",0,1,1)
 		love.graphics.setFont(fonts.default)
 	end
 end
@@ -297,20 +297,20 @@ end
 function world:inview(entity) 
 	--check if entity is offset (probably swinging or rotating)
 		if entity.swing == 1 then
-			if (entity.xorigin-entity.radius < camera.x + (WIDTH/2*camera.scaleX)) 
-			and (entity.xorigin+entity.w+entity.radius > camera.x - (WIDTH/2*camera.scaleX))  then
-				if (entity.yorigin-entity.radius < camera.y + (HEIGHT/2*camera.scaleX)) 
-				and (entity.yorigin+entity.h+entity.radius > camera.y - (HEIGHT/2*camera.scaleX)) then
+			if (entity.xorigin-entity.radius < camera.x + (game.width/2*camera.scaleX)) 
+			and (entity.xorigin+entity.w+entity.radius > camera.x - (game.width/2*camera.scaleX))  then
+				if (entity.yorigin-entity.radius < camera.y + (game.height/2*camera.scaleX)) 
+				and (entity.yorigin+entity.h+entity.radius > camera.y - (game.height/2*camera.scaleX)) then
 					world.collision = world.collision +1
 				return true
 				end
 			end
 		else
 			--decides if the entity is visible in the game viewport
-			if (entity.x < camera.x + (WIDTH/2*camera.scaleX)) 
-			and (entity.x+entity.w > camera.x - (WIDTH/2*camera.scaleX))  then
-				if (entity.y < camera.y + (HEIGHT/2*camera.scaleX)) 
-				and (entity.y+entity.h > camera.y - (HEIGHT/2*camera.scaleX)) then
+			if (entity.x < camera.x + (game.width/2*camera.scaleX)) 
+			and (entity.x+entity.w > camera.x - (game.width/2*camera.scaleX))  then
+				if (entity.y < camera.y + (game.height/2*camera.scaleX)) 
+				and (entity.y+entity.h > camera.y - (game.height/2*camera.scaleX)) then
 					world.collision = world.collision +1
 					return true
 				end
@@ -341,7 +341,7 @@ function world:update(dt)
 			if background_scroll > background:getWidth()then
 				background_scroll = background_scroll - background:getWidth()
 			end
-			background_quad:setViewport(camera.x/5-background_scroll,camera.y/10,WIDTH*camera.scaleX,HEIGHT*camera.scaleY )
+			background_quad:setViewport(camera.x/5-background_scroll,camera.y/10,game.width*camera.scaleX,game.height*camera.scaleY )
 		else
 			background_scroll = 0
 		end

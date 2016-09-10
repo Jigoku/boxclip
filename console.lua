@@ -33,9 +33,9 @@ function console:draw()
 	if self.show then
 		--console info
 		love.graphics.setColor(0,0,0,100)
-		love.graphics.rectangle("fill", 1, 1, WIDTH-2, 160)	
+		love.graphics.rectangle("fill", 1, 1, game.width-2, 160)	
 		love.graphics.setColor(100,100,100,100)
-		love.graphics.rectangle("line", 1, 1, WIDTH-2, 160)
+		love.graphics.rectangle("line", 1, 1, game.width-2, 160)
 		
 		--sysinfo
 		love.graphics.setColor(100,255,100,255)
@@ -105,7 +105,7 @@ end
 
 
 function console:print(event)
-	local elapsed =  world:formatTime(os.difftime(os.time()-runtime))
+	local elapsed =  world:formatTime(os.difftime(os.time()-game.runtime))
 	local line = elapsed .. " | " ..  event
 	self.buffer.l1 = self.buffer.l2
 	self.buffer.l2 = self.buffer.l3

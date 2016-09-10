@@ -64,6 +64,6 @@ end
 function transitions:draw()
 	if self.active then
 		love.graphics.setColor(0,0,0,self.fade)
-		love.graphics.rectangle("fill", 0,0,WIDTH,HEIGHT)
+		love.graphics.rectangle("fill", 0,0,game.width,game.height)
 	end
 end

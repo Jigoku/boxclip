@@ -18,46 +18,37 @@
 	Boxclip 2d engine by ricky thomson
 --]]
 
-require("tools")
-require("console")
-require("mapio")
-require("sound")
-require("binds")
-require("input")
 
-require("menus/main")
-require("game/main")
-require("entities/main")
 
 
 
 function love.load()
 
-	debug = false
-	max_fps = 61
-
-	min_dt = 1/max_fps
-	next_time = love.timer.getTime()
-
-	math.randomseed(os.time())
-	runtime = os.time()
+	require("tools")
+	require("console")
+	require("mapio")
+	require("sound")
+	require("binds")
+	require("input")
+	require("fonts")
+	require("menus/main")
+	require("game/main")
+	require("entities/main")
 	
-	--global window settings
-	WIDTH = love.window.getWidth()
-	HEIGHT = love.window.getHeight()
-	icon = love.image.newImageData( "data/images/enemies/walker.png")
-	love.window.setIcon( icon )
-	love.mouse.setVisible( false )
-
-	--store fonts here
-	fonts = {
-		default = love.graphics.newFont("data/fonts/Hanken/Hanken-Book.ttf",12),
-		menu = love.graphics.newFont("data/fonts/Hanken/Hanken-Book.ttf",14),
-		scoreboard = love.graphics.newFont("data/fonts/Hanken/Hanken-Book.ttf",16),
-		large = love.graphics.newFont("data/fonts/Hanken/Hanken-Book.ttf",20),
-		huge = love.graphics.newFont("data/fonts/Hanken/Hanken-Book.ttf",30),
-	}
-
+	debug = false
+	
+	game = {}
+		game.width, game.height, game.flags = love.window.getMode( )
+		game.max_fps = game.flags.refreshrate
+		game.min_dt = 1/game.max_fps
+		game.next_time = love.timer.getTime()
+		game.icon = love.image.newImageData( "data/images/enemies/walker.png")
+		game.runtime = os.time()
+	
+	love.window.setIcon(game.icon)
+	love.mouse.setVisible(false)
+	
+	math.randomseed(game.runtime)
 
 
 	title:init()
@@ -71,10 +62,10 @@ function love.update(dt)
 	--[ frame rate cap
 		-- fix for lag (ex; caused by dragging window)
 		--   stops collision failures when dt drops below min_dt
-		dt = math.min(dt, min_dt)
+		dt = math.min(dt, game.min_dt)
 
 		-- caps fps for drawing
-		next_time = next_time + min_dt
+		game.next_time = game.next_time + game.min_dt
 	--]
 	
 	transitions:run(dt)
@@ -108,18 +99,17 @@ function love.draw()
 
 	-- caps fps
 	local cur_time = love.timer.getTime()
-	if next_time <= cur_time then
-		next_time = cur_time
+	if game.next_time <= cur_time then
+		game.next_time = cur_time
 		return
 	end
-	love.timer.sleep(next_time - cur_time)
+	love.timer.sleep(game.next_time - cur_time)
 end
 
 function love.resize(w,h)
-	WIDTH = w
-	HEIGHT = h
+	game.width = w
+	game.height = h
 	console:print("resized window ("..w.."x"..h..")")
-	
 end
 
 
