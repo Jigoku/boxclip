@@ -1,0 +1,6 @@
+require("game/camera")
+require("game/physics")
+require("game/collision")
+require("game/world")
+require("game/player")
+require("game/editor")

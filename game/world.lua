@@ -66,6 +66,8 @@ end
 
 
 function world:init(gamemode) 
+	
+	
 	mode = gamemode
 	--console = false
 	editing = false

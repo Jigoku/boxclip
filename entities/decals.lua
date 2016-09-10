@@ -87,7 +87,7 @@ function decals:update(dt)
 		decal_waterfallspin = decal_waterfallspin + dt * 10
 		decal_waterfallspin = decal_waterfallspin % (2*math.pi)
 	end
-	
+
 end
 
 function decals:draw()

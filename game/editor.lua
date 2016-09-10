@@ -51,6 +51,7 @@ editor.showentmenu = true   --toggle entmenu
 editor.showhelpmenu = false  --toggle helpmenu
 editor.drawsel = false		--selection outline
 editor.movespeed = 1000		--editing floatspeed
+editor.showmusicbrowser = false
 
 editor.mmapw = 200
 editor.mmaph = 200
@@ -156,7 +157,8 @@ function editor:keypressed(key)
 
 	if key == editbinds.helptoggle then self.showhelpmenu = not self.showhelpmenu end	
 	if key == editbinds.maptoggle then self.showmmap = not self.showmmap end
-	
+	if key == editbinds.musicbrowser then self.showmusicbrowser = not self.showmusicbrowser end
+		
 	
 	--free roaming	
 	if editing then
@@ -174,6 +176,28 @@ function editor:keypressed(key)
 		if key == editbinds.showpos then self.showpos = not self.showpos end
 		if key == editbinds.showid then self.showid = not self.showid end
 		if key == editbinds.savemap then mapio:savemap(world.map) end
+	
+		if key == editbinds.musicprev then 
+			if world.mapmusic == 0 then 
+				world.mapmusic = #sound.music
+			else
+				world.mapmusic = world.mapmusic -1
+			end
+		
+			sound:playbgm(world.mapmusic)
+			sound:playambient(world.mapambient)	
+		end
+		
+		if key == editbinds.musicnext then 
+			if world.mapmusic == #sound.music then 
+				world.mapmusic = 0 
+			else
+				world.mapmusic = world.mapmusic +1
+			end
+			
+			sound:playbgm(world.mapmusic)
+			sound:playambient(world.mapambient)	
+		end
 	
 		if key == editbinds.themecycle then self:settheme() end
 	
@@ -485,7 +509,7 @@ function editor:draw()
 	
 	if self.showmmap then self:drawmmap() end
 	if self.showhelpmenu then self:drawhelpmenu() end
-	
+	if self.showmusicbrowser then musicbrowser:draw() end
 end
 
 function editor:drawselbox()

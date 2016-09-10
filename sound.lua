@@ -20,8 +20,6 @@ sound.enabled = true
 
 -- sound data paths
 local sfx     = "data/sounds/effect/" 
-local music   = "data/sounds/music/"  
-local ambient = "data/sounds/ambient/"
 
 -- place effect filepaths here
 sound.jump = love.audio.newSource(sfx .. "jump.ogg", "static")
@@ -41,20 +39,36 @@ sound.shield = love.audio.newSource(sfx .. "shield.ogg", "static")
 sound.creak = love.audio.newSource(sfx .. "creak.ogg", "static")
 
 
+sound.music = {
+	[0] = nil,
+	[1] = love.audio.newSource("data/sounds/music/jungle.ogg"),
+	[2] = love.audio.newSource("data/sounds/music/underwater.ogg"),
+	[3] = love.audio.newSource("data/sounds/music/walking.ogg"),
+	[4] = love.audio.newSource("data/sounds/music/intense.ogg"),
+	[5] = love.audio.newSource("data/sounds/music/busy.ogg"),
+	[6] = love.audio.newSource("data/sounds/music/tropics.ogg")
+
+}
+
+sound.ambience = {
+	[0] = nil,
+	[1] = love.audio.newSource("data/sounds/ambient/swamp.ogg"),
+	[2] =love.audio.newSource("data/sounds/ambient/stream.ogg"),
+	[3] =love.audio.newSource("data/sounds/ambient/drip.ogg"),
+	[4] =love.audio.newSource("data/sounds/ambient/storm.ogg")
+}
+
+
 function sound:playbgm(id)
 	if not sound.enabled then return true end
 	
-	--set by "mapmusic=N" within a map file
-	if id == 0 then  sound.bgm = nil end
-	if id == 1 then  sound.bgm = love.audio.newSource(music .. "jungle.ogg") end
-	if id == 2 then  sound.bgm = love.audio.newSource(music .. "underwater.ogg") end
-	if id == 3 then  sound.bgm = love.audio.newSource(music .. "walking.ogg") end
-	if id == 4 then  sound.bgm = love.audio.newSource(music .. "intense.ogg") end
-	if id == 5 then  sound.bgm = love.audio.newSource(music .. "busy.ogg") end
-	if id == 6 then  sound.bgm = love.audio.newSource(music .. "tropics.ogg") end
+	sound.bgm = sound.music[id]
 	
-	love.audio.stop()
-
+	for _,bgm in ipairs(sound.music) do
+		bgm:stop()
+	end
+	love.audio.rewind( )
+	
 	if id ~= 0 then
 		sound.bgm:setLooping(true)
 		sound.bgm:setVolume(0.5)
@@ -62,15 +76,18 @@ function sound:playbgm(id)
 	end
 end
 
+
+
 function sound:playambient(id)
 	if not sound.enabled then return true end
-	
-	if id == 0 then  sound.ambient = nil end
-	if id == 1 then  sound.ambient = love.audio.newSource(ambient .. "swamp.ogg") end
-	if id == 2 then  sound.ambient = love.audio.newSource(ambient .. "stream.ogg") end
-	if id == 3 then  sound.ambient = love.audio.newSource(ambient .. "drip.ogg") end
-	if id == 4 then  sound.ambient = love.audio.newSource(ambient .. "storm.ogg") end
 
+	sound.ambient = sound.ambience[id]
+
+	for _,ambient in ipairs(sound.ambience) do
+		ambient:stop()
+	end
+	love.audio.rewind( )
+	
 	if id ~= 0 then
 		sound.ambient:setLooping(true)
 		sound.ambient:setVolume(1)

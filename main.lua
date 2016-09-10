@@ -21,30 +21,13 @@
 require("util")
 require("mapio")
 require("sound")
-
 require("binds")
 require("input")
 
-require("menus/title")
-require("menus/transitions")
+require("menus/main")
+require("game/main")
+require("entities/main")
 
-require("game/camera")
-require("game/physics")
-require("game/collision")
-require("game/world")
-require("game/player")
-require("game/editor")
-
-require("entities/decals")
-require("entities/props")
-require("entities/springs")
-require("entities/crates")
-require("entities/platforms")
-require("entities/checkpoints")
-require("entities/pickups")
-require("entities/enemies")
-require("entities/portals")
-require("entities/bumpers")
 
 
 function love.load()
@@ -104,6 +87,8 @@ end
 
 
 function love.draw()
+
+
 
 	--titlescreen
 	if mode == "title" then 

@@ -24,6 +24,9 @@ editbinds = {
 	helptoggle = "h",
 	maptoggle = "m",
 	entmenutoggle = "e",
+	musicbrowser = "f2",
+	musicnext = "=",
+	musicprev = "-",
 	entselup = "kp+",
 	entseldown = "kp-",
 	delete = "delete",
@@ -40,6 +43,4 @@ editbinds = {
 	movedown = "kp2",
 	moveleft = "kp4",
 	moveright = "kp6",
-
-	
 }

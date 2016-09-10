@@ -33,7 +33,7 @@ end
 
 
 function title:init()
-
+	
 
 	mode = "title"
 	self.bg = love.graphics.newImage("data/images/backgrounds/sky.png")
@@ -44,8 +44,8 @@ function title:init()
 	
 	self.frame = love.graphics.newImage("data/images/tiles/checked.png")
 	self.frame:setWrap("repeat", "repeat")
-
 	
+	sound:playambient(0)
 	sound:playbgm(6)
 	self.sel = 1
 	self.menu = "main"
