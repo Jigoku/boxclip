@@ -472,6 +472,7 @@ function physics:enemies(dt)
 								
 								if platform.clip == 1 and platform.movex == 0 and platform.movey == 0 then
 									enemy.falling = false
+									sound:play(sound.slice)
 									enemy.gfx = icicle_d_gfx
 									enemy.h = icicle_d_gfx:getHeight()
 									enemy.newY = platform.y-enemy.h

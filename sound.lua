@@ -37,7 +37,7 @@ sound.blip = love.audio.newSource(sfx .. "blip.ogg", "static")
 sound.magnet = love.audio.newSource(sfx .. "magnet.ogg", "static")
 sound.shield = love.audio.newSource(sfx .. "shield.ogg", "static")
 sound.creak = love.audio.newSource(sfx .. "creak.ogg", "static")
-
+sound.slice = love.audio.newSource(sfx .. "slice.ogg", "static")
 
 sound.music = {
 	[0] = nil,
