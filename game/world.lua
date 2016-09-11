@@ -384,6 +384,7 @@ function world:update(dt)
 
 	
 		world:timer(dt)
+	
 		
 	end
 

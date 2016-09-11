@@ -41,17 +41,19 @@ mousePosX = 0
 mousePosY = 0
 
 editor.entdir = 0 			--(used for some entites 0,1,2,3 = up,down,right,left)
-editor.entsel = 0			--current entity id for placement
-editor.themesel = 0			--theme pallete in use
+editor.entsel = 1			--current entity id for placement
+editor.themesel = 1			--theme pallete in use
 editor.showpos = true		--axis info for entitys
 editor.showid  = true		--id info for entities
 editor.showmmap = true	    --toggle minimap
 editor.showguide = true     --toggle guidelines
 editor.showentmenu = true   --toggle entmenu
 editor.showhelpmenu = false  --toggle helpmenu
+editor.showmusicbrowser = false --toggle musicbrowser
 editor.drawsel = false		--selection outline
 editor.movespeed = 1000		--editing floatspeed
-editor.showmusicbrowser = false
+editor.maxcamerascale = 8   --maximum zoom
+editor.mincamerascale = 0.4 --minimum zoom
 
 editor.mmapw = 200
 editor.mmaph = 200
@@ -69,71 +71,70 @@ editor.helpmenu = love.graphics.newCanvas(editor.helpmenuw,editor.helpmenuh)
 
 editor.clipboard = {}		--clipboard contents
 
--- entities which are draggable (size placement)
+
+--order of entities in entmenu
+editor.entities = {
+	"spawn",
+	"goal",
+	"platform" ,
+	"platform_b" ,
+	"platform_x" ,
+	"platform_y" ,
+	"platform_s" ,
+	"log",
+	"water",
+	"stream",
+	"lava",
+	"blood",
+	"death",
+	"checkpoint" ,
+	"crate" ,
+	"spike",
+	"spike_large",
+	"icicle" ,
+	"walker",
+	"floater", 
+	"spikeball" ,
+	"gem" ,
+	"life",
+	"magnet", 
+	"shield" ,
+	"flower" ,
+	"grass" ,
+	"rock",
+	"tree" ,
+	"arch" ,
+	"arch2",
+	"pillar", 
+	"spring_s",
+	"spring_m" ,
+	"spring_l",
+	"bumper",
+}
+
+--entities which are draggable (size placement)
 editor.draggable = {
 	"platform", "platform_b", "platform_x", "platform_y", 
 	"blood", "lava", "water", "stream", 
 	"death" 
 }
 
-function editor:entname(id)
-	--list of entity id's (these can be reordered / renumbered
-	--without any issues, as long as "entity.name" is specified
-	if id == 0 then return "spawn" 
-	elseif id == -1 then return "water"
-	elseif id == -2 then return "stream"
-	elseif id == -3 then return "lava"
-	elseif id == -4 then return "blood"
-	elseif id == -5 then return "death"
-	elseif id == 1 then return "goal" 
-	elseif id == 2 then return "platform" 
-	elseif id == 3 then return "platform_b" 
-	elseif id == 4 then return "platform_x" 
-	elseif id == 5 then return "platform_y" 
-	elseif id == 6 then return "platform_s" 
-	elseif id == 7 then return "log"
-	elseif id == 9 then return "checkpoint" 
-	elseif id ==10 then return "crate" 
-	elseif id ==11 then return "spike" 
-	elseif id ==12 then return "spike_large" 
-	elseif id ==13 then return "icicle" 
-	elseif id ==14 then return "walker" 
-	elseif id ==15 then return "floater" 
-	elseif id ==16 then return "spikeball" 
-	elseif id ==17 then return "gem" 
-	elseif id ==18 then return "life" 
-	elseif id ==19 then return "magnet" 
-	elseif id ==20 then return "shield" 
-	elseif id ==21 then return "flower" 
-	elseif id ==22 then return "grass" 
-	elseif id ==23 then return "rock" 
-	elseif id ==24 then return "tree" 
-	elseif id ==25 then return "arch" 
-	elseif id ==26 then return "arch2" 
-	elseif id ==27 then return "pillar" 
-	elseif id ==28 then return "spring_s" 
-	elseif id ==29 then return "spring_m" 
-	elseif id ==30 then return "spring_l" 
-	elseif id ==31 then return "bumper" 
-	else return "----"
-	end
-end
+
+editor.themes = {
+	"default",
+	"sunny",
+	"frost",
+	"hell",
+	"mist",
+	"dust",
+	"swamp",
+	"night"
+}
 
 
-
-function editor:themename(id)
-	if id == 0 then return "sunny" 
-	elseif id == 1 then return "frost" 
-	elseif id == 2 then return "hell" 
-	elseif id == 3 then return "mist" 
-	elseif id == 4 then return "dust" 
-	elseif id == 5 then return "swamp" 
-	elseif id == 6 then return "night" 
-	end
-end
 
 function editor:settheme()
-	world.theme = self:themename(self.themesel)
+	world.theme = self.themes[self.themesel]
 
 	world:settheme(world.theme)
 	
@@ -143,16 +144,11 @@ function editor:settheme()
 		if e.name == "icicle" then e.gfx = icicle_gfx end
 	end
 	self.themesel = self.themesel +1
-	if self.themesel > 6 then self.themesel = 0 end
+	if self.themesel > #self.themes then self.themesel = 1 end
 	
 end
 
 function editor:keypressed(key)
-	--print (key)
-
-
-	
-
 	if key == editbinds.edittoggle then 
 		editing = not editing
 		player.xvel = 0
@@ -303,27 +299,28 @@ end
 
 
 function editor:mousepressed(x,y,button)
+	if not editing then return end
 	
 	local x = math.round(pressedPosX,-1)
 	local y = math.round(pressedPosY,-1)
 	
 	if love.keyboard.isDown("lctrl") then
 		if button == "wu" then 
-			if camera.scaleX > 0.4 then
+			if camera.scaleX > self.mincamerascale then
 				camera.scaleX = camera.scaleX - 0.1
 				camera.scaleY = camera.scaleY - 0.1
 			else
-				camera.scaleX = 0.4
-				camera.scaleY = 0.4
+				camera.scaleX = self.mincamerascale
+				camera.scaleY = self.mincamerascale
 			end
 		end
 		if button == "wd" then 
-			if camera.scaleX < 4 then
+			if camera.scaleX < self.maxcamerascale then
 				camera.scaleX = camera.scaleX + 0.1
 				camera.scaleY = camera.scaleY + 0.1
 			else
-				camera.scaleX = 4
-				camera.scaleY = 4
+				camera.scaleX = self.maxcamerascale
+				camera.scaleY = self.maxcamerascale
 			end
 		end
 	else
@@ -338,7 +335,7 @@ function editor:mousepressed(x,y,button)
 	
 	
 	if button == 'l' then
-		local selection = self:entname(self.entsel)
+		local selection = self.entities[self.entsel]
 		
 		if selection == "spawn" then
 			self:removeall(portals, "spawn")
@@ -383,14 +380,19 @@ end
 
 function editor:mousereleased(x,y,button)
 	--check if we have selected draggable entity, then place if neccesary
+	if not editing then return end
+	
+	editor.drawsel = false
+
 	if button == 'l' then 
 		for _,entity in ipairs(self.draggable) do
-			if self:entname(self.entsel) == entity then
+			if self.entities[self.entsel] == entity then
 				self:placedraggable(pressedPosX,pressedPosY,releasedPosX,releasedPosY)
 			end
 		end
 		return
 	end
+
 end
 
 
@@ -414,7 +416,7 @@ end
 
 
 function editor:placedraggable(x1,y1,x2,y2)
-	local ent = self:entname(self.entsel)
+	local ent = self.entities[self.entsel]
 
 	--we must drag down and right
 	if not (x2 < x1 or y2 < y1) then
@@ -527,7 +529,7 @@ function editor:drawselbox()
 	--draw an outline when dragging mouse when entsel is one of these types
 	if self.drawsel then
 		for _,entity in ipairs(self.draggable) do
-			if self:entname(self.entsel) == entity then
+			if self.entities[self.entsel] == entity then
 				love.graphics.setColor(0,255,255,100)
 				love.graphics.rectangle(
 					"line", 
@@ -702,14 +704,14 @@ function editor:drawentmenu()
 	)
 	
 	local s = 15 -- vertical spacing
-	local entname = self:entname(self.entsel)
+	local entname = self.entities[self.entsel]
 	
 	love.graphics.setColor(255,255,255,155)
 	love.graphics.setFont(fonts.menu)
-	love.graphics.print(self:entname(self.entsel-4),10,s*2)
-	love.graphics.print(self:entname(self.entsel-3),10,s*3)
-	love.graphics.print(self:entname(self.entsel-2),10,s*4)
-	love.graphics.print(self:entname(self.entsel-1),10,s*5)
+	love.graphics.print(self.entities[self.entsel-4] or "-----",10,s*2)
+	love.graphics.print(self.entities[self.entsel-3] or "-----",10,s*3)
+	love.graphics.print(self.entities[self.entsel-2] or "-----",10,s*4)
+	love.graphics.print(self.entities[self.entsel-1] or "-----",10,s*5)
 	
 	--selected
 	love.graphics.setColor(200,200,200,150)
@@ -720,14 +722,14 @@ function editor:drawentmenu()
 	----------
 	
 	love.graphics.setColor(0,0,0,255)
-	love.graphics.print(self:entname(self.entsel  ),10,s*6)
+	love.graphics.print(self.entities[self.entsel] or "-----",10,s*6)
 	
 	
 	love.graphics.setColor(255,255,255,155)
-	love.graphics.print(self:entname(self.entsel+1),10,s*7)
-	love.graphics.print(self:entname(self.entsel+2),10,s*8)
-	love.graphics.print(self:entname(self.entsel+3),10,s*9)
-	love.graphics.print(self:entname(self.entsel+4),10,s*10)
+	love.graphics.print(self.entities[self.entsel+1] or "-----",10,s*7)
+	love.graphics.print(self.entities[self.entsel+2] or "-----",10,s*8)
+	love.graphics.print(self.entities[self.entsel+3] or "-----",10,s*9)
+	love.graphics.print(self.entities[self.entsel+4] or "-----",10,s*10)
 	love.graphics.setFont(fonts.default)
 	
 	--entdir
@@ -765,10 +767,13 @@ function editor:selection(entities, x,y,w,h)
 	-- hilights the entity when mouseover 
 	editor.selname = "null"
 	love.graphics.setColor(0,255,0,200)
+	
+	if love.mouse.isDown("m") then return end
+	
 	for i, entity in ripairs(entities) do
-				
+		
 		if world:inview(entity) then
-
+			
 			if entity.movex == 1 then
 				if collision:check(mousePosX,mousePosY,1,1,entity.xorigin, entity.y, entity.movedist+entity.w, entity.h) then
 					love.graphics.rectangle("line", entity.xorigin, entity.y, entity.movedist+entity.w, entity.h)
@@ -904,7 +909,7 @@ function editor:paste()
 	local h = self.clipboard.h or 20
 	local m = self.clipboard.m or 0
 	local s = self.clipboard.s or 0
-	local selection = self:entname(self.entsel)
+	local selection = self.entities[self.entsel]
 	if selection == "platform" then
 		platforms:add(x,y,w,h,1,0,0,0,0)
 	end
@@ -1031,8 +1036,19 @@ end
 
 function editor:drawCoordinates(object)
 	if editor.showpos then
-		-- co-ordinates
 		love.graphics.setColor(255,255,255,100)
 		love.graphics.print("X:".. object.x ..",Y:" .. object.y , object.x-20,object.y-20,0)  
 	end
+end
+
+
+function editor:mousemoved(x,y,dx,dy)
+	if not editing then return end
+
+	if love.mouse.isDown("l") then
+		editor.drawsel = true
+	else
+		editor.drawsel = false
+	end
+
 end

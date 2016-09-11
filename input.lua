@@ -9,34 +9,21 @@ function love.mousemoved(x,y,dx,dy)
 	mousePosX = math.round(camera.x-(game.width/2*camera.scaleX)+x*camera.scaleX,-1)
 	mousePosY = math.round(camera.y-(game.height/2*camera.scaleY)+y*camera.scaleX,-1)
 
-	if editing then
-		if love.mouse.isDown("l") then
-			editor.drawsel = true
-		else
-			editor.drawsel = false
-		end
-	
-	end
+	if mode == "editing" then editor:mousemoved(x,y,dx,dy) end
 end
 
 function love.mousepressed(x, y, button)
 	pressedPosX = math.round(camera.x-(game.width/2*camera.scaleX)+x*camera.scaleX,-1)
 	pressedPosY = math.round(camera.y-(game.height/2*camera.scaleY)+y*camera.scaleX,-1)
-
-	if editing then
-		editor:mousepressed(x,y,button)
-	end
+	
+	if mode == "editing" then editor:mousepressed(x,y,button) end
 end
 
 function love.mousereleased(x, y, button)
 	releasedPosX = math.round(camera.x-(game.width/2*camera.scaleX)+x*camera.scaleX,-1)
 	releasedPosY = math.round(camera.y-(game.height/2*camera.scaleY)+y*camera.scaleX,-1)
 	
-	if editing then
-		editor.drawsel = false
-		editor:mousereleased(x,y,button)
-	end
-   
+	if mode == "editing" then editor:mousereleased(x,y,button) end
 end
 
 function love.keypressed(key)
