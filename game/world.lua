@@ -85,7 +85,12 @@ function world:init(gamemode)
 	--once editor menu can adjust variables
 	world.gravity = 400
 
-	world.bedrock = 2000
+	-- 
+	-- y co-ordinate of deadzone
+	-- anything falling past this point will land here
+	-- (used to stop entities being lost, eg; falling forever)
+	-- if it collides with gameworld, increase this value so it's below the map
+	world.bedrock = 2000 
 	
 	world.time = 0
 
