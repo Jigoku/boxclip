@@ -44,7 +44,7 @@ This is not even a pre-alpha, and end goals may change. Currently the plans are 
 Many things are not implemented yet.
 
 #####Using the editor:
-<iframe width="560" height="315" src="https://www.youtube.com/embed/NiMqQbY2wIY" frameborder="0" allowfullscreen></iframe>
+[![ScreenShot](https://raw.github.com/GabLeRoux/WebMole/master/ressources/WebMole_Youtube_Video.png)](https://www.youtube.com/watch?v=NiMqQbY2wIY)
 
 ##### Screenshots
 
