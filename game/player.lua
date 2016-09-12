@@ -41,9 +41,7 @@ function player:init()
 	self.angle = 0
 	self.camerashift = 50
 	self.candrop = false
-	
-	if cheats.catlife then self.lives = 9 end
-	if cheats.millionare then self.score = "1000000" end
+
 	
 	console:print("initialized player")
 

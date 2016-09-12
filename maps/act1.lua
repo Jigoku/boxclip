@@ -1,6 +1,7 @@
-world.mapmusic = 3
-world.mapambient = 0
+world.mapmusic = 5
+world.mapambient = 4
 world.maptitle = "Sunny Mountain Act 1"
+world.nextmap = "act2.lua"
 world:settheme("sunny")
 platforms:add(610,-2960,100,20,0,0,0,0,0,0,0)
 platforms:add(610,-3110,100,20,0,0,0,0,0,0,0)
@@ -64,10 +65,10 @@ crates:add(2850,-3060,"gem")
 crates:add(2880,-3110,"gem")
 checkpoints:add(2730,-3060)
 enemies:spike_large(1350,-3020,1)
-enemies:walker(1990,-3140,-100,358)
+enemies:walker(1990,-3140,100,358)
 enemies:floater(3160,-3080,100,302)
 enemies:floater(2580,-3240,-100,400)
-enemies:floater(4050,-2850,100,400)
+enemies:floater(4050,-2850,-100,400)
 enemies:spike_large(5580,-3170,1)
 enemies:icicle(5740,-3170)
 enemies:icicle(5760,-3170)

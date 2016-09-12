@@ -20,8 +20,8 @@ function mapio:savemap(map)
 	local fh = io.open("maps/" .. map, "w+")
 	fh:write("world.mapmusic = ".. world.mapmusic .."\n")
 	fh:write("world.mapambient = "..world.mapambient.."\n")
-	fh:write("world.maptitle = \""..world.maptitle .."\"\n" or "\"unnamed map".."\"\n")
-	
+	fh:write("world.maptitle = \"".. (world.maptitle  or "unnamed map") .."\"\n")
+	fh:write("world.nextmap = \"".. (world.nextmap or "title") .."\"\n")
 
 	fh:write("world:settheme(\""..world.theme.."\")\n")
 	

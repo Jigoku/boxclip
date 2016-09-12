@@ -59,7 +59,7 @@ function title:init()
 		millionare = false,
 	}
 	
-		
+	player:init() 
 	--use for fade transition
 	--self.fade = 255
 	transitions:fadein()

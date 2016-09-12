@@ -108,10 +108,11 @@ function world:init(gamemode)
 	world.springs = 0
 	
 	world:empty()
-	player:init() 
+
 	mapio:loadmap(world.map)
 	
-	
+	if cheats.catlife then player.lives = player.lives +  9 end
+	if cheats.millionare then player.score = player.score +  "1000000" end
 	
 	player:respawn()
 
@@ -339,6 +340,7 @@ function world:update(dt)
 		physics:enemies(dt)			
 		player:setcamera(dt)
 		decals:update(dt)
+		portals:update(dt)
 		world.collision = 0
 		
 		if type(background) == "userdata" then
