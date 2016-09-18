@@ -37,8 +37,8 @@ end
 
 function transitions:run(dt)
 	if self.state_fadeoutmode then
-		self.fade = self.fade +300 *dt
-	sound.bgm:setVolume(sound.bgm:getVolume()-1*dt)
+		self.fade = self.fade +500 *dt
+		sound.bgm:setVolume(sound.bgm:getVolume()-1*dt)
 		if self.fade > 255 then
 			self.fade = 0
 			self.state_fadeoutmode = false

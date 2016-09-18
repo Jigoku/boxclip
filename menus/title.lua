@@ -216,7 +216,7 @@ function title:drawmain()
 		love.graphics.rectangle("fill", game.width/4-10,game.height/4+90,game.width/2+20,40)
 	end
 	love.graphics.setColor(255,255,255,255)
-	love.graphics.printf("Pres left/right to select map",game.width/4,game.height/4+100,game.width/3,"left")
+	love.graphics.printf("Press left/right to select map",game.width/4,game.height/4+100,game.width/3,"left")
 
 
 
