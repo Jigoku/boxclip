@@ -77,7 +77,6 @@ function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing,angle,t
 		swing = swing or 0,
 		angle = angle or 0,
 		radius = 200 or 0,
-
 	})
 	
 	

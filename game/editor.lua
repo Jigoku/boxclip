@@ -391,7 +391,54 @@ function editor:mousereleased(x,y,button)
 		end
 		return
 	end
+	
+	if button == 'm' then
+		for i,entity in ripairs(platforms) do
+			if world:inview(entity) then
+				if entity.movex == 1 then
+					if collision:check(self.mouse.x,self.mouse.y,1,1,entity.xorigin, entity.y, entity.movedist+entity.w, entity.h) then
+						self:sendtoback(platforms,i)
+						
+						return true
+					end
+				elseif entity.movey == 1 then
+					if collision:check(self.mouse.x,self.mouse.y,1,1,entity.xorigin, entity.yorigin, entity.w, entity.h+entity.movedist) then
+					
+						self:sendtoback(platforms,i)
+						return true
+					end
+				
+				elseif entity.swing == 1 then
+				
+					if collision:check(self.mouse.x,self.mouse.y,1,1,
+							entity.xorigin-platform_link_origin:getWidth()/2, entity.yorigin-platform_link_origin:getHeight()/2,  
+							platform_link_origin:getWidth(),platform_link_origin:getHeight()
+						) then
+						
+							self:sendtoback(platforms,i)
+							return true
+						
+					end
+			
+				elseif collision:check(self.mouse.x,self.mouse.y,1,1, entity.x,entity.y,entity.w,entity.h) then
 
+					self:sendtoback(platforms,i)
+					return true
+			
+				end
+
+			end
+		end
+	end
+end
+
+
+function editor:sendtoback(t,i)
+	local item = t[i]
+	table.remove(t,i)
+	table.insert(t,1,item)
+
+	print( t[i].name .. " (" .. i .. ") sent to back" )
 end
 
 
@@ -770,6 +817,7 @@ function editor:selection(entities, x,y,w,h)
 	if love.mouse.isDown("m") then return end
 	
 	for i, entity in ripairs(entities) do
+		entity.selected = false
 		
 		if world:inview(entity) then
 			
@@ -777,12 +825,14 @@ function editor:selection(entities, x,y,w,h)
 				if collision:check(self.mouse.x,self.mouse.y,1,1,entity.xorigin, entity.y, entity.movedist+entity.w, entity.h) then
 					love.graphics.rectangle("line", entity.xorigin, entity.y, entity.movedist+entity.w, entity.h)
 					editor.selname = entity.name .. "("..i..")"
+					entity.selected = true
 					return true
 				end
 			elseif entity.movey == 1 then
 				if collision:check(self.mouse.x,self.mouse.y,1,1,entity.xorigin, entity.yorigin, entity.w, entity.h+entity.movedist) then
 					love.graphics.rectangle("line", entity.xorigin, entity.yorigin,entity.w, entity.h+entity.movedist)
 					editor.selname = entity.name .. "("..i..")"
+					entity.selected = true
 					return true
 				end
 			elseif entity.swing == 1 then
@@ -796,11 +846,13 @@ function editor:selection(entities, x,y,w,h)
 							platform_link_origin:getWidth(),platform_link_origin:getHeight()
 						)
 						editor.selname = entity.name .. "("..i..")"
+						entity.selected = true
 						return true
 				end
 			elseif collision:check(self.mouse.x,self.mouse.y,1,1,entity.x,entity.y,entity.w,entity.h) then
 					love.graphics.rectangle("line", entity.x,entity.y,entity.w,entity.h)
 					editor.selname = entity.name .. "("..i..")"
+					entity.selected = true
 					return true
 			end
 		end
