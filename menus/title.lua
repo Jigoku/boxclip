@@ -69,28 +69,44 @@ end
 
 function title:mainselect(cmd)
 
-	if cmd == "up" then self.sel = self.sel -1 end
-	if cmd == "down" then self.sel = self.sel +1 end
+	if cmd == "up" then 
+		self.sel = self.sel -1 
+		sound:play(sound.blip)
+	end
+	
+	if cmd == "down" then 
+		self.sel = self.sel +1 
+		sound:play(sound.blip)
+	end
 	
  
-		if cmd == "left" then self.mapsel = self.mapsel -1 end
-		if cmd == "right" then self.mapsel = self.mapsel +1 end
+	if cmd == "left" then self.mapsel = self.mapsel -1 end
+	if cmd == "right" then self.mapsel = self.mapsel +1 end
 		
-		if self.mapsel < 1 then self.mapsel = 1 end
-		if self.mapsel > #self:getmaps() then self.mapsel = #self:getmaps() end
+	if self.mapsel < 1 then self.mapsel = 1 end
+	if self.mapsel > #self:getmaps() then self.mapsel = #self:getmaps() end
 
 	
 	if cmd == "go" then
 		world.map = self:mapname(self.mapsel)
-		if self.sel == 1 then transitions:fadeoutmode("game") end
-		if self.sel == 2 then transitions:fadeoutmode("editing") end
-		if self.sel == 3 then self.menu = "options" end
+		if self.sel == 1 then 
+			transitions:fadeoutmode("game") 
+			sound:play(sound.start)
+		end
+		if self.sel == 2 then 
+			transitions:fadeoutmode("editing") 
+			sound:play(sound.blip)
+		end
+		if self.sel == 3 then 
+			self.menu = "options" 
+			sound:play(sound.blip)	
+		end
 		if self.sel == 4 then love.event.quit() end
 	end
 	
 	if self.sel < 1 then self.sel = 1 return end
 	if self.sel > 4 then self.sel = 4 return end
-	sound:play(sound.blip)
+
 end
 
 

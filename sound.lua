@@ -39,6 +39,8 @@ sound.shield = love.audio.newSource(sfx .. "shield.ogg", "static")
 sound.creak = love.audio.newSource(sfx .. "creak.ogg", "static")
 sound.slice = love.audio.newSource(sfx .. "slice.ogg", "static")
 
+sound.start = love.audio.newSource("data/sounds/music/start.ogg", "static")
+
 sound.music = {
 	[0] = nil,
 	[1] = love.audio.newSource("data/sounds/music/jungle.ogg"),
