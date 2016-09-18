@@ -14,22 +14,8 @@
  --]]
 
 --[[
-	editor binds
-	
-	select/drag     : lmb
-	delete entity   : rmb
-	scroll entities : wu/wd
-	rotate/entdir	: r
-	move up	    	: numpad 8
-	move down		: numpad 2
-	move left		: numpad 4
-	move right		: numpad 6
-	theme palette   : t
-	copy dimensions	: c
-	paste			: p	
-	delete entity	: del
-	camera scale	: ctrl + scroll
-	camera position	: w,a,s,d
+	editor binds (see binds.lua) or
+	https://github.com/Jigoku/boxclip/wiki/Controls#editor-controls
 	
 	some may be undocumented, check this when adding help menu for editor
 --]]
@@ -37,8 +23,13 @@
 editor = {}
 editing = false
 
-mousePosX = 0
-mousePosY = 0
+
+editor.mouse = {
+	x = 0,
+	y = 0,
+	pressed  = { x=0, y=0 },
+	released = { x=0, y=0 }
+}
 
 editor.entdir = 0 			--(used for some entites 0,1,2,3 = up,down,right,left)
 editor.entsel = 1			--current entity id for placement
@@ -51,10 +42,9 @@ editor.showentmenu = true   --toggle entmenu
 editor.showhelpmenu = false  --toggle helpmenu
 editor.showmusicbrowser = false --toggle musicbrowser
 editor.drawsel = false		--selection outline
-editor.movespeed = 1000		--editing floatspeed
+editor.floatspeed = 1000		--editing floatspeed
 editor.maxcamerascale = 8   --maximum zoom
 editor.mincamerascale = 0.4 --minimum zoom
-editor.floatspeed = 500     --camera float speed (editing)
 
 editor.mmapw = 200
 editor.mmaph = 200
@@ -208,7 +198,7 @@ function editor:keypressed(key)
 		for i, platform in ripairs(platforms) do
 			--fix this for moving platform (yorigin,xorigin etc)
 			if world:inview(platform) then
-				if collision:check(mousePosX,mousePosY,1,1, platform.x,platform.y,platform.w,platform.h) then
+				if collision:check(self.mouse.x,self.mouse.y,1,1, platform.x,platform.y,platform.w,platform.h) then
 					if love.keyboard.isDown(editbinds.moveup) then 
 						platform.y = math.round(platform.y - 10,-1) --up
 					end
@@ -235,16 +225,16 @@ end
 function editor:checkkeys(dt)
 
 		if love.keyboard.isDown(editbinds.right)  then
-			player.x = player.x + self.movespeed *camera.scaleX *dt
+			player.x = player.x + self.floatspeed *camera.scaleX *dt
 		end
 		if love.keyboard.isDown(editbinds.left)  then
-			player.x = player.x - self.movespeed *camera.scaleX *dt
+			player.x = player.x - self.floatspeed *camera.scaleX *dt
 		end
 		if love.keyboard.isDown(editbinds.up) then
-			player.y = player.y - self.movespeed *camera.scaleY *dt
+			player.y = player.y - self.floatspeed *camera.scaleY *dt
 		end
 		if love.keyboard.isDown(editbinds.down) then
-			player.y = player.y + self.movespeed *camera.scaleY *dt
+			player.y = player.y + self.floatspeed *camera.scaleY *dt
 		end
 		
 		if love.keyboard.isDown(editbinds.decrease) then
@@ -260,7 +250,7 @@ function editor:adjustent(dir,dt)
 			
 	for _,platform in ipairs(platforms) do
 		if world:inview(platform) then
-			if platform.swing and collision:check(mousePosX,mousePosY,1,1,
+			if platform.swing and collision:check(self.mouse.x,self.mouse.y,1,1,
 				platform.xorigin-platform_link_origin:getWidth()/2, platform.yorigin-platform_link_origin:getHeight()/2,  
 				platform_link_origin:getWidth(),platform_link_origin:getHeight()) then
 
@@ -270,13 +260,13 @@ function editor:adjustent(dir,dt)
 				return true
 			end
 
-			if platform.movex == 1 and collision:check(mousePosX,mousePosY,1,1,
+			if platform.movex == 1 and collision:check(self.mouse.x,self.mouse.y,1,1,
 				platform.xorigin, platform.y, platform.movedist+platform.w, platform.h) then
 				platform.movedist = math.round(platform.movedist + dir*2,1)
 				if platform.movedist < platform.w then platform.movedist = platform.w end
 				return true
 			end
-			if platform.movey == 1 and collision:check(mousePosX,mousePosY,1,1,
+			if platform.movey == 1 and collision:check(self.mouse.x,self.mouse.y,1,1,
 				platform.xorigin, platform.yorigin, platform.w, platform.h+platform.movedist) then
 				
 				platform.movedist = math.round(platform.movedist + dir*2,1)
@@ -288,7 +278,7 @@ function editor:adjustent(dir,dt)
 	
 	for _,enemy in ipairs(enemies) do
 		if world:inview(enemy) then
-			if enemy.movex == 1 and collision:check(mousePosX,mousePosY,1,1,
+			if enemy.movex == 1 and collision:check(self.mouse.x,self.mouse.y,1,1,
 				enemy.xorigin, enemy.y, enemy.movedist+enemy.w, enemy.h) then
 				enemy.movedist = enemy.movedist + dir*2
 				if enemy.movedist < enemy.w then enemy.movedist = enemy.w end
@@ -302,8 +292,12 @@ end
 function editor:mousepressed(x,y,button)
 	if not editing then return end
 	
-	local x = math.round(pressedPosX,-1)
-	local y = math.round(pressedPosY,-1)
+	self.mouse.pressed.x = math.round(camera.x-(game.width/2*camera.scaleX)+x*camera.scaleX,-1)
+	self.mouse.pressed.y = math.round(camera.y-(game.height/2*camera.scaleY)+y*camera.scaleX,-1)
+	
+	
+	local x = math.round(self.mouse.pressed.x,-1)
+	local y = math.round(self.mouse.pressed.y,-1)
 	
 	if love.keyboard.isDown("lctrl") then
 		if button == "wu" then 
@@ -383,12 +377,16 @@ function editor:mousereleased(x,y,button)
 	--check if we have selected draggable entity, then place if neccesary
 	if not editing then return end
 	
+	self.mouse.released.x = math.round(camera.x-(game.width/2*camera.scaleX)+x*camera.scaleX,-1)
+	self.mouse.released.y = math.round(camera.y-(game.height/2*camera.scaleY)+y*camera.scaleX,-1)
+	
+	
 	editor.drawsel = false
 
 	if button == 'l' then 
 		for _,entity in ipairs(self.draggable) do
 			if self.entities[self.entsel] == entity then
-				self:placedraggable(pressedPosX,pressedPosY,releasedPosX,releasedPosY)
+				self:placedraggable(self.mouse.pressed.x,self.mouse.pressed.y,self.mouse.released.x,self.mouse.released.y)
 			end
 		end
 		return
@@ -451,17 +449,17 @@ function editor:drawguide()
 		love.graphics.setColor(200,200,255,50)
 		--vertical
 		love.graphics.line(
-			math.round(mousePosX,-1),
-			math.round(mousePosY+love.graphics.getHeight()*camera.scaleY,-1),
-			math.round(mousePosX,-1),
-			math.round(mousePosY-love.graphics.getHeight()*camera.scaleY,-1)
+			math.round(self.mouse.x,-1),
+			math.round(self.mouse.y+love.graphics.getHeight()*camera.scaleY,-1),
+			math.round(self.mouse.x,-1),
+			math.round(self.mouse.y-love.graphics.getHeight()*camera.scaleY,-1)
 		)
 		--horizontal
 		love.graphics.line(
-			math.round(mousePosX-love.graphics.getWidth()*camera.scaleX,-1),
-			math.round(mousePosY,-1),
-			math.round(mousePosX+love.graphics.getWidth()*camera.scaleX-1),
-			math.round(mousePosY,-1)
+			math.round(self.mouse.x-love.graphics.getWidth()*camera.scaleX,-1),
+			math.round(self.mouse.y,-1),
+			math.round(self.mouse.x+love.graphics.getWidth()*camera.scaleX-1),
+			math.round(self.mouse.y,-1)
 		)
 	end
 end
@@ -470,19 +468,19 @@ function editor:drawcursor()
 	--cursor
 	love.graphics.setColor(255,200,255,255)
 	love.graphics.line(
-		math.round(mousePosX,-1),
-		math.round(mousePosY,-1),
-		math.round(mousePosX,-1)+10,
-		math.round(mousePosY,-1)
+		math.round(self.mouse.x,-1),
+		math.round(self.mouse.y,-1),
+		math.round(self.mouse.x,-1)+10,
+		math.round(self.mouse.y,-1)
 	)
 	love.graphics.line(
-		math.round(mousePosX,-1),
-		math.round(mousePosY,-1),
-		math.round(mousePosX,-1),
-		math.round(mousePosY,-1)+10
+		math.round(self.mouse.x,-1),
+		math.round(self.mouse.y,-1),
+		math.round(self.mouse.x,-1),
+		math.round(self.mouse.y,-1)+10
 	)
 	
-	cursor = { x =mousePosX, y =mousePosY   }
+	local cursor = { x =self.mouse.x, y =self.mouse.y   }
 	self:drawCoordinates(cursor)
 	
 end
@@ -534,8 +532,8 @@ function editor:drawselbox()
 				love.graphics.setColor(0,255,255,100)
 				love.graphics.rectangle(
 					"line", 
-					pressedPosX,pressedPosY, 
-					mousePosX-pressedPosX, mousePosY-pressedPosY
+					self.mouse.pressed.x,self.mouse.pressed.y, 
+					self.mouse.x-self.mouse.pressed.x, self.mouse.y-self.mouse.pressed.y
 				)
 			end
 		end
@@ -776,19 +774,19 @@ function editor:selection(entities, x,y,w,h)
 		if world:inview(entity) then
 			
 			if entity.movex == 1 then
-				if collision:check(mousePosX,mousePosY,1,1,entity.xorigin, entity.y, entity.movedist+entity.w, entity.h) then
+				if collision:check(self.mouse.x,self.mouse.y,1,1,entity.xorigin, entity.y, entity.movedist+entity.w, entity.h) then
 					love.graphics.rectangle("line", entity.xorigin, entity.y, entity.movedist+entity.w, entity.h)
 					editor.selname = entity.name .. "("..i..")"
 					return true
 				end
 			elseif entity.movey == 1 then
-				if collision:check(mousePosX,mousePosY,1,1,entity.xorigin, entity.yorigin, entity.w, entity.h+entity.movedist) then
+				if collision:check(self.mouse.x,self.mouse.y,1,1,entity.xorigin, entity.yorigin, entity.w, entity.h+entity.movedist) then
 					love.graphics.rectangle("line", entity.xorigin, entity.yorigin,entity.w, entity.h+entity.movedist)
 					editor.selname = entity.name .. "("..i..")"
 					return true
 				end
 			elseif entity.swing == 1 then
-				if collision:check(mousePosX,mousePosY,1,1,
+				if collision:check(self.mouse.x,self.mouse.y,1,1,
 						entity.xorigin-platform_link_origin:getWidth()/2, entity.yorigin-platform_link_origin:getHeight()/2,  
 						platform_link_origin:getWidth(),platform_link_origin:getHeight()
 					) then
@@ -800,7 +798,7 @@ function editor:selection(entities, x,y,w,h)
 						editor.selname = entity.name .. "("..i..")"
 						return true
 				end
-			elseif collision:check(mousePosX,mousePosY,1,1,entity.x,entity.y,entity.w,entity.h) then
+			elseif collision:check(self.mouse.x,self.mouse.y,1,1,entity.x,entity.y,entity.w,entity.h) then
 					love.graphics.rectangle("line", entity.x,entity.y,entity.w,entity.h)
 					editor.selname = entity.name .. "("..i..")"
 					return true
@@ -839,13 +837,13 @@ function editor:remove(entities, x,y,w,h)
 	for i, entity in ripairs(entities) do
 		if world:inview(entity) then
 			if entity.movex == 1 then
-				if collision:check(mousePosX,mousePosY,1,1,entity.xorigin, entity.y, entity.movedist+entity.w, entity.h) then
+				if collision:check(self.mouse.x,self.mouse.y,1,1,entity.xorigin, entity.y, entity.movedist+entity.w, entity.h) then
 					table.remove(entities,i)
 					print( entity.name .. " (" .. i .. ") removed" )
 					return true
 				end
 			elseif entity.movey == 1 then
-				if collision:check(mousePosX,mousePosY,1,1,entity.xorigin, entity.yorigin, entity.w, entity.h+entity.movedist) then
+				if collision:check(self.mouse.x,self.mouse.y,1,1,entity.xorigin, entity.yorigin, entity.w, entity.h+entity.movedist) then
 					print( entity.name .. " (" .. i .. ") removed" )
 					table.remove(entities,i)
 					return true
@@ -853,7 +851,7 @@ function editor:remove(entities, x,y,w,h)
 				
 			elseif entity.swing == 1 then
 			
-				if collision:check(mousePosX,mousePosY,1,1,
+				if collision:check(self.mouse.x,self.mouse.y,1,1,
 						entity.xorigin-platform_link_origin:getWidth()/2, entity.yorigin-platform_link_origin:getHeight()/2,  
 						platform_link_origin:getWidth(),platform_link_origin:getHeight()
 					) then
@@ -863,7 +861,7 @@ function editor:remove(entities, x,y,w,h)
 						
 				end
 			
-			elseif collision:check(mousePosX,mousePosY,1,1, entity.x,entity.y,entity.w,entity.h) then
+			elseif collision:check(self.mouse.x,self.mouse.y,1,1, entity.x,entity.y,entity.w,entity.h) then
 				print( entity.name .. " (" .. i .. ") removed" )
 				table.remove(entities,i)
 				return true
@@ -887,7 +885,7 @@ function editor:copy()
 	--primitive copy (dimensions only for now)
 	for i, platform in ripairs(platforms) do
 		if world:inview(platform) then
-			if collision:check(mousePosX,mousePosY,1,1, platform.x,platform.y,platform.w,platform.h) then
+			if collision:check(self.mouse.x,self.mouse.y,1,1, platform.x,platform.y,platform.w,platform.h) then
 				self.clipboard = {
 					w = platform.w,
 					h = platform.h,
@@ -904,8 +902,8 @@ end
 function editor:paste()
 	--paste the new entity with copied paramaters
 	--
-	local x = math.round(mousePosX,-1)
-	local y = math.round(mousePosY,-1)
+	local x = math.round(self.mouse.x,-1)
+	local y = math.round(self.mouse.y,-1)
 	local w = self.clipboard.w or 20
 	local h = self.clipboard.h or 20
 	local m = self.clipboard.m or 0
@@ -1045,6 +1043,9 @@ end
 
 function editor:mousemoved(x,y,dx,dy)
 	if not editing then return end
+
+	self.mouse.x = math.round(camera.x-(game.width/2*camera.scaleX)+x*camera.scaleX,-1)
+	self.mouse.y = math.round(camera.y-(game.height/2*camera.scaleY)+y*camera.scaleX,-1)
 
 	if love.mouse.isDown("l") then
 		editor.drawsel = true
