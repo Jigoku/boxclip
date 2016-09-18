@@ -54,6 +54,7 @@ editor.drawsel = false		--selection outline
 editor.movespeed = 1000		--editing floatspeed
 editor.maxcamerascale = 8   --maximum zoom
 editor.mincamerascale = 0.4 --minimum zoom
+editor.floatspeed = 500     --camera float speed (editing)
 
 editor.mmapw = 200
 editor.mmaph = 200
@@ -234,16 +235,16 @@ end
 function editor:checkkeys(dt)
 
 		if love.keyboard.isDown(editbinds.right)  then
-			player.x = player.x + self.movespeed *dt
+			player.x = player.x + self.movespeed *camera.scaleX *dt
 		end
 		if love.keyboard.isDown(editbinds.left)  then
-			player.x = player.x - self.movespeed *dt
+			player.x = player.x - self.movespeed *camera.scaleX *dt
 		end
 		if love.keyboard.isDown(editbinds.up) then
-			player.y = player.y - self.movespeed *dt
+			player.y = player.y - self.movespeed *camera.scaleY *dt
 		end
 		if love.keyboard.isDown(editbinds.down) then
-			player.y = player.y + self.movespeed *dt
+			player.y = player.y + self.movespeed *camera.scaleY *dt
 		end
 		
 		if love.keyboard.isDown(editbinds.decrease) then

@@ -89,6 +89,7 @@ function mapio:loadmap(mapname)
 	world.mapmusic = 0
 	world.mapambient = 0
 	world.maptitle = "unnamed map"
+	world.nextmap = "title"
 	
 	if love.filesystem.load("maps/".. mapname  )( ) then 
 		console:print("failed to load map:  " .. mapname)

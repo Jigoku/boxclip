@@ -92,22 +92,9 @@ function world:init(gamemode)
 	-- if it collides with gameworld, increase this value so it's below the map
 	world.bedrock = 2000 
 	
-	world.time = 0
-
 	camera:setScale(camera.defaultscale,camera.defaultscale)
-
-	--initialize entity counts
-	world.platforms = 0
-	world.crates = 0
-	world.enemies = 0
-	world.pickups = 0
-	world.checkpoints = 0
-	world.props = 0
-	world.collision = 0
-	world.portals = 0
-	world.springs = 0
 	
-	world:empty()
+	world:reset()
 
 	mapio:loadmap(world.map)
 	
@@ -273,7 +260,9 @@ function world:remove(objects)
 	end
 end
 
-function world:empty()
+function world:reset()
+	world.time = 0
+	world.collision = 0
 	 world:remove(enemies) 
 	 world:remove(pickups) 
 	 world:remove(crates) 
