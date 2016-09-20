@@ -18,28 +18,29 @@ sound = {}
 -- add menu / keybind to toggle this
 sound.enabled = true
 
--- sound data paths
-local sfx     = "data/sounds/effect/" 
 
--- place effect filepaths here
-sound.jump = love.audio.newSource(sfx .. "jump.ogg", "static")
-sound.gem = love.audio.newSource(sfx .. "gem.ogg", "static")
-sound.hit = love.audio.newSource(sfx .. "hit.ogg", "static")
-sound.beep = love.audio.newSource(sfx .. "beep.ogg", "static")
-sound.die = love.audio.newSource(sfx .. "die.ogg", "static")
-sound.crate = love.audio.newSource(sfx .. "crate.ogg", "static")
-sound.lifeup = love.audio.newSource(sfx .. "lifeup.ogg", "static")
-sound.kill = love.audio.newSource(sfx .. "kill.ogg", "static")
-sound.checkpoint = love.audio.newSource(sfx .. "checkpoint.ogg", "static")
-sound.goal = love.audio.newSource(sfx .. "goal.ogg", "static")
-sound.spring = love.audio.newSource(sfx .. "spring.ogg", "static")
-sound.blip = love.audio.newSource(sfx .. "blip.ogg", "static")
-sound.magnet = love.audio.newSource(sfx .. "magnet.ogg", "static")
-sound.shield = love.audio.newSource(sfx .. "shield.ogg", "static")
-sound.creak = love.audio.newSource(sfx .. "creak.ogg", "static")
-sound.slice = love.audio.newSource(sfx .. "slice.ogg", "static")
 
-sound.start = love.audio.newSource("data/sounds/music/start.ogg", "static")
+
+sound.effects = {
+	["jump"] = love.audio.newSource("data/sounds/effect/jump.ogg", "static"),
+	["gem"] = love.audio.newSource("data/sounds/effect/gem.ogg", "static"),
+	["hit"] = love.audio.newSource("data/sounds/effect/hit.ogg", "static"),
+	["beep"] = love.audio.newSource("data/sounds/effect/beep.ogg", "static"),
+	["die"] = love.audio.newSource("data/sounds/effect/die.ogg", "static"),
+	["crate"] = love.audio.newSource("data/sounds/effect/crate.ogg", "static"),
+	["lifeup"] = love.audio.newSource("data/sounds/effect/lifeup.ogg", "static"),
+	["kill"] = love.audio.newSource("data/sounds/effect/kill.ogg", "static"),
+	["checkpoint"] = love.audio.newSource("data/sounds/effect/checkpoint.ogg", "static"),
+	["goal"] = love.audio.newSource("data/sounds/effect/goal.ogg", "static"),
+	["spring"] = love.audio.newSource("data/sounds/effect/spring.ogg", "static"),
+	["blip"] = love.audio.newSource("data/sounds/effect/blip.ogg", "static"),
+	["magnet"] = love.audio.newSource("data/sounds/effect/magnet.ogg", "static"),
+	["shield"] = love.audio.newSource("data/sounds/effect/shield.ogg", "static"),
+	["creek"] = love.audio.newSource("data/sounds/effect/creak.ogg", "static"),
+	["slice"] = love.audio.newSource("data/sounds/effect/slice.ogg", "static"),
+	["start"] = love.audio.newSource("data/sounds/music/start.ogg", "static"),
+}
+
 
 sound.music = {
 	[0] = nil,
@@ -55,26 +56,24 @@ sound.music = {
 sound.ambience = {
 	[0] = nil,
 	[1] = love.audio.newSource("data/sounds/ambient/swamp.ogg"),
-	[2] =love.audio.newSource("data/sounds/ambient/stream.ogg"),
-	[3] =love.audio.newSource("data/sounds/ambient/drip.ogg"),
-	[4] =love.audio.newSource("data/sounds/ambient/storm.ogg")
+	[2] = love.audio.newSource("data/sounds/ambient/stream.ogg"),
+	[3] = love.audio.newSource("data/sounds/ambient/drip.ogg"),
+	[4] = love.audio.newSource("data/sounds/ambient/storm.ogg")
 }
 
 
 function sound:playbgm(id)
 	if not sound.enabled then return true end
 	
-	sound.bgm = sound.music[id]
+	self.bgm = self.music[id]
+	self:stoplooping(self.music)
 	
-	for _,bgm in ipairs(sound.music) do
-		bgm:stop()
-	end
 	love.audio.rewind( )
 	
 	if id ~= 0 then
-		sound.bgm:setLooping(true)
-		sound.bgm:setVolume(0.5)
-		sound.bgm:play()
+		self.bgm:setLooping(true)
+		self.bgm:setVolume(0.5)
+		self.bgm:play()
 	end
 end
 
@@ -83,23 +82,21 @@ end
 function sound:playambient(id)
 	if not sound.enabled then return true end
 
-	sound.ambient = sound.ambience[id]
-
-	for _,ambient in ipairs(sound.ambience) do
-		ambient:stop()
-	end
+	self.ambient = self.ambience[id]
+	self:stoplooping(self.ambience)
+		
 	love.audio.rewind( )
 	
 	if id ~= 0 then
-		sound.ambient:setLooping(true)
-		sound.ambient:setVolume(1)
-		sound.ambient:play()
+		self.ambient:setLooping(true)
+		self.ambient:setVolume(1)
+		self.ambient:play()
 	end
 end
 
 
 function sound:play(effect)
-	if not sound.enabled then return true end
+	if not self.enabled then return true end
 	
 	--improve this (temporary fix)
 	--allows sound to be played in quick succession
@@ -107,5 +104,11 @@ function sound:play(effect)
 		effect:stop()
 	end
 	effect:play()
+end
+
+function sound:stoplooping(type)
+	for _,t in ipairs(type) do
+		t:stop()
+	end
 end
 

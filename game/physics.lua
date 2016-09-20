@@ -173,7 +173,7 @@ function physics:crates(object,dt)
 					console:print("crate(" .. i..") destroyed, item ="..crate.item)
 					crate.destroyed = true
 					player.score = player.score+crate.score
-					sound:play(sound.crate)
+					sound:play(sound.effects["crate"])
 					crates:addpickup(crate, i,true)	
 				end
 					
@@ -234,7 +234,7 @@ function physics:bumpers(object,dt)
 				bumper.score = bumper.score - 10
 			end
 			
-			sound:play(sound.spring)
+			sound:play(sound.effects["spring"])
 			
 			if collision:right(object,bumper) and not collision:top(object,bumper) then
 					object.xvelboost = 0
@@ -317,7 +317,7 @@ function physics:platforms(object, dt)
 					if platform.name == "platform" then
 						--sounds on collision
 						if object.jumping and (object.yvel < 0) then 
-							sound:play(sound.hit)
+							sound:play(sound.effects["hit"])
 						end
 						
 						--if we are jumping upwards go through the platform
@@ -435,7 +435,7 @@ function physics:enemies(dt)
 				--[[if enemy.y +enemy.h > world.groundLevel  then
 					--ai suicide (also editor misplacement, remove from world)
 					console:print(enemy.name .. "("..i..") suicided")
-					sound:play(sound.kill)
+					sound:play(sound.effects["kill"])
 					table.remove(enemies, i)
 					
 				end--]]
@@ -472,7 +472,7 @@ function physics:enemies(dt)
 								
 								if platform.clip == 1 and platform.movex == 0 and platform.movey == 0 then
 									enemy.falling = false
-									sound:play(sound.slice)
+									sound:play(sound.effects["slice"])
 									enemy.gfx = icicle_d_gfx
 									enemy.h = icicle_d_gfx:getHeight()
 									enemy.newY = platform.y-enemy.h
@@ -590,7 +590,7 @@ function physics:props(object, dt)
 						-- only player can make logs fall
 						if object.name == "player" and mode == "game" then
 							prop.falling = true
-							sound:play(sound.creak)
+							sound:play(sound.effects["creek"])
 						end
 						
 					end		

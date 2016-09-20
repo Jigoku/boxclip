@@ -373,7 +373,7 @@ function world:update(dt)
 			if player.gems == 100 then
 				player.gems = 0
 				player.lives = player.lives +1
-				sound:play(sound.lifeup)
+				sound:play(sound.effects["lifeup"])
 			end
 			--]]
 		end

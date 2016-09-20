@@ -197,7 +197,7 @@ function player:die(this)
 		if self.hasshield then
 			self.xvel = -self.xvel
 			self:jump()
-			sound:play(sound.shield)
+			sound:play(sound.effects["shield"])
 			self.hasshield = false
 			return
 		end
@@ -207,7 +207,7 @@ function player:die(this)
 		end
 	
 		console:print("player killed by " .. this)	
-		sound:play(sound.die)
+		sound:play(sound.effects["die"])
 		self.alive = false
 		--player.dir = "idle" (change "dir" to state, left,right,idle,dead,jumping, etc)
 		self.angle = 0
@@ -224,18 +224,18 @@ function player:collect(item)
 	--increase score when pickups are collected
 	
 	if item.name == "gem" then
-		sound:play(sound.gem)
+		sound:play(sound.effects["gem"])
 		self.score = self.score + item.score
 		self.gems = self.gems +1
 	elseif item.name == "life" then
-		sound:play(sound.lifeup)
+		sound:play(sound.effects["lifeup"])
 		self.score = self.score + item.score
 		self.lives = self.lives +1
 	elseif item.name == "magnet" then
-		sound:play(sound.magnet)
+		sound:play(sound.effects["magnet"])
 		self.hasmagnet = true
 	elseif item.name == "shield" then
-		sound:play(sound.shield)
+		sound:play(sound.effects["shield"])
 		self.hasshield = true
 	end
 end
@@ -249,7 +249,7 @@ end
 
 function player:jump()
 	if not self.jumping or cheats.jetpack then
-		sound:play(sound.jump)
+		sound:play(sound.effects["jump"])
 		self.jumping = true
 		self.yvel = self.jumpheight					
 	end

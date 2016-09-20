@@ -207,7 +207,7 @@ function collision:checkpoints(dt)
 				checkpoint.x, checkpoint.y,checkpoint.w,checkpoint.h) then
 				if not checkpoint.activated then
 					console:print("checkpoint activated")	
-					sound:play(sound.checkpoint)
+					sound:play(sound.effects["checkpoint"])
 					checkpoint.activated = true
 					player.spawnX = checkpoint.x
 					player.spawnY = checkpoint.y					
@@ -230,7 +230,7 @@ function collision:portals(dt)
 						if not portal.activated then
 							--add paramater for "next map"?
 							portal.activated = true
-							sound:play(sound.goal)
+							sound:play(sound.effects["goal"])
 							console:print("goal reached")	
 						end
 					end
@@ -246,7 +246,7 @@ function collision:springs(dt)
 			if collision:check(player.x,player.y,player.w,player.h,
 				spring.x+10, spring.y+10,spring.w-20,spring.h-20) then
 				player.jumping = true
-				sound:play(sound.spring)
+				sound:play(sound.effects["spring"])
 				if spring.dir == 0 then
 					player.y = spring.y-player.h -1 *dt
 					player.yvel = spring.vel

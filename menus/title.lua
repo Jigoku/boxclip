@@ -71,12 +71,12 @@ function title:mainselect(cmd)
 
 	if cmd == "up" then 
 		self.sel = self.sel -1 
-		sound:play(sound.blip)
+		sound:play(sound.effects["blip"])
 	end
 	
 	if cmd == "down" then 
 		self.sel = self.sel +1 
-		sound:play(sound.blip)
+		sound:play(sound.effects["blip"])
 	end
 	
  
@@ -91,15 +91,15 @@ function title:mainselect(cmd)
 		world.map = self:mapname(self.mapsel)
 		if self.sel == 1 then 
 			transitions:fadeoutmode("game") 
-			sound:play(sound.start)
+			sound:play(sound.effects["start"])
 		end
 		if self.sel == 2 then 
 			transitions:fadeoutmode("editing") 
-			sound:play(sound.blip)
+			sound:play(sound.effects["blip"])
 		end
 		if self.sel == 3 then 
 			self.menu = "options" 
-			sound:play(sound.blip)	
+			sound:play(sound.effects["blip"])
 		end
 		if self.sel == 4 then love.event.quit() end
 	end
