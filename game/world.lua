@@ -24,14 +24,15 @@ world.splash = {}
 --loading/act display
 function world:initSplash()
 	world.splash = {}
+	world.splash.bg = love.graphics.newImage("data/images/tiles/checked.png")
+	world.splash.bg:setWrap("repeat", "repeat")
 	world.splash.active = true
 	world.splash.opacity = 255
 	world.splash.timer = 3
-	world.splash.canvas = love.graphics.newCanvas(love.graphics.getWidth(),love.graphics.getHeight())
 	world.splash.fadespeed = 400
-	world.splash.text_y = love.graphics.getHeight()/2
 	world.splash.box_h = 100
-	world.splash.box_y = love.graphics.getHeight()/2-world.splash.box_h/2
+	world.splash.box_y = -world.splash.box_h/2
+	world.splash.text_y = -world.splash.box_h/2
 	transitions:fadein()
 end
 
@@ -196,30 +197,27 @@ function world:draw()
 end
 
 
+	
 
 function world:drawSplash()
-	love.graphics.setColor(255,255,255,255)
-	love.graphics.setCanvas(world.splash.canvas)
-			
-		love.graphics.setColor(0,0,0,255)
-			
-		--background
-		love.graphics.rectangle("fill", 0,0,love.graphics.getWidth(), love.graphics.getHeight() )
+
+	-- textured background
+		love.graphics.setColor(50,50,50,world.splash.opacity)		
+		self.splash.quad = love.graphics.newQuad( 0,0, game.width,game.height, self.splash.bg:getDimensions() )
+		love.graphics.draw(self.splash.bg, self.splash.quad, 0, 0)
+	
 		
 		--box
-		love.graphics.setColor(255,0,0,155)
-		love.graphics.rectangle("fill", 0,world.splash.box_y,love.graphics.getWidth(), world.splash.box_h )
+		love.graphics.setColor(platform_r/2,platform_g/2,platform_b/2,world.splash.opacity)
+		love.graphics.rectangle("fill", 0,world.splash.box_y+game.height/2,game.width, world.splash.box_h )
 		love.graphics.setFont(fonts.huge)
 		
 		--text
-		love.graphics.setColor(255,255,255,255)
-		love.graphics.print(world.maptitle, love.graphics.getWidth()/1.5, world.splash.text_y)
+		love.graphics.setColor(255,255,255,world.splash.opacity)
+		love.graphics.print(world.maptitle, game.width/1.5, world.splash.text_y+game.height/2+world.splash.box_h/2)
 		love.graphics.setFont(fonts.default)
 			
-	love.graphics.setCanvas()
-			
-	love.graphics.setColor(255,255,255,world.splash.opacity)
-	love.graphics.draw(world.splash.canvas, 0,0)
+
 end
 
 

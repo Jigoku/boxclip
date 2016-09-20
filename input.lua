@@ -32,7 +32,7 @@ function love.keypressed(key)
 				love.audio.pause()
 			end
 				
-			love.audio.play( sound.beep )
+			sound:play(sound.effects["beep"])
 		end
 	end
 	
@@ -48,7 +48,7 @@ function love.keypressed(key)
 	
 	--debug mode console
 	if key == binds.debug then
-		love.audio.play( sound.beep )
+		sound:play(sound.effects["beep"])
 		console.show = not console.show
 		debug = not debug
 	end
@@ -60,15 +60,9 @@ function love.keypressed(key)
 		local fs, fstype = love.window.getFullscreen()
 	
 		if fs then
-			--camera.scaleX = 1
-			--camera.scaleY = 1
 			local success = love.window.setFullscreen( false )
-
 		else
-			--camera.scaleX = 0.75
-			--camera.scaleY = 0.75
 			local success = love.window.setFullscreen( true, "desktop" )
-
 		end
 				
 		if not success then
