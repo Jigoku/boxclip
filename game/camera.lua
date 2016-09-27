@@ -1,7 +1,7 @@
 camera = {}
 camera.x = 0
 camera.y = 0
-camera.defaultscale = 0.8
+camera.defaultscale = 1
 
 camera.scaleX = 0.8
 camera.scaleY = 0.8

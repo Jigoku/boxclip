@@ -1,7 +1,7 @@
 name = "Boxclip"
 author = "ricky thomson"
-version = 0.1
-build = "-dev"
+version = 0.2
+build = "-alpha"
 print (name .. " " .. version .. build .. " by " .. author)
 default_width = 1024
 default_height = 768

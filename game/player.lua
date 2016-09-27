@@ -134,22 +134,26 @@ function player:setcamera(dt)
 
 
 	--fixed camera
+
 	if self.alive or editing then
-		camera:setPosition(player.x+player.w/2, player.y+player.h/2)
+		local x = player.x+player.w/2
+		local y = player.y+player.h/2
+		camera:setPosition(x,y)
 		
+		return
 	end
+
 	
 	
-	--follow camera (could be used for levels where you are being chased)
-	--  collide player with screen boundaries?
-	--[[
+	--drift camera (needs more work)
 	if self.alive then
-		local camspeed = 200
+		local camspeedx = (player.xvel)*4
+		local camspeedy = (player.yvel)*4
 		local angle = math.atan2(player.y+player.h/2 - camera.y, player.x+player.w/2 - camera.x)
-		camera.x = camera.x + (math.cos(angle) *camspeed * dt)
-		camera.y = camera.y + (math.sin(angle) *camspeed * dt)
+		camera.x = camera.x + (math.cos(angle) *camspeedx * dt)
+		camera.y = camera.y + (math.sin(angle) *camspeedy * dt)
 	end
-	--]]
+	
 	
 	--float camera
 	--

@@ -114,6 +114,7 @@ editor.draggable = {
 editor.themes = {
 	"default",
 	"sunny",
+	"neon",
 	"frost",
 	"hell",
 	"mist",

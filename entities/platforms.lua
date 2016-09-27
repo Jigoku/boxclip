@@ -70,7 +70,7 @@ function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing,angle,t
 		clip = clip or 1,
 		xorigin = x,
 		yorigin = y,
-		gfx = self.textures[3],
+		gfx = self.textures[2],
 		--gfx = self.textures[math.random(#self.textures)] or nil, -- temporary (add textrue sleection to editor, and store in map file)
 		carrying = false,
 		--swing platforms
