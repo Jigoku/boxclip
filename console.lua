@@ -28,7 +28,11 @@ console.buffer = {
 	l7 = ""
 }
 
-
+function console:toggle()
+	sound:play(sound.effects["beep"])
+	console.show = not console.show
+	debug = not debug
+end
 function console:draw()
 	if self.show then
 		--console info

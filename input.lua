@@ -48,9 +48,7 @@ function love.keypressed(key)
 	
 	--debug mode console
 	if key == binds.debug then
-		sound:play(sound.effects["beep"])
-		console.show = not console.show
-		debug = not debug
+		console:toggle()
 	end
 
 	--toggle fullscreen

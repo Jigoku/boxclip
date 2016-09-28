@@ -18,12 +18,10 @@
 	Boxclip 2d engine by ricky thomson
 --]]
 
-
-
-
-
-function love.load()
-
+function love.load(args)
+	
+	debug = false
+	
 	require("tools")
 	require("console")
 	require("mapio")
@@ -31,11 +29,10 @@ function love.load()
 	require("binds")
 	require("input")
 	require("fonts")
+	
 	require("menus/main")
 	require("game/main")
 	require("entities/main")
-	
-	debug = false
 	
 	game = {}
 		game.width, game.height, game.flags = love.window.getMode( )
@@ -45,6 +42,27 @@ function love.load()
 		game.icon = love.image.newImageData( "data/images/enemies/walker.png")
 		game.runtime = os.time()
 	
+	
+	local options = {
+		{
+			pattern = "^[-]-c$",
+			description = "enable the console", 
+			exec = function() console:toggle() end
+		},
+		{ 
+			pattern = "^[-]-f$", 
+			description = "enable fullscreen", 
+			exec = function() love.window.setFullscreen(1) end
+		}
+	}
+	
+	for _,arg in ipairs(args) do 
+		for n, o in ipairs(options) do
+			if string.match(arg, o.pattern) then o.exec() end
+		end
+	end
+
+
 	love.window.setIcon(game.icon)
 	love.mouse.setVisible(false)
 	
