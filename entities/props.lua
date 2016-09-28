@@ -22,7 +22,7 @@ tree_gfx = love.graphics.newImage("data/images/props/tree.png")
 arch_gfx = love.graphics.newImage("data/images/props/arch.png")
 arch2_gfx = love.graphics.newImage("data/images/props/arch2.png")
 pillar_gfx = love.graphics.newImage("data/images/props/pillar.png")
-log_gfx = love.graphics.newImage("data/images/tiles/log.png")
+log_gfx = love.graphics.newImage("data/images/tiles/log2.png")
 
 
 function props:add(x,y,type)
