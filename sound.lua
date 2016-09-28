@@ -64,7 +64,7 @@ sound.ambience = {
 
 function sound:playbgm(id)
 	if not sound.enabled then return true end
-	love.audio.setVolume(0)
+
 	self.bgm = self.music[id]
 	self:stoplooping(self.music)
 	
