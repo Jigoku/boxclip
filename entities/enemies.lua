@@ -202,8 +202,8 @@ function enemies:spikeball(x,y)
 		gfx = spikeball,
 		
 		--dimension
-		w = 70,
-		h = 70,
+		w = spikeball:getWidth(),
+		h = spikeball:getHeight(),
 		--origin
 		xorigin = x,
 		yorigin = y,
@@ -269,7 +269,7 @@ function enemies:draw()
 			
 			if enemy.name == "spikeball" then
 				platforms:drawlink(enemy)
-				love.graphics.draw(enemy.gfx, enemy.x-enemy.gfx:getWidth()/2, enemy.y-enemy.gfx:getHeight()/2, 0,1,1)
+				love.graphics.draw(enemy.gfx, enemy.x, enemy.y, -enemy.angle*2,1,1,enemy.w/2,enemy.h/2)
 			end
 			
 			if editing or debug then
