@@ -27,7 +27,8 @@ props_textures = {
 	["arch2"] = love.graphics.newImage("data/images/props/arch2.png"),
 	["pillar"] = love.graphics.newImage("data/images/props/pillar.png"),
 	["log"] = love.graphics.newImage("data/images/tiles/log2.png"),
-	["mesh"] = love.graphics.newImage("data/images/props/mesh.png")
+	["mesh"] = love.graphics.newImage("data/images/props/mesh.png"),
+	["girder"] = love.graphics.newImage("data/images/props/girder.png")
 }
 
 

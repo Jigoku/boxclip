@@ -84,8 +84,10 @@ function collision:pickups(dt)
 		for i, pickup in ipairs(pickups) do
 			if world:inview(pickup) and not pickup.collected then
 			
+				local magnet_power = 300
+			
 				if player.hasmagnet then
-					if collision:check(player.x-300,player.y-300,player.w+600,player.h+600,
+					if collision:check(player.x-magnet_power,player.y-magnet_power,player.w+(magnet_power*2),player.h+(magnet_power*2),
 						pickup.x, pickup.y,pickup.gfx:getWidth(),pickup.gfx:getHeight()) then
 							if not pickup.attract then
 								pickup.attract = true

@@ -97,6 +97,7 @@ editor.entities = {
 	"arch" ,
 	"arch2",
 	"mesh",
+	"girder",
 	"pillar", 
 	"spring_s",
 	"spring_m" ,
@@ -131,6 +132,7 @@ function editor:settheme()
 
 	world:settheme(world.theme)
 	
+	--update themeable textures
 	for i,e in ipairs(enemies) do 
 		if e.name == "spike" then e.gfx = spike_gfx end
 		if e.name == "spike_large" then e.gfx = spike_large_gfx end
@@ -365,6 +367,7 @@ function editor:mousepressed(x,y,button)
 		if selection == "arch2" then props:add(x,y,"arch2") end
 		if selection == "mesh" then props:add(x,y,"mesh") end
 		if selection == "pillar" then props:add(x,y,"pillar") end
+		if selection == "girder" then props:add(x,y,"girder") end
 		if selection == "spring_s" then springs:add(x,y,self.entdir,"spring_s") end
 		if selection == "spring_m" then springs:add(x,y,self.entdir,"spring_m") end
 		if selection == "spring_l" then springs:add(x,y,self.entdir,"spring_l") end

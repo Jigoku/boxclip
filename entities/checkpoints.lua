@@ -13,17 +13,21 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  --]]
  
- checkpoints = {}
+checkpoints = {}
 
+checkpoint_texture = love.graphics.newImage("data/images/tiles/checkpoint.png")
 
 function checkpoints:add(x,y)
+
+	local gfx = checkpoint_texture
 	table.insert(checkpoints, {
 		x = x or 0,
 		y = y or 0,
-		w = 5,
-		h = 50,
+		w = gfx:getWidth(),
+		h = gfx:getHeight(),
 		name = "checkpoint",
-		activated = false
+		activated = false,
+		gfx = gfx
 	})
 	print( "checkpoint added @  X:"..x.." Y: "..y)
 end
@@ -37,11 +41,13 @@ function checkpoints:draw()
 		count = count + 1
 
 			if not checkpoint.activated then
-				love.graphics.setColor(255,255,255,100)
+				love.graphics.setColor(255,255,255,50)
 			else 
-				love.graphics.setColor(200,200,200,255)
+				love.graphics.setColor(255,255,255,255)
 			end
-			love.graphics.rectangle("fill", checkpoint.x, checkpoint.y, checkpoint.w, checkpoint.h)	
+			--love.graphics.rectangle("fill", checkpoint.x, checkpoint.y, checkpoint.w, checkpoint.h)	
+			
+			love.graphics.draw(checkpoint.gfx, checkpoint.x,checkpoint.y,0, 1, 1)
 			
 			if editing or debug then
 				self:drawDebug(checkpoint, i)

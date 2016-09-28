@@ -14,12 +14,14 @@
  --]]
  
 world = {}
-
---add menu option to change this.
---also portal entity should have parameter for "next map" 
---which changes this string before reinitializing the world
---   world.map = "maps/test"
 world.splash = {}
+
+world.scoreboard = {}
+world.scoreboard.x = 20
+world.scoreboard.y = 20
+world.scoreboard.w = 200
+world.scoreboard.h = 100
+world.scoreboard.canvas = love.graphics.newCanvas(world.scoreboard.w,world.scoreboard.h)
 
 --loading/act display
 function world:initSplash()
@@ -48,8 +50,7 @@ function world:settheme(theme)
 	if love.filesystem.load( "themes/".. theme ..".lua" )( ) then 
 		console:print("failed to set theme:  " .. theme)
 	else
-		--groundLevel_tile:setWrap("repeat", "repeat")
-		--groundLevel_quad = love.graphics.newQuad( -50,world.groundLevel, 10000, 500, groundLevel_tile:getDimensions() )
+		
 		love.graphics.setBackgroundColor(background_r,background_g,background_b,255)
 		
 		--only set background if it exists
@@ -62,7 +63,6 @@ function world:settheme(theme)
 		
 	end
 	
-	love.graphics.setBackgroundColor(background_r,background_g,background_b,255)	
 end
 
 
@@ -91,6 +91,7 @@ function world:init(gamemode)
 	-- anything falling past this point will land here
 	-- (used to stop entities being lost, eg; falling forever)
 	-- if it collides with gameworld, increase this value so it's below the map
+	-- possibly draw this as unlimited width across the world using setViewPort and camera trickery?
 	world.bedrock = 2000 
 	
 	camera:setScale(camera.defaultscale,camera.defaultscale)
@@ -99,6 +100,7 @@ function world:init(gamemode)
 
 	mapio:loadmap(world.map)
 	
+	--enable cheats, if any
 	if cheats.catlife then player.lives = player.lives +  9 end
 	if cheats.millionare then player.score = player.score +  "1000000" end
 	
@@ -120,12 +122,16 @@ function world:draw()
 	--paralax background
 	if not editing then
 		if type(background) == "userdata" then
-			love.graphics.draw(background, background_quad,camera.x-game.width/2*camera.scaleX,camera.y-game.height/2*camera.scaleY)
+			love.graphics.draw(
+				background, background_quad,
+				camera.x-game.width/2*camera.scaleX,
+				camera.y-game.height/2*camera.scaleY
+			)
 		end
 	end
 	
 	--[[ draw bedrock here
-	
+		unimplemented
 	--]]
 	
 
@@ -155,31 +161,32 @@ function world:draw()
 	--draw the hud/scoreboard
 	if mode =="game" then
 		
-
+		love.graphics.setColor(255,255,255,255)
+		love.graphics.setCanvas(self.scoreboard.canvas)
+		self.scoreboard.canvas:clear()
 		
 		love.graphics.setFont(fonts.scoreboard)
+		
+		love.graphics.setColor(255,255,255,255)
+		love.graphics.printf("SCORE", 0,0,300,"left",0,1,1)
+		love.graphics.printf("LIVES", 0,20,300,"left",0,1,1)
+		love.graphics.printf("TIME", 0,40,300,"left",0,1,1)
+		love.graphics.printf("GEMS", 0,60,300,"left",0,1,1)
+		love.graphics.printf(player.score, 0,0,150,"right",0,1,1)
+		love.graphics.printf(player.lives, 0,20,150,"right",0,1,1)
+		love.graphics.printf(world:formatTime(world.time), 0,40,150,"right",0,1,1)
+		love.graphics.printf(player.gems, 0,60,150,"right",0,1,1)
+		love.graphics.setFont(fonts.default)
+		
+		love.graphics.setCanvas()
+		
+		--drop shadow
 		love.graphics.setColor(0,0,0,155)
-		love.graphics.printf("SCORE", 21,21,300,"left",0,1,1)
-		love.graphics.printf("LIVES", 21,41,300,"left",0,1,1)
-		love.graphics.printf("TIME", 21,61,300,"left",0,1,1)
-		love.graphics.printf("GEMS", 21,81,300,"left",0,1,1)
-		love.graphics.printf(player.score, 21,21,150,"right",0,1,1)
-		love.graphics.printf(player.lives, 21,41,150,"right",0,1,1)
-		love.graphics.printf(world:formatTime(world.time), 21,61,150,"right",0,1,1)
-		love.graphics.printf(player.gems, 21,81,150,"right",0,1,1)
-		love.graphics.setFont(fonts.default)
+		love.graphics.draw(self.scoreboard.canvas, self.scoreboard.x+1,self.scoreboard.y+1)
 		
-		love.graphics.setFont(fonts.scoreboard)
+		--text
 		love.graphics.setColor(255,255,255,155)
-		love.graphics.printf("SCORE", 20,20,300,"left",0,1,1)
-		love.graphics.printf("LIVES", 20,40,300,"left",0,1,1)
-		love.graphics.printf("TIME", 20,60,300,"left",0,1,1)
-		love.graphics.printf("GEMS", 20,80,300,"left",0,1,1)
-		love.graphics.printf(player.score, 20,20,150,"right",0,1,1)
-		love.graphics.printf(player.lives, 20,40,150,"right",0,1,1)
-		love.graphics.printf(world:formatTime(world.time), 20,60,150,"right",0,1,1)
-		love.graphics.printf(player.gems, 20,80,150,"right",0,1,1)
-		love.graphics.setFont(fonts.default)
+		love.graphics.draw(self.scoreboard.canvas, self.scoreboard.x,self.scoreboard.y)
 		
 		if world.splash.opacity > 0 then 
 			world:drawSplash()
