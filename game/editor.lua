@@ -96,6 +96,7 @@ editor.entities = {
 	"tree" ,
 	"arch" ,
 	"arch2",
+	"mesh",
 	"pillar", 
 	"spring_s",
 	"spring_m" ,
@@ -362,6 +363,7 @@ function editor:mousepressed(x,y,button)
 		if selection == "tree" then props:add(x,y,"tree") end
 		if selection == "arch" then props:add(x,y,"arch") end
 		if selection == "arch2" then props:add(x,y,"arch2") end
+		if selection == "mesh" then props:add(x,y,"mesh") end
 		if selection == "pillar" then props:add(x,y,"pillar") end
 		if selection == "spring_s" then springs:add(x,y,self.entdir,"spring_s") end
 		if selection == "spring_m" then springs:add(x,y,self.entdir,"spring_m") end

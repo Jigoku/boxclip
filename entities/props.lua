@@ -15,126 +15,60 @@
  
 props = {}
 
-flower_gfx = love.graphics.newImage("data/images/props/flower.png")
-grass_gfx = love.graphics.newImage("data/images/props/grass.png")
-rock_gfx = love.graphics.newImage("data/images/props/rock.png")
-tree_gfx = love.graphics.newImage("data/images/props/tree.png")
-arch_gfx = love.graphics.newImage("data/images/props/arch.png")
-arch2_gfx = love.graphics.newImage("data/images/props/arch2.png")
-pillar_gfx = love.graphics.newImage("data/images/props/pillar.png")
-log_gfx = love.graphics.newImage("data/images/tiles/log2.png")
+--maybe create "textures" class to load all of these? 
+-- textures.props, textures.platforms etc. ???
+-- as props.textures will be erased when props is reset
+props_textures = {
+	["flower"] = love.graphics.newImage("data/images/props/flower.png"),
+	["grass"] = love.graphics.newImage("data/images/props/grass.png"),
+	["rock"] = love.graphics.newImage("data/images/props/rock.png"),
+	["tree"] = love.graphics.newImage("data/images/props/tree.png"),
+	["arch"] = love.graphics.newImage("data/images/props/arch.png"),
+	["arch2"] = love.graphics.newImage("data/images/props/arch2.png"),
+	["pillar"] = love.graphics.newImage("data/images/props/pillar.png"),
+	["log"] = love.graphics.newImage("data/images/tiles/log2.png"),
+	["mesh"] = love.graphics.newImage("data/images/props/mesh.png")
+}
+
 
 
 function props:add(x,y,type)
-	if type == "flower" then
-		table.insert(props, {
-			--dimensions
-			x = x or 0, 
-			y = y or 0,
-			w = 20, 
-			h = 40,
-			--properties
-			name = "flower",
-			gfx = flower_gfx,
-		})
-		print("flower added @  X:"..x.." Y: "..y)
-	end
-	if type == "grass" then
-		table.insert(props, {
-			--dimensions
-			x = x or 0, 
-			y = y or 0,
-			w = 40, 
-			h = 20,
-			--properties
-			name = "grass",
-			gfx = grass_gfx,
-		})
-		print("grass added @  X:"..x.." Y: "..y)
-	end
-	if type == "rock" then
-		table.insert(props, {
-			--dimensions
-			x = x or 0,
-			y = y or 0,
-			w = 80,
-			h = 50,
-			--properties
-			name = "rock",
-			gfx = rock_gfx,
-		})
-		print("rock added @  X:"..x.." Y: "..y)
-	end
-	if type == "tree" then
-		table.insert(props, {
-			--dimensions
-			x = x or 0, 
-			y = y or 0, 
-			w = 100, 
-			h = 200, 
-			--properties
-			name = "tree",
-			gfx = tree_gfx,
-		})
-		print("tree added @  X:"..x.." Y: "..y)
-	end
-	if type == "arch" then
-		table.insert(props, {
-			--dimensions
-			x = x or 0,
-			y = y or 0,
-			w = 90,
-			h = 250,
-			--properties
-			name = "arch",
-			gfx = arch_gfx,
-		})
-		print("arch added @  X:"..x.." Y: "..y)
-	end
-	if type == "arch2" then
-		table.insert(props, {
-			--dimensions
-			x = x or 0, 
-			y = y or 0, 
-			w = 400,
-			h = 200,
-			--properties
-			name = "arch2",
-			gfx = arch2_gfx,
-		})
-		print("arch2 added @  X:"..x.." Y: "..y)
-	end
-	if type == "pillar" then
-		table.insert(props, {
-			--dimensions
-			x = x or 0,
-			y = y or 0,
-			w = 40,
-			h = 160,
-			--properties
-			name = "pillar",
-			gfx = pillar_gfx,
-		})
-		print("pillar added @  X:"..x.." Y: "..y)
-	end
+
+	local gfx = props_textures[type]
+	
+	--fix this
+	-- log should be moved to "traps" when class is impleneted
 	if type == "log" then
 		table.insert(props, {
 			--dimensions
 			x = x or 0,
 			y = y or 0,
-			w = 30,
-			h = 30,
+			w = gfx:getWidth(),
+			h = gfx:getHeight(),
 			--properties
 			name = "log",
-			gfx = log_gfx,
+			gfx = gfx,
 			falling = false,
 			timer = 0.05,
 			mass = 800,
 			yvel = 0,
 		})
 		print("log added @  X:"..x.." Y: "..y)
+		return
 	end
 	
+	table.insert(props, {
+		--dimensions
+		x = x or 0, 
+		y = y or 0,
+		w = gfx:getWidth(),
+		h = gfx:getHeight(),
+		--properties
+		name = type,
+		gfx = gfx,
+	})
+	print(type .. " added @  X:"..x.." Y: "..y)
+
 end
 
 function props:draw()
@@ -178,17 +112,6 @@ function props:drawDebug(prop, i)
 		prop.gfx:getWidth(), 
 		prop.gfx:getHeight()
 	)
-	
-	if prop.name == "spring" then
-		love.graphics.setColor(155,255,55,200)
-		love.graphics.rectangle(
-			"line", 
-			prop.x+10, 
-			prop.y+10, 
-			prop.gfx:getWidth()-20, 
-			prop.gfx:getHeight()-20
-		)
-	end
 	
 	editor:drawid(prop, i)
 	editor:drawCoordinates(prop)
