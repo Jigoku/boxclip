@@ -74,6 +74,8 @@ function console:draw()
 		)
 		
 
+		love.graphics.setColor(0,0,0,55)
+		love.graphics.rectangle("fill",  game.width/5, game.height-50, 600, 25)
 		love.graphics.setColor(255,100,255,255)
 		love.graphics.print(
 			"pickups: " .. world:count(pickups) .. "(".. world.pickups .. ")" ..
@@ -84,13 +86,13 @@ function console:draw()
 			" | portals: " .. world:count(portals) .. "("..world.portals .. ")" ..
 			" | crates: " .. world:count(crates) .. "("..world.crates .. ")" .. "\n"..
 			
-			" | checkpoints: " .. world:count(checkpoints) .. "("..world.checkpoints .. ")" ..
+			" checkpoints: " .. world:count(checkpoints) .. "("..world.checkpoints .. ")" ..
 			" | decals: " .. world:count(decals) .. "("..world.decals .. ")" ..
 			" | bumpers: " .. world:count(bumpers) .. "("..world.bumpers .. ")" ..
 			" | traps: " .. world:count(traps) .. "(" .. world.traps .. ")" ..
 			" | t: " ..world:totalents() .. "(" .. world:totalentsdrawn() .. ")" ..
 			" | ccpf: " .. world.collision,
-			 5, 35
+			 game.width/5, game.height-50
 		)
 		end
 		

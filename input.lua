@@ -69,7 +69,7 @@ function love.keypressed(key)
 		if fs then
 			local success = love.window.setFullscreen( false )
 		else
-			local success = love.window.setFullscreen( true, "desktop" )
+			local success = love.window.setFullscreen( true, "exclusive" )
 		end
 				
 		if not success then

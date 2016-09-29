@@ -149,7 +149,7 @@ function title:draw()
 	--title	
 	love.graphics.setFont(fonts.huge)
 	love.graphics.setColor(255,255,255,155)
-	love.graphics.printf("Boxclip " ..version .." (alpha)",game.width/4,game.height/4,game.width/2,"center")
+	love.graphics.printf("Boxclip " ..version ..build,game.width/4,game.height/4,game.width/2,"center")
 	
 	if self.menu == "main" then
 		self:drawmain()

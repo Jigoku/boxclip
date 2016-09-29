@@ -52,7 +52,7 @@ function love.load(args)
 		{ 
 			pattern = "^[-]-f$", 
 			description = "enable fullscreen", 
-			exec = function() love.window.setFullscreen(1) end
+			exec = function() love.window.setFullscreen( true, "exclusive" ) end
 		}
 	}
 	
