@@ -14,21 +14,23 @@
  --]]
  
 mapio = {}
+mapio.path = love.filesystem.getSaveDirectory( )
+
+
+--create maps folder if it doesn't exist
+if not love.filesystem.exists( mapio.path .. "/maps/" ) then
+	love.filesystem.createDirectory( "maps" )
+end
+
 
 function mapio:savemap(map)
-	local filename = love.filesystem.getSource( ) .. "/maps/" .. map
-
-	local fh = io.open(filename, "w+")
+	local filename = "maps/"..map
+	local fh = love.filesystem.newFile(filename)
 	
-	if not fh then 
+	if not fh:open("w") then
 		local errortitle = "Failed to save map"
 		local errormessage = "Unable to save the map '"..filename.."'\n"..
-		"This may be because you are launching the game from a .love executable\n" ..
-		"which is not supported right now.\n\n"..
-		"See https://github.com/Jigoku/boxclip/issues/42 for more information."
-		
 		love.window.showMessageBox(errortitle, errormessage, "error")
-		return 
 	end
 	
 	fh:write("world.mapmusic = ".. world.mapmusic .."\n")
@@ -95,10 +97,9 @@ function mapio:savemap(map)
 	end
 	
 	if fh:close() then
-		console:print("saved map: " ..filename)
+		console:print("saved map: " ..self.path.."/"..filename)
 	end
 end
-
 
 
 
@@ -127,4 +128,13 @@ function mapio:loadmap(mapname)
 	end	
 	
 
+end
+
+
+function mapio:getmaps()
+	-- custom maps override built ins with the same name
+	return tableconcat(						
+		love.filesystem.getDirectoryItems( self.path .. "maps" ),--custom maps
+		love.filesystem.getDirectoryItems( "/maps" )--built in maps
+	)
 end

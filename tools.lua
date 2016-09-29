@@ -42,6 +42,13 @@ function split(s, delimiter)
     return result;
 end
 
+function tableconcat(t1,t2)
+    for i=1,#t2 do
+        t1[#t1+1] = t2[i]
+    end
+    return t1
+end
+
 -- this function redefines love.graphics.newImage( ), so all images are
 -- not put through linear filter, which makes things more crisp on the
 -- pixel level (less blur)... should this be used?

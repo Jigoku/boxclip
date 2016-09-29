@@ -19,12 +19,10 @@
 title = {}
 
 
-function title:getmaps()
-	return love.filesystem.getDirectoryItems( "maps/" )
-end
+
 
 function title:mapname(id)
-	for i,map in ipairs(title:getmaps()) do
+	for i,map in ipairs(mapio:getmaps()) do
 		if i == id then return map end
 	end
 end
@@ -84,7 +82,7 @@ function title:mainselect(cmd)
 	if cmd == "right" then self.mapsel = self.mapsel +1 end
 		
 	if self.mapsel < 1 then self.mapsel = 1 end
-	if self.mapsel > #self:getmaps() then self.mapsel = #self:getmaps() end
+	if self.mapsel > #mapio:getmaps() then self.mapsel = #mapio:getmaps() end
 
 	
 	if cmd == "go" then
