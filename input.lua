@@ -84,5 +84,8 @@ function love.keypressed(key)
 		sound.enabled = not sound.enabled
 	end
 
+	if key == binds.savefolder then
+		love.system.openURL( "file://"..mapio.path )
+	end
 
 end
