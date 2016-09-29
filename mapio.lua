@@ -20,7 +20,16 @@ function mapio:savemap(map)
 
 	local fh = io.open(filename, "w+")
 	
-	if not fh then print("error saving map! " ..filename) return end ----->>>???????
+	if not fh then 
+		local errortitle = "Failed to save map"
+		local errormessage = "Unable to save the map '"..filename.."'\n"..
+		"This may be because you are launching the game from a .love executable\n" ..
+		"which is not supported right now.\n\n"..
+		"See https://github.com/Jigoku/boxclip/issues/42 for more information."
+		
+		love.window.showMessageBox(errortitle, errormessage, "error")
+		return 
+	end
 	
 	fh:write("world.mapmusic = ".. world.mapmusic .."\n")
 	fh:write("world.mapambient = "..world.mapambient.."\n")

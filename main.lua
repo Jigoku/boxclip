@@ -39,7 +39,7 @@ function love.load(args)
 		game.max_fps = game.flags.refreshrate
 		game.min_dt = 1/game.max_fps
 		game.next_time = love.timer.getTime()
-		game.icon = love.image.newImageData( "data/images/enemies/walker.png")
+		game.icon = love.image.newImageData( "data/images/icon.png")
 		game.runtime = os.time()
 	
 	
