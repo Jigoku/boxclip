@@ -15,19 +15,19 @@
  
 checkpoints = {}
 
-checkpoint_texture = love.graphics.newImage("data/images/tiles/checkpoint.png")
+checkpoint_textures = {
+	["front"] = love.graphics.newImage("data/images/checkpoints/front.png"),
+	["back"] = love.graphics.newImage("data/images/checkpoints/back.png")
+}
 
 function checkpoints:add(x,y)
-
-	local gfx = checkpoint_texture
 	table.insert(checkpoints, {
 		x = x or 0,
 		y = y or 0,
-		w = gfx:getWidth(),
-		h = gfx:getHeight(),
+		w = checkpoint_textures["front"]:getWidth(),
+		h = checkpoint_textures["front"]:getHeight(),
 		name = "checkpoint",
 		activated = false,
-		gfx = gfx
 	})
 	print( "checkpoint added @  X:"..x.." Y: "..y)
 end
@@ -41,13 +41,20 @@ function checkpoints:draw()
 		count = count + 1
 
 			if not checkpoint.activated then
-				love.graphics.setColor(255,255,255,50)
+				love.graphics.setColor(255,100,100,245)
 			else 
-				love.graphics.setColor(255,255,255,255)
+				love.graphics.setColor(150,255,150,245)
 			end
+			
+			love.graphics.draw(checkpoint_textures["back"], checkpoint.x-checkpoint_textures["back"]:getWidth()/2+checkpoint_textures["front"]:getWidth()/2,checkpoint.y,0, 1, 1)
+			love.graphics.draw(checkpoint_textures["front"], checkpoint.x,checkpoint.y,0, 1, 1)
+			
+			
+			
+			
 			--love.graphics.rectangle("fill", checkpoint.x, checkpoint.y, checkpoint.w, checkpoint.h)	
 			
-			love.graphics.draw(checkpoint.gfx, checkpoint.x,checkpoint.y,0, 1, 1)
+			
 			
 			if editing or debug then
 				self:drawDebug(checkpoint, i)
