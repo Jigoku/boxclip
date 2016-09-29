@@ -97,6 +97,8 @@ editor.entities = {
 	"tree" ,
 	"arch" ,
 	"arch2",
+	"arch3",
+	"porthole",
 	"mesh",
 	"girder",
 	"pillar", 
@@ -370,6 +372,8 @@ function editor:mousepressed(x,y,button)
 		if selection == "tree" then props:add(x,y,"tree") end
 		if selection == "arch" then props:add(x,y,"arch") end
 		if selection == "arch2" then props:add(x,y,"arch2") end
+		if selection == "arch3" then props:add(x,y,"arch3") end
+		if selection == "porthole" then props:add(x,y,"porthole") end
 		if selection == "mesh" then props:add(x,y,"mesh") end
 		if selection == "pillar" then props:add(x,y,"pillar") end
 		if selection == "girder" then props:add(x,y,"girder") end
@@ -404,18 +408,21 @@ function editor:mousereleased(x,y,button)
 	end
 	
 	if button == 3 then
-		for i,entity in ripairs(platforms) do
+		local entities = {enemies,pickups,portals,crates,checkpoints,springs,props,platforms,decals,traps}
+		for _,entitytype in ripairs(entities) do
+		
+		for i,entity in ripairs(entitytype) do
 			if world:inview(entity) then
 				if entity.movex == 1 then
 					if collision:check(self.mouse.x,self.mouse.y,1,1,entity.xorigin, entity.y, entity.movedist+entity.w, entity.h) then
-						self:sendtoback(platforms,i)
+						self:sendtoback(entitytype,i)
 						
 						return true
 					end
 				elseif entity.movey == 1 then
 					if collision:check(self.mouse.x,self.mouse.y,1,1,entity.xorigin, entity.yorigin, entity.w, entity.h+entity.movedist) then
 					
-						self:sendtoback(platforms,i)
+						self:sendtoback(entitytype,i)
 						return true
 					end
 				
@@ -426,19 +433,20 @@ function editor:mousereleased(x,y,button)
 							platform_link_origin:getWidth(),platform_link_origin:getHeight()
 						) then
 						
-							self:sendtoback(platforms,i)
+							self:sendtoback(entitytype,i)
 							return true
 						
 					end
 			
 				elseif collision:check(self.mouse.x,self.mouse.y,1,1, entity.x,entity.y,entity.w,entity.h) then
 
-					self:sendtoback(platforms,i)
+					self:sendtoback(entitytype,i)
 					return true
 			
 				end
 
 			end
+		end
 		end
 	end
 end
@@ -872,12 +880,13 @@ function editor:removesel()
 			self:remove(crates) or
 			self:remove(checkpoints) or
 			self:remove(springs) or
+			self:remove(traps) or
 			self:remove(props) or
 			self:remove(platforms) or
 			self:remove(decals) or 
 			self:remove(bumpers) or 
-			self:remove(materials) or 
-			self:remove(traps)
+			self:remove(materials) 
+			
 end
 
 function editor:removeall(entities, name)

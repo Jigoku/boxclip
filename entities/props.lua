@@ -25,6 +25,8 @@ props_textures = {
 	["tree"] = love.graphics.newImage("data/images/props/tree.png"),
 	["arch"] = love.graphics.newImage("data/images/props/arch.png"),
 	["arch2"] = love.graphics.newImage("data/images/props/arch2.png"),
+	["arch3"] = love.graphics.newImage("data/images/props/arch3.png"),
+	["porthole"] = love.graphics.newImage("data/images/props/porthole.png"),
 	["pillar"] = love.graphics.newImage("data/images/props/pillar.png"),
 	["mesh"] = love.graphics.newImage("data/images/props/mesh.png"),
 	["girder"] = love.graphics.newImage("data/images/props/girder.png")
@@ -57,14 +59,21 @@ function props:draw()
 		if world:inview(prop) then
 			count = count +1
 				
-			if prop.name == "arch" or prop.name == "arch2" then
+			if prop.name == "arch" or prop.name == "arch2" or prop.name == "arch3" then
 				love.graphics.setColor(
 					platform_r,
 					platform_g,
 					platform_b,
 					255
 				)	
-			else				
+			elseif prop.name == "porthole" then
+				love.graphics.setColor(
+					platform_behind_r,
+					platform_behind_g,
+					platform_behind_b,
+					255
+				)
+			else
 				love.graphics.setColor(255,255,255,255)
 			end
 			

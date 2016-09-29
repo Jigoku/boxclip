@@ -13,11 +13,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  --]]
  
- mapio = {}
+mapio = {}
 
 function mapio:savemap(map)
+	local filename = love.filesystem.getSource( ) .. "/maps/" .. map
 
-	local fh = io.open(love.filesystem.getSource( ) .. "maps/" .. map, "w+")
+	local fh = io.open(filename, "w+")
+	
+	if not fh then print("error saving map! " ..filename) return end ----->>>???????
+	
 	fh:write("world.mapmusic = ".. world.mapmusic .."\n")
 	fh:write("world.mapambient = "..world.mapambient.."\n")
 	fh:write("world.maptitle = \"".. (world.maptitle  or "unnamed map") .."\"\n")
@@ -77,10 +81,13 @@ function mapio:savemap(map)
 	for i, entity in ipairs(materials) do
 		fh:write("materials:add("..math.round(entity.x)..","..math.round(entity.y)..","..entity.w..","..entity.h..",\""..entity.name.."\")\n")
 	end
-	for i, trap in ipairs(traps) do
+	for i, entity in ipairs(traps) do
 		fh:write("traps:add("..math.round(entity.x)..","..math.round(entity.y)..",\""..entity.name.."\")\n")
 	end
-	fh:close()
+	
+	if fh:close() then
+		console:print("saved map: " ..filename)
+	end
 end
 
 
