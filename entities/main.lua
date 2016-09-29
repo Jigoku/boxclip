@@ -18,6 +18,7 @@ entities = {}
 require("entities/decals")
 require("entities/props")
 require("entities/springs")
+require("entities/traps")
 require("entities/crates")
 require("entities/platforms")
 require("entities/checkpoints")

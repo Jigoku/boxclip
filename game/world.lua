@@ -140,6 +140,7 @@ function world:draw()
 	
 	decals:draw()
 	props:draw()
+	traps:draw()
 	platforms:draw()
 	springs:draw()
 	bumpers:draw()
@@ -279,18 +280,19 @@ function world:reset()
 	 world:remove(decals) 
 	 world:remove(bumpers) 
 	 world:remove(materials) 
+	 world:remove(traps) 
 end
 
 function world:totalents()
 	--returns total entitys
 	return world:count(pickups)+world:count(enemies)+world:count(platforms)+
-			world:count(crates)+world:count(checkpoints)+world:count(portals)+world:count(props)+world:count(springs)+world:count(decals)
+			world:count(crates)+world:count(checkpoints)+world:count(portals)+world:count(props)+world:count(springs)+world:count(decals)+world:count(traps)
 end
 
 function world:totalentsdrawn()
 	--returns total drawn entities
 	return world.pickups+world.enemies+world.platforms+world.crates+
-		world.checkpoints+world.portals+world.props+world.springs+world.decals
+		world.checkpoints+world.portals+world.props+world.springs+world.decals+world.traps
 end
 
 
@@ -327,9 +329,7 @@ function world:update(dt)
 
 		collision:checkWorld(dt)
 		physics:world(dt)
-		physics:player(dt)
-		physics:pickups(dt)
-		physics:enemies(dt)			
+	
 		player:setcamera(dt)
 		decals:update(dt)
 		portals:update(dt)

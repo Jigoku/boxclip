@@ -77,6 +77,9 @@ function mapio:savemap(map)
 	for i, entity in ipairs(materials) do
 		fh:write("materials:add("..math.round(entity.x)..","..math.round(entity.y)..","..entity.w..","..entity.h..",\""..entity.name.."\")\n")
 	end
+	for i, trap in ipairs(traps) do
+		fh:write("traps:add("..math.round(entity.x)..","..math.round(entity.y)..",\""..entity.name.."\")\n")
+	end
 	fh:close()
 end
 

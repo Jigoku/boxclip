@@ -26,7 +26,6 @@ props_textures = {
 	["arch"] = love.graphics.newImage("data/images/props/arch.png"),
 	["arch2"] = love.graphics.newImage("data/images/props/arch2.png"),
 	["pillar"] = love.graphics.newImage("data/images/props/pillar.png"),
-	["log"] = love.graphics.newImage("data/images/tiles/log2.png"),
 	["mesh"] = love.graphics.newImage("data/images/props/mesh.png"),
 	["girder"] = love.graphics.newImage("data/images/props/girder.png")
 }
@@ -36,27 +35,6 @@ props_textures = {
 function props:add(x,y,type)
 
 	local gfx = props_textures[type]
-	
-	--fix this
-	-- log should be moved to "traps" when class is impleneted
-	if type == "log" then
-		table.insert(props, {
-			--dimensions
-			x = x or 0,
-			y = y or 0,
-			w = gfx:getWidth(),
-			h = gfx:getHeight(),
-			--properties
-			name = "log",
-			gfx = gfx,
-			falling = false,
-			timer = 0.05,
-			mass = 800,
-			yvel = 0,
-		})
-		print("log added @  X:"..x.." Y: "..y)
-		return
-	end
 	
 	table.insert(props, {
 		--dimensions

@@ -73,6 +73,7 @@ editor.entities = {
 	"platform_y" ,
 	"platform_s" ,
 	"log",
+	"bridge",
 	"water",
 	"stream",
 	"lava",
@@ -363,7 +364,8 @@ function editor:mousepressed(x,y,button)
 		if selection == "icicle" then enemies:icicle(x,y) end
 		if selection == "flower" then props:add(x,y,"flower") end
 		if selection == "grass" then props:add(x,y,"grass") end
-		if selection == "log" then props:add(x,y,"log") end
+		if selection == "log" then traps:add(x,y,"log") end
+		if selection == "bridge" then traps:add(x,y,"bridge") end
 		if selection == "rock" then props:add(x,y,"rock") end
 		if selection == "tree" then props:add(x,y,"tree") end
 		if selection == "arch" then props:add(x,y,"arch") end
@@ -807,15 +809,10 @@ end
 
 
 function editor:drawselected()
-	return self:selection(enemies) or
-			self:selection(pickups) or	
-			self:selection(portals) or		
-			self:selection(crates) or
-			self:selection(checkpoints) or
-			self:selection(springs) or
-			self:selection(props) or
-			self:selection(platforms) or
-			self:selection(decals) 
+	local entities = {enemies,pickups,portals,crates,checkpoints,springs,props,platforms,decals,traps}
+	for _,e in ipairs(entities) do
+		self:selection(e)
+	end
 end
 
 function editor:selection(entities, x,y,w,h)
@@ -879,7 +876,8 @@ function editor:removesel()
 			self:remove(platforms) or
 			self:remove(decals) or 
 			self:remove(bumpers) or 
-			self:remove(materials)
+			self:remove(materials) or 
+			self:remove(traps)
 end
 
 function editor:removeall(entities, name)

@@ -157,7 +157,11 @@ function physics:world(dt)
 		self:update(object)
 	end
 	
-	self:propsworld(dt)
+	self:player(dt)
+	self:pickups(dt)
+	self:enemies(dt)		
+	self:trapsworld(dt)
+	
 end
 
 
@@ -393,7 +397,7 @@ function physics:pickups(dt)
 				self:applyGravity(pickup, dt)
 				pickup.newX = pickup.x + (pickup.xvel *dt)
 			
-				self:props(pickup,dt)
+				self:traps(pickup,dt)
 				self:platforms(pickup, dt)
 				self:crates(pickup, dt)			
 				
@@ -419,7 +423,7 @@ function physics:enemies(dt)
 			if enemy.name == "walker" then
 				self:applyGravity(enemy, dt)
 				self:movex(enemy, dt)
-				self:props(enemy, dt)
+				self:traps(enemy, dt)
 				self:platforms(enemy, dt)
 				--self:crates(enemy, dt)
 				
@@ -525,7 +529,7 @@ function physics:player(dt)
 			self:applyGravity(player, dt)
 			self:applyRotation(player,math.pi*8,dt)
 	
-			self:props(player,dt)
+			self:traps(player,dt)
 			self:crates(player,dt)
 			self:bumpers(player,dt)
 			self:platforms(player, dt)
@@ -559,16 +563,16 @@ function physics:player(dt)
 	
 end
 
-function physics:propsworld(dt)
-	for i, prop in ipairs(props) do
-		if prop.falling then
-			prop.timer = math.max(0, prop.timer - dt)
+function physics:trapsworld(dt)
+	for i, trap in ipairs(traps) do
+		if trap.falling then
+			trap.timer = math.max(0, trap.timer - dt)
 				
-			if prop.timer <= 0 then
-				physics:applyGravity(prop, dt)
-				physics:update(prop)
-				if not world:inview(prop) then
-					table.remove(props, i)
+			if trap.timer <= 0 then
+				physics:applyGravity(trap, dt)
+				physics:update(trap)
+				if not world:inview(trap) then
+					table.remove(trap, i)
 				end
 						
 			end
@@ -578,26 +582,22 @@ end
 
 
 
-function physics:props(object, dt)
-	for i, prop in ipairs(props) do
-		if prop.name == "log" then
-				if collision:check(object.newX,object.newY,object.w,object.h, prop.x,prop.y,prop.w,prop.h) then
-					if collision:top(object,prop) and object.yvel < 0 then
-						object.newY = prop.y - object.h -1 *dt
-						object.yvel = 0
-						object.jumping = false
+function physics:traps(object, dt)
+	for i, trap in ipairs(traps) do
+		if trap.name == "log" or trap.name == "bridge" then
+			if collision:check(object.newX,object.newY,object.w,object.h, trap.x,trap.y,trap.w,trap.h) then
+				if collision:top(object,trap) and object.yvel < 0 then
+					object.newY = trap.y - object.h -1 *dt
+					object.yvel = 0
+					object.jumping = false
 
-						-- only player can make logs fall
-						if object.name == "player" and mode == "game" then
-							prop.falling = true
-							sound:play(sound.effects["creek"])
-						end
-						
-					end		
-				
-				end
-					
-			
+					-- only player can make logs fall
+					if object.name == "player" and mode == "game" then
+						trap.falling = true
+						sound:play(sound.effects["creek"])
+					end
+				end		
+			end			
 		end
 	end
 end
