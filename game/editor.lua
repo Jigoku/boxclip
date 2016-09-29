@@ -292,6 +292,35 @@ function editor:adjustent(dir,dt)
 	end
 end
 
+function editor:wheelmoved(x, y)
+    
+    
+    if love.keyboard.isDown("lctrl") then
+		if y > 0 then
+			if camera.scaleX > self.mincamerascale then
+				camera.scaleX = camera.scaleX - 0.1
+				camera.scaleY = camera.scaleY - 0.1
+			else
+				camera.scaleX = self.mincamerascale
+				camera.scaleY = self.mincamerascale
+			end
+		elseif y < 0 then
+			if camera.scaleX < self.maxcamerascale then
+				camera.scaleX = camera.scaleX + 0.1
+				camera.scaleY = camera.scaleY + 0.1
+			else
+				camera.scaleX = self.maxcamerascale
+				camera.scaleY = self.maxcamerascale
+			end
+		end
+	else
+		if y > 0 then
+			editor.entsel = editor.entsel -1
+		elseif y < 0 then
+			editor.entsel = editor.entsel +1
+		end
+	end
+end
 
 function editor:mousepressed(x,y,button)
 	if not editing then return end
@@ -303,37 +332,11 @@ function editor:mousepressed(x,y,button)
 	local x = math.round(self.mouse.pressed.x,-1)
 	local y = math.round(self.mouse.pressed.y,-1)
 	
-	if love.keyboard.isDown("lctrl") then
-		if button == "wu" then 
-			if camera.scaleX > self.mincamerascale then
-				camera.scaleX = camera.scaleX - 0.1
-				camera.scaleY = camera.scaleY - 0.1
-			else
-				camera.scaleX = self.mincamerascale
-				camera.scaleY = self.mincamerascale
-			end
-		end
-		if button == "wd" then 
-			if camera.scaleX < self.maxcamerascale then
-				camera.scaleX = camera.scaleX + 0.1
-				camera.scaleY = camera.scaleY + 0.1
-			else
-				camera.scaleX = self.maxcamerascale
-				camera.scaleY = self.maxcamerascale
-			end
-		end
-	else
-		if button == "wu" then 
-			editor.entsel = editor.entsel -1
-		end
-		if button == "wd" then
-			editor.entsel = editor.entsel +1
-		end
-	end
+
 	
 	
 	
-	if button == 'l' then
+	if button == 1 then
 		local selection = self.entities[self.entsel]
 		
 		if selection == "spawn" then
@@ -374,7 +377,7 @@ function editor:mousepressed(x,y,button)
 		if selection == "bumper" then bumpers:add(x,y) end
 		
 		
-	elseif button == 'r' then
+	elseif button == 2 then
 		self:removesel()
 	end
 end
@@ -389,7 +392,7 @@ function editor:mousereleased(x,y,button)
 	
 	editor.drawsel = false
 
-	if button == 'l' then 
+	if button == 1 then 
 		for _,entity in ipairs(self.draggable) do
 			if self.entities[self.entsel] == entity then
 				self:placedraggable(self.mouse.pressed.x,self.mouse.pressed.y,self.mouse.released.x,self.mouse.released.y)
@@ -398,7 +401,7 @@ function editor:mousereleased(x,y,button)
 		return
 	end
 	
-	if button == 'm' then
+	if button == 3 then
 		for i,entity in ripairs(platforms) do
 			if world:inview(entity) then
 				if entity.movex == 1 then
@@ -598,7 +601,7 @@ function editor:drawhelpmenu()
 	
 	
 	love.graphics.setCanvas(self.helpmenu)
-	self.helpmenu:clear()
+	love.graphics.clear()
 	
 	--frame
 	love.graphics.setColor(0,0,0,200)
@@ -732,7 +735,7 @@ function editor:drawentmenu()
 	--gui scrolling list for entity selection
 
 	love.graphics.setCanvas(self.entmenu)
-	self.entmenu:clear()
+	love.graphics.clear()
 		
 	--frame
 	love.graphics.setColor(0,0,0,150)
@@ -820,7 +823,7 @@ function editor:selection(entities, x,y,w,h)
 	editor.selname = "null"
 	love.graphics.setColor(0,255,0,200)
 	
-	if love.mouse.isDown("m") then return end
+	if love.mouse.isDown(3) then return end
 	
 	for i, entity in ripairs(entities) do
 		entity.selected = false
@@ -987,7 +990,7 @@ end
 function editor:drawmmap()
 	
 	love.graphics.setCanvas(self.mmapcanvas)
-	self.mmapcanvas:clear()
+	love.graphics.clear()
 
 
 	love.graphics.setColor(0,0,0,100)
@@ -1105,7 +1108,7 @@ function editor:mousemoved(x,y,dx,dy)
 	self.mouse.x = math.round(camera.x-(game.width/2*camera.scaleX)+x*camera.scaleX,-1)
 	self.mouse.y = math.round(camera.y-(game.height/2*camera.scaleY)+y*camera.scaleX,-1)
 
-	if love.mouse.isDown("l") then
+	if love.mouse.isDown(1) then
 		editor.drawsel = true
 	else
 		editor.drawsel = false

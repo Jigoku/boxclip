@@ -1,8 +1,12 @@
 input = {}
 
 function input:checkkeys(dt)
-	if mode == "game" or mode == "editing" then player:checkkeys(dt) end
-	if editing then editor:checkkeys(dt) end
+	if mode == "game" then player:checkkeys(dt) end
+	
+	if mode == "editing" then
+		player:checkkeys(dt)
+		if editing then editor:checkkeys(dt) end
+	end
 end
 
 function love.mousemoved(x,y,dx,dy)
@@ -17,6 +21,11 @@ function love.mousereleased(x, y, button)
 	if mode == "editing" then editor:mousereleased(x,y,button) end
 end
 
+
+function love.wheelmoved(x, y)
+	if mode == "editing" then editor:wheelmoved(x,y) end
+end
+
 function love.keypressed(key)
 	
 	if mode == "title" then title:keypressed(key) end
@@ -24,15 +33,15 @@ function love.keypressed(key)
 	
 	if mode == "game" then
 		if key == binds.pause then
-			paused = not paused
+				paused = not paused
 			
-			if not paused then 
-				love.audio.resume()
-			else 
-				love.audio.pause()
-			end
-				
-			sound:play(sound.effects["beep"])
+				if not paused then 
+					love.audio.resume()
+				else 
+					love.audio.pause()
+				end
+					
+				sound:play(sound.effects["beep"])
 		end
 	end
 	

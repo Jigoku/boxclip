@@ -7,7 +7,7 @@ default_width = 1024
 default_height = 768
 
 function love.conf(t)
-	t.version = "0.9.2"
+	t.version = "0.10.1"
 	t.window.title = name .. " " .. version
 	t.window.width = default_width
 	t.window.height = default_height

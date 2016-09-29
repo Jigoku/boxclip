@@ -252,7 +252,7 @@ function player:attack(enemy)
 end
 
 function player:jump()
-	if not self.jumping or cheats.jetpack then
+	if self.alive and not self.jumping or cheats.jetpack then
 		sound:play(sound.effects["jump"])
 		self.jumping = true
 		self.yvel = self.jumpheight					
@@ -260,7 +260,7 @@ function player:jump()
 end
 
 function player:drop()
-	if not self.jumping then
+	if self.alive and not self.jumping then
 		if self.candrop then
 			self.jumping = true
 
@@ -286,30 +286,26 @@ function player:checkkeys(dt)
 	if paused or editing or world.splash.active then return end
 	
 	if self.alive then
-		if love.keyboard.isDown(binds.right)  then
+		if love.keyboard.isDown(binds.right) then
 			self:moveright()
-	
 		elseif love.keyboard.isDown(binds.left) then
 			self:moveleft()
-			
 		else
 			self.dir = "idle"
 		end
+	
 	end
 end
+
 
 function player:keypressed(key)
 	if paused or editing or world.splash.active then return end 
 	
-	if self.alive then
-		--jump
-		if key == binds.jump then
-			if love.keyboard.isDown(binds.down) then
-				self:drop()
-			else
-				self:jump()
-			end
+	if key == binds.jump then
+		if love.keyboard.isDown(binds.down) then
+			self:drop()
+		else
+			self:jump()
 		end
 	end
-
 end

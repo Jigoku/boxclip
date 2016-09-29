@@ -17,7 +17,7 @@
 
 function mapio:savemap(map)
 
-	local fh = io.open("maps/" .. map, "w+")
+	local fh = io.open(love.filesystem.getSource( ) .. "maps/" .. map, "w+")
 	fh:write("world.mapmusic = ".. world.mapmusic .."\n")
 	fh:write("world.mapambient = "..world.mapambient.."\n")
 	fh:write("world.maptitle = \"".. (world.maptitle  or "unnamed map") .."\"\n")

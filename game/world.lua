@@ -163,7 +163,7 @@ function world:draw()
 		
 		love.graphics.setColor(255,255,255,255)
 		love.graphics.setCanvas(self.scoreboard.canvas)
-		self.scoreboard.canvas:clear()
+		love.graphics.clear()
 		
 		love.graphics.setFont(fonts.scoreboard)
 		
@@ -319,8 +319,6 @@ function world:inview(entity)
 		end
 	
 end
-
-
 
 
 function world:update(dt)

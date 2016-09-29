@@ -17,7 +17,7 @@ musicbrowser.buttons = {
 function musicbrowser:draw()
 	love.graphics.setColor(255,255,255,155)
 	love.graphics.setCanvas(self.canvas)
-	self.canvas:clear()
+	love.graphics.clear()
 
 	love.graphics.setColor(0,0,0,150)
 	love.graphics.rectangle("fill", 0,0,self.w,self.h)
