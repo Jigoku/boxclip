@@ -1,5 +1,5 @@
 #Boxclip
-A 2d platform engine using the love2d framework with a built in map editor.
+A 2d platform engine using the love2d framework with a custom built-in map editor.
 
 ![screenshot_20160929_030241](https://cloud.githubusercontent.com/assets/1535179/18938592/9855650c-85f1-11e6-8ab5-de84e028235c.png)
 
