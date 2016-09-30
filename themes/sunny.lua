@@ -1,6 +1,6 @@
-platform_r = 250
-platform_g = 180
-platform_b = 106
+platform_r = 255
+platform_g = 185
+platform_b = 111
 platform_behind_r = 180
 platform_behind_g = 110
 platform_behind_b = 80
@@ -14,6 +14,6 @@ crate_r = 230
 crate_g = 220
 crate_b = 180
 background = love.graphics.newImage("data/images/backgrounds/sky.png")
-background_scrollspeed = 30
+background_scrollspeed = -25
 
 
