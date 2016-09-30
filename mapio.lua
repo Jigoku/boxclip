@@ -55,7 +55,7 @@ function mapio:savemap(map)
 	end
 	for i, entity in ipairs(enemies) do
 			print (entity)
-			fh:write("enemies:add("..math.round(entity.xorigin)..","..math.round(entity.y)..","..entity.movespeed..","..entity.movedist ..","..entity.dir..",\""..entity.name.."\")\n")
+			fh:write("enemies:add("..math.round(entity.xorigin)..","..math.round(entity.yorigin)..","..entity.movespeed..","..entity.movedist ..","..entity.dir..",\""..entity.name.."\")\n")
 	end
 	for i, entity in ipairs(props) do
 		fh:write("props:add("..math.round(entity.x)..","..math.round(entity.y)..",\""..entity.name.."\")\n")
