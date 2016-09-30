@@ -352,22 +352,28 @@ function editor:mousepressed(x,y,button)
 		end
 		
 		if selection == "crate" then crates:add(x,y,"gem") end
-		if selection == "walker" then enemies:walker(x,y,100,100) end
-		if selection == "floater" then enemies:floater(x,y,100,400) end
-		if selection == "spikeball" then enemies:spikeball(x,y) end
+		
+		if selection == "walker" then enemies:add(x,y,100,100,0,"walker") end
+		if selection == "floater" then enemies:add(x,y,100,400,0,"floater") end
+		if selection == "spikeball" then enemies:add(x,y,0,0,0,"spikeball") end
+		if selection == "spike" then enemies:add(x,y,0,0,self.entdir,"spike") end
+		if selection == "spike_large" then enemies:add(x,y,0,0,self.entdir,"spike_large") end
+		if selection == "icicle" then enemies:add(x,y,0,0,0,"icicle") end
+		
 		if selection == "platform_s" then platforms:add(x,y,1,20,0,0,0,2,0,1,0) end
+		
 		if selection == "checkpoint" then checkpoints:add(x,y) end
+		
 		if selection == "gem" then pickups:add(x,y,"gem") end
 		if selection == "life" then pickups:add(x,y,"life") end
 		if selection == "magnet" then pickups:add(x,y,"magnet") end
 		if selection == "shield" then pickups:add(x,y,"shield") end
-		if selection == "spike" then enemies:spike(x,y,self.entdir) end
-		if selection == "spike_large" then enemies:spike_large(x,y,self.entdir) end
-		if selection == "icicle" then enemies:icicle(x,y) end
-		if selection == "flower" then props:add(x,y,"flower") end
-		if selection == "grass" then props:add(x,y,"grass") end
+
 		if selection == "log" then traps:add(x,y,"log") end
 		if selection == "bridge" then traps:add(x,y,"bridge") end
+		
+		if selection == "flower" then props:add(x,y,"flower") end
+		if selection == "grass" then props:add(x,y,"grass") end
 		if selection == "rock" then props:add(x,y,"rock") end
 		if selection == "tree" then props:add(x,y,"tree") end
 		if selection == "arch" then props:add(x,y,"arch") end
@@ -377,9 +383,11 @@ function editor:mousepressed(x,y,button)
 		if selection == "mesh" then props:add(x,y,"mesh") end
 		if selection == "pillar" then props:add(x,y,"pillar") end
 		if selection == "girder" then props:add(x,y,"girder") end
+		
 		if selection == "spring_s" then springs:add(x,y,self.entdir,"spring_s") end
 		if selection == "spring_m" then springs:add(x,y,self.entdir,"spring_m") end
 		if selection == "spring_l" then springs:add(x,y,self.entdir,"spring_l") end
+		
 		if selection == "bumper" then bumpers:add(x,y) end
 		
 		

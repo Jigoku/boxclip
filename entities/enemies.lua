@@ -37,196 +37,192 @@ icicle_d_hell = love.graphics.newImage( "data/images/enemies/icicle_d_hell.png")
 spikeball = love.graphics.newImage( "data/images/enemies/spikeball.png")
 
 
-function enemies:walker(x,y,movespeed,movedist)
-	table.insert(enemies, {
-		--movement
-		movespeed = movespeed or 100,
-		movedist = movedist or 200,
-		movex = 1,
-		--origin
-		xorigin = x,
-		yorigin = y,
-		
-		--position
-		x = math.random(x,x+movedist) or 0,
-		y = y or 0,
-		
-		--dimension
-		w = 30,
-		h = 30,
-		
-		--properties
-		name = "walker",
-		mass = 800,
-		xvel = 0,
-		yvel = 0,
-		dir = "right",
-		alive = true,
-		score = 230,
-		newY = y,
-		
-		gfx = walker,
-		
-	})
-	print( "walker added @  X:"..x.." Y: "..y)
-end
+
+function enemies:add(x,y,movespeed,movedist,dir,type)
 
 
-function enemies:spike(x,y,dir)
+	if type == "walker" then
+		table.insert(enemies, {
+			--movement
+			movespeed = movespeed or 100,
+			movedist = movedist or 200,
+			movex = 1,
+			dir = 0,
+			--origin
+			xorigin = x,
+			yorigin = y,
+			
+			--position
+			x = math.random(x,x+movedist) or 0,
+			y = y or 0,
+			
+			--dimension
+			w = 30,
+			h = 30,
+			
+			--properties
+			name = "walker",
+			mass = 800,
+			xvel = 0,
+			yvel = 0,
+			dir = "right",
+			alive = true,
+			score = 230,
+			newY = y,
+			
+			gfx = walker,
+			
+		})
+		print( "walker added @  X:"..x.." Y: "..y)
+	elseif type == "spike" then
+		if dir == 0 or dir == 1 then
+			width = 80
+			height = 50
+		end
+		if dir == 2 or dir == 3 then
+			width = 50
+			height = 80
+		end
+		table.insert(enemies, {		
+			--position
+			x = x or 0,
+			y = y or 0,
+			xorigin = x,
+			yorigin = y,
+			
+			--dimension
+			w = width,
+			h = height,
+			
+			--properties
+			name = "spike",
+			alive = true,
+			movedist = 0,
+			gfx = spike_gfx,
+			dir = dir,
+			movespeed = 0,
+			movedist = 0,
+			
+		})
+		print( "spike added @  X:"..x.." Y: "..y)
+	elseif type == "spike_large" then
+		if dir == 0 or dir == 1 then
+			width = 160
+			height = 50
+		end
+		if dir == 2 or dir == 3 then
+			width = 50
+			height = 160
+		end
+		table.insert(enemies, {		
+			--position
+			x = x or 0,
+			y = y or 0,
+			xorigin = x,
+			yorigin = y,
+			
+			--dimension
+			w = width,
+			h = height,
+			
+			--properties
+			name = "spike_large",
+			alive = true,
+			movedist = 0,
+			movespeed = 0,
+			gfx = spike_large_gfx,
+			dir = dir
+			
+		})
+		print( "spike_large added @  X:"..x.." Y: "..y)
+	elseif type == "icicle" then
+		table.insert(enemies, {		
+			--position
+			x = x or 0,
+			y = y or 0,
+			xorigin = x,
+			yorigin = y,
+			
+			--dimension
+			w = 20,
+			h = 50,
+			
+			--properties
+			name = "icicle",
+			alive = true,
+			falling = false,
+			mass = 800,
+			gfx = icicle_gfx,
+			yvel = 0,
+			jumping = 0,
+			movespeed = 0,
+			movedist = 0,
+			dir = 0,
+		})
+		print( "icicle added @  X:"..x.." Y: "..y)
+	elseif type == "floater" then
+		table.insert(enemies, {
+			--movement
+			movespeed = movespeed or 100,
+			movedist = movedist or 400,
+			movex = 1,
+			--origin
+			xorigin = x,
+			yorigin = y,
+		
+			--position
+			x = math.random(x,x+movedist) or 0,
+			y = y or 0,
+		
+			--dimension
+			w = 50,
+			h = 40,
+		
+			--properties
+			name = "floater",
+			mass = 0,
+			xvel = 0,
+			yvel = 0,
+			dir = 0,
 
-	if dir == 0 or dir == 1 then
-		width = 80
-		height = 50
+			alive = true,
+			score = 350,
+			--newY = y,
+			
+			gfx = floater,
+		
+		})
+		print( "floater added @  X:"..x.." Y: "..y)
+	
+	
+	
+	elseif type == "spikeball" then
+		table.insert(enemies, {
+		
+			gfx = spikeball,
+			w = spikeball:getWidth(),
+			h = spikeball:getHeight(),
+			xorigin = x,
+			yorigin = y,
+			x = x or 0,
+			y = y or 0,
+			
+			--properties
+			name = "spikeball",
+			speed = 3,
+			alive = true,
+			swing = 1,
+			angle = 0,
+			radius = 200,
+			movespeed = 0,
+			movedist = 0,
+			dir = 0,
+		})
+		print( "spikeball added @  X:"..x.." Y: "..y)
 	end
-	if dir == 2 or dir == 3 then
-		width = 50
-		height = 80
-	end
-	table.insert(enemies, {		
-		--position
-		x = x or 0,
-		y = y or 0,
-		xorigin = x,
-		yorigin = y,
-		
-		--dimension
-		w = width,
-		h = height,
-		
-		--properties
-		name = "spike",
-		alive = true,
-		movedist = 0,
-		gfx = spike_gfx,
-		dir = dir
-		
-	})
-	print( "spike added @  X:"..x.." Y: "..y)
+	
 end
 
-
-function enemies:spike_large(x,y,dir)
-
-	if dir == 0 or dir == 1 then
-		width = 160
-		height = 50
-	end
-	if dir == 2 or dir == 3 then
-		width = 50
-		height = 160
-	end
-	table.insert(enemies, {		
-		--position
-		x = x or 0,
-		y = y or 0,
-		xorigin = x,
-		yorigin = y,
-		
-		--dimension
-		w = width,
-		h = height,
-		
-		--properties
-		name = "spike_large",
-		alive = true,
-		movedist = 0,
-		gfx = spike_large_gfx,
-		dir = dir
-		
-	})
-	print( "spike_large added @  X:"..x.." Y: "..y)
-end
-
-function enemies:icicle(x,y)
-	table.insert(enemies, {		
-		--position
-		x = x or 0,
-		y = y or 0,
-		xorigin = x,
-		yorigin = y,
-		
-		--dimension
-		w = 20,
-		h = 50,
-		
-		--properties
-		name = "icicle",
-		alive = true,
-		falling = false,
-		mass = 800,
-		gfx = icicle_gfx,
-		yvel = 0,
-		jumping = 0,
-		
-	})
-	print( "icicle added @  X:"..x.." Y: "..y)
-end
-
-function enemies:floater(x,y,movespeed,movedist)
-	table.insert(enemies, {
-		--movement
-		movespeed = movespeed or 100,
-		movedist = movedist or 400,
-		movex = 1,
-		--origin
-		xorigin = x,
-		yorigin = y,
-		
-		--position
-		x = math.random(x,x+movedist) or 0,
-		y = y or 0,
-		
-		--dimension
-		w = 50,
-		h = 40,
-		
-		--properties
-		name = "floater",
-		mass = 0,
-		xvel = 0,
-		yvel = 0,
-		dir = "right",
-		alive = true,
-		score = 350,
-		--newY = y,
-		
-		gfx = floater,
-		
-	})
-	print( "walker added @  X:"..x.." Y: "..y)
-end
-
-function enemies:spikeball(x,y)
-	table.insert(enemies, {
-		
-		gfx = spikeball,
-		
-		--dimension
-		w = spikeball:getWidth(),
-		h = spikeball:getHeight(),
-		--origin
-		xorigin = x,
-		yorigin = y,
-		
-		--position
-		x = x or 0,
-		y = y or 0,
-		
-
-		
-		--properties
-		name = "spikeball",
-		
-		speed = 2,
-		alive = true,
-		--newY = y,
-		swing = 1,
-		angle = 0,
-		radius = 200,
-
-	})
-	print( "spikeball added @  X:"..x.." Y: "..y)
-end
 
 function enemies:draw()
 	local count = 0

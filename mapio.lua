@@ -54,25 +54,8 @@ function mapio:savemap(map)
 		fh:write("checkpoints:add("..math.round(entity.x)..","..math.round(entity.y)..")\n")
 	end
 	for i, entity in ipairs(enemies) do
-		if entity.name == "walker" then
-			fh:write("enemies:walker("..math.round(entity.xorigin)..","..math.round(entity.y)..","..entity.movespeed..","..entity.movedist..")\n")
-		end
-		if entity.name == "floater" then
-			fh:write("enemies:floater("..math.round(entity.xorigin)..","..math.round(entity.y)..","..entity.movespeed..","..entity.movedist..")\n")
-		end
-		if entity.name == "spikeball" then
-			fh:write("enemies:spikeball("..math.round(entity.xorigin)..","..math.round(entity.yorigin)..")\n")
-		end
-		if entity.name == "spike" then
-			fh:write("enemies:spike("..math.round(entity.x)..","..math.round(entity.y)..","..math.round(entity.dir)..")\n")
-		end
-		if entity.name == "spike_large" then
-			fh:write("enemies:spike_large("..math.round(entity.x)..","..math.round(entity.y)..","..math.round(entity.dir)..")\n")
-		end
-		
-		if entity.name == "icicle" then
-			fh:write("enemies:icicle("..math.round(entity.x)..","..math.round(entity.y)..")\n")
-		end
+			print (entity)
+			fh:write("enemies:add("..math.round(entity.xorigin)..","..math.round(entity.y)..","..entity.movespeed..","..entity.movedist ..","..entity.dir..",\""..entity.name.."\")\n")
 	end
 	for i, entity in ipairs(props) do
 		fh:write("props:add("..math.round(entity.x)..","..math.round(entity.y)..",\""..entity.name.."\")\n")
