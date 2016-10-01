@@ -124,8 +124,8 @@ function world:draw()
 		if type(background) == "userdata" then
 			love.graphics.draw(
 				background, background_quad,
-				camera.x-game.width/2*camera.scaleX,
-				camera.y-game.height/2*camera.scaleY
+				camera.x-(game.width/2*camera.scaleX),
+				camera.y-(game.height/2*camera.scaleY)
 			)
 		end
 	end
@@ -344,7 +344,7 @@ function world:update(dt)
 			if background_scroll > background:getWidth()then
 				background_scroll = background_scroll - background:getWidth()
 			end
-			background_quad:setViewport(camera.x/5-background_scroll,camera.y/10,game.width*camera.scaleX,game.height*camera.scaleY )
+			background_quad:setViewport(camera.x/10-background_scroll,camera.y/20,game.width*camera.scaleX,game.height*camera.scaleY )
 		else
 			background_scroll = 0
 		end
@@ -392,4 +392,22 @@ function world:update(dt)
 	end
 
 		
+end
+
+
+
+function world:sendtoback(t,i)
+	local item = t[i]
+	table.remove(t,i)
+	table.insert(t,1,item)
+
+	print( t[i].name .. " (" .. i .. ") sent to back" )
+end
+
+function world:sendtofront(t,i)
+	local item = t[i]
+	table.remove(t,i)
+	table.insert(t,#t,item)
+
+	print( t[i].name .. " (" .. i .. ") sent to front" )
 end

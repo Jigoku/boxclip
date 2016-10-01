@@ -570,6 +570,7 @@ function physics:trapsworld(dt)
 				
 			if trap.timer <= 0 then
 				physics:applyGravity(trap, dt)
+				--physics:applyVelocity(trap, dt)
 				physics:update(trap)
 				if not world:inview(trap) then
 					table.remove(trap, i)
@@ -584,20 +585,55 @@ end
 
 function physics:traps(object, dt)
 	for i, trap in ipairs(traps) do
-		if trap.name == "log" or trap.name == "bridge" then
+		
 			if collision:check(object.newX,object.newY,object.w,object.h, trap.x,trap.y,trap.w,trap.h) then
-				if collision:top(object,trap) and object.yvel < 0 then
-					object.newY = trap.y - object.h -1 *dt
-					object.yvel = 0
-					object.jumping = false
+			
+				if trap.name == "log" or trap.name == "bridge" then
+					if collision:top(object,trap) and object.yvel < 0 then
+						object.newY = trap.y - object.h -1 *dt
+						object.yvel = 0
+						object.jumping = false
 
-					-- only player can make logs fall
-					if object.name == "player" and mode == "game" then
-						trap.falling = true
-						sound:play(sound.effects["creek"])
-					end
-				end		
-			end			
-		end
+						-- only player can make logs fall
+						if object.name == "player" and mode == "game" then
+							trap.falling = true
+							sound:play(sound.effects["creek"])
+						end
+					end		
+				end	
+				
+				if trap.name == "brick" then
+				
+					if collision:right(object,trap) and not collision:top(object,trap) then
+						object.newX = trap.x+trap.w +1 *dt
+					--	object.xvel = -object.xvel
+					
+					elseif collision:left(object,trap) and not collision:top(object,trap) then
+						object.newX = trap.x-object.w -1 *dt
+					--	object.xvel = -object.xvel
+
+					elseif collision:bottom(object,trap) then
+						object.newY = trap.y +trap.h +1 *dt
+					--	object.yvel = -object.yvel
+			
+					elseif collision:top(object,trap) then
+						if object.jumping then
+							object.newY = trap.y - object.h -1 *dt
+							object.yvel = -object.yvel
+								if mode == "game" then
+									world:sendtofront(traps,i)
+									trap.yvel = 500								
+									trap.falling = true
+									sound:play(sound.effects["crate"])
+								end
+						else
+							object.newY = trap.y - object.h -1 *dt
+							object.yvel = 0
+						end
+					end		
+				end	
+			end
+		
 	end
 end
+

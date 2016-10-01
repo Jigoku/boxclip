@@ -18,13 +18,13 @@ traps = {}
 traps_textures = {
 	["log"] = love.graphics.newImage("data/images/traps/log.png"),
 	["bridge"] = love.graphics.newImage("data/images/traps/bridge.png"),
+	["brick"] = love.graphics.newImage("data/images/traps/brick.png"),
 }
 
 
 function traps:add(x,y,type)
 
 	local gfx = traps_textures[type]
-	
 
 	table.insert(traps, {
 		--dimensions
@@ -38,6 +38,7 @@ function traps:add(x,y,type)
 		falling = false,
 		timer = 0.05,
 		mass = 800,
+		xvel = 0,
 		yvel = 0,
 	})
 	print(type .." added @  X:"..x.." Y: "..y)
@@ -79,4 +80,9 @@ function traps:drawDebug(trap, i)
 	
 	editor:drawid(trap, i)
 	editor:drawCoordinates(trap)
+end
+
+
+function traps:destroy(i)
+
 end

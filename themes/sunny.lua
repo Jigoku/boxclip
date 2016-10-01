@@ -14,6 +14,6 @@ crate_r = 230
 crate_g = 220
 crate_b = 180
 background = love.graphics.newImage("data/images/backgrounds/sky.png")
-background_scrollspeed = -25
+background_scrollspeed = -15
 
 

@@ -74,6 +74,7 @@ editor.entities = {
 	"platform_s" ,
 	"log",
 	"bridge",
+	"brick",
 	"water",
 	"stream",
 	"lava",
@@ -98,6 +99,9 @@ editor.entities = {
 	"arch" ,
 	"arch2",
 	"arch3",
+	"arch3_end_l",
+	"arch3_end_r",
+	"arch3_pillar",
 	"porthole",
 	"mesh",
 	"girder",
@@ -371,6 +375,7 @@ function editor:mousepressed(x,y,button)
 
 		if selection == "log" then traps:add(x,y,"log") end
 		if selection == "bridge" then traps:add(x,y,"bridge") end
+		if selection == "brick" then traps:add(x,y,"brick") end
 		
 		if selection == "flower" then props:add(x,y,"flower") end
 		if selection == "grass" then props:add(x,y,"grass") end
@@ -379,6 +384,9 @@ function editor:mousepressed(x,y,button)
 		if selection == "arch" then props:add(x,y,"arch") end
 		if selection == "arch2" then props:add(x,y,"arch2") end
 		if selection == "arch3" then props:add(x,y,"arch3") end
+		if selection == "arch3_end_l" then props:add(x,y,"arch3_end_l") end
+		if selection == "arch3_end_r" then props:add(x,y,"arch3_end_r") end
+		if selection == "arch3_pillar" then props:add(x,y,"arch3_pillar") end
 		if selection == "porthole" then props:add(x,y,"porthole") end
 		if selection == "mesh" then props:add(x,y,"mesh") end
 		if selection == "pillar" then props:add(x,y,"pillar") end
@@ -423,14 +431,14 @@ function editor:mousereleased(x,y,button)
 			if world:inview(entity) then
 				if entity.movex == 1 then
 					if collision:check(self.mouse.x,self.mouse.y,1,1,entity.xorigin, entity.y, entity.movedist+entity.w, entity.h) then
-						self:sendtoback(entitytype,i)
+						world:sendtoback(entitytype,i)
 						
 						return true
 					end
 				elseif entity.movey == 1 then
 					if collision:check(self.mouse.x,self.mouse.y,1,1,entity.xorigin, entity.yorigin, entity.w, entity.h+entity.movedist) then
 					
-						self:sendtoback(entitytype,i)
+						world:sendtoback(entitytype,i)
 						return true
 					end
 				
@@ -441,14 +449,14 @@ function editor:mousereleased(x,y,button)
 							platform_link_origin:getWidth(),platform_link_origin:getHeight()
 						) then
 						
-							self:sendtoback(entitytype,i)
+							world:sendtoback(entitytype,i)
 							return true
 						
 					end
 			
 				elseif collision:check(self.mouse.x,self.mouse.y,1,1, entity.x,entity.y,entity.w,entity.h) then
 
-					self:sendtoback(entitytype,i)
+					world:sendtoback(entitytype,i)
 					return true
 			
 				end
@@ -460,13 +468,6 @@ function editor:mousereleased(x,y,button)
 end
 
 
-function editor:sendtoback(t,i)
-	local item = t[i]
-	table.remove(t,i)
-	table.insert(t,1,item)
-
-	print( t[i].name .. " (" .. i .. ") sent to back" )
-end
 
 
 function editor:sendtospawn(entity)
