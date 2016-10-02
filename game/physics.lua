@@ -569,8 +569,15 @@ function physics:trapsworld(dt)
 			trap.timer = math.max(0, trap.timer - dt)
 				
 			if trap.timer <= 0 then
+			
+				if trap.name == "brick" then
+					trap.segments[1].x = trap.segments[1].x - trap.xvel *dt
+					trap.segments[2].x = trap.segments[2].x + trap.xvel *dt
+					trap.segments[3].x = trap.segments[3].x - trap.xvel*0.5 *dt
+					trap.segments[4].x = trap.segments[4].x + trap.xvel*0.5 *dt
+				end
+			
 				physics:applyGravity(trap, dt)
-				--physics:applyVelocity(trap, dt)
 				physics:update(trap)
 				if not world:inview(trap) then
 					table.remove(trap, i)
