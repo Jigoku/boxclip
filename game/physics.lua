@@ -21,18 +21,18 @@ function physics:applyVelocity(object, dt)
 		if object.dir == "right" then
 			if object.xvel < object.speed and not (object.xvelboost < 0) then
 				if object.jumping then
-					object.xvel = (object.xvel + object.speed*2/1.5 *dt)
+					object.xvel = (object.xvel + object.speed*2/2 *dt)
 				else
-					object.xvel = (object.xvel + object.speed*2 *dt)
+					object.xvel = (object.xvel + object.speed*1.3 *dt)
 				end
 			end
 		end
 		if object.dir == "left"  then
 			if not (object.xvel < -object.speed) and not (object.xvelboost > 0) then
 				if object.jumping then
-					object.xvel = (object.xvel - object.speed*2/1.5 *dt)
+					object.xvel = (object.xvel - object.speed*2/2 *dt)
 				else
-					object.xvel = (object.xvel - object.speed*2 *dt)
+					object.xvel = (object.xvel - object.speed*1.3 *dt)
 				end
 			end
 		end
@@ -73,9 +73,9 @@ function physics:applyGravity(object, dt)
 	object.yvel = object.yvel - ((world.gravity+object.mass*2) *dt)
 	
 	--stop increasing velocity if we hit this limit
-	if object.yvel < -world.gravity*4 then 
-		object.yvel = -world.gravity*4 
-	end
+	--if object.yvel < -world.gravity*4 then 
+	--	object.yvel = -world.gravity*4 
+	--end
 
 	object.newY = object.y - (object.yvel *dt)
 end

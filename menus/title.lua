@@ -99,7 +99,9 @@ function title:mainselect(cmd)
 			self.menu = "options" 
 			sound:play(sound.effects["blip"])
 		end
-		if self.sel == 4 then love.event.quit() end
+		if self.sel == 4 then 
+			love.event.quit() 
+		end
 	end
 	
 	if self.sel < 1 then self.sel = 1 return end

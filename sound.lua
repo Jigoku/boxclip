@@ -16,10 +16,12 @@
 sound = {}
 
 -- add menu / keybind to toggle this
-sound.enabled = true
+sound.enabled = false
+sound.volume = 0
 
-
-
+if not sound.enabled then
+	love.audio.setVolume( sound.volume/100 )
+end
 
 sound.effects = {
 	["jump"] = love.audio.newSource("data/sounds/effect/jump.ogg", "static"),
@@ -63,7 +65,6 @@ sound.ambience = {
 
 
 function sound:playbgm(id)
-	if not sound.enabled then return true end
 
 	self.bgm = self.music[id]
 	self:stoplooping(self.music)
@@ -80,7 +81,6 @@ end
 
 
 function sound:playambient(id)
-	if not sound.enabled then return true end
 
 	self.ambient = self.ambience[id]
 	self:stoplooping(self.ambience)
@@ -96,7 +96,6 @@ end
 
 
 function sound:play(effect)
-	if not self.enabled then return true end
 	
 	--improve this (temporary fix)
 	--allows sound to be played in quick succession

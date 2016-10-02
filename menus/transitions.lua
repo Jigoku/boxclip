@@ -44,7 +44,7 @@ function transitions:run(dt)
 			self.state_fadeoutmode = false
 			self.active = false
 			love.audio.stop()
-			love.audio.setVolume(1)
+			--love.audio.setVolume(1)
 			world:init(self.mode)
 		end
 	end

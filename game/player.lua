@@ -25,7 +25,7 @@ function player:init()
 	self.x = spawnX
 	self.y = spawnY 
 
-	self.speed = 500
+	self.speed = 600
 	self.mass = 800
 	self.xvel = 0
 	self.yvel = 0
@@ -199,8 +199,9 @@ function player:die(this)
 	if mode == "game" then
 	
 		if self.hasshield then
-			self.xvel = -self.xvel
+
 			self:jump()
+			
 			sound:play(sound.effects["shield"])
 			self.hasshield = false
 			return

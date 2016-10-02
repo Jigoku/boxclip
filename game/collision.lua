@@ -276,6 +276,7 @@ function collision:materials()
 		if world:inview(mat) then
 			if collision:check(player.x,player.y,player.w,player.h,mat.x,mat.y,mat.w,mat.h) then
 				if mat.name == "death" then
+					player.y = mat.y-player.h
 					player:die("death material @ x:".. math.floor(player.x) .. " y:"..math.floor(player.y))
 				end
 			end

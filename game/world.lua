@@ -16,13 +16,6 @@
 world = {}
 world.splash = {}
 
-world.scoreboard = {}
-world.scoreboard.x = 20
-world.scoreboard.y = 20
-world.scoreboard.w = 200
-world.scoreboard.h = 100
-world.scoreboard.canvas = love.graphics.newCanvas(world.scoreboard.w,world.scoreboard.h)
-
 --loading/act display
 function world:initSplash()
 	world.splash = {}
