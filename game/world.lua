@@ -204,33 +204,33 @@ function world:drawSplash()
 end
 
 function world:drawScoreboard()
-	love.graphics.setColor(255,255,255,255)
-	love.graphics.setCanvas(self.scoreboard.canvas)
-	love.graphics.clear()
-		
+
 	love.graphics.setFont(fonts.scoreboard)
 	
-	love.graphics.setColor(255,255,255,255)
-	love.graphics.printf("SCORE", 0,0,300,"left",0,1,1)
-	love.graphics.printf("LIVES", 0,20,300,"left",0,1,1)
-	love.graphics.printf("TIME", 0,40,300,"left",0,1,1)
-	love.graphics.printf("GEMS", 0,60,300,"left",0,1,1)
-	love.graphics.printf(player.score, 0,0,150,"right",0,1,1)
-	love.graphics.printf(player.lives, 0,20,150,"right",0,1,1)
-	love.graphics.printf(world:formatTime(world.time), 0,40,150,"right",0,1,1)
-	love.graphics.printf(player.gems, 0,60,150,"right",0,1,1)
-	love.graphics.setFont(fonts.default)
-		
-	love.graphics.setCanvas()
-		
-	--drop shadow
 	love.graphics.setColor(0,0,0,155)
-	love.graphics.draw(self.scoreboard.canvas, self.scoreboard.x+1,self.scoreboard.y+1)
-		
-	--text	
-	love.graphics.setColor(255,255,255,155)
-	love.graphics.draw(self.scoreboard.canvas, self.scoreboard.x,self.scoreboard.y)
-		
+
+	love.graphics.printf("SCORE", 21,21,300,"left",0,1,1)
+	love.graphics.printf("TIME", 21,41,300,"left",0,1,1)
+	love.graphics.printf("GEMS", 21,61,300,"left",0,1,1)
+	love.graphics.printf(player.score, 21,21,150,"right",0,1,1)
+	love.graphics.printf(world:formatTime(world.time), 21,41,150,"right",0,1,1)
+	love.graphics.printf(player.gems, 21,61,150,"right",0,1,1)	
+	
+	love.graphics.printf("x"..player.lives, 21,game.height-40+1,50,"right",0,1,1)
+	
+	
+	love.graphics.setColor(255,255,255,200)
+	love.graphics.printf("SCORE", 20,20,300,"left",0,1,1)
+	love.graphics.printf("TIME", 20,40,300,"left",0,1,1)
+	love.graphics.printf("GEMS", 20,60,300,"left",0,1,1)
+	love.graphics.printf(player.score, 20,20,150,"right",0,1,1)
+	love.graphics.printf(world:formatTime(world.time), 20,40,150,"right",0,1,1)
+	love.graphics.printf(player.gems, 20,60,150,"right",0,1,1)
+	
+	love.graphics.printf("x"..player.lives, 20,game.height-40,50,"right",0,1,1)
+	love.graphics.setFont(fonts.default)
+	
+	love.graphics.draw(pickups.life,20,game.height-40,0,0.5,0.5)
 end
 
 function world:timer(dt)

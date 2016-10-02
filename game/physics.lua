@@ -584,6 +584,7 @@ end
 
 
 function physics:traps(object, dt)
+	if mode == "editing" then return end
 	for i, trap in ipairs(traps) do
 		
 			if collision:check(object.newX,object.newY,object.w,object.h, trap.x,trap.y,trap.w,trap.h) then
@@ -595,7 +596,7 @@ function physics:traps(object, dt)
 						object.jumping = false
 
 						-- only player can make logs fall
-						if object.name == "player" and mode == "game" then
+						if object.name == "player" then
 							trap.falling = true
 							sound:play(sound.effects["creek"])
 						end
@@ -606,21 +607,21 @@ function physics:traps(object, dt)
 				
 					if collision:right(object,trap) and not collision:top(object,trap) then
 						object.newX = trap.x+trap.w +1 *dt
-					--	object.xvel = -object.xvel
+						object.xvel = 0
 					
 					elseif collision:left(object,trap) and not collision:top(object,trap) then
 						object.newX = trap.x-object.w -1 *dt
-					--	object.xvel = -object.xvel
+						object.xvel = 0
 
 					elseif collision:bottom(object,trap) then
 						object.newY = trap.y +trap.h +1 *dt
-					--	object.yvel = -object.yvel
+						object.yvel = 0
 			
 					elseif collision:top(object,trap) then
 						if object.jumping then
 							object.newY = trap.y - object.h -1 *dt
 							object.yvel = -object.yvel
-								if mode == "game" then
+								if object.name == "player" then
 									world:sendtofront(traps,i)
 									trap.yvel = 500								
 									trap.falling = true
