@@ -41,7 +41,7 @@ function mapio:savemap(map)
 	fh:write("world:settheme(\""..world.theme.."\")\n")
 	
 	for i, entity in ipairs(platforms) do
-		fh:write("platforms:add("..math.round(entity.xorigin)..","..math.round(entity.yorigin)..","..entity.w..","..entity.h..","..entity.clip..","..entity.movex..","..entity.movey..","..entity.movespeed..","..entity.movedist..","..entity.swing..","..math.round(entity.angle,2)..")\n")
+		fh:write("platforms:add("..math.round(entity.xorigin)..","..math.round(entity.yorigin)..","..entity.w..","..entity.h..","..entity.clip..","..entity.movex..","..entity.movey..","..entity.movespeed..","..entity.movedist..","..entity.swing..","..math.round(entity.angle,2)..","..entity.texture..")\n")
 	end
 	
 	for i, entity in ipairs(pickups) do

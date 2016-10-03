@@ -20,8 +20,8 @@ platform_link_origin = love.graphics.newImage("data/images/tiles/link_origin.png
 platform_cradle = love.graphics.newImage("data/images/tiles/cradle.png")
 
 platforms.textures = {
-	[1] = love.graphics.newImage("data/images/tiles/brick.png"),
-	[2] = love.graphics.newImage("data/images/tiles/checked.png"),
+	[1] = love.graphics.newImage("data/images/tiles/checked.png"),
+	[2] = love.graphics.newImage("data/images/tiles/brick.png"),
 	[3] = love.graphics.newImage("data/images/tiles/cubes.png"),
 	[4] = love.graphics.newImage("data/images/tiles/circuit.png"),
 	[5] = love.graphics.newImage("data/images/tiles/striped.png"),
@@ -70,7 +70,7 @@ function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing,angle,t
 		clip = clip or 1,
 		xorigin = x,
 		yorigin = y,
-		gfx = self.textures[2],
+		texture = texture or 1,
 		--gfx = self.textures[math.random(#self.textures)] or nil, -- temporary (add textrue sleection to editor, and store in map file)
 		carrying = false,
 		--swing platforms
@@ -120,8 +120,8 @@ function platforms:draw()
 
 					platforms:drawlink(platform, radius)
 
-					local quad = love.graphics.newQuad( 0,0, platform.w+50, platform.h/1.5, platform.gfx:getDimensions() )
-					platform.gfx:setWrap("repeat", "repeat")	
+					--local quad = love.graphics.newQuad( 0,0, platform.w+50, platform.h/1.5, self.textures[platform.texture]:getDimensions() )
+					--self.textures[platform.texture]:setWrap("repeat", "repeat")	
 					
 					love.graphics.setColor(
 						platform_behind_r,
@@ -160,9 +160,22 @@ function platforms:draw()
 
 				end
 
-				local quad = love.graphics.newQuad( 0,0, platform.w, platform.h, platform.gfx:getDimensions() )
-				platform.gfx:setWrap("repeat", "repeat")
-				love.graphics.draw(platform.gfx, quad, platform.x,platform.y)
+				local quad = love.graphics.newQuad( 0,0, platform.w, platform.h, self.textures[platform.texture]:getDimensions() )
+				self.textures[platform.texture]:setWrap("repeat", "repeat")
+				love.graphics.draw(self.textures[platform.texture], quad, platform.x,platform.y)
+				
+				
+				--test polygon/mexh texturing (may be needed in future)
+				--[[
+				local mesh = love.graphics.newMesh(4, "fan", "dynamic")
+				local verts = { {0, 0},  {0, 0+platform.h}, {0+platform.w,0+platform.h}, {0+platform.w,0}}
+				mesh:setVertices(verts)
+				love.graphics.draw(mesh, platform.x, platform.y)
+				--]]
+				
+				--local verts = { platform.x, platform.y,  platform.x, platform.y+platform.h, platform.x+platform.w,platform.y+platform.h, platform.x+platform.w,platform.y}
+				--love.graphics.polygon("fill", verts)
+				
 				
 				local offset
 				if platform.movex == 1 or (platform.movey == 1) then

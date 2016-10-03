@@ -76,9 +76,9 @@ function player:draw()
 			if not self.alive then  opacity = 100 end
 		
 			love.graphics.setColor(80,170,120,opacity)
-			love.graphics.rectangle("fill", self.x, self.y, self.w, self.h)
+			love.graphics.rectangle("fill", self.x, self.y, self.w, self.h,5,5,5)
 			love.graphics.setColor(80,80,80,opacity)
-			love.graphics.rectangle("line", self.x, self.y, self.w, self.h)
+			love.graphics.rectangle("line", self.x, self.y, self.w, self.h,5,5,5)
 		end
 	
 		-- eyes

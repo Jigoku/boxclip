@@ -92,7 +92,7 @@ function console:draw()
 				" | decals: " .. world:count(decals) .. "("..world.decals .. ")" ..
 				" | bumpers: " .. world:count(bumpers) .. "("..world.bumpers .. ")" ..
 				" | traps: " .. world:count(traps) .. "(" .. world.traps .. ")" ..
-				" | t: " ..world:totalents() .. "(" .. world:totalentsdrawn() .. ")" ..
+				" | t: " ..world:totalents() .. "(" .. world:totalentsdrawn() .. ")" .. 
 				" | ccpf: " .. world.collision,
 				game.width/5, game.height-50
 			)

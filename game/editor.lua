@@ -34,6 +34,7 @@ editor.mouse = {
 editor.entdir = 0 			--(used for some entites 0,1,2,3 = up,down,right,left)
 editor.entsel = 1			--current entity id for placement
 editor.themesel = 1			--theme pallete in use
+editor.texturesel = 1		--texture slot to use for platforms
 editor.showpos = true		--axis info for entitys
 editor.showid  = true		--id info for entities
 editor.showmmap = true	    --toggle minimap
@@ -132,7 +133,15 @@ editor.themes = {
 	"night"
 }
 
-
+function editor:settexture(platform)
+	print(self.texturesel)
+	for _,p in ipairs(platforms) do
+		if p.selected then
+			p.texture = self.texturesel
+			p.selected = false
+		end
+	end
+end
 
 function editor:settheme()
 	world.theme = self.themes[self.themesel]
@@ -320,6 +329,18 @@ function editor:wheelmoved(x, y)
 				camera.scaleY = self.maxcamerascale
 			end
 		end
+	elseif love.keyboard.isDown("y") then
+	
+		if y > 0 then
+			self.texturesel = self.texturesel -1
+		elseif y < 0 then
+			self.texturesel = self.texturesel +1
+		end
+		if self.texturesel > #platforms.textures then self.texturesel = 1 end
+		if self.texturesel < 1 then self.texturesel = #platforms.textures end
+		
+		self:settexture(p)
+		
 	else
 		if y > 0 then
 			editor.entsel = editor.entsel -1
@@ -504,10 +525,10 @@ function editor:placedraggable(x1,y1,x2,y2)
 		local h = (y2-y1)
 		
 		--place the platform
-		if ent == "platform" then platforms:add(x,y,w,h,1,0,0,0,0) end
-		if ent == "platform_b" then platforms:add(x,y,w,h,0,0,0,0,0) end
-		if ent == "platform_x" then platforms:add(x,y,w,h,0, 1, 0, 100, 200) end
-		if ent == "platform_y" then platforms:add(x,y,w,h,0, 0, 1, 100, 200) end
+		if ent == "platform" then platforms:add(x,y,w,h,1,0,0,0,0,0,0,self.texturesel) end
+		if ent == "platform_b" then platforms:add(x,y,w,h,0,0,0,0,0,0,0,self.texturesel) end
+		if ent == "platform_x" then platforms:add(x,y,w,h,0,1,0,100,200,0,0,self.texturesel) end
+		if ent == "platform_y" then platforms:add(x,y,w,h,0,0,1,100,200,0,0,self.texturesel) end
 		
 		if ent == "blood" then decals:add(x,y,w,h,"blood") end
 		if ent == "lava" then decals:add(x,y,w,h,"lava") end
