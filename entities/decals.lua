@@ -1,4 +1,4 @@
---[[
+--[[	
  * Copyright (C) 2015 Ricky K. Thomson
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -15,38 +15,38 @@
  
 decals = {}
 
-decal_water = love.graphics.newImage("data/images/tiles/water.png")
-decal_lava = love.graphics.newImage("data/images/tiles/lava.png")
-decal_blood = love.graphics.newImage("data/images/tiles/blood.png")
-decal_stream = love.graphics.newImage("data/images/tiles/stream.png")
 
---draw on water decal topside
-decal_waterfall = love.graphics.newImage("data/images/tiles/waterfall.png")
+decals.textures = {
+	["water"] = love.graphics.newImage("data/images/decals/water.png"),
+	["lava"] = love.graphics.newImage("data/images/decals/lava.png"),
+	["blood"] = love.graphics.newImage("data/images/decals/blood.png"),
+	["stream"] = love.graphics.newImage("data/images/decals/stream.png"),
+	["waterfall"] = love.graphics.newImage("data/images/decals/waterfall.png"),
+}
+
 
 decal_waterfallspin = 0
-
 decal_water_scroll = 100
 decal_lava_scroll = 36
 decal_blood_scroll = 80
 decal_stream_scroll = 80
 
-function decals:add(x,y,w,h,t)
-	local gfx, scrollspeed
+function decals:add(x,y,w,h,type)
+	local scrollspeed,gfx
+	gfx = self.textures[type]
+	gfx:setWrap("repeat", "repeat")
 	
-	if t == "blood" then
-		gfx = decal_blood
+	if type == "blood" then
 		scrollspeed = decal_blood_scroll
-	elseif t == "lava" then
-		gfx = decal_lava
+	elseif type == "lava" then
 		scrollspeed = decal_lava_scroll
-	elseif t == "stream" then
-		gfx = decal_stream
+	elseif type == "stream" then
 		scrollspeed = decal_stream_scroll
-	elseif t == "water" then
-		gfx = decal_water
+	elseif type == "water" then
 		scrollspeed = decal_water_scroll
 	end
-	gfx:setWrap("repeat", "repeat")
+	
+	
 	
 	table.insert(self, {		
 		--position
@@ -58,10 +58,9 @@ function decals:add(x,y,w,h,t)
 		--properties
 		scroll = 0,
 		scrollspeed = scrollspeed,
-		name = t,
-		type = type,
+		name = type,
 		gfx = gfx,
-		quad = love.graphics.newQuad( x,y,w,h, gfx:getDimensions() ) 
+		quad = love.graphics.newQuad( x,y,w,h, self.textures[type]:getDimensions() ) 
 
 	})
 
@@ -103,16 +102,16 @@ function decals:draw()
 			--waterfall trim animation
 			if decal.name == "water" then
 				love.graphics.setColor(190,240,255,255)
-				for i=0, decal.w, decal_waterfall:getWidth()/2 do
+				for i=0, decal.w, self.textures["waterfall"]:getWidth()/2 do
 				
 					local r = math.random(0,1)
 					if r == 0 then
-						love.graphics.draw(decal_waterfall, decal.x+i,decal.y,
-										-decal_waterfallspin,1,1,decal_waterfall:getWidth()/2,decal_waterfall:getHeight()/2
+						love.graphics.draw(self.textures["waterfall"], decal.x+i,decal.y,
+										-decal_waterfallspin,1,1,self.textures["waterfall"]:getWidth()/2,self.textures["waterfall"]:getHeight()/2
 						)
 					else
-						love.graphics.draw(decal_waterfall, decal.x+i,decal.y,
-										decal_waterfallspin,1,1,decal_waterfall:getWidth()/2,decal_waterfall:getHeight()/2
+						love.graphics.draw(self.textures["waterfall"], decal.x+i,decal.y,
+										decal_waterfallspin,1,1,self.textures["waterfall"]:getWidth()/2,self.textures["waterfall"]:getHeight()/2
 						)
 					
 					end

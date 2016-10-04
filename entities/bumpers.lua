@@ -15,8 +15,9 @@
  
 bumpers = {}
 
-bumper_gfx = love.graphics.newImage("data/images/tiles/bumper.png")
-
+bumpers.textures = {
+	["bumper"] = love.graphics.newImage("data/images/bumpers/bumper.png")
+}
 
 function bumpers:add(x,y)
 
@@ -24,14 +25,14 @@ function bumpers:add(x,y)
 		--position
 		x = x or 0,
 		y = y or 0,
-		w = bumper_gfx:getWidth(),
-		h = bumper_gfx:getHeight(),
+		w = self.textures["bumper"]:getWidth(),
+		h = self.textures["bumper"]:getHeight(),
 		
 		--properties
 		score = 50,
 		force = 1250,
 		name = "bumper",
-		gfx = bumper_gfx
+		gfx = self.textures["bumper"]
 	})
 
 end
