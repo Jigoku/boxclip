@@ -223,7 +223,7 @@ function world:drawScoreboard()
 	love.graphics.printf("x"..player.lives, 20,game.height-40,50,"right",0,1,1)
 	love.graphics.setFont(fonts.default)
 	
-	love.graphics.draw(pickups.life,20,game.height-40,0,0.5,0.5)
+	love.graphics.draw(pickups.textures["life"],20,game.height-40,0,0.5,0.5)
 end
 
 function world:timer(dt)

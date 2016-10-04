@@ -211,8 +211,8 @@ function collision:checkpoints(dt)
 					console:print("checkpoint activated")	
 					sound:play(sound.effects["checkpoint"])
 					checkpoint.activated = true
-					player.spawnX = checkpoint.x
-					player.spawnY = checkpoint.y					
+					player.spawnX = checkpoint.x+(checkpoint.w/2)-player.w/2
+					player.spawnY = checkpoint.y+checkpoint.h-player.h	
 				end
 			end
 		end

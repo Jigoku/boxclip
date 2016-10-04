@@ -13,90 +13,46 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  --]]
  
- pickups = {}
+pickups = {}
 
-pickups.w = 40
-pickups.h = 40
-
-pickups.gem = love.graphics.newImage("data/images/pickups/gem.png")
-pickups.life = love.graphics.newImage( "data/images/pickups/heart.png")
-pickups.magnet = love.graphics.newImage( "data/images/pickups/magnet.png")
-pickups.shield = love.graphics.newImage( "data/images/pickups/shield.png")
-
+pickups.textures = {
+	["gem"] = love.graphics.newImage("data/images/pickups/gem.png"),
+	["life"] = love.graphics.newImage( "data/images/pickups/heart.png"),
+	["magnet"] = love.graphics.newImage( "data/images/pickups/magnet.png"),
+	["shield"] = love.graphics.newImage( "data/images/pickups/shield.png"),
+}
 
 function pickups:add(x,y,item,dropped)
+	local score
 	if item == "gem" then
-		table.insert(pickups, {
-			x =x or 0,
-			y =y or 0,
-			w = pickups.w,
-			h = pickups.h,
-			name = "gem",
-			gfx = pickups.gem,
-			collected = false,
-			dropped = dropped or false,
-			attract = false,
-			red = math.random(100,255),
-			green = math.random(200,255),
-			blue = math.random(100,255),
-			mass = 800,
-			xvel = 0,
-			yvel = 0,
-			score = 200,
-		})	
-	elseif item =="life" then
-		table.insert(pickups, {
-			x =x or 0,
-			y =y or 0,
-			w = pickups.w,
-			h = pickups.h,
-			name = "life",
-			gfx = pickups.life,
-			collected = false,
-			dropped = dropped or false,
-			attract = false,
-			mass = 800,
-			xvel = 0,
-			yvel = 0,
-			score = 1000,
-		})
-	elseif item =="magnet" then
-		table.insert(pickups, {
-			x =x or 0,
-			y =y or 0,
-			w = pickups.w,
-			h = pickups.h,
-			name = "magnet",
-			gfx = pickups.magnet,
-			collected = false,
-			dropped = dropped or false,
-			attract = false,
-			mass = 800,
-			xvel = 0,
-			yvel = 0,
-			score = 1000,
-		})
-	elseif item =="shield" then
-		table.insert(pickups, {
-			x =x or 0,
-			y =y or 0,
-			w = pickups.w,
-			h = pickups.h,
-			name = "shield",
-			gfx = pickups.shield,
-			collected = false,
-			dropped = dropped or false,
-			attract = false,
-			mass = 800,
-			xvel = 0,
-			yvel = 0,
-			score = 1000,
-		})
-		
-	else
-		editor:dprint("error: unknown pickup type")
-		return
+		score = "200"
+	elseif item == "life" then
+		score = "1000"
+	elseif item == "magnet" then
+		score = "1000"
+	elseif item == "shield" then
+		score = "1000"
 	end
+	
+	table.insert(pickups, {
+		x =x or 0,
+		y =y or 0,
+		w = self.textures[item]:getWidth(),
+		h = self.textures[item]:getHeight(),
+		name = item,
+		gfx = self.textures[item],
+		collected = false,
+		dropped = dropped or false,
+		attract = false,
+		red = math.random(150,255),
+		green = math.random(150,255),
+		blue = math.random(0,255),
+		mass = 800,
+		xvel = 0,
+		yvel = 0,
+		score = score,
+	})	
+
 	print( item .. " added @  X:"..x.." Y: "..y)
 end
 
