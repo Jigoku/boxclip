@@ -910,11 +910,11 @@ function editor:removesel()
 			self:remove(crates) or
 			self:remove(checkpoints) or
 			self:remove(springs) or
+			self:remove(bumpers) or 
 			self:remove(traps) or
-			self:remove(props) or
 			self:remove(platforms) or
 			self:remove(decals) or 
-			self:remove(bumpers) or 
+			self:remove(props) or
 			self:remove(materials) 
 			
 end

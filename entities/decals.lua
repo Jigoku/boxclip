@@ -22,6 +22,7 @@ decals.textures = {
 	["blood"] = love.graphics.newImage("data/images/decals/blood.png"),
 	["stream"] = love.graphics.newImage("data/images/decals/stream.png"),
 	["waterfall"] = love.graphics.newImage("data/images/decals/waterfall.png"),
+	["snowflake"] = love.graphics.newImage("data/images/decals/snowflake.png"),
 }
 
 

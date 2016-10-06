@@ -268,7 +268,7 @@ function enemies:draw()
 				love.graphics.draw(enemy.gfx, enemy.x, enemy.y, -enemy.angle*2,1,1,enemy.w/2,enemy.h/2)
 			end
 			
-			if editing or debug then
+			if editing or  debug then
 				enemies:drawDebug(enemy, i)
 			end
 		end

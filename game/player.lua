@@ -104,6 +104,7 @@ function player:draw()
 end
 
 function player:drawDebug()
+
 	love.graphics.setColor(255,0,0,255)
 	love.graphics.rectangle("line", self.x, self.y, self.w, self.h)
 	
@@ -216,6 +217,8 @@ function player:die(this)
 		self.alive = false
 		--player.dir = "idle" (change "dir" to state, left,right,idle,dead,jumping, etc)
 		self.angle = 0
+		self.xvel = 0
+		self.yvel = 0
 		self.jumping = false
 	end
 	

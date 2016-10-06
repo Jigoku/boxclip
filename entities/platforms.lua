@@ -164,17 +164,26 @@ function platforms:draw()
 				self.textures[platform.texture]:setWrap("repeat", "repeat")
 				love.graphics.draw(self.textures[platform.texture], quad, platform.x,platform.y)
 				
-				
-				--test polygon/mexh texturing (may be needed in future)
 				--[[
+				--test polygon/mesh texturing (may be needed in future)
 				local mesh = love.graphics.newMesh(4, "fan", "dynamic")
-				local verts = { {0, 0},  {0, 0+platform.h}, {0+platform.w,0+platform.h}, {0+platform.w,0}}
+				local cols = math.ceil( platform.w/self.textures[platform.texture]:getWidth())
+				local rows = math.ceil(platform.h/self.textures[platform.texture]:getHeight())
+				print (cols,rows)
+				
+				local verts
+				
+				verts = { 
+					{0,0, 0,0},  
+					{0,0+platform.h, 0,rows}, 
+					{0+platform.w,0+platform.h, cols,rows}, 
+					{0+platform.w,0, cols,0}
+				}
+
 				mesh:setVertices(verts)
+				mesh:setTexture(self.textures[platform.texture])
 				love.graphics.draw(mesh, platform.x, platform.y)
 				--]]
-				
-				--local verts = { platform.x, platform.y,  platform.x, platform.y+platform.h, platform.x+platform.w,platform.y+platform.h, platform.x+platform.w,platform.y}
-				--love.graphics.polygon("fill", verts)
 				
 				
 				local offset
@@ -228,14 +237,14 @@ function platforms:drawDebug(platform, i)
 	
 	-- collision area
 	if not (platform.swing == 1) and (platform.clip == 1) then
-		love.graphics.setColor(255,0,0,80)
+		love.graphics.setColor(255,0,0,40)
 		love.graphics.rectangle("fill", platform.x, platform.y, platform.w, platform.h)
 		love.graphics.setColor(255,0,0,255)
 		love.graphics.rectangle("line", platform.x, platform.y, platform.w, platform.h)
 	end
 	
 	if platform.clip == 0 then
-		love.graphics.setColor(0,255,0,80)
+		love.graphics.setColor(0,255,0,40)
 		love.graphics.rectangle("fill", platform.x, platform.y, platform.w, platform.h)
 		love.graphics.setColor(255,0,0,255)
 		love.graphics.rectangle("line", platform.x, platform.y, platform.w, platform.h)
@@ -243,14 +252,14 @@ function platforms:drawDebug(platform, i)
 	
 	-- yaxis waypoint
 	if platform.movey == 1 then
-		love.graphics.setColor(255,0,255,50)
+		love.graphics.setColor(255,0,255,20)
 		love.graphics.rectangle("fill", platform.xorigin, platform.yorigin, platform.w, platform.h+platform.movedist)
 		love.graphics.setColor(255,0,255,255)
 		love.graphics.rectangle("line", platform.xorigin, platform.yorigin, platform.w, platform.h+platform.movedist)
 	end
 	-- xaxis waypoint
 	if platform.movex == 1 then
-		love.graphics.setColor(255,0,255,50)
+		love.graphics.setColor(255,0,255,20)
 		love.graphics.rectangle("fill", platform.xorigin, platform.yorigin, platform.movedist+platform.w, platform.h)
 		love.graphics.setColor(255,0,255,255)
 		love.graphics.rectangle("line", platform.xorigin, platform.yorigin, platform.movedist+platform.w, platform.h)

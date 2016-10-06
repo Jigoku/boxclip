@@ -166,14 +166,14 @@ end
 
 
 function physics:crates(object,dt)
-	if mode == "editing" then return end
+	
 	local i, crate
 	for i, crate in ipairs(crates) do
 			if collision:check(crate.x,crate.y,crate.w,crate.h,
 				object.newX,object.newY,object.w,object.h) and not crate.destroyed then
 				object.candrop = false
 
-				if object.jumping then 
+				if object.jumping and mode == "game" then 
 					console:print("crate(" .. i..") destroyed, item ="..crate.item)
 					crate.destroyed = true
 					player.score = player.score+crate.score
@@ -591,7 +591,7 @@ end
 
 
 function physics:traps(object, dt)
-	if mode == "editing" then return end
+	
 	for i, trap in ipairs(traps) do
 		
 			if collision:check(object.newX,object.newY,object.w,object.h, trap.x,trap.y,trap.w,trap.h) then
@@ -603,7 +603,7 @@ function physics:traps(object, dt)
 						object.jumping = false
 
 						-- only player can make logs fall
-						if object.name == "player" then
+						if mode == "game" and object.name == "player" then
 							trap.falling = true
 							sound:play(sound.effects["creek"])
 						end
@@ -628,7 +628,7 @@ function physics:traps(object, dt)
 						if object.jumping then
 							object.newY = trap.y - object.h -1 *dt
 							object.yvel = -object.yvel
-								if object.name == "player" then
+								if mode == "game" and object.name == "player" then
 									world:sendtofront(traps,i)
 									trap.yvel = 500								
 									trap.falling = true

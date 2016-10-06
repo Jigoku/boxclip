@@ -15,7 +15,18 @@
  
 world = {}
 world.splash = {}
+world.weather = {}
 
+
+function world:drawWeather()
+	if world.theme == "frost" then
+		for i,particle in ipairs(world.weather) do
+			love.graphics.setColor(particle.r,particle.g,particle.b,particle.o)
+			love.graphics.circle("fill", particle.x,particle.y,particle.radius,particle.segments)
+			
+		end
+	end
+end
 --loading/act display
 function world:initSplash()
 	world.splash = {}
@@ -103,7 +114,7 @@ function world:init(gamemode)
 end
 
 
-    
+  
 
 function world:draw()
 	
@@ -146,7 +157,12 @@ function world:draw()
 	
 	player:draw()	
 
+	world:drawWeather()
+	
+
 	camera:unset()
+	
+
 	
 	if mode == "editing" then
 		editor:draw()
@@ -319,8 +335,82 @@ function world:inview(entity)
 	
 end
 
+function world:weatherUpdate(dt)
+	if world.theme == "frost" then
+		while #world.weather < 400 do
+	
+			local x,y
+			local rand = math.random(1,4)
+			--top
+			if rand == 1 then 
+				x = math.random(camera.x-game.width/2*camera.scaleX,camera.x+game.width/2*camera.scaleX)
+				y = camera.y-game.height/2*camera.scaleY
+			--right
+			elseif rand == 2 then
+				x = camera.x+game.width/2*camera.scaleX
+				y = math.random(camera.y-game.height/2*camera.scaleY,camera.y+game.height/2*camera.scaleY)
+			--bottom
+			elseif rand == 3 then
+				x = math.random(camera.x-game.width/2*camera.scaleX,camera.x+game.width/2*camera.scaleX)
+				y = camera.y+game.height/2*camera.scaleY
+			--left
+			elseif rand == 4 then
+				x = camera.x-game.width/2*camera.scaleX
+				y = math.random(camera.y-game.height/2*camera.scaleY,camera.y+game.height/2*camera.scaleY)
+			end
+	
+			local colour = math.random(200,255)
+	
+			table.insert(world.weather,{
+				x = x,
+				y = y,
+				radius = math.random(2,3),
+				segments = 10,
+				r = colour,
+				g = colour,
+				b = colour,
+				o = math.random(100,255),
+				yvel = math.random(10,120),
+				xvel = math.random(-50,50)
+			})
+		end
+	
+
+		for i,snow in ipairs(world.weather) do
+	
+
+
+			snow.y = snow.y + snow.yvel * dt
+			snow.x = snow.x + snow.xvel * dt
+		
+			snow.y = snow.y + player.yvel/10 * dt
+			snow.x = snow.x - player.xvel/10 * dt
+		
+			if snow.y > camera.y+game.height/2*camera.scaleY or snow.y < camera.y-game.height/2*camera.scaleY or snow.x > camera.x+game.width/2*camera.scaleX or snow.x < camera.x-game.width/2*camera.scaleX then
+				snow.o = snow.o - 100 *dt
+			end
+		
+		--[[
+		for _,p in ipairs(platforms) do
+			if collision:check(p.x,p.y,p.w,p.h,snow.x,snow.y,1,1) then
+				if p.clip == 0 then
+					snow.o = snow.o - 250 *dt
+				end
+			end
+		end
+		--]]
+			if snow.o < 0 then table.remove(world.weather,i) end
+		end
+	else
+		world.weather = {}	
+	end
+end
 
 function world:update(dt)
+	
+	
+	world:weatherUpdate(dt)
+	
 	
 	if not paused then 
 
