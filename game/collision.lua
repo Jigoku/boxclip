@@ -251,18 +251,16 @@ function collision:springs(dt)
 				sound:play(sound.effects["spring"])
 				if spring.dir == 0 then
 					player.y = spring.y-player.h -1 *dt
-					player.yvel = spring.vel
+					player.yvel =  spring.vel
 				elseif spring.dir == 1 then
 					player.y = spring.y +spring.h +1 *dt
 					player.yvel = -spring.vel
 				elseif spring.dir == 2 then
 					player.x = spring.x +spring.w +1 *dt
-					player.xvel = 0
-					player.xvelboost = spring.vel
+					player.xvel = spring.vel
 				elseif spring.dir == 3 then
 					player.x = spring.x -player.w -1 *dt
-					player.xvel = 0
-					player.xvelboost = -spring.vel
+					player.xvel = -spring.vel
 				end
 			end
 		end

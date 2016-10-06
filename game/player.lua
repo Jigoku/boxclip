@@ -29,7 +29,6 @@ function player:init()
 	self.mass = 800
 	self.xvel = 0
 	self.yvel = 0
-	self.xvelboost = 0
 	self.jumpheight = 800
 	self.jumping = false
 	self.dir = "idle"

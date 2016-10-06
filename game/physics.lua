@@ -19,7 +19,7 @@ function physics:applyVelocity(object, dt)
 	if object.alive then
 		-- x-axis friction
 		if object.dir == "right" then
-			if object.xvel < object.speed and not (object.xvelboost < 0) then
+			if object.xvel < object.speed  then
 				if object.jumping then
 					object.xvel = (object.xvel + object.speed*2/2 *dt)
 				else
@@ -28,7 +28,7 @@ function physics:applyVelocity(object, dt)
 			end
 		end
 		if object.dir == "left"  then
-			if not (object.xvel < -object.speed) and not (object.xvelboost > 0) then
+			if not (object.xvel < -object.speed)  then
 				if object.jumping then
 					object.xvel = (object.xvel - object.speed*2/2 *dt)
 				else
@@ -49,17 +49,9 @@ function physics:applyVelocity(object, dt)
 		end
 		
 		-- velocity limits
-		if object.xvel > object.speed then object.xvel = object.speed end
-		if object.xvel < -object.speed then object.xvel = -object.speed end
+		--if object.xvel > object.speed then object.xvel = object.speed end
+		--if object.xvel < -object.speed then object.xvel = -object.speed end
 				
-		--boost (spring forces etc)
-		if object.xvelboost > 0 then
-			object.xvelboost = (object.xvelboost - ((object.mass) *dt))
-			if object.xvelboost < 0 then object.xvelboost = 0 end
-		elseif object.xvelboost < 0 then
-			object.xvelboost = (object.xvelboost + ((object.mass) *dt))
-			if object.xvelboost > 0 then object.xvelboost = 0 end
-		end
 
 		object.newX =object.x + ((object.xvel +object.xvelboost)  *dt)
 

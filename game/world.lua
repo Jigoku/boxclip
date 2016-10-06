@@ -213,7 +213,7 @@ function world:drawSplash()
 end
 
 function world:drawScoreboard()
-
+	if debug then return end
 	love.graphics.setFont(fonts.scoreboard)
 	
 	love.graphics.setColor(0,0,0,155)
