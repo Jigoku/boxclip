@@ -233,19 +233,13 @@ function physics:bumpers(object,dt)
 			sound:play(sound.effects["spring"])
 			
 			if collision:right(object,bumper) and not collision:top(object,bumper) then
-					object.xvelboost = 0
 					object.newX = bumper.x+bumper.w +1 *dt
-					object.xvel = -object.xvel
-					object.xvelboost = bumper.force/2
-
+					object.xvel = bumper.force
 					
 				elseif collision:left(object,bumper) and not collision:top(object,bumper) then
-					object.xvelboost = 0
 					object.newX = bumper.x-object.w -1 *dt
-					object.xvel = -object.xvel
-					object.xvelboost = -bumper.force/2
+					object.xvel = -bumper.force
 
-			
 				elseif collision:bottom(object,bumper) then
 					object.newY = bumper.y +bumper.h +1 *dt
 					object.yvel = -bumper.force

@@ -53,7 +53,7 @@ function bumpers:draw()
 	for i, bumper in ipairs(self) do
 		if world:inview(bumper) then
 			count = count + 1
-			love.graphics.setColor(platform_behind_r,platform_behind_g,platform_behind_b,255)
+			love.graphics.setColor(255,255,255,255)
 			love.graphics.draw(bumper.gfx, bumper.x,bumper.y)
 
 			if editing or debug then
