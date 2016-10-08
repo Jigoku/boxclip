@@ -589,9 +589,18 @@ function editor:draw()
 	love.graphics.print("editing",game.width-80, 10,0,1,1)
 	love.graphics.setFont(fonts.default)
 	love.graphics.print("press 'h' for help",game.width-115, 30,0,1,1)
+	
 	love.graphics.setColor(255,255,255,255)
-	love.graphics.print("active selection:",game.width-115, 65,0,1,1)
+	love.graphics.print("selection:",game.width-115, 65,0,1,1)
+	
+	love.graphics.setColor(255,155,55,255)
 	love.graphics.print(editor.selname or "",game.width-115, 80,0,1,1)
+	
+	love.graphics.setColor(255,255,255,255)
+	love.graphics.print("theme:",game.width-115, 95,0,1,1)
+	
+	love.graphics.setColor(255,155,55,255)
+	love.graphics.print(world.theme or "default",game.width-115, 110,0,1,1)
 	
 	if editing then
 		camera:set()
@@ -849,7 +858,7 @@ end
 function editor:drawselected()
 	local entities = {enemies,pickups,portals,crates,checkpoints,springs,props,platforms,decals,traps}
 	for _,e in ipairs(entities) do
-		self:selection(e)
+		if self:selection(e) then return end
 	end
 end
 
@@ -860,43 +869,49 @@ function editor:selection(entities, x,y,w,h)
 	
 	if love.mouse.isDown(3) then return end
 	
-	for i, entity in ripairs(entities) do
-		entity.selected = false
+	
+	for _,e in ipairs(entities) do
+		--deselect all before continuing 
+		--(fixes texture change issue with platforms)
+		e.selected = false
+	end
+	
+	for i, e in ripairs(entities) do
 		
-		if world:inview(entity) then
+		if world:inview(e) then
 			
-			if entity.movex == 1 then
-				if collision:check(self.mouse.x,self.mouse.y,1,1,entity.xorigin, entity.y, entity.movedist+entity.w, entity.h) then
-					love.graphics.rectangle("line", entity.xorigin, entity.y, entity.movedist+entity.w, entity.h)
-					editor.selname = entity.name .. "("..i..")"
-					entity.selected = true
+			if e.movex == 1 then
+				if collision:check(self.mouse.x,self.mouse.y,1,1,e.xorigin, e.y, e.movedist+e.w, e.h) then
+					love.graphics.rectangle("line", e.xorigin, e.y, e.movedist+e.w, e.h)
+					editor.selname = e.name .. "("..i..")"
+					e.selected = true
 					return true
 				end
-			elseif entity.movey == 1 then
-				if collision:check(self.mouse.x,self.mouse.y,1,1,entity.xorigin, entity.yorigin, entity.w, entity.h+entity.movedist) then
-					love.graphics.rectangle("line", entity.xorigin, entity.yorigin,entity.w, entity.h+entity.movedist)
-					editor.selname = entity.name .. "("..i..")"
-					entity.selected = true
+			elseif e.movey == 1 then
+				if collision:check(self.mouse.x,self.mouse.y,1,1,e.xorigin, e.yorigin, e.w, e.h+e.movedist) then
+					love.graphics.rectangle("line", e.xorigin, e.yorigin,e.w, e.h+e.movedist)
+					editor.selname = e.name .. "("..i..")"
+					e.selected = true
 					return true
 				end
-			elseif entity.swing == 1 then
+			elseif e.swing == 1 then
 				if collision:check(self.mouse.x,self.mouse.y,1,1,
-						entity.xorigin-platform_link_origin:getWidth()/2, entity.yorigin-platform_link_origin:getHeight()/2,  
+						e.xorigin-platform_link_origin:getWidth()/2, e.yorigin-platform_link_origin:getHeight()/2,  
 						platform_link_origin:getWidth(),platform_link_origin:getHeight()
 					) then
 						
 						love.graphics.rectangle("line", 
-							entity.xorigin-platform_link_origin:getWidth()/2, entity.yorigin-platform_link_origin:getHeight()/2,  
+							e.xorigin-platform_link_origin:getWidth()/2, e.yorigin-platform_link_origin:getHeight()/2,  
 							platform_link_origin:getWidth(),platform_link_origin:getHeight()
 						)
-						editor.selname = entity.name .. "("..i..")"
-						entity.selected = true
+						editor.selname = e.name .. "("..i..")"
+						e.selected = true
 						return true
 				end
-			elseif collision:check(self.mouse.x,self.mouse.y,1,1,entity.x,entity.y,entity.w,entity.h) then
-					love.graphics.rectangle("line", entity.x,entity.y,entity.w,entity.h)
-					editor.selname = entity.name .. "("..i..")"
-					entity.selected = true
+			elseif collision:check(self.mouse.x,self.mouse.y,1,1,e.x,e.y,e.w,e.h) then
+					love.graphics.rectangle("line", e.x,e.y,e.w,e.h)
+					editor.selname = e.name .. "("..i..")"
+					e.selected = true
 					return true
 			end
 		end
