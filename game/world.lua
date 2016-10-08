@@ -427,7 +427,7 @@ function world:update(dt)
 			if background_scroll > background:getWidth()then
 				background_scroll = background_scroll - background:getWidth()
 			end
-			background_quad:setViewport(camera.x/10-background_scroll,camera.y/20,game.width*camera.scaleX,game.height*camera.scaleY )
+			background_quad:setViewport(camera.x/10-background_scroll,camera.y/10,game.width*camera.scaleX,game.height*camera.scaleY )
 		else
 			background_scroll = 0
 		end

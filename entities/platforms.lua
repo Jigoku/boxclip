@@ -18,6 +18,7 @@ platforms = {}
 platform_link = love.graphics.newImage("data/images/tiles/link.png")
 platform_link_origin = love.graphics.newImage("data/images/tiles/link_origin.png")
 platform_cradle = love.graphics.newImage("data/images/tiles/cradle.png")
+platform_grass = love.graphics.newImage("data/images/tiles/grass.png")
 
 platforms.textures = {
 	[1] = love.graphics.newImage("data/images/tiles/checked.png"),
@@ -186,6 +187,8 @@ function platforms:draw()
 				--]]
 				
 				
+				
+
 				local offset
 				if platform.movex == 1 or (platform.movey == 1) then
 					 offset = 4
@@ -202,6 +205,9 @@ function platforms:draw()
 				love.graphics.rectangle("fill", platform.x, platform.y, offset, platform.h - offset)
 
 				
+				
+			
+				
 				--top (placeholder surface)
 				love.graphics.setColor(
 					platform_top_r,
@@ -210,13 +216,19 @@ function platforms:draw()
 					255
 				)
 				
+				local quad = love.graphics.newQuad( 0,0, platform.w, platform_grass:getHeight(), platform_grass:getDimensions() )
+				platform_grass:setWrap("repeat", "repeat")
+				love.graphics.draw(platform_grass, quad, platform.x,platform.y-5)
+				
+				
+				--[[ --untextured fallback
 				--surface
 				love.graphics.rectangle("fill", platform.x, platform.y-5, platform.w, 10)	
 				
 					--arced edges
 					love.graphics.arc( "fill", platform.x+platform.w, platform.y, -5, math.pi/2, math.pi*1.5 )
 					love.graphics.arc( "fill", platform.x, platform.y, 5, math.pi/2, math.pi*1.5 )
-				
+				--]]
 				end
 				
 				if editing or debug then platforms:drawDebug(platform, i) end

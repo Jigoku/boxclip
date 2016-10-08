@@ -15,6 +15,7 @@
  
  player = {}
 
+
 function player:init() 
 	--initialize the player defaults
 	self.name = "player"
@@ -139,8 +140,8 @@ function player:setcamera(dt)
 		local x = player.x+player.w/2
 		local y = player.y+player.h/2
 		camera:setPosition(x,y)
-		
 		return
+
 	end
 
 	
