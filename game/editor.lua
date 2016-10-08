@@ -64,6 +64,7 @@ editor.helpmenu = love.graphics.newCanvas(editor.helpmenuw,editor.helpmenuh)
 editor.clipboard = {}		--clipboard contents
 
 
+
 --order of entities in entmenu
 editor.entities = {
 	"spawn",
@@ -869,8 +870,8 @@ end
 
 
 function editor:drawselected()
-	local entities = {enemies,pickups,portals,crates,checkpoints,springs,props,platforms,decals,traps}
-	for _,e in ipairs(entities) do
+	local entselorder = {enemies,pickups,portals,crates,checkpoints,springs,props,platforms,decals,traps,bumpers}
+	for _,e in ipairs(entselorder) do
 		if self:selection(e) then return end
 	end
 end
