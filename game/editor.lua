@@ -353,15 +353,14 @@ end
 function editor:mousepressed(x,y,button)
 	if not editing then return end
 	
+	--this function is used to place entities which are not resizable. 
+	
 	self.mouse.pressed.x = math.round(camera.x-(game.width/2*camera.scaleX)+x*camera.scaleX,-1)
 	self.mouse.pressed.y = math.round(camera.y-(game.height/2*camera.scaleY)+y*camera.scaleX,-1)
 	
 	
 	local x = math.round(self.mouse.pressed.x,-1)
 	local y = math.round(self.mouse.pressed.y,-1)
-	
-
-	
 	
 	
 	if button == 1 then
@@ -445,6 +444,8 @@ function editor:mousereleased(x,y,button)
 	end
 	
 	if button == 3 then
+	
+	--possibly merge this code into a function also used by editor:selection as it is pretty much identical
 		local entities = {enemies,pickups,portals,crates,checkpoints,springs,props,platforms,decals,traps}
 		for _,entitytype in ripairs(entities) do
 		
@@ -511,6 +512,10 @@ end
 
 
 function editor:placedraggable(x1,y1,x2,y2)
+
+	--this function is used for placing entities which 
+	-- can be dragged/resized when placing
+	
 	local ent = self.entities[self.entsel]
 
 	--we must drag down and right
@@ -540,6 +545,7 @@ function editor:placedraggable(x1,y1,x2,y2)
 end
 
 function editor:drawguide()
+	--draw crosshairs for editor placement
 
 	if self.showguide then
 		love.graphics.setColor(200,200,255,50)
@@ -561,8 +567,8 @@ function editor:drawguide()
 end
 
 function editor:drawcursor()
-	--cursor
-	love.graphics.setColor(255,200,255,255)
+	--draw the cursor
+	love.graphics.setColor(255,255,255,255)
 	love.graphics.line(
 		math.round(self.mouse.x,-1),
 		math.round(self.mouse.y,-1),
@@ -576,33 +582,25 @@ function editor:drawcursor()
 		math.round(self.mouse.y,-1)+10
 	)
 	
-	local cursor = { x =self.mouse.x, y =self.mouse.y   }
-	self:drawCoordinates(cursor)
-	
+	self:drawCoordinates(
+		{ x = self.mouse.x, y = self.mouse.y }
+	)
 end
 
 
 function editor:draw()
-	love.graphics.setColor(0,255,155,155)
-		
+	
+	--editor hud
 	love.graphics.setFont(fonts.large)
+	love.graphics.setColor(0,255,155,155)
 	love.graphics.print("editing",game.width-80, 10,0,1,1)
 	love.graphics.setFont(fonts.default)
 	love.graphics.print("press 'h' for help",game.width-115, 30,0,1,1)
 	
-	love.graphics.setColor(255,255,255,255)
-	love.graphics.print("selection:",game.width-115, 65,0,1,1)
 	
-	love.graphics.setColor(255,155,55,255)
-	love.graphics.print(editor.selname or "",game.width-115, 80,0,1,1)
-	
-	love.graphics.setColor(255,255,255,255)
-	love.graphics.print("theme:",game.width-115, 95,0,1,1)
-	
-	love.graphics.setColor(255,155,55,255)
-	love.graphics.print(world.theme or "default",game.width-115, 110,0,1,1)
-	
+	--interactive editing
 	if editing then
+	
 		camera:set()
 	
 		self:drawguide()
@@ -611,26 +609,41 @@ function editor:draw()
 		self:drawselbox()
 	
 		camera:unset()
-		if self.showentmenu then self:drawentmenu() end
 		
-		--notify keybind for spawn position
 		if world.collision == 0 then
+			--notify keybind for camera reset when 
+			--no entities are in view
 			love.graphics.setColor(255,255,255,255)
 			love.graphics.setFont(fonts.menu)
 			love.graphics.print("(Tip: press \"".. editbinds.respawn .. "\" to reset camera)", 200, game.height-50,0,1,1)
 			love.graphics.setFont(fonts.default)
 		end
-	end
+		
+		
+		love.graphics.setColor(255,255,255,255)
+		love.graphics.print("selection:",game.width-115, 65,0,1,1)
 	
-
+		love.graphics.setColor(255,155,55,255)
+		love.graphics.print(editor.selname or "",game.width-115, 80,0,1,1)
+	
+		love.graphics.setColor(255,255,255,255)
+		love.graphics.print("theme:",game.width-115, 95,0,1,1)
+	
+		love.graphics.setColor(255,155,55,255)
+		love.graphics.print(world.theme or "default",game.width-115, 110,0,1,1)
+	
+		if self.showentmenu then self:drawentmenu() end
+		if self.showmusicbrowser then musicbrowser:draw() end
+		
+	end
 	
 	if self.showmmap then self:drawmmap() end
 	if self.showhelpmenu then self:drawhelpmenu() end
-	if self.showmusicbrowser then musicbrowser:draw() end
 end
 
 function editor:drawselbox()
-	--draw an outline when dragging mouse when entsel is one of these types
+	--draw an outline when dragging mouse if 
+	-- entsel is one of these types
 	if self.drawsel then
 		for _,entity in ipairs(self.draggable) do
 			if self.entities[self.entsel] == entity then
@@ -648,6 +661,7 @@ end
 
 function editor:drawhelpmenu()
 	
+	--this needs reworking
 	
 	love.graphics.setCanvas(self.helpmenu)
 	love.graphics.clear()
@@ -782,7 +796,7 @@ end
 
 function editor:drawentmenu()
 	--gui scrolling list for entity selection
-
+	if not editing then return end
 	love.graphics.setCanvas(self.entmenu)
 	love.graphics.clear()
 		
@@ -847,7 +861,6 @@ function editor:drawentmenu()
 	love.graphics.print("entdir: "..dir,10,s*12)
 	
 	
-	
 	love.graphics.setCanvas()
 	
 	love.graphics.setColor(255,255,255,255)
@@ -867,7 +880,7 @@ function editor:selection(entities, x,y,w,h)
 	editor.selname = "null"
 	love.graphics.setColor(0,255,0,200)
 	
-	if love.mouse.isDown(3) then return end
+	--if love.mouse.isDown(3) then return end
 	
 	
 	for _,e in ipairs(entities) do

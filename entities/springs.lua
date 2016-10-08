@@ -15,21 +15,12 @@
  
  springs = {}
 
-spring_s = love.graphics.newImage("data/images/springs/spring_s.png")
-spring_m = love.graphics.newImage("data/images/springs/spring_m.png")
-spring_l = love.graphics.newImage("data/images/springs/spring_l.png")
+spring_s = love.graphics.newImage("data/images/springs/spring_s2.png")
+spring_m = love.graphics.newImage("data/images/springs/spring_m2.png")
+spring_l = love.graphics.newImage("data/images/springs/spring_l2.png")
 
 function springs:add(x,y,dir,type)
 
-	if dir == 0 or dir == 1 then
-		width = 40
-		height = 30
-		end
-	if dir == 2 or dir == 3 then
-		width = 30
-		height = 40
-	end
-		
 	if type == "spring_s" then
 		vel = 1200
 		gfx = spring_s
@@ -40,6 +31,18 @@ function springs:add(x,y,dir,type)
 		vel = 1800
 		gfx = spring_l
 	end
+	
+
+	if dir == 0 or dir == 1 then
+		width = gfx:getWidth()
+		height = gfx:getHeight()
+		end
+	if dir == 2 or dir == 3 then
+		width = gfx:getHeight()
+		height = gfx:getWidth()
+	end
+		
+
 	
 
 		table.insert(springs, {

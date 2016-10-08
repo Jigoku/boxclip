@@ -97,7 +97,7 @@ function player:draw()
 	
 	self:drawpowerups()
 	
-	if debug then
+	if editing or debug then
 		self:drawDebug()
 	end
 
@@ -105,11 +105,11 @@ end
 
 function player:drawDebug()
 
-	love.graphics.setColor(255,0,0,255)
+	love.graphics.setColor(255,0,0,155)
 	love.graphics.rectangle("line", self.x, self.y, self.w, self.h)
 	
-	love.graphics.setColor(255,255,0,50)
-	love.graphics.rectangle("line",camera.x - self.camerashift, camera.y - self.camerashift, self.camerashift*2, self.camerashift*2)
+	--love.graphics.setColor(255,255,0,50)
+	--love.graphics.rectangle("line",camera.x - self.camerashift, camera.y - self.camerashift, self.camerashift*2, self.camerashift*2)
 end
 
 

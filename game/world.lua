@@ -144,7 +144,6 @@ function world:draw()
 	
 	decals:draw()
 	props:draw()
-	traps:draw()
 	platforms:draw()
 	springs:draw()
 	bumpers:draw()
@@ -154,9 +153,11 @@ function world:draw()
 	pickups:draw()
 	enemies:draw()
 	materials:draw()
-	
+	traps:draw()
+		
 	player:draw()	
 
+	
 	world:drawWeather()
 	
 
