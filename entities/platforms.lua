@@ -18,7 +18,9 @@ platforms = {}
 platform_link = love.graphics.newImage("data/images/tiles/link.png")
 platform_link_origin = love.graphics.newImage("data/images/tiles/link_origin.png")
 platform_cradle = love.graphics.newImage("data/images/tiles/cradle.png")
+
 platform_grass = love.graphics.newImage("data/images/tiles/grass.png")
+
 
 platforms.textures = {
 	[1] = love.graphics.newImage("data/images/tiles/checked.png"),
@@ -35,22 +37,6 @@ platforms.textures = {
 }
 
 function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing,angle,texture)
-	--[[
-	if clip == 1 then
-		--normal platform texture
-		
-	else
-		--background platform texture
-		
-	end
-
-	--moving platform texture
-	if movex == 1 or (movey == 1) then
-		
-	end
-	
-	--]]
-	
 
 	
 	table.insert(platforms, {
@@ -72,8 +58,8 @@ function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing,angle,t
 		xorigin = x,
 		yorigin = y,
 		texture = texture or 1,
-		--gfx = self.textures[math.random(#self.textures)] or nil, -- temporary (add textrue sleection to editor, and store in map file)
 		carrying = false,
+		
 		--swing platforms
 		swing = swing or 0,
 		angle = angle or 0,
@@ -120,9 +106,6 @@ function platforms:draw()
 				if platform.swing == 1 then
 
 					platforms:drawlink(platform, radius)
-
-					--local quad = love.graphics.newQuad( 0,0, platform.w+50, platform.h/1.5, self.textures[platform.texture]:getDimensions() )
-					--self.textures[platform.texture]:setWrap("repeat", "repeat")	
 					
 					love.graphics.setColor(
 						platform_behind_r,
@@ -131,7 +114,6 @@ function platforms:draw()
 						255
 					)
 					love.graphics.draw(platform_cradle, platform.x-platform_cradle:getWidth()/2,platform.y-platform_cradle:getHeight()/1.5)
-					--love.graphics.rectangle("fill", platform.x-25,platform.y, platform.w+50, platform.h/1.5)
 				
 				else
 				
@@ -193,10 +175,10 @@ function platforms:draw()
 				if platform.movex == 1 or (platform.movey == 1) then
 					 offset = 4
 				else
-					 offset = 8
+					 offset = 10
 				end
 				--shaded edges
-				love.graphics.setColor(0,0,0,50)
+				love.graphics.setColor(0,0,0,85)
 				--right
 				love.graphics.rectangle("fill", platform.x+platform.w-offset, platform.y, offset, platform.h -offset)
 				--bottom
@@ -206,9 +188,8 @@ function platforms:draw()
 
 				
 				
-			
-				
-				--top (placeholder surface)
+		
+				--top surface
 				love.graphics.setColor(
 					platform_top_r,
 					platform_top_g,
@@ -216,11 +197,12 @@ function platforms:draw()
 					255
 				)
 				
+				local offset = 5
 				local quad = love.graphics.newQuad( 0,0, platform.w, platform_grass:getHeight(), platform_grass:getDimensions() )
 				platform_grass:setWrap("repeat", "repeat")
-				love.graphics.draw(platform_grass, quad, platform.x,platform.y-5)
+				love.graphics.draw(platform_grass, quad, platform.x,platform.y-offset)
 				
-				
+
 				--[[ --untextured fallback
 				--surface
 				love.graphics.rectangle("fill", platform.x, platform.y-5, platform.w, 10)	
@@ -233,8 +215,6 @@ function platforms:draw()
 				
 				if editing or debug then platforms:drawDebug(platform, i) end
 				
-				
-
 					
 			end
 

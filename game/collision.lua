@@ -246,7 +246,7 @@ function collision:springs(dt)
 	for i, spring in ipairs(springs) do
 		if world:inview(spring) then
 			if collision:check(player.x,player.y,player.w,player.h,
-				spring.x+10, spring.y+10,spring.w-20,spring.h-20) then
+				spring.x, spring.y,spring.w,spring.h) then
 				player.jumping = true
 				sound:play(sound.effects["spring"])
 				if spring.dir == 0 then
