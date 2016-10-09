@@ -95,14 +95,8 @@ function sound:playambient(id)
 end
 
 
-function sound:play(effect)
-	
-	--improve this (temporary fix)
-	--allows sound to be played in quick succession
-	if effect:isPlaying() then
-		effect:stop()
-	end
-	effect:play()
+function sound:play(fx)
+	fx:clone():play()
 end
 
 function sound:stoplooping(type)

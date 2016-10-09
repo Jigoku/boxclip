@@ -131,7 +131,7 @@ end
 
 
 
-function player:setcamera(dt)
+function player:update(dt)
 
 
 	--fixed camera
@@ -160,6 +160,22 @@ function player:setcamera(dt)
 	--
 	-- port code from dungeon project (camera starts moving on box collision)
 	-- seems incompatible though... find a different way.
+	
+	
+	if player.lives < 0 then
+		console:print("game over")
+		--add game over transition screen
+		--should fade in, press button to exit to title
+		title:init()
+	end
+			
+
+	
+	if player.gems == 100 then
+		player.gems = 0
+		player.lives = player.lives +1
+		sound:play(sound.effects["lifeup"])
+	end
 end
 
 

@@ -17,6 +17,11 @@ world = {}
 world.splash = {}
 world.weather = {}
 
+test = love.graphics.newImage("data/images/test.png")
+test:setWrap("repeat", "clamp")
+test_quad = love.graphics.newQuad( 0,0, love.graphics.getWidth(),test:getHeight(), test:getDimensions() )
+test_quad2 = love.graphics.newQuad( 0,0, love.graphics.getWidth(),test:getHeight(), test:getDimensions() )
+test_quad3 = love.graphics.newQuad( 0,0, love.graphics.getWidth(),test:getHeight(), test:getDimensions() )
 
 function world:drawWeather()
 	if world.theme == "frost" then
@@ -60,7 +65,7 @@ function world:settheme(theme)
 		--only set background if it exists
 		if type(background) == "userdata" then
 			background:setWrap("repeat", "repeat")
-			background_quad = love.graphics.newQuad( 0,0, love.graphics.getWidth(),love.graphics.getHeight(), background:getDimensions() )
+			background_quad = love.graphics.newQuad( 0,0, game.width,game.height, background:getDimensions() )
 		end
 	
 		console:print("set theme: " .. theme)
@@ -114,25 +119,65 @@ function world:init(gamemode)
 end
 
 
-  
+ 
+function world:drawParallax()
+	if editing then return end
+	love.graphics.setColor(255,255,255,255)
+	
+	--paralax background sky
+	if type(background) == "userdata" then
+		love.graphics.draw(
+			background, background_quad,0,0
+		)
+	end
+	
+	
+
+	-------test paralax background scenery
+	love.graphics.setColor(255,255,255,255)
+		
+	test_quad:setViewport(
+		player.x/10,player.y/25,game.width,game.height
+	)
+	love.graphics.draw(
+		test,
+		test_quad,				
+		0,0
+	)
+	
+	love.graphics.setColor(225,225,225,255)
+		
+	test_quad2:setViewport(
+		player.x/6,player.y/20,game.width,game.height
+	)
+	love.graphics.draw(
+		test,
+		test_quad2,				
+		0,0
+	)
+	
+		
+	love.graphics.setColor(195,195,195,255)
+		
+	test_quad3:setViewport(
+		player.x/4,player.y/12,game.width,game.height
+	)
+	love.graphics.draw(
+		test,
+		test_quad3,				
+		0,0
+	)
+end
 
 function world:draw()
 	
-	love.graphics.setColor(255,255,255,255)
+
+	self:drawParallax()
 	
 	-- set camera for world
 	camera:set()
 
-	--paralax background
-	if not editing then
-		if type(background) == "userdata" then
-			love.graphics.draw(
-				background, background_quad,
-				camera.x-(game.width/2*camera.scaleX),
-				camera.y-(game.height/2*camera.scaleY)
-			)
-		end
-	end
+
 	
 	--[[ draw bedrock here
 		unimplemented
@@ -141,6 +186,8 @@ function world:draw()
 
 
 	love.graphics.setColor(255,255,255,255)
+	
+
 	
 	decals:draw()
 	props:draw()
@@ -418,7 +465,7 @@ function world:update(dt)
 		collision:checkWorld(dt)
 		physics:world(dt)
 	
-		player:setcamera(dt)
+		player:update(dt)
 		decals:update(dt)
 		portals:update(dt)
 		world.collision = 0
@@ -428,7 +475,7 @@ function world:update(dt)
 			if background_scroll > background:getWidth()then
 				background_scroll = background_scroll - background:getWidth()
 			end
-			background_quad:setViewport(camera.x/10-background_scroll,camera.y/10,game.width*camera.scaleX,game.height*camera.scaleY )
+			background_quad:setViewport(player.x/20-background_scroll,-player.y/50,game.width,game.height )
 		else
 			background_scroll = 0
 		end
@@ -451,22 +498,7 @@ function world:update(dt)
 				return 
 			end
 		
-		
-			if player.lives < 0 then
-				console:print("game over")
-				--add game over transition screen
-				--should fade in, press button to exit to title
-				title:init()
-			end
-			
-
-			--[[
-			if player.gems == 100 then
-				player.gems = 0
-				player.lives = player.lives +1
-				sound:play(sound.effects["lifeup"])
-			end
-			--]]
+	
 		end
 
 	
@@ -485,7 +517,7 @@ function world:sendtoback(t,i)
 	table.remove(t,i)
 	table.insert(t,1,item)
 
-	print( t[i].name .. " (" .. i .. ") sent to back" )
+	console:print( t[i].name .. " (" .. i .. ") sent to back" )
 end
 
 function world:sendtofront(t,i)
@@ -493,5 +525,5 @@ function world:sendtofront(t,i)
 	table.remove(t,i)
 	table.insert(t,#t,item)
 
-	print( t[i].name .. " (" .. i .. ") sent to front" )
+	console:print( t[i].name .. " (" .. i .. ") sent to front" )
 end
