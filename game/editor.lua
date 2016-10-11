@@ -926,6 +926,7 @@ function editor:selection(entities, x,y,w,h)
 					love.graphics.rectangle("line", e.x,e.y,e.w,e.h)
 					editor.selname = e.name .. "("..i..")"
 					e.selected = true
+					self.texturesel = e.texture or 1
 					return true
 			end
 		end
