@@ -281,6 +281,7 @@ end
 
 function player:drop()
 	if self.alive and not self.jumping then
+	
 		if self.candrop then
 			self.jumping = true
 

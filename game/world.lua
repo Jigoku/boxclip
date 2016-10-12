@@ -222,6 +222,7 @@ function world:draw()
 	
 	world:drawWeather()
 	
+	popups:draw()
 
 	camera:unset()
 	
@@ -479,7 +480,7 @@ function world:update(dt)
 
 		collision:checkWorld(dt)
 		physics:world(dt)
-	
+		popups:update(dt)
 		player:update(dt)
 		decals:update(dt)
 		portals:update(dt)

@@ -1,5 +1,5 @@
 --[[
- * Copyright (C) 2015 Ricky K. Thomson
+ * Copyright (C) 2016 Ricky K. Thomson
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -13,20 +13,38 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  --]]
  
-entities = {}
-
-require("entities/popups")
-require("entities/decals")
-require("entities/props")
-require("entities/springs")
-require("entities/traps")
-require("entities/crates")
-require("entities/platforms")
-require("entities/checkpoints")
-require("entities/pickups")
-require("entities/enemies")
-require("entities/portals")
-require("entities/bumpers")
-require("entities/materials")
+popups = {}
 
 
+function popups:add(x,y,text,entity)
+	table.insert(popups, {
+		xorigin = x,
+		yorigin = y,
+		x = x,
+		y = y,
+		speed = 150,
+		text = text,
+		o = 255
+	})
+end
+
+function popups:draw()
+	love.graphics.setFont(fonts.scoreboard)
+	for _,p in ipairs(popups) do
+		love.graphics.setColor(255,255,0,p.o)
+		love.graphics.printf(p.text, p.x,p.y,100,"center")
+	end
+	love.graphics.setFont(fonts.default)
+end
+
+function popups:update(dt)
+	for i,p in ipairs(popups) do
+		p.y = p.y - p.speed *dt
+		 if p.y < p.yorigin - 50 then
+			p.o = p.o - 200 *dt
+			if p.o <= 0 then
+				table.remove(popups,i)
+			end
+		 end
+	end
+end

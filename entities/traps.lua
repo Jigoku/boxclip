@@ -47,6 +47,7 @@ function traps:add(x,y,name)
 			},
 			xvel = 100,
 			yvel = 0,
+			score = 100,
 		})
 		print(name .." added @  X:"..x.." Y: "..y)
 	

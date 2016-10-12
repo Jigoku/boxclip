@@ -99,6 +99,7 @@ function collision:pickups(dt)
 			
 				if collision:check(player.x,player.y,player.w,player.h,
 					pickup.x, pickup.y,pickup.gfx:getWidth(),pickup.gfx:getHeight()) then
+						popups:add(pickup.x-pickup.w,pickup.y+pickup.h/2,"+"..pickup.score)
 						table.remove(pickups,i)
 						console:print(pickup.name.."("..i..") collected")	
 						pickup.collected = true
@@ -124,6 +125,7 @@ function collision:enemies(dt)
 					if collision:above(player,enemy) then	
 						if player.jumping then
 						--player.y = enemy.y - player.h -1 *dt
+							popups:add(enemy.x-enemy.w,enemy.y+enemy.h/2,"+"..enemy.score)
 							player.yvel = player.mass
 							player:attack(enemy)
 							return true
@@ -158,6 +160,7 @@ function collision:enemies(dt)
 							player.xvel = -player.mass/2
 						end
 						--]]
+						popups:add(enemy.x-enemy.w/2,enemy.y+enemy.h/2,"+"..enemy.score)
 						enemy.alive = false
 						player:attack(enemy)
 						
@@ -208,6 +211,7 @@ function collision:checkpoints(dt)
 			if collision:check(player.x,player.y,player.w,player.h,
 				checkpoint.x, checkpoint.y,checkpoint.w,checkpoint.h) then
 				if not checkpoint.activated then
+					popups:add(checkpoint.x-checkpoint.w,checkpoint.y+checkpoint.h/2,"CHECKPOINT")
 					console:print("checkpoint activated")	
 					sound:play(sound.effects["checkpoint"])
 					checkpoint.activated = true
@@ -232,6 +236,7 @@ function collision:portals(dt)
 						if not portal.activated then
 							--add paramater for "next map"?
 							portal.activated = true
+							popups:add(portal.x-portal.w,portal.y+portal.h/2,"LEVEL COMPLETE")
 							sound:play(sound.effects["goal"])
 							console:print("goal reached")	
 						end

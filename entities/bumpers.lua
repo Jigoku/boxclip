@@ -29,7 +29,7 @@ function bumpers:add(x,y)
 		h = self.textures["bumper"]:getHeight(),
 		
 		--properties
-		score = 50,
+		score = 250,
 		force = 1250,
 		name = "bumper",
 		gfx = self.textures["bumper"]

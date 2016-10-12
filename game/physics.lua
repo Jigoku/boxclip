@@ -167,6 +167,7 @@ function physics:crates(object,dt)
 
 				if object.jumping and mode == "game" then 
 					console:print("crate(" .. i..") destroyed, item ="..crate.item)
+					popups:add(crate.x-crate.w,crate.y+crate.h/2,"+"..crate.score)
 					crate.destroyed = true
 					player.score = player.score+crate.score
 					sound:play(sound.effects["crate"])
@@ -226,8 +227,9 @@ function physics:bumpers(object,dt)
 			object.jumping = true
 			
 			if bumper.score > 0 then
-				player.score = player.score + 10
-				bumper.score = bumper.score - 10
+				player.score = player.score + 50
+				bumper.score = bumper.score - 50
+				popups:add(bumper.x-bumper.w,bumper.y+bumper.h/2,"+50")
 			end
 			
 			sound:play(sound.effects["bumper"])
@@ -615,6 +617,7 @@ function physics:traps(object, dt)
 							object.newY = trap.y - object.h -1 *dt
 							object.yvel = -object.yvel
 								if mode == "game" and object.name == "player" then
+									popups:add(trap.x-trap.w,trap.y+trap.h/2,"+"..trap.score)
 									world:sendtofront(traps,i)
 									trap.yvel = 500							
 									trap.falling = true
