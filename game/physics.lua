@@ -177,7 +177,7 @@ function physics:crates(object,dt)
 				object.xvelboost = 0
 					if object.jumping then
 						object.newX = crate.x+crate.w +1 *dt
-						object.xvel = object.mass
+						object.xvel = -object.xvel
 					else
 						object.newX = crate.x+crate.w +1 *dt
 						object.xvel = 0
@@ -186,7 +186,7 @@ function physics:crates(object,dt)
 				object.xvelboost = 0
 					if object.jumping then
 						object.newX = crate.x-object.w -1 *dt
-						object.xvel = -object.mass
+						object.xvel = -object.xvel
 					else
 						object.newX = crate.x-object.w -1 *dt
 						object.xvel = 0
@@ -194,7 +194,7 @@ function physics:crates(object,dt)
 				elseif collision:bottom(object,crate) then
 					if object.jumping then
 						object.newY = crate.y +crate.h +1 *dt
-						object.yvel = -object.mass
+						object.yvel = -object.yvel
 					else
 						object.newY = crate.y +crate.h  +1 *dt
 						object.yvel = 0
@@ -202,7 +202,7 @@ function physics:crates(object,dt)
 				elseif collision:top(object,crate) then
 					if object.jumping then
 						object.newY = crate.y - object.h -1 *dt
-						object.yvel = object.mass
+						object.yvel = -object.yvel
 						
 					else
 						object.newY = crate.y - object.h -1 *dt
@@ -230,7 +230,7 @@ function physics:bumpers(object,dt)
 				bumper.score = bumper.score - 10
 			end
 			
-			sound:play(sound.effects["spring"])
+			sound:play(sound.effects["bumper"])
 			
 			if collision:right(object,bumper) and not collision:top(object,bumper) then
 					object.newX = bumper.x+bumper.w +1 *dt
@@ -616,9 +616,9 @@ function physics:traps(object, dt)
 							object.yvel = -object.yvel
 								if mode == "game" and object.name == "player" then
 									world:sendtofront(traps,i)
-									trap.yvel = 500								
+									trap.yvel = 500							
 									trap.falling = true
-									sound:play(sound.effects["crate"])
+									sound:play(sound.effects["brick"])
 								end
 						else
 							object.newY = trap.y - object.h -1 *dt

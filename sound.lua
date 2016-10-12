@@ -40,7 +40,10 @@ sound.effects = {
 	["shield"] = love.audio.newSource("data/sounds/effect/shield.ogg", "static"),
 	["creek"] = love.audio.newSource("data/sounds/effect/creak.ogg", "static"),
 	["slice"] = love.audio.newSource("data/sounds/effect/slice.ogg", "static"),
+	["bumper"] = love.audio.newSource("data/sounds/effect/bumper.ogg", "static"),
+	["brick"] = love.audio.newSource("data/sounds/effect/brick.ogg", "static"),
 	["start"] = love.audio.newSource("data/sounds/music/start.ogg", "static"),
+	
 }
 
 

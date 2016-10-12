@@ -93,7 +93,7 @@ function world:init(gamemode)
 	
 	--move this setting into map files
 	--once editor menu can adjust variables
-	world.gravity = 380
+	world.gravity = 420
 
 	-- 
 	-- y co-ordinate of deadzone
@@ -134,7 +134,12 @@ function world:drawParallax()
 	
 
 	-------test paralax background scenery
-	love.graphics.setColor(255,255,255,255)
+	love.graphics.setColor(
+		platform_top_r,
+		platform_top_g,
+		platform_top_b,
+		255
+	)
 		
 	test_quad:setViewport(
 		player.x/10,player.y/25,game.width,game.height
@@ -145,7 +150,12 @@ function world:drawParallax()
 		0,0
 	)
 	
-	love.graphics.setColor(225,225,225,255)
+	love.graphics.setColor(
+		platform_top_r-20,
+		platform_top_g-20,
+		platform_top_b-20,
+		255
+	)
 		
 	test_quad2:setViewport(
 		player.x/6,player.y/20,game.width,game.height
@@ -157,7 +167,12 @@ function world:drawParallax()
 	)
 	
 		
-	love.graphics.setColor(195,195,195,255)
+	love.graphics.setColor(
+		platform_top_r-40,
+		platform_top_g-40,
+		platform_top_b-40,
+		255
+	)
 		
 	test_quad3:setViewport(
 		player.x/4,player.y/12,game.width,game.height
