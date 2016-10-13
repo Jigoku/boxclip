@@ -16,11 +16,13 @@
 sound = {}
 
 -- add menu / keybind to toggle this
-sound.enabled = false
-sound.volume = 0
+sound.enabled = true
+sound.volume = 100
 
-if not sound.enabled then
+if sound.enabled then
 	love.audio.setVolume( sound.volume/100 )
+else
+	love.audio.setVolume( 0 )
 end
 
 sound.effects = {
