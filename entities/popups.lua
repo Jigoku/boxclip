@@ -32,7 +32,7 @@ function popups:draw()
 	love.graphics.setFont(fonts.scoreboard)
 	for _,p in ipairs(popups) do
 		love.graphics.setColor(255,255,0,p.o)
-		love.graphics.printf(p.text, p.x,p.y,100,"center")
+		love.graphics.printf(p.text, p.x,p.y,150,"center")
 	end
 	love.graphics.setFont(fonts.default)
 end

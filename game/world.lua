@@ -358,6 +358,7 @@ function world:reset()
 	 world:remove(bumpers) 
 	 world:remove(materials) 
 	 world:remove(traps) 
+	 world:remove(popups) 
 end
 
 function world:totalents()
@@ -473,11 +474,11 @@ end
 function world:update(dt)
 	
 	
-	world:weatherUpdate(dt)
+	
 	
 	
 	if not paused then 
-
+		world:weatherUpdate(dt)
 		collision:checkWorld(dt)
 		physics:world(dt)
 		popups:update(dt)
@@ -485,21 +486,21 @@ function world:update(dt)
 		decals:update(dt)
 		portals:update(dt)
 		world.collision = 0
-		
+
 		if type(background) == "userdata" then
 			background_scroll = background_scroll + background_scrollspeed * dt
 			if background_scroll > background:getWidth()then
 				background_scroll = background_scroll - background:getWidth()
 			end
-			background_quad:setViewport(player.x/20-background_scroll,-player.y/50,game.width,game.height )
+			background_quad:setViewport(camera.x/20-background_scroll,-camera.y/50,game.width,game.height )
 		else
 			background_scroll = 0
 		end
 	
 		
 		
-		if mode == "game" then
 		
+		if mode == "game"  then
 			--trigger world splash/act display
 			if world.splash.opacity > 0 then 
 				world.splash.timer = math.max(0, world.splash.timer - dt)
