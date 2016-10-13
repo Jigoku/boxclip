@@ -17,7 +17,7 @@ sound = {}
 
 -- add menu / keybind to toggle this
 sound.enabled = false
-sound.volume = 100
+sound.volume = 0
 
 if not sound.enabled then
 	love.audio.setVolume( sound.volume/100 )

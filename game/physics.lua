@@ -21,7 +21,7 @@ function physics:applyVelocity(object, dt)
 		if object.dir == "right" then
 			if object.xvel < object.speed  then
 				if object.jumping then
-					object.xvel = (object.xvel + object.speed*2/2 *dt)
+					object.xvel = (object.xvel + object.speed *dt)
 				else
 					object.xvel = (object.xvel + object.speed*1.3 *dt)
 				end
@@ -30,7 +30,7 @@ function physics:applyVelocity(object, dt)
 		if object.dir == "left"  then
 			if not (object.xvel < -object.speed)  then
 				if object.jumping then
-					object.xvel = (object.xvel - object.speed*2/2 *dt)
+					object.xvel = (object.xvel - object.speed *dt)
 				else
 					object.xvel = (object.xvel - object.speed*1.3 *dt)
 				end
@@ -40,10 +40,10 @@ function physics:applyVelocity(object, dt)
 		-- increase friction when 'idle' until velocity is nullified
 		if object.dir == "idle" and object.xvel ~= 0 then
 			if object.xvel > 0 then
-				object.xvel = (object.xvel - ((object.mass*2)/8 *dt))
+				object.xvel = object.xvel - ((object.mass*2)/8 *dt)
 				if object.xvel < 0 then object.xvel = 0 end
 			elseif object.xvel < 0 then
-				object.xvel = (object.xvel + ((object.mass*2)/8 *dt))
+				object.xvel = object.xvel + ((object.mass*2)/8 *dt)
 				if object.xvel > 0 then object.xvel = 0 end
 			end
 		end

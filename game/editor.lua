@@ -135,7 +135,6 @@ editor.themes = {
 }
 
 function editor:settexture(platform)
-	print(self.texturesel)
 	for _,p in ipairs(platforms) do
 		if p.selected then
 			p.texture = self.texturesel
@@ -313,32 +312,21 @@ function editor:wheelmoved(x, y)
     
     
     if love.keyboard.isDown("lctrl") then
+		--camera zoom control
 		if y > 0 then
-			if camera.scaleX > self.mincamerascale then
-				camera.scaleX = camera.scaleX - 0.1
-				camera.scaleY = camera.scaleY - 0.1
-			else
-				camera.scaleX = self.mincamerascale
-				camera.scaleY = self.mincamerascale
-			end
+			camera.scaleX = math.max(self.mincamerascale,camera.scaleX - 0.1)
+			camera.scaleY = math.max(self.mincamerascale,camera.scaleY - 0.1)
 		elseif y < 0 then
-			if camera.scaleX < self.maxcamerascale then
-				camera.scaleX = camera.scaleX + 0.1
-				camera.scaleY = camera.scaleY + 0.1
-			else
-				camera.scaleX = self.maxcamerascale
-				camera.scaleY = self.maxcamerascale
-			end
+			camera.scaleX = math.min(self.maxcamerascale,camera.scaleX + 0.1)
+			camera.scaleY = math.min(self.maxcamerascale,camera.scaleY + 0.1)
 		end
 	elseif love.keyboard.isDown("y") then
-	
+		--platform texture slot selection
 		if y > 0 then
-			self.texturesel = self.texturesel -1
+			self.texturesel = math.max(1,self.texturesel -1)
 		elseif y < 0 then
-			self.texturesel = self.texturesel +1
+			self.texturesel = math.min(#platforms.textures,self.texturesel +1)
 		end
-		if self.texturesel > #platforms.textures then self.texturesel = 1 end
-		if self.texturesel < 1 then self.texturesel = #platforms.textures end
 		
 		self:settexture(p)
 		
