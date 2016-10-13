@@ -15,31 +15,29 @@
  
 enemies = {}
 
-walker = love.graphics.newImage( "data/images/enemies/walker.png")
-floater = love.graphics.newImage( "data/images/enemies/floater.png")
+enemies.textures = {
+	["walker"] = love.graphics.newImage( "data/images/enemies/walker.png"),
+	["floater"] = love.graphics.newImage( "data/images/enemies/floater.png"),
+	["spike"] = love.graphics.newImage( "data/images/enemies/spike.png"),
+	["spike_winter"] = love.graphics.newImage( "data/images/enemies/spike_winter.png"),
+	["spike_hell"] = love.graphics.newImage( "data/images/enemies/spike_hell.png"),
+	["spike_large"] = love.graphics.newImage( "data/images/enemies/spike_large.png"),
+	["spike_large_winter"] = love.graphics.newImage( "data/images/enemies/spike_large_winter.png"),
+	["spike_large_hell"] = love.graphics.newImage( "data/images/enemies/spike_large_hell.png"),
+	["icicle"] = love.graphics.newImage( "data/images/enemies/icicle.png"),
+	["icicle_winter"] = love.graphics.newImage( "data/images/enemies/icicle_winter.png"),
+	["icicle_hell"] = love.graphics.newImage( "data/images/enemies/icicle_hell.png"),
+	["icicle_d"] = love.graphics.newImage( "data/images/enemies/icicle_d.png"),
+	["icicle_d_winter"] = love.graphics.newImage( "data/images/enemies/icicle_d_winter.png"),
+	["icicle_d_hell"] = love.graphics.newImage( "data/images/enemies/icicle_d_hell.png"),
+	["spikeball"] = love.graphics.newImage( "data/images/enemies/spikeball.png"),
+}
 
-spike = love.graphics.newImage( "data/images/enemies/spike.png")
-spike_winter = love.graphics.newImage( "data/images/enemies/spike_winter.png")
-spike_hell = love.graphics.newImage( "data/images/enemies/spike_hell.png")
 
-spike_large = love.graphics.newImage( "data/images/enemies/spike_large.png")
-spike_large_winter = love.graphics.newImage( "data/images/enemies/spike_large_winter.png")
-spike_large_hell = love.graphics.newImage( "data/images/enemies/spike_large_hell.png")
-
-icicle = love.graphics.newImage( "data/images/enemies/icicle.png")
-icicle_winter = love.graphics.newImage( "data/images/enemies/icicle_winter.png")
-icicle_hell = love.graphics.newImage( "data/images/enemies/icicle_hell.png")
-
-icicle_d = love.graphics.newImage( "data/images/enemies/icicle_d.png")
-icicle_d_winter = love.graphics.newImage( "data/images/enemies/icicle_d_winter.png")
-icicle_d_hell = love.graphics.newImage( "data/images/enemies/icicle_d_hell.png")
-
-spikeball = love.graphics.newImage( "data/images/enemies/spikeball.png")
 
 
 
 function enemies:add(x,y,movespeed,movedist,dir,type)
-
 
 	if type == "walker" then
 		table.insert(enemies, {
@@ -57,11 +55,11 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			y = y or 0,
 			
 			--dimension
-			w = 30,
-			h = 30,
+			w = self.textures[type]:getWidth(),
+			h = self.textures[type]:getHeight(),
 			
 			--properties
-			name = "walker",
+			name = type,
 			mass = 800,
 			xvel = 0,
 			yvel = 0,
@@ -70,18 +68,18 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			score = 230,
 			newY = y,
 			
-			gfx = walker,
+			gfx = self.textures[type],
 			
 		})
-		print( "walker added @  X:"..x.." Y: "..y)
+
 	elseif type == "spike" then
 		if dir == 0 or dir == 1 then
-			width = 80
-			height = 50
+			width = self.textures[type]:getWidth()
+			height = self.textures[type]:getHeight()
 		end
 		if dir == 2 or dir == 3 then
-			width = 50
-			height = 80
+			width = self.textures[type]:getHeight()
+			height = self.textures[type]:getWidth()
 		end
 		table.insert(enemies, {		
 			--position
@@ -95,24 +93,24 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			h = height,
 			
 			--properties
-			name = "spike",
+			name = type,
 			alive = true,
 			movedist = 0,
-			gfx = spike_gfx,
+			gfx = self.textures[type],
 			dir = dir,
 			movespeed = 0,
 			movedist = 0,
 			
 		})
-		print( "spike added @  X:"..x.." Y: "..y)
+
 	elseif type == "spike_large" then
 		if dir == 0 or dir == 1 then
-			width = 160
-			height = 50
+			width = self.textures[type]:getWidth()
+			height = self.textures[type]:getHeight()
 		end
 		if dir == 2 or dir == 3 then
-			width = 50
-			height = 160
+			width = self.textures[type]:getHeight()
+			height = self.textures[type]:getWidth()
 		end
 		table.insert(enemies, {		
 			--position
@@ -126,15 +124,15 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			h = height,
 			
 			--properties
-			name = "spike_large",
+			name = type,
 			alive = true,
 			movedist = 0,
 			movespeed = 0,
-			gfx = spike_large_gfx,
+			gfx = self.textures[type],
 			dir = dir
 			
 		})
-		print( "spike_large added @  X:"..x.." Y: "..y)
+
 	elseif type == "icicle" then
 		table.insert(enemies, {		
 			--position
@@ -144,22 +142,22 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			yorigin = y,
 			
 			--dimension
-			w = 20,
-			h = 50,
+			w = self.textures[type]:getWidth(),
+			h = self.textures[type]:getHeight(),
 			
 			--properties
-			name = "icicle",
+			name = type,
 			alive = true,
 			falling = false,
 			mass = 800,
-			gfx = icicle_gfx,
+			gfx = self.textures[type],
 			yvel = 0,
 			jumping = 0,
 			movespeed = 0,
 			movedist = 0,
 			dir = 0,
 		})
-		print( "icicle added @  X:"..x.." Y: "..y)
+
 	elseif type == "floater" then
 		table.insert(enemies, {
 			--movement
@@ -175,11 +173,11 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			y = y or 0,
 		
 			--dimension
-			w = 50,
-			h = 40,
+			w = self.textures[type]:getWidth(),
+			h = self.textures[type]:getHeight(),
 		
 			--properties
-			name = "floater",
+			name = type,
 			mass = 0,
 			xvel = 0,
 			yvel = 0,
@@ -189,26 +187,23 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			score = 350,
 			--newY = y,
 			
-			gfx = floater,
+			gfx = self.textures[type],
 		
 		})
-		print( "floater added @  X:"..x.." Y: "..y)
-	
-	
 	
 	elseif type == "spikeball" then
 		table.insert(enemies, {
 		
 			gfx = spikeball,
-			w = spikeball:getWidth(),
-			h = spikeball:getHeight(),
+			w = self.textures[type]:getWidth(),
+			h = self.textures[type]:getHeight(),
 			xorigin = x,
 			yorigin = y,
 			x = x or 0,
 			y = y or 0,
 			
 			--properties
-			name = "spikeball",
+			name = type,
 			speed = 3,
 			alive = true,
 			swing = 1,
@@ -218,9 +213,8 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			movedist = 0,
 			dir = 0,
 		})
-		print( "spikeball added @  X:"..x.." Y: "..y)
 	end
-	
+	print( type .. " added @  X:"..x.." Y: "..y)
 end
 
 

@@ -63,7 +63,7 @@ editor.helpmenu = love.graphics.newCanvas(editor.helpmenuw,editor.helpmenuh)
 
 editor.clipboard = {}		--clipboard contents
 
-
+editor.entselorder = {enemies,pickups,portals,crates,checkpoints,springs,materials,platforms,props,decals,traps,bumpers}
 
 --order of entities in entmenu
 editor.entities = {
@@ -311,7 +311,7 @@ end
 function editor:wheelmoved(x, y)
     
     
-    if love.keyboard.isDown("lctrl") then
+    if love.keyboard.isDown(editbinds.camera) then
 		--camera zoom control
 		if y > 0 then
 			camera.scaleX = math.max(self.mincamerascale,camera.scaleX - 0.1)
@@ -320,7 +320,7 @@ function editor:wheelmoved(x, y)
 			camera.scaleX = math.min(self.maxcamerascale,camera.scaleX + 0.1)
 			camera.scaleY = math.min(self.maxcamerascale,camera.scaleY + 0.1)
 		end
-	elseif love.keyboard.isDown("y") then
+	elseif love.keyboard.isDown(editbinds.texturesel) then
 		--platform texture slot selection
 		if y > 0 then
 			self.texturesel = math.max(1,self.texturesel -1)
@@ -858,8 +858,8 @@ end
 
 
 function editor:drawselected()
-	local entselorder = {enemies,pickups,portals,crates,checkpoints,springs,props,platforms,decals,traps,bumpers}
-	for _,e in ipairs(entselorder) do
+	--local entselorder = {enemies,pickups,portals,crates,checkpoints,springs,materials,platforms,props,decals,traps,bumpers}
+	for _,e in ipairs(self.entselorder) do
 		if self:selection(e) then return end
 	end
 end
@@ -922,19 +922,10 @@ function editor:selection(entities, x,y,w,h)
 end
 
 function editor:removesel()
-	return self:remove(enemies) or
-			self:remove(pickups) or	
-			self:remove(portals) or		
-			self:remove(crates) or
-			self:remove(checkpoints) or
-			self:remove(springs) or
-			self:remove(bumpers) or 
-			self:remove(traps) or
-			self:remove(platforms) or
-			self:remove(decals) or 
-			self:remove(props) or
-			self:remove(materials) 
-			
+	--local entselorder = {enemies,pickups,portals,crates,checkpoints,springs,materials,platforms,props,decals,traps,bumpers}
+	for _,e in ipairs(self.entselorder) do
+		if self:remove(e) then return end
+	end
 end
 
 function editor:removeall(entities, name)

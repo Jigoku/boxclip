@@ -40,11 +40,9 @@ function physics:applyVelocity(object, dt)
 		-- increase friction when 'idle' until velocity is nullified
 		if object.dir == "idle" and object.xvel ~= 0 then
 			if object.xvel > 0 then
-				object.xvel = object.xvel - ((object.mass*2)/8 *dt)
-				if object.xvel < 0 then object.xvel = 0 end
+				object.xvel = math.max(0,object.xvel - ((object.mass*2)/8 *dt))
 			elseif object.xvel < 0 then
-				object.xvel = object.xvel + ((object.mass*2)/8 *dt)
-				if object.xvel > 0 then object.xvel = 0 end
+				object.xvel = math.min(0,object.xvel + ((object.mass*2)/8 *dt))
 			end
 		end
 		
@@ -63,12 +61,6 @@ end
 function physics:applyGravity(object, dt)
 	--simulate gravity
 	object.yvel = object.yvel - ((world.gravity+object.mass*2) *dt)
-	
-	--stop increasing velocity if we hit this limit
-	--if object.yvel < -world.gravity*4 then 
-	--	object.yvel = -world.gravity*4 
-	--end
-
 	object.newY = object.y - (object.yvel *dt)
 end
 

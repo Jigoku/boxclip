@@ -31,8 +31,9 @@ function love.load(args)
 	require("fonts")
 	
 	require("menus/main")
-	require("game/main")
 	require("entities/main")
+	require("game/main")
+
 	
 	game = {}
 		game.width, game.height, game.flags = love.window.getMode( )

@@ -53,4 +53,6 @@ editbinds = {
 	movedown = "kp2",
 	moveleft = "kp4",
 	moveright = "kp6",
+	texturesel = "y",
+	camera = "lctrl",
 }
