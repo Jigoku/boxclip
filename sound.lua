@@ -56,8 +56,7 @@ sound.music = {
 	[3] = love.audio.newSource("data/sounds/music/walking.ogg"),
 	[4] = love.audio.newSource("data/sounds/music/intense.ogg"),
 	[5] = love.audio.newSource("data/sounds/music/busy.ogg"),
-	[6] = love.audio.newSource("data/sounds/music/tropics.ogg")
-
+	[6] = love.audio.newSource("data/sounds/music/tropics.ogg"),
 }
 
 sound.ambience = {

@@ -251,8 +251,10 @@ function world:draw()
 		love.graphics.rectangle("fill",0,0,game.width,game.height)
 		love.graphics.setColor(255,255,255,155)
 		love.graphics.setFont(fonts.huge)
-		love.graphics.printf("PAUSED", game.width/2,game.height/3,0,"center",0,1,1)
+		love.graphics.printf("PAUSED", 0,game.height/3,game.width,"center",0,1,1)
 		love.graphics.setFont(fonts.default)
+		love.graphics.line(game.width/2.5,game.height/3,game.width-game.width/2.5,game.height/3)
+		love.graphics.line(game.width/2.5,game.height/3+30,game.width-game.width/2.5,game.height/3+30)
 	end
 end
 
