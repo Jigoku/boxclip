@@ -1,6 +1,6 @@
 world.mapmusic = 2
 world.mapambient = 4
-world.maptitle = "Frozen Plains Act 1"
+world.maptitle = "Jade Mountain Act 1"
 world.nextmap = "act2.lua"
 world:settheme("frost")
 platforms:add(190,-2520,280,270,1,0,0,0,0,0,0,1)

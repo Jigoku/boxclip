@@ -1,6 +1,6 @@
 world.mapmusic = 5
 world.mapambient = 1
-world.maptitle = "Sunny Mountain Act 2"
+world.maptitle = "Sunny Hill Act 2"
 world.nextmap = "act3.lua"
 world:settheme("sunny")
 platforms:add(450,-3430,480,50,1,0,0,0,0,0,0,1)

@@ -148,12 +148,13 @@ function editor:settheme()
 
 	world:settheme(world.theme)
 	
+	--fix this
 	--update themeable textures
-	for i,e in ipairs(enemies) do 
+	--[[for i,e in ipairs(enemies) do 
 		if e.name == "spike" then e.gfx = spike_gfx end
 		if e.name == "spike_large" then e.gfx = spike_large_gfx end
 		if e.name == "icicle" then e.gfx = icicle_gfx end
-	end
+	end--]]
 	self.themesel = self.themesel +1
 	if self.themesel > #self.themes then self.themesel = 1 end
 	
