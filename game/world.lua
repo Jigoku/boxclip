@@ -18,9 +18,11 @@ world.splash = {}
 world.weather = {}
 
 test = love.graphics.newImage("data/images/test.png")
+test2 = love.graphics.newImage("data/images/test2.png")
 test:setWrap("repeat", "clamp")
+test2:setWrap("repeat", "clampzero")
 test_quad = love.graphics.newQuad( 0,0, love.graphics.getWidth(),test:getHeight(), test:getDimensions() )
-test_quad2 = love.graphics.newQuad( 0,0, love.graphics.getWidth(),test:getHeight(), test:getDimensions() )
+test_quad2 = love.graphics.newQuad( 0,0, love.graphics.getWidth(),test2:getHeight(), test2:getDimensions() )
 test_quad3 = love.graphics.newQuad( 0,0, love.graphics.getWidth(),test:getHeight(), test:getDimensions() )
 
 function world:drawWeather()
@@ -133,7 +135,7 @@ function world:drawParallax()
 	
 	
 
-	-------test paralax background scenery
+	--back layer
 	love.graphics.setColor(
 		platform_top_r,
 		platform_top_g,
@@ -142,7 +144,7 @@ function world:drawParallax()
 	)
 		
 	test_quad:setViewport(
-		player.x/10,player.y/25,game.width,game.height
+		camera.x/10,camera.y/20,game.width,game.height
 	)
 	love.graphics.draw(
 		test,
@@ -150,23 +152,24 @@ function world:drawParallax()
 		0,0
 	)
 	
+	--middle layer
 	love.graphics.setColor(
-		platform_top_r-20,
-		platform_top_g-20,
-		platform_top_b-20,
+		platform_behind_r,
+		platform_behind_g,
+		platform_behind_b,
 		255
 	)
-		
+
 	test_quad2:setViewport(
-		player.x/6,player.y/20,game.width,game.height
+		camera.x/8,camera.y/16,game.width,game.height
 	)
 	love.graphics.draw(
-		test,
+		test2,
 		test_quad2,				
 		0,0
 	)
 	
-		
+	--front layer
 	love.graphics.setColor(
 		platform_top_r-40,
 		platform_top_g-40,
@@ -175,13 +178,14 @@ function world:drawParallax()
 	)
 		
 	test_quad3:setViewport(
-		player.x/4,player.y/12,game.width,game.height
+		camera.x/6,camera.y/12,game.width,game.height
 	)
 	love.graphics.draw(
 		test,
 		test_quad3,				
 		0,0
 	)
+	--]]
 end
 
 function world:draw()
@@ -492,7 +496,7 @@ function world:update(dt)
 			if background_scroll > background:getWidth()then
 				background_scroll = background_scroll - background:getWidth()
 			end
-			background_quad:setViewport(camera.x/20-background_scroll,-camera.y/50,game.width,game.height )
+			background_quad:setViewport(camera.x/50-background_scroll,-camera.y/200,game.width,game.height )
 		else
 			background_scroll = 0
 		end
