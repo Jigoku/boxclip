@@ -1,8 +1,8 @@
-world.mapmusic = 2
+world.mapmusic = 1
 world.mapambient = 4
 world.maptitle = "Jade Mountain Act 1"
 world.nextmap = "act2.lua"
-world:settheme("frost")
+world:settheme("mist")
 platforms:add(190,-2520,280,270,1,0,0,0,0,0,0,1)
 platforms:add(5730,-3190,720,330,0,0,0,0,0,0,0,2)
 platforms:add(3690,-2680,1250,430,1,0,0,0,0,0,0,11)
@@ -34,7 +34,7 @@ platforms:add(1690,-2830,110,80,1,0,0,0,0,0,0,11)
 platforms:add(1580,-3220,100,20,0,0,0,0,0,0,0,1)
 platforms:add(1580,-3350,100,20,0,0,0,0,0,0,0,1)
 platforms:add(1580,-3480,100,20,0,0,0,0,0,0,0,1)
-platforms:add(2780,-3580,1,20,0,0,0,2,0,1,2.74,1)
+platforms:add(2780,-3580,1,20,0,0,0,2,0,1,2.15,1)
 platforms:add(3130,-3580,100,60,1,0,0,0,0,0,0,10)
 platforms:add(3490,-3500,100,60,1,0,0,0,0,0,0,11)
 platforms:add(4250,-3380,100,60,1,0,0,0,0,0,0,4)
@@ -82,9 +82,9 @@ enemies:add(1510,-3020,0,0,0,"icicle")
 enemies:add(1530,-3020,0,0,0,"icicle")
 enemies:add(2090,-3320,0,0,1,"spike_large")
 enemies:add(1990,-3140,-100,350,left,"walker")
-enemies:add(1460,-3640,100,400,right,"floater")
-enemies:add(3110,-3100,100,400,right,"floater")
-enemies:add(650,-3300,100,400,right,"floater")
+enemies:add(1460,-3640,-100,400,left,"floater")
+enemies:add(3110,-3100,-100,400,left,"floater")
+enemies:add(650,-3300,-100,400,left,"floater")
 enemies:add(5090,-2780,0,0,0,"spikeball")
 props:add(850,-2870,"flower")
 props:add(930,-2880,"rock")
