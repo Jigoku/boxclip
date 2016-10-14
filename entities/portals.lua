@@ -15,8 +15,12 @@
  
  portals = {}
 
-goal = love.graphics.newImage("data/images/portals/goal.png")
-goal_activated = love.graphics.newImage("data/images/portals/goal_activated.png")
+
+
+portals.textures = {
+	["goal"] = love.graphics.newImage("data/images/portals/goal.png"),
+	["goal_activated"] = love.graphics.newImage("data/images/portals/goal_activated.png"),
+}
 
 function portals:add(x,y,type)
 	if type == "spawn" then
@@ -27,24 +31,25 @@ function portals:add(x,y,type)
 			w = player.w,
 			h = player.h,
 			--properties
-			name = "spawn",
+			name = type,
 		})
-		print("spawn added @  X:"..x.." Y: "..y)
+	
 	elseif type == "goal" then
 		table.insert(portals, {
 			--dimensions
 			x = x or 0,
 			y = y or 0,
-			w = 60,
-			h = 60,
+			w = self.textures[type]:getWidth(),
+			h = self.textures[type]:getHeight(),
 			--properties
 			name = "goal",
 			activated = false,
-			gfx = goal,
+			gfx = self.textures[type],
 			timer = 5
 		})
-		print("goal added @  X:"..x.." Y: "..y)
 	end
+	
+	print(type .. " added @  X:"..x.." Y: "..y)
 end
 
 function portals:draw()
@@ -56,15 +61,14 @@ function portals:draw()
 				
 			if p.name == "goal" then
 				love.graphics.setColor(255,255,255,255)
-				if not p.activated then	
-					love.graphics.draw(p.gfx, p.x, p.y, 0,1,1)
-				else
-					love.graphics.draw(goal_activated, p.x, p.y, 0,1,1)
-					
+				
+				love.graphics.draw(p.gfx, p.x, p.y, 0,1,1)
+				
+				if p.activated then	
 					--debug
 					love.graphics.setFont(fonts.large)
 					love.graphics.setColor(255,0,0,255)
-					love.graphics.print("next map in: " .. p.timer,p.x-10,p.y-20)
+					love.graphics.print("next map in: " .. math.round(p.timer,0),p.x-10,p.y-20)
 					love.graphics.setFont(fonts.default)
 				end
 			end				

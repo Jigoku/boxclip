@@ -236,6 +236,7 @@ function collision:portals(dt)
 						if not portal.activated then
 							--add paramater for "next map"?
 							portal.activated = true
+							portal.gfx = portals.textures["goal_activated"]
 							popups:add(portal.x-portal.w,portal.y+portal.h/2,"LEVEL COMPLETE")
 							sound:play(sound.effects["goal"])
 							console:print("goal reached")	

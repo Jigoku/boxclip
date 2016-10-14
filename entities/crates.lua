@@ -34,12 +34,11 @@ function crates:add(x,y,item)
 end
 
 function crates:addpickup(crate, i)
-	--add the contents of destroyable to world if any
-	if crate.item == "gem" then
-		pickups:add(crate.x+crate.w/2-pickups.textures["gem"]:getWidth()/2, crate.y+crate.h/2-pickups.textures["gem"]:getHeight()/2, "gem")
-	elseif crate.item == "life" then
-		pickups:add(crate.x+crate.w/2-pickups.textures["gem"]:getWidth()/2, crate.y+crate.h/2-pickups.textures["gem"]:getHeight()/2, "life")
-	end
+	pickups:add(
+		crate.x+crate.w/2-pickups.textures["gem"]:getWidth()/2, 
+		crate.y+crate.h/2-pickups.textures["gem"]:getHeight()/2, 
+		crate.item
+	)
 end
 
 

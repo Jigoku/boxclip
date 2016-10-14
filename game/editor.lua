@@ -333,9 +333,9 @@ function editor:wheelmoved(x, y)
 		
 	else
 		if y > 0 then
-			editor.entsel = editor.entsel -1
+			editor.entsel = math.max(1,editor.entsel -1)
 		elseif y < 0 then
-			editor.entsel = editor.entsel +1
+			editor.entsel = math.min(#editor.entities,editor.entsel +1)
 		end
 	end
 end
@@ -816,6 +816,7 @@ function editor:drawentmenu()
 	
 	love.graphics.setColor(255,255,255,155)
 	love.graphics.setFont(fonts.menu)
+	
 	love.graphics.print(self.entities[self.entsel-4] or "-----",10,s*2)
 	love.graphics.print(self.entities[self.entsel-3] or "-----",10,s*3)
 	love.graphics.print(self.entities[self.entsel-2] or "-----",10,s*4)
