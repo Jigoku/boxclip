@@ -29,6 +29,7 @@ function love.load(args)
 	require("binds")
 	require("input")
 	require("fonts")
+	require("textures")
 	
 	require("menus/main")
 	require("entities/main")

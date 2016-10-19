@@ -95,6 +95,7 @@ editor.entities = {
 	"magnet", 
 	"shield" ,
 	"flower" ,
+	"flower2" ,
 	"grass" ,
 	"rock",
 	"tree" ,
@@ -388,6 +389,7 @@ function editor:mousepressed(x,y,button)
 		if selection == "brick" then traps:add(x,y,"brick") end
 		
 		if selection == "flower" then props:add(x,y,"flower") end
+		if selection == "flower2" then props:add(x,y,"flower2") end
 		if selection == "grass" then props:add(x,y,"grass") end
 		if selection == "rock" then props:add(x,y,"rock") end
 		if selection == "tree" then props:add(x,y,"tree") end

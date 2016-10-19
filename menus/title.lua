@@ -40,7 +40,7 @@ function title:init()
 	self.bgscroll = 0
 	self.bgscrollspeed = 60
 	
-	self.frame = love.graphics.newImage("data/images/tiles/checked.png")
+	self.frame = love.graphics.newImage("data/images/textures/1.png")
 	self.frame:setWrap("repeat", "repeat")
 	
 	sound:playambient(0)

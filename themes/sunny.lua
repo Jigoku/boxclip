@@ -1,6 +1,6 @@
-platform_r = 255
-platform_g = 185
-platform_b = 111
+platform_r = 245
+platform_g = 175
+platform_b = 101
 platform_behind_r = 180
 platform_behind_g = 110
 platform_behind_b = 80

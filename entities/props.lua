@@ -20,6 +20,7 @@ props = {}
 -- as props.textures will be erased when props is reset
 props_textures = {
 	["flower"] = love.graphics.newImage("data/images/props/flower.png"),
+	["flower2"] = love.graphics.newImage("data/images/props/flower2.png"),
 	["grass"] = love.graphics.newImage("data/images/props/grass.png"),
 	["rock"] = love.graphics.newImage("data/images/props/rock.png"),
 	["tree"] = love.graphics.newImage("data/images/props/tree.png"),
