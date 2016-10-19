@@ -22,6 +22,11 @@ if not love.filesystem.exists( mapio.path .. "/maps/" ) then
 	love.filesystem.createDirectory( "maps" )
 end
 
+--create screenshots folder if it doesn't exist
+if not love.filesystem.exists( mapio.path .. "/screenshots/" ) then
+	love.filesystem.createDirectory( "screenshots" )
+end
+
 
 function mapio:savemap(map)
 	local filename = "maps/"..map

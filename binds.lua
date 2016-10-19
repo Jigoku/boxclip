@@ -6,6 +6,8 @@ binds.fullscreen = "f5"
 binds.debug = "`"
 binds.mute = "f8"
 binds.savefolder = "f11"
+binds.screenshot = "f12"
+
 --player controls
 binds.left = "a"
 binds.right = "d"
@@ -47,7 +49,7 @@ editbinds = {
 	respawn = "x",
 	showpos = ",",
 	showid = ".",
-	savemap = "f12",
+	savemap = "f3",
 	themecycle = "t",
 	moveup = "kp8",
 	movedown = "kp2",

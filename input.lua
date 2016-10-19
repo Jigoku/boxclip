@@ -60,6 +60,13 @@ function love.keypressed(key)
 		console:toggle()
 	end
 
+	if key == binds.screenshot then
+		local screenshot = love.graphics.newScreenshot();
+		local file = "screenshots/" .. os.date("%Y-%m-%d_%H%M%S") .. ".png"
+		screenshot:encode("png", file);
+		console:print("screenshot: " .. mapio.path .. "/" .. file .. " saved")
+	end
+
 	--toggle fullscreen
 	if key == binds.fullscreen then 
 	
