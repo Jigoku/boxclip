@@ -66,6 +66,7 @@ function love.load(args)
 
 
 	love.window.setIcon(game.icon)
+
 	love.mouse.setVisible(false)
 	love.mouse.setGrabbed(true)
 	

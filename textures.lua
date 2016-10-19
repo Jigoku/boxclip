@@ -20,7 +20,7 @@ function textures:load(path)
 	local t = {}
 	local i = 1
 
-	local supported = { ".png", ".bmp", ".jpg" }
+	local supported = { ".png", ".bmp", ".jpg", ".tga" }
 
 	for _,file in ipairs(love.filesystem.getDirectoryItems(path)) do
 		for _,ext in ipairs(supported) do
