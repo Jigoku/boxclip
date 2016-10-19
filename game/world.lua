@@ -37,7 +37,7 @@ end
 --loading/act display
 function world:initSplash()
 	world.splash = {}
-	world.splash.bg = love.graphics.newImage("data/images/tiles/checked.png")
+	world.splash.bg = love.graphics.newImage("data/images/textures/1.png")
 	world.splash.bg:setWrap("repeat", "repeat")
 	world.splash.active = true
 	world.splash.opacity = 255
