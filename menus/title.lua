@@ -181,27 +181,32 @@ function title:checkcheatcodes(key)
 		console:print("cheat: catlife enabled")
 		cheats.catlife = true
 		self.keystr = ""
+		sound:play(sound.effects["start"])
 	end
 	if string.match(self.keystr, "jetpack") then
 		console:print("cheat: jetpack enabled")
 		cheats.jetpack = true
 		self.keystr = ""
+		sound:play(sound.effects["start"])
 	end
 	if string.match(self.keystr, "magnet") then
 		console:print("cheat: magnet enabled")
 		cheats.magnet = true
 		self.keystr = ""
+		sound:play(sound.effects["start"])
 	end
 	if string.match(self.keystr, "shield") then
 		console:print("cheat: shield enabled")
 		cheats.shield = true
 		self.keystr = ""
+		sound:play(sound.effects["start"])
 	end
 	
 	if string.match(self.keystr, "millionare") then
 		console:print("cheat: millionare enabled")
 		cheats.millionare = true
 		self.keystr = ""
+		sound:play(sound.effects["start"])
 	end
 end
 

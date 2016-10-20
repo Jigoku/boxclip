@@ -63,6 +63,39 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			gfx = self.textures[type],
 			
 		})
+		
+	elseif type == "hopper" then
+		table.insert(enemies, {
+			--movement
+			movespeed = movespeed or 100,
+			movedist = movedist or 200,
+			movex = 0,
+			dir = 0,
+			--origin
+			xorigin = x,
+			yorigin = y,
+			
+			--position
+			x = x or 0,
+			y = y or 0,
+			
+			--dimension
+			w = self.textures[type]:getWidth(),
+			h = self.textures[type]:getHeight(),
+			
+			--properties
+			name = type,
+			mass = 800,
+			xvel = 0,
+			yvel = 0,
+			dir = "right",
+			alive = true,
+			score = 230,
+			newY = y,
+			
+			gfx = self.textures[type],
+			
+		})
 
 	elseif type == "spike" then
 		if dir == 0 or dir == 1 then

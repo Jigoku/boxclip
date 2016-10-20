@@ -19,10 +19,12 @@ sound = {}
 sound.enabled = true
 sound.volume = 100
 
-if sound.enabled then
-	love.audio.setVolume( sound.volume/100 )
-else
-	love.audio.setVolume( 0 )
+function sound:init()
+	if sound.enabled then
+		love.audio.setVolume( sound.volume/100 )
+	else
+		love.audio.setVolume( 0 )
+	end
 end
 
 sound.effects = {
@@ -67,6 +69,15 @@ sound.ambience = {
 	[4] = love.audio.newSource("data/sounds/ambient/storm.ogg")
 }
 
+
+function sound:toggle()
+	sound.enabled = not sound.enabled
+	if sound.enabled then
+		love.audio.setVolume( sound.volume/100 )
+	else
+		love.audio.setVolume( 0 )
+	end
+end
 
 function sound:playbgm(id)
 

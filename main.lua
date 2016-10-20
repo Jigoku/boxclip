@@ -55,6 +55,11 @@ function love.load(args)
 			pattern = "^[-]-f$", 
 			description = "enable fullscreen", 
 			exec = function() love.window.setFullscreen( true, "exclusive" ) end
+		},
+		{ 
+			pattern = "^[-]-m$", 
+			description = "mute audio", 
+			exec = function() sound:toggle() end
 		}
 	}
 	
@@ -72,7 +77,7 @@ function love.load(args)
 	
 	math.randomseed(game.runtime)
 
-
+	sound:init()
 	title:init()
 	
 end
