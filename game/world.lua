@@ -262,7 +262,7 @@ end
 	
 
 function world:drawSplash()
-
+if debug then return end
 	-- textured background
 		love.graphics.setColor(50,50,50,world.splash.opacity)		
 		self.splash.quad = love.graphics.newQuad( 0,0, game.width,game.height, self.splash.bg:getDimensions() )

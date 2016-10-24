@@ -333,20 +333,12 @@ function physics:platforms(object, dt)
 							platform.carrying = true
 						end		
 						
-						
-						if platform.swing == 1 then
-							object.yvel = -world.gravity
-							object.xvel = 0
-								
-							object.newX =  platform.radius * math.cos(platform.angle) + platform.xorigin +platform.w/2 - object.w/2
-
-						end
 					end
+					
 				end
 
 			end
 		
-
 	end
 	
 end

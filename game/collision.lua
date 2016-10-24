@@ -49,9 +49,10 @@ end
 
 function collision:top(a,b)
 	world.collision = world.collision +1
-	--also allows edge stepping
+
 	return a.newY+a.h > b.y  and 
-					a.y+a.h-(a.h/4) < b.y
+					a.y+a.h-2 < b.y
+					-- why -2?
 end
 
 function collision:bottom(a,b)
@@ -64,7 +65,7 @@ function collision:above(a,b)
 	--use this for a bigger intersect, eg; attacking a small enemy from above
 	world.collision = world.collision +1
 	return a.newY+a.h > b.y  and 
-					a.y-a.h/2 < b.y
+					a.y-a.h < b.y
 end
 
 function collision:bounds() 
