@@ -93,7 +93,7 @@ function platforms:draw()
 			
 			if platform.name == "platform" then
 	 	
-			--[[
+			
 				if platform.swing == 1 then
 
 					platforms:drawlink(platform, radius)
@@ -105,12 +105,8 @@ function platforms:draw()
 						255
 					)
 					--love.graphics.draw(platform_cradle, platform.x-platform_cradle:getWidth()/2,platform.y-platform_cradle:getHeight()/1.5)
-					local quad = love.graphics.newQuad( 0,0, platform.w, platform.h, self.textures[platform.texture]:getDimensions() )
-					self.textures[platform.texture]:setWrap("repeat", "repeat")
-					love.graphics.draw(self.textures[platform.texture], quad, platform.x-platform.w/2,platform.y)
+				end
 				
-				else
-				--]]
 				
 				if (platform.movex == 1) or (platform.movey == 1) then
 					love.graphics.setColor(

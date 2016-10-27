@@ -51,7 +51,8 @@ function collision:top(a,b)
 	world.collision = world.collision +1
 
 	return a.newY+a.h > b.y  and 
-					a.y+a.h-2 < b.y
+					a.y+a.h-(a.h/4) < b.y
+					--a.y+a.h-2 < b.y
 					-- why -2?
 end
 

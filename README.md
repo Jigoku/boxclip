@@ -3,7 +3,7 @@ A work in progress 2D platform engine using the love2d framework with it's own c
 
 Create levels by simply dragging and dropping platforms, and placing entities into the world.
 
-![screenshot_20160929_030241](https://cloud.githubusercontent.com/assets/1535179/18938592/9855650c-85f1-11e6-8ab5-de84e028235c.png)
+![2016-10-27_121134](https://cloud.githubusercontent.com/assets/1535179/19765236/30c2380c-9c3f-11e6-9d17-1da14f32422b.png)
 
 ###Running the game/engine
 Install [love2d](https://love2d.org/), and simply type

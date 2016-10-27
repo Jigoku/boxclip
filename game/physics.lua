@@ -319,6 +319,14 @@ function physics:platforms(object, dt)
 							platform.carrying = true
 						end
 							
+						if platform.swing == 1 then
+							object.carried = true
+							platform.carrying = true
+							object.newX =  platform.radius * math.cos(platform.angle) + platform.xorigin +platform.w/2 - object.w/2
+							object.newY = platform.y - object.h+1 *dt
+							object.yvel = -100
+						end
+							
 						if platform.movey == 1 and object.yvel <= 0 then
 							if platform.movespeed <= 0 then
 								--going up
