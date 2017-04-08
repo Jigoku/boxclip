@@ -21,9 +21,9 @@ function love.conf(t)
 	t.window.msaa = 0
 	t.window.fsaa = 0
 	t.window.display = 1
-	t.window.resizable = false
+	t.window.resizable = true
 	t.window.vsync = true
 	t.window.fullscreen = false
-	t.window.fullscreentype = "exclusive"
+	t.window.fullscreentype = "desktop"
 	
 end

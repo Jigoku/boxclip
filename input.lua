@@ -74,9 +74,22 @@ function love.keypressed(key)
 		local fs, fstype = love.window.getFullscreen()
 	
 		if fs then
-			local success = love.window.setFullscreen( false )
+		camera.scaleX = 1
+			camera.scaleY = 1
+			game.width = default_width
+			game.height = default_height
+			local success = love.window.setMode( game.width, game.height)
+
+			
 		else
-			local success = love.window.setFullscreen( true, "exclusive" )
+			local success = love.window.setFullscreen( true, "desktop" )
+			
+			local scale_x = default_width / love.graphics.getWidth() 
+			local scale_y = default_height / love.graphics.getHeight()
+			local scale = math.min(scale_x, scale_y)
+			camera.scaleX = scale
+			camera.scaleY = scale
+
 		end
 				
 		if not success then
