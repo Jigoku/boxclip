@@ -10,7 +10,9 @@ Install [love2d](https://love2d.org/) (at least version 0.10.2), and simply type
 `love .` in the *src/* directory or you can create a love executable which can be ran directly by using the Makefile:
 
 ```
-make && make all
+$ make && make all
+$ cd build
+$ love boxclip-*.love
 ```
 
 Please note this is alpha software, there is no stable release yet. Currently the plans are to have a box collision based world with a map editor, and simple path-based enemies. This may change at any time.
