@@ -104,7 +104,7 @@ function platforms:draw()
 						platform_behind_b,
 						255
 					)
-					--love.graphics.draw(platform_cradle, platform.x-platform_cradle:getWidth()/2,platform.y-platform_cradle:getHeight()/1.5)
+					love.graphics.draw(platform_cradle, platform.x-platform_cradle:getWidth()/2,platform.y-platform_cradle:getHeight()/1.5)
 				end
 				
 				
@@ -133,9 +133,11 @@ function platforms:draw()
 
 				end
 
+	
 				local quad = love.graphics.newQuad( 0,0, platform.w, platform.h, self.textures[platform.texture]:getDimensions() )
 				self.textures[platform.texture]:setWrap("repeat", "repeat")
 				love.graphics.draw(self.textures[platform.texture], quad, platform.x,platform.y)
+	
 				
 				--[[
 				--test polygon/mesh texturing (may be needed in future)

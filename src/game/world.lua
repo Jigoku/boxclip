@@ -105,7 +105,7 @@ function world:init(gamemode)
 	-- possibly draw this as unlimited width across the world using setViewPort and camera trickery?
 	world.bedrock = 2000 
 	
-	camera:setScale(camera.defaultscale,camera.defaultscale)
+	--camera:setScale(camera.defaultscale,camera.defaultscale)
 	
 	world:reset()
 
@@ -121,7 +121,8 @@ function world:init(gamemode)
 end
 
 
- 
+
+
 function world:drawParallax()
 	if editing then return end
 	love.graphics.setColor(255,255,255,255)

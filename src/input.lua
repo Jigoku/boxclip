@@ -70,11 +70,11 @@ function love.keypressed(key)
 	--toggle fullscreen
 	if key == binds.fullscreen then 
 	
-		paused = true
+		
 		local fs, fstype = love.window.getFullscreen()
 	
 		if fs then
-		camera.scaleX = 1
+			camera.scaleX = 1
 			camera.scaleY = 1
 			game.width = default_width
 			game.height = default_height
@@ -83,19 +83,12 @@ function love.keypressed(key)
 			
 		else
 			local success = love.window.setFullscreen( true, "desktop" )
-			
-			local scale_x = default_width / love.graphics.getWidth() 
-			local scale_y = default_height / love.graphics.getHeight()
-			local scale = math.min(scale_x, scale_y)
-			camera.scaleX = scale
-			camera.scaleY = scale
-
 		end
 				
 		if not success then
 			console:print("Failed to toggle fullscreen mode!")
 		end
-		paused = false
+		
 	
 	 end
 		

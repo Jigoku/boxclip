@@ -137,6 +137,12 @@ function love.resize(w,h)
 	game.width = w
 	game.height = h
 	console:print("resized window ("..w.."x"..h..")")
+	
+	local scale_x = default_width / love.graphics.getWidth() 
+	local scale_y = default_height / love.graphics.getHeight()
+	local scale = math.min(scale_x, scale_y)
+	camera.scaleX = scale
+	camera.scaleY = scale 
 end
 
 
