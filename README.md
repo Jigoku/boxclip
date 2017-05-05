@@ -1,9 +1,16 @@
-# Boxclip
-A work in progress 2D platform engine using the love2d framework with it's own custom built-in map editor.
+Boxclip is a work in progress 2D platform engine using the love2d framework with it's own custom built-in map editor.
 
 Create levels by simply dragging and dropping platforms, and placing entities into the world.
 
+Visit the [Wiki](https://github.com/Jigoku/boxclip/wiki) for help with game controls and editor features here:
+
 ![2016-10-27_121134](https://cloud.githubusercontent.com/assets/1535179/19765236/30c2380c-9c3f-11e6-9d17-1da14f32422b.png)
+
+
+### Obtain development branch
+```
+$ git clone git@github.com:Jigoku/boxclip.git
+```
 
 ### Running the game/engine
 Install [love2d](https://love2d.org/) (at least version 0.10.2), and simply type
