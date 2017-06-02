@@ -145,7 +145,7 @@ function world:drawParallax()
 	)
 		
 	test_quad:setViewport(
-		camera.x/10,camera.y/20,game.width,game.height
+		camera.x*camera.scaleX/10,camera.y*camera.scaleY/20,game.width,game.height
 	)
 	love.graphics.draw(
 		test,
@@ -162,7 +162,7 @@ function world:drawParallax()
 	)
 
 	test_quad2:setViewport(
-		camera.x/8,camera.y/16,game.width,game.height
+		camera.x*camera.scaleX/8,camera.y*camera.scaleY/16,game.width,game.height
 	)
 	love.graphics.draw(
 		test2,
@@ -179,7 +179,7 @@ function world:drawParallax()
 	)
 		
 	test_quad3:setViewport(
-		camera.x/6,camera.y/12,game.width,game.height
+		camera.x*camera.scaleX/6,camera.y*camera.scaleY/12,game.width,game.height
 	)
 	love.graphics.draw(
 		test,
