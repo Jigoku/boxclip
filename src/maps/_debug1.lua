@@ -1,6 +1,6 @@
 world.mapmusic = 7
 world.mapambient = 0
-world.maptitle = "unnamed map"
+world.maptitle = "Riverside garden"
 world.nextmap = "title"
 world:settheme("sunny")
 platforms:add(4650,-4660,80,20,0,0,0,0,0,0,0,8)
