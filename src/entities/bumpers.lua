@@ -28,7 +28,7 @@ function bumpers:add(x,y)
 		
 		--properties
 		score = 250,
-		force = 1250,
+		force = 1150,
 		name = "bumper",
 		gfx = self.textures[2]
 	})

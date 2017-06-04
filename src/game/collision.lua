@@ -18,12 +18,7 @@ collision = {}
 function collision:checkWorld(dt)
 	if not editing and player.alive then
 		self:bounds()
-		self:springs(dt)
-		self:pickups(dt)
-		self:enemies(dt)
-		self:checkpoints(dt)
-		self:portals(dt)
-		self:materials()
+		self:enemies(dt) -- move this to physics module
 	end
 end
 
@@ -78,43 +73,11 @@ function collision:bounds()
 end
 
 
-function collision:pickups(dt)
-	if mode == "editing" then return end
-
-	if player.alive then
-		local i, pickup
-		for i, pickup in ipairs(pickups) do
-			if world:inview(pickup) and not pickup.collected then
-			
-				local magnet_power = 300
-			
-				if player.hasmagnet then
-					if collision:check(player.x-magnet_power,player.y-magnet_power,player.w+(magnet_power*2),player.h+(magnet_power*2),
-						pickup.x, pickup.y,pickup.gfx:getWidth(),pickup.gfx:getHeight()) then
-							if not pickup.attract then
-								pickup.attract = true
-							end
-					
-					end
-				end
-			
-			
-				if collision:check(player.x,player.y,player.w,player.h,
-					pickup.x, pickup.y,pickup.gfx:getWidth(),pickup.gfx:getHeight()) then
-						popups:add(pickup.x-pickup.w,pickup.y+pickup.h/2,"+"..pickup.score)
-						table.remove(pickups,i)
-						console:print(pickup.name.."("..i..") collected")	
-						pickup.collected = true
-						player:collect(pickup)
-				end
-			end
-		end
-	end
-end
 
 
 
 
+--TODO MOVE THIS to physics.lua
 function collision:enemies(dt)
 	if mode == "editing" then return end
 	local i, enemy
@@ -204,89 +167,11 @@ function collision:enemies(dt)
 	end
 end
 
-function collision:checkpoints(dt)
-	if mode == "editing" then return end
-	
-	local i, checkpoint
-	for i, checkpoint in ipairs(checkpoints) do
-		if world:inview(checkpoint) then
-			if collision:check(player.x,player.y,player.w,player.h,
-				checkpoint.x, checkpoint.y,checkpoint.w,checkpoint.h) then
-				if not checkpoint.activated then
-					popups:add(checkpoint.x-checkpoint.w,checkpoint.y+checkpoint.h/2,"CHECKPOINT")
-					console:print("checkpoint activated")	
-					sound:play(sound.effects["checkpoint"])
-					checkpoint.activated = true
-					player.spawnX = checkpoint.x+(checkpoint.w/2)-player.w/2
-					player.spawnY = checkpoint.y+checkpoint.h-player.h	
-				end
-			end
-		end
-	end
-end
-
-function collision:portals(dt)
-	if mode == "editing" then return end
-	
-	local i, portal
-	for i, portal in ipairs(portals) do
-		if world:inview(portal) then
-			if collision:check(player.x,player.y,player.w,player.h,
-				portal.x, portal.y,portal.w,portal.h) then
-					
-					if portal.name == "goal" then
-						if not portal.activated then
-							--add paramater for "next map"?
-							portal.activated = true
-							portal.gfx = portals.textures["goal_activated"]
-							popups:add(portal.x-portal.w,portal.y+portal.h/2,"LEVEL COMPLETE")
-							sound:play(sound.effects["goal"])
-							console:print("goal reached")	
-						end
-					end
-			end
-		end
-	end
-end
-
-function collision:springs(dt)
-	local i, spring
-	for i, spring in ipairs(springs) do
-		if world:inview(spring) then
-			if collision:check(player.x,player.y,player.w,player.h,
-				spring.x, spring.y,spring.w,spring.h) then
-				player.jumping = true
-				sound:play(sound.effects["spring"])
-				if spring.dir == 0 then
-					player.y = spring.y-player.h -1 *dt
-					player.yvel =  spring.vel
-				elseif spring.dir == 1 then
-					player.y = spring.y +spring.h +1 *dt
-					player.yvel = -spring.vel
-				elseif spring.dir == 2 then
-					player.x = spring.x +spring.w +1 *dt
-					player.xvel = spring.vel
-				elseif spring.dir == 3 then
-					player.x = spring.x -player.w -1 *dt
-					player.xvel = -spring.vel
-				end
-			end
-		end
-	end
-end
 
 
-function collision:materials()
-	if mode == "editing" then return end
-	for i, mat in ipairs(materials) do
-		if world:inview(mat) then
-			if collision:check(player.x,player.y,player.w,player.h,mat.x,mat.y,mat.w,mat.h) then
-				if mat.name == "death" then
-					player.y = mat.y-player.h
-					player:die("death material @ x:".. math.floor(player.x) .. " y:"..math.floor(player.y))
-				end
-			end
-		end
-		
-	end
-end
+
+
+
+
+
+

@@ -145,7 +145,10 @@ function physics:world(dt)
 	self:pickups(dt)
 	self:enemies(dt)		
 	self:trapsworld(dt)
-	
+	self:springs(dt)
+	self:checkpoints(dt)
+	self:portals(dt)
+	self:materials(dt)
 end
 
 
@@ -170,7 +173,7 @@ function physics:crates(object,dt)
 				object.xvelboost = 0
 					if object.jumping then
 						object.newX = crate.x+crate.w +1 *dt
-						object.xvel = -object.xvel
+						object.xvel = player.jumpheight
 					else
 						object.newX = crate.x+crate.w +1 *dt
 						object.xvel = 0
@@ -179,7 +182,7 @@ function physics:crates(object,dt)
 				object.xvelboost = 0
 					if object.jumping then
 						object.newX = crate.x-object.w -1 *dt
-						object.xvel = -object.xvel
+						object.xvel = -player.jumpheight
 					else
 						object.newX = crate.x-object.w -1 *dt
 						object.xvel = 0
@@ -187,7 +190,7 @@ function physics:crates(object,dt)
 				elseif collision:bottom(object,crate) then
 					if object.jumping then
 						object.newY = crate.y +crate.h +1 *dt
-						object.yvel = -object.yvel
+						object.yvel = -player.jumpheight
 					else
 						object.newY = crate.y +crate.h  +1 *dt
 						object.yvel = 0
@@ -195,7 +198,7 @@ function physics:crates(object,dt)
 				elseif collision:top(object,crate) then
 					if object.jumping then
 						object.newY = crate.y - object.h -1 *dt
-						object.yvel = -object.yvel
+						object.yvel = player.jumpheight
 						
 					else
 						object.newY = crate.y - object.h -1 *dt
@@ -208,6 +211,20 @@ end
 
 
 
+function physics:materials()
+	if mode == "editing" then return end
+	for i, mat in ipairs(materials) do
+		if world:inview(mat) then
+			if collision:check(player.x,player.y,player.w,player.h,mat.x,mat.y,mat.w,mat.h) then
+				if mat.name == "death" then
+					player.y = mat.y-player.h
+					player:die("death material @ x:".. math.floor(player.x) .. " y:"..math.floor(player.y))
+				end
+			end
+		end
+		
+	end
+end
 
 
 function physics:bumpers(object,dt)
@@ -360,10 +377,10 @@ end
 
 function physics:pickups(dt)
 	local i, pickup
-		for i, pickup in ipairs(pickups) do
+		for i, pickup in ipairs(pickups) do			
 		
 			--pulls all gems to player when attract = true
-			if pickup.attract then
+			if world:inview(pickup) and pickup.attract then
 				if player.alive then
 					local angle = math.atan2(player.y+player.h/2 - pickup.h/2 - pickup.y, player.x+player.w/2 - pickup.w/2 - pickup.x)
 					pickup.newX = pickup.x + (math.cos(angle) * pickup.mass/2 * dt)
@@ -390,15 +407,40 @@ function physics:pickups(dt)
 				pickup.jumping = false
 				pickup.y = world.bedrock - pickup.h +1 *dt
 			end
+			
+			if mode == "game" and not pickup.collected then
+	
+				if player.hasmagnet then
+					if collision:check(player.x-pickups.magnet_power,player.y-pickups.magnet_power,
+										player.w+(pickups.magnet_power*2),player.h+(pickups.magnet_power*2),
+										pickup.x, pickup.y,pickup.gfx:getWidth(),pickup.gfx:getHeight()) then
+										
+						if not pickup.attract then
+							pickup.attract = true
+						end
+					
+					end
+				end
+			
+				if collision:check(player.x,player.y,player.w,player.h,
+					pickup.x, pickup.y,pickup.gfx:getWidth(),pickup.gfx:getHeight()) then
+						popups:add(pickup.x-pickup.w,pickup.y+pickup.h/2,"+"..pickup.score)
+						table.remove(pickups,i)
+						console:print(pickup.name.."("..i..") collected")	
+						pickup.collected = true
+						player:collect(pickup)
+				end
+			end
+		
 		end
 end
 
-
+	
 
 function physics:enemies(dt)
 	local i, enemy
 	for i, enemy in ipairs(enemies) do
-		if type(enemy) == "table" and enemy.alive then
+		if world:inview(enemy) and enemy.alive then
 		
 			if enemy.name == "walker" then
 				self:applyGravity(enemy, dt)
@@ -413,16 +455,10 @@ function physics:enemies(dt)
 					enemy.yvel = 0
 					enemy.jumping = false
 					enemy.y = world.bedrock - enemy.h +1 *dt
+					console:print(enemy.name .. "("..i..") out of bounds")
+					--table.remove(enemies, i)
 				end
 				
-				
-				--[[if enemy.y +enemy.h > world.groundLevel  then
-					--ai suicide (also editor misplacement, remove from world)
-					console:print(enemy.name .. "("..i..") suicided")
-					sound:play(sound.effects["kill"])
-					table.remove(enemies, i)
-					
-				end--]]
 			end	
 			
 			if enemy.name == "floater" then
@@ -521,16 +557,6 @@ function physics:player(dt)
 				player.y = world.bedrock - player.h +1 *dt
 			end
 			
-			
-			
-		--	if mode == "game" and player.y+player.h > world.groundLevel  then
-		--		player:die("out of bounds")
-		--	end
-			
-
-
-
-			
 		else
 			--death physics (float up)
 			player.y = player.y - (250 * dt)
@@ -568,6 +594,25 @@ function physics:trapsworld(dt)
 	end
 end
 
+function physics:checkpoints(dt)
+	if mode == "editing" then return end
+	local i, checkpoint
+	for i, checkpoint in ipairs(checkpoints) do
+		if world:inview(checkpoint) then
+			if collision:check(player.x,player.y,player.w,player.h,
+				checkpoint.x, checkpoint.y,checkpoint.w,checkpoint.h) then
+				if not checkpoint.activated then
+					popups:add(checkpoint.x-checkpoint.w,checkpoint.y+checkpoint.h/2,"CHECKPOINT")
+					console:print("checkpoint activated")	
+					sound:play(sound.effects["checkpoint"])
+					checkpoint.activated = true
+					player.spawnX = checkpoint.x+(checkpoint.w/2)-player.w/2
+					player.spawnY = checkpoint.y+checkpoint.h-player.h	
+				end
+			end
+		end
+	end
+end
 
 
 function physics:traps(object, dt)
@@ -626,3 +671,52 @@ function physics:traps(object, dt)
 	end
 end
 
+function physics:portals(dt)
+	if mode == "editing" then return end
+	
+	local i, portal
+	for i, portal in ipairs(portals) do
+		if world:inview(portal) then
+			if collision:check(player.x,player.y,player.w,player.h,
+				portal.x, portal.y,portal.w,portal.h) then
+					
+					if portal.name == "goal" then
+						if not portal.activated then
+							--add paramater for "next map"?
+							portal.activated = true
+							portal.gfx = portals.textures["goal_activated"]
+							popups:add(portal.x-portal.w,portal.y+portal.h/2,"LEVEL COMPLETE")
+							sound:play(sound.effects["goal"])
+							console:print("goal reached")	
+						end
+					end
+			end
+		end
+	end
+end
+
+function physics:springs(dt)
+	local i, spring
+	for i, spring in ipairs(springs) do
+		if world:inview(spring) then
+			if collision:check(player.x,player.y,player.w,player.h,
+				spring.x, spring.y,spring.w,spring.h) then
+				player.jumping = true
+				sound:play(sound.effects["spring"])
+				if spring.dir == 0 then
+					player.y = spring.y-player.h -1 *dt
+					player.yvel =  spring.vel
+				elseif spring.dir == 1 then
+					player.y = spring.y +spring.h +1 *dt
+					player.yvel = -spring.vel
+				elseif spring.dir == 2 then
+					player.x = spring.x +spring.w +1 *dt
+					player.xvel = spring.vel
+				elseif spring.dir == 3 then
+					player.x = spring.x -player.w -1 *dt
+					player.xvel = -spring.vel
+				end
+			end
+		end
+	end
+end
