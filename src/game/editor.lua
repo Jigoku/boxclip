@@ -1050,9 +1050,19 @@ function editor:drawmmap()
 	
 	for i, platform in ipairs(platforms) do
 		if platform.clip == 1 then
-			love.graphics.setColor(255,50,0,255)
+			love.graphics.setColor(
+				platform_r,
+				platform_g,
+				platform_b,
+				255
+			)
 		else
-			love.graphics.setColor(155,0,0,255)
+			love.graphics.setColor(
+				platform_behind_r,
+				platform_behind_g,
+				platform_behind_b,
+				255
+			)
 		end
 		love.graphics.rectangle(
 			"fill", 
@@ -1074,10 +1084,10 @@ function editor:drawmmap()
 		)
 	end
 	
-	love.graphics.setColor(255,0,255,255)
+	love.graphics.setColor(255,50,50,255)
 	for i, enemy in ipairs(enemies) do
 		love.graphics.rectangle(
-			"line", 
+			"fill", 
 			(enemy.x/self.mmapscale)-camera.x/self.mmapscale+self.mmapw/2, 
 			(enemy.y/self.mmapscale)-camera.y/self.mmapscale+self.mmaph/2, 
 			enemy.w/self.mmapscale, 
@@ -1085,10 +1095,10 @@ function editor:drawmmap()
 		)
 	end
 	
-	love.graphics.setColor(255,255,100,255)
+	love.graphics.setColor(100,255,100,255)
 	for i, pickup in ipairs(pickups) do
 		love.graphics.rectangle(
-			"line", 
+			"fill", 
 			(pickup.x/self.mmapscale)-camera.x/self.mmapscale+self.mmapw/2, 
 			(pickup.y/self.mmapscale)-camera.y/self.mmapscale+self.mmaph/2, 
 			pickup.w/self.mmapscale, 
@@ -1096,7 +1106,7 @@ function editor:drawmmap()
 		)
 	end
 	
-	love.graphics.setColor(0,255,0,255)
+	love.graphics.setColor(0,255,255,255)
 	for i, checkpoint in ipairs(checkpoints) do
 		love.graphics.rectangle(
 			"fill", 
@@ -1107,7 +1117,7 @@ function editor:drawmmap()
 		)
 	end
 
-	love.graphics.setColor(0,255,0,255)
+	love.graphics.setColor(255,30,255,255)
 	for i, spring in ipairs(springs) do
 		love.graphics.rectangle(
 			"fill", 
@@ -1118,7 +1128,28 @@ function editor:drawmmap()
 		)
 	end
 
-
+	love.graphics.setColor(255,155,0,255)
+	for i, bumper in ipairs(bumpers) do
+		love.graphics.rectangle(
+			"fill", 
+			(bumper.x/self.mmapscale)-camera.x/self.mmapscale+self.mmapw/2, 
+			(bumper.y/self.mmapscale)-camera.y/self.mmapscale+self.mmaph/2, 
+			bumper.w/self.mmapscale, 
+			bumper.h/self.mmapscale
+		)
+	end
+	
+	love.graphics.setColor(255,255,255,255)
+	for i, trap in ipairs(traps) do
+		love.graphics.rectangle(
+			"fill", 
+			(trap.x/self.mmapscale)-camera.x/self.mmapscale+self.mmapw/2, 
+			(trap.y/self.mmapscale)-camera.y/self.mmapscale+self.mmaph/2, 
+			trap.w/self.mmapscale, 
+			trap.h/self.mmapscale
+		)
+	end
+	
 	love.graphics.setColor(255,255,255,255)
 	love.graphics.rectangle(
 		"line", 

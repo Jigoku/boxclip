@@ -40,9 +40,9 @@ function physics:applyVelocity(object, dt)
 		-- increase friction when 'idle' until velocity is nullified
 		if object.dir == "idle" and object.xvel ~= 0 then
 			if object.xvel > 0 then
-				object.xvel = math.max(0,object.xvel - ((object.mass*2)/8 *dt))
+				object.xvel = math.max(0,object.xvel - ((object.mass*2)/10 *dt))
 			elseif object.xvel < 0 then
-				object.xvel = math.min(0,object.xvel + ((object.mass*2)/8 *dt))
+				object.xvel = math.min(0,object.xvel + ((object.mass*2)/10 *dt))
 			end
 		end
 		
@@ -341,7 +341,7 @@ function physics:platforms(object, dt)
 							platform.carrying = true
 							object.newX =  platform.radius * math.cos(platform.angle) + platform.xorigin +platform.w/2 - object.w/2
 							object.newY = platform.y - object.h+1 *dt
-							object.yvel = -100
+							object.yvel = -player.jumpheight
 						end
 							
 						if platform.movey == 1 and object.yvel <= 0 then
@@ -696,6 +696,7 @@ function physics:portals(dt)
 end
 
 function physics:springs(dt)
+	if editing then return end
 	local i, spring
 	for i, spring in ipairs(springs) do
 		if world:inview(spring) then
