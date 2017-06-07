@@ -652,7 +652,7 @@ function physics:traps(object, dt)
 					elseif collision:top(object,trap) then
 						if object.jumping then
 							object.newY = trap.y - object.h -1 *dt
-							object.yvel = -object.yvel
+							object.yvel = player.jumpheight
 								if mode == "game" and object.name == "player" then
 									popups:add(trap.x-trap.w,trap.y+trap.h/2,"+"..trap.score)
 									world:sendtofront(traps,i)

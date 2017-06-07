@@ -25,6 +25,7 @@ props_textures = {
 	["rock"] = love.graphics.newImage("data/images/props/rock.png"),
 	["tree"] = love.graphics.newImage("data/images/props/tree.png"),
 	["arch"] = love.graphics.newImage("data/images/props/arch.png"),
+	["arch1_r"] = love.graphics.newImage("data/images/props/arch1_r.png"),
 	["arch2"] = love.graphics.newImage("data/images/props/arch2.png"),
 	["arch3"] = love.graphics.newImage("data/images/props/arch3.png"),
 	["arch3_end_l"] = love.graphics.newImage("data/images/props/arch3_end_l.png"),
@@ -72,7 +73,7 @@ function props:draw()
 					platform_b,
 					255
 				)	
-			elseif prop.name == "porthole" then
+			elseif prop.name == "porthole" or prop.name == "arch1_r" then
 				love.graphics.setColor(
 					platform_behind_r,
 					platform_behind_g,

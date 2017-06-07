@@ -100,6 +100,7 @@ editor.entities = {
 	"rock",
 	"tree" ,
 	"arch" ,
+	"arch1_r",
 	"arch2",
 	"arch3",
 	"arch3_end_l",
@@ -394,6 +395,7 @@ function editor:mousepressed(x,y,button)
 		if selection == "rock" then props:add(x,y,"rock") end
 		if selection == "tree" then props:add(x,y,"tree") end
 		if selection == "arch" then props:add(x,y,"arch") end
+		if selection == "arch1_r" then props:add(x,y,"arch1_r") end
 		if selection == "arch2" then props:add(x,y,"arch2") end
 		if selection == "arch3" then props:add(x,y,"arch3") end
 		if selection == "arch3_end_l" then props:add(x,y,"arch3_end_l") end
