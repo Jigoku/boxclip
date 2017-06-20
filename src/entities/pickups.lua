@@ -67,7 +67,7 @@ function pickups:draw()
 			count = count + 1
 			
 			if pickup.name == "gem" then
-				love.graphics.setColor(pickup.red,pickup.green,pickup.blue,255)	
+				love.graphics.setColor(255,255,50,255)	
 				love.graphics.draw(
 					pickup.gfx, pickup.x, 
 					pickup.y, 0, 1, 1

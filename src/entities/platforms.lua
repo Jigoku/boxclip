@@ -27,6 +27,9 @@ platform_grass = love.graphics.newImage("data/images/tiles/grass.png")
 platforms.textures =  textures:load("data/images/textures/")
 
 
+
+
+
 function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing,angle,texture)
 
 	

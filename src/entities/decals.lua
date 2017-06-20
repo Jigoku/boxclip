@@ -27,7 +27,7 @@ decals.textures = {
 
 
 decal_waterfallspin = 0
-decal_water_scroll = 100
+decal_water_scroll = 130
 decal_lava_scroll = 36
 decal_blood_scroll = 80
 decal_stream_scroll = 80
@@ -97,11 +97,13 @@ function decals:draw()
 	for i, decal in ipairs(self) do
 		if world:inview(decal) then
 			count = count + 1
-			love.graphics.setColor(255,255,255,255)
-			love.graphics.draw(decal.gfx, decal.quad, decal.x,decal.y)
 			
-			--waterfall trim animation
+			
+			--waterfall 
 			if decal.name == "water" then
+				love.graphics.setColor(255,255,255,215)
+				love.graphics.draw(decal.gfx, decal.quad, decal.x,decal.y)
+			
 				love.graphics.setColor(190,240,255,255)
 				for i=0, decal.w, self.textures["waterfall"]:getWidth()/2 do
 				
@@ -117,6 +119,11 @@ function decals:draw()
 					
 					end
 				end
+				
+			else
+				love.graphics.setColor(255,255,255,255)
+				love.graphics.draw(decal.gfx, decal.quad, decal.x,decal.y)
+			
 			end
 
 
