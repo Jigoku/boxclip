@@ -26,7 +26,7 @@ decals.textures = {
 }
 
 
-decal_waterfallspin = 0
+decals.waterfallspin = 0
 decal_water_scroll = 130
 decal_lava_scroll = 36
 decal_blood_scroll = 80
@@ -84,8 +84,8 @@ function decals:update(dt)
 	end
 	
 	if world.decals and world.decals > 0 then
-		decal_waterfallspin = decal_waterfallspin + dt * 10
-		decal_waterfallspin = decal_waterfallspin % (2*math.pi)
+		self.waterfallspin = self.waterfallspin + dt * 10
+		self.waterfallspin = self.waterfallspin % (2*math.pi)
 	end
 
 end
@@ -107,17 +107,14 @@ function decals:draw()
 				love.graphics.setColor(190,240,255,255)
 				for i=0, decal.w, self.textures["waterfall"]:getWidth()/2 do
 				
-					local r = math.random(0,1)
-					if r == 0 then
-						love.graphics.draw(self.textures["waterfall"], decal.x+i,decal.y,
-										-decal_waterfallspin,1,1,self.textures["waterfall"]:getWidth()/2,self.textures["waterfall"]:getHeight()/2
-						)
-					else
-						love.graphics.draw(self.textures["waterfall"], decal.x+i,decal.y,
-										decal_waterfallspin,1,1,self.textures["waterfall"]:getWidth()/2,self.textures["waterfall"]:getHeight()/2
-						)
+
+					local t = self.textures["waterfall"]
+					love.graphics.draw(t, decal.x+i,decal.y,
+						(love.math.random(0,1) == 1 and self.waterfallspin or -self.waterfallspin),
+						1,1,t:getWidth()/2,t:getHeight()/2
+					)
 					
-					end
+					
 				end
 				
 			else
