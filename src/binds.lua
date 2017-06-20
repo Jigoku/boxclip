@@ -1,5 +1,6 @@
 binds = {}
 
+--misc controls
 binds.pause = "p"
 binds.exit = "escape"
 binds.fullscreen = "f5"
@@ -13,16 +14,6 @@ binds.left = "a"
 binds.right = "d"
 binds.jump = "space"
 binds.down = "s"
-
-binds.joystick = {
-	pause = "start" ,
-	exit =  "back",
-	left = "dpleft",
-	right = "dpright",
-	down = "dpdown",
-	jump = "a",
-
-}
 
 --editor controls
 editbinds = {
