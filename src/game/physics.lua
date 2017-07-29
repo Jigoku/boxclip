@@ -422,7 +422,7 @@ function physics:pickups(dt)
 					end
 				end
 			
-				if collision:check(player.x,player.y,player.w,player.h,
+				if player.alive and collision:check(player.x,player.y,player.w,player.h,
 					pickup.x, pickup.y,pickup.gfx:getWidth(),pickup.gfx:getHeight()) then
 						popups:add(pickup.x-pickup.w,pickup.y+pickup.h/2,"+"..pickup.score)
 						table.remove(pickups,i)
