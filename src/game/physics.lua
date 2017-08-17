@@ -531,7 +531,9 @@ function physics:enemies(dt)
 						if type(e) == "table" and e.alive and not (e.name == "icicle") then
 							if collision:check(e.x,e.y,e.w,e.h,
 							enemy.x,enemy.newY,enemy.w,enemy.h) then
-								enemies:die(e)
+								e.alive = false
+								sound:play(sound.effects["kill"])
+								console:print(e.name .. " killed by " .. enemy.name)
 							end
 
 						end
