@@ -480,10 +480,6 @@ end
 
 function world:update(dt)
 	
-	
-	
-	
-	
 	if not paused then 
 		world:weatherUpdate(dt)
 		collision:checkWorld(dt)
@@ -503,10 +499,8 @@ function world:update(dt)
 		else
 			background_scroll = 0
 		end
-	
-		
-		
-		
+
+
 		if mode == "game"  then
 			--trigger world splash/act display
 			if world.splash.opacity > 0 then 
@@ -522,18 +516,26 @@ function world:update(dt)
 				return 
 			end
 		
-	
 		end
-
-	
 		world:timer(dt)
 	
-		
 	end
-
-		
 end
 
 
 
+function world:sendtoback(t,i)
+	local item = t[i]
+	table.remove(t,i)
+	table.insert(t,1,item)
 
+	console:print( t[i].name .. " (" .. i .. ") sent to back" )
+end
+
+function world:sendtofront(t,i)
+	local item = t[i]
+	table.remove(t,i)
+	table.insert(t,#t,item)
+
+	console:print( t[i].name .. " (" .. i .. ") sent to front" )
+end

@@ -344,8 +344,5 @@ end
 
 
 
-function enemies:die(enemy)
-	enemy.alive = false
-	sound:play(sound.effects["kill"])
-	console:print(enemy.name .." killed")	
-end
+
+

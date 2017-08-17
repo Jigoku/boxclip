@@ -438,6 +438,7 @@ end
 	
 
 function physics:enemies(dt)
+
 	local i, enemy
 	for i, enemy in ipairs(enemies) do
 		if world:inview(enemy) and enemy.alive then
@@ -447,7 +448,6 @@ function physics:enemies(dt)
 				self:movex(enemy, dt)
 				self:traps(enemy, dt)
 				self:platforms(enemy, dt)
-				--self:crates(enemy, dt)
 				
 				self:update(enemy)
 				
@@ -456,7 +456,28 @@ function physics:enemies(dt)
 					enemy.jumping = false
 					enemy.y = world.bedrock - enemy.h +1 *dt
 					console:print(enemy.name .. "("..i..") out of bounds")
-					--table.remove(enemies, i)
+				end
+				
+				-- NOT ACTIVE WHILST EDITING
+				if mode == "game" and player.alive and collision:check(player.newX,player.newY,player.w,player.h,
+					enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
+					-- if we land on top, kill enemy
+					if collision:above(player,enemy) then	
+						if player.jumping then
+							player.y = enemy.y - player.h -1 *dt
+							popups:add(enemy.x-enemy.w,enemy.y+enemy.h/2,"+"..enemy.score)
+							player.yvel = player.mass
+							
+							enemy.alive = false
+							sound:play(sound.effects["kill"])
+							console:print(enemy.name .." killed")
+							
+							return true
+							
+						else
+							player:die(enemy.name)
+						end
+					end
 				end
 				
 			end	
@@ -464,10 +485,42 @@ function physics:enemies(dt)
 			if enemy.name == "floater" then
 				self:movex(enemy, dt)
 				self:update(enemy)
+				
+				-- NOT ACTIVE WHILST EDITING
+				if mode == "game" and player.alive and collision:check(player.newX,player.newY,player.w,player.h,
+					enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
+
+					if player.jumping then			
+						if player.y > enemy.y then
+							player.yvel = -player.mass
+						elseif player.y < enemy.y then
+							player.yvel = player.mass
+						end
+
+						popups:add(enemy.x-enemy.w/2,enemy.y+enemy.h/2,"+"..enemy.score)
+						
+						enemy.alive = false
+						sound:play(sound.effects["kill"])
+						console:print(enemy.name .." killed")
+						
+					else			
+						-- otherwise we die			
+						player:die(enemy.name)
+					end
+				end
+			
 			end
 			
+			if enemy.name == "spike" or enemy.name == "spike_large" then
+				-- NOT ACTIVE WHILST EDITING
+				if mode == "game" and player.alive and  collision:check(player.newX,player.newY,player.w,player.h,
+					enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
+					player:die(enemy.name)
+				end
+			end
+			
+			
 			if enemy.name == "icicle" then
-				
 				if enemy.falling then
 					
 					self:applyGravity(enemy, dt)
@@ -503,36 +556,49 @@ function physics:enemies(dt)
 					
 					self:update(enemy)
 					
-					
 					if enemy.y+enemy.h > world.bedrock  then
 						enemy.falling = false
 						enemy.alive = false
 					end
-				
-					
 				else
-				
 					--make dropped spikes act like platforms???
 				end
+				
+				-- NOT ACTIVE WHILST EDITING
+				if mode == "game" and player.alive then
+					if collision:check(player.newX,player.newY,player.w,player.h,
+						enemy.x-50,enemy.y,enemy.w+50,enemy.h+200) and enemy.y == enemy.yorigin then
+						enemy.falling = true
+					end
+			
+					if collision:check(player.newX,player.newY,player.w,player.h,
+						enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) and enemy.falling then
+							player:die(enemy.name)
+					end
+				end
+
 			end
 			
 			
 			if enemy.name == "spikeball" then
-				if not editing then
-					enemy.angle = enemy.angle - (enemy.speed * dt)
+				enemy.angle = enemy.angle - (enemy.speed * dt)
 				
-					if enemy.angle > math.pi*2 then enemy.angle = 0 end
+				if enemy.angle > math.pi*2 then enemy.angle = 0 end
 		
-					enemy.newX = enemy.radius * math.cos(enemy.angle) + enemy.xorigin
-					enemy.newY = enemy.radius * math.sin(enemy.angle) + enemy.yorigin
+				enemy.newX = enemy.radius * math.cos(enemy.angle) + enemy.xorigin
+				enemy.newY = enemy.radius * math.sin(enemy.angle) + enemy.yorigin
 					
-					self:update(enemy)
+				self:update(enemy)
+				
+				-- NOT ACTIVE WHILST EDITING
+				if mode == "game" and player.alive and collision:check(player.newX,player.newY,player.w,player.h,
+					enemy.x-enemy.gfx:getWidth()/2+5,enemy.y-enemy.gfx:getHeight()/2+5,enemy.w-10,enemy.h-10)  then
+					player:die(enemy.name)
 				end
 			end
-			
-			
+	
 		end
-	end
+	end	
 end
 
 
@@ -721,3 +787,16 @@ function physics:springs(dt)
 		end
 	end
 end
+
+
+
+
+
+
+
+
+
+
+
+
+

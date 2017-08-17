@@ -268,7 +268,6 @@ end
 function player:attack(enemy)
 	-- increase score when attacking an enemy
 	self.score = self.score + enemy.score
-	enemies:die(enemy)
 end
 
 function player:jump()
