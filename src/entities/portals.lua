@@ -45,7 +45,7 @@ function portals:add(x,y,type)
 			name = "goal",
 			activated = false,
 			gfx = self.textures[type],
-			timer = 5
+			timer = 12
 		})
 	end
 	

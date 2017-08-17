@@ -47,7 +47,7 @@ sound.effects = {
 	["bumper"] = love.audio.newSource("data/sounds/effect/bumper.ogg", "static"),
 	["brick"] = love.audio.newSource("data/sounds/effect/brick.ogg", "static"),
 	["start"] = love.audio.newSource("data/sounds/music/start.ogg", "static"),
-	
+
 }
 
 
@@ -61,6 +61,8 @@ sound.music = {
 	[6] = love.audio.newSource("data/sounds/music/tropics.ogg"),
 	[7] = love.audio.newSource("data/sounds/music/riverside.ogg"),
 	[8] = love.audio.newSource("data/sounds/music/exploration.ogg"),
+	[9] = love.audio.newSource("data/sounds/music/rainbow.ogg"),
+	[10] = love.audio.newSource("data/sounds/music/level_complete.ogg"),
 }
 
 sound.ambience = {
