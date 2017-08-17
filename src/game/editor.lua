@@ -447,14 +447,14 @@ function editor:mousereleased(x,y,button)
 			if world:inview(entity) then
 				if entity.movex == 1 then
 					if collision:check(self.mouse.x,self.mouse.y,1,1,entity.xorigin, entity.y, entity.movedist+entity.w, entity.h) then
-						world:sendtoback(entitytype,i)
+						self:sendtoback(entitytype,i)
 						
 						return true
 					end
 				elseif entity.movey == 1 then
 					if collision:check(self.mouse.x,self.mouse.y,1,1,entity.xorigin, entity.yorigin, entity.w, entity.h+entity.movedist) then
 					
-						world:sendtoback(entitytype,i)
+						self:sendtoback(entitytype,i)
 						return true
 					end
 				
@@ -465,14 +465,14 @@ function editor:mousereleased(x,y,button)
 							platform_link_origin:getWidth(),platform_link_origin:getHeight()
 						) then
 						
-							world:sendtoback(entitytype,i)
+							self:sendtoback(entitytype,i)
 							return true
 						
 					end
 			
 				elseif collision:check(self.mouse.x,self.mouse.y,1,1, entity.x,entity.y,entity.w,entity.h) then
 
-					world:sendtoback(entitytype,i)
+					self:sendtoback(entitytype,i)
 					return true
 			
 				end
@@ -1197,4 +1197,20 @@ function editor:mousemoved(x,y,dx,dy)
 		editor.drawsel = false
 	end
 
+end
+
+function editor:sendtoback(t,i)
+	local item = t[i]
+	table.remove(t,i)
+	table.insert(t,1,item)
+
+	console:print( t[i].name .. " (" .. i .. ") sent to back" )
+end
+
+function editor:sendtofront(t,i)
+	local item = t[i]
+	table.remove(t,i)
+	table.insert(t,#t,item)
+
+	console:print( t[i].name .. " (" .. i .. ") sent to front" )
 end

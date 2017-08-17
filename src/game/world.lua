@@ -536,18 +536,4 @@ end
 
 
 
-function world:sendtoback(t,i)
-	local item = t[i]
-	table.remove(t,i)
-	table.insert(t,1,item)
 
-	console:print( t[i].name .. " (" .. i .. ") sent to back" )
-end
-
-function world:sendtofront(t,i)
-	local item = t[i]
-	table.remove(t,i)
-	table.insert(t,#t,item)
-
-	console:print( t[i].name .. " (" .. i .. ") sent to front" )
-end
