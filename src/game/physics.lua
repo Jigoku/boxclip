@@ -464,7 +464,6 @@ function physics:enemies(dt)
 					-- if we land on top, kill enemy
 					if collision:above(player,enemy) then	
 						if player.jumping then
-							player.y = enemy.y - player.h -1 *dt
 							popups:add(enemy.x-enemy.w,enemy.y+enemy.h/2,"+"..enemy.score)
 							player.yvel = player.mass
 							

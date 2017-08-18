@@ -1,4 +1,4 @@
-world.mapmusic = 7
+world.mapmusic = 9
 world.mapambient = 0
 world.maptitle = "Riverside garden"
 world.nextmap = "title"
