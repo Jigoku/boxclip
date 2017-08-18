@@ -58,7 +58,7 @@ editor.entmenuh = 300		--entmenu height
 editor.entmenu = love.graphics.newCanvas(editor.entmenuw,editor.entmenuh)
 	
 editor.helpmenuw = 240
-editor.helpmenuh = 400
+editor.helpmenuh = 500
 editor.helpmenu = love.graphics.newCanvas(editor.helpmenuw,editor.helpmenuh)
 
 editor.clipboard = {}		--clipboard contents
@@ -776,6 +776,31 @@ function editor:drawhelpmenu()
 	love.graphics.print(editbinds.showid,10,s*21)
 	love.graphics.setColor(255,255,255,155)
 	love.graphics.printf("toggle id display",self.helpmenu:getWidth()/8,s*21,200,"right")
+	
+	love.graphics.setColor(155,255,255,155)
+	love.graphics.print(editbinds.increase,10,s*22)
+	love.graphics.setColor(255,255,255,155)
+	love.graphics.printf("increase movedist",self.helpmenu:getWidth()/8,s*22,200,"right")
+	
+	love.graphics.setColor(155,255,255,155)
+	love.graphics.print(editbinds.decrease,10,s*23)
+	love.graphics.setColor(255,255,255,155)
+	love.graphics.printf("decrease movedist",self.helpmenu:getWidth()/8,s*23,200,"right")
+	
+	love.graphics.setColor(155,255,255,155)
+	love.graphics.print(editbinds.texturesel .. " + scroll",10,s*24)
+	love.graphics.setColor(255,255,255,155)
+	love.graphics.printf("platform texture",self.helpmenu:getWidth()/8,s*24,200,"right")
+	
+	love.graphics.setColor(155,255,255,155)
+	love.graphics.print(editbinds.musicnext  .. "/" .. editbinds.musicprev,10,s*25)
+	love.graphics.setColor(255,255,255,155)
+	love.graphics.printf("change music",self.helpmenu:getWidth()/8,s*25,200,"right")
+	
+	love.graphics.setColor(155,255,255,155)
+	love.graphics.print(editbinds.camera  .. " + scroll",10,s*26)
+	love.graphics.setColor(255,255,255,155)
+	love.graphics.printf("camera zoom",self.helpmenu:getWidth()/8,s*26,200,"right")
 	
 	love.graphics.setFont(fonts.default)
 		

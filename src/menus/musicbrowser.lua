@@ -1,11 +1,15 @@
 musicbrowser = {}
 
+-- unimplemented
+-- can be drawn with F2 as of now... but does nothing.
+-- maybe remove this... just use keybinds to change BGM in editor?
+
 musicbrowser.w = 400
 musicbrowser.h = 150
 musicbrowser.x = love.graphics.getWidth()/2
 musicbrowser.y = love.graphics.getHeight()/2
 
-musicbrowser.canvas = love.graphics.newCanvas(musicbrowser.x,musicbrowser.y)
+musicbrowser.canvas = love.graphics.newCanvas(musicbrowser.w,musicbrowser.h)
 
 musicbrowser.buttons = {
 	["prev"] = love.graphics.newImage("data/images/buttons/prev.png"),
