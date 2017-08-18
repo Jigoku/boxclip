@@ -585,6 +585,8 @@ end
 function editor:draw()
 	
 	--editor hud
+	love.graphics.setColor(0,0,0,100)
+	love.graphics.rectangle("fill", game.width -120, 10, 120,50)
 	love.graphics.setFont(fonts.large)
 	love.graphics.setColor(0,255,155,155)
 	love.graphics.print("editing",game.width-80, 10,0,1,1)
