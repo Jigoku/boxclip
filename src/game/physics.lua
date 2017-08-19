@@ -463,7 +463,7 @@ function physics:enemies(dt)
 					enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
 					-- if we land on top, kill enemy
 					if collision:above(player,enemy) then	
-						if player.jumping then
+						if player.jumping or player.invincible then
 							popups:add(enemy.x-enemy.w,enemy.y+enemy.h/2,"+"..enemy.score)
 							player.yvel = player.mass
 							
@@ -489,7 +489,7 @@ function physics:enemies(dt)
 				if mode == "game" and player.alive and collision:check(player.newX,player.newY,player.w,player.h,
 					enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
 
-					if player.jumping then			
+					if player.jumping or player.invincible then			
 						if player.y > enemy.y then
 							player.yvel = -player.mass
 						elseif player.y < enemy.y then
@@ -594,7 +594,10 @@ function physics:enemies(dt)
 				-- NOT ACTIVE WHILST EDITING
 				if mode == "game" and player.alive and collision:check(player.newX,player.newY,player.w,player.h,
 					enemy.x-enemy.gfx:getWidth()/2+5,enemy.y-enemy.gfx:getHeight()/2+5,enemy.w-10,enemy.h-10)  then
-					player:die(enemy.name)
+					
+					if not player.invincible then
+						player:die(enemy.name)
+					end
 				end
 			end
 	
