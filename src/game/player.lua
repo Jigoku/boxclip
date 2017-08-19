@@ -42,9 +42,21 @@ function player:init()
 	self.camerashift = 50
 	self.candrop = false
 
+	self.invincible = false
+	self.invincibility_timer = 15
 	
 	console:print("initialized player")
 
+
+	--particle setup
+	-- horrible implementation... fix this
+	self.particles_invincible = love.graphics.newParticleSystem(pickups.textures["star"], 32)
+	self.particles_invincible:setParticleLifetime(3, 4) -- Particles live at least 2s and at most 5s.
+	self.particles_invincible:setEmissionRate(100)
+	self.particles_invincible:setSizeVariation(1)
+	self.particles_invincible:setLinearAcceleration(-200, -200, 200, 200) -- Random movement in all directions.
+	self.particles_invincible:setColors(255, 255, 255, 255, 255, 255, 255, 0) -- Fade to transparency.
+	self.particles_invincible:setSpin( 1, 5 )
 end
 
 function player:cheats()
@@ -57,6 +69,12 @@ function player:draw()
 
 	if not editing then
 		love.graphics.push()
+		
+		--draw this powerup behind player
+		if self.invincible then
+			love.graphics.setColor(255,255,255,100)
+			love.graphics.draw(self.particles_invincible, player.x+player.w/2,player.y+player.h/2, 0,0.25,0.25)
+		end
 		--rotating for jumping
 		if self.jumping then
 		
@@ -95,7 +113,17 @@ function player:draw()
 		love.graphics.pop()
 	end
 	
-	self:drawpowerups()
+	--other powerups drawn in front
+	if self.hasmagnet then
+		--
+	end
+	if self.hasshield then
+		love.graphics.setColor(105,255,255,100)
+		love.graphics.circle("fill", self.x+self.w/2, self.y+self.h/2, self.w, self.h)
+		love.graphics.setColor(25,55,55,100)
+		love.graphics.circle("line", self.x+self.w/2, self.y+self.h/2, self.w, self.h)
+	end
+	
 	
 	if editing or debug then
 		self:drawDebug()
@@ -116,24 +144,23 @@ end
 
 
 
-function player:drawpowerups()
-	if self.hasmagnet then
-		--
-	end
-	if self.hasshield then
-		love.graphics.setColor(105,255,255,100)
-		love.graphics.circle("fill", self.x+self.w/2, self.y+self.h/2, self.w, self.h)
-		love.graphics.setColor(25,55,55,100)
-		love.graphics.circle("line", self.x+self.w/2, self.y+self.h/2, self.w, self.h)
-	end
-end
-
 
 
 
 function player:update(dt)
 
-
+	if self.invincible then
+		self.particles_invincible:update(dt)
+		self.invincible_timer = math.max(0, self.invincible_timer - dt)
+		
+		if self.invincible_timer <= 0 then
+			sound:playbgm(world.mapmusic)
+			self.invincible = false
+			self.particles_invincible:stop()
+			console:print("invincibility ended")
+		end
+	end
+	
 	--fixed camera
 
 	if self.alive or editing then
@@ -205,6 +232,7 @@ function player:respawn()
 	self.lastdir = "idle"
 	self.alive = true
 	self.candrop = false
+	self.invincible = false
 	camera:setPosition(self.x+self.w/2, self.y+self.h/2)
 
 	self:cheats()
@@ -261,9 +289,23 @@ function player:collect(item)
 	elseif item.name == "shield" then
 		sound:play(sound.effects["shield"])
 		self.hasshield = true
+	elseif item.name == "star" then
+		sound:play(sound.effects["lifeup"])
+		self.score = self.score + item.score
+		player:invincibility()
 	end
 end
 
+function player:invincibility() 
+	if not self.invincible then
+		sound:playbgm(9)
+		self.invincible = true
+		self.particles_invincible:start()
+	end
+
+	self.invincible_timer = 15
+	console:print("invincibility started")
+end
 
 function player:attack(enemy)
 	-- increase score when attacking an enemy

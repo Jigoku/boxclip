@@ -22,6 +22,7 @@ pickups.textures = {
 	["life"] = love.graphics.newImage( "data/images/pickups/heart.png"),
 	["magnet"] = love.graphics.newImage( "data/images/pickups/magnet.png"),
 	["shield"] = love.graphics.newImage( "data/images/pickups/shield.png"),
+	["star"] = love.graphics.newImage( "data/images/pickups/star.png"),
 }
 
 function pickups:add(x,y,item,dropped)
@@ -34,6 +35,8 @@ function pickups:add(x,y,item,dropped)
 		score = "1000"
 	elseif item == "shield" then
 		score = "1000"
+	elseif item == "star" then
+		score = "2500"
 	end
 	
 	table.insert(pickups, {
@@ -91,6 +94,14 @@ function pickups:draw()
 			end
 			
 			if pickup.name == "shield" then
+				love.graphics.setColor(255,255,255, 255)	
+				love.graphics.draw(
+					pickup.gfx, pickup.x, 
+					pickup.y, 0, 1, 1
+				)
+			end
+			
+			if pickup.name == "star" then
 				love.graphics.setColor(255,255,255, 255)	
 				love.graphics.draw(
 					pickup.gfx, pickup.x, 

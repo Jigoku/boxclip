@@ -92,6 +92,7 @@ editor.entities = {
 	"spikeball" ,
 	"gem" ,
 	"life",
+	"star",
 	"magnet", 
 	"shield" ,
 	"flower" ,
@@ -384,6 +385,7 @@ function editor:mousepressed(x,y,button)
 		if selection == "life" then pickups:add(x,y,"life") end
 		if selection == "magnet" then pickups:add(x,y,"magnet") end
 		if selection == "shield" then pickups:add(x,y,"shield") end
+		if selection == "star" then pickups:add(x,y,"star") end
 
 		if selection == "log" then traps:add(x,y,"log") end
 		if selection == "bridge" then traps:add(x,y,"bridge") end
