@@ -52,7 +52,7 @@ function player:init()
 	-- horrible implementation... fix this
 	self.particles_invincible = love.graphics.newParticleSystem(pickups.textures["star"], 32)
 	self.particles_invincible:setParticleLifetime(3, 4) -- Particles live at least 2s and at most 5s.
-	self.particles_invincible:setEmissionRate(100)
+	self.particles_invincible:setEmissionRate(10)
 	self.particles_invincible:setSizeVariation(1)
 	self.particles_invincible:setLinearAcceleration(-200, -200, 200, 200) -- Random movement in all directions.
 	self.particles_invincible:setColors(255, 255, 255, 255, 255, 255, 255, 0) -- Fade to transparency.

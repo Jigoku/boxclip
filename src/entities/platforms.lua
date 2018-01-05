@@ -136,14 +136,14 @@ function platforms:draw()
 
 				end
 
-	
+
 				local quad = love.graphics.newQuad( 0,0, platform.w, platform.h, self.textures[platform.texture]:getDimensions() )
 				self.textures[platform.texture]:setWrap("repeat", "repeat")
 				love.graphics.draw(self.textures[platform.texture], quad, platform.x,platform.y)
-	
+
 				
-				--[[
 				--test polygon/mesh texturing (may be needed in future)
+				--[[
 				local mesh = love.graphics.newMesh(4, "fan", "dynamic")
 				local cols = math.ceil( platform.w/self.textures[platform.texture]:getWidth())
 				local rows = math.ceil(platform.h/self.textures[platform.texture]:getHeight())
@@ -153,9 +153,11 @@ function platforms:draw()
 				
 				verts = { 
 					{0,0, 0,0},  
-					{0,0+platform.h, 0,rows}, 
+					{0+platform.w,0, cols,0},
 					{0+platform.w,0+platform.h, cols,rows}, 
-					{0+platform.w,0, cols,0}
+					{0,0+platform.h, 0,rows}, 
+					
+					
 				}
 
 				mesh:setVertices(verts)

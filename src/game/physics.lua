@@ -534,7 +534,6 @@ function physics:enemies(dt)
 								sound:play(sound.effects["kill"])
 								console:print(e.name .. " killed by " .. enemy.name)
 							end
-
 						end
 					end
 					

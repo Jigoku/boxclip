@@ -115,7 +115,13 @@ end
 
 
 function sound:play(fx)
-	fx:clone():play()
+
+	--this can sound HORRIFIC with lots of entites
+	--fx:clone():play()
+	--below is a quick workaround, needs more testing
+	love.audio.rewind(fx)
+	fx:play()
+
 end
 
 function sound:stoplooping(type)
