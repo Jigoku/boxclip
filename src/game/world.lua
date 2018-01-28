@@ -16,6 +16,7 @@
 world = {}
 world.splash = {}
 world.weather = {}
+--world.camera?
 
 test = love.graphics.newImage("data/images/test.png")
 test2 = love.graphics.newImage("data/images/test2.png")
@@ -67,7 +68,7 @@ function world:settheme(theme)
 		--only set background if it exists
 		if type(background) == "userdata" then
 			background:setWrap("repeat", "repeat")
-			background_quad = love.graphics.newQuad( 0,0, game.width,game.height, background:getDimensions() )
+			background_quad = love.graphics.newQuad( 0,0, love.graphics.getWidth(),love.graphics.getHeight(), background:getDimensions() )
 		end
 	
 		console:print("set theme: " .. theme)
@@ -105,12 +106,12 @@ function world:init(gamemode)
 	-- possibly draw this as unlimited width across the world using setViewPort and camera trickery?
 	world.bedrock = 2000 
 	
-	--camera:setScale(camera.defaultscale,camera.defaultscale)
-	
 	world:reset()
 
 	mapio:loadmap(world.map)
 	
+	world:resetCamera()
+
 	--enable cheats, if any
 	if cheats.catlife then player.lives = player.lives +  9 end
 	if cheats.millionare then player.score = player.score +  "1000000" end
@@ -145,7 +146,7 @@ function world:drawParallax()
 	)
 		
 	test_quad:setViewport(
-		camera.x*camera.scaleX/10,camera.y*camera.scaleY/20,game.width,game.height
+		camera.x*camera.scale/10,camera.y*camera.scale/20,love.graphics.getWidth(),love.graphics.getHeight()
 	)
 	love.graphics.draw(
 		test,
@@ -162,7 +163,7 @@ function world:drawParallax()
 	)
 
 	test_quad2:setViewport(
-		camera.x*camera.scaleX/8,camera.y*camera.scaleY/16,game.width,game.height
+		camera.x*camera.scale/8,camera.y*camera.scale/16,love.graphics.getWidth(),love.graphics.getHeight()
 	)
 	love.graphics.draw(
 		test2,
@@ -179,7 +180,7 @@ function world:drawParallax()
 	)
 		
 	test_quad3:setViewport(
-		camera.x*camera.scaleX/6,camera.y*camera.scaleY/12,game.width,game.height
+		camera.x*camera.scale/6,camera.y*camera.scale/12,love.graphics.getWidth(),love.graphics.getHeight()
 	)
 	love.graphics.draw(
 		test,
@@ -195,7 +196,7 @@ function world:draw()
 	self:drawParallax()
 	
 	-- set camera for world
-	camera:set()
+	camera:attach()
 
 
 	
@@ -229,7 +230,7 @@ function world:draw()
 	
 	popups:draw()
 
-	camera:unset()
+	camera:detach()
 	
 
 	
@@ -249,13 +250,13 @@ function world:draw()
 	
 	if paused then
 		love.graphics.setColor(0,0,0,155)
-		love.graphics.rectangle("fill",0,0,game.width,game.height)
+		love.graphics.rectangle("fill",0,0,love.graphics.getWidth(),love.graphics.getHeight())
 		love.graphics.setColor(255,255,255,155)
 		love.graphics.setFont(fonts.huge)
-		love.graphics.printf("PAUSED", 0,game.height/3,game.width,"center",0,1,1)
+		love.graphics.printf("PAUSED", 0,love.graphics.getHeight()/3,love.graphics.getWidth(),"center",0,1,1)
 		love.graphics.setFont(fonts.default)
-		love.graphics.line(game.width/2.5,game.height/3,game.width-game.width/2.5,game.height/3)
-		love.graphics.line(game.width/2.5,game.height/3+30,game.width-game.width/2.5,game.height/3+30)
+		love.graphics.line(love.graphics.getWidth()/2.5,love.graphics.getHeight()/3,love.graphics.getWidth()-love.graphics.getWidth()/2.5,love.graphics.getHeight()/3)
+		love.graphics.line(love.graphics.getWidth()/2.5,love.graphics.getHeight()/3+30,love.graphics.getWidth()-love.graphics.getWidth()/2.5,love.graphics.getHeight()/3+30)
 	end
 end
 
@@ -266,18 +267,18 @@ function world:drawSplash()
 if debug then return end
 	-- textured background
 		love.graphics.setColor(50,50,50,world.splash.opacity)		
-		self.splash.quad = love.graphics.newQuad( 0,0, game.width,game.height, self.splash.bg:getDimensions() )
+		self.splash.quad = love.graphics.newQuad( 0,0, love.graphics.getWidth(),love.graphics.getHeight(), self.splash.bg:getDimensions() )
 		love.graphics.draw(self.splash.bg, self.splash.quad, 0, 0)
 	
 		
 		--box
 		love.graphics.setColor(platform_r/2,platform_g/2,platform_b/2,world.splash.opacity)
-		love.graphics.rectangle("fill", 0,world.splash.box_y+game.height/2,game.width, world.splash.box_h )
+		love.graphics.rectangle("fill", 0,world.splash.box_y+love.graphics.getHeight()/2,love.graphics.getWidth(), world.splash.box_h )
 		love.graphics.setFont(fonts.huge)
 		
 		--text
 		love.graphics.setColor(255,255,255,world.splash.opacity)
-		love.graphics.print(world.maptitle, game.width/1.5, world.splash.text_y+game.height/2+world.splash.box_h/2)
+		love.graphics.print(world.maptitle, love.graphics.getWidth()/1.5, world.splash.text_y+love.graphics.getHeight()/2+world.splash.box_h/2)
 		love.graphics.setFont(fonts.default)
 			
 
@@ -296,7 +297,7 @@ function world:drawScoreboard()
 	love.graphics.printf(world:formatTime(world.time), 21,41,150,"right",0,1,1)
 	love.graphics.printf(player.gems, 21,61,150,"right",0,1,1)	
 	
-	love.graphics.printf("x"..player.lives, 21,game.height-40+1,50,"right",0,1,1)
+	love.graphics.printf("x"..player.lives, 21,love.graphics.getHeight()-40+1,50,"right",0,1,1)
 	
 	
 	love.graphics.setColor(255,255,255,200)
@@ -307,10 +308,10 @@ function world:drawScoreboard()
 	love.graphics.printf(world:formatTime(world.time), 20,40,150,"right",0,1,1)
 	love.graphics.printf(player.gems, 20,60,150,"right",0,1,1)
 	
-	love.graphics.printf("x"..player.lives, 20,game.height-40,50,"right",0,1,1)
+	love.graphics.printf("x"..player.lives, 20,love.graphics.getHeight()-40,50,"right",0,1,1)
 	love.graphics.setFont(fonts.default)
 	
-	love.graphics.draw(pickups.textures["life"],20,game.height-40,0,0.5,0.5)
+	love.graphics.draw(pickups.textures["life"],20,love.graphics.getHeight()-40,0,0.5,0.5)
 end
 
 function world:timer(dt)
@@ -382,29 +383,30 @@ end
 
 
 function world:inview(entity) 
-	--check if entity is offset (probably swinging or rotating)
-		if entity.swing == 1 then
-			if (entity.xorigin-entity.radius < camera.x + (game.width/2*camera.scaleX)) 
-			and (entity.xorigin+entity.w+entity.radius > camera.x - (game.width/2*camera.scaleX))  then
-				if (entity.yorigin-entity.radius < camera.y + (game.height/2*camera.scaleX)) 
-				and (entity.yorigin+entity.h+entity.radius > camera.y - (game.height/2*camera.scaleX)) then
-					world.collision = world.collision +1
-				return true
-				end
-			end
-		else
-			--decides if the entity is visible in the game viewport
-			if (entity.x < camera.x + (game.width/2*camera.scaleX)) 
-			and (entity.x+entity.w > camera.x - (game.width/2*camera.scaleX))  then
-				if (entity.y < camera.y + (game.height/2*camera.scaleX)) 
-				and (entity.y+entity.h > camera.y - (game.height/2*camera.scaleX)) then
-					world.collision = world.collision +1
-					return true
-				end
-			end	
-		
-		end
+	local x,y = camera:toWorldCoords(entity.x,entity.y)
 	
+	if entity.swing == 1 then
+		if (camera.x + love.graphics.getWidth()/2 > entity.xorigin-entity.radius) 
+		and (camera.x - love.graphics.getWidth()/2 < entity.xorigin+entity.w+entity.radius)
+		and (camera.y + love.graphics.getHeight()/2 > entity.yorigin-entity.radius)
+		and (camera.y - love.graphics.getHeight()/2 < entity.yorigin+entity.h+entity.radius)
+			then
+			world.collision = world.collision +1
+			return true
+		end
+	else
+	
+		--decides if the entity is visible to the camera
+				
+		if (camera.x + (love.graphics.getWidth()/2/camera.scale) > entity.x ) 
+		and (camera.x - (love.graphics.getWidth()/2/camera.scale) < entity.x+entity.w)
+		and (camera.y + (love.graphics.getHeight()/2/camera.scale) > entity.y)
+		and (camera.y - (love.graphics.getHeight()/2/camera.scale) < entity.y+entity.h)
+			then
+			world.collision = world.collision +1
+			return true
+		end
+	end
 end
 
 function world:weatherUpdate(dt)
@@ -415,20 +417,20 @@ function world:weatherUpdate(dt)
 			local rand = math.random(1,4)
 			--top
 			if rand == 1 then 
-				x = math.random(camera.x-game.width/2*camera.scaleX,camera.x+game.width/2*camera.scaleX)
-				y = camera.y-game.height/2*camera.scaleY
+				x = math.random(camera.x-love.graphics.getWidth()/2*camera.scale,camera.x+love.graphics.getWidth()/2*camera.scale)
+				y = camera.y-love.graphics.getHeight()/2*camera.scale
 			--right
 			elseif rand == 2 then
-				x = camera.x+game.width/2*camera.scaleX
-				y = math.random(camera.y-game.height/2*camera.scaleY,camera.y+game.height/2*camera.scaleY)
+				x = camera.x+love.graphics.getWidth()/2*camera.scale
+				y = math.random(camera.y-love.graphics.getHeight()/2*camera.scale,camera.y+love.graphics.getHeight()/2*camera.scale)
 			--bottom
 			elseif rand == 3 then
-				x = math.random(camera.x-game.width/2*camera.scaleX,camera.x+game.width/2*camera.scaleX)
-				y = camera.y+game.height/2*camera.scaleY
+				x = math.random(camera.x-love.graphics.getWidth()/2*camera.scale,camera.x+love.graphics.getWidth()/2*camera.scale)
+				y = camera.y+love.graphics.getHeight()/2*camera.scale
 			--left
 			elseif rand == 4 then
-				x = camera.x-game.width/2*camera.scaleX
-				y = math.random(camera.y-game.height/2*camera.scaleY,camera.y+game.height/2*camera.scaleY)
+				x = camera.x-love.graphics.getWidth()/2*camera.scale
+				y = math.random(camera.y-love.graphics.getHeight()/2*camera.scale,camera.y+love.graphics.getHeight()/2*camera.scale)
 			end
 	
 			local colour = math.random(200,255)
@@ -458,7 +460,7 @@ function world:weatherUpdate(dt)
 			snow.y = snow.y + player.yvel/10 * dt
 			snow.x = snow.x - player.xvel/10 * dt
 		
-			if snow.y > camera.y+game.height/2*camera.scaleY or snow.y < camera.y-game.height/2*camera.scaleY or snow.x > camera.x+game.width/2*camera.scaleX or snow.x < camera.x-game.width/2*camera.scaleX then
+			if snow.y > camera.y+love.graphics.getHeight()/2*camera.scale or snow.y < camera.y-love.graphics.getHeight()/2*camera.scale or snow.x > camera.x+love.graphics.getWidth()/2*camera.scale or snow.x < camera.x-love.graphics.getWidth()/2*camera.scale then
 				snow.o = snow.o - 100 *dt
 			end
 		
@@ -481,6 +483,7 @@ end
 function world:update(dt)
 	
 	if not paused then 
+		camera:update(dt)
 		world:weatherUpdate(dt)
 		collision:checkWorld(dt)
 		physics:world(dt)
@@ -495,7 +498,7 @@ function world:update(dt)
 			if background_scroll > background:getWidth()then
 				background_scroll = background_scroll - background:getWidth()
 			end
-			background_quad:setViewport(camera.x/50-background_scroll,-camera.y/200,game.width,game.height )
+			background_quad:setViewport(camera.x/50-background_scroll,-camera.y/200,love.graphics.getWidth(),love.graphics.getHeight() )
 		else
 			background_scroll = 0
 		end
@@ -522,6 +525,11 @@ function world:update(dt)
 	end
 end
 
+function world:resetCamera()
+	camera = Camera(camera.x,camera.y,love.graphics.getWidth(),love.graphics.getHeight(),love.graphics.getWidth() / default_width)
+	camera:setFollowStyle('LOCKON')
+	camera:setFollowLerp(0.2)
+end
 
 
 function world:sendtoback(t,i)

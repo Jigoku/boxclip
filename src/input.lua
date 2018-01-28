@@ -74,16 +74,15 @@ function love.keypressed(key)
 		local fs, fstype = love.window.getFullscreen()
 	
 		if fs then
-			camera.scaleX = 1
-			camera.scaleY = 1
-			game.width = default_width
-			game.height = default_height
-			local success = love.window.setMode( game.width, game.height)
 
-			
+			local success = love.window.setMode( default_width,default_height)
+			if mode == "game" or mode =="editing" then
+				world:resetCamera()
+			end
 		else
 			local success = love.window.setFullscreen( true, "desktop" )
 		end
+
 				
 		if not success then
 			console:print("Failed to toggle fullscreen mode!")

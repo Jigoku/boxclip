@@ -37,9 +37,9 @@ function console:draw()
 	if self.show then
 		--console info
 		love.graphics.setColor(0,0,0,100)
-		love.graphics.rectangle("fill", 1, 1, game.width-2, 160)	
+		love.graphics.rectangle("fill", 1, 1, love.graphics.getWidth()-2, 160)	
 		love.graphics.setColor(100,100,100,100)
-		love.graphics.rectangle("line", 1, 1, game.width-2, 160)
+		love.graphics.rectangle("line", 1, 1, love.graphics.getWidth()-2, 160)
 		
 		--sysinfo
 		love.graphics.setColor(100,255,100,255)
@@ -71,13 +71,13 @@ function console:draw()
 				" | xvel: " .. math.round(player.xvel) .. 
 				" | yvel: " .. math.round(player.yvel) .. 
 				" | jumping: " .. (player.jumping and 1 or 0) ..
-				" | camera scale: " .. camera.scaleX, 
+				" | camera.scale: " .. camera.scale, 
 				5, 20
 			)
 		
 	
 			love.graphics.setColor(0,0,0,55)
-			love.graphics.rectangle("fill",  game.width/5, game.height-50, 600, 25)
+			love.graphics.rectangle("fill",  love.graphics.getWidth()/5, love.graphics.getHeight()-50, 600, 25)
 			love.graphics.setColor(255,100,255,255)
 			love.graphics.print(
 				"pickups: " .. world:count(pickups) .. "(".. world.pickups .. ")" ..
@@ -94,7 +94,7 @@ function console:draw()
 				" | traps: " .. world:count(traps) .. "(" .. world.traps .. ")" ..
 				" | t: " ..world:totalents() .. "(" .. world:totalentsdrawn() .. ")" .. 
 				" | ccpf: " .. world.collision,
-				game.width/5, game.height-50
+				love.graphics.getWidth()/5, love.graphics.getHeight()-50
 			)
 			end
 		

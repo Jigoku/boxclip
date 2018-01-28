@@ -35,10 +35,11 @@ function love.load(args)
 	require("entities/main")
 	require("game/main")
 
-	
+
+
 	game = {}
-		game.width, game.height, game.flags = love.window.getMode( )
-		game.max_fps = 120 -- game.flags.refreshrate
+		--love.graphics.getWidth(), love.graphics.getHeight(), game.flags = love.window.getMode( )
+		game.max_fps = 60 -- game.flags.refreshrate
 		game.min_dt = 1/game.max_fps
 		game.next_time = love.timer.getTime()
 		game.icon = love.image.newImageData("data/images/icon.png")
@@ -72,8 +73,8 @@ function love.load(args)
 
 	love.window.setIcon(game.icon)
 
-	love.mouse.setVisible(false)
-	love.mouse.setGrabbed(true)
+--	love.mouse.setVisible(false)
+	--love.mouse.setGrabbed(true)
 	
 	math.randomseed(game.runtime)
 
@@ -136,15 +137,13 @@ function love.draw()
 end
 
 function love.resize(w,h)
-	game.width = w
-	game.height = h
+
 	console:print("resized window ("..w.."x"..h..")")
-	
-	local scale_x = default_width / love.graphics.getWidth() 
-	local scale_y = default_height / love.graphics.getHeight()
-	local scale = math.min(scale_x, scale_y)
-	camera.scaleX = scale
-	camera.scaleY = scale 
+
+	if mode == "game" or mode =="editing" then
+		--reset camera
+		world:resetCamera()
+	end
 end
 
 

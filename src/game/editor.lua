@@ -44,12 +44,12 @@ editor.showhelpmenu = false  --toggle helpmenu
 editor.showmusicbrowser = false --toggle musicbrowser
 editor.drawsel = false		--selection outline
 editor.floatspeed = 1000		--editing floatspeed
-editor.maxcamerascale = 8   --maximum zoom
-editor.mincamerascale = 0.4 --minimum zoom
+editor.maxcamerascale = 6   --maximum zoom
+editor.mincamerascale = 0.1 --minimum zoom
 
 editor.mmapw = 200
 editor.mmaph = 200
-editor.mmapscale = 15*camera.scaleX
+editor.mmapscale = camera.scale/10
 editor.mmapcanvas = love.graphics.newCanvas( editor.mmapw, editor.mmaph )
 
 	
@@ -249,16 +249,16 @@ end
 function editor:checkkeys(dt)
 
 		if love.keyboard.isDown(editbinds.right)  then
-			player.x = player.x + self.floatspeed *camera.scaleX *dt
+			player.x = player.x + self.floatspeed /camera.scale *dt
 		end
 		if love.keyboard.isDown(editbinds.left)  then
-			player.x = player.x - self.floatspeed *camera.scaleX *dt
+			player.x = player.x - self.floatspeed /camera.scale *dt
 		end
 		if love.keyboard.isDown(editbinds.up) then
-			player.y = player.y - self.floatspeed *camera.scaleY *dt
+			player.y = player.y - self.floatspeed /camera.scale *dt
 		end
 		if love.keyboard.isDown(editbinds.down) then
-			player.y = player.y + self.floatspeed *camera.scaleY *dt
+			player.y = player.y + self.floatspeed /camera.scale *dt
 		end
 		
 		if love.keyboard.isDown(editbinds.decrease) then
@@ -318,12 +318,11 @@ function editor:wheelmoved(x, y)
     if love.keyboard.isDown(editbinds.camera) then
 		--camera zoom control
 		if y > 0 then
-			camera.scaleX = math.max(self.mincamerascale,camera.scaleX - 0.1)
-			camera.scaleY = math.max(self.mincamerascale,camera.scaleY - 0.1)
+			camera.scale = math.min(self.maxcamerascale,camera.scale + 0.1)
 		elseif y < 0 then
-			camera.scaleX = math.min(self.maxcamerascale,camera.scaleX + 0.1)
-			camera.scaleY = math.min(self.maxcamerascale,camera.scaleY + 0.1)
+			camera.scale = math.max(self.mincamerascale,camera.scale - 0.1)
 		end
+		
 	elseif love.keyboard.isDown(editbinds.texturesel) then
 		--platform texture slot selection
 		if y > 0 then
@@ -348,10 +347,8 @@ function editor:mousepressed(x,y,button)
 	
 	--this function is used to place entities which are not resizable. 
 	
-	self.mouse.pressed.x = math.round(camera.x-(game.width/2*camera.scaleX)+x*camera.scaleX,-1)
-	self.mouse.pressed.y = math.round(camera.y-(game.height/2*camera.scaleY)+y*camera.scaleX,-1)
-	
-	
+	self.mouse.pressed.x, self.mouse.pressed.y = camera:toWorldCoords(x, y)
+
 	local x = math.round(self.mouse.pressed.x,-1)
 	local y = math.round(self.mouse.pressed.y,-1)
 	
@@ -424,9 +421,7 @@ function editor:mousereleased(x,y,button)
 	--check if we have selected draggable entity, then place if neccesary
 	if not editing then return end
 	
-	self.mouse.released.x = math.round(camera.x-(game.width/2*camera.scaleX)+x*camera.scaleX,-1)
-	self.mouse.released.y = math.round(camera.y-(game.height/2*camera.scaleY)+y*camera.scaleX,-1)
-	
+	self.mouse.released.x, self.mouse.released.y = camera:toWorldCoords(x, y)
 	
 	editor.drawsel = false
 
@@ -494,8 +489,7 @@ function editor:sendtospawn(entity)
 		if portal.name == "spawn" then
 			entity.x = portal.x
 			entity.y = portal.y
-			camera.scaleX = camera.defaultscale
-			camera.scaleY = camera.defaultscale
+			camera.scale = 1
 			return true
 		end
 	end
@@ -548,15 +542,15 @@ function editor:drawguide()
 		--vertical
 		love.graphics.line(
 			math.round(self.mouse.x,-1),
-			math.round(self.mouse.y+love.graphics.getHeight()*camera.scaleY,-1),
+			math.round(self.mouse.y+love.graphics.getHeight()*camera.scale,-1),
 			math.round(self.mouse.x,-1),
-			math.round(self.mouse.y-love.graphics.getHeight()*camera.scaleY,-1)
+			math.round(self.mouse.y-love.graphics.getHeight()*camera.scale,-1)
 		)
 		--horizontal
 		love.graphics.line(
-			math.round(self.mouse.x-love.graphics.getWidth()*camera.scaleX,-1),
+			math.round(self.mouse.x-love.graphics.getWidth()*camera.scale,-1),
 			math.round(self.mouse.y,-1),
-			math.round(self.mouse.x+love.graphics.getWidth()*camera.scaleX-1),
+			math.round(self.mouse.x+love.graphics.getWidth()*camera.scale-1),
 			math.round(self.mouse.y,-1)
 		)
 	end
@@ -588,47 +582,47 @@ function editor:draw()
 	
 	--editor hud
 	love.graphics.setColor(0,0,0,100)
-	love.graphics.rectangle("fill", game.width -120, 10, 120,50)
+	love.graphics.rectangle("fill", love.graphics.getWidth() -120, 10, 120,50)
 	love.graphics.setFont(fonts.large)
 	love.graphics.setColor(0,255,155,155)
-	love.graphics.print("editing",game.width-80, 10,0,1,1)
+	love.graphics.print("editing",love.graphics.getWidth()-80, 10,0,1,1)
 	love.graphics.setFont(fonts.default)
-	love.graphics.print("press 'h' for help",game.width-115, 30,0,1,1)
+	love.graphics.print("press 'h' for help",love.graphics.getWidth()-115, 30,0,1,1)
 	
 	
 	--interactive editing
 	if editing then
 	
-		camera:set()
+		camera:attach()
 	
 		self:drawguide()
 		self:drawcursor()
 		self:drawselected()
 		self:drawselbox()
 	
-		camera:unset()
+		camera:detach()
 		
 		if world.collision == 0 then
 			--notify keybind for camera reset when 
 			--no entities are in view
 			love.graphics.setColor(255,255,255,255)
 			love.graphics.setFont(fonts.menu)
-			love.graphics.print("(Tip: press \"".. editbinds.respawn .. "\" to reset camera)", 200, game.height-50,0,1,1)
+			love.graphics.print("(Tip: press \"".. editbinds.respawn .. "\" to reset camera)", 200, love.graphics.getHeight()-50,0,1,1)
 			love.graphics.setFont(fonts.default)
 		end
 		
 		
 		love.graphics.setColor(255,255,255,255)
-		love.graphics.print("selection:",game.width-115, 65,0,1,1)
+		love.graphics.print("selection:",love.graphics.getWidth()-115, 65,0,1,1)
 	
 		love.graphics.setColor(255,155,55,255)
-		love.graphics.print(editor.selname or "",game.width-115, 80,0,1,1)
+		love.graphics.print(editor.selname or "",love.graphics.getWidth()-115, 80,0,1,1)
 	
 		love.graphics.setColor(255,255,255,255)
-		love.graphics.print("theme:",game.width-115, 95,0,1,1)
+		love.graphics.print("theme:",love.graphics.getWidth()-115, 95,0,1,1)
 	
 		love.graphics.setColor(255,155,55,255)
-		love.graphics.print(world.theme or "default",game.width-115, 110,0,1,1)
+		love.graphics.print(world.theme or "default",love.graphics.getWidth()-115, 110,0,1,1)
 	
 		if self.showentmenu then self:drawentmenu() end
 		if self.showmusicbrowser then musicbrowser:draw() end
@@ -811,7 +805,7 @@ function editor:drawhelpmenu()
 	love.graphics.setCanvas()
 	
 	love.graphics.setColor(255,255,255,255)
-	love.graphics.draw(self.helpmenu, game.width/2-self.helpmenu:getWidth()/2, game.height/2-self.helpmenu:getHeight()/2 )
+	love.graphics.draw(self.helpmenu, love.graphics.getWidth()/2-self.helpmenu:getWidth()/2, love.graphics.getHeight()/2-self.helpmenu:getHeight()/2 )
 	
 	
 end
@@ -888,7 +882,7 @@ function editor:drawentmenu()
 	love.graphics.setCanvas()
 	
 	love.graphics.setColor(255,255,255,255)
-	love.graphics.draw(self.entmenu, 10, game.height-self.entmenu:getHeight()-10 )
+	love.graphics.draw(self.entmenu, 10, love.graphics.getHeight()-self.entmenu:getHeight()-10 )
 end
 
 
@@ -1097,10 +1091,10 @@ function editor:drawmmap()
 		end
 		love.graphics.rectangle(
 			"fill", 
-			(platform.x/self.mmapscale)-(camera.x/self.mmapscale)+self.mmapw/2, 
-			(platform.y/self.mmapscale)-(camera.y/self.mmapscale)+self.mmaph/2, 
-			platform.w/self.mmapscale, 
-			platform.h/self.mmapscale
+			(platform.x*self.mmapscale)-(camera.x*self.mmapscale)+self.mmapw/2, 
+			(platform.y*self.mmapscale)-(camera.y*self.mmapscale)+self.mmaph/2, 
+			platform.w*self.mmapscale, 
+			platform.h*self.mmapscale
 		)
 	end
 
@@ -1108,10 +1102,10 @@ function editor:drawmmap()
 	for i, crate in ipairs(crates) do
 		love.graphics.rectangle(
 			"fill", 
-			(crate.x/self.mmapscale)-camera.x/self.mmapscale+self.mmapw/2, 
-			(crate.y/self.mmapscale)-camera.y/self.mmapscale+self.mmaph/2, 
-			crate.w/self.mmapscale, 
-			crate.h/self.mmapscale
+			(crate.x*self.mmapscale)-camera.x*self.mmapscale+self.mmapw/2, 
+			(crate.y*self.mmapscale)-camera.y*self.mmapscale+self.mmaph/2, 
+			crate.w*self.mmapscale, 
+			crate.h*self.mmapscale
 		)
 	end
 	
@@ -1119,10 +1113,10 @@ function editor:drawmmap()
 	for i, enemy in ipairs(enemies) do
 		love.graphics.rectangle(
 			"fill", 
-			(enemy.x/self.mmapscale)-camera.x/self.mmapscale+self.mmapw/2, 
-			(enemy.y/self.mmapscale)-camera.y/self.mmapscale+self.mmaph/2, 
-			enemy.w/self.mmapscale, 
-			enemy.h/self.mmapscale
+			(enemy.x*self.mmapscale)-camera.x*self.mmapscale+self.mmapw/2, 
+			(enemy.y*self.mmapscale)-camera.y*self.mmapscale+self.mmaph/2, 
+			enemy.w*self.mmapscale, 
+			enemy.h*self.mmapscale
 		)
 	end
 	
@@ -1130,10 +1124,10 @@ function editor:drawmmap()
 	for i, pickup in ipairs(pickups) do
 		love.graphics.rectangle(
 			"fill", 
-			(pickup.x/self.mmapscale)-camera.x/self.mmapscale+self.mmapw/2, 
-			(pickup.y/self.mmapscale)-camera.y/self.mmapscale+self.mmaph/2, 
-			pickup.w/self.mmapscale, 
-			pickup.h/self.mmapscale
+			(pickup.x*self.mmapscale)-camera.x*self.mmapscale+self.mmapw/2, 
+			(pickup.y*self.mmapscale)-camera.y*self.mmapscale+self.mmaph/2, 
+			pickup.w*self.mmapscale, 
+			pickup.h*self.mmapscale
 		)
 	end
 	
@@ -1141,10 +1135,10 @@ function editor:drawmmap()
 	for i, checkpoint in ipairs(checkpoints) do
 		love.graphics.rectangle(
 			"fill", 
-			(checkpoint.x/self.mmapscale)-camera.x/self.mmapscale+self.mmapw/2, 
-			(checkpoint.y/self.mmapscale)-camera.y/self.mmapscale+self.mmaph/2, 
-			checkpoint.w/self.mmapscale, 
-			checkpoint.h/self.mmapscale
+			(checkpoint.x*self.mmapscale)-camera.x*self.mmapscale+self.mmapw/2, 
+			(checkpoint.y*self.mmapscale)-camera.y*self.mmapscale+self.mmaph/2, 
+			checkpoint.w*self.mmapscale, 
+			checkpoint.h*self.mmapscale
 		)
 	end
 
@@ -1152,10 +1146,10 @@ function editor:drawmmap()
 	for i, spring in ipairs(springs) do
 		love.graphics.rectangle(
 			"fill", 
-			(spring.x/self.mmapscale)-camera.x/self.mmapscale+self.mmapw/2, 
-			(spring.y/self.mmapscale)-camera.y/self.mmapscale+self.mmaph/2, 
-			spring.w/self.mmapscale, 
-			spring.h/self.mmapscale
+			(spring.x*self.mmapscale)-camera.x*self.mmapscale+self.mmapw/2, 
+			(spring.y*self.mmapscale)-camera.y*self.mmapscale+self.mmaph/2, 
+			spring.w*self.mmapscale, 
+			spring.h*self.mmapscale
 		)
 	end
 
@@ -1163,10 +1157,10 @@ function editor:drawmmap()
 	for i, bumper in ipairs(bumpers) do
 		love.graphics.rectangle(
 			"fill", 
-			(bumper.x/self.mmapscale)-camera.x/self.mmapscale+self.mmapw/2, 
-			(bumper.y/self.mmapscale)-camera.y/self.mmapscale+self.mmaph/2, 
-			bumper.w/self.mmapscale, 
-			bumper.h/self.mmapscale
+			(bumper.x*self.mmapscale)-camera.x*self.mmapscale+self.mmapw/2, 
+			(bumper.y*self.mmapscale)-camera.y*self.mmapscale+self.mmaph/2, 
+			bumper.w*self.mmapscale, 
+			bumper.h*self.mmapscale
 		)
 	end
 	
@@ -1174,26 +1168,26 @@ function editor:drawmmap()
 	for i, trap in ipairs(traps) do
 		love.graphics.rectangle(
 			"fill", 
-			(trap.x/self.mmapscale)-camera.x/self.mmapscale+self.mmapw/2, 
-			(trap.y/self.mmapscale)-camera.y/self.mmapscale+self.mmaph/2, 
-			trap.w/self.mmapscale, 
-			trap.h/self.mmapscale
+			(trap.x*self.mmapscale)-camera.x*self.mmapscale+self.mmapw/2, 
+			(trap.y*self.mmapscale)-camera.y*self.mmapscale+self.mmaph/2, 
+			trap.w*self.mmapscale, 
+			trap.h*self.mmapscale
 		)
 	end
 	
 	love.graphics.setColor(255,255,255,255)
 	love.graphics.rectangle(
 		"line", 
-		(player.x/self.mmapscale)-(camera.x/self.mmapscale)+self.mmapw/2, 
-		(player.y/self.mmapscale)-(camera.y/self.mmapscale)+self.mmaph/2, 
-		player.w/self.mmapscale, 
-		player.h/self.mmapscale
+		(player.x*self.mmapscale)-(camera.x*self.mmapscale)+self.mmapw/2, 
+		(player.y*self.mmapscale)-(camera.y*self.mmapscale)+self.mmaph/2, 
+		player.w*self.mmapscale, 
+		player.h*self.mmapscale
 	)
 	
 
 	love.graphics.setCanvas()
 	love.graphics.setColor(255, 255, 255, 255)
-	love.graphics.draw(self.mmapcanvas, game.width-10-self.mmapw,love.graphics.getHeight()-10-self.mmaph )
+	love.graphics.draw(self.mmapcanvas, love.graphics.getWidth()-10-self.mmapw,love.graphics.getHeight()-10-self.mmaph )
 
 end
 
@@ -1217,8 +1211,8 @@ end
 function editor:mousemoved(x,y,dx,dy)
 	if not editing then return end
 
-	self.mouse.x = math.round(camera.x-(game.width/2*camera.scaleX)+x*camera.scaleX,-1)
-	self.mouse.y = math.round(camera.y-(game.height/2*camera.scaleY)+y*camera.scaleX,-1)
+	self.mouse.x = math.round(camera.x-(love.graphics.getWidth()/2/camera.scale)+x/camera.scale,-1)
+	self.mouse.y = math.round(camera.y-(love.graphics.getHeight()/2/camera.scale)+y/camera.scale,-1)
 
 	if love.mouse.isDown(1) then
 		editor.drawsel = true

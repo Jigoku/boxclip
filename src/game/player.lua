@@ -136,8 +136,13 @@ function player:drawDebug()
 	love.graphics.setColor(255,0,0,155)
 	love.graphics.rectangle("line", self.x, self.y, self.w, self.h)
 	
-	--love.graphics.setColor(255,255,0,50)
-	--love.graphics.rectangle("line",camera.x - self.camerashift, camera.y - self.camerashift, self.camerashift*2, self.camerashift*2)
+	--love.graphics.rectangle("line", self.x, self.y, self.w, self.h)
+	
+	love.graphics.setColor(255,255,255,100)
+	--camera center
+	love.graphics.circle("line",camera.x,camera.y,10)
+	--camera line to player
+	love.graphics.line(camera.x,camera.y,player.x+player.w/2,player.y+player.h/2)
 end
 
 
@@ -166,13 +171,13 @@ function player:update(dt)
 	if self.alive or editing then
 		local x = player.x+player.w/2
 		local y = player.y+player.h/2
-		camera:setPosition(x,y)
+		camera:follow(self.x+self.w/2, self.y+self.h/2)
 		return
 
 	end
 
 	
-	
+	--[[
 	--drift camera (needs more work)
 	if self.alive then
 		local camspeedx = (player.xvel)*4
@@ -181,7 +186,7 @@ function player:update(dt)
 		camera.x = camera.x + (math.cos(angle) *camspeedx * dt)
 		camera.y = camera.y + (math.sin(angle) *camspeedy * dt)
 	end
-	
+	--]]
 	
 	--float camera
 	--
@@ -233,7 +238,7 @@ function player:respawn()
 	self.alive = true
 	self.candrop = false
 	self.invincible = false
-	camera:setPosition(self.x+self.w/2, self.y+self.h/2)
+	camera:follow(self.x+self.w/2, self.y+self.h/2)
 
 	self:cheats()
 	
