@@ -1,4 +1,4 @@
-Camera = require("STALKER-X/Camera")
+Camera = require("game/STALKER-X/Camera")
 camera = Camera() -- initialise a dummy camera
 	
 require("game/physics")
