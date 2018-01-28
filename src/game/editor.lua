@@ -1209,7 +1209,7 @@ end
 function editor:drawCoordinates(object)
 	if editor.showpos then
 		love.graphics.setColor(255,255,255,100)
-		love.graphics.print("X:".. object.x ..",Y:" .. object.y , object.x-20,object.y-20,0)  
+		love.graphics.print("X:".. math.round(object.x,2) ..",Y:" .. math.round(object.y,2) , object.x-20,object.y-20,0)  
 	end
 end
 

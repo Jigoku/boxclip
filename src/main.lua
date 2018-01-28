@@ -38,7 +38,7 @@ function love.load(args)
 	
 	game = {}
 		game.width, game.height, game.flags = love.window.getMode( )
-		game.max_fps = game.flags.refreshrate
+		game.max_fps = 60 -- game.flags.refreshrate
 		game.min_dt = 1/game.max_fps
 		game.next_time = love.timer.getTime()
 		game.icon = love.image.newImageData("data/images/icon.png")
@@ -131,6 +131,8 @@ function love.draw()
 		return
 	end
 	love.timer.sleep(game.next_time - cur_time)
+	
+
 end
 
 function love.resize(w,h)

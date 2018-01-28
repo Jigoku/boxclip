@@ -103,31 +103,31 @@ end
 
 function physics:movex(object, dt)
 	-- traverse x-axis
-	if object.x >= object.xorigin + object.movedist then
+	if object.x > object.xorigin + object.movedist then
 		object.x = object.xorigin + object.movedist 
 		object.movespeed = -object.movespeed
 		object.dir = "left"
 	end	
-	if object.x <= object.xorigin then
+	if object.x < object.xorigin then
 		object.x = object.xorigin
 		object.movespeed = -object.movespeed
 		object.dir = "right"
 	end
-	object.newX = object.x + math.round(object.movespeed *dt)
+	object.newX = object.x + object.movespeed *dt
 end
 
 
 function physics:movey(object, dt)
 	--traverse y-axis
-	if object.y >= object.yorigin + object.movedist then
+	if object.y > object.yorigin + object.movedist then
 		object.y = object.yorigin + object.movedist
 		object.movespeed = -object.movespeed 
 	end
-	if object.y <= object.yorigin  then
+	if object.y < object.yorigin  then
 		object.y = object.yorigin
 		object.movespeed = -object.movespeed
 	end
-	object.newY = object.y + math.round(object.movespeed *dt)
+	object.newY = object.y + object.movespeed *dt
 end
 
 
@@ -329,9 +329,9 @@ function physics:platforms(object, dt)
 							object.newY = platform.y - object.h +1 *dt
 						end
 					
-						if platform.movex == 1 and object.yvel == 0 then
+						if platform.movex == 1 then
 							-- move along x-axis with platform	
-							object.newX = object.newX + math.round(platform.movespeed *dt)
+							object.newX = object.newX + platform.movespeed *dt
 							object.carried = true
 							platform.carrying = true
 						end
@@ -344,15 +344,17 @@ function physics:platforms(object, dt)
 							object.yvel = -player.jumpheight
 						end
 							
-						if platform.movey == 1 and object.yvel <= 0 then
+						if platform.movey == 1 and not object.jumping then
+							--object.yvel = -platform.movespeed *dt
+				
 							if platform.movespeed <= 0 then
 								--going up
-								object.yvel = 0
-								object.newY = platform.y - object.h - platform.movespeed *dt
+								object.yvel = -platform.movespeed *dt
+								object.newY = platform.y - object.h +1 - (platform.movespeed *dt)
 							else
 								--going down
 								object.yvel = platform.movespeed *dt
-								object.newY = platform.y - object.h + platform.movespeed *dt
+								object.newY = platform.y - object.h +1 + (platform.movespeed *dt)
 							end
 							object.carried = true
 							platform.carrying = true
@@ -370,8 +372,8 @@ end
 
 
 function physics:update(object)
-	if object.newY then object.y = math.round(object.newY,2) end
-	if object.newX then object.x = math.round(object.newX,2) end
+	if object.newY then object.y = object.newY,2 end
+	if object.newX then object.x = object.newX,2 end
 end
 
 
@@ -441,7 +443,7 @@ function physics:enemies(dt)
 
 	local i, enemy
 	for i, enemy in ipairs(enemies) do
-		if world:inview(enemy) and enemy.alive then
+		if enemy.alive then
 		
 			if enemy.name == "walker" then
 				self:applyGravity(enemy, dt)
