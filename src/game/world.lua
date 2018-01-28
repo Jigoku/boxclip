@@ -146,7 +146,7 @@ function world:drawParallax()
 	)
 		
 	test_quad:setViewport(
-		camera.x*camera.scale/10,camera.y*camera.scale/20,love.graphics.getWidth(),love.graphics.getHeight()
+		(camera.x*2)/10*camera.scale,((camera.y*2)/40),love.graphics.getWidth(),love.graphics.getHeight()
 	)
 	love.graphics.draw(
 		test,
@@ -163,7 +163,7 @@ function world:drawParallax()
 	)
 
 	test_quad2:setViewport(
-		camera.x*camera.scale/8,camera.y*camera.scale/16,love.graphics.getWidth(),love.graphics.getHeight()
+		(camera.x*3)/10*camera.scale,((camera.y*3)/35),love.graphics.getWidth(),love.graphics.getHeight()
 	)
 	love.graphics.draw(
 		test2,
@@ -180,7 +180,7 @@ function world:drawParallax()
 	)
 		
 	test_quad3:setViewport(
-		camera.x*camera.scale/6,camera.y*camera.scale/12,love.graphics.getWidth(),love.graphics.getHeight()
+		(camera.x*4)/10*camera.scale,((camera.y*4)/30),love.graphics.getWidth(),love.graphics.getHeight()
 	)
 	love.graphics.draw(
 		test,
@@ -411,26 +411,27 @@ end
 
 function world:weatherUpdate(dt)
 	if world.theme == "frost" then
+
 		while #world.weather < 400 do
 	
 			local x,y
 			local rand = math.random(1,4)
 			--top
 			if rand == 1 then 
-				x = math.random(camera.x-love.graphics.getWidth()/2*camera.scale,camera.x+love.graphics.getWidth()/2*camera.scale)
+				x = math.random(camera.x-love.graphics.getWidth()/2/camera.scale,camera.x+love.graphics.getWidth()/2/camera.scale)
 				y = camera.y-love.graphics.getHeight()/2*camera.scale
 			--right
 			elseif rand == 2 then
 				x = camera.x+love.graphics.getWidth()/2*camera.scale
-				y = math.random(camera.y-love.graphics.getHeight()/2*camera.scale,camera.y+love.graphics.getHeight()/2*camera.scale)
+				y = math.random(camera.y-love.graphics.getHeight()/2/camera.scale,camera.y+love.graphics.getHeight()/2/camera.scale)
 			--bottom
 			elseif rand == 3 then
-				x = math.random(camera.x-love.graphics.getWidth()/2*camera.scale,camera.x+love.graphics.getWidth()/2*camera.scale)
+				x = math.random(camera.x-love.graphics.getWidth()/2/camera.scale,camera.x+love.graphics.getWidth()/2/camera.scale)
 				y = camera.y+love.graphics.getHeight()/2*camera.scale
 			--left
 			elseif rand == 4 then
 				x = camera.x-love.graphics.getWidth()/2*camera.scale
-				y = math.random(camera.y-love.graphics.getHeight()/2*camera.scale,camera.y+love.graphics.getHeight()/2*camera.scale)
+				y = math.random(camera.y-love.graphics.getHeight()/2/camera.scale,camera.y+love.graphics.getHeight()/2/camera.scale)
 			end
 	
 			local colour = math.random(200,255)
@@ -498,7 +499,7 @@ function world:update(dt)
 			if background_scroll > background:getWidth()then
 				background_scroll = background_scroll - background:getWidth()
 			end
-			background_quad:setViewport(camera.x/50-background_scroll,-camera.y/200,love.graphics.getWidth(),love.graphics.getHeight() )
+			background_quad:setViewport(camera.x/50-background_scroll,-camera.y/100,love.graphics.getWidth(),love.graphics.getHeight() )
 		else
 			background_scroll = 0
 		end

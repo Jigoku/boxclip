@@ -644,7 +644,7 @@ function physics:trapsworld(dt)
 	for i, trap in ipairs(traps) do
 		if trap.falling then
 			trap.timer = math.max(0, trap.timer - dt)
-				
+			
 			if trap.timer <= 0 then
 			
 				if trap.name == "brick" then
@@ -697,7 +697,7 @@ function physics:traps(object, dt)
 						object.newY = trap.y - object.h -1 *dt
 						object.yvel = 0
 						object.jumping = false
-
+											
 						-- only player can make logs fall
 						if mode == "game" and object.name == "player" then
 							trap.falling = true

@@ -1211,8 +1211,7 @@ end
 function editor:mousemoved(x,y,dx,dy)
 	if not editing then return end
 
-	self.mouse.x = math.round(camera.x-(love.graphics.getWidth()/2/camera.scale)+x/camera.scale,-1)
-	self.mouse.y = math.round(camera.y-(love.graphics.getHeight()/2/camera.scale)+y/camera.scale,-1)
+	self.mouse.x, self.mouse.y = camera:getMousePosition()
 
 	if love.mouse.isDown(1) then
 		editor.drawsel = true

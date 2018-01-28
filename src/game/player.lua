@@ -260,7 +260,7 @@ function player:die(this)
 		if self.hasmagnet then
 			self.hasmagnet = false
 		end
-	
+		camera:shake(8, 1, 60, 'XY')
 		console:print("player killed by " .. this)	
 		sound:play(sound.effects["die"])
 		self.alive = false
