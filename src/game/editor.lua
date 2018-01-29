@@ -536,6 +536,8 @@ function editor:drawguide()
 	--draw crosshairs for editor placement
 
 	if self.showguide then
+		self:drawgrid()
+	
 		love.graphics.setColor(200,200,255,50)
 		--vertical
 		love.graphics.line(
@@ -593,6 +595,7 @@ function editor:draw()
 	
 		camera:attach()
 	
+
 		self:drawguide()
 		self:drawcursor()
 		self:drawselected()
@@ -808,6 +811,32 @@ function editor:drawhelpmenu()
 	
 end
 
+function editor:drawgrid()
+	love.graphics.setColor(255,255,255,25)
+	--local x,y = {0,0}
+	
+	-- horizontal grid
+	for x=camera.x-love.graphics.getWidth()/2/camera.scale,
+		camera.x+love.graphics.getWidth()/2/camera.scale,10 do
+		
+		love.graphics.line(
+			math.round(x,-1), camera.y-love.graphics.getHeight()/2/camera.scale,
+			math.round(x,-1), camera.y+love.graphics.getHeight()/2/camera.scale
+		)
+	end
+		
+	-- vertical grid
+	for y=camera.y-love.graphics.getHeight()/2/camera.scale,
+		camera.y+love.graphics.getHeight()/2/camera.scale,10 do
+		
+		love.graphics.line(
+			camera.x-love.graphics.getWidth()/2/camera.scale, math.round(y,-1),
+			camera.x+love.graphics.getWidth()/2/camera.scale, math.round(y,-1)
+		)
+	end
+
+
+end
 
 function editor:drawentmenu()
 	--gui scrolling list for entity selection
