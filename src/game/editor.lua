@@ -347,11 +347,9 @@ function editor:mousepressed(x,y,button)
 	
 	--this function is used to place entities which are not resizable. 
 	
-	self.mouse.pressed.x, self.mouse.pressed.y = camera:toWorldCoords(x, y)
+self.mouse.pressed.x = math.round(camera.x-(love.graphics.getWidth()/2*camera.scale)+x*camera.scale,-1)
+	self.mouse.pressed.y = math.round(camera.y-(love.graphics.getHeight()/2*camera.scale)+y*camera.scale,-1)
 
-	local x = math.round(self.mouse.pressed.x,-1)
-	local y = math.round(self.mouse.pressed.y,-1)
-	
 	
 	if button == 1 then
 		local selection = self.entities[self.entsel]
@@ -421,7 +419,8 @@ function editor:mousereleased(x,y,button)
 	--check if we have selected draggable entity, then place if neccesary
 	if not editing then return end
 	
-	self.mouse.released.x, self.mouse.released.y = camera:toWorldCoords(x, y)
+	self.mouse.released.x = math.round(camera.x-(love.graphics.getWidth()/2*camera.scale)+x*camera.scale,-1)
+	self.mouse.released.y = math.round(camera.y-(love.graphics.getHeight()/2*camera.scale)+y*camera.scale,-1)
 	
 	editor.drawsel = false
 
@@ -484,12 +483,11 @@ end
 
 
 function editor:sendtospawn(entity)
-	
+	world:resetCamera()
 	for _,portal in ipairs(portals) do
 		if portal.name == "spawn" then
 			entity.x = portal.x
 			entity.y = portal.y
-			camera.scale = 1
 			return true
 		end
 	end
@@ -1211,8 +1209,10 @@ end
 function editor:mousemoved(x,y,dx,dy)
 	if not editing then return end
 
-	self.mouse.x, self.mouse.y = camera:getMousePosition()
-
+	--self.mouse.x, self.mouse.y = camera:getMousePosition()
+	
+	self.mouse.x = math.round(camera.x-(love.graphics.getWidth()/2*camera.scale)+x*camera.scale,-1)
+	self.mouse.y = math.round(camera.y-(love.graphics.getHeight()/2*camera.scale)+y*camera.scale,-1)
 	if love.mouse.isDown(1) then
 		editor.drawsel = true
 	else

@@ -38,8 +38,8 @@ function love.load(args)
 
 
 	game = {}
-		--love.graphics.getWidth(), love.graphics.getHeight(), game.flags = love.window.getMode( )
-		game.max_fps = 60 -- game.flags.refreshrate
+		game.w, game.h, game.flags = love.window.getMode()
+		game.max_fps = game.flags.refreshrate
 		game.min_dt = 1/game.max_fps
 		game.next_time = love.timer.getTime()
 		game.icon = love.image.newImageData("data/images/icon.png")
@@ -73,8 +73,8 @@ function love.load(args)
 
 	love.window.setIcon(game.icon)
 
---	love.mouse.setVisible(false)
-	--love.mouse.setGrabbed(true)
+	love.mouse.setVisible(false)
+	love.mouse.setGrabbed(true)
 	
 	math.randomseed(game.runtime)
 

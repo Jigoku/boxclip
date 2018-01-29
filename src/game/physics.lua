@@ -730,6 +730,7 @@ function physics:traps(object, dt)
 									trap.yvel = 500							
 									trap.falling = true
 									sound:play(sound.effects["brick"])
+									camera:shake(8, 1, 30, 'XY')
 								end
 						else
 							object.newY = trap.y - object.h -1 *dt
