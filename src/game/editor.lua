@@ -347,8 +347,8 @@ function editor:mousepressed(x,y,button)
 	
 	--this function is used to place entities which are not resizable. 
 	
-self.mouse.pressed.x = math.round(camera.x-(love.graphics.getWidth()/2*camera.scale)+x*camera.scale,-1)
-	self.mouse.pressed.y = math.round(camera.y-(love.graphics.getHeight()/2*camera.scale)+y*camera.scale,-1)
+	self.mouse.pressed.x = math.round(camera.x-(love.graphics.getWidth()/2/camera.scale)+x/camera.scale,-1)
+	self.mouse.pressed.y = math.round(camera.y-(love.graphics.getHeight()/2/camera.scale)+y/camera.scale,-1)
 
 	
 	if button == 1 then
@@ -419,8 +419,8 @@ function editor:mousereleased(x,y,button)
 	--check if we have selected draggable entity, then place if neccesary
 	if not editing then return end
 	
-	self.mouse.released.x = math.round(camera.x-(love.graphics.getWidth()/2*camera.scale)+x*camera.scale,-1)
-	self.mouse.released.y = math.round(camera.y-(love.graphics.getHeight()/2*camera.scale)+y*camera.scale,-1)
+	self.mouse.released.x = math.round(camera.x-(love.graphics.getWidth()/2/camera.scale)+x/camera.scale,-1)
+	self.mouse.released.y = math.round(camera.y-(love.graphics.getHeight()/2/camera.scale)+y/camera.scale,-1)
 	
 	editor.drawsel = false
 
@@ -1211,8 +1211,8 @@ function editor:mousemoved(x,y,dx,dy)
 
 	--self.mouse.x, self.mouse.y = camera:getMousePosition()
 	
-	self.mouse.x = math.round(camera.x-(love.graphics.getWidth()/2*camera.scale)+x*camera.scale,-1)
-	self.mouse.y = math.round(camera.y-(love.graphics.getHeight()/2*camera.scale)+y*camera.scale,-1)
+	self.mouse.x = math.round(camera.x-(love.graphics.getWidth()/2/camera.scale)+x/camera.scale,-1)
+	self.mouse.y = math.round(camera.y-(love.graphics.getHeight()/2/camera.scale)+y/camera.scale,-1)
 	if love.mouse.isDown(1) then
 		editor.drawsel = true
 	else
