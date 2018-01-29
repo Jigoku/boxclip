@@ -350,6 +350,8 @@ function editor:mousepressed(x,y,button)
 	self.mouse.pressed.x = math.round(camera.x-(love.graphics.getWidth()/2/camera.scale)+x/camera.scale,-1)
 	self.mouse.pressed.y = math.round(camera.y-(love.graphics.getHeight()/2/camera.scale)+y/camera.scale,-1)
 
+	local x = self.mouse.pressed.x
+	local y = self.mouse.pressed.y
 	
 	if button == 1 then
 		local selection = self.entities[self.entsel]
@@ -813,7 +815,6 @@ end
 
 function editor:drawgrid()
 	love.graphics.setColor(255,255,255,25)
-	--local x,y = {0,0}
 	
 	-- horizontal grid
 	for x=camera.x-love.graphics.getWidth()/2/camera.scale,
@@ -834,8 +835,6 @@ function editor:drawgrid()
 			camera.x+love.graphics.getWidth()/2/camera.scale, math.round(y,-1)
 		)
 	end
-
-
 end
 
 function editor:drawentmenu()

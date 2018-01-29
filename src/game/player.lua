@@ -148,10 +148,6 @@ end
 
 
 
-
-
-
-
 function player:update(dt)
 
 	if self.invincible then
