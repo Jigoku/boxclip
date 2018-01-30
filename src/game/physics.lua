@@ -234,14 +234,17 @@ function physics:bumpers(object,dt)
 				object.newX,object.newY,object.w,object.h) then
 			
 			object.jumping = true
-			
+			bumper.scale = bumpers.maxscale
+									
+			sound:play(sound.effects["bumper"])
+				
 			if bumper.score > 0 then
 				player.score = player.score + 50
 				bumper.score = bumper.score - 50
 				popups:add(bumper.x-bumper.w,bumper.y+bumper.h/2,"+50")
+
 			end
-			
-			sound:play(sound.effects["bumper"])
+
 			
 			if collision:right(object,bumper) and not collision:top(object,bumper) then
 					object.newX = bumper.x+bumper.w +1 *dt

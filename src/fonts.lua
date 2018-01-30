@@ -3,6 +3,6 @@ fonts = {
 	menu = love.graphics.newFont("data/fonts/Hanken/Hanken-Book.ttf",14),
 	popups = love.graphics.newFont("data/fonts/Hanken/Hanken-Book.ttf",15),
 	scoreboard = love.graphics.newFont("data/fonts/Hanken/Hanken-Book.ttf",20),
-	large = love.graphics.newFont("data/fonts/Hanken/Hanken-Book.ttf",30),
+	large = love.graphics.newFont("data/fonts/Hanken/Hanken-Book.ttf",25),
 	huge = love.graphics.newFont("data/fonts/Hanken/Hanken-Book.ttf",40),
 }

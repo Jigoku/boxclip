@@ -33,15 +33,12 @@ function love.keypressed(key)
 	
 	if mode == "game" then
 		if key == binds.pause then
-				paused = not paused
+				
+			-- broken? does not resume.
+			if paused then love.audio.resume() else love.audio.pause() end
+			paused = not paused
 			
-				if not paused then 
-					love.audio.resume()
-				else 
-					love.audio.pause()
-				end
-					
-				sound:play(sound.effects["beep"])
+			sound:play(sound.effects["beep"])
 		end
 	end
 	

@@ -16,6 +16,8 @@
 bumpers = {}
 
 bumpers.textures = textures:load("data/images/bumpers/")
+bumpers.scalespeed =  5
+bumpers.maxscale = 1.5
 
 function bumpers:add(x,y)
 
@@ -30,6 +32,7 @@ function bumpers:add(x,y)
 		score = 250,
 		force = 1000,
 		name = "bumper",
+		scale = 1,
 		gfx = self.textures[2]
 	})
 
@@ -37,11 +40,13 @@ end
 
 function bumpers:update(dt)
 	for i, bumper in ipairs(self) do
-		--[[
-			animate on collision
-		--]]
+		if bumper.scale > 1 then
+			bumper.scale = bumper.scale - bumpers.scalespeed *dt
+			if bumper.scale <= 1 then
+				bumper.scale = 1
+			end
+		end
 	end
-	
 end
 
 function bumpers:draw()
@@ -52,7 +57,15 @@ function bumpers:draw()
 		if world:inview(bumper) then
 			count = count + 1
 			love.graphics.setColor(255,255,255,255)
-			love.graphics.draw(bumper.gfx, bumper.x,bumper.y)
+
+			--offset for centred scaling
+			local ox, oy = bumper.w *.5, bumper.h * .5
+
+			love.graphics.draw(
+				bumper.gfx, bumper.x+ox, bumper.y+oy, 0, 
+				bumper.scale, bumper.scale,
+				ox,oy	
+			)
 
 			if editing or debug then
 				love.graphics.setColor(255,150,0,255)

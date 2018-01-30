@@ -278,7 +278,7 @@ if debug then return end
 		
 		--text
 		love.graphics.setColor(255,255,255,world.splash.opacity)
-		love.graphics.print(world.maptitle, love.graphics.getWidth()/1.5, world.splash.text_y+love.graphics.getHeight()/2+world.splash.box_h/2)
+		love.graphics.print(world.maptitle, love.graphics.getWidth()/2, world.splash.text_y+love.graphics.getHeight()/2+world.splash.box_h/2)
 		love.graphics.setFont(fonts.default)
 			
 
@@ -492,6 +492,7 @@ function world:update(dt)
 		player:update(dt)
 		decals:update(dt)
 		portals:update(dt)
+		bumpers:update(dt)
 		world.collision = 0
 
 		if type(background) == "userdata" then

@@ -83,12 +83,14 @@ function sound:toggle()
 	end
 end
 
+
+
 function sound:playbgm(id)
 
 	self.bgm = self.music[id]
 	self:stoplooping(self.music)
 	
-	love.audio.rewind( )
+	love.audio.rewind()
 	
 	if id ~= 0 then
 		self.bgm:setLooping(true)

@@ -190,14 +190,13 @@ function player:update(dt)
 	-- seems incompatible though... find a different way.
 	
 	
-	if player.lives < 0 then
+	if player.lives <= 0 then
 		console:print("game over")
 		--add game over transition screen
 		--should fade in, press button to exit to title
 		title:init()
 	end
-			
-
+		
 	
 	if player.gems == 100 then
 		player.gems = 0
