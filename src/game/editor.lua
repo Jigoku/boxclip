@@ -47,11 +47,12 @@ editor.floatspeed = 1000		--editing floatspeed
 editor.maxcamerascale = 6   --maximum zoom
 editor.mincamerascale = 0.1 --minimum zoom
 
+editor.errortex = love.graphics.newImage("data/images/error.png")
+
 editor.mmapw = 200
 editor.mmaph = 200
 editor.mmapscale = camera.scale/10
 editor.mmapcanvas = love.graphics.newCanvas( editor.mmapw, editor.mmaph )
-
 	
 editor.entmenuw = 150       --entmenu width
 editor.entmenuh = 300		--entmenu height
@@ -137,12 +138,26 @@ editor.themes = {
 	"night"
 }
 
+editor.textureseltimer = 0
+editor.textureselduration = 2
+
 function editor:settexture(platform)
+	self.textureseltimer = editor.textureselduration
+		
+
 	for _,p in ipairs(platforms) do
 		if p.selected then
 			p.texture = self.texturesel
 			p.selected = false
 		end
+	end
+end
+
+function editor:update(dt)
+	self.textureseltimer = math.max(0, self.textureseltimer- dt)
+		
+	if self.textureseltimer <= 0 then
+		self.textureseltimer = 0
 	end
 end
 
@@ -330,7 +345,7 @@ function editor:wheelmoved(x, y)
 		elseif y < 0 then
 			self.texturesel = math.min(#platforms.textures,self.texturesel +1)
 		end
-		
+
 		self:settexture(p)
 		
 	else
@@ -579,6 +594,59 @@ function editor:drawcursor()
 	)
 end
 
+function editor:drawTextureSel()
+	if self.textureseltimer > 0 then
+	
+		local size = 75 
+		local padding = 5
+		local x = 20
+		local y = 20
+		local n = 0
+		
+		love.graphics.setColor(0,0,0,150)
+		love.graphics.rectangle("fill",10,10,size+(padding*4),size*5+(padding*8))
+
+		
+		for i=math.max(-2,self.texturesel-2), 
+			math.min(#platforms.textures+2,self.texturesel+2) do
+			
+			if type(platforms.textures[i]) == "userdata" then
+			
+				love.graphics.setColor(255,255,255,255)
+				love.graphics.draw(
+					platforms.textures[i],
+					x,
+					y+(n*size)+n*(padding),
+					0,
+					size/platforms.textures[i]:getWidth(),
+					size/platforms.textures[i]:getHeight()
+				)
+				
+				if self.texturesel == i then
+					love.graphics.setColor(0,255,0,255)
+					love.graphics.rectangle("line",x,y+(n*size)+n*(padding),size,size)
+				end
+			
+			else
+				
+				love.graphics.setColor(255,255,255,255)
+				
+				love.graphics.draw(
+					self.errortex,
+					x,
+					y+(n*size)+n*(padding),
+					0,
+					size/self.errortex:getWidth(),
+					size/self.errortex:getHeight()
+				)
+				
+			end
+			
+			n = n + 1	
+		end
+	end
+end
+
 
 function editor:draw()
 	
@@ -597,12 +665,11 @@ function editor:draw()
 	
 		camera:attach()
 	
-
 		self:drawguide()
 		self:drawcursor()
 		self:drawselected()
 		self:drawselbox()
-	
+		
 		camera:detach()
 		
 		if world.collision == 0 then
@@ -630,6 +697,7 @@ function editor:draw()
 		if self.showentmenu then self:drawentmenu() end
 		if self.showmusicbrowser then musicbrowser:draw() end
 		
+		self:drawTextureSel()
 	end
 	
 	if self.showmmap then self:drawmmap() end

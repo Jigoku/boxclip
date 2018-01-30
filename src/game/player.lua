@@ -26,7 +26,7 @@ function player:init()
 	self.x = spawnX
 	self.y = spawnY 
 
-	self.speed = 600
+	self.speed = 500 --600
 	self.mass = 800
 	self.xvel = 0
 	self.yvel = 0
@@ -150,6 +150,7 @@ end
 
 function player:update(dt)
 
+	-- invincibility check
 	if self.invincible then
 		self.particles_invincible:update(dt)
 		self.invincible_timer = math.max(0, self.invincible_timer - dt)
@@ -162,8 +163,7 @@ function player:update(dt)
 		end
 	end
 	
-	--fixed camera
-
+	-- camera follows player
 	if self.alive or editing then
 		local x = player.x+player.w/2
 		local y = player.y+player.h/2
@@ -172,24 +172,7 @@ function player:update(dt)
 
 	end
 
-	
-	--[[
-	--drift camera (needs more work)
-	if self.alive then
-		local camspeedx = (player.xvel)*4
-		local camspeedy = (player.yvel)*4
-		local angle = math.atan2(player.y+player.h/2 - camera.y, player.x+player.w/2 - camera.x)
-		camera.x = camera.x + (math.cos(angle) *camspeedx * dt)
-		camera.y = camera.y + (math.sin(angle) *camspeedy * dt)
-	end
-	--]]
-	
-	--float camera
-	--
-	-- port code from dungeon project (camera starts moving on box collision)
-	-- seems incompatible though... find a different way.
-	
-	
+	-- end game if no lives left
 	if player.lives <= 0 then
 		console:print("game over")
 		--add game over transition screen
@@ -197,7 +180,7 @@ function player:update(dt)
 		title:init()
 	end
 		
-	
+	-- give a life at 100 gems
 	if player.gems == 100 then
 		player.gems = 0
 		player.lives = player.lives +1

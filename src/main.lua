@@ -17,7 +17,6 @@
 --[[
 	Boxclip 2d engine by ricky thomson
 --]]
-
 function love.load(args)
 	
 	debug = false
@@ -80,7 +79,7 @@ function love.load(args)
 
 	sound:init()
 	title:init()
-	
+
 end
 
 
@@ -100,7 +99,18 @@ function love.update(dt)
 	input:checkkeys(dt)
 
 	--run the world
-	if mode == "title" then	title:update(dt) else world:update(dt) end
+	if mode == "title" then	
+		title:update(dt) 
+	end
+	
+	if mode == "game" then 
+		world:update(dt) 
+	end
+	
+	if mode == "editing" then	
+		world:update(dt) 
+		editor:update(dt) 
+	end
 
 end
 

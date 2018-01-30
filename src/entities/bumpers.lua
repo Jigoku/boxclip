@@ -16,8 +16,8 @@
 bumpers = {}
 
 bumpers.textures = textures:load("data/images/bumpers/")
-bumpers.scalespeed =  5
-bumpers.maxscale = 1.5
+bumpers.scalespeed =  10
+bumpers.maxscale = 2
 
 function bumpers:add(x,y)
 

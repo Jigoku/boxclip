@@ -33,7 +33,7 @@ function mapio:savemap(map)
 	local fh = love.filesystem.newFile(filename)
 	
 	if not fh:open("w") then
-		local errortitle = "Failed to save map"
+		local errortitle = "Error"
 		local errormessage = "Unable to save the map '"..filename.."'\n"..
 		love.window.showMessageBox(errortitle, errormessage, "error")
 	end
