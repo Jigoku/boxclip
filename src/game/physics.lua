@@ -449,12 +449,20 @@ function physics:enemies(dt)
 		if enemy.alive then
 		
 			if enemy.name == "walker" then
+			
+				--test
+				--hopper enemy, move this statement to a new entity TODO
+				if enemy.x <= enemy.xorigin or enemy.x >= enemy.xorigin + enemy.movedist then
+					enemy.yvel=500	
+				end
+			
 				self:applyGravity(enemy, dt)
 				self:movex(enemy, dt)
 				self:traps(enemy, dt)
 				self:platforms(enemy, dt)
 				
 				self:update(enemy)
+				
 				
 				if enemy.y+enemy.h > world.bedrock  then
 					enemy.yvel = 0
