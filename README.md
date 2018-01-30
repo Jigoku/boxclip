@@ -2,7 +2,7 @@ Boxclip is a work in progress 2D platform engine using the love2d framework with
 
 Create levels by simply dragging and dropping platforms, and placing entities into the world.
 
-![gif](https://media.giphy.com/media/xUNd9OREaN1DHuxkcg/giphy.gif)
+![gif1](https://media.giphy.com/media/xUNd9OREaN1DHuxkcg/giphy.gif) ![gif2](https://media.giphy.com/media/3o6nUStjw9kog981Us/giphy.gif)
 
 Visit the [Wiki](https://github.com/Jigoku/boxclip/wiki) for help with game controls and editor features
 
