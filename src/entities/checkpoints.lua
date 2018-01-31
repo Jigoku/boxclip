@@ -57,7 +57,7 @@ function checkpoints:draw()
 			
 			
 			if editing or debug then
-				self:drawDebug(checkpoint, i)
+				self:drawdebug(checkpoint, i)
 			end
 		end
 	end
@@ -65,13 +65,13 @@ function checkpoints:draw()
 end
 
 
-function checkpoints:drawDebug(checkpoint, i)
+function checkpoints:drawdebug(checkpoint, i)
 
 	love.graphics.setColor(255,0,0,100)
 	love.graphics.rectangle("line", checkpoint.x, checkpoint.y, checkpoint.w, checkpoint.h)
 	
 	editor:drawid(checkpoint,i)
-	editor:drawCoordinates(checkpoint)
+	editor:drawcoordinates(checkpoint)
 	
 end
 

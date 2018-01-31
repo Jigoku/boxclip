@@ -74,7 +74,7 @@ function love.keypressed(key)
 
 			local success = love.window.setMode( default_width,default_height, {resizable=true, vsync=false, minwidth=default_width, minheight=default_height})
 			if mode == "game" or mode =="editing" then
-				world:resetCamera()
+				world:resetcamera()
 			end
 		else
 			local success = love.window.setFullscreen( true, "desktop" )

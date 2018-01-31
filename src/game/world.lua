@@ -26,7 +26,7 @@ test_quad = love.graphics.newQuad( 0,0, love.graphics.getWidth(),test:getHeight(
 test_quad2 = love.graphics.newQuad( 0,0, love.graphics.getWidth(),test2:getHeight(), test2:getDimensions() )
 test_quad3 = love.graphics.newQuad( 0,0, love.graphics.getWidth(),test:getHeight(), test:getDimensions() )
 
-function world:drawWeather()
+function world:drawweather()
 	if world.theme == "frost" then
 		for i,particle in ipairs(world.weather) do
 			love.graphics.setColor(particle.r,particle.g,particle.b,particle.o)
@@ -36,7 +36,7 @@ function world:drawWeather()
 	end
 end
 --loading/act display
-function world:initSplash()
+function world:initsplash()
 	world.splash = {}
 	world.splash.bg = love.graphics.newImage("data/images/textures/1.png")
 	world.splash.bg:setWrap("repeat", "repeat")
@@ -89,7 +89,7 @@ function world:init(gamemode)
 	
 	--world loading/splash/act display
 	if mode == "game" then
-		world:initSplash()
+		world:initsplash()
 	else
 		world.splash.active = false
 	end
@@ -110,7 +110,7 @@ function world:init(gamemode)
 
 	mapio:loadmap(world.map)
 	
-	world:resetCamera()
+	world:resetcamera()
 
 	--enable cheats, if any
 	if cheats.catlife then player.lives = player.lives +  9 end
@@ -124,7 +124,7 @@ end
 
 
 
-function world:drawParallax()
+function world:drawparallax()
 	if editing then return end
 	love.graphics.setColor(255,255,255,255)
 	
@@ -193,7 +193,7 @@ end
 function world:draw()
 	
 
-	self:drawParallax()
+	self:drawparallax()
 	
 	-- set camera for world
 	camera:attach()
@@ -226,7 +226,7 @@ function world:draw()
 	player:draw()	
 
 	
-	world:drawWeather()
+	world:drawweather()
 	
 	popups:draw()
 
@@ -241,10 +241,10 @@ function world:draw()
 	--draw the hud/scoreboard
 	if mode =="game" then
 		
-		world:drawScoreboard()
+		world:drawscoreboard()
 		
 		if world.splash.opacity > 0 then 
-			world:drawSplash()
+			world:drawsplash()
 		end
 	end
 	
@@ -263,7 +263,7 @@ end
 
 	
 
-function world:drawSplash()
+function world:drawsplash()
 if debug then return end
 	-- textured background
 		love.graphics.setColor(50,50,50,world.splash.opacity)		
@@ -284,7 +284,7 @@ if debug then return end
 
 end
 
-function world:drawScoreboard()
+function world:drawscoreboard()
 	if debug then return end
 	love.graphics.setFont(fonts.scoreboard)
 	
@@ -294,7 +294,7 @@ function world:drawScoreboard()
 	love.graphics.printf("TIME", 21,41,300,"left",0,1,1)
 	love.graphics.printf("GEMS", 21,61,300,"left",0,1,1)
 	love.graphics.printf(player.score, 21,21,150,"right",0,1,1)
-	love.graphics.printf(world:formatTime(world.time), 21,41,150,"right",0,1,1)
+	love.graphics.printf(world:formattime(world.time), 21,41,150,"right",0,1,1)
 	love.graphics.printf(player.gems, 21,61,150,"right",0,1,1)	
 	
 	love.graphics.printf("x"..player.lives, 21,love.graphics.getHeight()-40+1,50,"right",0,1,1)
@@ -305,7 +305,7 @@ function world:drawScoreboard()
 	love.graphics.printf("TIME", 20,40,300,"left",0,1,1)
 	love.graphics.printf("GEMS", 20,60,300,"left",0,1,1)
 	love.graphics.printf(player.score, 20,20,150,"right",0,1,1)
-	love.graphics.printf(world:formatTime(world.time), 20,40,150,"right",0,1,1)
+	love.graphics.printf(world:formattime(world.time), 20,40,150,"right",0,1,1)
 	love.graphics.printf(player.gems, 20,60,150,"right",0,1,1)
 	
 	love.graphics.printf("x"..player.lives, 20,love.graphics.getHeight()-40,50,"right",0,1,1)
@@ -320,7 +320,7 @@ function world:timer(dt)
 end
 
 
-function world:formatTime(n)
+function world:formattime(n)
 	return  
 		string.format("%02d",n / 60 % 60) .. ":" .. 
 		string.format("%02d",n % 60)
@@ -527,7 +527,7 @@ function world:update(dt)
 	end
 end
 
-function world:resetCamera()
+function world:resetcamera()
 	camera = Camera(camera.x,camera.y,love.graphics.getWidth(),love.graphics.getHeight(),love.graphics.getWidth() / default_width)
 	camera:setFollowStyle('LOCKON')
 	camera:setFollowLerp(0.2)

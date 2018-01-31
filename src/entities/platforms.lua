@@ -210,7 +210,7 @@ function platforms:draw()
 				--]]
 				
 				
-				if editing or debug then platforms:drawDebug(platform, i) end
+				if editing or debug then platforms:drawdebug(platform, i) end
 				
 					
 			end
@@ -221,7 +221,7 @@ function platforms:draw()
 end
 
 
-function platforms:drawDebug(platform, i)
+function platforms:drawdebug(platform, i)
 	-- debug mode drawing
 	
 	-- collision area
@@ -265,7 +265,7 @@ function platforms:drawDebug(platform, i)
 	end
 	
 	editor:drawid(platform,i)
-	editor:drawCoordinates(platform)
+	editor:drawcoordinates(platform)
 	
 end
 

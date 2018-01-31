@@ -72,7 +72,7 @@ function bumpers:draw()
 				love.graphics.rectangle("line", bumper.x, bumper.y, bumper.w, bumper.h)
 			
 				editor:drawid(bumper,i)
-				editor:drawCoordinates(bumper)
+				editor:drawcoordinates(bumper)
 			end
 		end
 	end

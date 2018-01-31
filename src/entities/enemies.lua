@@ -288,7 +288,7 @@ function enemies:draw()
 			end
 			
 			if editing or  debug then
-				enemies:drawDebug(enemy, i)
+				enemies:drawdebug(enemy, i)
 			end
 		end
 	end
@@ -296,7 +296,7 @@ function enemies:draw()
 end
 
 
-function enemies:drawDebug(enemy, i)
+function enemies:drawdebug(enemy, i)
 
 	if enemy.name == "spikeball" then
 		--bounds
@@ -339,7 +339,7 @@ function enemies:drawDebug(enemy, i)
 
 	
 	editor:drawid(enemy,i)
-	editor:drawCoordinates(enemy)
+	editor:drawcoordinates(enemy)
 end
 
 

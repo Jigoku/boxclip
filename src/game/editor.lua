@@ -518,7 +518,7 @@ end
 
 
 function editor:sendtospawn(entity)
-	world:resetCamera()
+	world:resetcamera()
 	for _,portal in ipairs(portals) do
 		if portal.name == "spawn" then
 			entity.x = portal.x
@@ -607,12 +607,12 @@ function editor:drawcursor()
 		math.round(self.mouse.y,-1)+10
 	)
 	
-	self:drawCoordinates(
+	self:drawcoordinates(
 		{ x = self.mouse.x, y = self.mouse.y }
 	)
 end
 
-function editor:drawTextureSel()
+function editor:drawtexturesel()
 	if self.texmenuopacity > 0 then
 	
 		love.graphics.setCanvas(self.texmenu)
@@ -729,7 +729,7 @@ function editor:draw()
 		if self.showentmenu then self:drawentmenu() end
 		if self.showmusicbrowser then musicbrowser:draw() end
 		
-		self:drawTextureSel()
+		self:drawtexturesel()
 	end
 	
 	if self.showmmap then self:drawmmap() end
@@ -1326,7 +1326,7 @@ function editor:drawid(entity,i)
 	end
 end
 
-function editor:drawCoordinates(object)
+function editor:drawcoordinates(object)
 	if editor.showpos then
 		love.graphics.setColor(255,255,255,100)
 		love.graphics.print("X:".. math.round(object.x,2) ..",Y:" .. math.round(object.y,2) , object.x-20,object.y-20,0)  

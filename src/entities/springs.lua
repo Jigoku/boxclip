@@ -81,7 +81,7 @@ function springs:draw()
 				love.graphics.draw(spring.gfx, spring.x, spring.y, math.rad(-90),-1,1 )
 			end
 			if editing or debug then
-				springs:drawDebug(spring, i)
+				springs:drawdebug(spring, i)
 			end
 
 		end
@@ -90,7 +90,7 @@ function springs:draw()
 	world.springs = count
 end
 
-function springs:drawDebug(spring, i)
+function springs:drawdebug(spring, i)
 	
 	if spring.name == "spring" then
 		love.graphics.setColor(255,155,55,200)
@@ -113,5 +113,5 @@ function springs:drawDebug(spring, i)
 	end
 	
 	editor:drawid(spring, i)
-	editor:drawCoordinates(spring)
+	editor:drawcoordinates(spring)
 end

@@ -93,7 +93,7 @@ function traps:draw()
 			end
 
 			if editing or debug then
-				traps:drawDebug(trap, i)
+				traps:drawdebug(trap, i)
 			end
 
 		end
@@ -103,7 +103,7 @@ function traps:draw()
 end
 
 
-function traps:drawDebug(trap, i)
+function traps:drawdebug(trap, i)
 	love.graphics.setColor(255,0,155,100)
 	love.graphics.rectangle(
 		"line", 
@@ -114,7 +114,7 @@ function traps:drawDebug(trap, i)
 	)
 	
 	editor:drawid(trap, i)
-	editor:drawCoordinates(trap)
+	editor:drawcoordinates(trap)
 end
 
 

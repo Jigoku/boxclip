@@ -152,7 +152,7 @@ function love.resize(w,h)
 
 	if mode == "game" or mode =="editing" then
 		--reset camera
-		world:resetCamera()
+		world:resetcamera()
 	end
 end
 

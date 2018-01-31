@@ -54,17 +54,17 @@ function crates:draw()
 			love.graphics.draw(crate.gfx,crate.x, crate.y, 0, 1, 1)
 		
 			if editing or debug then
-				self:drawDebug(crate, i)
+				self:drawdebug(crate, i)
 			end
 		end
 	end
 	world.crates = count
 end
 
-function crates:drawDebug(crate, i)
+function crates:drawdebug(crate, i)
 	love.graphics.setColor(0,255,255,100)
 	love.graphics.rectangle("line", crate.x, crate.y, crate.w, crate.h)
 
 	editor:drawid(crate,i)
-	editor:drawCoordinates(crate)
+	editor:drawcoordinates(crate)
 end

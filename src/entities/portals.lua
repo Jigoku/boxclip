@@ -74,7 +74,7 @@ function portals:draw()
 			end				
 				
 			if editing or debug then
-				self:drawDebug(p, i)
+				self:drawdebug(p, i)
 			end
 
 		end
@@ -82,14 +82,14 @@ function portals:draw()
 	world.portals = count
 end
 
-function portals:drawDebug(p, i)
+function portals:drawdebug(p, i)
 	love.graphics.setColor(255,100,0,50)
 	love.graphics.rectangle("fill", p.x,p.y,p.w,p.h)
 	love.graphics.setColor(255,0,0,255)
 	love.graphics.rectangle("line", p.x,p.y,p.w,p.h)
 	
 	editor:drawid(p, i)
-	editor:drawCoordinates(p)
+	editor:drawcoordinates(p)
 	
 end
 

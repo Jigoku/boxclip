@@ -45,7 +45,7 @@ function materials:draw()
 				end
 			end
 			editor:drawid(mat,i)
-			editor:drawCoordinates(mat)
+			editor:drawcoordinates(mat)
 		end
 				
 

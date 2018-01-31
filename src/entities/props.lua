@@ -87,7 +87,7 @@ function props:draw()
 			love.graphics.draw(prop.gfx, prop.x,prop.y,0, 1, 1)
 
 			if editing or debug then
-				props:drawDebug(prop, i)
+				props:drawdebug(prop, i)
 			end
 
 		end
@@ -98,7 +98,7 @@ end
 
 
 
-function props:drawDebug(prop, i)
+function props:drawdebug(prop, i)
 	love.graphics.setColor(255,0,155,100)
 	love.graphics.rectangle(
 		"line", 
@@ -109,5 +109,5 @@ function props:drawDebug(prop, i)
 	)
 	
 	editor:drawid(prop, i)
-	editor:drawCoordinates(prop)
+	editor:drawcoordinates(prop)
 end

@@ -45,7 +45,7 @@ function console:draw()
 		love.graphics.setColor(100,255,100,255)
 		love.graphics.print(
 			"FPS: " .. love.timer.getFPS() .. 
-			" | Memory: " ..  gcinfo() .."kB"..
+			" | memory(gc): " ..  gcinfo() .."kB"..
 			string.format(" | vram: %.2fMB", love.graphics.getStats().texturememory / 1024 / 1024), 
 			5,5
 		)
@@ -57,7 +57,7 @@ function console:draw()
 				love.graphics.print(
 					"[lives: " .. player.lives .. "]"..
 					"[score: " .. player.score .. "]"..
-					"[time: " .. world:formatTime(world.time) .. "]"..
+					"[time: " .. world:formattime(world.time) .. "]"..
 					"[alive: "..(player.alive and 1 or 0).."]", 
 					250,5
 				)
@@ -113,9 +113,9 @@ end
 
 
 
-
+-- add console with capability to set variables as command input TODO
 function console:print(event)
-	local elapsed =  world:formatTime(os.difftime(os.time()-game.runtime))
+	local elapsed =  world:formattime(os.difftime(os.time()-game.runtime))
 	local line = elapsed .. " | " ..  event
 	self.buffer.l1 = self.buffer.l2
 	self.buffer.l2 = self.buffer.l3

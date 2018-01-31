@@ -125,7 +125,7 @@ function decals:draw()
 
 			if editing or debug then
 				editor:drawid(decal,i)
-				editor:drawCoordinates(decal)
+				editor:drawcoordinates(decal)
 			end
 		end
 	end

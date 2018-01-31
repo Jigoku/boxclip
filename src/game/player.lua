@@ -126,12 +126,12 @@ function player:draw()
 	
 	
 	if editing or debug then
-		self:drawDebug()
+		self:drawdebug()
 	end
 
 end
 
-function player:drawDebug()
+function player:drawdebug()
 
 	love.graphics.setColor(255,0,0,155)
 	love.graphics.rectangle("line", self.x, self.y, self.w, self.h)

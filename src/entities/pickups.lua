@@ -110,7 +110,7 @@ function pickups:draw()
 			end
 
 			if editing or debug then
-				pickups:drawDebug(pickup, i)
+				pickups:drawdebug(pickup, i)
 			end
 		end
 	end
@@ -119,7 +119,7 @@ end
 
 
 
-function pickups:drawDebug(pickup, i)
+function pickups:drawdebug(pickup, i)
 	love.graphics.setColor(100,255,100,100)
 	love.graphics.rectangle(
 		"line", 
@@ -129,7 +129,7 @@ function pickups:drawDebug(pickup, i)
 		pickup.gfx:getHeight()
 	)
 	editor:drawid(pickup, i)
-	editor:drawCoordinates(pickup)
+	editor:drawcoordinates(pickup)
 end
 
 function pickups:destroy(pickups, i)
