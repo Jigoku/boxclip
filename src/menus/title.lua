@@ -34,14 +34,12 @@ function title:init()
 	
 
 	mode = "title"
-	self.bg = love.graphics.newImage("data/images/backgrounds/sky.png")
+	self.bg = love.graphics.newImage("data/images/textures/1.png")
 	self.bg:setWrap("repeat", "repeat")
 	self.bgquad = love.graphics.newQuad( 0,0, love.graphics.getWidth(), love.graphics.getHeight(), self.bg:getDimensions() )
 	self.bgscroll = 0
-	self.bgscrollspeed = 60
-	
-	self.frame = love.graphics.newImage("data/images/textures/1.png")
-	self.frame:setWrap("repeat", "repeat")
+	self.bgscrollspeed = 25
+
 	
 	sound:playambient(0)
 	sound:playbgm(6)
@@ -133,18 +131,16 @@ function title:draw()
 
 	---background
 	love.graphics.setBackgroundColor(0,0,0,255)
-	love.graphics.setColor(255,255,255,255)		
-	self.bgquad:setViewport(-self.bgscroll,0,love.graphics.getWidth(), love.graphics.getHeight() )
+	love.graphics.setColor(255,255,255,50)		
+	self.bgquad:setViewport(-self.bgscroll,-self.bgscroll,love.graphics.getWidth(), love.graphics.getHeight() )
 	love.graphics.draw(self.bg, self.bgquad, 0,0)
 		
 	--frames	
-	love.graphics.setColor(210,150,100,255)		
-	self.framequad = love.graphics.newQuad( 0,0, love.graphics.getWidth()/2+160,love.graphics.getHeight()/2+60, self.frame:getDimensions() ) -- update this
-	love.graphics.draw(self.frame, self.framequad, love.graphics.getWidth()/4-80, love.graphics.getHeight()/4-30)
+	love.graphics.setColor(100,100,100,150)		
+	love.graphics.rectangle("fill",love.graphics.getWidth()/4-80, love.graphics.getHeight()/4-30,love.graphics.getWidth()/2+160,love.graphics.getHeight()/2+60,20)
 	
 	love.graphics.setColor(10,10,10,150)
-	love.graphics.rectangle("fill", love.graphics.getWidth()/4-50, love.graphics.getHeight()/4+50, love.graphics.getWidth()/2+100,love.graphics.getHeight()/2-50)
-	
+	love.graphics.rectangle("fill", love.graphics.getWidth()/4-50, love.graphics.getHeight()/4+50, love.graphics.getWidth()/2+100,love.graphics.getHeight()/2-50,10)
 	
 	--title	
 	love.graphics.setFont(fonts.huge)
@@ -165,7 +161,6 @@ function title:update(dt)
 	if self.bgscroll > self.bg:getHeight() then
 		self.bgscroll = self.bgscroll - self.bg:getWidth()
 	end	
-	--love.audio.setVolume( volume )
 end
 
 

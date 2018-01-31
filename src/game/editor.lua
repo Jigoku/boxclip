@@ -623,7 +623,7 @@ function editor:drawtexturesel()
 		local n = 0
 	
 		love.graphics.setColor(0,0,0,150)
-		love.graphics.rectangle("fill",0,0,self.texmenu:getWidth(), self.texmenu:getHeight())
+		love.graphics.rectangle("fill",0,0,self.texmenu:getWidth(), self.texmenu:getHeight(),10)
 
 		
 		for i=math.max(-self.texmenuoffset,self.texturesel-self.texmenuoffset), 
@@ -683,13 +683,13 @@ end
 function editor:draw()
 	
 	--editor hud
-	love.graphics.setColor(0,0,0,100)
-	love.graphics.rectangle("fill", love.graphics.getWidth() -120, 10, 120,50)
+	love.graphics.setColor(0,0,0,125)
+	love.graphics.rectangle("fill", love.graphics.getWidth() -130, 10, 120,50,10)
 	love.graphics.setFont(fonts.large)
-	love.graphics.setColor(0,255,155,155)
-	love.graphics.print("editing",love.graphics.getWidth()-80, 10,0,1,1)
+	love.graphics.setColor(255,255,255,175)
+	love.graphics.print("editing",love.graphics.getWidth()-100, 10,0,1,1)
 	love.graphics.setFont(fonts.default)
-	love.graphics.print("press 'h' for help",love.graphics.getWidth()-115, 30,0,1,1)
+	love.graphics.print("press 'h' for help",love.graphics.getWidth()-120, 40,0,1,1)
 	
 	
 	--interactive editing
@@ -914,9 +914,10 @@ function editor:drawhelpmenu()
 end
 
 function editor:drawgrid()
-	love.graphics.setColor(255,255,255,25)
-	
+
 	-- horizontal grid
+	love.graphics.setColor(255,255,255,25)
+		
 	for x=camera.x-love.graphics.getWidth()/2/camera.scale,
 		camera.x+love.graphics.getWidth()/2/camera.scale,10 do
 		
@@ -935,6 +936,7 @@ function editor:drawgrid()
 			camera.x+love.graphics.getWidth()/2/camera.scale, math.round(y,-1)
 		)
 	end
+
 end
 
 function editor:drawentmenu()
@@ -946,7 +948,7 @@ function editor:drawentmenu()
 	--frame
 	love.graphics.setColor(0,0,0,150)
 	love.graphics.rectangle(
-		"fill",0,0, self.entmenu:getWidth(), self.entmenu:getHeight()
+		"fill",0,0, self.entmenu:getWidth(), self.entmenu:getHeight(),10
 	)
 	
 	--border
@@ -1195,7 +1197,7 @@ function editor:drawmmap()
 
 
 	love.graphics.setColor(0,0,0,100)
-	love.graphics.rectangle("fill", 0,0,self.mmapw,self.mmaph )
+	love.graphics.rectangle("fill", 0,0,self.mmapw,self.mmaph)
 	
 
 	
