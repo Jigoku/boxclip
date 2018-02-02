@@ -31,21 +31,21 @@ editor.mouse = {
 	released = { x=0, y=0 }
 }
 
-editor.entdir = 0 			--(used for some entites 0,1,2,3 = up,down,right,left)
-editor.entsel = 1			--current entity id for placement
-editor.themesel = 1			--theme pallete in use
-editor.texturesel = 1		--texture slot to use for platforms
-editor.showpos = true		--axis info for entitys
-editor.showid  = true		--id info for entities
-editor.showmmap = true	    --toggle minimap
-editor.showguide = true     --toggle guidelines
-editor.showentmenu = true   --toggle entmenu
-editor.showhelpmenu = false  --toggle helpmenu
-editor.showmusicbrowser = false --toggle musicbrowser
-editor.drawsel = false		--selection outline
+editor.entdir = 0				--rotation placement 0,1,2,3 = up,down,right,left
+editor.entsel = 1				--current entity id for placement
+editor.themesel = 1				--world theme/pallete
+editor.texturesel = 1			--texture slot to use for platforms
+editor.showpos = true			--display coordinates of entities
+editor.showid  = true			--display numeric id of entities
+editor.showmmap = true			--show minimap
+editor.showguide = true			--show guidelines/grid
+editor.showentmenu = true		--show entmenu
+editor.showhelpmenu = false		--show helpmenu
+editor.showmusicbrowser = false --show musicbrowser
+editor.drawsel = false			--draw selection area
 editor.floatspeed = 1000		--editing floatspeed
-editor.maxcamerascale = 6   --maximum zoom
-editor.mincamerascale = 0.1 --minimum zoom
+editor.maxcamerascale = 6		--maximum zoom
+editor.mincamerascale = 0.1		--minimum zoom
 
 editor.errortex = love.graphics.newImage("data/images/error.png")
 
@@ -158,9 +158,11 @@ editor.themes = {
 
 
 function editor:settexture(platform)
+	--show the texture browser display
 	self.texmenutimer = editor.texmenuduration
 	self.texmenuopacity = 255
 	
+	--update the texture value
 	for _,p in ipairs(platforms) do
 		if p.selected then
 			p.texture = self.texturesel
@@ -170,6 +172,7 @@ function editor:settexture(platform)
 end
 
 function editor:update(dt)
+	--texture browser display
 	self.texmenutimer = math.max(0, self.texmenutimer- dt)
 		
 	if self.texmenutimer == 0 then
@@ -205,6 +208,7 @@ function editor:keypressed(key)
 		player.jumping = false
 		player.xvelboost = 0
 	end
+
 
 	if key == editbinds.helptoggle then self.showhelpmenu = not self.showhelpmenu end	
 	if key == editbinds.maptoggle then self.showmmap = not self.showmmap end
@@ -1318,7 +1322,6 @@ function editor:drawmmap()
 	love.graphics.draw(self.mmapcanvas, love.graphics.getWidth()-10-self.mmapw,love.graphics.getHeight()-10-self.mmaph )
 
 end
-
 
 
 function editor:drawid(entity,i)

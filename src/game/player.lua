@@ -136,13 +136,6 @@ function player:drawdebug()
 	love.graphics.setColor(255,0,0,155)
 	love.graphics.rectangle("line", self.x, self.y, self.w, self.h)
 	
-	--love.graphics.rectangle("line", self.x, self.y, self.w, self.h)
-	
-	love.graphics.setColor(255,255,255,100)
-	--camera center
-	love.graphics.circle("line",camera.x,camera.y,10)
-	--camera line to player
-	love.graphics.line(camera.x,camera.y,player.x+player.w/2,player.y+player.h/2)
 end
 
 

@@ -348,18 +348,16 @@ function physics:platforms(object, dt)
 						end
 							
 						if platform.movey == 1 and not object.jumping then
-							--object.yvel = -platform.movespeed *dt
+							object.yvel = -platform.movespeed *dt
 				
 							if platform.movespeed <= 0 then
 								--going up
-								object.yvel = -platform.movespeed *dt
 								object.newY = platform.y - object.h +1 - (platform.movespeed *dt)
 							else
 								--going down
-								object.yvel = platform.movespeed *dt
 								object.newY = platform.y - object.h +1 + (platform.movespeed *dt)
 							end
-							object.carried = true
+							--object.carried = true
 							platform.carrying = true
 						end		
 						

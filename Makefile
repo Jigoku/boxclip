@@ -17,20 +17,21 @@ win32:
 	#create a windows 32bit standalone executable
 	cd build/win32 && \
 		wget -N https://bitbucket.org/rude/love/downloads/love-$(LOVE_VERSION)-win32.zip && \
-		unzip love-$(LOVE_VERSION)-win32.zip && \
+		unzip -o love-$(LOVE_VERSION)-win32.zip && \
 		cd love-$(LOVE_VERSION)-win32 && \
 		cat love.exe ../../$(APP_NAME)-$(APP_VERSION).love > $(APP_NAME)-$(APP_VERSION)-win32.exe && \
-		rm -f love.exe
-    
+		rm -f love.exe && \
+		zip -9 -q -r ../$(APP_NAME)-$(APP_VERSION)-win32.zip .
+
 win64:
 	#create a windows 64bit standalone executable
 	cd build/win64 && \
 		wget -N https://bitbucket.org/rude/love/downloads/love-$(LOVE_VERSION)-win64.zip && \
-		unzip love-$(LOVE_VERSION)-win64.zip && \
+		unzip -o love-$(LOVE_VERSION)-win64.zip && \
 		cd love-$(LOVE_VERSION)-win64 && \
 		cat love.exe ../../$(APP_NAME)-$(APP_VERSION).love > $(APP_NAME)-$(APP_VERSION)-win64.exe && \
-		rm -f love.exe
-		
+		zip -9 -q -r ../$(APP_NAME)-$(APP_VERSION)-win64.zip .
+
 linux32:
 
 linux64:
