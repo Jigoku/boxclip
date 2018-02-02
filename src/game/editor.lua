@@ -572,24 +572,43 @@ function editor:placedraggable(x1,y1,x2,y2)
 end
 
 function editor:drawguide()
-	--draw crosshairs for editor placement
+	--draw crosshairs/grid
 
 	if self.showguide then
-		self:drawgrid()
-	
+
+		--grid
+		love.graphics.setColor(255,255,255,25)
+		-- horizontal
+		for x=camera.x-love.graphics.getWidth()/2/camera.scale,
+			camera.x+love.graphics.getWidth()/2/camera.scale,10 do
+			love.graphics.line(
+				math.round(x,-1), camera.y-love.graphics.getHeight()/2/camera.scale,
+				math.round(x,-1), camera.y+love.graphics.getHeight()/2/camera.scale
+			)
+		end
+		-- vertical
+		for y=camera.y-love.graphics.getHeight()/2/camera.scale,
+			camera.y+love.graphics.getHeight()/2/camera.scale,10 do
+			love.graphics.line(
+				camera.x-love.graphics.getWidth()/2/camera.scale, math.round(y,-1),
+				camera.x+love.graphics.getWidth()/2/camera.scale, math.round(y,-1)
+			)
+		end
+
+		--crosshair
 		love.graphics.setColor(200,200,255,50)
 		--vertical
 		love.graphics.line(
 			math.round(self.mouse.x,-1),
-			math.round(self.mouse.y+love.graphics.getHeight()*camera.scale,-1),
+			math.round(self.mouse.y+love.graphics.getHeight()/camera.scale,-1),
 			math.round(self.mouse.x,-1),
-			math.round(self.mouse.y-love.graphics.getHeight()*camera.scale,-1)
+			math.round(self.mouse.y-love.graphics.getHeight()/camera.scale,-1)
 		)
 		--horizontal
 		love.graphics.line(
-			math.round(self.mouse.x-love.graphics.getWidth()*camera.scale,-1),
+			math.round(self.mouse.x-love.graphics.getWidth()/camera.scale,-1),
 			math.round(self.mouse.y,-1),
-			math.round(self.mouse.x+love.graphics.getWidth()*camera.scale-1),
+			math.round(self.mouse.x+love.graphics.getWidth()/camera.scale-1),
 			math.round(self.mouse.y,-1)
 		)
 	end
@@ -917,31 +936,6 @@ function editor:drawhelpmenu()
 	
 end
 
-function editor:drawgrid()
-
-	-- horizontal grid
-	love.graphics.setColor(255,255,255,25)
-		
-	for x=camera.x-love.graphics.getWidth()/2/camera.scale,
-		camera.x+love.graphics.getWidth()/2/camera.scale,10 do
-		
-		love.graphics.line(
-			math.round(x,-1), camera.y-love.graphics.getHeight()/2/camera.scale,
-			math.round(x,-1), camera.y+love.graphics.getHeight()/2/camera.scale
-		)
-	end
-		
-	-- vertical grid
-	for y=camera.y-love.graphics.getHeight()/2/camera.scale,
-		camera.y+love.graphics.getHeight()/2/camera.scale,10 do
-		
-		love.graphics.line(
-			camera.x-love.graphics.getWidth()/2/camera.scale, math.round(y,-1),
-			camera.x+love.graphics.getWidth()/2/camera.scale, math.round(y,-1)
-		)
-	end
-
-end
 
 function editor:drawentmenu()
 	--gui scrolling list for entity selection
