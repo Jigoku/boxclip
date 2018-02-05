@@ -1023,7 +1023,7 @@ function editor:selection(entities, x,y,w,h)
 	-- hilights the entity when mouseover 
 	editor.selname = "null"
 	love.graphics.setColor(0,255,0,200)
-	
+
 	--if love.mouse.isDown(3) then return end
 	
 	

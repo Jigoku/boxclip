@@ -725,10 +725,12 @@ function physics:traps(object, dt)
 						end
 											
 						-- only player can make logs fall
-						if mode == "game" and object.name == "player" then
+						if object.name == "player" then
 							object.yvel = 0
-							trap.falling = true
-							sound:play(sound.effects["creek"])
+							if mode == "game" then
+								trap.falling = true
+								sound:play(sound.effects["creek"])
+							end
 						end
 					end		
 				end	
