@@ -349,7 +349,7 @@ function physics:platforms(object, dt)
 							object.carried = true
 							platform.carrying = true
 						end
-							
+
 						if platform.swing == 1 then
 							object.carried = true
 							platform.carrying = true
@@ -357,6 +357,8 @@ function physics:platforms(object, dt)
 							object.newY = platform.y - object.h+1 *dt
 							object.yvel = -player.jumpheight
 						end
+
+
 							
 						if platform.movey == 1 and not object.jumping then
 							object.yvel = -platform.movespeed *dt

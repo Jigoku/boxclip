@@ -26,8 +26,9 @@ platform_grass = love.graphics.newImage("data/images/tiles/grass.png")
 
 platforms.textures =  textures:load("data/images/textures/")
 
-
-
+for _,texture in ipairs(platforms.textures) do
+	texture:setWrap("repeat", "repeat")
+end
 
 
 function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing,angle,texture)
@@ -88,7 +89,7 @@ end
 
 function platforms:draw()
 	local count = 0
-	
+
 	local i, platform
 	for i, platform in ipairs(platforms) do
 		if world:inview(platform) then
@@ -96,9 +97,8 @@ function platforms:draw()
 			
 			if platform.name == "platform" then
 	 	
-			
-				if platform.swing == 1 then
 
+				if platform.swing == 1 then
 					platforms:drawlink(platform, radius)
 					
 					love.graphics.setColor(
@@ -111,63 +111,65 @@ function platforms:draw()
 				end
 				
 				
+				
+				local r,g,b,a
 				if (platform.movex == 1) or (platform.movey == 1) then
-					love.graphics.setColor(
-						platform_move_r,
-						platform_move_g,
-						platform_move_b,
-						255
-					)
-				elseif platform.clip == 0 then
-					love.graphics.setColor(
-						platform_behind_r,
-						platform_behind_g,
-						platform_behind_b,
-						255
-					)
-
+					r =	platform_move_r
+					g =	platform_move_g
+					b =	platform_move_b
+					a = 255
+				elseif platform.clip == 0 then					
+					r =	platform_behind_r
+					g =	platform_behind_g
+					b =	platform_behind_b
+					a =	255
 				else
-					love.graphics.setColor(
-						platform_r,
-						platform_g,
-						platform_b,
-						255
-					)
-
+					r =	platform_r
+					g =	platform_g
+					b =	platform_b
+					a =	255
 				end
-
-
+				
+			--[[ -- old method of drawing platforms with quads (keep this here in case something breaks)
+				
 				local quad = love.graphics.newQuad( 0,0, platform.w, platform.h, self.textures[platform.texture]:getDimensions() )
-				self.textures[platform.texture]:setWrap("repeat", "repeat")
+				love.graphics.setColor(r,g,b,a)
 				love.graphics.draw(self.textures[platform.texture], quad, platform.x,platform.y)
-
 				
-				--test polygon/mesh texturing (may be needed in future)
-				--[[
+			--]]
+				
+				
 				local mesh = love.graphics.newMesh(4, "fan", "dynamic")
-				local cols = math.ceil( platform.w/self.textures[platform.texture]:getWidth())
+				local cols = math.ceil(platform.w/self.textures[platform.texture]:getWidth())
 				local rows = math.ceil(platform.h/self.textures[platform.texture]:getHeight())
-				print (cols,rows)
-				
-				local verts
-				
-				verts = { 
-					{0,0, 0,0},  
-					{0+platform.w,0, cols,0},
-					{0+platform.w,0+platform.h, cols,rows}, 
-					{0,0+platform.h, 0,rows}, 
-					
-					
+			
+				local verts = { 
+					--top left
+					{	0,0, 0,0,
+						r,g,b,a
+					},  
+					--top right
+					{	0+platform.w,0, cols,0,
+						r,g,b,a
+					},
+					--bottom right
+					{	0+platform.w,0+platform.h, cols,rows,
+						r,g,b,a
+					}, 
+					--bottom left
+					{	0,0+platform.h, 0,rows,
+						r,g,b,a
+					}, 
 				}
 
 				mesh:setVertices(verts)
 				mesh:setTexture(self.textures[platform.texture])
+				
+				love.graphics.setColor(255,255,255,255)
 				love.graphics.draw(mesh, platform.x, platform.y)
-				--]]
 				
 				
-				
-
+				--shadows
 				local offset
 				if platform.movex == 1 or (platform.movey == 1) then
 					 offset = 4
@@ -200,7 +202,7 @@ function platforms:draw()
 				love.graphics.draw(platform_grass, quad, platform.x,platform.y-offset)
 				
 
-				--[[ --untextured fallback
+				--[[ --untextured grass fallback
 				--surface
 				love.graphics.rectangle("fill", platform.x, platform.y-5, platform.w, 10)	
 				

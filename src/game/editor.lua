@@ -411,7 +411,7 @@ function editor:mousepressed(x,y,button)
 		if selection == "spike_large" then enemies:add(x,y,0,0,self.entdir,"spike_large") end
 		if selection == "icicle" then enemies:add(x,y,0,0,0,"icicle") end
 		
-		if selection == "platform_s" then platforms:add(x,y,100,20,0,0,0,2,0,1,0,self.texturesel) end
+		if selection == "platform_s" then platforms:add(x,y,0,20,0,0,0,1.5,0,1,0,self.texturesel) end
 
 		if selection == "checkpoint" then checkpoints:add(x,y) end
 		
