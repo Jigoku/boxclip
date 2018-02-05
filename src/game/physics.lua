@@ -719,7 +719,6 @@ function physics:traps(object, dt)
 						object.newY = trap.y - object.h -1 *dt
 						
 						if object.jumping then
-							object.yvel = 0
 							object.jumping = false
 						elseif object.bounce then
 							self:bounce(object)
@@ -727,6 +726,7 @@ function physics:traps(object, dt)
 											
 						-- only player can make logs fall
 						if mode == "game" and object.name == "player" then
+							object.yvel = 0
 							trap.falling = true
 							sound:play(sound.effects["creek"])
 						end
