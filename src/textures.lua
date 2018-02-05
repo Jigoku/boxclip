@@ -18,15 +18,13 @@ textures = {}
 function textures:load(path)
 	--returns table of loaded images from 'path' directory
 	local t = {}
-	local i = 1
-
+	
 	local supported = { ".png", ".bmp", ".jpg", ".tga" }
 
 	for _,file in ipairs(love.filesystem.getDirectoryItems(path)) do
 		for _,ext in ipairs(supported) do
 			if file:find(ext) then
-				t[i] = love.graphics.newImage(path..file)
-				i = i +1
+				table.insert(t,love.graphics.newImage(path..file))
 			end
 		end
 	end
