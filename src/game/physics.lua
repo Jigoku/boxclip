@@ -734,36 +734,38 @@ function physics:traps(object, dt)
 				end	
 				
 				if trap.name == "brick" then
-				
-					if collision:right(object,trap) and not collision:top(object,trap) then
-						object.newX = trap.x+trap.w +1 *dt
-						object.xvel = 0
+					if not trap.falling then
+						if collision:right(object,trap) and not collision:top(object,trap) then
+							object.newX = trap.x+trap.w +1 *dt
+							object.xvel = 0
 					
-					elseif collision:left(object,trap) and not collision:top(object,trap) then
-						object.newX = trap.x-object.w -1 *dt
-						object.xvel = 0
+						elseif collision:left(object,trap) and not collision:top(object,trap) then
+							object.newX = trap.x-object.w -1 *dt
+							object.xvel = 0
 
-					elseif collision:bottom(object,trap) then
-						object.newY = trap.y +trap.h +1 *dt
-						object.yvel = 0
-			
-					elseif collision:top(object,trap) then
-						if object.jumping then
-							object.newY = trap.y - object.h -1 *dt
-							object.yvel = player.jumpheight
-								if mode == "game" and object.name == "player" then
-									popups:add(trap.x-trap.w,trap.y+trap.h/2,"+"..trap.score)
-									world:sendtofront(traps,i)
-									trap.yvel = 500							
-									trap.falling = true
-									sound:play(sound.effects["brick"])
-									camera:shake(8, 1, 30, 'XY')
-								end
-						else
-							object.newY = trap.y - object.h -1 *dt
+						elseif collision:bottom(object,trap) then
+							object.newY = trap.y +trap.h +1 *dt
 							object.yvel = 0
-						end
-					end		
+			
+						elseif collision:top(object,trap) then
+							if object.jumping then
+								object.newY = trap.y - object.h -1 *dt
+								object.yvel = -object.yvel/1.5
+									if mode == "game" and object.name == "player" then
+										popups:add(trap.x-trap.w,trap.y+trap.h/2,"+"..trap.score)
+										player.score = player.score +trap.score
+										world:sendtofront(traps,i)
+										trap.yvel = 500							
+										trap.falling = true
+										sound:play(sound.effects["brick"])
+										camera:shake(8, 1, 30, 'XY')
+									end
+							else
+								object.newY = trap.y - object.h -1 *dt
+								object.yvel = 0
+							end
+						end	
+					end	
 				end	
 			end
 		
