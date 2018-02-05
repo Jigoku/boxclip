@@ -715,8 +715,13 @@ function physics:traps(object, dt)
 				if trap.name == "log" or trap.name == "bridge" then
 					if collision:top(object,trap) and object.yvel < 0 then
 						object.newY = trap.y - object.h -1 *dt
-						object.yvel = 0
-						object.jumping = false
+						
+						if object.jumping then
+							object.yvel = 0
+							object.jumping = false
+						elseif object.bounce then
+							self:bounce(object)
+						end
 											
 						-- only player can make logs fall
 						if mode == "game" and object.name == "player" then
