@@ -49,10 +49,8 @@ function physics:applyVelocity(object, dt)
 		-- velocity limits
 		--if object.xvel > object.speed then object.xvel = object.speed end
 		--if object.xvel < -object.speed then object.xvel = -object.speed end
-				
 
 		object.newX =object.x + ((object.xvel +object.xvelboost)  *dt)
-
 		
 	end
 end
@@ -151,6 +149,12 @@ function physics:world(dt)
 	self:materials(dt)
 end
 
+function physics:bounce(object,dt)
+	object.yvel = -object.yvel/1.5
+	if object.yvel <= 0 then
+		object.bounce = false
+	end
+end
 
 function physics:crates(object,dt)
 	
@@ -170,38 +174,42 @@ function physics:crates(object,dt)
 				end
 					
 				if collision:right(object,crate) and not collision:top(object,crate) then
-				object.xvelboost = 0
+					object.newX = crate.x+crate.w +1 *dt
+					object.xvelboost = 0
+					
 					if object.jumping then
-						object.newX = crate.x+crate.w +1 *dt
 						object.xvel = player.jumpheight
 					else
-						object.newX = crate.x+crate.w +1 *dt
 						object.xvel = 0
 					end
+					
 				elseif collision:left(object,crate) and not collision:top(object,crate) then
-				object.xvelboost = 0
+					object.newX = crate.x-object.w -1 *dt
+					object.xvelboost = 0
+					
 					if object.jumping then
-						object.newX = crate.x-object.w -1 *dt
 						object.xvel = -player.jumpheight
 					else
-						object.newX = crate.x-object.w -1 *dt
 						object.xvel = 0
 					end
+					
 				elseif collision:bottom(object,crate) then
+					object.newY = crate.y +crate.h  +1 *dt
+
 					if object.jumping then
-						object.newY = crate.y +crate.h +1 *dt
 						object.yvel = -player.jumpheight
 					else
-						object.newY = crate.y +crate.h  +1 *dt
 						object.yvel = 0
 					end
+					
 				elseif collision:top(object,crate) then
+					object.newY = crate.y - object.h -1 *dt
+					
 					if object.jumping then
-						object.newY = crate.y - object.h -1 *dt
 						object.yvel = player.jumpheight
-						
+					elseif object.bounce then
+						self:bounce(object)
 					else
-						object.newY = crate.y - object.h -1 *dt
 						object.yvel = 0
 					end
 				end		
@@ -322,7 +330,7 @@ function physics:platforms(object, dt)
 						
 						if object.yvel < 0 then
 							if object.bounce then
-								object.yvel = -object.yvel/1.5
+								self:bounce(object)
 							elseif object.jumping then
 								sound:play(sound.effects["hit"])
 								object.jumping = false
