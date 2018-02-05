@@ -319,19 +319,22 @@ function physics:platforms(object, dt)
 						object.candrop = false
 					end
 					if platform.name == "platform" then
-						--sounds on collision
-						if object.jumping and (object.yvel < 0) then 
-							sound:play(sound.effects["hit"])
-						end
 						
-						--if we are jumping upwards go through the platform
-						--only  'fix' to surface if we are going down
-						if not (object.yvel > 0 and object.jumping ) then
-							object.yvel = 0
-							object.jumping = false
+						if object.yvel < 0 then
+							if object.bounce then
+								object.yvel = -object.yvel/1.5
+							elseif object.jumping then
+								sound:play(sound.effects["hit"])
+								object.jumping = false
+								object.yvel = 0
+							else
+								object.yvel = 0
+							end
+							
 							object.newY = platform.y - object.h +1 *dt
 						end
-					
+						
+
 						if platform.movex == 1 then
 							-- move along x-axis with platform	
 							object.newX = object.newX + platform.movespeed *dt

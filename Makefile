@@ -30,6 +30,7 @@ win64:
 		unzip -o love-$(LOVE_VERSION)-win64.zip && \
 		cd love-$(LOVE_VERSION)-win64 && \
 		cat love.exe ../../$(APP_NAME)-$(APP_VERSION).love > $(APP_NAME)-$(APP_VERSION)-win64.exe && \
+		rm -rf love.exe && \
 		zip -9 -q -r ../$(APP_NAME)-$(APP_VERSION)-win64.zip .
 
 linux32:

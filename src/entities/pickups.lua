@@ -49,6 +49,7 @@ function pickups:add(x,y,item,dropped)
 		collected = false,
 		dropped = dropped or false,
 		attract = false,
+		bounce = true,
 		red = math.random(150,255),
 		green = math.random(150,255),
 		blue = math.random(0,255),
