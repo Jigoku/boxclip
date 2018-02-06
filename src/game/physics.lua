@@ -111,6 +111,7 @@ function physics:movex(object, dt)
 		object.movespeed = -object.movespeed
 		object.dir = "right"
 	end
+
 	object.newX = object.x + object.movespeed *dt
 end
 
@@ -754,7 +755,7 @@ function physics:traps(object, dt)
 								object.newY = trap.y - object.h -1 *dt
 								object.yvel = -object.yvel/1.5
 									if mode == "game" and object.name == "player" then
-										popups:add(trap.x-trap.w,trap.y+trap.h/2,"+"..trap.score)
+										popups:add(trap.x-trap.w/2,trap.y+trap.h/2,"+"..trap.score)
 										player.score = player.score +trap.score
 										world:sendtofront(traps,i)
 										trap.yvel = 500							

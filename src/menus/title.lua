@@ -136,7 +136,7 @@ function title:draw()
 	love.graphics.draw(self.bg, self.bgquad, 0,0)
 		
 	--frames	
-	love.graphics.setColor(100,100,100,150)		
+	love.graphics.setColor(100,100,100,150)
 	love.graphics.rectangle("fill",love.graphics.getWidth()/4-80, love.graphics.getHeight()/4-30,love.graphics.getWidth()/2+160,love.graphics.getHeight()/2+60,20)
 	
 	love.graphics.setColor(10,10,10,150)
@@ -145,7 +145,13 @@ function title:draw()
 	--title	
 	love.graphics.setFont(fonts.huge)
 	love.graphics.setColor(255,255,255,155)
-	love.graphics.printf("Boxclip " ..version ..build,love.graphics.getWidth()/4,love.graphics.getHeight()/4,love.graphics.getWidth()/2,"center")
+	love.graphics.printf("Boxclip",love.graphics.getWidth()/4,love.graphics.getHeight()/4,love.graphics.getWidth()/2,"center")
+	
+	--version
+	love.graphics.setFont(fonts.menu)
+	love.graphics.setColor(255,255,255,155)
+	love.graphics.printf("v"..version..build.." ("..love.system.getOS() ..") by "..author,10,love.graphics.getHeight()-25,300,"left",0,1,1)
+	
 	
 	if self.menu == "main" then
 		self:drawmain()

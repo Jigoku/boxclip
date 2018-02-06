@@ -210,7 +210,7 @@ function player:respawn()
 	self.candrop = false
 	self.invincible = false
 	camera:follow(self.x+self.w/2, self.y+self.h/2)
-
+	camera:fade(1, {0,0,0,0})
 	self:cheats()
 	
 	console:print("respawn player")
@@ -231,7 +231,9 @@ function player:die(this)
 		if self.hasmagnet then
 			self.hasmagnet = false
 		end
+		camera:fade(2, {0,0,0,255})
 		camera:shake(8, 1, 60, 'XY')
+		
 		console:print("player killed by " .. this)	
 		sound:play(sound.effects["die"])
 		self.alive = false

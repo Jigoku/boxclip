@@ -231,7 +231,7 @@ function world:draw()
 	popups:draw()
 
 	camera:detach()
-	
+	camera:draw()
 
 	
 	if mode == "editing" then
@@ -419,18 +419,18 @@ function world:weatherUpdate(dt)
 			--top
 			if rand == 1 then 
 				x = math.random(camera.x-love.graphics.getWidth()/2/camera.scale,camera.x+love.graphics.getWidth()/2/camera.scale)
-				y = camera.y-love.graphics.getHeight()/2*camera.scale
+				y = camera.y-love.graphics.getHeight()/2/camera.scale
 			--right
 			elseif rand == 2 then
-				x = camera.x+love.graphics.getWidth()/2*camera.scale
+				x = camera.x+love.graphics.getWidth()/2/camera.scale
 				y = math.random(camera.y-love.graphics.getHeight()/2/camera.scale,camera.y+love.graphics.getHeight()/2/camera.scale)
 			--bottom
 			elseif rand == 3 then
 				x = math.random(camera.x-love.graphics.getWidth()/2/camera.scale,camera.x+love.graphics.getWidth()/2/camera.scale)
-				y = camera.y+love.graphics.getHeight()/2*camera.scale
+				y = camera.y+love.graphics.getHeight()/2/camera.scale
 			--left
 			elseif rand == 4 then
-				x = camera.x-love.graphics.getWidth()/2*camera.scale
+				x = camera.x-love.graphics.getWidth()/2/camera.scale
 				y = math.random(camera.y-love.graphics.getHeight()/2/camera.scale,camera.y+love.graphics.getHeight()/2/camera.scale)
 			end
 	
@@ -461,19 +461,28 @@ function world:weatherUpdate(dt)
 			snow.y = snow.y + player.yvel/10 * dt
 			snow.x = snow.x - player.xvel/10 * dt
 		
-			if snow.y > camera.y+love.graphics.getHeight()/2*camera.scale or snow.y < camera.y-love.graphics.getHeight()/2*camera.scale or snow.x > camera.x+love.graphics.getWidth()/2*camera.scale or snow.x < camera.x-love.graphics.getWidth()/2*camera.scale then
+			if snow.y > camera.y+love.graphics.getHeight()/2/camera.scale 
+			or snow.y < camera.y-love.graphics.getHeight()/2/camera.scale 
+			or snow.x > camera.x+love.graphics.getWidth()/2/camera.scale
+			or snow.x < camera.x-love.graphics.getWidth()/2/camera.scale then
 				snow.o = snow.o - 100 *dt
 			end
 		
-		--[[
+--[[
 		for _,p in ipairs(platforms) do
-			if collision:check(p.x,p.y,p.w,p.h,snow.x,snow.y,1,1) then
-				if p.clip == 0 then
-					snow.o = snow.o - 250 *dt
+			if world:inview(p) then
+				if collision:check(snow.x,snow.y,1,1,p.x,p.y,p.w,p.h) then
+					
+						if p.clip == 1 then
+							snow.xvel = 0
+							snow.yvel = 0
+							snow.o = snow.o - 100 *dt
+						end
+					
 				end
 			end
 		end
-		--]]
+--]]
 			if snow.o < 0 then table.remove(world.weather,i) end
 		end
 	else
