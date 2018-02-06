@@ -1,4 +1,4 @@
-world.mapmusic = 2
+world.mapmusic = 8
 world.mapambient = 2
 world.maptitle = "Snow Level Test"
 world.nextmap = "title"

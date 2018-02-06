@@ -174,11 +174,13 @@ function player:update(dt)
 	end
 		
 	-- give a life at 100 gems
-	if player.gems == 100 then
+	--[[
+	if player.gems >= 100 then
 		player.gems = 0
 		player.lives = player.lives +1
 		sound:play(sound.effects["lifeup"])
 	end
+	--]]
 end
 
 

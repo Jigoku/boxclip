@@ -96,7 +96,7 @@ function sound:playbgm(id)
 	
 	if id ~= 0 then
 		self.bgm:setLooping(true)
-		self.bgm:setVolume(0.5)
+		self.bgm:setVolume(1)
 		self.bgm:play()
 	end
 end
