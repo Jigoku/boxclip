@@ -14,7 +14,11 @@
  --]]
  
 materials = {}
- 
+materials.death = love.graphics.newImage("data/images/death.png")
+materials.death:setWrap("repeat","repeat")
+
+
+
 function materials:add(x,y,w,h,t)
 	table.insert(self, {		
 		--position
@@ -22,7 +26,7 @@ function materials:add(x,y,w,h,t)
 		y = y or 0,
 		w = w or 10,
 		h = h or 10,
-		
+		quad = love.graphics.newQuad( 0,0, w,h, materials.death:getDimensions() ),
 		--properties
 		name = t,
 	})
@@ -36,12 +40,13 @@ function materials:draw()
 		for i, mat in ipairs(self) do
 			if world:inview(mat) then
 				if mat.name == "death" then
-				
+					
 					love.graphics.setColor(0,0,0,100)
 					love.graphics.rectangle("fill",mat.x,mat.y,mat.w,mat.h)
-					
 					love.graphics.setColor(0,0,0,255)
 					love.graphics.rectangle("line",mat.x,mat.y,mat.w,mat.h)
+					love.graphics.setColor(255,255,255,100)
+					love.graphics.draw(self.death, mat.quad, mat.x,mat.y)
 				end
 			end
 			editor:drawid(mat,i)
