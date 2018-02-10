@@ -43,7 +43,7 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			yorigin = y,
 			
 			--position
-			x = math.random(x,x+movedist) or 0,
+			x = love.math.random(x,x+movedist) or 0,
 			y = y or 0,
 			
 			--dimension
@@ -192,9 +192,9 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			--origin
 			xorigin = x,
 			yorigin = y,
-		
+
 			--position
-			x = math.random(x,x+movedist) or 0,
+			x = love.math.random(x,x+movedist) or 0,
 			y = y or 0,
 		
 			--dimension

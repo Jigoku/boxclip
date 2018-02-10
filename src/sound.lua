@@ -47,6 +47,7 @@ sound.effects = {
 	["bumper"] = love.audio.newSource("data/sounds/effect/bumper.ogg", "static"),
 	["brick"] = love.audio.newSource("data/sounds/effect/brick.ogg", "static"),
 	["start"] = love.audio.newSource("data/sounds/music/start.ogg", "static"),
+	["bounce"] = love.audio.newSource("data/sounds/effect/bounce.ogg", "static"),
 
 }
 
@@ -96,7 +97,7 @@ function sound:playbgm(id)
 	
 	if id ~= 0 then
 		self.bgm:setLooping(true)
-		self.bgm:setVolume(1)
+		self.bgm:setVolume(0.75)
 		self.bgm:play()
 	end
 end

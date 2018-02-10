@@ -33,13 +33,7 @@ function crates:add(x,y,item)
 	print( "crate added @  X:"..x.." Y: "..y)
 end
 
-function crates:addpickup(crate, i)
-	pickups:add(
-		crate.x+crate.w/2-pickups.textures["gem"]:getWidth()/2, 
-		crate.y+crate.h/2-pickups.textures["gem"]:getHeight()/2, 
-		crate.item
-	)
-end
+
 
 
 function crates:draw()

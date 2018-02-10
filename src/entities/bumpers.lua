@@ -16,7 +16,7 @@
 bumpers = {}
 
 bumpers.textures = textures:load("data/images/bumpers/")
-bumpers.scalespeed =  10
+bumpers.scalespeed =  15
 bumpers.maxscale = 2
 
 function bumpers:add(x,y)
@@ -39,7 +39,7 @@ function bumpers:add(x,y)
 end
 
 function bumpers:update(dt)
-	for i, bumper in ipairs(self) do
+	for i, bumper in ipairs(self) do		
 		if bumper.scale > 1 then
 			bumper.scale = bumper.scale - bumpers.scalespeed *dt
 			if bumper.scale <= 1 then

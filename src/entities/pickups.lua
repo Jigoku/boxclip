@@ -50,9 +50,9 @@ function pickups:add(x,y,item,dropped)
 		dropped = dropped or false,
 		attract = false,
 		bounce = true,
-		red = math.random(150,255),
-		green = math.random(150,255),
-		blue = math.random(0,255),
+		red = love.math.random(150,255),
+		green = love.math.random(150,255),
+		blue = love.math.random(0,255),
 		mass = 800,
 		xvel = 0,
 		yvel = 0,
@@ -129,6 +129,7 @@ function pickups:drawdebug(pickup, i)
 		pickup.gfx:getWidth(), 
 		pickup.gfx:getHeight()
 	)
+	
 	editor:drawid(pickup, i)
 	editor:drawcoordinates(pickup)
 end

@@ -152,9 +152,6 @@ end
 
 function physics:bounce(object,dt)
 	object.yvel = -object.yvel/1.5
-	if object.yvel <= 0 then
-		object.bounce = false
-	end
 end
 
 function physics:crates(object,dt)
@@ -171,7 +168,11 @@ function physics:crates(object,dt)
 					crate.destroyed = true
 					player.score = player.score+crate.score
 					sound:play(sound.effects["crate"])
-					crates:addpickup(crate, i,true)	
+					pickups:add(
+						crate.x+crate.w/2-pickups.textures["gem"]:getWidth()/2, 
+						crate.y+crate.h/2-pickups.textures["gem"]:getHeight()/2, 
+						crate.item
+					)
 				end
 					
 				if collision:right(object,crate) and not collision:top(object,crate) then

@@ -43,7 +43,7 @@ function love.load(args)
 		game.next_time = love.timer.getTime()
 		game.icon = love.image.newImageData("data/images/icon.png")
 		game.runtime = os.time()
-	
+		game.ticks = 0
 	
 	local options = {
 		{
@@ -71,11 +71,10 @@ function love.load(args)
 
 
 	love.window.setIcon(game.icon)
-
 	love.mouse.setVisible(false)
 	love.mouse.setGrabbed(true)
 	
-	math.randomseed(game.runtime)
+	
 
 	sound:init()
 	title:init()
@@ -85,6 +84,7 @@ end
 
 
 function love.update(dt)
+	game.ticks = game.ticks +1
 	
 	--[ frame rate cap
 		-- fix for lag (ex; caused by dragging window)

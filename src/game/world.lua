@@ -415,38 +415,38 @@ function world:weatherUpdate(dt)
 		while #world.weather < 400 do
 	
 			local x,y
-			local rand = math.random(1,4)
+			local rand = love.math.random(1,4)
 			--top
 			if rand == 1 then 
-				x = math.random(camera.x-love.graphics.getWidth()/2/camera.scale,camera.x+love.graphics.getWidth()/2/camera.scale)
+				x = love.math.random(camera.x-love.graphics.getWidth()/2/camera.scale,camera.x+love.graphics.getWidth()/2/camera.scale)
 				y = camera.y-love.graphics.getHeight()/2/camera.scale
 			--right
 			elseif rand == 2 then
 				x = camera.x+love.graphics.getWidth()/2/camera.scale
-				y = math.random(camera.y-love.graphics.getHeight()/2/camera.scale,camera.y+love.graphics.getHeight()/2/camera.scale)
+				y = love.math.random(camera.y-love.graphics.getHeight()/2/camera.scale,camera.y+love.graphics.getHeight()/2/camera.scale)
 			--bottom
 			elseif rand == 3 then
-				x = math.random(camera.x-love.graphics.getWidth()/2/camera.scale,camera.x+love.graphics.getWidth()/2/camera.scale)
+				x = love.math.random(camera.x-love.graphics.getWidth()/2/camera.scale,camera.x+love.graphics.getWidth()/2/camera.scale)
 				y = camera.y+love.graphics.getHeight()/2/camera.scale
 			--left
 			elseif rand == 4 then
 				x = camera.x-love.graphics.getWidth()/2/camera.scale
-				y = math.random(camera.y-love.graphics.getHeight()/2/camera.scale,camera.y+love.graphics.getHeight()/2/camera.scale)
+				y = love.math.random(camera.y-love.graphics.getHeight()/2/camera.scale,camera.y+love.graphics.getHeight()/2/camera.scale)
 			end
 	
-			local colour = math.random(200,255)
+			local colour = love.math.random(200,255)
 	
 			table.insert(world.weather,{
 				x = x,
 				y = y,
-				radius = math.random(2,3),
+				radius = love.math.random(2,3),
 				segments = 10,
 				r = colour,
 				g = colour,
 				b = colour,
-				o = math.random(100,255),
-				yvel = math.random(10,120),
-				xvel = math.random(-50,50)
+				o = love.math.random(100,255),
+				yvel = love.math.random(10,120),
+				xvel = love.math.random(-50,50)
 			})
 		end
 	

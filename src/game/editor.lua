@@ -630,9 +630,11 @@ function editor:drawcursor()
 		math.round(self.mouse.y,-1)+10
 	)
 	
+	if debug then
 	self:drawcoordinates(
 		{ x = self.mouse.x, y = self.mouse.y }
 	)
+	end
 end
 
 function editor:drawtexturesel()
@@ -1319,6 +1321,8 @@ end
 
 
 function editor:drawid(entity,i)
+	--local id = split(string.format("%s",entity) ," ")
+	--local hash = id[2]
 	if editor.showid then
 		love.graphics.setColor(255,255,0,100)       
 		love.graphics.print(entity.name .. "(" .. i .. ")", entity.x-20, entity.y-40, 0)
@@ -1328,7 +1332,7 @@ end
 function editor:drawcoordinates(object)
 	if editor.showpos then
 		love.graphics.setColor(255,255,255,100)
-		love.graphics.print("X:".. math.round(object.x,2) ..",Y:" .. math.round(object.y,2) , object.x-20,object.y-20,0)  
+		love.graphics.print("x ".. math.round(object.x) ..", y " .. math.round(object.y) , object.x-20,object.y-20,0)  
 	end
 end
 
