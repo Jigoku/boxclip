@@ -30,9 +30,9 @@ function love.load(args)
 	require("fonts")
 	require("textures")
 	
-	require("menus/main")
-	require("entities/main")
-	require("game/main")
+	require("menus")
+	require("entities")
+	require("game")
 
 
 
