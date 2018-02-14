@@ -60,6 +60,7 @@ end
 
 function physics:applyGravity(object, dt)
 	--simulate gravity
+	print (object.name)
 	object.yvel = object.yvel - (world.gravity *dt)
 	object.newY = object.y - (object.yvel *dt)
 end
@@ -500,7 +501,7 @@ function physics:enemies(dt)
 					if collision:above(player,enemy) then	
 						if player.jumping or player.invincible then
 							popups:add(enemy.x-enemy.w,enemy.y+enemy.h/2,"+"..enemy.score)
-							player.yvel = player.mass
+							player.yvel = player.jumpheight
 							
 							enemy.alive = false
 							sound:play(sound.effects["kill"])
@@ -526,9 +527,9 @@ function physics:enemies(dt)
 
 					if player.jumping or player.invincible then			
 						if player.y > enemy.y then
-							player.yvel = -player.mass
+							player.yvel = -player.jumpheight
 						elseif player.y < enemy.y then
-							player.yvel = player.mass
+							player.yvel = player.jumpheight
 						end
 
 						popups:add(enemy.x-enemy.w/2,enemy.y+enemy.h/2,"+"..enemy.score)
