@@ -66,6 +66,7 @@ sound.music = {
 	[10] = love.audio.newSource("data/sounds/music/level_complete.ogg"),
 	[11] = love.audio.newSource("data/sounds/music/fight.ogg"),
 	[12] = love.audio.newSource("data/sounds/music/paradise.ogg"),
+	[13] = love.audio.newSource("data/sounds/music/happy.ogg"),
 }
 
 sound.ambience = {
@@ -97,7 +98,7 @@ function sound:playbgm(id)
 	
 	if id ~= 0 then
 		self.bgm:setLooping(true)
-		self.bgm:setVolume(0.75)
+		self.bgm:setVolume(0.5)
 		self.bgm:play()
 	end
 end

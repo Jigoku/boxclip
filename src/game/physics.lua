@@ -15,6 +15,8 @@
 
 physics = {}
 
+physics.friction = 4
+
 function physics:applyVelocity(object, dt) 
 	if object.alive then
 		-- x-axis friction
@@ -23,7 +25,7 @@ function physics:applyVelocity(object, dt)
 				if object.jumping then
 					object.xvel = (object.xvel + object.speed *dt)
 				else
-					object.xvel = (object.xvel + object.speed*1.3 *dt)
+					object.xvel = (object.xvel + object.speed*1.25 *dt)
 				end
 			end
 		end
@@ -32,7 +34,7 @@ function physics:applyVelocity(object, dt)
 				if object.jumping then
 					object.xvel = (object.xvel - object.speed *dt)
 				else
-					object.xvel = (object.xvel - object.speed*1.3 *dt)
+					object.xvel = (object.xvel - object.speed*1.25 *dt)
 				end
 			end
 		end
@@ -40,9 +42,9 @@ function physics:applyVelocity(object, dt)
 		-- increase friction when 'idle' until velocity is nullified
 		if object.dir == "idle" and object.xvel ~= 0 then
 			if object.xvel > 0 then
-				object.xvel = math.max(0,object.xvel - ((object.mass*2)/10 *dt))
+				object.xvel = math.max(0,object.xvel - (object.mass/self.friction *dt))
 			elseif object.xvel < 0 then
-				object.xvel = math.min(0,object.xvel + ((object.mass*2)/10 *dt))
+				object.xvel = math.min(0,object.xvel + (object.mass/self.friction *dt))
 			end
 		end
 		
@@ -320,63 +322,61 @@ function physics:platforms(object, dt)
 				-- top side
 				object.carried = false
 				platform.carrying = false
+				
 				if collision:top(object,platform)  then
-					
-					
 					if platform.clip == 0 then
 						object.candrop = true
 					else
 						object.candrop = false
 					end
-					if platform.name == "platform" then
+
 						
-						if object.yvel < 0 then
-							if object.bounce then
-								self:bounce(object)
-							elseif object.jumping then
-								sound:play(sound.effects["hit"])
-								object.jumping = false
-								object.yvel = 0
-							else
-								object.yvel = 0
-							end
+					if object.yvel < 0 then
+						if object.bounce then
+							self:bounce(object)
+						elseif object.jumping then
+							sound:play(sound.effects["hit"])
+							object.jumping = false
+							object.yvel = 0
+						else
+							object.yvel = 0
+						end
 							
-							object.newY = platform.y - object.h +1 *dt
-						end
-						
-
-						if platform.movex == 1 then
-							-- move along x-axis with platform	
-							object.newX = object.newX + platform.movespeed *dt
-							object.carried = true
-							platform.carrying = true
-						end
-
-						if platform.swing == 1 then
-							object.carried = true
-							platform.carrying = true
-							object.newX =  platform.radius * math.cos(platform.angle) + platform.xorigin +platform.w/2 - object.w/2
-							object.newY = platform.y - object.h+1 *dt
-							object.yvel = -player.jumpheight
-						end
-
-
-							
-						if platform.movey == 1 and not object.jumping then
-							object.yvel = -platform.movespeed *dt
-				
-							if platform.movespeed <= 0 then
-								--going up
-								object.newY = platform.y - object.h +1 - (platform.movespeed *dt)
-							else
-								--going down
-								object.newY = platform.y - object.h +1 + (platform.movespeed *dt)
-							end
-							--object.carried = true
-							platform.carrying = true
-						end		
-						
+						object.newY = platform.y - object.h +1 *dt
 					end
+						
+
+					if platform.movex == 1 then
+						-- move along x-axis with platform	
+						object.newX = object.newX + platform.movespeed *dt
+						object.carried = true
+						platform.carrying = true
+					end
+
+					if platform.swing == 1 then	
+						object.carried = true
+						platform.carrying = true
+						object.newX =  platform.radius * math.cos(platform.angle) + platform.xorigin +platform.w/2 - object.w/2
+						object.newY = platform.y - object.h+1 *dt
+						object.yvel = -player.jumpheight
+					end
+
+							
+					if platform.movey == 1 and not object.jumping then
+						object.yvel = -platform.movespeed *dt
+				
+						if platform.movespeed <= 0 then
+							--going up
+							object.newY = platform.y - object.h +1 - (platform.movespeed *dt)
+						else
+							--going down
+							object.newY = platform.y - object.h +1 + (platform.movespeed *dt)
+						end
+						--object.carried = true
+						platform.carrying = true
+					end		
+						
+					
 					
 				end
 
@@ -668,9 +668,9 @@ function physics:trapsworld(dt)
 	for i, trap in ipairs(traps) do
 		if trap.falling then
 			trap.timer = math.max(0, trap.timer - dt)
-			
+
 			if trap.timer <= 0 then
-			
+
 				if trap.name == "brick" then
 					trap.segments[1].x = trap.segments[1].x - trap.xvel *dt
 					trap.segments[2].x = trap.segments[2].x + trap.xvel *dt
@@ -683,7 +683,7 @@ function physics:trapsworld(dt)
 				if not world:inview(trap) then
 					table.remove(trap, i)
 				end
-						
+
 			end
 		end	
 	end
@@ -754,7 +754,7 @@ function physics:traps(object, dt)
 						elseif collision:top(object,trap) then
 							if object.jumping then
 								object.newY = trap.y - object.h -1 *dt
-								object.yvel = -object.yvel/1.5
+								object.yvel = math.max(-object.yvel/1.5,player.jumpheight/2)
 									if mode == "game" and object.name == "player" then
 										popups:add(trap.x-trap.w/2,trap.y+trap.h/2,"+"..trap.score)
 										player.score = player.score +trap.score

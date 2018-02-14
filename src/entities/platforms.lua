@@ -33,7 +33,11 @@ end
 
 function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing,angle,texture)
 
-	
+	 
+	local cols = math.ceil(w/self.textures[texture]:getWidth())
+	local rows = math.ceil(h/self.textures[texture]:getHeight())
+
+
 	table.insert(platforms, {
 		--dimensions
 		x = x or 0, 
@@ -59,6 +63,28 @@ function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing,angle,t
 		swing = swing or 0,
 		angle = angle or 0,
 		radius = 200 or 0,
+		
+		
+		mesh = love.graphics.newMesh(4, "fan", "dynamic"),
+		
+		verts = { 
+			--top left
+			{	0,0, 0,0,
+				--r,g,b,a
+			},  
+			--top right
+			{	0+w,0, cols,0,
+				--r,g,b,a
+			},
+			--bottom right
+			{	0+w,0+h, cols,rows,
+				--r,g,b,a
+			}, 
+			--bottom left
+			{	0,0+h, 0,rows,
+				--r,g,b,a
+			}, 
+		}
 	})
 	
 	
@@ -94,41 +120,20 @@ function platforms:draw()
 	for i, platform in ipairs(platforms) do
 		if world:inview(platform) then
 		count = count + 1
-			
-			if platform.name == "platform" then
-	 	
 
-				if platform.swing == 1 then
-					platforms:drawlink(platform, radius)
+			if platform.swing == 1 then
+				platforms:drawlink(platform, radius)
 					
-					love.graphics.setColor(
-						platform_behind_r,
-						platform_behind_g,
-						platform_behind_b,
-						255
-					)
-					love.graphics.draw(platform_cradle, platform.x-platform_cradle:getWidth()/2,platform.y-platform_cradle:getHeight()/1.5)
-				end
+				love.graphics.setColor(
+					platform_behind_r,
+					platform_behind_g,
+					platform_behind_b,
+					255
+				)
+				love.graphics.draw(platform_cradle, platform.x-platform_cradle:getWidth()/2,platform.y-platform_cradle:getHeight()/1.5)
+			end
 				
-				
-				
-				local r,g,b,a
-				if (platform.movex == 1) or (platform.movey == 1) then
-					r =	platform_move_r
-					g =	platform_move_g
-					b =	platform_move_b
-					a = 255
-				elseif platform.clip == 0 then					
-					r =	platform_behind_r
-					g =	platform_behind_g
-					b =	platform_behind_b
-					a =	255
-				else
-					r =	platform_r
-					g =	platform_g
-					b =	platform_b
-					a =	255
-				end
+			
 				
 			--[[ -- old method of drawing platforms with quads (keep this here in case something breaks)
 				
@@ -137,85 +142,81 @@ function platforms:draw()
 				love.graphics.draw(self.textures[platform.texture], quad, platform.x,platform.y)
 				
 			--]]
-				
-				
-				local mesh = love.graphics.newMesh(4, "fan", "dynamic")
-				local cols = math.ceil(platform.w/self.textures[platform.texture]:getWidth())
-				local rows = math.ceil(platform.h/self.textures[platform.texture]:getHeight())
 			
-				local verts = { 
-					--top left
-					{	0,0, 0,0,
-						r,g,b,a
-					},  
-					--top right
-					{	0+platform.w,0, cols,0,
-						r,g,b,a
-					},
-					--bottom right
-					{	0+platform.w,0+platform.h, cols,rows,
-						r,g,b,a
-					}, 
-					--bottom left
-					{	0,0+platform.h, 0,rows,
-						r,g,b,a
-					}, 
-				}
-
-				mesh:setVertices(verts)
-				mesh:setTexture(self.textures[platform.texture])
-				
-				love.graphics.setColor(255,255,255,255)
-				love.graphics.draw(mesh, platform.x, platform.y)
-				
-				
-				--shadows
-				local offset
-				if platform.movex == 1 or (platform.movey == 1) then
-					 offset = 4
+			
+			--apply world pallete/theme colors to platform mesh on the fly
+			for i,v in ipairs(platform.verts) do
+				if (platform.movex == 1) or (platform.movey == 1) then		
+					v[5] =	platform_move_r
+					v[6] =	platform_move_g
+					v[7] =	platform_move_b
+					v[8] = 255
+				elseif platform.clip == 0 then						
+					v[5] =	platform_behind_r
+					v[6] =	platform_behind_g
+					v[7] =	platform_behind_b
+					v[8] =	255		
 				else
-					 offset = 10
+					v[5] =	platform_r
+					v[6] =	platform_g
+					v[7] =	platform_b
+					v[8] =	255
 				end
-				--shaded edges
-				love.graphics.setColor(0,0,0,85)
-				--right
-				love.graphics.rectangle("fill", platform.x+platform.w-offset, platform.y, offset, platform.h -offset)
-				--bottom
-				love.graphics.rectangle("fill", platform.x, platform.y+platform.h-offset, platform.w, offset)
-				--left
-				love.graphics.rectangle("fill", platform.x, platform.y, offset, platform.h - offset)
-
+			end
+			
+			platform.mesh:setVertices(platform.verts)
+			platform.mesh:setTexture(self.textures[platform.texture])
+				
+			love.graphics.setColor(255,255,255,255)
+			love.graphics.draw(platform.mesh, platform.x, platform.y)
 				
 				
+			--shadows
+			local offset
+			if platform.movex == 1 or (platform.movey == 1) then
+				 offset = 4
+			else
+				 offset = 10
+			end
+				
+			--shaded edges
+			love.graphics.setColor(0,0,0,85)
+			--right
+			love.graphics.rectangle("fill", platform.x+platform.w-offset, platform.y, offset, platform.h -offset)
+			--bottom
+			love.graphics.rectangle("fill", platform.x, platform.y+platform.h-offset, platform.w, offset)
+			--left
+			love.graphics.rectangle("fill", platform.x, platform.y, offset, platform.h - offset)
 		
-				--top surface
-				love.graphics.setColor(
-					platform_top_r,
-					platform_top_g,
-					platform_top_b,
-					255
-				)
+		
+			--top surface
+			love.graphics.setColor(
+				platform_top_r,
+				platform_top_g,
+				platform_top_b,
+				255
+			)
 				
-				local offset = 5
-				local quad = love.graphics.newQuad( 0,0, platform.w, platform_grass:getHeight(), platform_grass:getDimensions() )
-				platform_grass:setWrap("repeat", "repeat")
-				love.graphics.draw(platform_grass, quad, platform.x,platform.y-offset)
+			local offset = 5
+			local quad = love.graphics.newQuad( 0,0, platform.w, platform_grass:getHeight(), platform_grass:getDimensions() )
+			platform_grass:setWrap("repeat", "repeat")
+			love.graphics.draw(platform_grass, quad, platform.x,platform.y-offset)
 				
 
-				--[[ --untextured grass fallback
-				--surface
-				love.graphics.rectangle("fill", platform.x, platform.y-5, platform.w, 10)	
+			--[[ --untextured grass fallback
+			--surface
+			love.graphics.rectangle("fill", platform.x, platform.y-5, platform.w, 10)	
+			
+			--arced edges
+			love.graphics.arc( "fill", platform.x+platform.w, platform.y, -5, math.pi/2, math.pi*1.5 )
+			love.graphics.arc( "fill", platform.x, platform.y, 5, math.pi/2, math.pi*1.5 )
+			--]]
 				
-					--arced edges
-					love.graphics.arc( "fill", platform.x+platform.w, platform.y, -5, math.pi/2, math.pi*1.5 )
-					love.graphics.arc( "fill", platform.x, platform.y, 5, math.pi/2, math.pi*1.5 )
-				--]]
 				
-				
-				if editing or debug then platforms:drawdebug(platform, i) end
+			if editing or debug then platforms:drawdebug(platform, i) end
 				
 					
-			end
+
 
 		end
 	end
