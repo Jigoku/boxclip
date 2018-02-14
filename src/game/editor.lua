@@ -160,10 +160,25 @@ function editor:settexture(platform)
 	self.texmenuopacity = 255
 	
 	--update the texture value
-	for _,p in ipairs(platforms) do
-		if p.selected then
-			p.texture = self.texturesel
-			p.selected = false
+	for _,platform in ipairs(platforms) do
+		if platform.selected then
+			
+			local cols = math.ceil(platform.w/platforms.textures[self.texturesel]:getWidth())
+			local rows = math.ceil(platform.h/platforms.textures[self.texturesel]:getHeight())
+			
+			platform.texture = self.texturesel
+			platform.verts = { 
+				--top left
+				{0,0,0,0},  
+				--top right
+				{0+platform.w,0,cols,0},
+				--bottom right
+				{0+platform.w,0+platform.h,cols,rows}, 
+				--bottom left
+				{0,0+platform.h,0,rows}
+			}
+		
+			platform.selected = false
 		end
 	end
 end

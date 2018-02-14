@@ -33,10 +33,8 @@ end
 
 function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing,angle,texture)
 
-	 
 	local cols = math.ceil(w/self.textures[texture]:getWidth())
 	local rows = math.ceil(h/self.textures[texture]:getHeight())
-
 
 	table.insert(platforms, {
 		--dimensions
@@ -56,7 +54,6 @@ function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing,angle,t
 		clip = clip or 1,
 		xorigin = x,
 		yorigin = y,
-		texture = texture or 1,
 		carrying = false,
 		
 		--swing platforms
@@ -64,26 +61,19 @@ function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing,angle,t
 		angle = angle or 0,
 		radius = 200 or 0,
 		
-		
-		mesh = love.graphics.newMesh(4, "fan", "dynamic"),
+		--texturing
+		texture = texture or 1,
+		mesh = love.graphics.newMesh(4, "fan", "static"),
 		
 		verts = { 
 			--top left
-			{	0,0, 0,0,
-				--r,g,b,a
-			},  
+			{0,0,0,0},  
 			--top right
-			{	0+w,0, cols,0,
-				--r,g,b,a
-			},
+			{0+w,0,cols,0},
 			--bottom right
-			{	0+w,0+h, cols,rows,
-				--r,g,b,a
-			}, 
+			{0+w,0+h,cols,rows}, 
 			--bottom left
-			{	0,0+h, 0,rows,
-				--r,g,b,a
-			}, 
+			{0,0+h,0,rows}, 
 		}
 	})
 	
