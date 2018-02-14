@@ -15,7 +15,7 @@
 
 physics = {}
 
-physics.friction = 4
+
 
 function physics:applyVelocity(object, dt) 
 	if object.alive then
@@ -42,9 +42,9 @@ function physics:applyVelocity(object, dt)
 		-- increase friction when 'idle' until velocity is nullified
 		if object.dir == "idle" and object.xvel ~= 0 then
 			if object.xvel > 0 then
-				object.xvel = math.max(0,object.xvel - (object.mass/self.friction *dt))
+				object.xvel = math.max(0,object.xvel - (object.friction *dt))
 			elseif object.xvel < 0 then
-				object.xvel = math.min(0,object.xvel + (object.mass/self.friction *dt))
+				object.xvel = math.min(0,object.xvel + (object.friction *dt))
 			end
 		end
 		
@@ -60,7 +60,7 @@ end
 
 function physics:applyGravity(object, dt)
 	--simulate gravity
-	object.yvel = object.yvel - ((world.gravity+object.mass*2) *dt)
+	object.yvel = object.yvel - (world.gravity *dt)
 	object.newY = object.y - (object.yvel *dt)
 end
 
@@ -113,7 +113,7 @@ function physics:movex(object, dt)
 		object.movespeed = -object.movespeed
 		object.dir = "right"
 	end
-
+	
 	object.newX = object.x + object.movespeed *dt
 end
 
@@ -134,11 +134,19 @@ end
 
 function physics:world(dt)
 	-- moving platforms etc
-	local i, object
+	
 	for i, object in ipairs(platforms) do
 		if object.movex == 1 then self:movex(object, dt) end
 		if object.movey == 1 then self:movey(object, dt) end
 		if object.swing == 1 then self:swing(object, dt) end
+		
+		--[[ platform texture scroll?  test this more, maybe move to platforms:update(dt)
+		if object.verts then
+			for _,v in ipairs(object.verts) do
+				v[3] = v[3] - 4 *dt
+			end
+		end
+		--]]
 		self:update(object)
 	end
 	
@@ -150,6 +158,7 @@ function physics:world(dt)
 	self:checkpoints(dt)
 	self:portals(dt)
 	self:materials(dt)
+
 end
 
 function physics:bounce(object,dt)

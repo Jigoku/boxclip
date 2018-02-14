@@ -260,11 +260,14 @@ function platforms:drawdebug(platform, i)
 	--debug connector
 	if platform.swing == 1 then 
 		love.graphics.setColor(255,0,255,100)
-		love.graphics.line( platform.xorigin,platform.yorigin,
-							platform.x,platform.y
-		)	
+		love.graphics.line( platform.xorigin,platform.yorigin,platform.x,platform.y)	
 		love.graphics.setColor(255,0,0,100)
-		love.graphics.rectangle("line", platform.xorigin-platform_link_origin:getWidth()/2, platform.yorigin-platform_link_origin:getHeight()/2,platform_link_origin:getWidth(),platform_link_origin:getHeight())
+		love.graphics.rectangle("line", 
+			platform.xorigin-platform_link_origin:getWidth()/2, 
+			platform.yorigin-platform_link_origin:getHeight()/2,
+			platform_link_origin:getWidth(),
+			platform_link_origin:getHeight()
+		)
 	end
 	
 	editor:drawid(platform,i)

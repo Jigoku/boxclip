@@ -96,7 +96,7 @@ function world:init(gamemode)
 	
 	--move this setting into map files
 	--once editor menu can adjust variables
-	world.gravity = 420
+	world.gravity = 2000
 
 	-- 
 	-- y co-ordinate of deadzone
