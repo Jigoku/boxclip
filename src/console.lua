@@ -41,12 +41,15 @@ function console:draw()
 		love.graphics.setColor(100,100,100,100)
 		love.graphics.rectangle("line", 1, 1, love.graphics.getWidth()-2, 160)
 		
+		
+
 		--sysinfo
 		love.graphics.setColor(100,255,100,255)
 		love.graphics.print(
 			"FPS: " .. love.timer.getFPS() .. 
 			" | memory(gc): " ..  gcinfo() .."kB"..
-			string.format(" | vram: %.2fMB", love.graphics.getStats().texturememory / 1024 / 1024), 
+			string.format(" | vram: %.2fMB", love.graphics.getStats().texturememory / 1024 / 1024)..
+			" | latency: ".. math.round(game.latency,4) .."ms",
 			5,5
 		)
 		

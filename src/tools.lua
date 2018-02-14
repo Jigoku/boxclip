@@ -49,6 +49,20 @@ function tableconcat(t1,t2)
     return t1
 end
 
+
+
+--[[
+function get_cpuusage()
+	-- return cpu usage of process as percentage
+	if love.system.getOS() == "Linux" then
+		local handle = io.popen("ps -p $(pidof love) -o %cpu | tail -n1 | tr -d '\n'")
+		local result = handle:read("*a")
+		handle:close()	
+		return result
+	end
+end
+--]]
+
 -- this function redefines love.graphics.newImage( ), so all images are
 -- not put through linear filter, which makes things more crisp on the
 -- pixel level (less blur)... should this be used?

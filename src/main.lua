@@ -18,7 +18,7 @@
 	Boxclip 2d engine by ricky thomson
 --]]
 function love.load(args)
-	
+
 	debug = false
 	
 	require("tools")
@@ -44,6 +44,7 @@ function love.load(args)
 		game.icon = love.image.newImageData("data/images/icon.png")
 		game.runtime = os.time()
 		game.ticks = 0
+
 	
 	local options = {
 		{
@@ -85,7 +86,9 @@ end
 
 function love.update(dt)
 	game.ticks = game.ticks +1
+	game.tick_start = love.timer.getTime( )*1000 --miliseconds
 	
+
 	--[ frame rate cap
 		-- fix for lag (ex; caused by dragging window)
 		--   stops collision failures when dt drops below min_dt
@@ -111,7 +114,10 @@ function love.update(dt)
 		world:update(dt) 
 		editor:update(dt) 
 	end
+	
 
+	game.tick_end = love.timer.getTime( ) *1000- game.tick_start
+	game.latency = game.tick_end
 end
 
 
@@ -134,6 +140,11 @@ function love.draw()
 	transitions:draw()
 	
 	if console.show then console:draw() end
+
+
+	if debug then
+		
+	end
 
 	-- caps fps
 	local cur_time = love.timer.getTime()
