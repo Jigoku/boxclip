@@ -77,9 +77,6 @@ editor.texmenuw = editor.texmenutexsize+(editor.texmenupadding*2)
 editor.texmenuh = (editor.texmenutexsize*(editor.texmenuoffset*2+1))+(editor.texmenupadding*(editor.texmenuoffset*2))+(editor.texmenupadding*2)
 editor.texmenu = love.graphics.newCanvas(editor.texmenuw,editor.texmenuh)
 
--- clipboard contents
-editor.clipboard = {}		
-
 -- layer order of entities for mouse selection
 editor.entselorder = {enemies,pickups,portals,crates,checkpoints,springs,materials,platforms,props,decals,traps,bumpers}
 
@@ -1150,13 +1147,8 @@ function editor:copy()
 	for i, platform in ripairs(platforms) do
 		if world:inview(platform) then
 			if collision:check(self.mouse.x,self.mouse.y,1,1, platform.x,platform.y,platform.w,platform.h) then
-				self.clipboard = {
-					w = platform.w,
-					h = platform.h,
-					m = platform.movedist,
-					s = platform.movespeed,
-					e = self.entsel,
-				}
+				console:print("copied "..platform.name.."("..i..")")
+				self.clipboard = platform
 				return true
 			end
 		end
@@ -1164,27 +1156,15 @@ function editor:copy()
 end
 
 function editor:paste()
-	--paste the new entity with copied paramaters
-	--
+	--paste the cloned entity
 	local x = math.round(self.mouse.x,-1)
 	local y = math.round(self.mouse.y,-1)
-	local w = self.clipboard.w or 20
-	local h = self.clipboard.h or 20
-	local m = self.clipboard.m or 0
-	local s = self.clipboard.s or 0
-	local selection = self.entities[self.entsel]
-	if selection == "platform" then
-		platforms:add(x,y,w,h,1,0,0,0,0)
+	
+	local p = self.clipboard
+	if type(p) == "table" then
+		platforms:add(x,y,p.w,p.h,p.clip,p.movex,p.movey,p.movespeed,p.movedist,p.swing,p.angle,p.texture)
 	end
-	if selection == "platform_b" then
-		platforms:add(x,y,w,h,0,0,0,0,0)
-	end
-	if selection == "platform_x" then
-		platforms:add(x,y,w,h,0, 1, 0,s,m)
-	end
-	if selection == "platform_y" then
-		platforms:add(x,y,w,h,0,0, 1,s,m)
-	end
+
 end
 
 

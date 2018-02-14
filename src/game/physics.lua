@@ -60,7 +60,6 @@ end
 
 function physics:applyGravity(object, dt)
 	--simulate gravity
-	print (object.name)
 	object.yvel = object.yvel - (world.gravity *dt)
 	object.newY = object.y - (object.yvel *dt)
 end
