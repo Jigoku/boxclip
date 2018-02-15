@@ -48,8 +48,7 @@ function console:draw()
 		love.graphics.print(
 			"FPS: " .. love.timer.getFPS() .. 
 			" | memory(gc): " ..  gcinfo() .."kB"..
-			string.format(" | vram: %.2fMB", love.graphics.getStats().texturememory / 1024 / 1024)..
-			" | latency: ".. math.round(game.latency,4) .."ms",
+			string.format(" | vram: %.2fMB", love.graphics.getStats().texturememory / 1024 / 1024),
 			5,5
 		)
 		

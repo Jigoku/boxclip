@@ -20,7 +20,7 @@
 function love.load(args)
 
 	debug = false
-	
+
 	require("tools")
 	require("console")
 	require("mapio")
@@ -61,6 +61,11 @@ function love.load(args)
 			pattern = "^[-]-m$", 
 			description = "mute audio", 
 			exec = function() sound:toggle() end
+		},
+		{
+			pattern = "^[-]-b$",
+			description = "benchmark",
+			exec = function() require("benchmark") end
 		}
 	}
 	
@@ -85,9 +90,9 @@ end
 
 
 function love.update(dt)
+
+	if benchmark then benchmark.start()	 end
 	game.ticks = game.ticks +1
-	game.tick_start = love.timer.getTime( )*1000 --miliseconds
-	
 
 	--[ frame rate cap
 		-- fix for lag (ex; caused by dragging window)
@@ -116,8 +121,7 @@ function love.update(dt)
 	end
 	
 
-	game.tick_end = love.timer.getTime( ) *1000- game.tick_start
-	game.latency = game.tick_end
+	if benchmark then benchmark.finish() end
 end
 
 
@@ -141,11 +145,7 @@ function love.draw()
 	
 	if console.show then console:draw() end
 
-
-	if debug then
-		
-	end
-
+	if benchmark then benchmark.draw() end
 	-- caps fps
 	local cur_time = love.timer.getTime()
 	if game.next_time <= cur_time then
