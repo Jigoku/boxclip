@@ -386,10 +386,10 @@ function world:inview(entity)
 	local x,y = camera:toWorldCoords(entity.x,entity.y)
 	
 	if entity.swing == 1 then
-		if (camera.x + love.graphics.getWidth()/2 > entity.xorigin-entity.radius) 
-		and (camera.x - love.graphics.getWidth()/2 < entity.xorigin+entity.w+entity.radius)
-		and (camera.y + love.graphics.getHeight()/2 > entity.yorigin-entity.radius)
-		and (camera.y - love.graphics.getHeight()/2 < entity.yorigin+entity.h+entity.radius)
+		if (camera.x + love.graphics.getWidth()/2/camera.scale > entity.xorigin-entity.radius) 
+		and (camera.x - love.graphics.getWidth()/2/camera.scale < entity.xorigin+entity.w+entity.radius)
+		and (camera.y + love.graphics.getHeight()/2/camera.scale > entity.yorigin-entity.radius)
+		and (camera.y - love.graphics.getHeight()/2/camera.scale < entity.yorigin+entity.h+entity.radius)
 			then
 			world.collision = world.collision +1
 			return true

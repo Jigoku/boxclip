@@ -474,15 +474,18 @@ function physics:enemies(dt)
 			
 				--test
 				--hopper enemy, move this statement to a new entity TODO
-				if enemy.x <= enemy.xorigin or enemy.x >= enemy.xorigin + enemy.movedist then
-					enemy.yvel=500	
+
+				
+				if world:inview(enemy) then	
+					if enemy.x <= enemy.xorigin or enemy.x >= enemy.xorigin + enemy.movedist then
+						enemy.yvel=500	
+					end
+					self:applyGravity(enemy, dt)
 				end
-			
-				self:applyGravity(enemy, dt)
-				self:movex(enemy, dt)
+
+				self:movex(enemy, dt)	
 				self:traps(enemy, dt)
 				self:platforms(enemy, dt)
-				
 				self:update(enemy)
 				
 				

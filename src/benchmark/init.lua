@@ -16,9 +16,9 @@
 benchmark = {}
 
 benchmark.ticks = {}
-benchmark.total = 200 --width of widget / number of ticks in history
+benchmark.total = 300 --width of widget / number of ticks in history
 benchmark.multiplier = 10
-benchmark.canvas = love.graphics.newCanvas(benchmark.total,50)
+benchmark.canvas = love.graphics.newCanvas(benchmark.total,80)
 
 function benchmark.start()
 	benchmark.tick_start = love.timer.getTime()*1000
@@ -32,8 +32,8 @@ function benchmark.finish()
 
 	-- calculate average latency
 	local average = 0
-	for i,tick in ipairs(benchmark.ticks) do
-		average = average + tick
+		for i=1,#benchmark.ticks do
+		average = average + benchmark.ticks[i]
 	end
 
 	benchmark.average = average/#benchmark.ticks
@@ -47,7 +47,7 @@ end
 
 function benchmark.draw()
 	love.graphics.setCanvas(benchmark.canvas)
-	love.graphics.setColor(0,0,0,200)
+	love.graphics.setColor(0,0,0,255)
 	local font = love.graphics.getFont()
 	love.graphics.setFont(love.graphics.newFont(10))
 
@@ -62,22 +62,29 @@ function benchmark.draw()
 	
 	-- draw the ticks as lines
 	love.graphics.setColor(0,255,0,255)
-	for i,tick in ipairs(benchmark.ticks) do
+	for i=1,#benchmark.ticks do
 		love.graphics.line(
 			0+i,
 			benchmark.canvas:getHeight(), 
 			0+i,
-			benchmark.canvas:getHeight()-tick*benchmark.multiplier
+			benchmark.canvas:getHeight()-benchmark.ticks[i]*benchmark.multiplier
 		)
 	end		
 
 	-- print average ms
 	love.graphics.setColor(255,255,255,255)
-	love.graphics.print("avg: "..benchmark.average.."ms",5,5)
+	love.graphics.setFont(love.graphics.newFont(10))
+	love.graphics.print("avg: "..string.format("%.2f",math.round(benchmark.average,2)).."ms\tcur: "..string.format("%.2f",math.round(benchmark.ticks[#benchmark.ticks],2)).."ms",5,5)
+	love.graphics.print("fps: " .. love.timer.getFPS(),5,15)
+	love.graphics.print("mem: " .. gcinfo() .."kB",5,25)
+	love.graphics.print(string.format("vram: %.2fMB", love.graphics.getStats().texturememory / 1024 / 1024),5,35)
+	--]]
+
 	love.graphics.setFont(font)
 
 	love.graphics.setCanvas()
 
+	love.graphics.setColor(255,255,255,255)
 	-- draw benchmark widget
 	love.graphics.draw(	
 		benchmark.canvas, 

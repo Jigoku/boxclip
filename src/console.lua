@@ -33,6 +33,7 @@ function console:toggle()
 	console.show = not console.show
 	debug = not debug
 end
+
 function console:draw()
 	if self.show then
 		--console info
@@ -42,7 +43,6 @@ function console:draw()
 		love.graphics.rectangle("line", 1, 1, love.graphics.getWidth()-2, 160)
 		
 		
-
 		--sysinfo
 		love.graphics.setColor(100,255,100,255)
 		love.graphics.print(
