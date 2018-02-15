@@ -65,7 +65,7 @@ function love.load(args)
 		{
 			pattern = "^[-]-b$",
 			description = "benchmark",
-			exec = function() require("benchmark") end
+			exec = function() benchmark = require("benchmark") end
 		}
 	}
 	
@@ -116,7 +116,6 @@ function love.update(dt)
 	end
 	
 	if mode == "editing" then	
-		world:update(dt) 
 		editor:update(dt) 
 	end
 	
@@ -145,7 +144,7 @@ function love.draw()
 	
 	if console.show then console:draw() end
 
-	if benchmark then benchmark.draw() end
+	if benchmark then benchmark.draw(love.graphics.getWidth()-benchmark.canvas:getWidth()-10,10) end
 	-- caps fps
 	local cur_time = love.timer.getTime()
 	if game.next_time <= cur_time then

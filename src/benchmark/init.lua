@@ -16,9 +16,9 @@
 benchmark = {}
 
 benchmark.ticks = {}
-benchmark.total = 300 --width of widget / number of ticks in history
+benchmark.total = 200 --width of widget / number of ticks in history
 benchmark.multiplier = 10
-benchmark.canvas = love.graphics.newCanvas(benchmark.total,80)
+benchmark.canvas = love.graphics.newCanvas(benchmark.total,200)
 
 function benchmark.start()
 	benchmark.tick_start = love.timer.getTime()*1000
@@ -45,7 +45,7 @@ function benchmark.finish()
 
 end
 
-function benchmark.draw()
+function benchmark.draw(x,y)
 	love.graphics.setCanvas(benchmark.canvas)
 	love.graphics.setColor(0,0,0,255)
 	local font = love.graphics.getFont()
@@ -61,8 +61,9 @@ function benchmark.draw()
 	)
 	
 	-- draw the ticks as lines
-	love.graphics.setColor(0,255,0,255)
+	--2.0f * x, 2.0f * (1 - x), 0
 	for i=1,#benchmark.ticks do
+		love.graphics.setColor(25*benchmark.ticks[i],(255-benchmark.ticks[i]*25),0,255)
 		love.graphics.line(
 			0+i,
 			benchmark.canvas:getHeight(), 
@@ -84,12 +85,11 @@ function benchmark.draw()
 
 	love.graphics.setCanvas()
 
-	love.graphics.setColor(255,255,255,255)
+	love.graphics.setColor(255,255,255,200)
 	-- draw benchmark widget
 	love.graphics.draw(	
 		benchmark.canvas, 
-		love.graphics.getWidth()-benchmark.canvas:getWidth()-10,
-		10
+		x,y
 	)
 end
 

@@ -484,6 +484,7 @@ function physics:enemies(dt)
 				end
 
 				self:movex(enemy, dt)	
+				self:crates(enemy,dt)
 				self:traps(enemy, dt)
 				self:platforms(enemy, dt)
 				self:update(enemy)

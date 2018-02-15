@@ -48,4 +48,5 @@ editbinds = {
 	moveright = "kp6",
 	texturesel = "y",
 	camera = "lctrl",
+	pause = "p",
 }

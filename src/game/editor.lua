@@ -184,6 +184,14 @@ function editor:settexture(platform)
 end
 
 function editor:update(dt)
+	--update world before anything else
+	if not editor.paused then
+		world:update(dt) 
+	else 
+		--only update these when paused
+		camera:update(dt)
+		player:update(dt)
+	end
 	--texture browser display
 	self.texmenutimer = math.max(0, self.texmenutimer- dt)
 		
@@ -231,7 +239,7 @@ function editor:keypressed(key)
 	if editing then
 		if key == editbinds.entselup then self.entsel = self.entsel +1 end
 		if key == editbinds.entseldown then self.entsel = self.entsel -1 end
-	
+		if key == editbinds.pause then self.paused = not self.paused end
 		if key == editbinds.delete then self:removesel() end
 		if key == editbinds.entcopy then self:copy() end
 		if key == editbinds.entpaste then self:paste() end
