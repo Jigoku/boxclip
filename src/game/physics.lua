@@ -503,9 +503,14 @@ function physics:enemies(dt)
 					-- if we land on top, kill enemy
 					if collision:above(player,enemy) then	
 						if player.jumping or player.invincible then
-							popups:add(enemy.x-enemy.w,enemy.y+enemy.h/2,"+"..enemy.score)
-							player.yvel = player.jumpheight
 							
+							if player.y > enemy.y then
+								player.yvel = -player.jumpheight
+							elseif player.y < enemy.y then
+								player.yvel = player.jumpheight
+							end
+							popups:add(enemy.x-enemy.w,enemy.y+enemy.h/2,"+"..enemy.score)
+							player.score = player.score + enemy.score
 							enemy.alive = false
 							sound:play(sound.effects["kill"])
 							console:print(enemy.name .." killed")
@@ -536,7 +541,7 @@ function physics:enemies(dt)
 						end
 
 						popups:add(enemy.x-enemy.w/2,enemy.y+enemy.h/2,"+"..enemy.score)
-						
+						player.score = player.score + enemy.score
 						enemy.alive = false
 						sound:play(sound.effects["kill"])
 						console:print(enemy.name .." killed")
@@ -553,6 +558,7 @@ function physics:enemies(dt)
 				-- NOT ACTIVE WHILST EDITING
 				if mode == "game" and player.alive and  collision:check(player.newX,player.newY,player.w,player.h,
 					enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
+					player.yvel = -player.yvel
 					player:die(enemy.name)
 				end
 			end
@@ -634,6 +640,7 @@ function physics:enemies(dt)
 					enemy.x-enemy.gfx:getWidth()/2+5,enemy.y-enemy.gfx:getHeight()/2+5,enemy.w-10,enemy.h-10)  then
 					
 					if not player.invincible then
+						player.yvel = -player.yvel
 						player:die(enemy.name)
 					end
 				end
