@@ -4,9 +4,9 @@ LOVE_VERSION=0.10.2
 
 build setup:
 	mkdir build
-	cd build && mkdir linux32 linux64 win32 win64 osx freebsd
+	cd build && mkdir linux32 linux64 win32 win64
 
-all:portable linux32 linux64 win32 win64 osx freebsd
+all:portable linux32 linux64 win32 win64
 
 portable:
 	#compress the lua sources to a *.love file
@@ -36,11 +36,6 @@ win64:
 linux32:
 
 linux64:
-
-
-osx:
-
-freebsd:
 
 install:
 

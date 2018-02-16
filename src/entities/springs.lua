@@ -51,7 +51,7 @@ function springs:add(x,y,dir,type)
 		
 		--properties
 		name = "spring",
-		typ = type,
+		type = type,
 		gfx = gfx,
 		vel = vel,
 		dir = dir,
