@@ -186,7 +186,7 @@ function physics:crates(object,dt)
 					)
 				end
 					
-				if collision:right(object,crate) and not collision:top(object,crate) then
+				if collision:right(object,crate) and not collision:bottom(object,crate) then
 					object.newX = crate.x+crate.w +1 *dt
 					object.xvelboost = 0
 					
@@ -196,7 +196,7 @@ function physics:crates(object,dt)
 						object.xvel = 0
 					end
 					
-				elseif collision:left(object,crate) and not collision:top(object,crate) then
+				elseif collision:left(object,crate) and not collision:bottom(object,crate) then
 					object.newX = crate.x-object.w -1 *dt
 					object.xvelboost = 0
 					
