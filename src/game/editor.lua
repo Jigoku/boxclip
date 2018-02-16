@@ -330,12 +330,11 @@ function editor:adjustent(dir,dt)
 	for _,e in ipairs(world.entities) do
 		if world:inview(e) then
 			if e.swing == 1 and collision:check(self.mouse.x,self.mouse.y,1,1,
-				e.xorigin-e_link_origin:getWidth()/2, e.yorigin-e_link_origin:getHeight()/2,  
-				e_link_origin:getWidth(),e_link_origin:getHeight()) then
+				e.xorigin-platform_link_origin:getWidth()/2, e.yorigin-platform_link_origin:getHeight()/2,  
+				platform_link_origin:getWidth(),platform_link_origin:getHeight()) then
 
-				e.angle = e.angle - dir*2 *dt
-				if e.angle > math.pi then e.angle = math.pi end			
-				if e.angle < 0 then e.angle = 0 end
+				e.angle = math.max(0,math.min(math.pi,e.angle - dir*2 *dt))
+				print (e.angle)
 				return true
 			end
 
@@ -356,33 +355,20 @@ function editor:adjustent(dir,dt)
 	end
 end
 
-function editor:wheelmoved(x, y)
-    
-    
+function editor:wheelmoved(dx, dy)
     if love.keyboard.isDown(editbinds.camera) then
-		--camera zoom control
-		if y > 0 then
-			camera.scale = math.min(self.maxcamerascale,camera.scale + 0.1)
-		elseif y < 0 then
-			camera.scale = math.max(self.mincamerascale,camera.scale - 0.1)
-		end
+		--camer zoom
+		camera.scale = math.max(self.mincamerascale,math.min(self.maxcamerascale,camera.scale + dy/25))
 		
 	elseif love.keyboard.isDown(editbinds.texturesel) then
 		--platform texture slot selection
-		if y > 0 then
-			self.texturesel = math.max(1,self.texturesel -1)
-		elseif y < 0 then
-			self.texturesel = math.min(#platforms.textures,self.texturesel +1)
-		end
-
+		self.texturesel = math.max(1,math.min(#platforms.textures,self.texturesel +dy))
 		self:settexture(p)
 		
 	else
-		if y > 0 then
-			editor.entsel = math.max(1,editor.entsel -1)
-		elseif y < 0 then
-			editor.entsel = math.min(#editor.entities,editor.entsel +1)
-		end
+		--entmenu selection
+		editor.entsel = math.max(1,math.min(#editor.entities,editor.entsel -dy))
+
 	end
 end
 
