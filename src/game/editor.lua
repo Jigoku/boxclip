@@ -468,45 +468,43 @@ function editor:mousereleased(x,y,button)
 	if button == 3 then
 	
 	--possibly merge this code into a function also used by editor:selection as it is pretty much identical
-		local entities = {enemies,pickups,portals,crates,checkpoints,springs,props,platforms,decals,traps}
-		for _,entitytype in ripairs(entities) do
-		
-		for i,entity in ripairs(entitytype) do
-			if world:inview(entity) then
-				if entity.movex == 1 then
-					if collision:check(self.mouse.x,self.mouse.y,1,1,entity.xorigin, entity.y, entity.movedist+entity.w, entity.h) then
-						world:sendtoback(entitytype,i)
+
+		for i,e in ripairs(world.entities) do
+	
+			if world:inview(e) then
+				if e.movex == 1 then
+					if collision:check(self.mouse.x,self.mouse.y,1,1,e.xorigin, e.y, e.movedist+e.w, e.h) then
+						world:sendtoback(world.entities,i)
 						
 						return true
 					end
-				elseif entity.movey == 1 then
-					if collision:check(self.mouse.x,self.mouse.y,1,1,entity.xorigin, entity.yorigin, entity.w, entity.h+entity.movedist) then
+				elseif e.movey == 1 then
+					if collision:check(self.mouse.x,self.mouse.y,1,1,e.xorigin, e.yorigin, e.w, e.h+e.movedist) then
 					
-						world:sendtoback(entitytype,i)
+						world:sendtoback(world.entities,i)
 						return true
 					end
 				
-				elseif entity.swing == 1 then
+				elseif e.swing == 1 then
 				
 					if collision:check(self.mouse.x,self.mouse.y,1,1,
-							entity.xorigin-platform_link_origin:getWidth()/2, entity.yorigin-platform_link_origin:getHeight()/2,  
+							e.xorigin-platform_link_origin:getWidth()/2, e.yorigin-platform_link_origin:getHeight()/2,  
 							platform_link_origin:getWidth(),platform_link_origin:getHeight()
 						) then
 						
-							world:sendtoback(entitytype,i)
+							world:sendtoback(world.entities,i)
 							return true
 						
 					end
 			
-				elseif collision:check(self.mouse.x,self.mouse.y,1,1, entity.x,entity.y,entity.w,entity.h) then
+				elseif collision:check(self.mouse.x,self.mouse.y,1,1, e.x,e.y,e.w,e.h) then
 
-					world:sendtoback(entitytype,i)
+					world:sendtoback(world.entities,i)
 					return true
 			
 				end
-
+			
 			end
-		end
 		end
 	end
 end
