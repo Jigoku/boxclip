@@ -31,8 +31,8 @@ function love.load(args)
 	require("textures")
 	
 	require("menus")
-	require("entities")
 	require("game")
+	require("entities")
 
 
 

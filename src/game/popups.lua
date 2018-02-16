@@ -29,12 +29,13 @@ function popups:add(x,y,text,entity)
 end
 
 function popups:draw()
+	local oldfont = love.graphics.getFont()
 	love.graphics.setFont(fonts.popups)
 	for _,p in ipairs(popups) do
 		love.graphics.setColor(255,255,0,p.o)
 		love.graphics.printf(p.text, p.x,p.y,150,"center")
 	end
-	love.graphics.setFont(fonts.default)
+	love.graphics.setFont(oldfont)
 end
 
 function popups:update(dt)

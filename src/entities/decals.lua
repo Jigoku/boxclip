@@ -49,7 +49,7 @@ function decals:add(x,y,w,h,type)
 	
 	
 	
-	table.insert(self, {		
+	table.insert(world.entities, {		
 		--position
 		x = x or 0,
 		y = y or 0,
@@ -59,7 +59,9 @@ function decals:add(x,y,w,h,type)
 		--properties
 		scroll = 0,
 		scrollspeed = scrollspeed,
-		name = type,
+		
+		name = "decal",
+		type = type,
 		gfx = gfx,
 		quad = love.graphics.newQuad( x,y,w,h, self.textures[type]:getDimensions() ) 
 
@@ -68,7 +70,7 @@ function decals:add(x,y,w,h,type)
 end
 
 function decals:update(dt)
-	for i, decal in ipairs(self) do
+	for i, decal in ipairs(entities.match(world.entities,"decal")) do
 	
 		if world:inview(decal) then
 			if type(decal.gfx) == "userdata" then
@@ -94,13 +96,13 @@ function decals:draw()
 	local count = 0
 	
 
-	for i, decal in ipairs(self) do
+	for i, decal in ipairs(entities.match(world.entities,"decal")) do
 		if world:inview(decal) then
 			count = count + 1
 			
 			
 			--waterfall
-			if decal.name == "water" then
+			if decal.type == "water" then
 				love.graphics.setColor(255,255,255,215)
 				love.graphics.draw(decal.gfx, decal.quad, decal.x,decal.y)
 			

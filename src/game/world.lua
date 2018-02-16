@@ -16,6 +16,10 @@
 world = {}
 world.splash = {}
 world.weather = {}
+world.entities = {}
+
+world.state = {} --world.entities on checkpoint
+
 --world.camera?
 
 test = love.graphics.newImage("data/images/test.png")
@@ -94,6 +98,9 @@ function world:init(gamemode)
 		world.splash.active = false
 	end
 	
+	--collision counter (console/debug)
+	world.collision = 0
+	
 	--move this setting into map files
 	--once editor menu can adjust variables
 	world.gravity = 2000
@@ -106,11 +113,24 @@ function world:init(gamemode)
 	-- possibly draw this as unlimited width across the world using setViewPort and camera trickery?
 	world.bedrock = 2000 
 	
-	world:reset()
+	--level time / scoreboard
+	world.time = 0
+	
+	world:empty()
 
 	mapio:loadmap(world.map)
+
+	-- find the spawn entity
+	for _, portal in ipairs(entities.match(world.entities,"portal")) do
+		if portal.type == "spawn" then
+			player.spawnX = portal.x
+			player.spawnY = portal.y
+		end
+	end	
 	
 	world:resetcamera()
+
+	world:savestate()
 
 	--enable cheats, if any
 	if cheats.catlife then player.lives = player.lives +  9 end
@@ -329,51 +349,25 @@ end
 
 
 
-function world:count(table)
-	--count tables within a table
-	local count = 0
-	for n, object in pairs(table) do 
-		if type(object) == "table" then
-			count = count + 1 
-		end
-	end
-	return count
-end
-
-function world:remove(objects)
-	-- pass table here
-	-- removes all entity types from world
+function world:count(type)
+	--count entities with type value
 	local n = 0
-	for n, object in ripairs(objects) do 
-		if type(object) == "table" then
-			table.remove(objects, n)
+	for _,entity in ipairs(entities.match(self.entities,type)) do 
+		n = n + 1 
+	end
+	return n
+end
+
+	
+function world:empty()
+	if #world.entities > 0 then
+		for i,e in ripairs(world.entities) do
+			table.remove(world.entities, 1)
 		end
 	end
 end
 
-function world:reset()
-	world.time = 0
-	world.collision = 0
-	 world:remove(enemies) 
-	 world:remove(pickups) 
-	 world:remove(crates) 
-	 world:remove(props) 
-	 world:remove(platforms)
-	 world:remove(checkpoints)
-	 world:remove(portals) 
-	 world:remove(springs) 
-	 world:remove(decals) 
-	 world:remove(bumpers) 
-	 world:remove(materials) 
-	 world:remove(traps) 
-	 world:remove(popups) 
-end
 
-function world:totalents()
-	--returns total entitys
-	return world:count(pickups)+world:count(enemies)+world:count(platforms)+
-			world:count(crates)+world:count(checkpoints)+world:count(portals)+world:count(props)+world:count(springs)+world:count(decals)+world:count(traps)
-end
 
 function world:totalentsdrawn()
 	--returns total drawn entities
@@ -543,6 +537,13 @@ function world:resetcamera()
 	--camera:setFollowLerp(0.2)
 end
 
+function world.savestate()
+	world.state = deepcopy(world.entities)
+end
+
+function world.loadstate()
+	world.entities = deepcopy(world.state)
+end
 
 function world:sendtoback(t,i)
 	local item = t[i]

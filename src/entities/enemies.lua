@@ -32,7 +32,7 @@ enemies.textures = {
 function enemies:add(x,y,movespeed,movedist,dir,type)
 
 	if type == "walker" then
-		table.insert(enemies, {
+		table.insert(world.entities, {
 			--movement
 			movespeed = movespeed or 100,
 			movedist = movedist or 200,
@@ -51,7 +51,8 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			h = self.textures[type]:getHeight(),
 			
 			--properties
-			name = type,
+			name = "enemy",
+			type = type,
 			mass = 800,
 			xvel = 0,
 			yvel = 0,
@@ -65,7 +66,7 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 		})
 		
 	elseif type == "hopper" then
-		table.insert(enemies, {
+		table.insert(world.entities, {
 			--movement
 			movespeed = movespeed or 100,
 			movedist = movedist or 200,
@@ -84,7 +85,8 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			h = self.textures[type]:getHeight(),
 			
 			--properties
-			name = type,
+			name = "enemy",
+			type = type,
 			mass = 800,
 			xvel = 0,
 			yvel = 0,
@@ -106,7 +108,7 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			width = self.textures[type]:getHeight()
 			height = self.textures[type]:getWidth()
 		end
-		table.insert(enemies, {		
+		table.insert(world.entities, {		
 			--position
 			x = x or 0,
 			y = y or 0,
@@ -118,7 +120,8 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			h = height,
 			
 			--properties
-			name = type,
+			name = "enemy",
+			type = type,
 			alive = true,
 			movedist = 0,
 			gfx = self.textures[type],
@@ -137,7 +140,7 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			width = self.textures[type]:getHeight()
 			height = self.textures[type]:getWidth()
 		end
-		table.insert(enemies, {		
+		table.insert(world.entities, {		
 			--position
 			x = x or 0,
 			y = y or 0,
@@ -149,7 +152,8 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			h = height,
 			
 			--properties
-			name = type,
+			name = "enemy",
+			type = type,
 			alive = true,
 			movedist = 0,
 			movespeed = 0,
@@ -159,7 +163,7 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 		})
 
 	elseif type == "icicle" then
-		table.insert(enemies, {		
+		table.insert(world.entities, {		
 			--position
 			x = x or 0,
 			y = y or 0,
@@ -171,7 +175,8 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			h = self.textures[type]:getHeight(),
 			
 			--properties
-			name = type,
+			name = "enemy",
+			type = type,
 			alive = true,
 			falling = false,
 			mass = 800,
@@ -184,7 +189,7 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 		})
 
 	elseif type == "floater" then
-		table.insert(enemies, {
+		table.insert(world.entities, {
 			--movement
 			movespeed = movespeed or 100,
 			movedist = movedist or 400,
@@ -202,7 +207,8 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			h = self.textures[type]:getHeight(),
 		
 			--properties
-			name = type,
+			name = "enemy",
+			type = type,
 			mass = 0,
 			xvel = 0,
 			yvel = 0,
@@ -217,7 +223,7 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 		})
 	
 	elseif type == "spikeball" then
-		table.insert(enemies, {
+		table.insert(world.entities, {
 		
 			gfx = self.textures[type],
 			w = self.textures[type]:getWidth(),
@@ -228,7 +234,8 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			y = y or 0,
 			
 			--properties
-			name = type,
+			name = "enemy",
+			type = type,
 			speed = 3,
 			alive = true,
 			swing = 1,
@@ -245,16 +252,12 @@ end
 
 function enemies:draw()
 	local count = 0
-	
-	local i, enemy
-	
 
-	
-	for i, enemy in ipairs(enemies) do
-		if type(enemy) == "table" and enemy.alive and world:inview(enemy) then
+	for i, enemy in ipairs(entities.match(world.entities,"enemy")) do
+		if enemy.alive and world:inview(enemy) then
 			count = count + 1
 				
-			if enemy.name == "walker" or enemy.name == "floater" then
+			if enemy.type == "walker" or enemy.type == "floater" then
 				love.graphics.setColor(255,255,255,255)
 				--love.graphics.rectangle("fill", enemy.x, enemy.y, enemy.w, enemy.h)
 				if enemy.movespeed < 0 then
@@ -265,7 +268,7 @@ function enemies:draw()
 			end
 			
 			love.graphics.setColor(255,255,255,255)
-			if enemy.name == "spike" or enemy.name == "spike_large" then
+			if enemy.type == "spike" or enemy.type == "spike_large" then
 			
 				if enemy.dir == 0 then
 					love.graphics.draw(enemy.gfx, enemy.x, enemy.y, 0,1,1)
@@ -278,11 +281,11 @@ function enemies:draw()
 				end
 			end
 			
-			if enemy.name == "icicle" then
+			if enemy.type == "icicle" then
 				love.graphics.draw(enemy.gfx, enemy.x, enemy.y, 0,1,1)
 			end
 			
-			if enemy.name == "spikeball" then
+			if enemy.type == "spikeball" then
 				platforms:drawlink(enemy)
 				love.graphics.draw(enemy.gfx, enemy.x, enemy.y, -enemy.angle*2,1,1,enemy.w/2,enemy.h/2)
 			end
@@ -298,7 +301,7 @@ end
 
 function enemies:drawdebug(enemy, i)
 
-	if enemy.name == "spikeball" then
+	if enemy.type == "spikeball" then
 		--bounds
 		love.graphics.setColor(255,0,0,255)
 		love.graphics.rectangle("line", enemy.x-enemy.gfx:getWidth()/2+5, enemy.y-enemy.gfx:getHeight()/2+5, enemy.gfx:getWidth()-10, enemy.gfx:getHeight()-10)
@@ -329,7 +332,7 @@ function enemies:drawdebug(enemy, i)
 	end
 
 	--waypoint	
-	if enemy.name == "walker" or enemy.name == "floater" then
+	if enemy.type == "walker" or enemy.type == "floater" then
 		
 		love.graphics.setColor(255,0,255,50)
 		love.graphics.rectangle("fill", enemy.xorigin, enemy.y, enemy.movedist+enemy.gfx:getWidth(), enemy.gfx:getHeight())

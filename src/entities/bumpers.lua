@@ -21,7 +21,7 @@ bumpers.maxscale = 2
 
 function bumpers:add(x,y)
 
-	table.insert(self, {		
+	table.insert(world.entities, {		
 		--position
 		x = x or 0,
 		y = y or 0,
@@ -39,7 +39,7 @@ function bumpers:add(x,y)
 end
 
 function bumpers:update(dt)
-	for i, bumper in ipairs(self) do		
+	for i, bumper in ipairs(entities.match(world.entities,"bumper")) do		
 		if bumper.scale > 1 then
 			bumper.scale = bumper.scale - bumpers.scalespeed *dt
 			if bumper.scale <= 1 then
@@ -53,7 +53,7 @@ function bumpers:draw()
 	local count = 0
 	
 
-	for i, bumper in ipairs(self) do
+	for i, bumper in ipairs(entities.match(world.entities,"bumper")) do
 		if world:inview(bumper) then
 			count = count + 1
 			love.graphics.setColor(255,255,255,255)

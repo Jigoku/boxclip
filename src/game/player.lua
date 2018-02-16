@@ -192,12 +192,13 @@ function player:respawn()
 	--end
 	
 	--remove active pickup attraction
-	for i, pickup in ripairs(pickups) do
+--[[	for i, pickup in ripairs(pickups) do
 		if pickup.attract then
 			table.remove(pickups, i)
 		end
 	end
-	
+--]]
+	world:loadstate()
 	self.x = self.spawnX
 	self.y = self.spawnY
 	self.newX = self.spawnX
@@ -252,26 +253,28 @@ end
 
 
 
-function player:collect(item)
+function player:collect(pickup)
 	--increase score when pickups are collected
 	
-	if item.name == "gem" then
+	if pickup.type == "gem" then
 		sound:play(sound.effects["gem"])
-		self.score = self.score + item.score
+		self.score = self.score + pickup.score
 		self.gems = self.gems +1
-	elseif item.name == "life" then
+	elseif pickup.type == "life" then
 		sound:play(sound.effects["lifeup"])
-		self.score = self.score + item.score
+		self.score = self.score + pickup.score
 		self.lives = self.lives +1
-	elseif item.name == "magnet" then
+	elseif pickup.type == "magnet" then
 		sound:play(sound.effects["magnet"])
+		self.score = self.score + pickup.score
 		self.hasmagnet = true
-	elseif item.name == "shield" then
+	elseif pickup.type == "shield" then
 		sound:play(sound.effects["shield"])
+		self.score = self.score + pickup.score
 		self.hasshield = true
-	elseif item.name == "star" then
+	elseif pickup.type == "star" then
 		sound:play(sound.effects["lifeup"])
-		self.score = self.score + item.score
+		self.score = self.score + pickup.score
 		player:invincibility()
 	end
 end

@@ -135,7 +135,7 @@ end
 function physics:world(dt)
 	-- moving platforms etc
 	
-	for i, object in ipairs(platforms) do
+	for i, object in ipairs(entities.match(world.entities,"platform")) do
 		if object.movex == 1 then self:movex(object, dt) end
 		if object.movey == 1 then self:movey(object, dt) end
 		if object.swing == 1 then self:swing(object, dt) end
@@ -168,7 +168,7 @@ end
 function physics:crates(object,dt)
 	
 	local i, crate
-	for i, crate in ipairs(crates) do
+	for i, crate in ipairs(entities.match(world.entities,"crate")) do
 			if collision:check(crate.x,crate.y,crate.w,crate.h,
 				object.newX,object.newY,object.w,object.h) and not crate.destroyed then
 				object.candrop = false
@@ -186,7 +186,7 @@ function physics:crates(object,dt)
 					)
 				end
 					
-				if collision:right(object,crate) and not collision:bottom(object,crate) then
+				if collision:right(object,crate) then
 					object.newX = crate.x+crate.w +1 *dt
 					object.xvelboost = 0
 					
@@ -196,7 +196,7 @@ function physics:crates(object,dt)
 						object.xvel = 0
 					end
 					
-				elseif collision:left(object,crate) and not collision:bottom(object,crate) then
+				elseif collision:left(object,crate) then
 					object.newX = crate.x-object.w -1 *dt
 					object.xvelboost = 0
 					
@@ -234,10 +234,10 @@ end
 
 function physics:materials()
 	if mode == "editing" then return end
-	for i, mat in ipairs(materials) do
+	for i, mat in ipairs(entities.match(world.entities,"material")) do
 		if world:inview(mat) then
 			if collision:check(player.x,player.y,player.w,player.h,mat.x,mat.y,mat.w,mat.h) then
-				if mat.name == "death" then
+				if mat.type == "death" then
 					player.y = mat.y-player.h
 					player:die("death material @ x:".. math.floor(player.x) .. " y:"..math.floor(player.y))
 				end
@@ -250,7 +250,7 @@ end
 
 function physics:bumpers(object,dt)
 	local i, bumper
-	for i, bumper in ipairs(bumpers) do
+	for i, bumper in ipairs(entities.match(world.entities,"bumper")) do
 		if collision:check(bumper.x,bumper.y,bumper.w,bumper.h,
 				object.newX,object.newY,object.w,object.h) then
 			
@@ -294,7 +294,7 @@ function physics:platforms(object, dt)
 	--loop platforms
 		
 	local i, platform
-	for i, platform in ipairs(platforms) do	
+	for i, platform in ipairs(entities.match(world.entities,"platform")) do	
 			if collision:check(platform.x,platform.y,platform.w,platform.h,
 					object.newX,object.newY,object.w,object.h) then
 					
@@ -403,63 +403,60 @@ end
 
 
 function physics:pickups(dt)
-	local i, pickup
-		for i, pickup in ipairs(pickups) do			
+
+	for i, pickup in ipairs(entities.match(world.entities,"pickup")) do			
 		
-			--pulls all gems to player when attract = true
-			if world:inview(pickup) and pickup.attract then
-				if player.alive then
-					local angle = math.atan2(player.y+player.h/2 - pickup.h/2 - pickup.y, player.x+player.w/2 - pickup.w/2 - pickup.x)
-					pickup.newX = pickup.x + (math.cos(angle) * pickup.mass/2 * dt)
-					pickup.newY = pickup.y + (math.sin(angle) * pickup.mass/2 * dt)
-				else
-					self:applyGravity(pickup, dt)
-				end
+		--pulls all gems to player when attract = true
+		if world:inview(pickup) and pickup.attract then
+			if player.alive then
+				local angle = math.atan2(player.y+player.h/2 - pickup.h/2 - pickup.y, player.x+player.w/2 - pickup.w/2 - pickup.x)
+				pickup.newX = pickup.x + (math.cos(angle) * pickup.mass/2 * dt)
+				pickup.newY = pickup.y + (math.sin(angle) * pickup.mass/2 * dt)
 			else
-			
-			
 				self:applyGravity(pickup, dt)
-				pickup.newX = pickup.x + (pickup.xvel *dt)
-			
-				self:traps(pickup,dt)
-				self:platforms(pickup, dt)
-				self:crates(pickup, dt)			
-				
 			end
+		else
 			
-			self:update(pickup)
+			self:applyGravity(pickup, dt)
+			pickup.newX = pickup.x + (pickup.xvel *dt)
 			
-			if pickup.y+pickup.h > world.bedrock  then
-				pickup.yvel = 0
-				pickup.jumping = false
-				pickup.y = world.bedrock - pickup.h +1 *dt
-			end
+			self:traps(pickup,dt)
+			self:platforms(pickup, dt)
+			self:crates(pickup, dt)			
 			
-			if mode == "game" and not pickup.collected then
-	
-				if player.hasmagnet then
-					if collision:check(player.x-pickups.magnet_power,player.y-pickups.magnet_power,
-										player.w+(pickups.magnet_power*2),player.h+(pickups.magnet_power*2),
-										pickup.x, pickup.y,pickup.gfx:getWidth(),pickup.gfx:getHeight()) then
-										
-						if not pickup.attract then
-							pickup.attract = true
-						end
-					
-					end
-				end
-			
-				if player.alive and collision:check(player.x,player.y,player.w,player.h,
-					pickup.x, pickup.y,pickup.gfx:getWidth(),pickup.gfx:getHeight()) then
-						popups:add(pickup.x-pickup.w,pickup.y+pickup.h/2,"+"..pickup.score)
-						table.remove(pickups,i)
-						console:print(pickup.name.."("..i..") collected")	
-						pickup.collected = true
-						player:collect(pickup)
-				end
-			end
-		
 		end
+			
+		self:update(pickup)
+			
+		if pickup.y+pickup.h > world.bedrock  then
+			pickup.yvel = 0
+			pickup.jumping = false
+			pickup.y = world.bedrock - pickup.h +1 *dt
+		end
+			
+		if mode == "game" and not pickup.collected then	
+			if player.hasmagnet then
+				if collision:check(player.x-pickups.magnet_power,player.y-pickups.magnet_power,
+					player.w+(pickups.magnet_power*2),player.h+(pickups.magnet_power*2),
+					pickup.x, pickup.y,pickup.gfx:getWidth(),pickup.gfx:getHeight()) then
+										
+					if not pickup.attract then
+						pickup.attract = true
+					end
+					
+				end
+			end
+			
+			if player.alive and collision:check(player.x,player.y,player.w,player.h,
+				pickup.x, pickup.y,pickup.gfx:getWidth(),pickup.gfx:getHeight()) then
+					popups:add(pickup.x-pickup.w,pickup.y+pickup.h/2,"+"..pickup.score)
+					console:print(pickup.name.."("..i..") collected")	
+					player:collect(pickup)
+					pickup.collected = true
+					
+			end
+		end		
+	end
 end
 
 	
@@ -467,10 +464,10 @@ end
 function physics:enemies(dt)
 
 	local i, enemy
-	for i, enemy in ipairs(enemies) do
+	for i, enemy in ipairs(entities.match(world.entities,"enemy")) do
 		if enemy.alive then
 		
-			if enemy.name == "walker" then
+			if enemy.type == "walker" then
 			
 				--test
 				--hopper enemy, move this statement to a new entity TODO
@@ -525,7 +522,7 @@ function physics:enemies(dt)
 				
 			end	
 			
-			if enemy.name == "floater" then
+			if enemy.type == "floater" then
 				self:movex(enemy, dt)
 				self:update(enemy)
 				
@@ -554,7 +551,7 @@ function physics:enemies(dt)
 			
 			end
 			
-			if enemy.name == "spike" or enemy.name == "spike_large" then
+			if enemy.type == "spike" or enemy.type == "spike_large" then
 				-- NOT ACTIVE WHILST EDITING
 				if mode == "game" and player.alive and  collision:check(player.newX,player.newY,player.w,player.h,
 					enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
@@ -564,15 +561,15 @@ function physics:enemies(dt)
 			end
 			
 			
-			if enemy.name == "icicle" then
+			if enemy.type == "icicle" then
 				if enemy.falling then
 					
 					self:applyGravity(enemy, dt)
 					
 					--kill enemies hit by icicle
 					local i,e
-					for i, e in ipairs(enemies) do
-						if type(e) == "table" and e.alive and not (e.name == "icicle") then
+					for i, e in ipairs(entities.match(world.entities,"enemy")) do
+						if e.alive and not (e.type == "icicle") then
 							if collision:check(e.x,e.y,e.w,e.h,
 							enemy.x,enemy.newY,enemy.w,enemy.h) then
 								e.alive = false
@@ -584,7 +581,7 @@ function physics:enemies(dt)
 					
 					--stop falling when colliding with platform
 					local i,platform
-					for i,platform in ipairs(platforms) do
+					for i,platform in ipairs( entities.match(world.entities,"platform")) do
 							if collision:check(platform.x,platform.y,platform.w,platform.h,
 								enemy.x,enemy.newY,enemy.w,enemy.h) then
 								
@@ -625,7 +622,7 @@ function physics:enemies(dt)
 			end
 			
 			
-			if enemy.name == "spikeball" then
+			if enemy.type == "spikeball" then
 				enemy.angle = enemy.angle - (enemy.speed * dt)
 				
 				if enemy.angle > math.pi*2 then enemy.angle = 0 end
@@ -685,13 +682,13 @@ function physics:player(dt)
 end
 
 function physics:trapsworld(dt)
-	for i, trap in ipairs(traps) do
+	for i, trap in ipairs(entities.match(world.entities,"trap")) do
 		if trap.falling then
 			trap.timer = math.max(0, trap.timer - dt)
 
 			if trap.timer <= 0 then
 
-				if trap.name == "brick" then
+				if trap.type == "brick" then
 					trap.segments[1].x = trap.segments[1].x - trap.xvel *dt
 					trap.segments[2].x = trap.segments[2].x + trap.xvel *dt
 					trap.segments[3].x = trap.segments[3].x - trap.xvel*0.5 *dt
@@ -712,13 +709,14 @@ end
 function physics:checkpoints(dt)
 	if mode == "editing" then return end
 	local i, checkpoint
-	for i, checkpoint in ipairs(checkpoints) do
+	for i, checkpoint in ipairs(entities.match(world.entities,"checkpoint")) do
 		if world:inview(checkpoint) then
 			if collision:check(player.x,player.y,player.w,player.h,
 				checkpoint.x, checkpoint.y,checkpoint.w,checkpoint.h) then
 				if not checkpoint.activated then
 					popups:add(checkpoint.x-checkpoint.w,checkpoint.y+checkpoint.h/2,"CHECKPOINT")
 					console:print("checkpoint activated")	
+					world:savestate()
 					sound:play(sound.effects["checkpoint"])
 					checkpoint.activated = true
 					player.spawnX = checkpoint.x+(checkpoint.w/2)-player.w/2
@@ -732,11 +730,11 @@ end
 
 function physics:traps(object, dt)
 	
-	for i, trap in ipairs(traps) do
+	for i, trap in ipairs(entities.match(world.entities,"trap")) do
 		
 			if collision:check(object.newX,object.newY,object.w,object.h, trap.x,trap.y,trap.w,trap.h) then
 			
-				if trap.name == "log" or trap.name == "bridge" then
+				if trap.type == "log" or trap.type == "bridge" then
 					if collision:top(object,trap) and object.yvel < 0 then
 						object.newY = trap.y - object.h -1 *dt
 						
@@ -757,7 +755,7 @@ function physics:traps(object, dt)
 					end		
 				end	
 				
-				if trap.name == "brick" then
+				if trap.type == "brick" then
 					if not trap.falling then
 						if collision:right(object,trap) and not collision:top(object,trap) then
 							object.newX = trap.x+trap.w +1 *dt
@@ -778,7 +776,7 @@ function physics:traps(object, dt)
 									if mode == "game" and object.name == "player" then
 										popups:add(trap.x-trap.w/2,trap.y+trap.h/2,"+"..trap.score)
 										player.score = player.score +trap.score
-										world:sendtofront(traps,i)
+										--world:sendtofront(traps,i)
 										trap.yvel = 500							
 										trap.falling = true
 										sound:play(sound.effects["brick"])
@@ -800,12 +798,12 @@ function physics:portals(dt)
 	if mode == "editing" then return end
 	
 	local i, portal
-	for i, portal in ipairs(portals) do
+	for i, portal in ipairs(entities.match(world.entities,"portal")) do
 		if world:inview(portal) then
 			if collision:check(player.x,player.y,player.w,player.h,
 				portal.x, portal.y,portal.w,portal.h) then
 					
-					if portal.name == "goal" then
+					if portal.type == "goal" then
 						if not portal.activated then
 							--add paramater for "next map"?
 							portal.activated = true
@@ -826,7 +824,7 @@ end
 function physics:springs(dt)
 	if editing then return end
 	local i, spring
-	for i, spring in ipairs(springs) do
+	for i, spring in ipairs(entities.match(world.entities,"spring")) do
 		if world:inview(spring) then
 			if collision:check(player.x,player.y,player.w,player.h,
 				spring.x, spring.y,spring.w,spring.h) then

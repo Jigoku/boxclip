@@ -22,19 +22,20 @@ traps_textures = {
 }
 
 
-function traps:add(x,y,name)
+function traps:add(x,y,type)
 
-	local gfx = traps_textures[name]
+	local gfx = traps_textures[type]
 
-	if name == "brick" then
-		table.insert(traps, {
+	if type == "brick" then
+		table.insert(world.entities, {
 			--dimensions
 			x = x or 0,
 			y = y or 0,
 			w = gfx:getWidth()*2,
 			h = gfx:getHeight()*2,
 			--properties
-			name = name,
+			name = "trap",
+			type = type,
 			gfx = gfx,
 			falling = false,
 			timer = 0.00,
@@ -54,14 +55,16 @@ function traps:add(x,y,name)
 		return
 	end
 
-	table.insert(traps, {
+
+	table.insert(world.entities, {
 		--dimensions
 		x = x or 0,
 		y = y or 0,
 		w = gfx:getWidth(),
 		h = gfx:getHeight(),
 		--properties
-		name = name,
+		name = "trap",
+		type = type,
 		gfx = gfx,
 		falling = false,
 		timer = 0.05,
@@ -76,13 +79,13 @@ end
 function traps:draw()
 	local count = 0
 	
-	for i, trap in ipairs(traps) do
+	for i, trap in ipairs(entities.match(world.entities,"trap")) do
 		if world:inview(trap) then
 			count = count +1
 					
 			love.graphics.setColor(255,255,255,255)
 
-			if trap.name == "brick"  then
+			if trap.type == "brick"  then
 				love.graphics.draw(trap.gfx, trap.x+trap.segments[1].x,trap.y+trap.segments[1].y,0, 1, 1)
 				love.graphics.draw(trap.gfx, trap.x+trap.segments[2].x,trap.y+trap.segments[2].y,0, 1, 1)
 				love.graphics.draw(trap.gfx, trap.x+trap.segments[3].x,trap.y+trap.segments[3].y,0, 1, 1)

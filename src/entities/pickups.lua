@@ -25,27 +25,28 @@ pickups.textures = {
 	["star"] = love.graphics.newImage( "data/images/pickups/star.png"),
 }
 
-function pickups:add(x,y,item,dropped)
+function pickups:add(x,y,type,dropped)
 	local score
-	if item == "gem" then
+	if type == "gem" then
 		score = "200"
-	elseif item == "life" then
+	elseif type == "life" then
 		score = "1000"
-	elseif item == "magnet" then
+	elseif type == "magnet" then
 		score = "1000"
-	elseif item == "shield" then
+	elseif type == "shield" then
 		score = "1000"
-	elseif item == "star" then
+	elseif type == "star" then
 		score = "2500"
 	end
 	
-	table.insert(pickups, {
+	table.insert(world.entities, {
 		x =x or 0,
 		y =y or 0,
-		w = self.textures[item]:getWidth(),
-		h = self.textures[item]:getHeight(),
-		name = item,
-		gfx = self.textures[item],
+		w = self.textures[type]:getWidth(),
+		h = self.textures[type]:getHeight(),
+		name = "pickup",
+		type = type,
+		gfx = self.textures[type],
 		collected = false,
 		dropped = dropped or false,
 		attract = false,
@@ -59,18 +60,18 @@ function pickups:add(x,y,item,dropped)
 		score = score,
 	})	
 
-	print( item .. " added @  X:"..x.." Y: "..y)
+	print( name .. " added @  X:"..x.." Y: "..y)
 end
 
 
 function pickups:draw()
 	local count = 0
 	local i, pickup
-	for i, pickup in ipairs(pickups) do
+	for i, pickup in ipairs(entities.match(world.entities,"pickup")) do
 		if not pickup.collected and world:inview(pickup) then
 			count = count + 1
 			
-			if pickup.name == "gem" then
+			if pickup.type == "gem" then
 				love.graphics.setColor(255,255,50,255)	
 				love.graphics.draw(
 					pickup.gfx, pickup.x, 
@@ -78,7 +79,7 @@ function pickups:draw()
 				)
 			end
 			
-			if pickup.name == "life" then
+			if pickup.type == "life" then
 				love.graphics.setColor(255,0,0, 255)	
 				love.graphics.draw(
 					pickup.gfx, pickup.x, 
@@ -86,7 +87,7 @@ function pickups:draw()
 				)
 			end
 
-			if pickup.name == "magnet" then
+			if pickup.type == "magnet" then
 				love.graphics.setColor(255,255,255, 255)	
 				love.graphics.draw(
 					pickup.gfx, pickup.x, 
@@ -94,7 +95,7 @@ function pickups:draw()
 				)
 			end
 			
-			if pickup.name == "shield" then
+			if pickup.type == "shield" then
 				love.graphics.setColor(255,255,255, 255)	
 				love.graphics.draw(
 					pickup.gfx, pickup.x, 
@@ -102,7 +103,7 @@ function pickups:draw()
 				)
 			end
 			
-			if pickup.name == "star" then
+			if pickup.type == "star" then
 				love.graphics.setColor(255,255,255, 255)	
 				love.graphics.draw(
 					pickup.gfx, pickup.x, 

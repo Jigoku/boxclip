@@ -24,25 +24,27 @@ portals.textures = {
 
 function portals:add(x,y,type)
 	if type == "spawn" then
-		table.insert(portals, {
+		table.insert(world.entities, {
 			--dimensions
 			x = x or 0,
 			y = y or 0,
 			w = player.w,
 			h = player.h,
 			--properties
-			name = type,
+			name = "portal",
+			type = type,
 		})
 	
 	elseif type == "goal" then
-		table.insert(portals, {
+		table.insert(world.entities, {
 			--dimensions
 			x = x or 0,
 			y = y or 0,
 			w = self.textures[type]:getWidth(),
 			h = self.textures[type]:getHeight(),
 			--properties
-			name = "goal",
+			name = "portal",
+			type = type,
 			activated = false,
 			gfx = self.textures[type],
 			timer = 12
@@ -55,11 +57,11 @@ end
 function portals:draw()
 	local count = 0
 	
-	for i, p in ipairs(portals) do
+	for i, p in ipairs(entities.match(world.entities,"portal")) do
 		if world:inview(p) then
 		count = count + 1
 				
-			if p.name == "goal" then
+			if p.type == "goal" then
 				love.graphics.setColor(255,255,255,255)
 				
 				love.graphics.draw(p.gfx, p.x, p.y, 0,1,1)
@@ -97,8 +99,8 @@ end
 function portals:update(dt)
 	if world.nextmap then
 
-		for _,p in ipairs(portals) do
-			if p.name == "goal" and p.activated then
+		for _,p in ipairs(entities.match(world.entities,"portal")) do
+			if p.type == "goal" and p.activated then
 				p.timer = math.max(0, p.timer - dt)
 				
 				if p.timer <= 0 then

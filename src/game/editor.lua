@@ -160,9 +160,8 @@ function editor:settexture(platform)
 	self.texmenuopacity = 255
 	
 	--update the texture value
-	for _,platform in ipairs(platforms) do
+	for _,platform in ripairs(entities.match(world.entities,"platform")) do
 		if platform.selected then
-			
 			local cols = math.ceil(platform.w/platforms.textures[self.texturesel]:getWidth())
 			local rows = math.ceil(platform.h/platforms.textures[self.texturesel]:getHeight())
 			
@@ -177,9 +176,8 @@ function editor:settexture(platform)
 				--bottom left
 				{0,0+platform.h,0,rows}
 			}
-		
-			platform.selected = false
 		end
+		platform.selected = false
 	end
 end
 
@@ -247,7 +245,7 @@ function editor:keypressed(key)
 		if key == editbinds.entmenutoggle then self.showentmenu = not self.showentmenu end
 
 		if key == editbinds.guidetoggle then self.showguide = not self.showguide end
-		if key == editbinds.respawn then self:sendtospawn(player) end
+		if key == editbinds.respawn then self:sendtospawn() end
 		if key == editbinds.showpos then self.showpos = not self.showpos end
 		if key == editbinds.showid then self.showid = not self.showid end
 		if key == editbinds.savemap then mapio:savemap(world.map) end
@@ -276,7 +274,7 @@ function editor:keypressed(key)
 	
 		if key == editbinds.themecycle then self:settheme() end
 	
-		for i, platform in ripairs(platforms) do
+		for i, platform in ripairs(entities.match(world.entities,"platform")) do
 			--fix this for moving platform (yorigin,xorigin etc)
 			if world:inview(platform) then
 				if collision:check(self.mouse.x,self.mouse.y,1,1, platform.x,platform.y,platform.w,platform.h) then
@@ -305,64 +303,53 @@ end
 
 function editor:checkkeys(dt)
 
-		if love.keyboard.isDown(editbinds.right)  then
-			player.x = player.x + self.floatspeed /camera.scale *dt
-		end
-		if love.keyboard.isDown(editbinds.left)  then
-			player.x = player.x - self.floatspeed /camera.scale *dt
-		end
-		if love.keyboard.isDown(editbinds.up) then
-			player.y = player.y - self.floatspeed /camera.scale *dt
-		end
-		if love.keyboard.isDown(editbinds.down) then
-			player.y = player.y + self.floatspeed /camera.scale *dt
-		end
-		
-		if love.keyboard.isDown(editbinds.decrease) then
-			self:adjustent(-1,dt)
-		end
-		if love.keyboard.isDown(editbinds.increase) then
-			self:adjustent(1,dt)
-		end
+	if love.keyboard.isDown(editbinds.right)  then
+		player.x = player.x + self.floatspeed /camera.scale *dt
+	end
+	if love.keyboard.isDown(editbinds.left)  then
+		player.x = player.x - self.floatspeed /camera.scale *dt
+	end
+	if love.keyboard.isDown(editbinds.up) then
+		player.y = player.y - self.floatspeed /camera.scale *dt
+	end
+	if love.keyboard.isDown(editbinds.down) then
+		player.y = player.y + self.floatspeed /camera.scale *dt
+	end
+	
+	if love.keyboard.isDown(editbinds.decrease) then
+		self:adjustent(-1,dt)
+	end
+	if love.keyboard.isDown(editbinds.increase) then
+		self:adjustent(1,dt)
+	end
 end
 
 
 function editor:adjustent(dir,dt)
 			
-	for _,platform in ipairs(platforms) do
-		if world:inview(platform) then
-			if platform.swing and collision:check(self.mouse.x,self.mouse.y,1,1,
-				platform.xorigin-platform_link_origin:getWidth()/2, platform.yorigin-platform_link_origin:getHeight()/2,  
-				platform_link_origin:getWidth(),platform_link_origin:getHeight()) then
+	for _,e in ipairs(world.entities) do
+		if world:inview(e) then
+			if e.swing == 1 and collision:check(self.mouse.x,self.mouse.y,1,1,
+				e.xorigin-e_link_origin:getWidth()/2, e.yorigin-e_link_origin:getHeight()/2,  
+				e_link_origin:getWidth(),e_link_origin:getHeight()) then
 
-				platform.angle = platform.angle - dir*2 *dt
-				if platform.angle > math.pi then platform.angle = math.pi end			
-				if platform.angle < 0 then platform.angle = 0 end
+				e.angle = e.angle - dir*2 *dt
+				if e.angle > math.pi then e.angle = math.pi end			
+				if e.angle < 0 then e.angle = 0 end
 				return true
 			end
 
-			if platform.movex == 1 and collision:check(self.mouse.x,self.mouse.y,1,1,
-				platform.xorigin, platform.y, platform.movedist+platform.w, platform.h) then
-				platform.movedist = math.round(platform.movedist + dir*2,1)
-				if platform.movedist < platform.w then platform.movedist = platform.w end
+			if e.movex == 1 and collision:check(self.mouse.x,self.mouse.y,1,1,
+				e.xorigin, e.y, e.movedist+e.w, e.h) then
+				e.movedist = math.round(e.movedist + dir*2,1)
+				if e.movedist < e.w then e.movedist = e.w end
 				return true
 			end
-			if platform.movey == 1 and collision:check(self.mouse.x,self.mouse.y,1,1,
-				platform.xorigin, platform.yorigin, platform.w, platform.h+platform.movedist) then
+			if e.movey == 1 and collision:check(self.mouse.x,self.mouse.y,1,1,
+				e.xorigin, e.yorigin, e.w, e.h+e.movedist) then
 				
-				platform.movedist = math.round(platform.movedist + dir*2,1)
-				if platform.movedist < platform.h then platform.movedist = platform.h end
-				return true
-			end
-		end
-	end
-	
-	for _,enemy in ipairs(enemies) do
-		if world:inview(enemy) then
-			if enemy.movex == 1 and collision:check(self.mouse.x,self.mouse.y,1,1,
-				enemy.xorigin, enemy.y, enemy.movedist+enemy.w, enemy.h) then
-				enemy.movedist = enemy.movedist + dir*2
-				if enemy.movedist < enemy.w then enemy.movedist = enemy.w end
+				e.movedist = math.round(e.movedist + dir*2,1)
+				if e.movedist < e.h then e.movedist = e.h end
 				return true
 			end
 		end
@@ -414,11 +401,11 @@ function editor:mousepressed(x,y,button)
 		local selection = self.entities[self.entsel]
 		
 		if selection == "spawn" then
-			self:removeall(portals, "spawn")
+			self:removeall("portal", "spawn")
 			portals:add(x,y,"spawn")
 		end
 		if selection == "goal" then
-			self:removeall(portals, "goal")
+			self:removeall("portal", "goal")
 			portals:add(x,y,"goal")
 		end
 		
@@ -541,18 +528,15 @@ end
 
 
 
-function editor:sendtospawn(entity)
-	world:resetcamera()
-	for _,portal in ipairs(portals) do
-		if portal.name == "spawn" then
-			entity.x = portal.x
-			entity.y = portal.y
-			return true
+function editor:sendtospawn()
+	--world:resetcamera()
+	-- find the spawn entity
+	for _, portal in ipairs(entities.match(world.entities,"portal")) do
+		if portal.type == "spawn" then
+			player.x = portal.x
+			player.y = portal.y
 		end
-	end
-	
-	entity.x = 0
-	entity.y = 0
+	end	
 	
 end
 
@@ -1036,40 +1020,35 @@ end
 
 function editor:drawselected()
 	--local entselorder = {enemies,pickups,portals,crates,checkpoints,springs,materials,platforms,props,decals,traps,bumpers}
-	for _,e in ipairs(self.entselorder) do
-		if self:selection(e) then return end
-	end
+
+	self:selection() 
+
 end
 
-function editor:selection(entities, x,y,w,h)
+function editor:selection()
 	-- hilights the entity when mouseover 
 	editor.selname = "null"
 	love.graphics.setColor(0,255,0,200)
 
 	--if love.mouse.isDown(3) then return end
-	
-	
-	for _,e in ipairs(entities) do
-		--deselect all before continuing 
+	for _,e in ipairs(world.entities) do
+		--deselect all before continuing
 		--(fixes texture change issue with platforms)
 		e.selected = false
 	end
-	
-	for i, e in ripairs(entities) do
-		
+
+	for i, e in ripairs(world.entities) do
 		if world:inview(e) then
-			
+			editor.selname = e.name .. "("..i..")"
 			if e.movex == 1 then
 				if collision:check(self.mouse.x,self.mouse.y,1,1,e.xorigin, e.y, e.movedist+e.w, e.h) then
 					love.graphics.rectangle("line", e.xorigin, e.y, e.movedist+e.w, e.h)
-					editor.selname = e.name .. "("..i..")"
 					e.selected = true
 					return true
 				end
 			elseif e.movey == 1 then
 				if collision:check(self.mouse.x,self.mouse.y,1,1,e.xorigin, e.yorigin, e.w, e.h+e.movedist) then
 					love.graphics.rectangle("line", e.xorigin, e.yorigin,e.w, e.h+e.movedist)
-					editor.selname = e.name .. "("..i..")"
 					e.selected = true
 					return true
 				end
@@ -1083,13 +1062,11 @@ function editor:selection(entities, x,y,w,h)
 							e.xorigin-platform_link_origin:getWidth()/2, e.yorigin-platform_link_origin:getHeight()/2,  
 							platform_link_origin:getWidth(),platform_link_origin:getHeight()
 						)
-						editor.selname = e.name .. "("..i..")"
 						e.selected = true
 						return true
 				end
 			elseif collision:check(self.mouse.x,self.mouse.y,1,1,e.x,e.y,e.w,e.h) then
 					love.graphics.rectangle("line", e.x,e.y,e.w,e.h)
-					editor.selname = e.name .. "("..i..")"
 					e.selected = true
 					self.texturesel = e.texture or 1
 					return true
@@ -1100,17 +1077,14 @@ end
 
 function editor:removesel()
 	--local entselorder = {enemies,pickups,portals,crates,checkpoints,springs,materials,platforms,props,decals,traps,bumpers}
-	for _,e in ipairs(self.entselorder) do
-		if self:remove(e) then return end
-	end
+		if self:remove(world.entities) then return end
 end
 
-function editor:removeall(entities, name)
+function editor:removeall(name,type)
 	--removes all entity types of given entity
-	for i, entity in ipairs(entities) do
-		if type(entity) == "table" and entity.name == name then
-
-			table.remove(entities,i)
+	for i, e in ripairs(world.entities) do
+		if e.name == name and e.type == type then
+			table.remove(world.entities,i)
 		end
 	end
 end
@@ -1167,11 +1141,11 @@ end
 
 function editor:copy()
 	--primitive copy (dimensions only for now)
-	for i, platform in ripairs(platforms) do
-		if world:inview(platform) then
-			if collision:check(self.mouse.x,self.mouse.y,1,1, platform.x,platform.y,platform.w,platform.h) then
-				console:print("copied "..platform.name.."("..i..")")
-				self.clipboard = platform
+	for i, e in ripairs(world.entities) do
+		if world:inview(e) then
+			if collision:check(self.mouse.x,self.mouse.y,1,1, e.x,e.y,e.w,e.h) then
+				console:print("copied "..e.name.."("..i..")")
+				self.clipboard = e
 				return true
 			end
 		end
@@ -1179,15 +1153,17 @@ function editor:copy()
 end
 
 function editor:paste()
-	--paste the cloned entity
 	local x = math.round(self.mouse.x,-1)
 	local y = math.round(self.mouse.y,-1)
 	
-	local p = self.clipboard
+	--paste the cloned entity
+	local p = deepcopy(self.clipboard)
 	if type(p) == "table" then
-		platforms:add(x,y,p.w,p.h,p.clip,p.movex,p.movey,p.movespeed,p.movedist,p.swing,p.angle,p.texture)
+		p.x = x
+		p.y = y
+		table.insert(world.entities,p)
+		console:print("paste "..p.name.."("..#world.entities..")")
 	end
-
 end
 
 
@@ -1198,13 +1174,10 @@ function editor:drawmmap()
 	love.graphics.setCanvas(self.mmapcanvas)
 	love.graphics.clear()
 
-
 	love.graphics.setColor(0,0,0,100)
 	love.graphics.rectangle("fill", 0,0,self.mmapw,self.mmaph)
 	
-
-	
-	for i, platform in ipairs(platforms) do
+	for i, platform in ipairs(entities.match(world.entities,"platform")) do
 		if platform.clip == 1 then
 			love.graphics.setColor(
 				platform_r,
@@ -1347,6 +1320,8 @@ function editor:mousemoved(x,y,dx,dy)
 	
 	self.mouse.x = math.round(camera.x-(love.graphics.getWidth()/2/camera.scale)+x/camera.scale,-1)
 	self.mouse.y = math.round(camera.y-(love.graphics.getHeight()/2/camera.scale)+y/camera.scale,-1)
+
+	
 	if love.mouse.isDown(1) then
 		editor.drawsel = true
 	else

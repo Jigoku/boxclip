@@ -36,7 +36,7 @@ function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing,angle,t
 	local cols = math.ceil(w/self.textures[texture]:getWidth())
 	local rows = math.ceil(h/self.textures[texture]:getHeight())
 
-	table.insert(platforms, {
+	table.insert(world.entities, {
 		--dimensions
 		x = x or 0, 
 		y = y or 0,
@@ -107,7 +107,7 @@ function platforms:draw()
 	local count = 0
 
 	local i, platform
-	for i, platform in ipairs(platforms) do
+	for i, platform in ipairs(entities.match(world.entities,"platform")) do
 		if world:inview(platform) then
 		count = count + 1
 
@@ -122,8 +122,6 @@ function platforms:draw()
 				)
 				love.graphics.draw(platform_cradle, platform.x-platform_cradle:getWidth()/2,platform.y-platform_cradle:getHeight()/1.5)
 			end
-				
-			
 				
 			--[[ -- old method of drawing platforms with quads (keep this here in case something breaks)
 				

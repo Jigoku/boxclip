@@ -41,35 +41,31 @@ function springs:add(x,y,dir,type)
 		width = gfx:getHeight()
 		height = gfx:getWidth()
 	end
-		
-
 	
-
-		table.insert(springs, {
-			--dimensions
-			x = x or 0, 
-			y = y or 0, 
-			w = width,
-			h = height,
-			
-			--properties
-			name = type,
-			gfx = gfx,
-			vel = vel,
-			dir = dir,
-		})
-		print("spring added @  X:"..x.." Y: "..y)
+	table.insert(world.entities, {
+		--dimensions
+		x = x or 0, 
+		y = y or 0, 
+		w = width,
+		h = height,
+		
+		--properties
+		name = "spring",
+		typ = type,
+		gfx = gfx,
+		vel = vel,
+		dir = dir,
+	})
+	print("spring added @  X:"..x.." Y: "..y)
 	
 end
 
 function springs:draw()
 	local count = 0
 	
-	for i, spring in ipairs(springs) do
+	for i, spring in ipairs(entities.match(world.entities,"spring")) do
 		if world:inview(spring) then
 			count = count +1
-				
-
 			love.graphics.setColor(255,255,255,255)
 			if spring.dir == 0 then
 				love.graphics.draw(spring.gfx, spring.x, spring.y, 0,1,1)
@@ -92,25 +88,24 @@ end
 
 function springs:drawdebug(spring, i)
 	
-	if spring.name == "spring" then
-		love.graphics.setColor(255,155,55,200)
-		love.graphics.rectangle(
-			"line", 
-			spring.x, 
-			spring.y, 
-			spring.w, 
-			spring.h
-		)
-		love.graphics.setColor(155,255,55,200)
-		love.graphics.rectangle(
-			"line", 
-			spring.x+10, 
-			spring.y+10, 
-			spring.w-20, 
-			spring.h-20
-		)
-		
-	end
+	love.graphics.setColor(255,155,55,200)
+	love.graphics.rectangle(
+		"line", 
+		spring.x, 
+		spring.y, 
+		spring.w, 
+		spring.h
+	)
+	love.graphics.setColor(155,255,55,200)
+	
+	--offset for smaller collision, but unimplemented: TODO
+	love.graphics.rectangle(
+		"line", 
+		spring.x+10, 
+		spring.y+10, 
+		spring.w-20, 
+		spring.h-20
+	)
 	
 	editor:drawid(spring, i)
 	editor:drawcoordinates(spring)

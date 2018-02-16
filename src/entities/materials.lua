@@ -20,7 +20,7 @@ materials.death:setWrap("repeat","repeat")
 
 
 function materials:add(x,y,w,h,t)
-	table.insert(self, {		
+	table.insert(world.entities, {		
 		--position
 		x = x or 0,
 		y = y or 0,
@@ -28,7 +28,8 @@ function materials:add(x,y,w,h,t)
 		h = h or 10,
 		quad = love.graphics.newQuad( 0,0, w,h, materials.death:getDimensions() ),
 		--properties
-		name = t,
+		name = "material",
+		type = t
 	})
 end
 
@@ -37,9 +38,9 @@ end
 function materials:draw()
 	if editing or debug then
 	
-		for i, mat in ipairs(self) do
+		for i, mat in ipairs(entities.match(world.entities,"material")) do
 			if world:inview(mat) then
-				if mat.name == "death" then
+				if mat.type == "death" then
 					
 					love.graphics.setColor(0,0,0,100)
 					love.graphics.rectangle("fill",mat.x,mat.y,mat.w,mat.h)

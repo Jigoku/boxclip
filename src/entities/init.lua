@@ -15,18 +15,34 @@
  
 entities = {}
 
-require("entities/popups")
-require("entities/decals")
+require("entities/platforms")
+require("entities/materials")
 require("entities/props")
+require("entities/decals")
 require("entities/springs")
 require("entities/traps")
 require("entities/crates")
-require("entities/platforms")
+require("entities/enemies")
 require("entities/checkpoints")
 require("entities/pickups")
-require("entities/enemies")
-require("entities/portals")
 require("entities/bumpers")
-require("entities/materials")
+require("entities/portals")
 
 
+--find item in table containing "name"
+--return found items as table
+--
+--   eg; test[1].name = "blah"
+--   #entities.match(test,"blah") = 1
+
+function entities.match(t,name)
+	local match = {}
+	for i=1,#t do
+		if t[i].name == name then
+			table.insert(match,t[i])
+		end
+	end
+	return match
+end
+
+return entities

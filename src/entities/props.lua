@@ -43,14 +43,15 @@ function props:add(x,y,type)
 
 	local gfx = props_textures[type]
 	
-	table.insert(props, {
+	table.insert(world.entities, {
 		--dimensions
 		x = x or 0, 
 		y = y or 0,
 		w = gfx:getWidth(),
 		h = gfx:getHeight(),
 		--properties
-		name = type,
+		name = "prop",
+		type = type,
 		gfx = gfx,
 	})
 	print(type .. " added @  X:"..x.." Y: "..y)
@@ -60,12 +61,12 @@ end
 function props:draw()
 	local count = 0
 	
-	for i, prop in ipairs(props) do
+	for i, prop in ipairs(entities.match(world.entities,"prop")) do
 		if world:inview(prop) then
 			count = count +1
 				
-			if prop.name == "arch" or prop.name == "arch2" or prop.name == "arch3" 
-			or prop.name == "arch3_end_l" or prop.name == "arch3_end_r" or prop.name == "arch3_pillar"
+			if prop.type == "arch" or prop.type == "arch2" or prop.type == "arch3" 
+			or prop.type == "arch3_end_l" or prop.type == "arch3_end_r" or prop.type == "arch3_pillar"
 			 then
 				love.graphics.setColor(
 					platform_r,
@@ -73,7 +74,7 @@ function props:draw()
 					platform_b,
 					255
 				)	
-			elseif prop.name == "porthole" or prop.name == "arch1_r" then
+			elseif prop.type == "porthole" or prop.type == "arch1_r" then
 				love.graphics.setColor(
 					platform_behind_r,
 					platform_behind_g,
