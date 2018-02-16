@@ -50,37 +50,37 @@ function mapio:savemap(map)
 	end
 	
 	for i, entity in ipairs(entities.match(world.entities,"pickup")) do
-		fh:write("pickups:add("..math.round(entity.x)..","..math.round(entity.y)..",\""..entity.name.."\")\n")
+		fh:write("pickups:add("..math.round(entity.x)..","..math.round(entity.y)..",\""..entity.type.."\")\n")
 	end
 	for i, entity in ipairs(entities.match(world.entities,"crate")) do
-		fh:write("crates:add("..math.round(entity.x)..","..math.round(entity.y)..",\""..entity.item.."\")\n")
+		fh:write("crates:add("..math.round(entity.x)..","..math.round(entity.y)..",\""..entity.type.."\")\n")
 	end
 	for i, entity in ipairs(entities.match(world.entities,"checkpoint")) do
 		fh:write("checkpoints:add("..math.round(entity.x)..","..math.round(entity.y)..")\n")
 	end
 	for i, entity in ipairs(entities.match(world.entities,"enemy")) do
-		fh:write("enemies:add("..math.round(entity.xorigin)..","..math.round(entity.yorigin)..","..entity.movespeed..","..entity.movedist ..","..entity.dir..",\""..entity.name.."\")\n")
+		fh:write("enemies:add("..math.round(entity.xorigin)..","..math.round(entity.yorigin)..","..entity.movespeed..","..entity.movedist ..","..entity.dir..",\""..entity.type.."\")\n")
 	end
 	for i, entity in ipairs(entities.match(world.entities,"prop")) do
-		fh:write("props:add("..math.round(entity.x)..","..math.round(entity.y)..",\""..entity.name.."\")\n")
+		fh:write("props:add("..math.round(entity.x)..","..math.round(entity.y)..",\""..entity.type.."\")\n")
 	end
 	for i, entity in ipairs(entities.match(world.entities,"spring")) do
-		fh:write("springs:add("..math.round(entity.x)..","..math.round(entity.y)..","..entity.dir.. ",\""..entity.name.."\")\n")
+		fh:write("springs:add("..math.round(entity.x)..","..math.round(entity.y)..","..entity.dir.. ",\""..entity.type.."\")\n")
 	end
 	for i, entity in ipairs(entities.match(world.entities,"portal")) do
-		fh:write("portals:add("..math.round(entity.x)..","..math.round(entity.y)..",\""..entity.name.."\")\n")
+		fh:write("portals:add("..math.round(entity.x)..","..math.round(entity.y)..",\""..entity.type.."\")\n")
 	end
 	for i, entity in ipairs(entities.match(world.entities,"decal")) do
-		fh:write("decals:add("..math.round(entity.x)..","..math.round(entity.y)..","..entity.w..","..entity.h..",\""..entity.name.."\")\n")
+		fh:write("decals:add("..math.round(entity.x)..","..math.round(entity.y)..","..entity.w..","..entity.h..",\""..entity.type.."\")\n")
 	end
 	for i, entity in ipairs(entities.match(world.entities,"bumper")) do
 		fh:write("bumpers:add("..math.round(entity.x)..","..math.round(entity.y)..")\n")
 	end
 	for i, entity in ipairs(entities.match(world.entities,"material")) do
-		fh:write("materials:add("..math.round(entity.x)..","..math.round(entity.y)..","..entity.w..","..entity.h..",\""..entity.name.."\")\n")
+		fh:write("materials:add("..math.round(entity.x)..","..math.round(entity.y)..","..entity.w..","..entity.h..",\""..entity.type.."\")\n")
 	end
 	for i, entity in ipairs(entities.match(world.entities,"trap")) do
-		fh:write("traps:add("..math.round(entity.x)..","..math.round(entity.y)..",\""..entity.name.."\")\n")
+		fh:write("traps:add("..math.round(entity.x)..","..math.round(entity.y)..",\""..entity.type.."\")\n")
 	end
 	
 	if fh:close() then

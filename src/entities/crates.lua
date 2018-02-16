@@ -16,14 +16,14 @@
 crates = {}
 crate = love.graphics.newImage("data/images/crates/crate.png")
 
-function crates:add(x,y,item)
+function crates:add(x,y,type)
 	table.insert(world.entities, {
 		x = x or 0,
 		y = y or 0,
 		w = 50,
 		h = 50,
 		name = "crate",
-		item = item or nil,
+		type = type or nil,
 		gfx = crate,
 		destroyed = false,
 		score = 50,

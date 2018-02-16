@@ -182,7 +182,7 @@ function physics:crates(object,dt)
 					pickups:add(
 						crate.x+crate.w/2-pickups.textures["gem"]:getWidth()/2, 
 						crate.y+crate.h/2-pickups.textures["gem"]:getHeight()/2, 
-						crate.item
+						crate.type
 					)
 				end
 					
@@ -471,14 +471,12 @@ function physics:enemies(dt)
 			
 				--test
 				--hopper enemy, move this statement to a new entity TODO
-
 				
-				if world:inview(enemy) then	
-					if enemy.x <= enemy.xorigin or enemy.x >= enemy.xorigin + enemy.movedist then
-						enemy.yvel=500	
-					end
-					self:applyGravity(enemy, dt)
+				if enemy.x <= enemy.xorigin or enemy.x >= enemy.xorigin + enemy.movedist then
+					enemy.yvel=500	
 				end
+				self:applyGravity(enemy, dt)
+				
 
 				self:movex(enemy, dt)	
 				self:crates(enemy,dt)
