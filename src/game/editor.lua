@@ -1161,6 +1161,8 @@ function editor:paste()
 	if type(p) == "table" then
 		p.x = x
 		p.y = y
+		p.xorigin = x + (p.x-x)
+		p.yorigin = y + (p.y-y)
 		table.insert(world.entities,p)
 		console:print("paste "..p.name.."("..#world.entities..")")
 	end
