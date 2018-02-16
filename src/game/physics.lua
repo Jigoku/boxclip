@@ -174,7 +174,7 @@ function physics:crates(object,dt)
 				object.candrop = false
 
 				if object.jumping and mode == "game" then 
-					console:print("crate(" .. i..") destroyed, item ="..crate.item)
+					console:print("crate(" .. i..") destroyed, item ="..crate.type)
 					popups:add(crate.x-crate.w,crate.y+crate.h/2,"+"..crate.score)
 					crate.destroyed = true
 					player.score = player.score+crate.score

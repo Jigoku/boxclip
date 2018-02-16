@@ -1141,7 +1141,7 @@ function editor:paste()
 	local y = math.round(self.mouse.y,-1)
 	
 	--paste the cloned entity
-	local p = deepcopy(self.clipboard)
+	local p = table.deepcopy(self.clipboard)
 	if type(p) == "table" then
 		p.x = x
 		p.y = y

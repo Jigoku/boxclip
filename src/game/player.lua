@@ -212,7 +212,8 @@ function player:respawn()
 	self.alive = true
 	self.candrop = false
 	self.invincible = false
-	camera:follow(self.x+self.w/2, self.y+self.h/2)
+	camera.x = player.spawnX
+	camera.y = player.spawnY
 	camera:fade(1, {0,0,0,0})
 	self:cheats()
 	

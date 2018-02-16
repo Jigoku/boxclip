@@ -538,11 +538,11 @@ function world:resetcamera()
 end
 
 function world.savestate()
-	world.state = deepcopy(world.entities)
+	world.state = table.deepcopy(world.entities)
 end
 
 function world.loadstate()
-	world.entities = deepcopy(world.state)
+	world.entities = table.deepcopy(world.state)
 end
 
 function world:sendtoback(t,i)
