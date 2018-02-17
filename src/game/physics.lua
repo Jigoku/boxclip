@@ -405,57 +405,55 @@ end
 function physics:pickups(dt)
 
 	for i, pickup in ipairs(entities.match(world.entities,"pickup")) do			
-		
-		--pulls all gems to player when attract = true
-		if world:inview(pickup) and pickup.attract then
-			if player.alive then
-				local angle = math.atan2(player.y+player.h/2 - pickup.h/2 - pickup.y, player.x+player.w/2 - pickup.w/2 - pickup.x)
-				pickup.newX = pickup.x + (math.cos(angle) * pickup.mass/2 * dt)
-				pickup.newY = pickup.y + (math.sin(angle) * pickup.mass/2 * dt)
+		if not pickup.collected then
+			--pulls all gems to player when attract = true
+			if world:inview(pickup) and pickup.attract then
+				if player.alive then
+					local angle = math.atan2(player.y+player.h/2 - pickup.h/2 - pickup.y, player.x+player.w/2 - pickup.w/2 - pickup.x)
+					pickup.newX = pickup.x + (math.cos(angle) * pickup.mass/2 * dt)
+					pickup.newY = pickup.y + (math.sin(angle) * pickup.mass/2 * dt)
+				else
+					self:applyGravity(pickup, dt)
+				end
 			else
 				self:applyGravity(pickup, dt)
+				pickup.newX = pickup.x + (pickup.xvel *dt)
+			
+				self:traps(pickup,dt)
+				self:platforms(pickup, dt)
+				self:crates(pickup, dt)			
 			end
-		else
 			
-			self:applyGravity(pickup, dt)
-			pickup.newX = pickup.x + (pickup.xvel *dt)
+			self:update(pickup)
 			
-			self:traps(pickup,dt)
-			self:platforms(pickup, dt)
-			self:crates(pickup, dt)			
+			if pickup.y+pickup.h > world.bedrock  then
+				pickup.yvel = 0
+				pickup.jumping = false
+				pickup.y = world.bedrock - pickup.h +1 *dt
+			end
 			
-		end
-			
-		self:update(pickup)
-			
-		if pickup.y+pickup.h > world.bedrock  then
-			pickup.yvel = 0
-			pickup.jumping = false
-			pickup.y = world.bedrock - pickup.h +1 *dt
-		end
-			
-		if mode == "game" and not pickup.collected then	
-			if player.hasmagnet then
-				if collision:check(player.x-pickups.magnet_power,player.y-pickups.magnet_power,
-					player.w+(pickups.magnet_power*2),player.h+(pickups.magnet_power*2),
-					pickup.x, pickup.y,pickup.gfx:getWidth(),pickup.gfx:getHeight()) then
-										
-					if not pickup.attract then
-						pickup.attract = true
+			if mode == "game" and not pickup.collected then	
+				if player.hasmagnet then
+					if collision:check(player.x-pickups.magnet_power,player.y-pickups.magnet_power,
+						player.w+(pickups.magnet_power*2),player.h+(pickups.magnet_power*2),
+						pickup.x, pickup.y,pickup.gfx:getWidth(),pickup.gfx:getHeight()) then
+
+						if not pickup.attract then
+							pickup.attract = true
+						end
 					end
-					
 				end
-			end
 			
-			if player.alive and collision:check(player.x,player.y,player.w,player.h,
-				pickup.x, pickup.y,pickup.gfx:getWidth(),pickup.gfx:getHeight()) then
-					popups:add(pickup.x-pickup.w,pickup.y+pickup.h/2,"+"..pickup.score)
-					console:print(pickup.name.."("..i..") collected")	
-					player:collect(pickup)
-					pickup.collected = true
-					
-			end
-		end		
+				if player.alive and collision:check(player.x,player.y,player.w,player.h,
+					pickup.x, pickup.y,pickup.gfx:getWidth(),pickup.gfx:getHeight()) then
+						popups:add(pickup.x-pickup.w,pickup.y+pickup.h/2,"+"..pickup.score)
+						console:print(pickup.name.."("..i..") collected")	
+						player:collect(pickup)
+						pickup.collected = true
+
+				end
+			end	
+		end
 	end
 end
 

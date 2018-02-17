@@ -23,6 +23,42 @@
 editor = {}
 editing = false
 
+--editor controls
+editor.binds = {
+	up = "w",
+	left = "a",
+	down = "s",
+	right = "d",
+	incmovedist = "]",
+	decmovedist = "[",
+	edittoggle = "f1",
+	helptoggle = "h",
+	maptoggle = "m",
+	entmenutoggle = "e",
+	musicbrowser = "f2",
+	musicnext = "=",
+	musicprev = "-",
+	entselup = "kp+",
+	entseldown = "kp-",
+	delete = "delete",
+	entcopy = "c",
+	entpaste = "v",
+	entrotate = "r",
+	guidetoggle = "g",
+	respawn = "x",
+	showpos = ",",
+	showid = ".",
+	savemap = "f3",
+	themecycle = "t",
+	moveup = "kp8",
+	movedown = "kp2",
+	moveleft = "kp4",
+	moveright = "kp6",
+	sendtoback = "b",
+	texturesel = "y",
+	camera = "lctrl",
+	pause = "p",
+}
 
 editor.mouse = {
 	x = 0,
@@ -218,7 +254,7 @@ function editor:settheme()
 end
 
 function editor:keypressed(key)
-	if key == editbinds.edittoggle then 
+	if key == self.binds.edittoggle then 
 		editing = not editing
 		player.xvel = 0
 		player.yvel = 0
@@ -228,29 +264,29 @@ function editor:keypressed(key)
 	end
 
 
-	if key == editbinds.helptoggle then self.showhelpmenu = not self.showhelpmenu end	
-	if key == editbinds.maptoggle then self.showmmap = not self.showmmap end
-	if key == editbinds.musicbrowser then self.showmusicbrowser = not self.showmusicbrowser end
+	if key == self.binds.helptoggle then self.showhelpmenu = not self.showhelpmenu end	
+	if key == self.binds.maptoggle then self.showmmap = not self.showmmap end
+	if key == self.binds.musicbrowser then self.showmusicbrowser = not self.showmusicbrowser end
 		
 	
 	--free roaming	
 	if editing then
-		if key == editbinds.entselup then self.entsel = self.entsel +1 end
-		if key == editbinds.entseldown then self.entsel = self.entsel -1 end
-		if key == editbinds.pause then self.paused = not self.paused end
-		if key == editbinds.delete then self:removesel() end
-		if key == editbinds.entcopy then self:copy() end
-		if key == editbinds.entpaste then self:paste() end
-		if key == editbinds.entrotate then self:rotate() end
-		if key == editbinds.entmenutoggle then self.showentmenu = not self.showentmenu end
+		if key == self.binds.entselup then self.entsel = self.entsel +1 end
+		if key == self.binds.entseldown then self.entsel = self.entsel -1 end
+		if key == self.binds.pause then self.paused = not self.paused end
+		if key == self.binds.delete then self:removesel() end
+		if key == self.binds.entcopy then self:copy() end
+		if key == self.binds.entpaste then self:paste() end
+		if key == self.binds.entrotate then self:rotate() end
+		if key == self.binds.entmenutoggle then self.showentmenu = not self.showentmenu end
 
-		if key == editbinds.guidetoggle then self.showguide = not self.showguide end
-		if key == editbinds.respawn then self:sendtospawn() end
-		if key == editbinds.showpos then self.showpos = not self.showpos end
-		if key == editbinds.showid then self.showid = not self.showid end
-		if key == editbinds.savemap then mapio:savemap(world.map) end
+		if key == self.binds.guidetoggle then self.showguide = not self.showguide end
+		if key == self.binds.respawn then self:sendtospawn() end
+		if key == self.binds.showpos then self.showpos = not self.showpos end
+		if key == self.binds.showid then self.showid = not self.showid end
+		if key == self.binds.savemap then mapio:savemap(world.map) end
 	
-		if key == editbinds.musicprev then 
+		if key == self.binds.musicprev then 
 			if world.mapmusic == 0 then 
 				world.mapmusic = #sound.music
 			else
@@ -261,7 +297,7 @@ function editor:keypressed(key)
 			sound:playambient(world.mapambient)	
 		end
 		
-		if key == editbinds.musicnext then 
+		if key == self.binds.musicnext then 
 			if world.mapmusic == #sound.music then 
 				world.mapmusic = 0 
 			else
@@ -272,24 +308,24 @@ function editor:keypressed(key)
 			sound:playambient(world.mapambient)	
 		end
 	
-		if key == editbinds.themecycle then self:settheme() end
+		if key == self.binds.themecycle then self:settheme() end
 	
 		for i, e in ripairs(world.entities) do
 			--fix this for moving platform (yorigin,xorigin etc)
-			if world:inview(e) then
+			if e.selected then
 				if collision:check(self.mouse.x,self.mouse.y,1,1, e.x,e.y,e.w,e.h) then
-					if love.keyboard.isDown(editbinds.moveup) then 
+					if love.keyboard.isDown(self.binds.moveup) then 
 						e.y = math.round(e.y - 10,-1) --up
 					end
-					if love.keyboard.isDown(editbinds.movedown) then 
+					if love.keyboard.isDown(self.binds.movedown) then 
 						e.y = math.round(e.y + 10,-1) --down
 						e.yorigin = e.y
 					end 
-					if love.keyboard.isDown(editbinds.moveleft) then 
+					if love.keyboard.isDown(self.binds.moveleft) then 
 						e.x = math.round(e.x - 10,-1) --left
 						e.xorigin = e.x
 					end 
-					if love.keyboard.isDown(editbinds.moveright) then 
+					if love.keyboard.isDown(self.binds.moveright) then 
 						e.x = math.round(e.x + 10,-1)  --right
 						e.xorigin = e.x
 					end
@@ -298,28 +334,32 @@ function editor:keypressed(key)
 				end
 			end
 		end
+		
+		
+
+		
 	end
 end
 
 function editor:checkkeys(dt)
 
-	if love.keyboard.isDown(editbinds.right)  then
+	if love.keyboard.isDown(self.binds.right)  then
 		player.x = player.x + self.floatspeed /camera.scale *dt
 	end
-	if love.keyboard.isDown(editbinds.left)  then
+	if love.keyboard.isDown(self.binds.left)  then
 		player.x = player.x - self.floatspeed /camera.scale *dt
 	end
-	if love.keyboard.isDown(editbinds.up) then
+	if love.keyboard.isDown(self.binds.up) then
 		player.y = player.y - self.floatspeed /camera.scale *dt
 	end
-	if love.keyboard.isDown(editbinds.down) then
+	if love.keyboard.isDown(self.binds.down) then
 		player.y = player.y + self.floatspeed /camera.scale *dt
 	end
 	
-	if love.keyboard.isDown(editbinds.decmovedist) then
+	if love.keyboard.isDown(self.binds.decmovedist) then
 		self:movedist(-1,dt)
 	end
-	if love.keyboard.isDown(editbinds.incmovedist) then
+	if love.keyboard.isDown(self.binds.incmovedist) then
 		self:movedist(1,dt)
 	end
 end
@@ -357,11 +397,11 @@ function editor:movedist(dir,dt)
 end
 
 function editor:wheelmoved(dx, dy)
-    if love.keyboard.isDown(editbinds.camera) then
+    if love.keyboard.isDown(self.binds.camera) then
 		--camer zoom
 		camera.scale = math.max(self.mincamerascale,math.min(self.maxcamerascale,camera.scale + dy/25))
 		
-	elseif love.keyboard.isDown(editbinds.texturesel) then
+	elseif love.keyboard.isDown(self.binds.texturesel) then
 		--platform texture slot selection
 		self.texturesel = math.max(1,math.min(#platforms.textures,self.texturesel +dy))
 		self:settexture(p)
@@ -466,13 +506,13 @@ function editor:mousereleased(x,y,button)
 		return
 	end
 	
-	if button == 3 then
 	
+	if button == 3 then
 	--possibly merge this code into a function also used by editor:selection as it is pretty much identical
 
 		for i,e in ripairs(world.entities) do
 	
-			if world:inview(e) then
+			if e.selected then
 				if e.movex == 1 then
 					if collision:check(self.mouse.x,self.mouse.y,1,1,e.xorigin, e.y, e.movedist+e.w, e.h) then
 						world:sendtoback(world.entities,i)
@@ -723,7 +763,7 @@ function editor:draw()
 			--no entities are in view
 			love.graphics.setColor(255,255,255,255)
 			love.graphics.setFont(fonts.menu)
-			love.graphics.print("(Tip: press \"".. editbinds.respawn .. "\" to reset camera)", 200, love.graphics.getHeight()-50,0,1,1)
+			love.graphics.print("(Tip: press \"".. self.binds.respawn .. "\" to reset camera)", 200, love.graphics.getHeight()-50,0,1,1)
 			love.graphics.setFont(fonts.default)
 		end
 		
@@ -793,17 +833,17 @@ function editor:drawhelpmenu()
 
 	
 	love.graphics.setColor(255,255,255,155)
-	love.graphics.printf("["..editbinds.helptoggle.."] to close",self.helpmenu:getWidth()-110,10,100,"right")
+	love.graphics.printf("["..self.binds.helptoggle.."] to close",self.helpmenu:getWidth()-110,10,100,"right")
 		
 	love.graphics.setFont(fonts.menu)
 
 	love.graphics.setColor(155,255,255,155)
-	love.graphics.print(editbinds.edittoggle,10,s*2); 
+	love.graphics.print(self.binds.edittoggle,10,s*2); 
 	love.graphics.setColor(255,255,255,155)
 	love.graphics.printf("toggle editmode",self.helpmenu:getWidth()/8,s*2,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
-	love.graphics.print(editbinds.up..","..editbinds.left..","..editbinds.down..","..editbinds.right ,10,s*3)
+	love.graphics.print(self.binds.up..","..self.binds.left..","..self.binds.down..","..self.binds.right ,10,s*3)
 	love.graphics.setColor(255,255,255,155)
 	love.graphics.printf("move",self.helpmenu:getWidth()/8,s*3,200,"right")
 	
@@ -823,32 +863,32 @@ function editor:drawhelpmenu()
 	love.graphics.printf("select entity type",self.helpmenu:getWidth()/8,s*6,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
-	love.graphics.print(editbinds.entrotate,10,s*7)
+	love.graphics.print(self.binds.entrotate,10,s*7)
 	love.graphics.setColor(255,255,255,155)
 	love.graphics.printf("entity direction",self.helpmenu:getWidth()/8,s*7,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
-	love.graphics.print(editbinds.moveup..","..editbinds.moveleft..","..editbinds.movedown..","..editbinds.moveright,10,s*8)
+	love.graphics.print(self.binds.moveup..","..self.binds.moveleft..","..self.binds.movedown..","..self.binds.moveright,10,s*8)
 	love.graphics.setColor(255,255,255,155)
 	love.graphics.printf("reposition entity",self.helpmenu:getWidth()/8,s*8,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
-	love.graphics.print(editbinds.themecycle,10,s*9)
+	love.graphics.print(self.binds.themecycle,10,s*9)
 	love.graphics.setColor(255,255,255,155)
 	love.graphics.printf("change theme",self.helpmenu:getWidth()/8,s*9,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
-	love.graphics.print(editbinds.entcopy,10,s*10)
+	love.graphics.print(self.binds.entcopy,10,s*10)
 	love.graphics.setColor(255,255,255,155)
 	love.graphics.printf("copy",self.helpmenu:getWidth()/8,s*10,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
-	love.graphics.print(editbinds.entpaste,10,s*11)
+	love.graphics.print(self.binds.entpaste,10,s*11)
 	love.graphics.setColor(255,255,255,155)
 	love.graphics.printf("paste",self.helpmenu:getWidth()/8,s*11,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
-	love.graphics.print(editbinds.savemap,10,s*13)
+	love.graphics.print(self.binds.savemap,10,s*13)
 	love.graphics.setColor(255,255,255,155)
 	love.graphics.printf("savemap",self.helpmenu:getWidth()/8,s*13,200,"right")
 	
@@ -863,57 +903,57 @@ function editor:drawhelpmenu()
 	love.graphics.printf("toggle console",self.helpmenu:getWidth()/8,s*15,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
-	love.graphics.print(editbinds.guidetoggle,10,s*16)
+	love.graphics.print(self.binds.guidetoggle,10,s*16)
 	love.graphics.setColor(255,255,255,155)
 	love.graphics.printf("toggle guidelines",self.helpmenu:getWidth()/8,s*16,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
-	love.graphics.print(editbinds.maptoggle,10,s*17)
+	love.graphics.print(self.binds.maptoggle,10,s*17)
 	love.graphics.setColor(255,255,255,155)
 	love.graphics.printf("toggle minimap",self.helpmenu:getWidth()/8,s*17,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
-	love.graphics.print(editbinds.helptoggle,10,s*18)
+	love.graphics.print(self.binds.helptoggle,10,s*18)
 	love.graphics.setColor(255,255,255,155)
 	love.graphics.printf("show help",self.helpmenu:getWidth()/8,s*18,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
-	love.graphics.print(editbinds.respawn,10,s*19)
+	love.graphics.print(self.binds.respawn,10,s*19)
 	love.graphics.setColor(255,255,255,155)
 	love.graphics.printf("set camera to origin/spawn",self.helpmenu:getWidth()/8,s*19,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
-	love.graphics.print(editbinds.showpos,10,s*20)
+	love.graphics.print(self.binds.showpos,10,s*20)
 	love.graphics.setColor(255,255,255,155)
 	love.graphics.printf("toggle co-ord display",self.helpmenu:getWidth()/8,s*20,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
-	love.graphics.print(editbinds.showid,10,s*21)
+	love.graphics.print(self.binds.showid,10,s*21)
 	love.graphics.setColor(255,255,255,155)
 	love.graphics.printf("toggle id display",self.helpmenu:getWidth()/8,s*21,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
-	love.graphics.print(editbinds.increase,10,s*22)
+	love.graphics.print(self.binds.increase,10,s*22)
 	love.graphics.setColor(255,255,255,155)
 	love.graphics.printf("increase movedist",self.helpmenu:getWidth()/8,s*22,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
-	love.graphics.print(editbinds.decrease,10,s*23)
+	love.graphics.print(self.binds.decrease,10,s*23)
 	love.graphics.setColor(255,255,255,155)
 	love.graphics.printf("decrease movedist",self.helpmenu:getWidth()/8,s*23,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
-	love.graphics.print(editbinds.texturesel .. " + scroll",10,s*24)
+	love.graphics.print(self.binds.texturesel .. " + scroll",10,s*24)
 	love.graphics.setColor(255,255,255,155)
 	love.graphics.printf("platform texture",self.helpmenu:getWidth()/8,s*24,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
-	love.graphics.print(editbinds.musicnext  .. "/" .. editbinds.musicprev,10,s*25)
+	love.graphics.print(self.binds.musicnext  .. "/" .. self.binds.musicprev,10,s*25)
 	love.graphics.setColor(255,255,255,155)
 	love.graphics.printf("change music",self.helpmenu:getWidth()/8,s*25,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
-	love.graphics.print(editbinds.camera  .. " + scroll",10,s*26)
+	love.graphics.print(self.binds.camera  .. " + scroll",10,s*26)
 	love.graphics.setColor(255,255,255,155)
 	love.graphics.printf("camera zoom",self.helpmenu:getWidth()/8,s*26,200,"right")
 	
@@ -1303,8 +1343,6 @@ end
 
 function editor:mousemoved(x,y,dx,dy)
 	if not editing then return end
-
-	--self.mouse.x, self.mouse.y = camera:getMousePosition()
 	
 	self.mouse.x = math.round(camera.x-(love.graphics.getWidth()/2/camera.scale)+x/camera.scale,-1)
 	self.mouse.y = math.round(camera.y-(love.graphics.getHeight()/2/camera.scale)+y/camera.scale,-1)

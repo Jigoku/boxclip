@@ -98,7 +98,6 @@ function platforms:drawlink(platform)
 		local y = r * math.sin(platform.angle) + platform.yorigin
 
 		love.graphics.draw(platform_link, x-platform_link:getWidth()/2, y-platform_link:getHeight()/2, 0,1,1)
-
 	end
 	
 end
@@ -175,7 +174,8 @@ function platforms:draw()
 			love.graphics.rectangle("fill", platform.x, platform.y+platform.h-offset, platform.w, offset)
 			--left
 			love.graphics.rectangle("fill", platform.x, platform.y, offset, platform.h - offset)
-		
+			--top
+			--love.graphics.rectangle("fill", platform.x, platform.y, platform.w, offset)
 		
 			--top surface
 			love.graphics.setColor(
@@ -184,13 +184,13 @@ function platforms:draw()
 				platform_top_b,
 				255
 			)
-				
+			
 			local offset = 5
 			local quad = love.graphics.newQuad( 0,0, platform.w, platform_grass:getHeight(), platform_grass:getDimensions() )
 			platform_grass:setWrap("repeat", "repeat")
 			love.graphics.draw(platform_grass, quad, platform.x,platform.y-offset)
-				
-
+			
+	
 			--[[ --untextured grass fallback
 			--surface
 			love.graphics.rectangle("fill", platform.x, platform.y-5, platform.w, 10)	

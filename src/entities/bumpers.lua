@@ -16,8 +16,8 @@
 bumpers = {}
 
 bumpers.textures = textures:load("data/images/bumpers/")
-bumpers.scalespeed =  15
-bumpers.maxscale = 2
+bumpers.scalespeed =  5
+bumpers.maxscale = 1.5
 
 function bumpers:add(x,y)
 
@@ -61,11 +61,19 @@ function bumpers:draw()
 			--offset for centred scaling
 			local ox, oy = bumper.w *.5, bumper.h * .5
 
+			if bumper.scale > 1 then
+			love.graphics.draw(
+				bumper.gfx, bumper.x+ox+love.math.random(-5,5), bumper.y+oy+love.math.random(-5,5), 0, 
+				bumper.scale, bumper.scale,
+				ox,oy	
+			)
+			else
 			love.graphics.draw(
 				bumper.gfx, bumper.x+ox, bumper.y+oy, 0, 
 				bumper.scale, bumper.scale,
 				ox,oy	
 			)
+			end
 
 			if editing or debug then
 				love.graphics.setColor(255,150,0,255)
