@@ -274,24 +274,24 @@ function editor:keypressed(key)
 	
 		if key == editbinds.themecycle then self:settheme() end
 	
-		for i, platform in ripairs(entities.match(world.entities,"platform")) do
+		for i, e in ripairs(world.entities) do
 			--fix this for moving platform (yorigin,xorigin etc)
-			if world:inview(platform) then
-				if collision:check(self.mouse.x,self.mouse.y,1,1, platform.x,platform.y,platform.w,platform.h) then
+			if world:inview(e) then
+				if collision:check(self.mouse.x,self.mouse.y,1,1, e.x,e.y,e.w,e.h) then
 					if love.keyboard.isDown(editbinds.moveup) then 
-						platform.y = math.round(platform.y - 10,-1) --up
+						e.y = math.round(e.y - 10,-1) --up
 					end
 					if love.keyboard.isDown(editbinds.movedown) then 
-						platform.y = math.round(platform.y + 10,-1) --down
-						platform.yorigin = platform.y
+						e.y = math.round(e.y + 10,-1) --down
+						e.yorigin = e.y
 					end 
 					if love.keyboard.isDown(editbinds.moveleft) then 
-						platform.x = math.round(platform.x - 10,-1) --left
-						platform.xorigin = platform.x
+						e.x = math.round(e.x - 10,-1) --left
+						e.xorigin = e.x
 					end 
 					if love.keyboard.isDown(editbinds.moveright) then 
-						platform.x = math.round(platform.x + 10,-1)  --right
-						platform.xorigin = platform.x
+						e.x = math.round(e.x + 10,-1)  --right
+						e.xorigin = e.x
 					end
 	
 					return true
@@ -316,16 +316,17 @@ function editor:checkkeys(dt)
 		player.y = player.y + self.floatspeed /camera.scale *dt
 	end
 	
-	if love.keyboard.isDown(editbinds.decrease) then
-		self:adjustent(-1,dt)
+	if love.keyboard.isDown(editbinds.decmovedist) then
+		self:movedist(-1,dt)
 	end
-	if love.keyboard.isDown(editbinds.increase) then
-		self:adjustent(1,dt)
+	if love.keyboard.isDown(editbinds.incmovedist) then
+		self:movedist(1,dt)
 	end
 end
 
 
-function editor:adjustent(dir,dt)
+function editor:movedist(dir,dt)
+	--horizontal size adjustment
 			
 	for _,e in ipairs(world.entities) do
 		if world:inview(e) then
@@ -954,34 +955,35 @@ function editor:drawentmenu()
 		"fill",10,25, self.entmenu:getWidth()-10, 1
 	)
 	
-	local s = 15 -- vertical spacing
+	local s = 20 -- vertical spacing
 	local entname = self.entities[self.entsel]
+	local empty = "*"
+	local padding = 2
 	
-	love.graphics.setColor(255,255,255,155)
 	love.graphics.setFont(fonts.menu)
 	
-	love.graphics.print(self.entities[self.entsel-4] or "-----",10,s*2)
-	love.graphics.print(self.entities[self.entsel-3] or "-----",10,s*3)
-	love.graphics.print(self.entities[self.entsel-2] or "-----",10,s*4)
-	love.graphics.print(self.entities[self.entsel-1] or "-----",10,s*5)
+	love.graphics.setColor(150,150,150,255)
+	love.graphics.print(self.entities[self.entsel-4] or empty,10,s*2)
+	love.graphics.print(self.entities[self.entsel-3] or empty,10,s*3)
+	love.graphics.print(self.entities[self.entsel-2] or empty,10,s*4)
+	love.graphics.print(self.entities[self.entsel-1] or empty,10,s*5)
 	
 	--selected
-	love.graphics.setColor(200,200,200,150)
+	love.graphics.setColor(150,150,150,255)
 
 	love.graphics.rectangle(
-		"fill",10,s*6, self.entmenu:getWidth()-20, 15
+		"fill",-padding+10,-padding+s*6, self.entmenu:getWidth()-20+padding*2, 15+padding*2
 	)
 	----------
 	
 	love.graphics.setColor(0,0,0,255)
-	love.graphics.print(self.entities[self.entsel] or "-----",10,s*6)
+	love.graphics.print(self.entities[self.entsel] or empty,10,s*6)
 	
-	
-	love.graphics.setColor(255,255,255,155)
-	love.graphics.print(self.entities[self.entsel+1] or "-----",10,s*7)
-	love.graphics.print(self.entities[self.entsel+2] or "-----",10,s*8)
-	love.graphics.print(self.entities[self.entsel+3] or "-----",10,s*9)
-	love.graphics.print(self.entities[self.entsel+4] or "-----",10,s*10)
+	love.graphics.setColor(150,150,150,255)
+	love.graphics.print(self.entities[self.entsel+1] or empty,10,s*7)
+	love.graphics.print(self.entities[self.entsel+2] or empty,10,s*8)
+	love.graphics.print(self.entities[self.entsel+3] or empty,10,s*9)
+	love.graphics.print(self.entities[self.entsel+4] or empty,10,s*10)
 	love.graphics.setFont(fonts.default)
 	
 	--entdir
