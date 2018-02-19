@@ -42,7 +42,7 @@ function springs:add(x,y,dir,type)
 		height = gfx:getWidth()
 	end
 	
-	table.insert(world.entities, {
+	table.insert(world.entities.spring, {
 		--dimensions
 		x = x or 0, 
 		y = y or 0, 
@@ -50,7 +50,7 @@ function springs:add(x,y,dir,type)
 		h = height,
 		
 		--properties
-		name = "spring",
+		group = "spring",
 		type = type,
 		gfx = gfx,
 		vel = vel,
