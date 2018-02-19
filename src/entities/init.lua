@@ -28,21 +28,4 @@ require("entities/pickups")
 require("entities/bumpers")
 require("entities/portals")
 
-
---find item in table containing "name"
---return found items as table
---
---   eg; test[1].name = "blah"
---   #entities.match(test,"blah") = 1
-
-function entities.match(t,name)
-	local match = {}
-	for i=1,#t do
-		if t[i].name == name then
-			table.insert(match,t[i])
-		end
-	end
-	return match
-end
-
 return entities

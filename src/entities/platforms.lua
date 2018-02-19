@@ -36,7 +36,7 @@ function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing,angle,t
 	local cols = math.ceil(w/self.textures[texture]:getWidth())
 	local rows = math.ceil(h/self.textures[texture]:getHeight())
 
-	table.insert(world.entities, {
+	table.insert(world.entities.platforms, {
 		--dimensions
 		x = x or 0, 
 		y = y or 0,
@@ -44,7 +44,7 @@ function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing,angle,t
 		h = h or 0,
 
 		--properties
-		name = "platform",
+		group = "platforms",
 				
 		--movement
 		movex = movex or 0,
@@ -59,7 +59,7 @@ function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing,angle,t
 		--swing platforms
 		swing = swing or 0,
 		angle = angle or 0,
-		radius = 200 or 0,
+		radius = (swing and 200 or 0),
 		
 		--texturing
 		texture = texture or 1,
@@ -105,8 +105,8 @@ end
 function platforms:draw()
 	local count = 0
 
-	local i, platform
-	for i, platform in ipairs(entities.match(world.entities,"platform")) do
+	for i, platform in ipairs(world.entities.platforms) do
+		
 		if world:inview(platform) then
 		count = count + 1
 

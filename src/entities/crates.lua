@@ -17,12 +17,12 @@ crates = {}
 crate = love.graphics.newImage("data/images/crates/crate.png")
 
 function crates:add(x,y,type)
-	table.insert(world.entities, {
+	table.insert(world.entities.crates, {
 		x = x or 0,
 		y = y or 0,
 		w = 50,
 		h = 50,
-		name = "crate",
+		group = "crates",
 		type = type or nil,
 		gfx = crate,
 		destroyed = false,
@@ -40,7 +40,7 @@ function crates:draw()
 	local count = 0
 	
 	local i, crate
-	for i, crate in ipairs(entities.match(world.entities,"crate")) do		
+	for i, crate in ipairs(world.entities.crates) do		
 		if world:inview(crate) and not crate.destroyed then
 			count = count + 1
 		

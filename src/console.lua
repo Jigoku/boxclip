@@ -82,19 +82,18 @@ function console:draw()
 			love.graphics.rectangle("fill",  love.graphics.getWidth()/5, love.graphics.getHeight()-50, 600, 25)
 			love.graphics.setColor(255,100,255,255)
 			love.graphics.print(
-				"pickups: " .. world:count("pickup") .. "(".. world.pickups .. ")" ..
-				" | enemies: " .. world:count("enemy") .. "(".. world.enemies .. ")" ..
-				" | platforms: " .. world:count("platform") .. "(".. world.platforms .. ")" ..
-				" | props: " .. world:count("prop") .. "("..world.props .. ")" ..
-				" | springs: " .. world:count("spring") .. "("..world.springs .. ")" ..
-				" | portals: " .. world:count("portal") .. "("..world.portals .. ")" ..
-				" | crates: " .. world:count("crate") .. "("..world.crates .. ")" .. "\n"..
-				
-				" checkpoints: " .. world:count("checkpoint") .. "("..world.checkpoints .. ")" ..
-				" | decals: " .. world:count("decal") .. "("..world.decals .. ")" ..
-				" | bumpers: " .. world:count("bumper") .. "("..world.bumpers .. ")" ..
-				" | traps: " .. world:count("trap") .. "(" .. world.traps .. ")" ..
-				" | t: " ..#world.entities .. "(" .. world:totalentsdrawn() .. ")" .. 
+				"pickups: " .. #world.entities.pickups .. "(".. world.pickups .. ")" ..
+				" | enemies: " .. #world.entities.enemies .. "(".. world.enemies .. ")" ..
+				" | platforms: " .. #world.entities.platforms .. "(".. world.platforms .. ")" ..
+				" | props: " .. #world.entities.props .. "("..world.props .. ")" ..
+				" | springs: " .. #world.entities.springs .. "("..world.springs .. ")" ..
+				" | portals: " .. #world.entities.portals .. "("..world.portals .. ")" ..
+				" | crates: " .. #world.entities.crates .. "("..world.crates .. ")" .. "\n"..
+				"checkpoints: " .. #world.entities.checkpoints .. "("..world.checkpoints .. ")" ..
+				" | decals: " .. #world.entities.decals .. "("..world.decals .. ")" ..
+				" | bumpers: " .. #world.entities.bumpers .. "("..world.bumpers .. ")" ..
+				" | traps: " .. #world.entities.traps .. "(" .. world.traps .. ")" ..
+				" | t: " .. world:totalents() .. "(" .. world:totalentsdrawn() .. ")" .. 
 				" | ccpf: " .. world.collision,
 				love.graphics.getWidth()/5, love.graphics.getHeight()-50
 			)

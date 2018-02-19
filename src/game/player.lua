@@ -18,7 +18,7 @@
 
 function player:init() 
 	--initialize the player defaults
-	self.name = "player"
+	self.group = "players"
 	self.w = 50
 	self.h = 60
 	self.spawnX = 0

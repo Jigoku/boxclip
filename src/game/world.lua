@@ -16,8 +16,6 @@
 world = {}
 world.splash = {}
 world.weather = {}
-world.entities = {}
-
 world.state = {} --world.entities on checkpoint
 
 --world.camera?
@@ -134,7 +132,7 @@ function world:init(gamemode)
 	mapio:loadmap(world.map)
 
 	-- find the spawn entity
-	for _, portal in ipairs(entities.match(world.entities,"portal")) do
+	for _, portal in ipairs(world.entities.portals) do
 		if portal.type == "spawn" then
 			player.spawnX = portal.x
 			player.spawnY = portal.y
@@ -242,7 +240,7 @@ function world:draw()
 	love.graphics.setColor(255,255,255,255)
 	
 
-	
+
 	decals:draw()
 	props:draw()
 	platforms:draw()
@@ -373,14 +371,31 @@ end
 
 	
 function world:empty()
-	if #world.entities > 0 then
-		for i,e in ripairs(world.entities) do
-			table.remove(world.entities, 1)
-		end
-	end
+	world.entities = {
+		["enemies"] = {},
+		["pickups"] = {},
+		["portals"] = {},
+		["crates"] = {},
+		["traps"] = {},
+		["checkpoints"] = {},
+		["springs"] = {},
+		["bumpers"] = {},
+		["platforms"] = {},
+		["props"] = {},
+		["decals"] = {},
+		["materials"] = {}
+	}
 end
 
-
+function world:totalents()
+	local c = 0
+	for _, type in pairs(world.entities) do
+		for _, e in pairs(type) do
+			c = c + 1
+		end
+	end
+	return c
+end
 
 function world:totalentsdrawn()
 	--returns total drawn entities
@@ -563,7 +578,7 @@ function world:sendtoback(t,i)
 	table.remove(t,i)
 	table.insert(t,1,item)
 
-	console:print( t[i].name .. " (" .. i .. ") sent to back" )
+	console:print( t[i].group .. " (" .. i .. ") sent to back" )
 end
 
 function world:sendtofront(t,i)
@@ -571,5 +586,5 @@ function world:sendtofront(t,i)
 	table.remove(t,i)
 	table.insert(t,#t,item)
 
-	console:print( t[i].name .. " (" .. i .. ") sent to front" )
+	console:print( t[i].group .. " (" .. i .. ") sent to front" )
 end

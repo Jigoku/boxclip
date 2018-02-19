@@ -134,7 +134,7 @@ end
 function physics:world(dt)
 	-- moving platforms etc
 	
-	for i, object in ipairs(entities.match(world.entities,"platform")) do
+	for i, object in ipairs(world.entities.platforms) do
 		if object.movex == 1 then self:movex(object, dt) end
 		if object.movey == 1 then self:movey(object, dt) end
 		if object.swing == 1 then self:swing(object, dt) end
@@ -167,7 +167,7 @@ end
 function physics:crates(object,dt)
 	
 	local i, crate
-	for i, crate in ipairs(entities.match(world.entities,"crate")) do
+	for i, crate in ipairs(world.entities.crates) do
 			if collision:check(crate.x,crate.y,crate.w,crate.h,
 				object.newX,object.newY,object.w,object.h) and not crate.destroyed then
 				object.candrop = false
@@ -233,7 +233,7 @@ end
 
 function physics:materials()
 	if mode == "editing" then return end
-	for i, mat in ipairs(entities.match(world.entities,"material")) do
+	for i, mat in ipairs(world.entities.materials) do
 		if world:inview(mat) then
 			if collision:check(player.x,player.y,player.w,player.h,mat.x,mat.y,mat.w,mat.h) then
 				if mat.type == "death" then
@@ -249,7 +249,7 @@ end
 
 function physics:bumpers(object,dt)
 	local i, bumper
-	for i, bumper in ipairs(entities.match(world.entities,"bumper")) do
+	for i, bumper in ipairs(world.entities.bumpers) do
 		if collision:check(bumper.x,bumper.y,bumper.w,bumper.h,
 				object.newX,object.newY,object.w,object.h) then
 			
@@ -263,25 +263,25 @@ function physics:bumpers(object,dt)
 				bumper.score = bumper.score - 50
 				popups:add(bumper.x-bumper.w,bumper.y+bumper.h/2,"+50")
 
-			end
+		end
 
 			
-			if collision:right(object,bumper) and not collision:top(object,bumper) then
-					object.newX = bumper.x+bumper.w +1 *dt
-					object.xvel = bumper.force
+		if collision:right(object,bumper) and not collision:top(object,bumper) then
+			object.newX = bumper.x+bumper.w +1 *dt
+			object.xvel = bumper.force
 					
-				elseif collision:left(object,bumper) and not collision:top(object,bumper) then
-					object.newX = bumper.x-object.w -1 *dt
-					object.xvel = -bumper.force
+			elseif collision:left(object,bumper) and not collision:top(object,bumper) then
+				object.newX = bumper.x-object.w -1 *dt
+				object.xvel = -bumper.force
 
-				elseif collision:bottom(object,bumper) then
-					object.newY = bumper.y +bumper.h +1 *dt
-					object.yvel = -bumper.force
+			elseif collision:bottom(object,bumper) then
+				object.newY = bumper.y +bumper.h +1 *dt
+				object.yvel = -bumper.force
 			
-				elseif collision:top(object,bumper) then
-					object.newY = bumper.y - object.h -1 *dt
-					object.yvel = bumper.force
-				end		
+			elseif collision:top(object,bumper) then
+				object.newY = bumper.y - object.h -1 *dt
+				object.yvel = bumper.force
+			end		
 			
 		end
 	end
@@ -293,7 +293,7 @@ function physics:platforms(object, dt)
 	--loop platforms
 		
 	local i, platform
-	for i, platform in ipairs(entities.match(world.entities,"platform")) do	
+	for i, platform in ipairs(world.entities.platforms) do	
 			if collision:check(platform.x,platform.y,platform.w,platform.h,
 					object.newX,object.newY,object.w,object.h) then
 					
@@ -401,7 +401,7 @@ end
 
 function physics:pickups(dt)
 
-	for i, pickup in ipairs(entities.match(world.entities,"pickup")) do			
+	for i, pickup in ipairs(world.entities.pickups) do			
 		if not pickup.collected then
 			--pulls all gems to player when attract = true
 			if world:inview(pickup) and pickup.attract then
@@ -444,7 +444,7 @@ function physics:pickups(dt)
 				if player.alive and collision:check(player.x,player.y,player.w,player.h,
 					pickup.x, pickup.y,pickup.gfx:getWidth(),pickup.gfx:getHeight()) then
 						popups:add(pickup.x-pickup.w,pickup.y+pickup.h/2,"+"..pickup.score)
-						console:print(pickup.name.."("..i..") collected")	
+						console:print(pickup.group.."("..i..") collected")	
 						player:collect(pickup)
 						pickup.collected = true
 
@@ -459,7 +459,7 @@ end
 function physics:enemies(dt)
 
 	local i, enemy
-	for i, enemy in ipairs(entities.match(world.entities,"enemy")) do
+	for i, enemy in ipairs(world.entities.enemies) do
 		if enemy.alive then
 		
 			if enemy.type == "walker" then
@@ -484,7 +484,7 @@ function physics:enemies(dt)
 					enemy.yvel = 0
 					enemy.jumping = false
 					enemy.y = world.deadzone - enemy.h +1 *dt
-					console:print(enemy.name .. "("..i..") out of bounds")
+					console:print(enemy.group .. "("..i..") out of bounds")
 				end
 				
 				-- NOT ACTIVE WHILST EDITING
@@ -503,12 +503,12 @@ function physics:enemies(dt)
 							player.score = player.score + enemy.score
 							enemy.alive = false
 							sound:play(sound.effects["kill"])
-							console:print(enemy.name .." killed")
+							console:print(enemy.group .." killed")
 							
 							return true
 							
 						else
-							player:die(enemy.name)
+							player:die(enemy.group)
 						end
 					end
 				end
@@ -534,11 +534,11 @@ function physics:enemies(dt)
 						player.score = player.score + enemy.score
 						enemy.alive = false
 						sound:play(sound.effects["kill"])
-						console:print(enemy.name .." killed")
+						console:print(enemy.group .." killed")
 						
 					else			
 						-- otherwise we die			
-						player:die(enemy.name)
+						player:die(enemy.group)
 					end
 				end
 			
@@ -549,7 +549,7 @@ function physics:enemies(dt)
 				if mode == "game" and player.alive and  collision:check(player.newX,player.newY,player.w,player.h,
 					enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
 					player.yvel = -player.yvel
-					player:die(enemy.name)
+					player:die(enemy.group)
 				end
 			end
 			
@@ -567,7 +567,7 @@ function physics:enemies(dt)
 							enemy.x,enemy.newY,enemy.w,enemy.h) then
 								e.alive = false
 								sound:play(sound.effects["kill"])
-								console:print(e.name .. " killed by " .. enemy.name)
+								console:print(e.group .. " killed by " .. enemy.group)
 							end
 						end
 					end
@@ -608,7 +608,7 @@ function physics:enemies(dt)
 			
 					if collision:check(player.newX,player.newY,player.w,player.h,
 						enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) and enemy.falling then
-							player:die(enemy.name)
+							player:die(enemy.group)
 					end
 				end
 
@@ -631,7 +631,7 @@ function physics:enemies(dt)
 					
 					if not player.invincible then
 						player.yvel = -player.yvel
-						player:die(enemy.name)
+						player:die(enemy.group)
 					end
 				end
 			end
@@ -675,7 +675,7 @@ function physics:player(dt)
 end
 
 function physics:trapsworld(dt)
-	for i, trap in ipairs(entities.match(world.entities,"trap")) do
+	for i, trap in ipairs(world.entities.traps) do
 		if trap.falling then
 			trap.timer = math.max(0, trap.timer - dt)
 
@@ -702,7 +702,7 @@ end
 function physics:checkpoints(dt)
 	if mode == "editing" then return end
 	local i, checkpoint
-	for i, checkpoint in ipairs(entities.match(world.entities,"checkpoint")) do
+	for i, checkpoint in ipairs(world.entities.checkpoints) do
 		if world:inview(checkpoint) then
 			if collision:check(player.x,player.y,player.w,player.h,
 				checkpoint.x, checkpoint.y,checkpoint.w,checkpoint.h) then
@@ -723,7 +723,7 @@ end
 
 function physics:traps(object, dt)
 	
-	for i, trap in ipairs(entities.match(world.entities,"trap")) do
+	for i, trap in ipairs(world.entities.traps) do
 		
 			if collision:check(object.newX,object.newY,object.w,object.h, trap.x,trap.y,trap.w,trap.h) then
 			
@@ -738,7 +738,7 @@ function physics:traps(object, dt)
 						end
 											
 						-- only player can make logs fall
-						if object.name == "player" then
+						if object.group == "players" then
 							object.yvel = 0
 							if mode == "game" then
 								trap.falling = true
@@ -766,7 +766,7 @@ function physics:traps(object, dt)
 							if object.jumping then
 								object.newY = trap.y - object.h -1 *dt
 								object.yvel = math.max(-object.yvel/1.5,player.jumpheight/2)
-									if mode == "game" and object.name == "player" then
+									if mode == "game" and object.group == "players" then
 										popups:add(trap.x-trap.w/2,trap.y+trap.h/2,"+"..trap.score)
 										player.score = player.score +trap.score
 										--world:sendtofront(traps,i)
@@ -791,7 +791,7 @@ function physics:portals(dt)
 	if mode == "editing" then return end
 	
 	local i, portal
-	for i, portal in ipairs(entities.match(world.entities,"portal")) do
+	for i, portal in ipairs(world.entities.portals) do
 		if world:inview(portal) then
 			if collision:check(player.x,player.y,player.w,player.h,
 				portal.x, portal.y,portal.w,portal.h) then
@@ -817,7 +817,7 @@ end
 function physics:springs(dt)
 	if editing then return end
 	local i, spring
-	for i, spring in ipairs(entities.match(world.entities,"spring")) do
+	for i, spring in ipairs(world.entities.springs) do
 		if world:inview(spring) then
 			if collision:check(player.x,player.y,player.w,player.h,
 				spring.x, spring.y,spring.w,spring.h) then

@@ -27,14 +27,14 @@ function traps:add(x,y,type)
 	local gfx = traps_textures[type]
 
 	if type == "brick" then
-		table.insert(world.entities, {
+		table.insert(world.entities.traps, {
 			--dimensions
 			x = x or 0,
 			y = y or 0,
 			w = gfx:getWidth()*2,
 			h = gfx:getHeight()*2,
 			--properties
-			name = "trap",
+			group = "traps",
 			type = type,
 			gfx = gfx,
 			falling = false,
@@ -50,20 +50,20 @@ function traps:add(x,y,type)
 			yvel = 0,
 			score = 100,
 		})
-		print(name .." added @  X:"..x.." Y: "..y)
+		print("trap added @  X:"..x.." Y: "..y)
 	
 		return
 	end
 
 
-	table.insert(world.entities, {
+	table.insert(world.entities.traps, {
 		--dimensions
 		x = x or 0,
 		y = y or 0,
 		w = gfx:getWidth(),
 		h = gfx:getHeight(),
 		--properties
-		name = "trap",
+		group = "traps",
 		type = type,
 		gfx = gfx,
 		falling = false,
@@ -72,14 +72,14 @@ function traps:add(x,y,type)
 		xvel = 0,
 		yvel = 0,
 	})
-	print(name .." added @  X:"..x.." Y: "..y)
+	print("trap added @  X:"..x.." Y: "..y)
 	
 end
 
 function traps:draw()
 	local count = 0
 	
-	for i, trap in ipairs(entities.match(world.entities,"trap")) do
+	for i, trap in ipairs(world.entities.traps) do
 		if world:inview(trap) then
 			count = count +1
 					

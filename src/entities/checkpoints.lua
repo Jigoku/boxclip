@@ -21,12 +21,12 @@ checkpoint_textures = {
 }
 
 function checkpoints:add(x,y)
-	table.insert(world.entities, {
+	table.insert(world.entities.checkpoints, {
 		x = x or 0,
 		y = y or 0,
 		w = checkpoint_textures["front"]:getWidth(),
 		h = checkpoint_textures["front"]:getHeight(),
-		name = "checkpoint",
+		group = "checkpoints",
 		activated = false,
 	})
 	print( "checkpoint added @  X:"..x.." Y: "..y)
@@ -36,7 +36,7 @@ function checkpoints:draw()
 	local count = 0
 	
 	local i, checkpoint
-	for i, checkpoint in ipairs(entities.match(world.entities,"checkpoint")) do
+	for i, checkpoint in ipairs(world.entities.checkpoints) do
 		if world:inview(checkpoint) then
 		count = count + 1
 
@@ -48,13 +48,8 @@ function checkpoints:draw()
 			
 			love.graphics.draw(checkpoint_textures["back"], checkpoint.x-checkpoint_textures["back"]:getWidth()/2+checkpoint_textures["front"]:getWidth()/2,checkpoint.y,0, 1, 1)
 			love.graphics.draw(checkpoint_textures["front"], checkpoint.x,checkpoint.y,0, 1, 1)
-			
-			
-			
-			
-			--love.graphics.rectangle("fill", checkpoint.x, checkpoint.y, checkpoint.w, checkpoint.h)	
-			
-			
+	
+			--love.graphics.rectangle("fill", checkpoint.x, checkpoint.y, checkpoint.w, checkpoint.h)
 			
 			if editing or debug then
 				self:drawdebug(checkpoint, i)
