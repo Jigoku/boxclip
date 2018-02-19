@@ -48,7 +48,7 @@ function decals:add(x,y,w,h,type)
 	end
 	
 	
-	table.insert(world.entities.decals, {		
+	table.insert(world.entities.decal, {		
 		--position
 		x = x or 0,
 		y = y or 0,
@@ -69,7 +69,7 @@ function decals:add(x,y,w,h,type)
 end
 
 function decals:update(dt)
-	for i, decal in ipairs(world.entities.decals) do
+	for i, decal in ipairs(world.entities.decal) do
 	
 		if world:inview(decal) then
 			if type(decal.gfx) == "userdata" then
@@ -95,7 +95,7 @@ function decals:draw()
 	local count = 0
 	
 
-	for i, decal in ipairs(world.entities.decals) do
+	for i, decal in ipairs(world.entities.decal) do
 		if world:inview(decal) then
 			count = count + 1
 			

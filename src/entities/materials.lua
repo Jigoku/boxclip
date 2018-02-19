@@ -20,7 +20,7 @@ materials.death:setWrap("repeat","repeat")
 
 
 function materials:add(x,y,w,h,t)
-	table.insert(world.entities.materials, {		
+	table.insert(world.entities.material, {		
 		--position
 		x = x or 0,
 		y = y or 0,
@@ -38,7 +38,7 @@ end
 function materials:draw()
 	if editing or debug then
 	
-		for i, mat in ipairs(world.entities.materials) do
+		for i, mat in ipairs(world.entities.material) do
 			if world:inview(mat) then
 				if mat.type == "death" then
 					

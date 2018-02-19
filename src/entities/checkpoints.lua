@@ -21,7 +21,7 @@ checkpoint_textures = {
 }
 
 function checkpoints:add(x,y)
-	table.insert(world.entities.checkpoints, {
+	table.insert(world.entities.checkpoint, {
 		x = x or 0,
 		y = y or 0,
 		w = checkpoint_textures["front"]:getWidth(),
@@ -36,7 +36,7 @@ function checkpoints:draw()
 	local count = 0
 	
 	local i, checkpoint
-	for i, checkpoint in ipairs(world.entities.checkpoints) do
+	for i, checkpoint in ipairs(world.entities.checkpoint) do
 		if world:inview(checkpoint) then
 		count = count + 1
 

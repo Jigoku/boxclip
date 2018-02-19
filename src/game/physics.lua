@@ -134,7 +134,7 @@ end
 function physics:world(dt)
 	-- moving platforms etc
 	
-	for i, object in ipairs(world.entities.platforms) do
+	for i, object in ipairs(world.entities.platform) do
 		if object.movex == 1 then self:movex(object, dt) end
 		if object.movey == 1 then self:movey(object, dt) end
 		if object.swing == 1 then self:swing(object, dt) end
@@ -157,7 +157,7 @@ function physics:world(dt)
 	self:checkpoints(dt)
 	self:portals(dt)
 	self:materials(dt)
-
+	
 end
 
 function physics:bounce(object,dt)
@@ -167,7 +167,7 @@ end
 function physics:crates(object,dt)
 	
 	local i, crate
-	for i, crate in ipairs(world.entities.crates) do
+	for i, crate in ipairs(world.entities.crate) do
 			if collision:check(crate.x,crate.y,crate.w,crate.h,
 				object.newX,object.newY,object.w,object.h) and not crate.destroyed then
 				object.candrop = false
@@ -233,7 +233,7 @@ end
 
 function physics:materials()
 	if mode == "editing" then return end
-	for i, mat in ipairs(world.entities.materials) do
+	for i, mat in ipairs(world.entities.material) do
 		if world:inview(mat) then
 			if collision:check(player.x,player.y,player.w,player.h,mat.x,mat.y,mat.w,mat.h) then
 				if mat.type == "death" then
@@ -249,7 +249,7 @@ end
 
 function physics:bumpers(object,dt)
 	local i, bumper
-	for i, bumper in ipairs(world.entities.bumpers) do
+	for i, bumper in ipairs(world.entities.bumper) do
 		if collision:check(bumper.x,bumper.y,bumper.w,bumper.h,
 				object.newX,object.newY,object.w,object.h) then
 			
@@ -293,7 +293,7 @@ function physics:platforms(object, dt)
 	--loop platforms
 		
 	local i, platform
-	for i, platform in ipairs(world.entities.platforms) do	
+	for i, platform in ipairs(world.entities.platform) do	
 			if collision:check(platform.x,platform.y,platform.w,platform.h,
 					object.newX,object.newY,object.w,object.h) then
 					
@@ -401,7 +401,7 @@ end
 
 function physics:pickups(dt)
 
-	for i, pickup in ipairs(world.entities.pickups) do			
+	for i, pickup in ipairs(world.entities.pickup) do			
 		if not pickup.collected then
 			--pulls all gems to player when attract = true
 			if world:inview(pickup) and pickup.attract then
@@ -459,7 +459,7 @@ end
 function physics:enemies(dt)
 
 	local i, enemy
-	for i, enemy in ipairs(world.entities.enemies) do
+	for i, enemy in ipairs(world.entities.enemy) do
 		if enemy.alive then
 		
 			if enemy.type == "walker" then
@@ -471,7 +471,7 @@ function physics:enemies(dt)
 					enemy.yvel=500	
 				end
 				self:applyGravity(enemy, dt)
-				
+				--enemy.yorigin = enemy.newY
 
 				self:movex(enemy, dt)	
 				self:crates(enemy,dt)
@@ -561,7 +561,7 @@ function physics:enemies(dt)
 					
 					--kill enemies hit by icicle
 					local i,e
-					for i, e in ipairs(entities.match(world.entities,"enemy")) do
+					for i, e in ipairs(world.entities.enemy) do
 						if e.alive and not (e.type == "icicle") then
 							if collision:check(e.x,e.y,e.w,e.h,
 							enemy.x,enemy.newY,enemy.w,enemy.h) then
@@ -574,7 +574,7 @@ function physics:enemies(dt)
 					
 					--stop falling when colliding with platform
 					local i,platform
-					for i,platform in ipairs( entities.match(world.entities,"platform")) do
+					for i,platform in ipairs(world.entities.platform) do
 							if collision:check(platform.x,platform.y,platform.w,platform.h,
 								enemy.x,enemy.newY,enemy.w,enemy.h) then
 								
@@ -675,7 +675,7 @@ function physics:player(dt)
 end
 
 function physics:trapsworld(dt)
-	for i, trap in ipairs(world.entities.traps) do
+	for i, trap in ipairs(world.entities.trap) do
 		if trap.falling then
 			trap.timer = math.max(0, trap.timer - dt)
 
@@ -702,7 +702,7 @@ end
 function physics:checkpoints(dt)
 	if mode == "editing" then return end
 	local i, checkpoint
-	for i, checkpoint in ipairs(world.entities.checkpoints) do
+	for i, checkpoint in ipairs(world.entities.checkpoint) do
 		if world:inview(checkpoint) then
 			if collision:check(player.x,player.y,player.w,player.h,
 				checkpoint.x, checkpoint.y,checkpoint.w,checkpoint.h) then
@@ -723,7 +723,7 @@ end
 
 function physics:traps(object, dt)
 	
-	for i, trap in ipairs(world.entities.traps) do
+	for i, trap in ipairs(world.entities.trap) do
 		
 			if collision:check(object.newX,object.newY,object.w,object.h, trap.x,trap.y,trap.w,trap.h) then
 			
@@ -791,7 +791,7 @@ function physics:portals(dt)
 	if mode == "editing" then return end
 	
 	local i, portal
-	for i, portal in ipairs(world.entities.portals) do
+	for i, portal in ipairs(world.entities.portal) do
 		if world:inview(portal) then
 			if collision:check(player.x,player.y,player.w,player.h,
 				portal.x, portal.y,portal.w,portal.h) then
@@ -817,7 +817,7 @@ end
 function physics:springs(dt)
 	if editing then return end
 	local i, spring
-	for i, spring in ipairs(world.entities.springs) do
+	for i, spring in ipairs(world.entities.spring) do
 		if world:inview(spring) then
 			if collision:check(player.x,player.y,player.w,player.h,
 				spring.x, spring.y,spring.w,spring.h) then

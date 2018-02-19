@@ -43,7 +43,7 @@ function props:add(x,y,type)
 
 	local gfx = props_textures[type]
 	
-	table.insert(world.entities.props, {
+	table.insert(world.entities.prop, {
 		--dimensions
 		x = x or 0, 
 		y = y or 0,
@@ -61,7 +61,7 @@ end
 function props:draw()
 	local count = 0
 	
-	for i, prop in ipairs(world.entities.props) do
+	for i, prop in ipairs(world.entities.prop) do
 		if world:inview(prop) then
 			count = count +1
 				

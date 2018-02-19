@@ -132,7 +132,7 @@ function world:init(gamemode)
 	mapio:loadmap(world.map)
 
 	-- find the spawn entity
-	for _, portal in ipairs(world.entities.portals) do
+	for _, portal in ipairs(world.entities.portal) do
 		if portal.type == "spawn" then
 			player.spawnX = portal.x
 			player.spawnY = portal.y
@@ -296,7 +296,7 @@ end
 	
 
 function world:drawsplash()
-if debug then return end
+	if debug then return end
 	-- textured background
 		love.graphics.setColor(50,50,50,world.splash.opacity)		
 		self.splash.quad = love.graphics.newQuad( 0,0, love.graphics.getWidth(),love.graphics.getHeight(), self.splash.bg:getDimensions() )
@@ -361,30 +361,23 @@ end
 
 
 
-function world:count(type)
-	--count entities with type value
-	local n = 0
-	for _,entity in ipairs(entities.match(self.entities,type)) do 
-		n = n + 1 
-	end
-	return n
-end
+
 
 	
 function world:empty()
 	world.entities = {
-		["enemies"] = {group = "enemies"},
-		["pickups"] = {group = "pickups"},
-		["portals"] = {group = "portals"},
-		["crates"] = {group = "crates"},
-		["traps"] = {group = "traps"},
-		["checkpoints"] = {group = "checkpoints"},
-		["springs"] = {group = "springs"},
-		["bumpers"] = {group = "bumpers"},
-		["platforms"] = {group = "platforms"},
-		["props"] = {group = "props"},
-		["decals"] = {group = "decals"},
-		["materials"] = {group = "materials"}
+		["enemy"] = {group = "enemies"},
+		["pickup"] = {group = "pickups"},
+		["portal"] = {group = "portals"},
+		["crate"] = {group = "crates"},
+		["trap"] = {group = "traps"},
+		["checkpoint"] = {group = "checkpoints"},
+		["spring"] = {group = "springs"},
+		["bumper"] = {group = "bumpers"},
+		["platform"] = {group = "platforms"},
+		["prop"] = {group = "props"},
+		["decal"] = {group = "decals"},
+		["material"] = {group = "materials"}
 	}
 end
 

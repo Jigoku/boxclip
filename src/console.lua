@@ -82,17 +82,17 @@ function console:draw()
 			love.graphics.rectangle("fill",  love.graphics.getWidth()/5, love.graphics.getHeight()-50, 600, 25)
 			love.graphics.setColor(255,100,255,255)
 			love.graphics.print(
-				"pickups: " .. #world.entities.pickups .. "(".. world.pickups .. ")" ..
-				" | enemies: " .. #world.entities.enemies .. "(".. world.enemies .. ")" ..
-				" | platforms: " .. #world.entities.platforms .. "(".. world.platforms .. ")" ..
-				" | props: " .. #world.entities.props .. "("..world.props .. ")" ..
-				" | springs: " .. #world.entities.springs .. "("..world.springs .. ")" ..
-				" | portals: " .. #world.entities.portals .. "("..world.portals .. ")" ..
-				" | crates: " .. #world.entities.crates .. "("..world.crates .. ")" .. "\n"..
-				"checkpoints: " .. #world.entities.checkpoints .. "("..world.checkpoints .. ")" ..
-				" | decals: " .. #world.entities.decals .. "("..world.decals .. ")" ..
-				" | bumpers: " .. #world.entities.bumpers .. "("..world.bumpers .. ")" ..
-				" | traps: " .. #world.entities.traps .. "(" .. world.traps .. ")" ..
+				"pickups: " .. #world.entities.pickup .. "(".. world.pickups .. ")" ..
+				" | enemies: " .. #world.entities.enemy .. "(".. world.enemies .. ")" ..
+				" | platforms: " .. #world.entities.platform .. "(".. world.platforms .. ")" ..
+				" | props: " .. #world.entities.prop .. "("..world.props .. ")" ..
+				" | springs: " .. #world.entities.spring .. "("..world.springs .. ")" ..
+				" | portals: " .. #world.entities.portal .. "("..world.portals .. ")" ..
+				" | crates: " .. #world.entities.crate .. "("..world.crates .. ")" .. "\n"..
+				"checkpoints: " .. #world.entities.checkpoint .. "("..world.checkpoints .. ")" ..
+				" | decals: " .. #world.entities.decal .. "("..world.decals .. ")" ..
+				" | bumpers: " .. #world.entities.bumper .. "("..world.bumpers .. ")" ..
+				" | traps: " .. #world.entities.trap .. "(" .. world.traps .. ")" ..
 				" | t: " .. world:totalents() .. "(" .. world:totalentsdrawn() .. ")" .. 
 				" | ccpf: " .. world.collision,
 				love.graphics.getWidth()/5, love.graphics.getHeight()-50

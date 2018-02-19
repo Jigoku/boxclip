@@ -42,7 +42,7 @@ function springs:add(x,y,dir,type)
 		height = gfx:getWidth()
 	end
 	
-	table.insert(world.entities.springs, {
+	table.insert(world.entities.spring, {
 		--dimensions
 		x = x or 0, 
 		y = y or 0, 
@@ -63,7 +63,7 @@ end
 function springs:draw()
 	local count = 0
 	
-	for i, spring in ipairs(world.entities.springs) do
+	for i, spring in ipairs(world.entities.spring) do
 		if world:inview(spring) then
 			count = count +1
 			love.graphics.setColor(255,255,255,255)

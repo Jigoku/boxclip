@@ -47,40 +47,40 @@ function mapio:savemap(map)
 	
 	
 
-	for _, e in ipairs(world.entities.platforms) do
+	for _, e in ipairs(world.entities.platform) do
 		fh:write("platforms:add("..math.round(e.xorigin)..","..math.round(e.yorigin)..","..e.w..","..e.h..","..e.clip..","..e.movex..","..e.movey..","..e.movespeed..","..e.movedist..","..e.swing..","..math.round(e.angle,2)..","..e.texture..")\n")
 	end
-	for _, e in ipairs(world.entities.pickups) do
+	for _, e in ipairs(world.entities.pickup) do
 		fh:write("pickups:add("..math.round(e.x)..","..math.round(e.y)..",\""..e.type.."\")\n")
 	end
-	for _, e in ipairs(world.entities.crates) do
+	for _, e in ipairs(world.entities.crate) do
 		fh:write("crates:add("..math.round(e.x)..","..math.round(e.y)..",\""..e.type.."\")\n")
 	end
-	for _, e in ipairs(world.entities.checkpoints) do
+	for _, e in ipairs(world.entities.checkpoint) do
 		fh:write("checkpoints:add("..math.round(e.x)..","..math.round(e.y)..")\n")
 	end
-	for _, e in ipairs(world.entities.enemies) do
+	for _, e in ipairs(world.entities.enemy) do
 		fh:write("enemies:add("..math.round(e.xorigin)..","..math.round(e.yorigin)..","..e.movespeed..","..e.movedist ..","..e.dir..",\""..e.type.."\")\n")
 	end
-	for _, e in ipairs(world.entities.props) do
+	for _, e in ipairs(world.entities.prop) do
 		fh:write("props:add("..math.round(e.x)..","..math.round(e.y)..",\""..e.type.."\")\n")
 	end
-	for _, e in ipairs(world.entities.springs) do
+	for _, e in ipairs(world.entities.spring) do
 		fh:write("springs:add("..math.round(e.x)..","..math.round(e.y)..","..e.dir.. ",\""..e.type.."\")\n")
 	end
-	for _, e in ipairs(world.entities.portals) do
+	for _, e in ipairs(world.entities.portal) do
 		fh:write("portals:add("..math.round(e.x)..","..math.round(e.y)..",\""..e.type.."\")\n")
 	end
-	for _, e in ipairs(world.entities.decals) do
+	for _, e in ipairs(world.entities.decal) do
 		fh:write("decals:add("..math.round(e.x)..","..math.round(e.y)..","..e.w..","..e.h..",\""..e.type.."\")\n")
 	end
-	for _, e in ipairs(world.entities.bumpers) do
+	for _, e in ipairs(world.entities.bumper) do
 		fh:write("bumpers:add("..math.round(e.x)..","..math.round(e.y)..")\n")
 	end
-	for _, e in ipairs(world.entities.materials) do
+	for _, e in ipairs(world.entities.material) do
 		fh:write("materials:add("..math.round(e.x)..","..math.round(e.y)..","..e.w..","..e.h..",\""..e.type.."\")\n")
 	end
-	for _, e in ipairs(world.entities.traps) do
+	for _, e in ipairs(world.entities.trap) do
 		fh:write("traps:add("..math.round(e.x)..","..math.round(e.y)..",\""..e.type.."\")\n")
 	end
 

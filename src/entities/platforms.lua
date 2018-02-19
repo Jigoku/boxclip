@@ -22,8 +22,6 @@ platform_cradle = love.graphics.newImage("data/images/tiles/cradle.png")
 platform_grass = love.graphics.newImage("data/images/tiles/grass.png")
 
 
-
-
 platforms.textures =  textures:load("data/images/textures/")
 
 for _,texture in ipairs(platforms.textures) do
@@ -36,7 +34,7 @@ function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing,angle,t
 	local cols = math.ceil(w/self.textures[texture]:getWidth())
 	local rows = math.ceil(h/self.textures[texture]:getHeight())
 
-	table.insert(world.entities.platforms, {
+	table.insert(world.entities.platform, {
 		--dimensions
 		x = x or 0, 
 		y = y or 0,
@@ -105,7 +103,7 @@ end
 function platforms:draw()
 	local count = 0
 
-	for i, platform in ipairs(world.entities.platforms) do
+	for i, platform in ipairs(world.entities.platform) do
 		
 		if world:inview(platform) then
 		count = count + 1

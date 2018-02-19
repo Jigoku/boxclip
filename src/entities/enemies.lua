@@ -32,7 +32,7 @@ enemies.textures = {
 function enemies:add(x,y,movespeed,movedist,dir,type)
 
 	if type == "walker" then
-		table.insert(world.entities.enemies, {
+		table.insert(world.entities.enemy, {
 			--movement
 			movespeed = movespeed or 100,
 			movedist = movedist or 200,
@@ -66,7 +66,7 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 		})
 		
 	elseif type == "hopper" then
-		table.insert(world.entities.enemies, {
+		table.insert(world.entities.enemy, {
 			--movement
 			movespeed = movespeed or 100,
 			movedist = movedist or 200,
@@ -108,7 +108,7 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			width = self.textures[type]:getHeight()
 			height = self.textures[type]:getWidth()
 		end
-		table.insert(world.entities.enemies, {		
+		table.insert(world.entities.enemy, {		
 			--position
 			x = x or 0,
 			y = y or 0,
@@ -140,7 +140,7 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			width = self.textures[type]:getHeight()
 			height = self.textures[type]:getWidth()
 		end
-		table.insert(world.entities.enemies, {		
+		table.insert(world.entities.enemy, {		
 			--position
 			x = x or 0,
 			y = y or 0,
@@ -163,7 +163,7 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 		})
 
 	elseif type == "icicle" then
-		table.insert(world.entities.enemies, {		
+		table.insert(world.entities.enemy, {		
 			--position
 			x = x or 0,
 			y = y or 0,
@@ -189,7 +189,7 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 		})
 
 	elseif type == "floater" then
-		table.insert(world.entities.enemies, {
+		table.insert(world.entities.enemy, {
 			--movement
 			movespeed = movespeed or 100,
 			movedist = movedist or 400,
@@ -223,7 +223,7 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 		})
 	
 	elseif type == "spikeball" then
-		table.insert(world.entities.enemies, {
+		table.insert(world.entities.enemy, {
 		
 			gfx = self.textures[type],
 			w = self.textures[type]:getWidth(),
@@ -253,7 +253,7 @@ end
 function enemies:draw()
 	local count = 0
 
-	for i, enemy in ipairs(world.entities.enemies) do
+	for i, enemy in ipairs(world.entities.enemy) do
 		if enemy.alive and world:inview(enemy) then
 			count = count + 1
 				

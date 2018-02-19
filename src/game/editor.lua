@@ -166,6 +166,23 @@ editor.entities = {
 	"bumper",
 }
 
+-- entity order for selection / hover mouse
+editor.entorder = {
+    "material",
+    "trap",
+    "enemy",
+    "pickup",
+    "portal",
+    "crate",
+    "checkpoint",
+    "bumper",
+    "spring",
+    "platform",
+    "prop",
+    "decal"
+ }
+
+
 --entities which are draggable (size placement)
 editor.draggable = {
 	"platform", "platform_b", "platform_x", "platform_y", 
@@ -190,6 +207,7 @@ editor.themes = {
 
 function editor:settexture(platform)
 	--show the texture browser display
+	
 	self.texmenutimer = editor.texmenuduration
 	self.texmenuopacity = 255
 	
@@ -911,12 +929,12 @@ function editor:drawhelpmenu()
 	love.graphics.printf("toggle id display",self.helpmenu:getWidth()/8,s*21,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
-	love.graphics.print(self.binds.increase,10,s*22)
+	love.graphics.print(self.binds.incmovedist,10,s*22)
 	love.graphics.setColor(255,255,255,155)
 	love.graphics.printf("increase movedist",self.helpmenu:getWidth()/8,s*22,200,"right")
 	
 	love.graphics.setColor(155,255,255,155)
-	love.graphics.print(self.binds.decrease,10,s*23)
+	love.graphics.print(self.binds.decmovedist,10,s*23)
 	love.graphics.setColor(255,255,255,155)
 	love.graphics.printf("decrease movedist",self.helpmenu:getWidth()/8,s*23,200,"right")
 	
@@ -1029,20 +1047,7 @@ function editor:drawselected()
 
 end
 
-editor.entorder = {
-    "materials",
-    "traps",
-    "enemies",
-    "pickups",
-    "portals",
-    "crates",
-    "checkpoints",
-    "bumpers",
-    "springs",
-    "platforms",
-    "props",
-    "decals"
- }
+
 
 function editor:selection()
 	-- hilights the entity when mouseover 
@@ -1195,7 +1200,7 @@ function editor:drawmmap()
 	love.graphics.setColor(0,0,0,100)
 	love.graphics.rectangle("fill", 0,0,self.mmapw,self.mmaph)
 	
-	for i, platform in ipairs(world.entities.platforms) do
+	for i, platform in ipairs(world.entities.platform) do
 		if platform.clip == 1 then
 			love.graphics.setColor(
 				platform_r,
@@ -1221,7 +1226,7 @@ function editor:drawmmap()
 	end
 
 	love.graphics.setColor(0,255,255,255)
-	for i, crate in ipairs(world.entities.crates) do
+	for i, crate in ipairs(world.entities.crate) do
 		love.graphics.rectangle(
 			"fill", 
 			(crate.x*self.mmapscale)-camera.x*self.mmapscale+self.mmapw/2, 
@@ -1232,7 +1237,7 @@ function editor:drawmmap()
 	end
 	
 	love.graphics.setColor(255,50,50,255)
-	for i, enemy in ipairs(world.entities.enemies) do
+	for i, enemy in ipairs(world.entities.enemy) do
 		love.graphics.rectangle(
 			"fill", 
 			(enemy.x*self.mmapscale)-camera.x*self.mmapscale+self.mmapw/2, 
@@ -1243,7 +1248,7 @@ function editor:drawmmap()
 	end
 	
 	love.graphics.setColor(100,255,100,255)
-	for i, pickup in ipairs(world.entities.pickups) do
+	for i, pickup in ipairs(world.entities.pickup) do
 		love.graphics.rectangle(
 			"fill", 
 			(pickup.x*self.mmapscale)-camera.x*self.mmapscale+self.mmapw/2, 
@@ -1254,7 +1259,7 @@ function editor:drawmmap()
 	end
 	
 	love.graphics.setColor(0,255,255,255)
-	for i, checkpoint in ipairs(world.entities.checkpoints) do
+	for i, checkpoint in ipairs(world.entities.checkpoint) do
 		love.graphics.rectangle(
 			"fill", 
 			(checkpoint.x*self.mmapscale)-camera.x*self.mmapscale+self.mmapw/2, 
@@ -1265,7 +1270,7 @@ function editor:drawmmap()
 	end
 
 	love.graphics.setColor(255,30,255,255)
-	for i, spring in ipairs(world.entities.springs) do
+	for i, spring in ipairs(world.entities.spring) do
 		love.graphics.rectangle(
 			"fill", 
 			(spring.x*self.mmapscale)-camera.x*self.mmapscale+self.mmapw/2, 
@@ -1276,7 +1281,7 @@ function editor:drawmmap()
 	end
 
 	love.graphics.setColor(255,155,0,255)
-	for i, bumper in ipairs(world.entities.bumpers) do
+	for i, bumper in ipairs(world.entities.bumper) do
 		love.graphics.rectangle(
 			"fill", 
 			(bumper.x*self.mmapscale)-camera.x*self.mmapscale+self.mmapw/2, 
@@ -1287,7 +1292,7 @@ function editor:drawmmap()
 	end
 	
 	love.graphics.setColor(255,255,255,255)
-	for i, trap in ipairs(world.entities.traps) do
+	for i, trap in ipairs(world.entities.trap) do
 		love.graphics.rectangle(
 			"fill", 
 			(trap.x*self.mmapscale)-camera.x*self.mmapscale+self.mmapw/2, 

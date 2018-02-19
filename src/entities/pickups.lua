@@ -39,7 +39,7 @@ function pickups:add(x,y,type,dropped)
 		score = "2500"
 	end
 	
-	table.insert(world.entities.pickups, {
+	table.insert(world.entities.pickup, {
 		x =x or 0,
 		y =y or 0,
 		w = self.textures[type]:getWidth(),
@@ -67,7 +67,7 @@ end
 function pickups:draw()
 	local count = 0
 	local i, pickup
-	for i, pickup in ipairs(world.entities.pickups) do
+	for i, pickup in ipairs(world.entities.pickup) do
 		if not pickup.collected and world:inview(pickup) then
 			count = count + 1
 			
