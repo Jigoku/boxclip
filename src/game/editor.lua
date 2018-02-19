@@ -552,7 +552,7 @@ end
 function editor:sendtospawn()
 	--world:resetcamera()
 	-- find the spawn entity
-	for _, portal in ipairs(world.entities.portals) do
+	for _, portal in ipairs(world.entities.portal) do
 		if portal.type == "spawn" then
 			player.x = portal.x
 			player.y = portal.y

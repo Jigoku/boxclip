@@ -20,6 +20,7 @@ world.state = {} --world.entities on checkpoint
 
 --world.camera?
 
+--test parallax background layers
 test = love.graphics.newImage("data/images/test.png")
 test2 = love.graphics.newImage("data/images/test2.png")
 test:setWrap("repeat", "clamp")
@@ -33,12 +34,13 @@ function world:drawweather()
 		for i,particle in ipairs(world.weather) do
 			love.graphics.setColor(particle.r,particle.g,particle.b,particle.o)
 			love.graphics.circle("fill", particle.x,particle.y,particle.radius,particle.segments)
-			
 		end
 	end
 end
---loading/act display
+
+
 function world:initsplash()
+	--loading/act overlay
 	world.splash = {}
 	world.splash.bg = love.graphics.newImage("data/images/textures/1.png")
 	world.splash.bg:setWrap("repeat", "repeat")
@@ -54,20 +56,21 @@ end
 
 function world:settheme(theme)
 	--theme palettes for different level style
-
 	--intialize default fallbacks
 	love.filesystem.load( "themes/default.lua" )( )
 	
+	--set the desired theme name
 	world.theme = theme or "default"
 
-	-- load the theme file
+	--load the theme file
 	if love.filesystem.load( "themes/".. theme ..".lua" )( ) then 
 		console:print("failed to set theme:  " .. theme)
 	else
-		
+	
+		--background	
 		love.graphics.setBackgroundColor(background_r,background_g,background_b,255)
 		
-		--only set background if it exists
+		--only set background image if it exists
 		if type(background) == "userdata" then
 			background:setWrap("repeat", "repeat")
 			background_quad = love.graphics.newQuad( 0,0, love.graphics.getWidth(),love.graphics.getHeight(), background:getDimensions() )
@@ -140,7 +143,6 @@ function world:init(gamemode)
 	end	
 	
 	world:resetcamera()
-
 	world:savestate()
 
 	--enable cheats, if any
@@ -228,18 +230,12 @@ function world:draw()
 	
 	-- set camera for world
 	camera:attach()
-
-
 	
 	--[[ draw deadzone here
 		unimplemented
 	--]]
-	
-
 
 	love.graphics.setColor(255,255,255,255)
-	
-
 
 	decals:draw()
 	props:draw()
@@ -254,7 +250,6 @@ function world:draw()
 	traps:draw()
 	materials:draw()
 
-		
 	player:draw()	
 
 	
@@ -263,12 +258,13 @@ function world:draw()
 	popups:draw()
 
 	camera:detach()
-	camera:draw()
 
 	
 	if mode == "editing" then
 		editor:draw()
 	end
+	
+	camera:draw()
 	
 	--draw the hud/scoreboard
 	if mode =="game" then
@@ -358,13 +354,10 @@ function world:formattime(n)
 		string.format("%02d",n % 60)
 end
 
-
-
-
-
-
 	
 function world:empty()
+	--clear all entities from the world
+	--reinitialise default tables
 	world.entities = {
 		["enemy"] = {group = "enemies"},
 		["pickup"] = {group = "pickups"},
@@ -382,6 +375,7 @@ function world:empty()
 end
 
 function world:totalents()
+	--return the total number of entities
 	local c = 0
 	for _, type in pairs(world.entities) do
 		for _, e in pairs(type) do
@@ -426,6 +420,7 @@ function world:inview(entity)
 end
 
 function world:weatherUpdate(dt)
+	--rewrite this TODO
 	if world.theme == "frost" then
 
 		while #world.weather < 400 do
@@ -511,15 +506,16 @@ function world:update(dt)
 	if not paused then 
 		camera:update(dt)
 		world:weatherUpdate(dt)
-		collision:checkWorld(dt)
 		physics:world(dt)
 		popups:update(dt)
 		player:update(dt)
 		decals:update(dt)
 		portals:update(dt)
 		bumpers:update(dt)
+		
 		world.collision = 0
 
+		-- draw background
 		if type(background) == "userdata" then
 			background_scroll = background_scroll + background_scrollspeed * dt
 			if background_scroll > background:getWidth()then

@@ -24,7 +24,7 @@ platform_grass = love.graphics.newImage("data/images/tiles/grass.png")
 
 platforms.textures =  textures:load("data/images/textures/")
 
-for _,texture in ipairs(platforms.textures) do
+for _,texture in pairs(platforms.textures) do
 	texture:setWrap("repeat", "repeat")
 end
 
