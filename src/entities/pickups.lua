@@ -44,7 +44,7 @@ function pickups:add(x,y,type,dropped)
 		y =y or 0,
 		w = self.textures[type]:getWidth(),
 		h = self.textures[type]:getHeight(),
-		group = "pickups",
+		group = "pickup",
 		type = type,
 		gfx = self.textures[type],
 		collected = false,

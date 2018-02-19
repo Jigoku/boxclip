@@ -50,7 +50,7 @@ function props:add(x,y,type)
 		w = gfx:getWidth(),
 		h = gfx:getHeight(),
 		--properties
-		group = "props",
+		group = "prop",
 		type = type,
 		gfx = gfx,
 	})

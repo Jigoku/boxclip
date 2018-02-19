@@ -374,7 +374,7 @@ function world:empty()
 		["checkpoint"] = {group = "checkpoints"},
 		["spring"] = {group = "springs"},
 		["bumper"] = {group = "bumpers"},
-		["platform"] = {group = "platforms"},
+		["platform"] = {group = "platform"},
 		["prop"] = {group = "props"},
 		["decal"] = {group = "decals"},
 		["material"] = {group = "materials"}

@@ -212,7 +212,7 @@ function editor:settexture(platform)
 	self.texmenuopacity = 255
 	
 	--update the texture value
-	for _,platform in ripairs(world.entities.platforms) do
+	for _,platform in ripairs(world.entities.platform) do
 		if platform.selected then
 			local cols = math.ceil(platform.w/platforms.textures[self.texturesel]:getWidth())
 			local rows = math.ceil(platform.h/platforms.textures[self.texturesel]:getHeight())
@@ -414,12 +414,12 @@ function editor:wheelmoved(dx, dy)
 		
 	elseif love.keyboard.isDown(self.binds.texturesel) then
 		--platform texture slot selection
-		self.texturesel = math.max(1,math.min(#platforms.textures,self.texturesel +dy))
+		self.texturesel = math.max(1,math.min(#platforms.textures,self.texturesel + dy))
 		self:settexture(p)
 		
 	else
 		--entmenu selection
-		editor.entsel = math.max(1,math.min(#editor.entities,editor.entsel -dy))
+		editor.entsel = math.max(1,math.min(#editor.entities,editor.entsel + dy))
 
 	end
 end
@@ -1051,7 +1051,7 @@ end
 
 function editor:selection()
 	-- hilights the entity when mouseover 
-	editor.selname = "null"
+
 	love.graphics.setColor(0,255,0,200)
 
 	-- TODO, move some of this to :update()
@@ -1062,11 +1062,12 @@ function editor:selection()
 			--(fixes texture change issue with platforms)
 			e.selected = false
 		end
+		editor.selname = "null"
 		
 		--reverse loop
-		for _,e in ripairs(world.entities[i]) do
+		for n,e in ripairs(world.entities[i]) do
 			if world:inview(e) then
-				editor.selname = e.group .. "("..i..")"
+				editor.selname = e.group .. "("..n..")"
 				if e.movex == 1 then
 					--collision area for moving entity
 					if collision:check(self.mouse.x,self.mouse.y,1,1,e.xorigin, e.y, e.movedist+e.w, e.h) then
@@ -1163,7 +1164,7 @@ end
 function editor:copy()
 	--primitive copy (dimensions only for now)
 	for _,type in pairs(world.entities) do
-		for i, e in ripairs(type) do
+		for i, e in ipairs(type) do
 			if e.selected then
 				console:print("copied "..e.group.."("..i..")")
 				self.clipboard = e
@@ -1185,7 +1186,7 @@ function editor:paste()
 		p.xorigin = x + (p.x-x)
 		p.yorigin = y + (p.y-y)
 		table.insert(world.entities[p.group],p)
-		console:print("paste "..p.group)
+		console:print("paste "..p.group.."("..#world.entities[p.group]..")")
 	end
 end
 

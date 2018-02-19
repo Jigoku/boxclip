@@ -28,7 +28,7 @@ function materials:add(x,y,w,h,t)
 		h = h or 10,
 		quad = love.graphics.newQuad( 0,0, w,h, materials.death:getDimensions() ),
 		--properties
-		group = "materials",
+		group = "material",
 		type = t
 	})
 end

@@ -34,7 +34,7 @@ function traps:add(x,y,type)
 			w = gfx:getWidth()*2,
 			h = gfx:getHeight()*2,
 			--properties
-			group = "traps",
+			group = "trap",
 			type = type,
 			gfx = gfx,
 			falling = false,
@@ -63,7 +63,7 @@ function traps:add(x,y,type)
 		w = gfx:getWidth(),
 		h = gfx:getHeight(),
 		--properties
-		group = "traps",
+		group = "trap",
 		type = type,
 		gfx = gfx,
 		falling = false,

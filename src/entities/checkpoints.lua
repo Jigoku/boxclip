@@ -26,7 +26,7 @@ function checkpoints:add(x,y)
 		y = y or 0,
 		w = checkpoint_textures["front"]:getWidth(),
 		h = checkpoint_textures["front"]:getHeight(),
-		group = "checkpoints",
+		group = "checkpoint",
 		activated = false,
 	})
 	print( "checkpoint added @  X:"..x.." Y: "..y)

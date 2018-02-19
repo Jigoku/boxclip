@@ -22,7 +22,7 @@ function crates:add(x,y,type)
 		y = y or 0,
 		w = 50,
 		h = 50,
-		group = "crates",
+		group = "crate",
 		type = type or nil,
 		gfx = crate,
 		destroyed = false,

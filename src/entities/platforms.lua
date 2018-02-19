@@ -42,7 +42,7 @@ function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing,angle,t
 		h = h or 0,
 
 		--properties
-		group = "platforms",
+		group = "platform",
 				
 		--movement
 		movex = movex or 0,

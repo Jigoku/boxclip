@@ -59,7 +59,7 @@ function decals:add(x,y,w,h,type)
 		scroll = 0,
 		scrollspeed = scrollspeed,
 		
-		group = "decals",
+		group = "decal",
 		type = type,
 		gfx = gfx,
 		quad = love.graphics.newQuad( x,y,w,h, self.textures[type]:getDimensions() ) 

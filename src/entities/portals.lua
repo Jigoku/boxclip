@@ -31,7 +31,7 @@ function portals:add(x,y,type)
 			w = player.w,
 			h = player.h,
 			--properties
-			group = "portals",
+			group = "portal",
 			type = type,
 		})
 	
@@ -43,7 +43,7 @@ function portals:add(x,y,type)
 			w = self.textures[type]:getWidth(),
 			h = self.textures[type]:getHeight(),
 			--properties
-			group = "portals",
+			group = "portal",
 			type = type,
 			activated = false,
 			gfx = self.textures[type],

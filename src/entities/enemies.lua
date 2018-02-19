@@ -51,7 +51,7 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			h = self.textures[type]:getHeight(),
 			
 			--properties
-			group = "enemies",
+			group = "enemy",
 			type = type,
 			mass = 800,
 			xvel = 0,
@@ -85,7 +85,7 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			h = self.textures[type]:getHeight(),
 			
 			--properties
-			group = "enemies",
+			group = "enemy",
 			type = type,
 			mass = 800,
 			xvel = 0,
@@ -120,7 +120,7 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			h = height,
 			
 			--properties
-			group = "enemies",
+			group = "enemy",
 			type = type,
 			alive = true,
 			movedist = 0,
@@ -152,7 +152,7 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			h = height,
 			
 			--properties
-			group = "enemies",
+			group = "enemy",
 			type = type,
 			alive = true,
 			movedist = 0,
@@ -175,7 +175,7 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			h = self.textures[type]:getHeight(),
 			
 			--properties
-			group = "enemies",
+			group = "enemy",
 			type = type,
 			alive = true,
 			falling = false,
@@ -207,7 +207,7 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			h = self.textures[type]:getHeight(),
 		
 			--properties
-			group = "enemies",
+			group = "enemy",
 			type = type,
 			mass = 0,
 			xvel = 0,
@@ -234,7 +234,7 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			y = y or 0,
 			
 			--properties
-			group = "enemies",
+			group = "enemy",
 			type = type,
 			speed = 3,
 			alive = true,
