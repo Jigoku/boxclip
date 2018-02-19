@@ -251,8 +251,9 @@ function world:draw()
 	portals:draw()
 	pickups:draw()
 	enemies:draw()
-	materials:draw()
 	traps:draw()
+	materials:draw()
+
 		
 	player:draw()	
 
@@ -372,18 +373,18 @@ end
 	
 function world:empty()
 	world.entities = {
-		["enemies"] = {},
-		["pickups"] = {},
-		["portals"] = {},
-		["crates"] = {},
-		["traps"] = {},
-		["checkpoints"] = {},
-		["springs"] = {},
-		["bumpers"] = {},
-		["platforms"] = {},
-		["props"] = {},
-		["decals"] = {},
-		["materials"] = {}
+		["enemies"] = {group = "enemies"},
+		["pickups"] = {group = "pickups"},
+		["portals"] = {group = "portals"},
+		["crates"] = {group = "crates"},
+		["traps"] = {group = "traps"},
+		["checkpoints"] = {group = "checkpoints"},
+		["springs"] = {group = "springs"},
+		["bumpers"] = {group = "bumpers"},
+		["platforms"] = {group = "platforms"},
+		["props"] = {group = "props"},
+		["decals"] = {group = "decals"},
+		["materials"] = {group = "materials"}
 	}
 end
 

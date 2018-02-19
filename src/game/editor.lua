@@ -1029,35 +1029,55 @@ function editor:drawselected()
 
 end
 
+editor.entorder = {
+    "materials",
+    "traps",
+    "enemies",
+    "pickups",
+    "portals",
+    "crates",
+    "checkpoints",
+    "bumpers",
+    "springs",
+    "platforms",
+    "props",
+    "decals"
+ }
+
 function editor:selection()
 	-- hilights the entity when mouseover 
 	editor.selname = "null"
 	love.graphics.setColor(0,255,0,200)
 
-	for i, type in pairs(world.entities) do
-		for _,e in ipairs(type) do
+	-- TODO, move some of this to :update()
+	
+	for _, i in ipairs(self.entorder) do
+		for _,e in ipairs(world.entities[i]) do
 			--deselect all before continuing
 			--(fixes texture change issue with platforms)
 			e.selected = false
 		end
 		
 		--reverse loop
-		for _,e in ripairs(type) do
+		for _,e in ripairs(world.entities[i]) do
 			if world:inview(e) then
 				editor.selname = e.group .. "("..i..")"
 				if e.movex == 1 then
+					--collision area for moving entity
 					if collision:check(self.mouse.x,self.mouse.y,1,1,e.xorigin, e.y, e.movedist+e.w, e.h) then
 						love.graphics.rectangle("line", e.xorigin, e.y, e.movedist+e.w, e.h)
 						e.selected = true
 						return true
 					end
 				elseif e.movey == 1 then
+					--collision area for moving entity
 					if collision:check(self.mouse.x,self.mouse.y,1,1,e.xorigin, e.yorigin, e.w, e.h+e.movedist) then
 						love.graphics.rectangle("line", e.xorigin, e.yorigin,e.w, e.h+e.movedist)
 						e.selected = true
 						return true
 					end
 				elseif e.swing == 1 then
+					--collision area for swinging entity
 					if collision:check(self.mouse.x,self.mouse.y,1,1,
 							e.xorigin-platform_link_origin:getWidth()/2, e.yorigin-platform_link_origin:getHeight()/2,  
 							platform_link_origin:getWidth(),platform_link_origin:getHeight()) then
@@ -1070,6 +1090,7 @@ function editor:selection()
 							return true
 					end
 				elseif collision:check(self.mouse.x,self.mouse.y,1,1,e.x,e.y,e.w,e.h) then
+					--collision area for static entities
 						love.graphics.rectangle("line", e.x,e.y,e.w,e.h)
 						e.selected = true
 						self.texturesel = e.texture or 1
