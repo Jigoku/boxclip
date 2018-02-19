@@ -159,7 +159,7 @@ function platforms:draw()
 			--shadows
 			local offset
 			if platform.movex == 1 or (platform.movey == 1) then
-				 offset = 4
+				 offset = 2
 			else
 				 offset = 10
 			end

@@ -1121,28 +1121,27 @@ end
 
 function editor:remove()
 	--removes the currently selected entity from the world
-	
-	for _, type in pairs(world.entities) do
-		for i,e in ripairs(type) do
+	for _, i in ipairs(self.entorder) do
+		for n,e in ipairs(world.entities[i]) do
 			if e.selected then
 				if e.movex == 1 then
-					table.remove(type,i)
-					print( e.group .. " (" .. i .. ") removed" )
+					table.remove(world.entities[i],n)
+					print( e.group .. " (" .. n .. ") removed" )
 					return true
 				
 				elseif e.movey == 1 then
-					print( e.group .. " (" .. i .. ") removed" )
-					table.remove(type,i)
+					print( e.group .. " (" .. n .. ") removed" )
+					table.remove(world.entities[i],n)
 					return true
 				
 				elseif e.swing == 1 then	
-					print( e.group .. " (" .. i .. ") removed" )
-					table.remove(type,i)
+					print( e.group .. " (" .. n .. ") removed" )
+					table.remove(world.entities[i],n)
 					return true
 
 				else
-					print( e.group .. " (" .. i .. ") removed" )
-					table.remove(type,i)
+					print( e.group .. " (" .. n .. ") removed" )
+					table.remove(world.entities[i],n)
 					return true
 			
 				end
