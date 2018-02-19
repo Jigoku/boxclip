@@ -81,7 +81,32 @@ function world:settheme(theme)
 	
 end
 
+function world:setdefaults()
+	--defaults in case not specified in map file
+	
+	--default gravity
+	world.gravity = 2000
 
+	--default deadzone
+	-- anything falling past this point will land here
+	-- (used to stop entities being lost, eg; falling forever)
+	-- if it collides with gameworld, increase this value so it's below the furthest entity
+	world.deadzone = 2000 
+	
+	--default theme/pallete
+	world:settheme("default")
+	
+	--default sound options
+	world.mapmusic = 0
+	world.mapambient = 0
+	
+	--default map title
+	world.maptitle = "unnamed map"
+	
+	--default map to load on finish
+	--either mapname.lua or title
+	world.nextmap = "title"
+end
 
 function world:init(gamemode) 
 	
@@ -101,23 +126,11 @@ function world:init(gamemode)
 	--collision counter (console/debug)
 	world.collision = 0
 	
-	--move this setting into map files
-	--once editor menu can adjust variables
-	world.gravity = 2000
-
-	-- 
-	-- y co-ordinate of deadzone
-	-- anything falling past this point will land here
-	-- (used to stop entities being lost, eg; falling forever)
-	-- if it collides with gameworld, increase this value so it's below the map
-	-- possibly draw this as unlimited width across the world using setViewPort and camera trickery?
-	world.bedrock = 2000 
-	
 	--level time / scoreboard
 	world.time = 0
 	
 	world:empty()
-
+	world:setdefaults()
 	mapio:loadmap(world.map)
 
 	-- find the spawn entity
@@ -220,7 +233,7 @@ function world:draw()
 
 
 	
-	--[[ draw bedrock here
+	--[[ draw deadzone here
 		unimplemented
 	--]]
 	

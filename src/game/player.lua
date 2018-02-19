@@ -27,7 +27,7 @@ function player:init()
 	self.y = spawnY 
 
 	self.speed = 500 --600
-	self.friction = 200
+	self.friction = 300
 	self.xvel = 0
 	self.yvel = 0
 	self.jumpheight = 800

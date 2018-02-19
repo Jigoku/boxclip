@@ -39,8 +39,8 @@ function physics:applyVelocity(object, dt)
 			end
 		end
 		
-		-- increase friction when 'idle' until velocity is nullified
-		if object.dir == "idle" and object.xvel ~= 0 then
+		-- increase friction when 'idle' until velocity is zero
+		if object.dir == "idle" then
 			if object.xvel > 0 then
 				object.xvel = math.max(0,object.xvel - (object.friction *dt))
 			elseif object.xvel < 0 then
@@ -48,11 +48,10 @@ function physics:applyVelocity(object, dt)
 			end
 		end
 		
-		-- velocity limits
-		--if object.xvel > object.speed then object.xvel = object.speed end
-		--if object.xvel < -object.speed then object.xvel = -object.speed end
+		-- velocity limits (breaks springs, find workaround)
+		--object.xvel = math.min(object.speed,math.max(-object.speed,object.xvel))
 
-		object.newX =object.x + ((object.xvel +object.xvelboost)  *dt)
+		object.newX = object.x + (object.xvel *dt)
 		
 	end
 end
@@ -395,12 +394,10 @@ function physics:platforms(object, dt)
 	
 end
 
-
 function physics:update(object)
 	if object.newY then object.y = object.newY,2 end
 	if object.newX then object.x = object.newX,2 end
 end
-
 
 function physics:pickups(dt)
 
@@ -426,10 +423,10 @@ function physics:pickups(dt)
 			
 			self:update(pickup)
 			
-			if pickup.y+pickup.h > world.bedrock  then
+			if pickup.y+pickup.h > world.deadzone  then
 				pickup.yvel = 0
 				pickup.jumping = false
-				pickup.y = world.bedrock - pickup.h +1 *dt
+				pickup.y = world.deadzone - pickup.h +1 *dt
 			end
 			
 			if mode == "game" and not pickup.collected then	
@@ -483,10 +480,10 @@ function physics:enemies(dt)
 				self:update(enemy)
 				
 				
-				if enemy.y+enemy.h > world.bedrock  then
+				if enemy.y+enemy.h > world.deadzone  then
 					enemy.yvel = 0
 					enemy.jumping = false
-					enemy.y = world.bedrock - enemy.h +1 *dt
+					enemy.y = world.deadzone - enemy.h +1 *dt
 					console:print(enemy.name .. "("..i..") out of bounds")
 				end
 				
@@ -594,7 +591,7 @@ function physics:enemies(dt)
 					
 					self:update(enemy)
 					
-					if enemy.y+enemy.h > world.bedrock  then
+					if enemy.y+enemy.h > world.deadzone  then
 						enemy.falling = false
 						enemy.alive = false
 					end
@@ -659,10 +656,10 @@ function physics:player(dt)
 			self:platforms(player, dt)
 			self:update(player)
 			
-			if player.y+player.h > world.bedrock  then
+			if player.y+player.h > world.deadzone  then
 				player.yvel = 0
 				player.jumping = false
-				player.y = world.bedrock - player.h +1 *dt
+				player.y = world.deadzone - player.h +1 *dt
 			end
 			
 		else

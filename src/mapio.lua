@@ -16,7 +16,6 @@
 mapio = {}
 mapio.path = love.filesystem.getSaveDirectory( )
 
-
 --create maps folder if it doesn't exist
 if not love.filesystem.exists( mapio.path .. "/maps/" ) then
 	love.filesystem.createDirectory( "maps" )
@@ -38,11 +37,12 @@ function mapio:savemap(map)
 		love.window.showMessageBox(errortitle, errormessage, "error")
 	end
 	
+	fh:write("world.gravity = ".. world.gravity .."\n")
 	fh:write("world.mapmusic = ".. world.mapmusic .."\n")
 	fh:write("world.mapambient = "..world.mapambient.."\n")
 	fh:write("world.maptitle = \"".. (world.maptitle  or "unnamed map") .."\"\n")
 	fh:write("world.nextmap = \"".. (world.nextmap or "title") .."\"\n")
-
+	fh:write("world.deadzone = ".. world.deadzone .."\n")
 	fh:write("world:settheme(\""..world.theme.."\")\n")
 	
 	for i, entity in ipairs(entities.match(world.entities,"platform")) do
@@ -91,18 +91,10 @@ end
 
 
 function mapio:loadmap(mapname)
-	--defaults in case not specified in map file
-	world:settheme("default")
-	world.mapmusic = 0
-	world.mapambient = 0
-	world.maptitle = "unnamed map"
-	world.nextmap = "title"
-	
 	if love.filesystem.load("maps/".. mapname  )( ) then 
 		console:print("failed to load map:  " .. mapname)
 	else
 		console:print("load map: " .. mapname)
-	
 	end
 end
 
