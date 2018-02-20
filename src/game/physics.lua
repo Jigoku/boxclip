@@ -18,23 +18,26 @@ physics = {}
 
 
 function physics:applyVelocity(object, dt) 
+	--allow extra movement whilst jumping
+	local multiplier = 1.3
+	
 	if object.alive then
 		-- x-axis friction
 		if object.dir == "right" then
 			if object.xvel < object.speed  then
 				if object.jumping then
-					object.xvel = (object.xvel + object.speed *dt)
+					object.xvel = (object.xvel + object.speed *multiplier *dt)
 				else
-					object.xvel = (object.xvel + object.speed*1.25 *dt)
+					object.xvel = (object.xvel + object.speed *dt)
 				end
 			end
 		end
 		if object.dir == "left"  then
 			if not (object.xvel < -object.speed)  then
 				if object.jumping then
-					object.xvel = (object.xvel - object.speed *dt)
+					object.xvel = (object.xvel - object.speed *multiplier *dt)
 				else
-					object.xvel = (object.xvel - object.speed*1.25 *dt)
+					object.xvel = (object.xvel - object.speed *dt)
 				end
 			end
 		end
@@ -267,8 +270,11 @@ function physics:bumpers(object,dt)
 
 			
 		if collision:right(object,bumper) and not collision:top(object,bumper) then
+		
+
 			object.newX = bumper.x+bumper.w +1 *dt
 			object.xvel = bumper.force
+			
 					
 			elseif collision:left(object,bumper) and not collision:top(object,bumper) then
 				object.newX = bumper.x-object.w -1 *dt
@@ -803,10 +809,9 @@ function physics:portals(dt)
 							portal.gfx = portals.textures["goal_activated"]
 							popups:add(portal.x-portal.w,portal.y+portal.h/2,"LEVEL COMPLETE")
 							sound:play(sound.effects["goal"])
-							
 							sound:playbgm(10)
-
 							console:print("goal reached")	
+							world.complete = true
 						end
 					end
 			end

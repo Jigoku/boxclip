@@ -209,6 +209,7 @@ function player:respawn()
 	self.jumping = false
 	self.dir = "idle"
 	self.lastdir = "idle"
+	self.gems = 0
 	self.alive = true
 	self.candrop = false
 	self.invincible = false

@@ -98,20 +98,15 @@ end
 
 function portals:update(dt)
 	if world.nextmap then
-
 		for _,p in ipairs(world.entities.portal) do
 			if p.type == "goal" and p.activated then
 				p.timer = math.max(0, p.timer - dt)
-				
 				if p.timer <= 0 then
 					if world.nextmap == "title" then title:init() return end
 					world.map = world.nextmap
 					world:init("game")
-					player.gems = 0
 				end
-		
 			end
 		end
-		
 	end	
 end

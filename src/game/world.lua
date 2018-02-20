@@ -88,6 +88,16 @@ function world:setdefaults()
 	--default gravity
 	world.gravity = 2000
 
+	--default scores (used to track/reset on death)
+	-- for remembering player.score and player.gems
+	world.score = 0
+	world.gems = 0
+	
+	--reset time
+	world.time = 0
+	
+	world.complete = false
+	
 	--default deadzone
 	-- anything falling past this point will land here
 	-- (used to stop entities being lost, eg; falling forever)
@@ -127,10 +137,8 @@ function world:init(gamemode)
 	--collision counter (console/debug)
 	world.collision = 0
 	
-	--level time / scoreboard
-	world.time = 0
 	
-	world:empty()
+	world:reset()
 	world:setdefaults()
 	mapio:loadmap(world.map)
 
@@ -343,8 +351,10 @@ function world:drawscoreboard()
 end
 
 function world:timer(dt)
-	--update the world time
-	world.time = world.time + 1 *dt	
+	if not world.complete then
+		--update the world time
+		world.time = world.time + 1 *dt	
+	end
 end
 
 
@@ -355,9 +365,11 @@ function world:formattime(n)
 end
 
 	
-function world:empty()
+function world:reset()
 	--clear all entities from the world
 	--reinitialise default tables
+	--player.score = world.score
+	--player.gems = player.gems
 	world.entities = {
 		["enemy"] = {group = "enemies"},
 		["pickup"] = {group = "pickups"},
@@ -556,10 +568,14 @@ function world:resetcamera()
 end
 
 function world.savestate()
+	world.score = player.score
+	world.gems = player.gems
 	world.state = table.deepcopy(world.entities)
 end
 
 function world.loadstate()
+	player.score = world.score
+	player.gems = world.gems
 	world.entities = table.deepcopy(world.state)
 end
 
