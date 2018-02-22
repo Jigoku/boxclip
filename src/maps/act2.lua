@@ -1,5 +1,5 @@
 world.gravity = 2000
-world.mapmusic = 12
+world.mapmusic = 13
 world.mapambient = 1
 world.maptitle = "Sunny Hill Act 2"
 world.nextmap = "act3.lua"

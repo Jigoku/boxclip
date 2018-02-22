@@ -410,7 +410,7 @@ function physics:pickups(dt)
 	for i, pickup in ipairs(world.entities.pickup) do			
 		if not pickup.collected then
 			--pulls all gems to player when attract = true
-			if world:inview(pickup) and pickup.attract then
+			if pickup.attract then
 				if player.alive then
 					local angle = math.atan2(player.y+player.h/2 - pickup.h/2 - pickup.y, player.x+player.w/2 - pickup.w/2 - pickup.x)
 					pickup.newX = pickup.x + (math.cos(angle) * pickup.mass/2 * dt)
