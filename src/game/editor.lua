@@ -518,10 +518,8 @@ function editor:mousereleased(x,y,button)
 		return
 	end
 	
-	
+	--reorder entity (sendtoback)
 	if button == 3 then
-	--possibly merge this code into a function also used by editor:selection as it is pretty much identical
-
 		for _,i in ipairs(self.entorder) do
 			for n,e in ripairs(world.entities[i]) do
 				if e.selected then
@@ -1043,16 +1041,14 @@ function editor:selection()
 
 	-- TODO, move some of this to :update()
 
-	for _, i in ipairs(self.entorder) do
-
+	
+	for _, i in ipairs(self.entorder) do	
 		for _,e in ipairs(world.entities[i]) do
 			--deselect all before continuing
-			--(fixes texture change issue with platforms)
+			--stops weird texture change bug for non-selected platforms
 			e.selected = false
 		end
-		
-		editor.selname = "null"
-		
+	
 		--reverse loop
 		for n,e in ripairs(world.entities[i]) do
 			if world:inview(e) then
@@ -1076,24 +1072,24 @@ function editor:selection()
 				elseif e.swing == 1 then
 					--collision area for swinging entity
 					if collision:check(self.mouse.x,self.mouse.y,1,1,
-							e.xorigin-platform_link_origin:getWidth()/2, e.yorigin-platform_link_origin:getHeight()/2,  
-							platform_link_origin:getWidth(),platform_link_origin:getHeight()) then
+						e.xorigin-platform_link_origin:getWidth()/2, e.yorigin-platform_link_origin:getHeight()/2,  
+						platform_link_origin:getWidth(),platform_link_origin:getHeight()) then
 						
-							love.graphics.rectangle("line", 
-								e.xorigin-platform_link_origin:getWidth()/2, e.yorigin-platform_link_origin:getHeight()/2,  
-								platform_link_origin:getWidth(),platform_link_origin:getHeight()
-							)
-							e.selected = true
-							return true
+						love.graphics.rectangle("line", 
+							e.xorigin-platform_link_origin:getWidth()/2, e.yorigin-platform_link_origin:getHeight()/2,  
+							platform_link_origin:getWidth(),platform_link_origin:getHeight()
+						)
+						e.selected = true
+						return true
 					end
 				elseif collision:check(self.mouse.x,self.mouse.y,1,1,e.x,e.y,e.w,e.h) then
 					--collision area for static entities
-						love.graphics.rectangle("line", e.x,e.y,e.w,e.h)
-						e.selected = true
-						self.texturesel = e.texture or 1
-						return true
+					love.graphics.rectangle("line", e.x,e.y,e.w,e.h)
+					e.selected = true
+					self.texturesel = e.texture or 1
+					return true
 				else
-					e.selected = false
+					editor.selname = "null"
 				end
 			end
 		end
