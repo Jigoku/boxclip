@@ -104,10 +104,9 @@ function platforms:draw()
 	local count = 0
 
 	for i, platform in ipairs(world.entities.platform) do
-		
 		if world:inview(platform) then
-		count = count + 1
-
+			count = count + 1
+			
 			if platform.swing == 1 then
 				platforms:drawlink(platform, radius)
 					
@@ -159,7 +158,7 @@ function platforms:draw()
 			--shadows
 			local offset
 			if platform.movex == 1 or (platform.movey == 1) then
-				 offset = 2
+				 offset = 4
 			else
 				 offset = 10
 			end

@@ -20,6 +20,7 @@ benchmark.total = 200 --width of widget / number of ticks in history
 benchmark.multiplier = 10
 benchmark.canvas = love.graphics.newCanvas(benchmark.total,200)
 
+
 function benchmark.start()
 	benchmark.tick_start = love.timer.getTime()*1000
 end
@@ -70,6 +71,7 @@ function benchmark.draw(x,y)
 			0+i,
 			benchmark.canvas:getHeight()-benchmark.ticks[i]*benchmark.multiplier
 		)
+
 	end		
 
 	-- print average ms

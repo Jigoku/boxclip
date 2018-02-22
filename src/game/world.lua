@@ -368,21 +368,23 @@ end
 function world:reset()
 	--clear all entities from the world
 	--reinitialise default tables
-	--player.score = world.score
-	--player.gems = player.gems
+
 	world.entities = {
+		--maybe these should be swapped around
+		--then use group name for entity info (editor)
+		["material"] = {group = "materials"},
+		["trap"] = {group = "traps"},
 		["enemy"] = {group = "enemies"},
 		["pickup"] = {group = "pickups"},
 		["portal"] = {group = "portals"},
 		["crate"] = {group = "crates"},
-		["trap"] = {group = "traps"},
 		["checkpoint"] = {group = "checkpoints"},
-		["spring"] = {group = "springs"},
 		["bumper"] = {group = "bumpers"},
+		["spring"] = {group = "springs"},
 		["platform"] = {group = "platform"},
 		["prop"] = {group = "props"},
-		["decal"] = {group = "decals"},
-		["material"] = {group = "materials"}
+		["decal"] = {group = "decals"}
+
 	}
 end
 
@@ -398,7 +400,7 @@ function world:totalents()
 end
 
 function world:totalentsdrawn()
-	--returns total drawn entities
+	--returns total drawn entities visible on screen
 	return world.pickups+world.enemies+world.platforms+world.crates+
 		world.checkpoints+world.portals+world.props+world.springs+world.decals+world.traps
 end

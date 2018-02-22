@@ -450,6 +450,7 @@ function editor:mousepressed(x,y,button)
 		if selection == "crate" then crates:add(x,y,"gem") end
 		
 		if selection == "walker" then enemies:add(x,y,100,100,0,"walker") end
+		
 		if selection == "floater" then enemies:add(x,y,100,400,0,"floater") end
 		if selection == "spikeball" then enemies:add(x,y,0,0,0,"spikeball") end
 		if selection == "spike" then enemies:add(x,y,0,0,self.entdir,"spike") end
@@ -521,25 +522,11 @@ function editor:mousereleased(x,y,button)
 	if button == 3 then
 	--possibly merge this code into a function also used by editor:selection as it is pretty much identical
 
-		for _,type in pairs(world.entities) do
-			for i,e in ripairs(type) do
+		for _,i in ipairs(self.entorder) do
+			for n,e in ripairs(world.entities[i]) do
 				if e.selected then
-					if e.movex == 1 then
-						world:sendtoback(type,i)
-						return true
-						
-					elseif e.movey == 1 then
-						world:sendtoback(type,i)
-						return true
-						
-					elseif e.swing == 1 then
-						world:sendtoback(type,i)
-						return true
-			
-					else
-						world:sendtoback(type,i)
-						return true
-					end
+					world:sendtoback(world.entities[i],n)
+					return true
 				end
 			end
 		end
@@ -1055,13 +1042,15 @@ function editor:selection()
 	love.graphics.setColor(0,255,0,200)
 
 	-- TODO, move some of this to :update()
-	
+
 	for _, i in ipairs(self.entorder) do
+
 		for _,e in ipairs(world.entities[i]) do
 			--deselect all before continuing
 			--(fixes texture change issue with platforms)
 			e.selected = false
 		end
+		
 		editor.selname = "null"
 		
 		--reverse loop
@@ -1073,6 +1062,7 @@ function editor:selection()
 					if collision:check(self.mouse.x,self.mouse.y,1,1,e.xorigin, e.y, e.movedist+e.w, e.h) then
 						love.graphics.rectangle("line", e.xorigin, e.y, e.movedist+e.w, e.h)
 						e.selected = true
+						self.texturesel = e.texture or 1
 						return true
 					end
 				elseif e.movey == 1 then
@@ -1080,6 +1070,7 @@ function editor:selection()
 					if collision:check(self.mouse.x,self.mouse.y,1,1,e.xorigin, e.yorigin, e.w, e.h+e.movedist) then
 						love.graphics.rectangle("line", e.xorigin, e.yorigin,e.w, e.h+e.movedist)
 						e.selected = true
+						self.texturesel = e.texture or 1
 						return true
 					end
 				elseif e.swing == 1 then
@@ -1101,6 +1092,8 @@ function editor:selection()
 						e.selected = true
 						self.texturesel = e.texture or 1
 						return true
+				else
+					e.selected = false
 				end
 			end
 		end
@@ -1159,6 +1152,7 @@ function editor:rotate()
 		self.entdir = 0
 	end
 end
+
 
 function editor:copy()
 	--primitive copy (dimensions only for now)

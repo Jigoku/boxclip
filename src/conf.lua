@@ -14,7 +14,7 @@ function love.conf(t)
 	t.window.height = default_height
 	t.window.minwidth = default_width
 	t.window.minheight = default_height
-	t.modules.joystick = false
+	t.modules.joystick = true
 	t.modules.physics = false
 	t.modules.touch = false
 	t.modules.video = false 

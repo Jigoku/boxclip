@@ -145,6 +145,8 @@ function love.draw()
 	if console.show then console:draw() end
 
 	if benchmark then benchmark.draw(love.graphics.getWidth()-benchmark.canvas:getWidth()-10,10) end
+	
+    
 	-- caps fps
 	local cur_time = love.timer.getTime()
 	if game.next_time <= cur_time then
