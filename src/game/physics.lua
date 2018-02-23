@@ -759,7 +759,7 @@ function physics:traps(object, dt)
 									if mode == "game" and object.group == "players" then
 										popups:add(trap.x+trap.w/2,trap.y+trap.h/2,"+"..trap.score)
 										player.score = player.score +trap.score
-										--world:sendtofront(traps,i)
+										world:sendtofront(world.entities.trap,i)
 										trap.yvel = 500							
 										trap.falling = true
 										sound:play(sound.effects["brick"])
