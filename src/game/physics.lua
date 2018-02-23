@@ -159,7 +159,21 @@ function physics:world(dt)
 	self:checkpoints(dt)
 	self:portals(dt)
 	self:materials(dt)
-	
+	self:deadzone(dt)
+end
+
+
+function physics:deadzone(dt)
+	for _,t in pairs(world.entities) do
+		for n,e in ipairs(t) do
+			if e.y+e.h > world.deadzone then
+				e.yvel = 0
+				e.xvel = 0
+				e.y = world.deadzone - e.h +1 *dt
+				console:print(e.group .. "("..n..") out of bounds (x:"..math.round(e.x).." y:"..math.round(e.y)..")")
+			end
+		end
+	end
 end
 
 function physics:bounce(object,dt)
@@ -422,12 +436,6 @@ function physics:pickups(dt)
 			
 			self:update(pickup)
 			
-			if pickup.y+pickup.h > world.deadzone  then
-				pickup.yvel = 0
-				pickup.jumping = false
-				pickup.y = world.deadzone - pickup.h +1 *dt
-			end
-			
 			if mode == "game" and not pickup.collected then	
 				if player.hasmagnet then
 					if collision:check(player.x-pickups.magnet_power,player.y-pickups.magnet_power,
@@ -477,14 +485,6 @@ function physics:enemies(dt)
 				self:traps(enemy, dt)
 				self:platforms(enemy, dt)
 				self:update(enemy)
-				
-				
-				if enemy.y+enemy.h > world.deadzone  then
-					enemy.yvel = 0
-					enemy.jumping = false
-					enemy.y = world.deadzone - enemy.h +1 *dt
-					console:print(enemy.group .. "("..i..") out of bounds")
-				end
 				
 				-- NOT ACTIVE WHILST EDITING
 				if mode == "game" and player.alive and collision:check(player.newX,player.newY,player.w,player.h,
@@ -589,11 +589,7 @@ function physics:enemies(dt)
 					end
 					
 					self:update(enemy)
-					
-					if enemy.y+enemy.h > world.deadzone  then
-						enemy.falling = false
-						enemy.alive = false
-					end
+
 				else
 					--make dropped spikes act like platforms???
 				end
@@ -654,12 +650,6 @@ function physics:player(dt)
 			self:bumpers(player,dt)
 			self:platforms(player, dt)
 			self:update(player)
-			
-			if player.y+player.h > world.deadzone  then
-				player.yvel = 0
-				player.jumping = false
-				player.y = world.deadzone - player.h +1 *dt
-			end
 			
 		else
 			--death physics (float up)
