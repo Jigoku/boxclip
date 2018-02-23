@@ -187,7 +187,8 @@ function physics:crates(object,dt)
 			if collision:check(crate.x,crate.y,crate.w,crate.h,
 				object.newX,object.newY,object.w,object.h) and not crate.destroyed then
 				object.candrop = false
-
+				object.carried = false
+				
 				if object.jumping and mode == "game" then 
 					console:print("crate(" .. i..") destroyed, item ="..crate.type)
 					popups:add(crate.x+crate.w/2,crate.y+crate.h/2,"+"..crate.score)
@@ -200,8 +201,29 @@ function physics:crates(object,dt)
 						crate.type
 					)
 				end
+				
+				if collision:top(object,crate) then
+					object.carried = true
+					object.newY = crate.y - object.h -1 *dt
 					
-				if collision:right(object,crate) then
+					if object.jumping then
+						object.yvel = player.jumpheight
+					elseif object.bounce then
+						self:bounce(object)
+					else
+						object.yvel = 0
+					end
+					
+				elseif collision:bottom(object,crate) then
+					object.newY = crate.y +crate.h  +1 *dt
+
+					if object.jumping then
+						object.yvel = -player.jumpheight
+					else
+						object.yvel = 0
+					end
+					
+				elseif collision:right(object,crate) then
 					object.newX = crate.x+crate.w +1 *dt
 					object.xvelboost = 0
 					
@@ -221,25 +243,7 @@ function physics:crates(object,dt)
 						object.xvel = 0
 					end
 					
-				elseif collision:bottom(object,crate) then
-					object.newY = crate.y +crate.h  +1 *dt
 
-					if object.jumping then
-						object.yvel = -player.jumpheight
-					else
-						object.yvel = 0
-					end
-					
-				elseif collision:top(object,crate) then
-					object.newY = crate.y - object.h -1 *dt
-					
-					if object.jumping then
-						object.yvel = player.jumpheight
-					elseif object.bounce then
-						self:bounce(object)
-					else
-						object.yvel = 0
-					end
 				end		
 			end
 		end
@@ -346,6 +350,8 @@ function physics:platforms(object, dt)
 				platform.carrying = false
 				
 				if collision:top(object,platform)  then
+					object.carried = true
+					
 					if platform.clip == 0 then
 						object.candrop = true
 					else
@@ -371,13 +377,12 @@ function physics:platforms(object, dt)
 					if platform.movex == 1 then
 						-- move along x-axis with platform	
 						object.newX = object.newX + platform.movespeed *dt
-						object.carried = true
-						platform.carrying = true
+
 					end
 
 					if platform.swing == 1 then	
 						object.carried = true
-						platform.carrying = true
+						
 						object.newX =  platform.radius * math.cos(platform.angle) + platform.xorigin +platform.w/2 - object.w/2
 						object.newY = platform.y - object.h+1 *dt
 						object.yvel = -player.jumpheight
@@ -394,8 +399,7 @@ function physics:platforms(object, dt)
 							--going down
 							object.newY = platform.y - object.h +1 + (platform.movespeed *dt)
 						end
-						--object.carried = true
-						platform.carrying = true
+						
 					end		
 						
 					
@@ -473,9 +477,10 @@ function physics:enemies(dt)
 			
 				--test
 				--hopper enemy, move this statement to a new entity TODO
-				
-				if enemy.x <= enemy.xorigin or enemy.x >= enemy.xorigin + enemy.movedist then
-					enemy.yvel=500	
+				if enemy.carried then
+					if enemy.x <= enemy.xorigin or enemy.x >= enemy.xorigin + enemy.movedist then
+						enemy.yvel=500	
+					end
 				end
 				self:applyGravity(enemy, dt)
 				--enemy.yorigin = enemy.newY
@@ -716,10 +721,11 @@ function physics:traps(object, dt)
 	for i, trap in ipairs(world.entities.trap) do
 		if trap.active then
 			if collision:check(object.newX,object.newY,object.w,object.h, trap.x,trap.y,trap.w,trap.h) then
-			
+				object.carried = false
 				if trap.type == "log" or trap.type == "bridge" then
 					if collision:top(object,trap) and object.yvel < 0 then
 						object.newY = trap.y - object.h -1 *dt
+						object.carried = true
 						
 						if object.jumping then
 							object.jumping = false
@@ -753,6 +759,8 @@ function physics:traps(object, dt)
 							object.yvel = 0
 			
 						elseif collision:top(object,trap) then
+							object.carried = true
+							
 							if object.jumping then
 								object.newY = trap.y - object.h -1 *dt
 								object.yvel = math.max(-object.yvel/1.5,player.jumpheight/2)

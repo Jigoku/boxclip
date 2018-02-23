@@ -62,7 +62,7 @@ function world:endoflevel()
 	world.scoreboard.timer = 12
 	world.scoreboard.title = world.maptitle
 	world.scoreboard.status = "GOAL REACHED"
-	world.scoreboard.w = 400
+	world.scoreboard.w = 500
 	world.scoreboard.h = 300
 	world.scoreboard.padding = 10
 	world.scoreboard.canvas = love.graphics.newCanvas(world.scoreboard.w,world.scoreboard.h)
