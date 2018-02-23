@@ -36,7 +36,7 @@ function player:init()
 	self.lastdir = "idle"
 	self.score = 0
 	self.alive = true
-	self.lives = 3	
+	self.lives = 0
 	self.gems = 0
 	self.angle = 0
 	self.camerashift = 50
@@ -157,7 +157,7 @@ function player:update(dt)
 	end
 
 	-- end game if no lives left
-	if player.lives <= 0 then
+	if player.lives < 0 then
 		console:print("game over")
 		--add game over transition screen
 		--should fade in, press button to exit to title
@@ -193,7 +193,6 @@ function player:respawn()
 	self.jumping = false
 	self.dir = "idle"
 	self.lastdir = "idle"
-	self.gems = 0
 	self.alive = true
 	self.candrop = false
 	self.invincible = false

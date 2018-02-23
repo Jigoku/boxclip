@@ -154,7 +154,7 @@ function world:init(gamemode)
 	--collision counter (console/debug)
 	world.collision = 0
 	
-	
+	player:init() 
 	world:reset()
 	world:setdefaults()
 	mapio:loadmap(world.map)
