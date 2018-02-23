@@ -97,7 +97,7 @@ editor.entmenuh = 300
 editor.entmenu = love.graphics.newCanvas(editor.entmenuw,editor.entmenuh)
 	
 -- help menu
-editor.helpmenuw = 240
+editor.helpmenuw = 420
 editor.helpmenuh = 500
 editor.helpmenu = love.graphics.newCanvas(editor.helpmenuw,editor.helpmenuh)
 
@@ -204,6 +204,109 @@ editor.themes = {
 }
 
 
+editor.help = {
+	{ 
+		editor.binds.edittoggle, 
+		"toggle editmode" 
+	},
+	{ 
+		binds.screenshot, 
+		"take a screenshot" 
+	},
+	{ 
+		binds.savefolder, 
+		"open local data directory" 
+	},
+	{ 
+		editor.binds.up..","..editor.binds.left..","..editor.binds.down..","..editor.binds.right, 
+		"move"
+	},
+	{
+		"left mouse",
+		"select/drag"
+	},
+	{
+		"right mouse",
+		"remove entity"
+	},
+	{
+		"mouse wheel",
+		"select entity type"
+	},
+	{
+		editor.binds.entrotate,
+		"set entity placement direction"
+	},
+	{
+		editor.binds.moveup..","..editor.binds.moveleft..","..editor.binds.movedown..","..editor.binds.moveright,
+		"move entity"
+	},
+	{
+		editor.binds.themecycle,
+		"set the world theme"
+	},
+	{
+		editor.binds.entcopy,
+		"copy entity to clipboard"
+	},	
+	{
+		editor.binds.entpaste,
+		"paste entity from clipboard"
+	},
+	{
+		editor.binds.savemap,
+		"save map"
+	},
+	{
+		binds.exit,
+		"exit to title"
+	},
+	{
+		binds.debug,
+		"toggle debug console"
+	},
+	{
+		editor.binds.guidetoggle,
+		"toggle grid display"
+	},
+	{
+		editor.binds.maptoggle,
+		"toggle minimap display"
+	},
+	{
+		editor.binds.helptoggle,
+		"toggle help display"
+	},
+	{
+		editor.binds.respawn,
+		"move camera to spawn entity"
+	},
+	{
+		editor.binds.showpos,
+		"toggle entity coordinates"
+	},
+	{
+		editor.binds.showid,
+		"toggle entity id"
+	},
+	{	
+		editor.binds.decmovedist .. "/" .. editor.binds.incmovedist,
+		"increase/decrease move distance"
+	},
+	{
+		editor.binds.texturesel .. " + scroll",
+		"change entity texture"
+	},
+	{
+		editor.binds.musicnext  .. "/" .. editor.binds.musicprev,
+		"set world music"
+	},
+	{
+		editor.binds.camera .. " + scroll",
+		"set camera zoom level"
+	}
+	
+}
 
 function editor:settexture(platform)
 	--show the texture browser display
@@ -254,6 +357,7 @@ function editor:update(dt)
 			self.texmenuopacity = math.max(0,self.texmenuopacity - self.texmenufadespeed * dt)
 		end
 	end
+	
 end
 
 function editor:settheme()
@@ -798,16 +902,27 @@ function editor:drawselbox()
 end
 
 
+function editor:formathelp(t)
+	local s = 15 -- vertical spacing
+	love.graphics.setFont(fonts.menu)
+	for i,item in ipairs(t) do
+		love.graphics.setColor(155,255,255,155)
+		love.graphics.print(string.upper(item[1]),10,s*i+s); 
+		love.graphics.setColor(255,255,255,155)
+		love.graphics.printf(item[2],150,s*i+s,fonts.menu:getWidth(item[2]),"left")
+	end
+	love.graphics.setFont(fonts.default)
+end
+
+
 function editor:drawhelpmenu()
-	
-	--this needs reworking
-	
+		
 	love.graphics.setCanvas(self.helpmenu)
 	love.graphics.clear()
 	
 	--frame
-	love.graphics.setColor(0,0,0,200)
-	love.graphics.rectangle("fill",0,0, self.helpmenu:getWidth(), self.helpmenu:getHeight())
+	love.graphics.setColor(0,0,0,150)
+	love.graphics.rectangle("fill",0,0, self.helpmenu:getWidth(), self.helpmenu:getHeight(),10)
 	--border
 	love.graphics.setColor(255,255,255,150)
 	love.graphics.rectangle("fill",0,0, self.helpmenu:getWidth(), 5)
@@ -818,137 +933,15 @@ function editor:drawhelpmenu()
 	--hrule
 	love.graphics.setColor(255,255,255,150)
 	love.graphics.rectangle("fill",10,25, self.helpmenu:getWidth()-10, 1)
-	
-	local s = 15 -- vertical spacing
 
-	
+
+	--menu title
 	love.graphics.setColor(255,255,255,155)
 	love.graphics.printf("["..self.binds.helptoggle.."] to close",self.helpmenu:getWidth()-110,10,100,"right")
 		
-	love.graphics.setFont(fonts.menu)
+	--loop bind/key description and format it
+	self:formathelp(self.help)
 
-	love.graphics.setColor(155,255,255,155)
-	love.graphics.print(self.binds.edittoggle,10,s*2); 
-	love.graphics.setColor(255,255,255,155)
-	love.graphics.printf("toggle editmode",self.helpmenu:getWidth()/8,s*2,200,"right")
-	
-	love.graphics.setColor(155,255,255,155)
-	love.graphics.print(self.binds.up..","..self.binds.left..","..self.binds.down..","..self.binds.right ,10,s*3)
-	love.graphics.setColor(255,255,255,155)
-	love.graphics.printf("move",self.helpmenu:getWidth()/8,s*3,200,"right")
-	
-	love.graphics.setColor(155,255,255,155)
-	love.graphics.print("left mouse",10,s*4)
-	love.graphics.setColor(255,255,255,155)
-	love.graphics.printf("select/drag",self.helpmenu:getWidth()/8,s*4,200,"right")
-	
-	love.graphics.setColor(155,255,255,155)
-	love.graphics.print("right mouse",10,s*5)
-	love.graphics.setColor(255,255,255,155)
-	love.graphics.printf("remove entity",self.helpmenu:getWidth()/8,s*5,200,"right")
-	
-	love.graphics.setColor(155,255,255,155)
-	love.graphics.print("mousewheel",10,s*6)
-	love.graphics.setColor(255,255,255,155)
-	love.graphics.printf("select entity type",self.helpmenu:getWidth()/8,s*6,200,"right")
-	
-	love.graphics.setColor(155,255,255,155)
-	love.graphics.print(self.binds.entrotate,10,s*7)
-	love.graphics.setColor(255,255,255,155)
-	love.graphics.printf("entity direction",self.helpmenu:getWidth()/8,s*7,200,"right")
-	
-	love.graphics.setColor(155,255,255,155)
-	love.graphics.print(self.binds.moveup..","..self.binds.moveleft..","..self.binds.movedown..","..self.binds.moveright,10,s*8)
-	love.graphics.setColor(255,255,255,155)
-	love.graphics.printf("reposition entity",self.helpmenu:getWidth()/8,s*8,200,"right")
-	
-	love.graphics.setColor(155,255,255,155)
-	love.graphics.print(self.binds.themecycle,10,s*9)
-	love.graphics.setColor(255,255,255,155)
-	love.graphics.printf("change theme",self.helpmenu:getWidth()/8,s*9,200,"right")
-	
-	love.graphics.setColor(155,255,255,155)
-	love.graphics.print(self.binds.entcopy,10,s*10)
-	love.graphics.setColor(255,255,255,155)
-	love.graphics.printf("copy",self.helpmenu:getWidth()/8,s*10,200,"right")
-	
-	love.graphics.setColor(155,255,255,155)
-	love.graphics.print(self.binds.entpaste,10,s*11)
-	love.graphics.setColor(255,255,255,155)
-	love.graphics.printf("paste",self.helpmenu:getWidth()/8,s*11,200,"right")
-	
-	love.graphics.setColor(155,255,255,155)
-	love.graphics.print(self.binds.savemap,10,s*13)
-	love.graphics.setColor(255,255,255,155)
-	love.graphics.printf("savemap",self.helpmenu:getWidth()/8,s*13,200,"right")
-	
-	love.graphics.setColor(155,255,255,155)
-	love.graphics.print(binds.exit,10,s*14)
-	love.graphics.setColor(255,255,255,155)
-	love.graphics.printf("exit to title",self.helpmenu:getWidth()/8,s*14,200,"right")
-	
-	love.graphics.setColor(155,255,255,155)
-	love.graphics.print(binds.debug,10,s*15)
-	love.graphics.setColor(255,255,255,155)
-	love.graphics.printf("toggle console",self.helpmenu:getWidth()/8,s*15,200,"right")
-	
-	love.graphics.setColor(155,255,255,155)
-	love.graphics.print(self.binds.guidetoggle,10,s*16)
-	love.graphics.setColor(255,255,255,155)
-	love.graphics.printf("toggle guidelines",self.helpmenu:getWidth()/8,s*16,200,"right")
-	
-	love.graphics.setColor(155,255,255,155)
-	love.graphics.print(self.binds.maptoggle,10,s*17)
-	love.graphics.setColor(255,255,255,155)
-	love.graphics.printf("toggle minimap",self.helpmenu:getWidth()/8,s*17,200,"right")
-	
-	love.graphics.setColor(155,255,255,155)
-	love.graphics.print(self.binds.helptoggle,10,s*18)
-	love.graphics.setColor(255,255,255,155)
-	love.graphics.printf("show help",self.helpmenu:getWidth()/8,s*18,200,"right")
-	
-	love.graphics.setColor(155,255,255,155)
-	love.graphics.print(self.binds.respawn,10,s*19)
-	love.graphics.setColor(255,255,255,155)
-	love.graphics.printf("set camera to origin/spawn",self.helpmenu:getWidth()/8,s*19,200,"right")
-	
-	love.graphics.setColor(155,255,255,155)
-	love.graphics.print(self.binds.showpos,10,s*20)
-	love.graphics.setColor(255,255,255,155)
-	love.graphics.printf("toggle co-ord display",self.helpmenu:getWidth()/8,s*20,200,"right")
-	
-	love.graphics.setColor(155,255,255,155)
-	love.graphics.print(self.binds.showid,10,s*21)
-	love.graphics.setColor(255,255,255,155)
-	love.graphics.printf("toggle id display",self.helpmenu:getWidth()/8,s*21,200,"right")
-	
-	love.graphics.setColor(155,255,255,155)
-	love.graphics.print(self.binds.incmovedist,10,s*22)
-	love.graphics.setColor(255,255,255,155)
-	love.graphics.printf("increase movedist",self.helpmenu:getWidth()/8,s*22,200,"right")
-	
-	love.graphics.setColor(155,255,255,155)
-	love.graphics.print(self.binds.decmovedist,10,s*23)
-	love.graphics.setColor(255,255,255,155)
-	love.graphics.printf("decrease movedist",self.helpmenu:getWidth()/8,s*23,200,"right")
-	
-	love.graphics.setColor(155,255,255,155)
-	love.graphics.print(self.binds.texturesel .. " + scroll",10,s*24)
-	love.graphics.setColor(255,255,255,155)
-	love.graphics.printf("platform texture",self.helpmenu:getWidth()/8,s*24,200,"right")
-	
-	love.graphics.setColor(155,255,255,155)
-	love.graphics.print(self.binds.musicnext  .. "/" .. self.binds.musicprev,10,s*25)
-	love.graphics.setColor(255,255,255,155)
-	love.graphics.printf("change music",self.helpmenu:getWidth()/8,s*25,200,"right")
-	
-	love.graphics.setColor(155,255,255,155)
-	love.graphics.print(self.binds.camera  .. " + scroll",10,s*26)
-	love.graphics.setColor(255,255,255,155)
-	love.graphics.printf("camera zoom",self.helpmenu:getWidth()/8,s*26,200,"right")
-	
-	love.graphics.setFont(fonts.default)
-		
 	love.graphics.setCanvas()
 	
 	love.graphics.setColor(255,255,255,255)
