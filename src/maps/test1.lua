@@ -1,11 +1,14 @@
+world.gravity = 2000
 world.mapmusic = 5
 world.mapambient = 0
 world.maptitle = "unnamed map"
 world.nextmap = "title"
+world.deadzone = 2000
 world:settheme("sunny")
 platforms:add(-1380,-9550,1010,3090,1,0,0,0,0,0,0,1)
 platforms:add(-370,-6880,1630,420,1,0,0,0,0,0,0,1)
-platforms:add(2610,-6880,860,420,1,0,0,0,0,0,0,1)
+platforms:add(2610,-6880,1980,420,1,0,0,0,0,0,0,1)
+platforms:add(4360,-7560,600,1100,1,0,0,0,0,0,0,1)
 pickups:add(-50,-6910,"gem")
 pickups:add(-30,-6910,"gem")
 pickups:add(160,-6910,"gem")
@@ -355,7 +358,9 @@ crates:add(200,-7100,"gem")
 crates:add(250,-7100,"gem")
 crates:add(300,-7100,"gem")
 portals:add(-150,-6940,"spawn")
+portals:add(3170,-6940,"goal")
 decals:add(1260,-6770,1360,310,"water")
+materials:add(1250,-6750,1370,290,"death")
 traps:add(1260,-6880,"log")
 traps:add(1290,-6880,"log")
 traps:add(1320,-6880,"log")

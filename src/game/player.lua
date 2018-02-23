@@ -155,15 +155,6 @@ function player:update(dt)
 			console:print("invincibility ended")
 		end
 	end
-	
-	-- camera follows player
-	if self.alive or editing then
-		local x = player.x+player.w/2
-		local y = player.y+player.h/2
-		camera:follow(self.x+self.w/2, self.y+self.h/2)
-		return
-
-	end
 
 	-- end game if no lives left
 	if player.lives <= 0 then
@@ -218,9 +209,7 @@ function player:die(this)
 	if mode == "game" then
 	
 		if self.hasshield then
-
 			self:jump()
-			
 			sound:play(sound.effects["shield"])
 			self.hasshield = false
 			return
@@ -228,6 +217,9 @@ function player:die(this)
 	
 		if self.hasmagnet then
 			self.hasmagnet = false
+			for _,pickup in ipairs(world.entities.pickup) do
+				pickup.attract = false
+			end
 		end
 		camera:fade(2, {0,0,0,255})
 		camera:shake(8, 1, 60, 'XY')

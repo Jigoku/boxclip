@@ -338,12 +338,13 @@ end
 
 function editor:update(dt)
 	--update world before anything else
-	if not editor.paused then
-		world:update(dt) 
-	else 
+	if editor.paused then
 		--only update these when paused
 		camera:update(dt)
 		player:update(dt)
+		camera:follow(player.x+player.w/2, player.y+player.h/2)
+	else
+		world:update(dt) 
 	end
 	
 	--update active entity selection
@@ -522,12 +523,12 @@ function editor:wheelmoved(dx, dy)
 		
 	elseif love.keyboard.isDown(self.binds.texturesel) then
 		--platform texture slot selection
-		self.texturesel = math.max(1,math.min(#platforms.textures,self.texturesel + dy))
+		self.texturesel = math.max(1,math.min(#platforms.textures,self.texturesel - dy))
 		self:settexture(p)
 		
 	else
 		--entmenu selection
-		editor.entsel = math.max(1,math.min(#editor.entities,editor.entsel + dy))
+		editor.entsel = math.max(1,math.min(#editor.entities,editor.entsel - dy))
 
 	end
 end
@@ -1122,27 +1123,10 @@ function editor:remove()
 	for _, i in ipairs(self.entorder) do
 		for n,e in ipairs(world.entities[i]) do
 			if e.selected then
-				if e.movex == 1 then
-					table.remove(world.entities[i],n)
-					print( e.group .. " (" .. n .. ") removed" )
-					return true
-				
-				elseif e.movey == 1 then
-					print( e.group .. " (" .. n .. ") removed" )
-					table.remove(world.entities[i],n)
-					return true
-				
-				elseif e.swing == 1 then	
-					print( e.group .. " (" .. n .. ") removed" )
-					table.remove(world.entities[i],n)
-					return true
-
-				else
-					print( e.group .. " (" .. n .. ") removed" )
-					table.remove(world.entities[i],n)
-					return true
-			
-				end
+				table.remove(world.entities[i],n)
+				print( e.group .. " (" .. n .. ") removed" )
+				self.selbox = nil
+				return true	
 			end
 		end
 	end

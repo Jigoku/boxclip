@@ -24,19 +24,27 @@ function physics:applyVelocity(object, dt)
 
 		-- x-axis friction
 		if object.dir == "right" then
+			--if we are not travelling at max speed
 			if object.xvel < object.speed  then
 				if object.jumping then
 					object.xvel = (object.xvel + object.speed *multiplier *dt)
 				else
+					--if we were travelling left
+					if object.xvel < 0 then object.xvel = (object.xvel + object.speed/multiplier *dt) end
 					object.xvel = (object.xvel + object.speed *dt)
 				end
 			end
+			
+			
 		end
 		if object.dir == "left"  then
+			--if we are not travelling at max speed
 			if not (object.xvel < -object.speed)  then
 				if object.jumping then
 					object.xvel = (object.xvel - object.speed *multiplier *dt)
 				else
+					--if we were travelling right
+					if object.xvel > 0 then object.xvel = (object.xvel - object.speed/ multiplier *dt) end
 					object.xvel = (object.xvel - object.speed *dt)
 				end
 			end
@@ -178,6 +186,7 @@ end
 
 function physics:bounce(object,dt)
 	object.yvel = -object.yvel/1.5
+
 end
 
 function physics:crates(object,dt)
@@ -378,26 +387,22 @@ function physics:platforms(object, dt)
 					if platform.movex == 1 then
 						-- move along x-axis with platform	
 						object.newX = object.newX + platform.movespeed *dt
-
 					end
 
 					if platform.swing == 1 then	
-						object.carried = true
-						
 						object.newX =  platform.radius * math.cos(platform.angle) + platform.xorigin +platform.w/2 - object.w/2
 						object.newY = platform.y - object.h+1 *dt
 						object.yvel = -player.jumpheight
 					end
 
-							
 					if platform.movey == 1 and not object.jumping then
-						object.yvel = -platform.movespeed *dt
-				
+						--object.yvel = -platform.movespeed *dt
+						
 						if platform.movespeed <= 0 then
 							--going up
 							object.newY = platform.y - object.h +1 - (platform.movespeed *dt)
 						else
-							--going down
+							--going down	
 							object.newY = platform.y - object.h +1 + (platform.movespeed *dt)
 						end
 						
@@ -762,6 +767,8 @@ function physics:traps(object, dt)
 						elseif collision:top(object,trap) then
 							object.carried = true
 							
+							
+							
 							if object.jumping then
 								object.newY = trap.y - object.h -1 *dt
 								object.yvel = math.max(-object.yvel/1.5,player.jumpheight/2)
@@ -778,6 +785,8 @@ function physics:traps(object, dt)
 								object.newY = trap.y - object.h -1 *dt
 								object.yvel = 0
 							end
+							
+							
 						end	
 					end	
 				end	
