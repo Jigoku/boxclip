@@ -242,6 +242,10 @@ function editor:update(dt)
 		camera:update(dt)
 		player:update(dt)
 	end
+	
+	--update active entity selection
+	self:selection()
+		
 	--texture browser display
 	self.texmenutimer = math.max(0, self.texmenutimer- dt)
 		
@@ -734,7 +738,6 @@ function editor:draw()
 	
 		self:drawguide()
 		self:drawcursor()
-		self:drawselected()
 		self:drawselbox()
 		
 		camera:detach()
@@ -777,7 +780,7 @@ function editor:drawselbox()
 	if self.drawsel then
 		for _,entity in ipairs(self.draggable) do
 			if self.entities[self.entsel] == entity then
-				love.graphics.setColor(0,255,255,100)
+				love.graphics.setColor(0,255,255,255)
 				love.graphics.rectangle(
 					"line", 
 					self.mouse.pressed.x,self.mouse.pressed.y, 
@@ -785,6 +788,12 @@ function editor:drawselbox()
 				)
 			end
 		end
+	end
+	
+	--draw box  for actively selected entity
+	if self.selbox then
+		love.graphics.setColor(0,255,0,255)
+		love.graphics.rectangle("line", self.selbox.x, self.selbox.y, self.selbox.w, self.selbox.h)
 	end
 end
 
@@ -1025,22 +1034,12 @@ function editor:drawentmenu()
 end
 
 
-function editor:drawselected()
-	--local entselorder = {enemies,pickups,portals,crates,checkpoints,springs,materials,platforms,props,decals,traps,bumpers}
 
-	self:selection() 
-
-end
 
 
 
 function editor:selection()
-	-- hilights the entity when mouseover 
-
-	love.graphics.setColor(0,255,0,200)
-
-	-- TODO, move some of this to :update()
-
+	-- selects the entity when mouseover 
 	
 	for _, i in ipairs(self.entorder) do	
 		for _,e in ipairs(world.entities[i]) do
@@ -1056,7 +1055,12 @@ function editor:selection()
 				if e.movex == 1 then
 					--collision area for moving entity
 					if collision:check(self.mouse.x,self.mouse.y,1,1,e.xorigin, e.y, e.movedist+e.w, e.h) then
-						love.graphics.rectangle("line", e.xorigin, e.y, e.movedist+e.w, e.h)
+						self.selbox = { 
+							x = e.xorigin, 
+							y = e.y, 
+							w = e.movedist+e.w, 
+							h = e.h 
+						}
 						e.selected = true
 						self.texturesel = e.texture or 1
 						return true
@@ -1064,7 +1068,12 @@ function editor:selection()
 				elseif e.movey == 1 then
 					--collision area for moving entity
 					if collision:check(self.mouse.x,self.mouse.y,1,1,e.xorigin, e.yorigin, e.w, e.h+e.movedist) then
-						love.graphics.rectangle("line", e.xorigin, e.yorigin,e.w, e.h+e.movedist)
+						self.selbox = { 	
+							x = e.xorigin, 
+							y = e.yorigin, 
+							w = e.w, 
+							h = e.h+e.movedist 
+						}
 						e.selected = true
 						self.texturesel = e.texture or 1
 						return true
@@ -1074,21 +1083,28 @@ function editor:selection()
 					if collision:check(self.mouse.x,self.mouse.y,1,1,
 						e.xorigin-platform_link_origin:getWidth()/2, e.yorigin-platform_link_origin:getHeight()/2,  
 						platform_link_origin:getWidth(),platform_link_origin:getHeight()) then
-						
-						love.graphics.rectangle("line", 
-							e.xorigin-platform_link_origin:getWidth()/2, e.yorigin-platform_link_origin:getHeight()/2,  
-							platform_link_origin:getWidth(),platform_link_origin:getHeight()
-						)
+						self.selbox = {	
+							x = e.xorigin-platform_link_origin:getWidth()/2, 
+							y = e.yorigin-platform_link_origin:getHeight()/2,  
+							w = platform_link_origin:getWidth(),
+							h = platform_link_origin:getHeight()
+						}
 						e.selected = true
 						return true
 					end
 				elseif collision:check(self.mouse.x,self.mouse.y,1,1,e.x,e.y,e.w,e.h) then
 					--collision area for static entities
-					love.graphics.rectangle("line", e.x,e.y,e.w,e.h)
+					self.selbox = { 
+						x = e.x, 
+						y = e.y, 
+						w = e.w, 
+						h = e.h 
+					} 
 					e.selected = true
 					self.texturesel = e.texture or 1
 					return true
 				else
+					self.selbox = nil
 					editor.selname = "null"
 				end
 			end
@@ -1331,7 +1347,6 @@ function editor:mousemoved(x,y,dx,dy)
 	
 	self.mouse.x = math.round(camera.x-(love.graphics.getWidth()/2/camera.scale)+x/camera.scale,-1)
 	self.mouse.y = math.round(camera.y-(love.graphics.getHeight()/2/camera.scale)+y/camera.scale,-1)
-
 	
 	if love.mouse.isDown(1) then
 		editor.drawsel = true

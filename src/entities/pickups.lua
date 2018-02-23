@@ -53,7 +53,7 @@ function pickups:add(x,y,type,dropped)
 		bounce = true,
 		red = love.math.random(150,255),
 		green = love.math.random(150,255),
-		blue = love.math.random(0,255),
+		blue = love.math.random(50,255),
 		mass = 800,
 		xvel = 0,
 		yvel = 0,
@@ -72,7 +72,7 @@ function pickups:draw()
 			count = count + 1
 			
 			if pickup.type == "gem" then
-				love.graphics.setColor(255,255,50,255)	
+				love.graphics.setColor(pickup.red,pickup.green,pickup.blue,255)	
 				love.graphics.draw(
 					pickup.gfx, pickup.x, 
 					pickup.y, 0, 1, 1

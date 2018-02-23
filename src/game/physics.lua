@@ -418,7 +418,7 @@ function physics:pickups(dt)
 				else
 					self:applyGravity(pickup, dt)
 				end
-			else
+			elseif world:inview(pickup) then
 				self:applyGravity(pickup, dt)
 				pickup.newX = pickup.x + (pickup.xvel *dt)
 			
