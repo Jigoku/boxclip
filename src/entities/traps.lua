@@ -38,6 +38,7 @@ function traps:add(x,y,type)
 			type = type,
 			gfx = gfx,
 			falling = false,
+			active = true,
 			timer = 0.00,
 			mass = 800,
 			segments = {
@@ -67,6 +68,7 @@ function traps:add(x,y,type)
 		type = type,
 		gfx = gfx,
 		falling = false,
+		active = true,
 		timer = 0.05,
 		mass = 800,
 		xvel = 0,
@@ -80,7 +82,7 @@ function traps:draw()
 	local count = 0
 	
 	for i, trap in ipairs(world.entities.trap) do
-		if world:inview(trap) then
+		if world:inview(trap) and trap.active then
 			count = count +1
 					
 			love.graphics.setColor(255,255,255,255)

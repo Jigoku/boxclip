@@ -666,7 +666,7 @@ end
 
 function physics:trapsworld(dt)
 	for i, trap in ipairs(world.entities.trap) do
-		if trap.falling then
+		if trap.falling and trap.active then
 			trap.timer = math.max(0, trap.timer - dt)
 
 			if trap.timer <= 0 then
@@ -681,7 +681,7 @@ function physics:trapsworld(dt)
 				physics:applyGravity(trap, dt)
 				physics:update(trap)
 				if not world:inview(trap) then
-					table.remove(trap, i)
+					trap.active = false
 				end
 
 			end
@@ -714,7 +714,7 @@ end
 function physics:traps(object, dt)
 	
 	for i, trap in ipairs(world.entities.trap) do
-		
+		if trap.active then
 			if collision:check(object.newX,object.newY,object.w,object.h, trap.x,trap.y,trap.w,trap.h) then
 			
 				if trap.type == "log" or trap.type == "bridge" then
@@ -773,7 +773,7 @@ function physics:traps(object, dt)
 					end	
 				end	
 			end
-		
+		end
 	end
 end
 
@@ -795,7 +795,7 @@ function physics:portals(dt)
 							sound:play(sound.effects["goal"])
 							sound:playbgm(10)
 							console:print("goal reached")	
-							world.complete = true
+							world:endoflevel()
 						end
 					end
 			end

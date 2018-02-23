@@ -18,6 +18,7 @@ world.splash = {}
 world.weather = {}
 world.state = {} --world.entities on checkpoint
 
+
 --world.camera?
 
 --test parallax background layers
@@ -52,6 +53,22 @@ function world:initsplash()
 	world.splash.box_y = -world.splash.box_h/2
 	world.splash.text_y = -world.splash.box_h/2
 	transitions:fadein()
+end
+
+function world:endoflevel()
+	world.complete = true
+
+	world.scoreboard = {}
+	world.scoreboard.timer = 12
+	world.scoreboard.title = world.maptitle
+	world.scoreboard.status = "GOAL REACHED"
+	world.scoreboard.w = 400
+	world.scoreboard.h = 300
+	world.scoreboard.padding = 10
+	world.scoreboard.canvas = love.graphics.newCanvas(world.scoreboard.w,world.scoreboard.h)
+	world.scoreboard.opacity = 0
+	world.scoreboard.fadespeed = 200
+	--world.scoreboard.wait = 3
 end
 
 function world:settheme(theme)
@@ -277,11 +294,16 @@ function world:draw()
 	--draw the hud/scoreboard
 	if mode =="game" then
 		
-		world:drawscoreboard()
+		world:drawhud()
 		
 		if world.splash.opacity > 0 then 
 			world:drawsplash()
 		end
+	end
+	
+	
+	if world.complete then
+		world:drawscoreboard()
 	end
 	
 	if paused then
@@ -322,7 +344,54 @@ end
 
 function world:drawscoreboard()
 	if debug then return end
-	love.graphics.setFont(fonts.scoreboard)
+	
+	love.graphics.setCanvas(world.scoreboard.canvas)
+	love.graphics.clear()
+	
+	--frame
+	love.graphics.setColor(0,0,0,200)
+	love.graphics.rectangle("fill",0,0,world.scoreboard.canvas:getWidth(),world.scoreboard.canvas:getHeight(),10)
+	
+	--title
+	love.graphics.setFont(fonts.huge)
+	love.graphics.setColor(60,60,60,255)
+	love.graphics.rectangle("fill",world.scoreboard.padding,world.scoreboard.padding,world.scoreboard.canvas:getWidth()-world.scoreboard.padding*2,fonts.huge:getHeight(world.scoreboard.title)+world.scoreboard.padding*2,10)
+	love.graphics.setColor(255,255,255,255)
+	love.graphics.print(world.scoreboard.title, world.scoreboard.canvas:getWidth()/2-fonts.huge:getWidth(world.scoreboard.title)/2,world.scoreboard.padding*2)
+	
+	--love.graphics.setColor(0,255,0,255)
+	--love.graphics.setFont(fonts.large)
+	--love.graphics.print(world.scoreboard.status, world.scoreboard.canvas:getWidth()/2-fonts.large:getWidth(world.scoreboard.title)/2,30)
+	
+	--stats
+	love.graphics.setFont(fonts.large)
+	local y = 80
+	
+	love.graphics.setColor(200,200,200,255)
+	love.graphics.print("SCORE",world.scoreboard.padding*2,y)
+	love.graphics.setColor(0,255,0,255)
+	love.graphics.print(player.score,world.scoreboard.canvas:getWidth()/2,y)
+	
+	love.graphics.setColor(200,200,200,255)
+	love.graphics.print("TIME",world.scoreboard.padding*2,y+25)
+	love.graphics.setColor(0,255,0,255)
+	love.graphics.print(world:formattime(world.time),world.scoreboard.canvas:getWidth()/2,y+25)
+
+	love.graphics.setColor(200,200,200,255)
+	love.graphics.print("GEMS",world.scoreboard.padding*2,y+50)
+	love.graphics.setColor(0,255,0,255)
+	love.graphics.print(player.gems,world.scoreboard.canvas:getWidth()/2,y+50)
+	
+	love.graphics.setCanvas()
+	
+	--draw canvas
+	love.graphics.setColor(255,255,255,world.scoreboard.opacity)
+	love.graphics.draw(world.scoreboard.canvas,love.graphics.getWidth()/2-world.scoreboard.canvas:getWidth()/2, love.graphics.getHeight()/2-world.scoreboard.canvas:getHeight()/2)
+end
+
+function world:drawhud()
+	if debug then return end
+	love.graphics.setFont(fonts.hud)
 	
 	love.graphics.setColor(0,0,0,155)
 
@@ -345,7 +414,7 @@ function world:drawscoreboard()
 	love.graphics.printf(player.gems, 20,60,150,"right",0,1,1)
 	
 	love.graphics.printf("x"..player.lives, 20,love.graphics.getHeight()-40,50,"right",0,1,1)
-	love.graphics.setFont(fonts.default)
+	love.graphics.setFont(fonts.hud)
 	
 	love.graphics.draw(pickups.textures["life"],20,love.graphics.getHeight()-40,0,0.5,0.5)
 end
@@ -524,7 +593,6 @@ function world:update(dt)
 		popups:update(dt)
 		player:update(dt)
 		decals:update(dt)
-		portals:update(dt)
 		bumpers:update(dt)
 		
 		world.collision = 0
@@ -554,6 +622,25 @@ function world:update(dt)
 					world.splash.box_y = world.splash.box_y + world.splash.fadespeed *dt
 				end
 				return 
+			end
+		
+			
+			--end of level (show scoreboard)
+			if world.complete then
+				world.scoreboard.opacity = math.min(255, world.scoreboard.opacity+world.scoreboard.fadespeed*dt)
+				world.scoreboard.timer = math.max(0, world.scoreboard.timer - dt)
+				if world.scoreboard.timer <= 0 then
+					if world.nextmap == "title" then title:init() return end
+					world.map = world.nextmap
+					world:init("game")
+				end
+			else
+				--check for activated "goal" entity
+				for _,p in ipairs(world.entities.portal) do
+					if p.type == "goal" and p.activated then
+						world:endoflevel()
+					end
+				end
 			end
 		
 		end

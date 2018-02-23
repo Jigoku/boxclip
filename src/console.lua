@@ -37,6 +37,7 @@ end
 function console:draw()
 	if self.show then
 		--console info
+		love.graphics.setFont(fonts.default)
 		love.graphics.setColor(0,0,0,100)
 		love.graphics.rectangle("fill", 1, 1, love.graphics.getWidth()-2, 160)	
 		love.graphics.setColor(100,100,100,100)

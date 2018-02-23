@@ -46,8 +46,7 @@ function portals:add(x,y,type)
 			group = "portal",
 			type = type,
 			activated = false,
-			gfx = self.textures[type],
-			timer = 12
+			gfx = self.textures[type]
 		})
 	end
 	
@@ -70,7 +69,7 @@ function portals:draw()
 					--debug
 					love.graphics.setFont(fonts.large)
 					love.graphics.setColor(255,0,0,255)
-					love.graphics.print("next map in: " .. math.round(p.timer,0),p.x-10,p.y-20)
+					love.graphics.print("next map in: " .. math.round(world.scoreboard.timer,0),p.x-10,p.y-20)
 					love.graphics.setFont(fonts.default)
 				end
 			end				
@@ -96,17 +95,4 @@ function portals:drawdebug(p, i)
 end
 
 
-function portals:update(dt)
-	if world.nextmap then
-		for _,p in ipairs(world.entities.portal) do
-			if p.type == "goal" and p.activated then
-				p.timer = math.max(0, p.timer - dt)
-				if p.timer <= 0 then
-					if world.nextmap == "title" then title:init() return end
-					world.map = world.nextmap
-					world:init("game")
-				end
-			end
-		end
-	end	
-end
+
