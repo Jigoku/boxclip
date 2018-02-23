@@ -71,7 +71,9 @@ function love.load(args)
 	
 	for _,arg in ipairs(args) do 
 		for n, o in ipairs(options) do
-			if string.match(arg, o.pattern) then o.exec() end
+			if string.match(arg, o.pattern) then 
+				o.exec() 
+			end
 		end
 	end
 

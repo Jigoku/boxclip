@@ -603,12 +603,13 @@ function physics:enemies(dt)
 			
 					if collision:check(player.newX,player.newY,player.w,player.h,
 						enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) and enemy.falling then
+						if not player.invincible then
+							player.yvel = -player.yvel
 							player:die(enemy.group)
+						end
 					end
 				end
-
 			end
-			
 			
 			if enemy.type == "spikeball" then
 				enemy.angle = enemy.angle - (enemy.speed * dt)
