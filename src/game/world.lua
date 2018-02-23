@@ -310,11 +310,11 @@ function world:drawsplash()
 		--box
 		love.graphics.setColor(platform_r/2,platform_g/2,platform_b/2,world.splash.opacity)
 		love.graphics.rectangle("fill", 0,world.splash.box_y+love.graphics.getHeight()/2,love.graphics.getWidth(), world.splash.box_h )
-		love.graphics.setFont(fonts.huge)
 		
 		--text
+		love.graphics.setFont(fonts.huge)
 		love.graphics.setColor(255,255,255,world.splash.opacity)
-		love.graphics.print(world.maptitle, love.graphics.getWidth()/2, world.splash.text_y+love.graphics.getHeight()/2+world.splash.box_h/2)
+		love.graphics.print(world.maptitle, love.graphics.getWidth()-fonts.huge:getWidth(world.maptitle)-100, world.splash.text_y+love.graphics.getHeight()/2+world.splash.box_h/2)
 		love.graphics.setFont(fonts.default)
 			
 

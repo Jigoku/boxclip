@@ -29,7 +29,8 @@ function bumpers:add(x,y)
 		h = self.textures[2]:getHeight(),
 		
 		--properties
-		score = 250,
+		score = 25,
+		totalscore = 250,
 		force = 1000,
 		group = "bumper",
 		scale = 1,

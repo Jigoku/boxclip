@@ -33,7 +33,7 @@ function popups:draw()
 	love.graphics.setFont(fonts.popups)
 	for _,p in ipairs(popups) do
 		love.graphics.setColor(255,255,0,p.o)
-		love.graphics.printf(p.text, p.x,p.y,150,"center")
+		love.graphics.printf(p.text, p.x-fonts.popups:getWidth(p.text)/2,p.y,fonts.popups:getWidth(p.text),"center")
 	end
 	love.graphics.setFont(oldfont)
 end

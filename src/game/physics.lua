@@ -21,7 +21,7 @@ function physics:applyVelocity(object, dt)
 	--allow extra movement whilst jumping
 	local multiplier = 1.3
 	
-	if object.alive then
+
 		-- x-axis friction
 		if object.dir == "right" then
 			if object.xvel < object.speed  then
@@ -55,8 +55,7 @@ function physics:applyVelocity(object, dt)
 		--object.xvel = math.min(object.speed,math.max(-object.speed,object.xvel))
 
 		object.newX = object.x + (object.xvel *dt)
-		
-	end
+
 end
 
 
@@ -177,7 +176,7 @@ function physics:crates(object,dt)
 
 				if object.jumping and mode == "game" then 
 					console:print("crate(" .. i..") destroyed, item ="..crate.type)
-					popups:add(crate.x-crate.w,crate.y+crate.h/2,"+"..crate.score)
+					popups:add(crate.x+crate.w/2,crate.y+crate.h/2,"+"..crate.score)
 					crate.destroyed = true
 					player.score = player.score+crate.score
 					sound:play(sound.effects["crate"])
@@ -261,20 +260,15 @@ function physics:bumpers(object,dt)
 									
 			sound:play(sound.effects["bumper"])
 				
-			if bumper.score > 0 then
-				player.score = player.score + 50
-				bumper.score = bumper.score - 50
-				popups:add(bumper.x-bumper.w,bumper.y+bumper.h/2,"+50")
+			if bumper.totalscore > 0 then
+				player.score = player.score + bumper.score
+				bumper.totalscore = bumper.totalscore - bumper.score
+				popups:add(bumper.x+bumper.w/2,bumper.y+bumper.h/2,"+"..bumper.score)
+			end
 
-		end
-
-			
 		if collision:right(object,bumper) and not collision:top(object,bumper) then
-		
-
 			object.newX = bumper.x+bumper.w +1 *dt
 			object.xvel = bumper.force
-			
 					
 			elseif collision:left(object,bumper) and not collision:top(object,bumper) then
 				object.newX = bumper.x-object.w -1 *dt
@@ -409,19 +403,18 @@ function physics:pickups(dt)
 
 	for i, pickup in ipairs(world.entities.pickup) do			
 		if not pickup.collected then
+
 			--pulls all gems to player when attract = true
 			if pickup.attract then
 				if player.alive then
 					local angle = math.atan2(player.y+player.h/2 - pickup.h/2 - pickup.y, player.x+player.w/2 - pickup.w/2 - pickup.x)
 					pickup.newX = pickup.x + (math.cos(angle) * pickup.mass/2 * dt)
 					pickup.newY = pickup.y + (math.sin(angle) * pickup.mass/2 * dt)
-				else
-					self:applyGravity(pickup, dt)
+				
 				end
-			elseif world:inview(pickup) then
+			else
 				self:applyGravity(pickup, dt)
-				pickup.newX = pickup.x + (pickup.xvel *dt)
-			
+				self:applyVelocity(pickup,dt)
 				self:traps(pickup,dt)
 				self:platforms(pickup, dt)
 				self:crates(pickup, dt)			
@@ -449,7 +442,7 @@ function physics:pickups(dt)
 			
 				if player.alive and collision:check(player.x,player.y,player.w,player.h,
 					pickup.x, pickup.y,pickup.gfx:getWidth(),pickup.gfx:getHeight()) then
-						popups:add(pickup.x-pickup.w,pickup.y+pickup.h/2,"+"..pickup.score)
+						popups:add(pickup.x+pickup.w/2,pickup.y+pickup.h/2,"+"..pickup.score)
 						console:print(pickup.group.."("..i..") collected")	
 						player:collect(pickup)
 						pickup.collected = true
@@ -505,7 +498,7 @@ function physics:enemies(dt)
 							elseif player.y < enemy.y then
 								player.yvel = player.jumpheight
 							end
-							popups:add(enemy.x-enemy.w,enemy.y+enemy.h/2,"+"..enemy.score)
+							popups:add(enemy.x+enemy.w/2,enemy.y+enemy.h/2,"+"..enemy.score)
 							player.score = player.score + enemy.score
 							enemy.alive = false
 							sound:play(sound.effects["kill"])
@@ -536,7 +529,7 @@ function physics:enemies(dt)
 							player.yvel = player.jumpheight
 						end
 
-						popups:add(enemy.x-enemy.w/2,enemy.y+enemy.h/2,"+"..enemy.score)
+						popups:add(enemy.x+enemy.w/2,enemy.y+enemy.h/2,"+"..enemy.score)
 						player.score = player.score + enemy.score
 						enemy.alive = false
 						sound:play(sound.effects["kill"])
@@ -713,7 +706,7 @@ function physics:checkpoints(dt)
 			if collision:check(player.x,player.y,player.w,player.h,
 				checkpoint.x, checkpoint.y,checkpoint.w,checkpoint.h) then
 				if not checkpoint.activated then
-					popups:add(checkpoint.x-checkpoint.w,checkpoint.y+checkpoint.h/2,"CHECKPOINT")
+					popups:add(checkpoint.x+checkpoint.w/2,checkpoint.y+checkpoint.h/2,"CHECKPOINT")
 					console:print("checkpoint activated")	
 					world:savestate()
 					sound:play(sound.effects["checkpoint"])
@@ -773,7 +766,7 @@ function physics:traps(object, dt)
 								object.newY = trap.y - object.h -1 *dt
 								object.yvel = math.max(-object.yvel/1.5,player.jumpheight/2)
 									if mode == "game" and object.group == "players" then
-										popups:add(trap.x-trap.w/2,trap.y+trap.h/2,"+"..trap.score)
+										popups:add(trap.x+trap.w/2,trap.y+trap.h/2,"+"..trap.score)
 										player.score = player.score +trap.score
 										--world:sendtofront(traps,i)
 										trap.yvel = 500							
@@ -807,7 +800,7 @@ function physics:portals(dt)
 							--add paramater for "next map"?
 							portal.activated = true
 							portal.gfx = portals.textures["goal_activated"]
-							popups:add(portal.x-portal.w,portal.y+portal.h/2,"LEVEL COMPLETE")
+							popups:add(portal.x+portal.w/2,portal.y+portal.h/2,"LEVEL COMPLETE")
 							sound:play(sound.effects["goal"])
 							sound:playbgm(10)
 							console:print("goal reached")	
