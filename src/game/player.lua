@@ -36,7 +36,7 @@ function player:init()
 	self.lastdir = "idle"
 	self.score = 0
 	self.alive = true
-	self.lives = 0
+	self.lives = 3
 	self.gems = 0
 	self.angle = 0
 	self.camerashift = 50

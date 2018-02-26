@@ -17,6 +17,7 @@
 --[[
 	Boxclip 2d engine by ricky thomson
 --]]
+
 function love.load(args)
 
 	debug = false
