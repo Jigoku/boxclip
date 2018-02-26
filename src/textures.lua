@@ -15,18 +15,15 @@
 
 textures = {}
 
+-- TODO revert this back to previous implementation and zero pad all file names
+-- 0001.png etc
+
 function textures:load(path)
 	--returns table of loaded images from 'path' directory
 	local t = {}
-		
-	local files = love.filesystem.getDirectoryItems(path)
-	
-	--filenames must be numbered  1.*  etc
-	table.sort(files, function(a, b) return tonumber(a:match("^%d+")) < tonumber(b:match("^%d+")) end)
-	
 	local supported = { ".png", ".bmp", ".jpg", ".tga" }
 	
-	for _,file in ipairs(files) do
+	for _,file in ipairs(love.filesystem.getDirectoryItems(path)) do
 		for _,ext in ipairs(supported) do
 			if file:find(ext) then
 				table.insert(t,love.graphics.newImage(path..file))
