@@ -1,10 +1,12 @@
+world.gravity = 2000
 world.mapmusic = 11
 world.mapambient = 0
 world.maptitle = "unnamed map"
 world.nextmap = "title"
+world.deadzone = 2000
 world:settheme("sunny")
 platforms:add(-740,-2570,1680,460,1,0,0,0,0,0,0,1)
-platforms:add(-360,-3300,820,710,0,0,0,0,0,0,0,5)
+platforms:add(-360,-3300,820,710,0,0,0,0,0,0,0,2)
 platforms:add(-430,-2620,980,110,1,0,0,0,0,0,0,8)
 platforms:add(-430,-3380,980,110,1,0,0,0,0,0,0,3)
 platforms:add(440,-3350,100,760,1,0,0,0,0,0,0,4)
@@ -46,7 +48,7 @@ crates:add(-110,-3000,"gem")
 crates:add(30,-3000,"gem")
 crates:add(180,-3000,"gem")
 enemies:add(-230,-2910,-100,234,left,"floater")
-enemies:add(60,-2910,-100,238,left,"floater")
+enemies:add(60,-2910,100,238,right,"floater")
 springs:add(-250,-2650,0,"spring_l")
 springs:add(-180,-2650,0,"spring_m")
 springs:add(-110,-2650,0,"spring_s")
