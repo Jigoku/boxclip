@@ -93,8 +93,12 @@ function traps:draw()
 				love.graphics.draw(trap.gfx, trap.x+trap.segments[3].x,trap.y+trap.segments[3].y,0, 1, 1)
 				love.graphics.draw(trap.gfx, trap.x+trap.segments[4].x,trap.y+trap.segments[4].y,0, 1, 1)
 			else
-			
-				love.graphics.draw(trap.gfx, trap.x,trap.y,0, 1, 1)
+				if trap.falling then
+					local wobble = 1.5
+					love.graphics.draw(trap.gfx, trap.x+love.math.random(-wobble,wobble),trap.y,0, 1, 1)
+				else
+					love.graphics.draw(trap.gfx, trap.x,trap.y,0, 1, 1)
+				end
 			end
 
 			if editing or debug then
