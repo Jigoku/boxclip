@@ -43,7 +43,7 @@ editor.binds = {
 	delete = "delete",
 	entcopy = "c",
 	entpaste = "v",
-	entrotate = "r",
+	rotate = "r",
 	guidetoggle = "g",
 	respawn = "x",
 	showpos = ",",
@@ -235,8 +235,8 @@ editor.help = {
 		"scroll entity type"
 	},
 	{
-		editor.binds.entrotate,
-		"set entity direction"
+		editor.binds.rotate .." + scroll",
+		"rotate entity"
 	},
 	{
 		editor.binds.moveup..", "..editor.binds.moveleft..", "..editor.binds.movedown..", "..editor.binds.moveright,
@@ -526,7 +526,8 @@ function editor:wheelmoved(dx, dy)
 		--platform texture slot selection
 		self.texturesel = math.max(1,math.min(#platforms.textures,self.texturesel - dy))
 		self:settexture(p)
-		
+	elseif love.keyboard.isDown(self.binds.rotate) then
+		self:rotate(dy)
 	else
 		--entmenu selection
 		editor.entsel = math.max(1,math.min(#editor.entities,editor.entsel - dy))
@@ -1012,17 +1013,6 @@ function editor:drawentmenu()
 	love.graphics.print(self.entities[self.entsel+4] or empty,10,s*10)
 	love.graphics.setFont(fonts.default)
 	
-	--entdir
-	love.graphics.setColor(255,255,255,255)
-	local dir
-	if self.entdir == 0 then dir = "up" 
-		elseif self.entdir == 1 then dir = "down"
-		elseif self.entdir == 2 then dir = "right"
-		elseif self.entdir == 3 then dir = "left"
-	end
-	love.graphics.print("entdir: "..dir,10,s*12)
-	
-	
 	love.graphics.setCanvas()
 	
 	love.graphics.setColor(255,255,255,255)
@@ -1135,12 +1125,32 @@ function editor:remove()
 end
 
 
-function editor:rotate()
+function editor:rotate(dy)
 	--set rotation value for the entity
 	--four directions, 0,1,2,3 at 90degree angles
-	self.entdir = self.entdir +1
-	if self.entdir > 3 then
-		self.entdir = 0
+	for _, i in ipairs(self.entorder) do
+		for n,e in ipairs(world.entities[i]) do
+			if e.selected and e.dir then
+				e.dir = e.dir + dy
+				
+				if e.dir == 0 or e.dir == 1 then
+					e.w = e.gfx:getWidth()
+					e.h = e.gfx:getHeight()
+				end
+				if e.dir == 2 or e.dir == 3 then
+					e.w = e.gfx:getHeight()
+					e.h = e.gfx:getWidth()
+				end
+				
+				if e.dir > 3 then
+					e.dir = 0
+				elseif e.dir < 0 then
+					e.dir = 3
+				end
+				print( e.group .. " (" .. n .. ") rotated" )
+				print (e.dir)
+			end
+		end
 	end
 end
 
