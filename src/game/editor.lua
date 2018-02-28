@@ -1116,7 +1116,7 @@ function editor:remove()
 		for n,e in ipairs(world.entities[i]) do
 			if e.selected then
 				table.remove(world.entities[i],n)
-				print( e.group .. " (" .. n .. ") removed" )
+				console:print( e.group .. " (" .. n .. ") removed" )
 				self.selbox = nil
 				return true	
 			end
@@ -1128,10 +1128,17 @@ end
 function editor:rotate(dy)
 	--set rotation value for the entity
 	--four directions, 0,1,2,3 at 90degree angles
+
 	for _, i in ipairs(self.entorder) do
 		for n,e in ipairs(world.entities[i]) do
-			if e.selected and e.dir then
+			if e.selected and e.rotatable then
+			
 				e.dir = e.dir + dy
+				if e.dir > 3 then
+					e.dir = 0
+				elseif e.dir < 0 then
+					e.dir = 3
+				end
 				
 				if e.dir == 0 or e.dir == 1 then
 					e.w = e.gfx:getWidth()
@@ -1142,13 +1149,10 @@ function editor:rotate(dy)
 					e.h = e.gfx:getWidth()
 				end
 				
-				if e.dir > 3 then
-					e.dir = 0
-				elseif e.dir < 0 then
-					e.dir = 3
-				end
-				print( e.group .. " (" .. n .. ") rotated" )
-				print (e.dir)
+				console:print( e.group .. " (" .. n .. ") rotated, direction = "..e.dir)
+				e.selected = false
+				return true
+
 			end
 		end
 	end

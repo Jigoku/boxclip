@@ -115,12 +115,12 @@ function physics:movex(object, dt)
 	if object.x > object.xorigin + object.movedist then
 		object.x = object.xorigin + object.movedist 
 		object.movespeed = -object.movespeed
-		object.dir = "left"
+		object.dir = 0
 	end	
 	if object.x < object.xorigin then
 		object.x = object.xorigin
 		object.movespeed = -object.movespeed
-		object.dir = "right"
+		object.dir = 1
 	end
 	
 	object.newX = object.x + object.movespeed *dt

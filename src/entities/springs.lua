@@ -51,6 +51,7 @@ function springs:add(x,y,dir,type)
 		
 		--properties
 		group = "spring",
+		rotatable = true,
 		type = type,
 		gfx = gfx,
 		vel = vel,

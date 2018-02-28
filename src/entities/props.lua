@@ -62,6 +62,7 @@ function props:add(x,y,dir,type)
 		dir = dir,
 		--properties
 		group = "prop",
+		rotatable = true,
 		type = type,
 		gfx = gfx,
 	})

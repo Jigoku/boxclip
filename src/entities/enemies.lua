@@ -56,7 +56,7 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			mass = 800,
 			xvel = 0,
 			yvel = 0,
-			dir = "right",
+			dir = 0,
 			alive = true,
 			score = 230,
 			newY = y,
@@ -90,7 +90,7 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			mass = 800,
 			xvel = 0,
 			yvel = 0,
-			dir = "right",
+			dir = 0,
 			alive = true,
 			score = 230,
 			newY = y,
@@ -121,6 +121,7 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			
 			--properties
 			group = "enemy",
+			rotatable = true,
 			type = type,
 			alive = true,
 			movedist = 0,
@@ -153,6 +154,7 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			
 			--properties
 			group = "enemy",
+			rotatable = true,
 			type = type,
 			alive = true,
 			movedist = 0,
