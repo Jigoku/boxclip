@@ -435,8 +435,8 @@ function editor:keypressed(key)
 	
 		if key == self.binds.themecycle then self:settheme() end
 	
-		for _, type in pairs(world.entities) do
-			for _, e in ripairs(type) do
+		for _, i in ipairs(self.entorder) do	
+			for _,e in ipairs(world.entities[i]) do
 				--fix this for moving platform (yorigin,xorigin etc)
 				if e.selected then
 					if love.keyboard.isDown(self.binds.moveup) then 
