@@ -581,23 +581,23 @@ function editor:mousepressed(x,y,button)
 		if selection == "bridge" then traps:add(x,y,"bridge") end
 		if selection == "brick" then traps:add(x,y,"brick") end
 		
-		if selection == "flower" then props:add(x,y,"flower") end
-		if selection == "flower2" then props:add(x,y,"flower2") end
-		if selection == "grass" then props:add(x,y,"grass") end
-		if selection == "rock" then props:add(x,y,"rock") end
-		if selection == "tree" then props:add(x,y,"tree") end
-		if selection == "post" then props:add(x,y,"post") end
-		if selection == "arch" then props:add(x,y,"arch") end
-		if selection == "arch1_r" then props:add(x,y,"arch1_r") end
-		if selection == "arch2" then props:add(x,y,"arch2") end
-		if selection == "arch3" then props:add(x,y,"arch3") end
-		if selection == "arch3_end_l" then props:add(x,y,"arch3_end_l") end
-		if selection == "arch3_end_r" then props:add(x,y,"arch3_end_r") end
-		if selection == "arch3_pillar" then props:add(x,y,"arch3_pillar") end
-		if selection == "porthole" then props:add(x,y,"porthole") end
-		if selection == "mesh" then props:add(x,y,"mesh") end
-		if selection == "pillar" then props:add(x,y,"pillar") end
-		if selection == "girder" then props:add(x,y,"girder") end
+		if selection == "flower" then props:add(x,y,self.entdir,"flower") end
+		if selection == "flower2" then props:add(x,y,self.entdir,"flower2") end
+		if selection == "grass" then props:add(x,y,self.entdir,"grass") end
+		if selection == "rock" then props:add(x,y,self.entdir,"rock") end
+		if selection == "tree" then props:add(x,y,self.entdir,"tree") end
+		if selection == "post" then props:add(x,y,self.entdir,"post") end
+		if selection == "arch" then props:add(x,y,self.entdir,"arch") end
+		if selection == "arch1_r" then props:add(x,y,self.entdir,"arch1_r") end
+		if selection == "arch2" then props:add(x,y,self.entdir,"arch2") end
+		if selection == "arch3" then props:add(x,y,self.entdir,"arch3") end
+		if selection == "arch3_end_l" then props:add(x,y,self.entdir,"arch3_end_l") end
+		if selection == "arch3_end_r" then props:add(x,y,self.entdir,"arch3_end_r") end
+		if selection == "arch3_pillar" then props:add(x,y,self.entdir,"arch3_pillar") end
+		if selection == "porthole" then props:add(x,y,self.entdir,"porthole") end
+		if selection == "mesh" then props:add(x,y,self.entdir,"mesh") end
+		if selection == "pillar" then props:add(x,y,self.entdir,"pillar") end
+		if selection == "girder" then props:add(x,y,self.entdir,"girder") end
 		
 		if selection == "spring_s" then springs:add(x,y,self.entdir,"spring_s") end
 		if selection == "spring_m" then springs:add(x,y,self.entdir,"spring_m") end

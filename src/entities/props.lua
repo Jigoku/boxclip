@@ -40,16 +40,26 @@ props_textures = {
 
 
 
-function props:add(x,y,type)
+function props:add(x,y,dir,type)
 
 	local gfx = props_textures[type]
+	
+	if dir == 0 or dir == 1 then
+		width = gfx:getWidth()
+		height = gfx:getHeight()
+		end
+	if dir == 2 or dir == 3 then
+		width = gfx:getHeight()
+		height = gfx:getWidth()
+	end
 	
 	table.insert(world.entities.prop, {
 		--dimensions
 		x = x or 0, 
 		y = y or 0,
-		w = gfx:getWidth(),
-		h = gfx:getHeight(),
+		w = width,
+		h = height,
+		dir = dir,
 		--properties
 		group = "prop",
 		type = type,
@@ -86,7 +96,18 @@ function props:draw()
 				love.graphics.setColor(255,255,255,255)
 			end
 			
-			love.graphics.draw(prop.gfx, prop.x,prop.y,0, 1, 1)
+			
+
+			if prop.dir == 1 then
+				love.graphics.draw(prop.gfx, prop.x, prop.y, 0,1,-1,0,prop.h )
+			elseif prop.dir == 2 then
+				love.graphics.draw(prop.gfx, prop.x, prop.y, math.rad(90),1,1,0,prop.w )
+			elseif prop.dir == 3 then
+				love.graphics.draw(prop.gfx, prop.x, prop.y, math.rad(-90),-1,1 )
+			else
+				love.graphics.draw(prop.gfx, prop.x, prop.y, 0,1,1)
+			end
+		
 
 			if editing or debug then
 				props:drawdebug(prop, i)
@@ -106,8 +127,8 @@ function props:drawdebug(prop, i)
 		"line", 
 		prop.x, 
 		prop.y, 
-		prop.gfx:getWidth(), 
-		prop.gfx:getHeight()
+		prop.w, 
+		prop.h
 	)
 	
 	editor:drawid(prop, i)

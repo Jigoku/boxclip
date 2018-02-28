@@ -67,15 +67,17 @@ function springs:draw()
 		if world:inview(spring) then
 			count = count +1
 			love.graphics.setColor(255,255,255,255)
-			if spring.dir == 0 then
-				love.graphics.draw(spring.gfx, spring.x, spring.y, 0,1,1)
-			elseif spring.dir == 1 then
+				
+			if spring.dir == 1 then
 				love.graphics.draw(spring.gfx, spring.x, spring.y, 0,1,-1,0,spring.h )
 			elseif spring.dir == 2 then
 				love.graphics.draw(spring.gfx, spring.x, spring.y, math.rad(90),1,1,0,spring.w )
 			elseif spring.dir == 3 then
 				love.graphics.draw(spring.gfx, spring.x, spring.y, math.rad(-90),-1,1 )
+			else
+				love.graphics.draw(spring.gfx, spring.x, spring.y, 0,1,1)
 			end
+			
 			if editing or debug then
 				springs:drawdebug(spring, i)
 			end

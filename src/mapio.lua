@@ -63,7 +63,7 @@ function mapio:savemap(map)
 		fh:write("enemies:add("..math.round(e.xorigin)..","..math.round(e.yorigin)..","..e.movespeed..","..e.movedist ..","..e.dir..",\""..e.type.."\")\n")
 	end
 	for _, e in ipairs(world.entities.prop) do
-		fh:write("props:add("..math.round(e.x)..","..math.round(e.y)..",\""..e.type.."\")\n")
+		fh:write("props:add("..math.round(e.x)..","..math.round(e.y)..","..e.dir..",\""..e.type.."\")\n")
 	end
 	for _, e in ipairs(world.entities.spring) do
 		fh:write("springs:add("..math.round(e.x)..","..math.round(e.y)..","..e.dir.. ",\""..e.type.."\")\n")
