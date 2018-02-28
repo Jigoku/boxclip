@@ -399,7 +399,7 @@ function editor:keypressed(key)
 		if key == self.binds.entselup then self.entsel = self.entsel +1 end
 		if key == self.binds.entseldown then self.entsel = self.entsel -1 end
 		if key == self.binds.pause then self.paused = not self.paused end
-		if key == self.binds.delete then self:removesel() end
+		if key == self.binds.delete then self:remove() end
 		if key == self.binds.entcopy then self:copy() end
 		if key == self.binds.entpaste then self:paste() end
 		if key == self.binds.entrotate then self:rotate() end
@@ -558,7 +558,11 @@ function editor:mousepressed(x,y,button)
 		
 		if selection == "crate" then crates:add(x,y,"gem") end
 		
-		if selection == "walker" then enemies:add(x,y,100,100,0,"walker") end
+		if selection == "walker" then 
+			for i=1,100 do
+				enemies:add(x,y,100,100,0,"walker") 
+			end
+		end
 		
 		if selection == "floater" then enemies:add(x,y,100,400,0,"floater") end
 		if selection == "spikeball" then enemies:add(x,y,0,0,0,"spikeball") end

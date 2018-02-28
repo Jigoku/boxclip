@@ -36,7 +36,7 @@ function player:init()
 	self.lastdir = "idle"
 	self.score = 0
 	self.alive = true
-	self.lives = 3
+	self.lives = 0
 	self.gems = 0
 	self.angle = 0
 	self.camerashift = 50
@@ -161,7 +161,7 @@ function player:update(dt)
 		console:print("game over")
 		--add game over transition screen
 		--should fade in, press button to exit to title
-		title:init()
+		gameover:init()
 	end
 		
 	-- give a life at 100 gems
@@ -222,6 +222,8 @@ function player:die(this)
 		end
 		camera:fade(2, {0,0,0,255})
 		camera:shake(8, 1, 60, 'XY')
+		
+		
 		
 		console:print("player killed by " .. this)	
 		sound:play(sound.effects["die"])

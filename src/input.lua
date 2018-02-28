@@ -28,10 +28,10 @@ end
 
 function love.keypressed(key)
 	
-	if mode == "title" then title:keypressed(key) end
-	if mode == "editing" then editor:keypressed(key) end
-	
-	if mode == "game" then
+	if     mode == "title" then title:keypressed(key)
+	elseif mode == "editing" then editor:keypressed(key)
+	elseif mode == "gameover" then gameover:keypressed(key)
+	elseif mode == "game" then
 		if key == binds.pause then
 				
 			-- broken? does not resume.

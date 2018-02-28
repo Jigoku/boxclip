@@ -115,7 +115,22 @@ function decals:draw()
 					)
 					
 				end
+			
+			elseif decal.type == "lava" then
+				love.graphics.setColor(255,255,255,255)
+				love.graphics.draw(decal.gfx, decal.quad, decal.x,decal.y)
+			
+				love.graphics.setColor(180,70,0,255)
+				for i=0, decal.w, self.textures["waterfall"]:getWidth()/2 do
 				
+					local t = self.textures["waterfall"]
+					love.graphics.draw(t, decal.x+i,decal.y,
+						(love.math.random(0,1) == 1 and self.waterfallspin or -self.waterfallspin),
+						1,1,t:getWidth()/2,t:getHeight()/2
+					)
+					
+				end
+			
 			else
 				--everything else
 				love.graphics.setColor(255,255,255,255)

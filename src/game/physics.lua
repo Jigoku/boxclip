@@ -190,8 +190,6 @@ function physics:bounce(object,dt)
 end
 
 function physics:crates(object,dt)
-	
-	local i, crate
 	for i, crate in ipairs(world.entities.crate) do
 			if collision:check(crate.x,crate.y,crate.w,crate.h,
 				object.newX,object.newY,object.w,object.h) and not crate.destroyed then
@@ -278,7 +276,6 @@ end
 
 
 function physics:bumpers(object,dt)
-	local i, bumper
 	for i, bumper in ipairs(world.entities.bumper) do
 		if collision:check(bumper.x,bumper.y,bumper.w,bumper.h,
 				object.newX,object.newY,object.w,object.h) then
@@ -318,9 +315,6 @@ end
 
 
 function physics:platforms(object, dt)
-	--loop platforms
-		
-	local i, platform
 	for i, platform in ipairs(world.entities.platform) do	
 			if collision:check(platform.x,platform.y,platform.w,platform.h,
 					object.newX,object.newY,object.w,object.h) then
@@ -424,7 +418,6 @@ function physics:update(object)
 end
 
 function physics:pickups(dt)
-
 	for i, pickup in ipairs(world.entities.pickup) do			
 		if not pickup.collected then
 
@@ -474,8 +467,6 @@ end
 	
 
 function physics:enemies(dt)
-
-	local i, enemy
 	for i, enemy in ipairs(world.entities.enemy) do
 		if enemy.alive then
 		
@@ -702,7 +693,6 @@ end
 
 function physics:checkpoints(dt)
 	if mode == "editing" then return end
-	local i, checkpoint
 	for i, checkpoint in ipairs(world.entities.checkpoint) do
 		if world:inview(checkpoint) then
 			if collision:check(player.x,player.y,player.w,player.h,
@@ -723,7 +713,6 @@ end
 
 
 function physics:traps(object, dt)
-	
 	for i, trap in ipairs(world.entities.trap) do
 		if trap.active then
 			if collision:check(object.newX,object.newY,object.w,object.h, trap.x,trap.y,trap.w,trap.h) then
@@ -797,8 +786,6 @@ end
 
 function physics:portals(dt)
 	if mode == "editing" then return end
-	
-	local i, portal
 	for i, portal in ipairs(world.entities.portal) do
 		if world:inview(portal) then
 			if collision:check(player.x,player.y,player.w,player.h,
@@ -823,7 +810,6 @@ end
 
 function physics:springs(dt)
 	if editing then return end
-	local i, spring
 	for i, spring in ipairs(world.entities.spring) do
 		if world:inview(spring) then
 			if collision:check(player.x,player.y,player.w,player.h,

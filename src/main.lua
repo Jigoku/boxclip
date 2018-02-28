@@ -130,17 +130,15 @@ end
 
 function love.draw()
 
-
-
-	--titlescreen
 	if mode == "title" then 
 		title:draw() 
+		
+	elseif mode == "game" or mode =="editing" then
+		world:draw() 
+	elseif mode == "gameover" then
+		gameover:draw()
 	end
 	
-	--world
-	if mode == "game" or mode =="editing" then
-		world:draw(dt) 
-	end
 	
 	--transition overlay
 	transitions:draw()
