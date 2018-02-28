@@ -16,6 +16,7 @@ Maps can be created with the custom built-in map editor. Simply drop and place e
 * springs / bumpers
 * traps / enemies
 * unlimited map size restrictions
+* map states
 
 Visit the [Wiki](https://github.com/Jigoku/boxclip/wiki) for help with game controls and editor tips.
 
