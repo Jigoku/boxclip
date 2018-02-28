@@ -149,6 +149,7 @@ editor.entities = {
 	"grass" ,
 	"rock",
 	"tree" ,
+	"post",
 	"arch" ,
 	"arch1_r",
 	"arch2",
@@ -218,12 +219,12 @@ editor.help = {
 		"open local data directory" 
 	},
 	{ 
-		editor.binds.up..","..editor.binds.left..","..editor.binds.down..","..editor.binds.right, 
+		editor.binds.up..", "..editor.binds.left..", "..editor.binds.down..", "..editor.binds.right, 
 		"move"
 	},
 	{
 		"left mouse",
-		"select/drag"
+		"place entity"
 	},
 	{
 		"right mouse",
@@ -231,15 +232,15 @@ editor.help = {
 	},
 	{
 		"mouse wheel",
-		"select entity type"
+		"scroll entity type"
 	},
 	{
 		editor.binds.entrotate,
-		"set entity placement direction"
+		"set entity direction"
 	},
 	{
-		editor.binds.moveup..","..editor.binds.moveleft..","..editor.binds.movedown..","..editor.binds.moveright,
-		"move entity"
+		editor.binds.moveup..", "..editor.binds.moveleft..", "..editor.binds.movedown..", "..editor.binds.moveright,
+		"adjust entity position"
 	},
 	{
 		editor.binds.themecycle,
@@ -255,7 +256,7 @@ editor.help = {
 	},
 	{
 		editor.binds.savemap,
-		"save map"
+		"save the map"
 	},
 	{
 		binds.exit,
@@ -263,23 +264,23 @@ editor.help = {
 	},
 	{
 		binds.debug,
-		"toggle debug console"
+		"toggle console"
 	},
 	{
 		editor.binds.guidetoggle,
-		"toggle grid display"
+		"toggle grid"
 	},
 	{
 		editor.binds.maptoggle,
-		"toggle minimap display"
+		"toggle minimap"
 	},
 	{
 		editor.binds.helptoggle,
-		"toggle help display"
+		"help menu"
 	},
 	{
 		editor.binds.respawn,
-		"move camera to spawn entity"
+		"reset camera"
 	},
 	{
 		editor.binds.showpos,
@@ -290,7 +291,7 @@ editor.help = {
 		"toggle entity id"
 	},
 	{	
-		editor.binds.decmovedist .. "/" .. editor.binds.incmovedist,
+		editor.binds.decmovedist .. ", " .. editor.binds.incmovedist,
 		"increase/decrease move distance"
 	},
 	{
@@ -298,7 +299,7 @@ editor.help = {
 		"change entity texture"
 	},
 	{
-		editor.binds.musicnext  .. "/" .. editor.binds.musicprev,
+		editor.binds.musicnext  .. ", " .. editor.binds.musicprev,
 		"set world music"
 	},
 	{
@@ -585,6 +586,7 @@ function editor:mousepressed(x,y,button)
 		if selection == "grass" then props:add(x,y,"grass") end
 		if selection == "rock" then props:add(x,y,"rock") end
 		if selection == "tree" then props:add(x,y,"tree") end
+		if selection == "post" then props:add(x,y,"post") end
 		if selection == "arch" then props:add(x,y,"arch") end
 		if selection == "arch1_r" then props:add(x,y,"arch1_r") end
 		if selection == "arch2" then props:add(x,y,"arch2") end

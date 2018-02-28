@@ -24,6 +24,7 @@ props_textures = {
 	["grass"] = love.graphics.newImage("data/images/props/grass.png"),
 	["rock"] = love.graphics.newImage("data/images/props/rock.png"),
 	["tree"] = love.graphics.newImage("data/images/props/tree.png"),
+	["post"] = love.graphics.newImage("data/images/props/post.png"),
 	["arch"] = love.graphics.newImage("data/images/props/arch.png"),
 	["arch1_r"] = love.graphics.newImage("data/images/props/arch1_r.png"),
 	["arch2"] = love.graphics.newImage("data/images/props/arch2.png"),
