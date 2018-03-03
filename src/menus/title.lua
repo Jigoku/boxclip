@@ -22,7 +22,7 @@ title = {}
 
 
 function title:mapname(id)
-	for i,map in ipairs(mapio:getmaps()) do
+	for i,map in ipairs(self.maps) do
 		if i == id then return map end
 	end
 end
@@ -47,6 +47,8 @@ function title:init()
 	self.menu = "main"
 	self.keystr = ""
 	self.mapsel = 1
+	
+	self.maps = mapio:getmaps()
 	
 	cheats = {
 		catlife = false,
@@ -79,7 +81,7 @@ function title:mainselect(cmd)
 	if cmd == "right" then self.mapsel = self.mapsel +1 end
 		
 	if self.mapsel < 1 then self.mapsel = 1 end
-	if self.mapsel > #mapio:getmaps() then self.mapsel = #mapio:getmaps() end
+	if self.mapsel > #self.maps then self.mapsel = #self.maps end
 
 	
 	if cmd == "go" then

@@ -1,6 +1,6 @@
-platform_r = 233
-platform_g = 172
-platform_b = 96
+platform_r = 255
+platform_g = 163
+platform_b = 74
 platform_behind_r = 140
 platform_behind_g = 112
 platform_behind_b = 76

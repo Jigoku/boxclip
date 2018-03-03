@@ -49,9 +49,10 @@ function materials:draw()
 					love.graphics.setColor(255,255,255,100)
 					love.graphics.draw(self.death, mat.quad, mat.x,mat.y)
 				end
+			
+				editor:drawid(mat,i)
+				editor:drawcoordinates(mat)
 			end
-			editor:drawid(mat,i)
-			editor:drawcoordinates(mat)
 		end
 				
 

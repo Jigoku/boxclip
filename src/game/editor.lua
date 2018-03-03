@@ -22,43 +22,7 @@
 
 editor = {}
 editing = false
-
---editor controls
-editor.binds = {
-	up = "w",
-	left = "a",
-	down = "s",
-	right = "d",
-	incmovedist = "]",
-	decmovedist = "[",
-	edittoggle = "f1",
-	helptoggle = "h",
-	maptoggle = "m",
-	entmenutoggle = "e",
-	musicbrowser = "f2",
-	musicnext = "=",
-	musicprev = "-",
-	entselup = "kp+",
-	entseldown = "kp-",
-	delete = "delete",
-	entcopy = "c",
-	entpaste = "v",
-	rotate = "r",
-	guidetoggle = "g",
-	respawn = "x",
-	showpos = ",",
-	showid = ".",
-	savemap = "f3",
-	themecycle = "t",
-	moveup = "kp8",
-	movedown = "kp2",
-	moveleft = "kp4",
-	moveright = "kp6",
-	sendtoback = "b",
-	texturesel = "y",
-	camera = "lctrl",
-	pause = "p",
-}
+require "editbinds"
 
 editor.mouse = {
 	x = 0,
