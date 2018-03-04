@@ -40,7 +40,7 @@ props_textures = {
 
 
 
-function props:add(x,y,dir,type)
+function props:add(x,y,dir,flip,type)
 
 	local gfx = props_textures[type]
 	
@@ -59,7 +59,7 @@ function props:add(x,y,dir,type)
 		w = width,
 		h = height,
 		dir = dir,
-		flip = false,
+		flip = flip,
 		
 		group = "prop",
 		type = type,
