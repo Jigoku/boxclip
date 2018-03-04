@@ -18,6 +18,7 @@ editor.binds = {
 	delete = "delete",
 	entcopy = "c",
 	entpaste = "v",
+	flip = "f",
 	rotate = "r",
 	guidetoggle = "g",
 	respawn = "x",

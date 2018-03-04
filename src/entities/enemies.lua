@@ -121,7 +121,6 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			
 			--properties
 			group = "enemy",
-			rotatable = true,
 			type = type,
 			alive = true,
 			movedist = 0,
@@ -129,6 +128,8 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			dir = dir,
 			movespeed = 0,
 			movedist = 0,
+			
+			editor_canrotate = true,
 			
 		})
 
@@ -154,14 +155,14 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			
 			--properties
 			group = "enemy",
-			rotatable = true,
 			type = type,
 			alive = true,
 			movedist = 0,
 			movespeed = 0,
 			gfx = self.textures[type],
-			dir = dir
+			dir = dir,
 			
+			editor_canrotate = true
 		})
 
 	elseif type == "icicle" then

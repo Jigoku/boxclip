@@ -296,8 +296,9 @@ function editor:settexture(platform)
 				--bottom left
 				{0,0+platform.h,0,rows}
 			}
+			platform.selected = false
+			return true
 		end
-		platform.selected = false
 	end
 end
 
@@ -343,6 +344,12 @@ function editor:settheme()
 	
 end
 
+function editor:warn(func)
+	if not func then
+		console:print("action cannot be performed on selected entity")
+	end
+end
+
 function editor:keypressed(key)
 	if key == self.binds.edittoggle then 
 		editing = not editing
@@ -367,9 +374,8 @@ function editor:keypressed(key)
 		if key == self.binds.delete then self:remove() end
 		if key == self.binds.entcopy then self:copy() end
 		if key == self.binds.entpaste then self:paste() end
-		if key == self.binds.entrotate then self:rotate() end
 		if key == self.binds.entmenutoggle then self.showentmenu = not self.showentmenu end
-
+		if key == self.binds.flip then self:warn(self:flip()) end
 		if key == self.binds.guidetoggle then self.showguide = not self.showguide end
 		if key == self.binds.respawn then self:sendtospawn() end
 		if key == self.binds.showpos then self.showpos = not self.showpos end
@@ -489,9 +495,9 @@ function editor:wheelmoved(dx, dy)
 	elseif love.keyboard.isDown(self.binds.texturesel) then
 		--platform texture slot selection
 		self.texturesel = math.max(1,math.min(#platforms.textures,self.texturesel - dy))
-		self:settexture(p)
+		self:warn(self:settexture(p))
 	elseif love.keyboard.isDown(self.binds.rotate) then
-		self:rotate(dy)
+		self:warn(self:rotate(dy))
 	else
 		--entmenu selection
 		editor.entsel = math.max(1,math.min(#editor.entities,editor.entsel - dy))
@@ -1089,13 +1095,25 @@ function editor:remove()
 end
 
 
+function editor:flip()
+	for _, i in ipairs(self.entorder) do
+		for n,e in ipairs(world.entities[i]) do
+			if e.selected and e.editor_canflip then
+				e.flip = not e.flip
+				console:print( e.group .. " (" .. n .. ") flipped" )
+				return true
+			end
+		end
+	end
+end
+
 function editor:rotate(dy)
 	--set rotation value for the entity
 	--four directions, 0,1,2,3 at 90degree angles
 
 	for _, i in ipairs(self.entorder) do
 		for n,e in ipairs(world.entities[i]) do
-			if e.selected and e.rotatable then
+			if e.selected and e.editor_canrotate then
 			
 				e.dir = e.dir + dy
 				if e.dir > 3 then

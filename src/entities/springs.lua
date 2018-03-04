@@ -51,11 +51,12 @@ function springs:add(x,y,dir,type)
 		
 		--properties
 		group = "spring",
-		rotatable = true,
 		type = type,
 		gfx = gfx,
 		vel = vel,
 		dir = dir,
+		
+		editor_canrotate = true,
 	})
 	print("spring added @  X:"..x.." Y: "..y)
 	

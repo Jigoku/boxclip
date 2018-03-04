@@ -54,17 +54,19 @@ function props:add(x,y,dir,type)
 	end
 	
 	table.insert(world.entities.prop, {
-		--dimensions
 		x = x or 0, 
 		y = y or 0,
 		w = width,
 		h = height,
 		dir = dir,
-		--properties
+		flip = false,
+		
 		group = "prop",
-		rotatable = true,
 		type = type,
 		gfx = gfx,
+
+		editor_canrotate = true,
+		editor_canflip = true
 	})
 	print(type .. " added @  X:"..x.." Y: "..y)
 
@@ -79,7 +81,7 @@ function props:draw()
 				
 			if prop.type == "arch" or prop.type == "arch2" or prop.type == "arch3" 
 			or prop.type == "arch3_end_l" or prop.type == "arch3_end_r" or prop.type == "arch3_pillar"
-			 then
+			then
 				love.graphics.setColor(
 					platform_r,
 					platform_g,
@@ -98,15 +100,27 @@ function props:draw()
 			end
 			
 			
-
-			if prop.dir == 1 then
-				love.graphics.draw(prop.gfx, prop.x, prop.y, 0,1,-1,0,prop.h )
-			elseif prop.dir == 2 then
-				love.graphics.draw(prop.gfx, prop.x, prop.y, math.rad(90),1,1,0,prop.w )
-			elseif prop.dir == 3 then
-				love.graphics.draw(prop.gfx, prop.x, prop.y, math.rad(-90),-1,1 )
+			if prop.flip then
+			
+				if prop.dir == 1 then
+					love.graphics.draw(prop.gfx, prop.x, prop.y, 0,(prop.flip and -1 or 1),-1,prop.w,prop.h )
+				elseif prop.dir == 2 then
+					love.graphics.draw(prop.gfx, prop.x, prop.y, math.rad(90),1,(prop.flip and -1 or 1),0,0 )
+				elseif prop.dir == 3 then
+					love.graphics.draw(prop.gfx, prop.x, prop.y, math.rad(-90),-1,(prop.flip and -1 or 1),0,prop.w )
+				else
+					love.graphics.draw(prop.gfx, prop.x, prop.y, 0,(prop.flip and -1 or 1),1,prop.w,0)
+				end
 			else
-				love.graphics.draw(prop.gfx, prop.x, prop.y, 0,1,1)
+				if prop.dir == 1 then
+					love.graphics.draw(prop.gfx, prop.x, prop.y, 0,1,-1,0,prop.h )
+				elseif prop.dir == 2 then
+					love.graphics.draw(prop.gfx, prop.x, prop.y, math.rad(90),1,1,0,prop.w )
+				elseif prop.dir == 3 then
+					love.graphics.draw(prop.gfx, prop.x, prop.y, math.rad(-90),-1,1 )
+				else
+					love.graphics.draw(prop.gfx, prop.x, prop.y, 0,1,1)
+				end
 			end
 		
 
