@@ -21,6 +21,9 @@ Maps can be created with the custom built-in map editor. Simply drop and place e
 
 Visit the [Wiki](https://github.com/Jigoku/boxclip/wiki) for help with game controls and editor tips.
 
+### Using the editor
+(click the image to play) 
+[![youtube](https://user-images.githubusercontent.com/1535179/37005708-f1bf67ce-20cc-11e8-87a5-c1ae6b17ea43.png)](https://www.youtube.com/watch?v=WS5fl4KJfOY)
 
 ### Get the development branch
 ```
@@ -41,7 +44,4 @@ Windows archives are not currently available, but you can create one using the a
 ### Note
 Please note this is alpha software, there is no stable release yet. Currently the plans are to have a box collision based world with a map editor, and simple path-based enemies. This may change at any time! 
 
-
-### Using the editor (outdated): 
-[![youtube](https://user-images.githubusercontent.com/1535179/37005708-f1bf67ce-20cc-11e8-87a5-c1ae6b17ea43.png)](https://www.youtube.com/watch?v=WS5fl4KJfOY)
 
