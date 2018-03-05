@@ -43,5 +43,5 @@ Please note this is alpha software, there is no stable release yet. Currently th
 
 
 ### Using the editor (outdated): 
-[![screenshot_20160911_060027](https://cloud.githubusercontent.com/assets/1535179/18415293/1279053e-77e5-11e6-9b08-e05ef0c43237.png)](https://www.youtube.com/watch?v=NiMqQbY2wIY)
+[![youtube](https://user-images.githubusercontent.com/1535179/37005708-f1bf67ce-20cc-11e8-87a5-c1ae6b17ea43.png)](https://www.youtube.com/watch?v=WS5fl4KJfOY)
 
