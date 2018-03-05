@@ -23,7 +23,7 @@ Visit the [Wiki](https://github.com/Jigoku/boxclip/wiki) for help with game cont
 
 ### Using the editor
 (click the image to play) 
-[![youtube](https://user-images.githubusercontent.com/1535179/37005708-f1bf67ce-20cc-11e8-87a5-c1ae6b17ea43.png)](https://www.youtube.com/watch?v=WS5fl4KJfOY)
+[![youtube](https://user-images.githubusercontent.com/1535179/37005890-ac2257a2-20cd-11e8-9cbe-47d57f738b1f.png)](https://www.youtube.com/watch?v=WS5fl4KJfOY)
 
 ### Get the development branch
 ```
