@@ -315,6 +315,7 @@ end
 
 
 function physics:platforms(object, dt)
+	object.carried = false
 	for i, platform in ipairs(world.entities.platform) do	
 			if collision:check(platform.x,platform.y,platform.w,platform.h,
 					object.newX,object.newY,object.w,object.h) then
@@ -350,7 +351,6 @@ function physics:platforms(object, dt)
 				end
 
 				-- top side
-				object.carried = false
 				platform.carrying = false
 				
 				if collision:top(object,platform)  then

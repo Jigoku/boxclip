@@ -296,8 +296,7 @@ function editor:settexture(platform)
 				--bottom left
 				{0,0+platform.h,0,rows}
 			}
-			platform.selected = false
-			return true
+			break
 		end
 	end
 end
@@ -387,7 +386,7 @@ function editor:keypressed(key)
 		if key == self.binds.entcopy then self:copy() end
 		if key == self.binds.entpaste then self:paste() end
 		if key == self.binds.entmenutoggle then self.showentmenu = not self.showentmenu end
-		if key == self.binds.flip then self:warn(self:flip()) end
+		if key == self.binds.flip then self:flip() end
 		if key == self.binds.guidetoggle then self.showguide = not self.showguide end
 		if key == self.binds.respawn then self:sendtospawn() end
 		if key == self.binds.showpos then self.showpos = not self.showpos end
@@ -504,9 +503,10 @@ function editor:wheelmoved(dx, dy)
 	elseif love.keyboard.isDown(self.binds.texturesel) then
 		--platform texture slot selection
 		self.texturesel = math.max(1,math.min(#platforms.textures,self.texturesel - dy))
-		self:warn(self:settexture(p))
+		self:settexture(p)
+		
 	elseif love.keyboard.isDown(self.binds.rotate) then
-		self:warn(self:rotate(dy))
+		self:rotate(dy)
 	else
 		--entmenu selection
 		editor.entsel = math.max(1,math.min(#editor.entities,editor.entsel - dy))
@@ -1118,13 +1118,17 @@ end
 
 function editor:remove()
 	--removes the currently selected entity from the world
+	local should_break = false
 	for _, i in ipairs(self.entorder) do
+		if should_break then break end
 		for n,e in ipairs(world.entities[i]) do
 			if e.selected then
 				table.remove(world.entities[i],n)
 				console:print( e.group .. " (" .. n .. ") removed" )
 				self.selbox = nil
-				return true	
+				
+				should_break = true
+				break
 			end
 		end
 	end
@@ -1132,13 +1136,17 @@ end
 
 
 function editor:flip()
+	local should_break = false
 	for _, i in ipairs(self.entorder) do
+		if should_break then break end
 		for n,e in ipairs(world.entities[i]) do
 			if e.selected and e.editor_canflip then
 				e.flip = not e.flip
 				console:print( e.group .. " (" .. n .. ") flipped" )
 				e.selected = false
-				return true
+				
+				should_break = true
+				break
 			end
 		end
 	end
@@ -1147,8 +1155,9 @@ end
 function editor:rotate(dy)
 	--set rotation value for the entity
 	--four directions, 0,1,2,3 at 90degree angles
-
+	local should_break = false
 	for _, i in ipairs(self.entorder) do
+		if should_break then break end
 		for n,e in ipairs(world.entities[i]) do
 			if e.selected and e.editor_canrotate then
 			
@@ -1170,7 +1179,8 @@ function editor:rotate(dy)
 				
 				console:print( e.group .. " (" .. n .. ") rotated, direction = "..e.dir)
 				e.selected = false
-				return true
+				should_break = true
+				break
 
 			end
 		end
