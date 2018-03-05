@@ -51,7 +51,7 @@ function physics:applyVelocity(object, dt)
 		end
 		
 		-- increase friction when 'idle' until velocity is zero
-		if object.dir == "idle" then
+		if object.dir == "idle" and not object.jumping  then
 			if object.xvel > 0 then
 				object.xvel = math.max(0,object.xvel - (object.friction *dt))
 			elseif object.xvel < 0 then

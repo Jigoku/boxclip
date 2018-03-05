@@ -59,7 +59,7 @@ sound.music = {
 	[3] = love.audio.newSource("data/sounds/music/walking.ogg"),
 	[4] = love.audio.newSource("data/sounds/music/intense.ogg"),
 	[5] = love.audio.newSource("data/sounds/music/busy.ogg"),
-	[6] = love.audio.newSource("data/sounds/music/tropics.ogg"),
+	[6] = love.audio.newSource("data/sounds/music/intro.ogg"),
 	[7] = love.audio.newSource("data/sounds/music/riverside.ogg"),
 	[8] = love.audio.newSource("data/sounds/music/exploration.ogg"),
 	[9] = love.audio.newSource("data/sounds/music/rainbow.ogg"),
@@ -67,6 +67,7 @@ sound.music = {
 	[11] = love.audio.newSource("data/sounds/music/fight.ogg"),
 	[12] = love.audio.newSource("data/sounds/music/paradise.ogg"),
 	[13] = love.audio.newSource("data/sounds/music/happy.ogg"),
+	[14] = love.audio.newSource("data/sounds/music/grasslands.ogg"),
 }
 
 sound.ambience = {
