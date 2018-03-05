@@ -14,7 +14,7 @@
  --]]
 
 --[[
-	editor binds (see binds.lua) or
+	editor binds (see editbinds.lua) or
 	https://github.com/Jigoku/boxclip/wiki/Controls#editor-controls
 	
 	some may be undocumented, check this when adding help menu for editor
@@ -78,7 +78,7 @@ editor.texmenuh = (editor.texmenutexsize*(editor.texmenuoffset*2+1))+(editor.tex
 editor.texmenu = love.graphics.newCanvas(editor.texmenuw,editor.texmenuh)
 
 
---order of entities in entmenu
+--order of placable entities in entmenu
 editor.entities = {
 	"spawn",
 	"goal",
@@ -131,7 +131,7 @@ editor.entities = {
 	"bumper",
 }
 
--- entity order for selection / hover mouse
+-- entity priority for selection / hover mouse
 editor.entorder = {
     "material",
     "trap",
@@ -325,11 +325,14 @@ function editor:update(dt)
 		end
 	end
 	
-			for _,i in ipairs(self.entorder) do
-			for n,e in ripairs(world.entities[i]) do
-				if e.selected then print(n,e.group) end
-			end
-			end
+	--debug stuff
+	--[[
+	for _,i in ipairs(self.entorder) do
+		for n,e in ripairs(world.entities[i]) do
+			if e.selected then print(n,e.group) end
+		end
+	end
+	--]]
 	
 end
 
@@ -437,9 +440,6 @@ function editor:keypressed(key)
 				end
 			end
 		end
-		
-		
-
 		
 	end
 end
@@ -558,23 +558,23 @@ function editor:mousepressed(x,y,button)
 		if selection == "bridge" then traps:add(x,y,"bridge") end
 		if selection == "brick" then traps:add(x,y,"brick") end
 		
-		if selection == "flower" then props:add(x,y,self.entdir,0,"flower") end
-		if selection == "flower2" then props:add(x,y,self.entdir,0,"flower2") end
-		if selection == "grass" then props:add(x,y,self.entdir,0,"grass") end
-		if selection == "rock" then props:add(x,y,self.entdir,0,"rock") end
-		if selection == "tree" then props:add(x,y,self.entdir,0,"tree") end
-		if selection == "post" then props:add(x,y,self.entdir,0,"post") end
-		if selection == "arch" then props:add(x,y,self.entdir,0,"arch") end
-		if selection == "arch1_r" then props:add(x,y,self.entdir,0,"arch1_r") end
-		if selection == "arch2" then props:add(x,y,self.entdir,0,"arch2") end
-		if selection == "arch3" then props:add(x,y,self.entdir,0,"arch3") end
-		if selection == "arch3_end_l" then props:add(x,y,self.entdir,0,"arch3_end_l") end
-		if selection == "arch3_end_r" then props:add(x,y,self.entdir,0,"arch3_end_r") end
-		if selection == "arch3_pillar" then props:add(x,y,self.entdir,0,"arch3_pillar") end
-		if selection == "porthole" then props:add(x,y,self.entdir,0,"porthole") end
-		if selection == "mesh" then props:add(x,y,self.entdir,0,"mesh") end
-		if selection == "pillar" then props:add(x,y,self.entdir,0,"pillar") end
-		if selection == "girder" then props:add(x,y,self.entdir,0,"girder") end
+		if selection == "flower" then props:add(x,y,self.entdir,false,"flower") end
+		if selection == "flower2" then props:add(x,y,self.entdir,false,"flower2") end
+		if selection == "grass" then props:add(x,y,self.entdir,false,"grass") end
+		if selection == "rock" then props:add(x,y,self.entdir,false,"rock") end
+		if selection == "tree" then props:add(x,y,self.entdir,false,"tree") end
+		if selection == "post" then props:add(x,y,self.entdir,false,"post") end
+		if selection == "arch" then props:add(x,y,self.entdir,false,"arch") end
+		if selection == "arch1_r" then props:add(x,y,self.entdir,false,"arch1_r") end
+		if selection == "arch2" then props:add(x,y,self.entdir,false,"arch2") end
+		if selection == "arch3" then props:add(x,y,self.entdir,false,"arch3") end
+		if selection == "arch3_end_l" then props:add(x,y,self.entdir,false,"arch3_end_l") end
+		if selection == "arch3_end_r" then props:add(x,y,self.entdir,false,"arch3_end_r") end
+		if selection == "arch3_pillar" then props:add(x,y,self.entdir,false,"arch3_pillar") end
+		if selection == "porthole" then props:add(x,y,self.entdir,false,"porthole") end
+		if selection == "mesh" then props:add(x,y,self.entdir,false,"mesh") end
+		if selection == "pillar" then props:add(x,y,self.entdir,false,"pillar") end
+		if selection == "girder" then props:add(x,y,self.entdir,false,"girder") end
 		
 		if selection == "spring_s" then springs:add(x,y,self.entdir,"spring_s") end
 		if selection == "spring_m" then springs:add(x,y,self.entdir,"spring_m") end
@@ -620,8 +620,6 @@ function editor:mousereleased(x,y,button)
 end
 
 
-
-
 function editor:sendtospawn()
 	--world:resetcamera()
 	-- find the spawn entity
@@ -633,7 +631,6 @@ function editor:sendtospawn()
 	end	
 	
 end
-
 
 
 function editor:placedraggable(x1,y1,x2,y2)
@@ -1011,6 +1008,7 @@ function editor:selection()
 		for n,e in ipairs(world.entities[i]) do
 			--deselect all before continuing
 			--stops weird texture change bug for non-selected platforms
+			--also, stops performing actions on entities "below" selected ones
 			e.selected = false
 		end
 	end
@@ -1032,7 +1030,7 @@ function editor:selection()
 							h = e.h 
 						}
 						e.selected = true
-						self.texturesel = e.texture or 1
+						
 					end
 				elseif e.movey == 1 then
 					--collision area for moving entity
@@ -1044,7 +1042,6 @@ function editor:selection()
 							h = e.h+e.movedist 
 						}
 						e.selected = true
-						self.texturesel = e.texture or 1
 					
 					end
 				elseif e.swing == 1 then
@@ -1070,13 +1067,16 @@ function editor:selection()
 						h = e.h 
 					} 
 					e.selected = true
-					self.texturesel = e.texture or 1
-				
+
 				else
 					self.selbox = nil
 					editor.selname = "null"
 				end
 				
+				--update active selected texture for entity
+				self.texturesel = e.texture or 1
+				
+				--if we've selected an entity, break entire loop
 				if e.selected then	
 					should_break = true
 					break
