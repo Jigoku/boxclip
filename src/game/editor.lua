@@ -50,9 +50,9 @@ editor.mincamerascale = 0.1		--minimum zoom
 editor.errortex = love.graphics.newImage("data/images/error.png")
 
 -- minimap
-editor.mmapw = 200
-editor.mmaph = 200
-editor.mmapscale = camera.scale/10
+editor.mmapw = love.graphics.getWidth()/3
+editor.mmaph = love.graphics.getHeight()/3
+editor.mmapscale = camera.scale/2
 editor.mmapcanvas = love.graphics.newCanvas( editor.mmapw, editor.mmaph )
 
 -- entity selection menu
@@ -316,6 +316,9 @@ function editor:update(dt)
 	--update active entity selection
 	self:selection()
 		
+	--adjust mmap scale
+	self.mmapscale = camera.scale/4
+		
 	--texture browser display
 	self.texmenutimer = math.max(0, self.texmenutimer- dt)
 		
@@ -324,7 +327,7 @@ function editor:update(dt)
 			self.texmenuopacity = math.max(0,self.texmenuopacity - self.texmenufadespeed * dt)
 		end
 	end
-	
+
 	--debug stuff
 	--[[
 	for _,i in ipairs(self.entorder) do
@@ -598,7 +601,7 @@ function editor:mousereleased(x,y,button)
 	editor.drawsel = false
 
 	if button == 1 then 
-		for _,entity in ipairs(self.draggable) do
+		for _,entity in pairs(self.draggable) do
 			if self.entities[self.entsel] == entity then
 				self:placedraggable(self.mouse.pressed.x,self.mouse.pressed.y,self.mouse.released.x,self.mouse.released.y)
 			end
@@ -629,7 +632,6 @@ function editor:sendtospawn()
 			player.y = portal.y
 		end
 	end	
-	
 end
 
 
@@ -873,8 +875,24 @@ function editor:drawselbox()
 	
 	--draw box  for actively selected entity
 	if self.selbox then
+		local lw = love.graphics.getLineWidth()
+		love.graphics.setLineWidth(2)
+		--frame
 		love.graphics.setColor(0,255,0,255)
 		love.graphics.rectangle("line", self.selbox.x, self.selbox.y, self.selbox.w, self.selbox.h)
+		
+		--corner markers
+		local size = 5
+		love.graphics.setColor(0,255,0,255)
+		--top left
+		love.graphics.rectangle("fill", self.selbox.x-size/2, self.selbox.y-size/2, size, size)
+		--top right
+		love.graphics.rectangle("fill", self.selbox.x+self.selbox.w-size/2, self.selbox.y-size/2, size, size)
+		--bottom left
+		love.graphics.rectangle("fill", self.selbox.x-size/2, self.selbox.y+self.selbox.h-size/2, size, size)
+		--bottom right
+		love.graphics.rectangle("fill", self.selbox.x+self.selbox.w-size/2, self.selbox.y+self.selbox.h-size/2, size, size)
+		love.graphics.setLineWidth(lw)
 	end
 end
 
@@ -1019,7 +1037,7 @@ function editor:selection()
 		for n,e in ripairs(world.entities[i]) do
 			--if should_break then break end
 			if world:inview(e) then
-				editor.selname = e.group .. "("..n..")"
+				editor.selname = (e.type or e.group).. "("..n..")"
 				if e.movex == 1 then
 					--collision area for moving entity
 					if collision:check(self.mouse.x,self.mouse.y,1,1,e.xorigin, e.y, e.movedist+e.w, e.h) then
@@ -1197,7 +1215,7 @@ function editor:drawmmap()
 	love.graphics.setCanvas(self.mmapcanvas)
 	love.graphics.clear()
 
-	love.graphics.setColor(0,0,0,100)
+	love.graphics.setColor(0,0,0,150)
 	love.graphics.rectangle("fill", 0,0,self.mmapw,self.mmaph)
 	
 	for i, platform in ipairs(world.entities.platform) do
