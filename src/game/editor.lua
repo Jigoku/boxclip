@@ -325,6 +325,12 @@ function editor:update(dt)
 		end
 	end
 	
+			for _,i in ipairs(self.entorder) do
+			for n,e in ripairs(world.entities[i]) do
+				if e.selected then print(n,e.group) end
+			end
+			end
+	
 end
 
 function editor:settheme()
@@ -997,15 +1003,23 @@ end
 function editor:selection()
 	-- selects the entity when mouseover 
 	
-	for _, i in ipairs(self.entorder) do	
-		for _,e in ipairs(world.entities[i]) do
+	-- so we can break nested loop
+	-- and not have multiple entities selected
+	local should_break = false 
+	
+	for _, i in ipairs(self.entorder) do
+		for n,e in ipairs(world.entities[i]) do
 			--deselect all before continuing
 			--stops weird texture change bug for non-selected platforms
 			e.selected = false
 		end
+	end
 	
+	for _, i in ipairs(self.entorder) do
+		if should_break then break end
 		--reverse loop
 		for n,e in ripairs(world.entities[i]) do
+			--if should_break then break end
 			if world:inview(e) then
 				editor.selname = e.group .. "("..n..")"
 				if e.movex == 1 then
@@ -1019,7 +1033,6 @@ function editor:selection()
 						}
 						e.selected = true
 						self.texturesel = e.texture or 1
-						return true
 					end
 				elseif e.movey == 1 then
 					--collision area for moving entity
@@ -1032,7 +1045,7 @@ function editor:selection()
 						}
 						e.selected = true
 						self.texturesel = e.texture or 1
-						return true
+					
 					end
 				elseif e.swing == 1 then
 					--collision area for swinging entity
@@ -1046,7 +1059,7 @@ function editor:selection()
 							h = platform_link_origin:getHeight()
 						}
 						e.selected = true
-						return true
+					
 					end
 				elseif collision:check(self.mouse.x,self.mouse.y,1,1,e.x,e.y,e.w,e.h) then
 					--collision area for static entities
@@ -1058,10 +1071,15 @@ function editor:selection()
 					} 
 					e.selected = true
 					self.texturesel = e.texture or 1
-					return true
+				
 				else
 					self.selbox = nil
 					editor.selname = "null"
+				end
+				
+				if e.selected then	
+					should_break = true
+					break
 				end
 			end
 		end
@@ -1101,6 +1119,7 @@ function editor:flip()
 			if e.selected and e.editor_canflip then
 				e.flip = not e.flip
 				console:print( e.group .. " (" .. n .. ") flipped" )
+				e.selected = false
 				return true
 			end
 		end
