@@ -2,7 +2,7 @@ world.gravity = 2000
 world.mapmusic = 7
 world.mapambient = 0
 world.maptitle = "unnamed map"
-world.nextmap = "title"
+world.nextmap = "2_act1.lua"
 world.deadzone = 2000
 world:settheme("sunny")
 platforms:add(3290,-1290,350,130,1,0,0,0,0,0,0,1)
