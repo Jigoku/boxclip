@@ -19,14 +19,21 @@ function tips:add(x,y,text)
 
 	local w, t = fonts.tips:getWrap(text, love.math.random(100,300))
 	local padding = 5
-	print (#t)
+
 	table.insert(world.entities.tip,{
 		x = x,
 		y = y,
-		w = w,
-		h = (fonts.tips:getHeight()+fonts.tips:getLineHeight())*(#t+1),
+		xorigin = x,
+		yorigin = y,
+		
+		w = w+padding*2,
+		h = (fonts.tips:getHeight()+fonts.tips:getLineHeight())*(#t) + padding,
+		
 		padding = padding,
 		text = text,
+		ticks = 0,
+		yspeed = 0.05,
+		xspeed = 0.025,
 		group = "tip"
 	})
 end
@@ -34,7 +41,10 @@ end
 function tips:update(dt)
 	for _, tip in ipairs(world.entities.tip) do
 		if world:inview(tip) then
-			-- float up/down slightly
+			tip.x = tip.xorigin - (4*math.sin(tip.ticks*tip.xspeed*math.pi)) + 8
+			tip.y = tip.yorigin - (5*math.sin(tip.ticks*tip.yspeed*math.pi)) + 10
+			
+			tip.ticks = tip.ticks + 1
 		end
 	end
 end
