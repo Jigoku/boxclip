@@ -1,5 +1,5 @@
 world.gravity = 2000
-world.mapmusic = 12
+world.mapmusic = 14
 world.mapambient = 4
 world.maptitle = "Sunny Hill Act 1"
 world.nextmap = "1_act2.lua"
@@ -165,3 +165,6 @@ traps:add(330,-2830,"log")
 traps:add(360,-2830,"log")
 traps:add(390,-2830,"log")
 traps:add(420,-2830,"log")
+tips:add(142,-3296,"this is a multi line text test to see how everything can fit nicely in the frame")
+tips:add(140,-3146,"this is a multi line text test to see how everything can fit nicely in the frame")
+tips:add(315,-3154,"this is a multi line text test to see how everything can fit nicely in the frame")

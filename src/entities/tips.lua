@@ -31,7 +31,7 @@ function tips:add(x,y,text)
 		
 		padding = padding,
 		text = text,
-		ticks = 0,
+		ticks = love.math.random(100),
 		yspeed = 0.05,
 		xspeed = 0.025,
 		group = "tip"
@@ -65,7 +65,7 @@ function tips:draw()
 			local corners = 15
 			
 			--background
-			love.graphics.setColor(255,255,255,255)
+			love.graphics.setColor(255,255,255,200)
 			love.graphics.rectangle("fill", tip.x, tip.y, tip.w, tip.h,corners)
 			--frame
 			love.graphics.setColor(0,0,0,255)
