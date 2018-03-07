@@ -200,7 +200,9 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			--origin
 			xorigin = x,
 			yorigin = y,
-
+			--y sin movement
+			ticks = 0,
+			yspeed = 0.01,
 			--position
 			x = love.math.random(x,x+movedist) or 0,
 			y = y or 0,

@@ -517,6 +517,8 @@ function physics:enemies(dt)
 			end	
 			
 			if enemy.type == "floater" then
+				enemy.y = enemy.yorigin - (10*math.sin(enemy.ticks*enemy.yspeed*math.pi)) + 20
+				enemy.ticks = enemy.ticks +1
 				self:movex(enemy, dt)
 				self:update(enemy)
 				
