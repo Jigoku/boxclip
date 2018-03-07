@@ -274,6 +274,7 @@ function world:draw()
 	enemies:draw()
 	traps:draw()
 	materials:draw()
+	tips:draw()
 
 	player:draw()	
 
@@ -452,7 +453,8 @@ function world:reset()
 		["spring"] = {group = "springs"},
 		["platform"] = {group = "platform"},
 		["prop"] = {group = "props"},
-		["decal"] = {group = "decals"}
+		["decal"] = {group = "decals"},
+		["tip"] = {group = "tips"}
 
 	}
 end
@@ -594,6 +596,7 @@ function world:update(dt)
 		player:update(dt)
 		decals:update(dt)
 		bumpers:update(dt)
+		tips:update(dt)
 		
 		world.collision = 0
 

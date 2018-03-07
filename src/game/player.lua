@@ -30,7 +30,7 @@ function player:init()
 	self.friction = 300
 	self.xvel = 0
 	self.yvel = 0
-	self.jumpheight = 800
+	self.jumpheight = 780
 	self.jumping = false
 	self.dir = "idle"
 	self.lastdir = "idle"

@@ -27,5 +27,6 @@ require("entities/checkpoints")
 require("entities/pickups")
 require("entities/bumpers")
 require("entities/portals")
+require("entities/tips")
 
 return entities

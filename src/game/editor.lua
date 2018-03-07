@@ -82,6 +82,7 @@ editor.texmenu = love.graphics.newCanvas(editor.texmenuw,editor.texmenuh)
 editor.entities = {
 	"spawn",
 	"goal",
+	"tip",
 	"platform" ,
 	"platform_b" ,
 	"platform_x" ,
@@ -133,6 +134,7 @@ editor.entities = {
 
 -- entity priority for selection / hover mouse
 editor.entorder = {
+	"tip",
     "material",
     "trap",
     "enemy",
@@ -539,7 +541,7 @@ function editor:mousepressed(x,y,button)
 		
 		if selection == "crate" then crates:add(x,y,"gem") end
 		
-		if selection == "walker" then enemies:add(x,y,100,100,0,"walker") end
+		if selection == "walker" then for i=1,100 do enemies:add(x,y,100,100,0,"walker") end end
 		
 		if selection == "floater" then enemies:add(x,y,100,400,0,"floater") end
 		if selection == "spikeball" then enemies:add(x,y,0,0,0,"spikeball") end
@@ -585,6 +587,7 @@ function editor:mousepressed(x,y,button)
 		
 		if selection == "bumper" then bumpers:add(x,y) end
 		
+		if selection == "tip" then tips:add(x,y,"this is a multi line text test to see how everything can fit nicely in the frame") end
 		
 	elseif button == 2 then
 		self:remove()

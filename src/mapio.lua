@@ -83,7 +83,10 @@ function mapio:savemap(map)
 	for _, e in ipairs(world.entities.trap) do
 		fh:write("traps:add("..math.round(e.x)..","..math.round(e.y)..",\""..e.type.."\")\n")
 	end
-
+	for _, e in ipairs(world.entities.tip) do
+		fh:write("tips:add("..math.round(e.x)..","..math.round(e.y)..",\""..e.text.."\")\n")
+	end
+	
 	if fh:close() then
 		console:print("saved map: " ..self.path.."/"..filename)
 	end
