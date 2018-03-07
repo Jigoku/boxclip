@@ -94,7 +94,8 @@ function console:draw()
 				" | decals: " .. #world.entities.decal .. "("..world.decals .. ")" ..
 				" | bumpers: " .. #world.entities.bumper .. "("..world.bumpers .. ")" ..
 				" | traps: " .. #world.entities.trap .. "(" .. world.traps .. ")" ..
-				" | t: " .. world:totalents() .. "(" .. world:totalentsdrawn() .. ")" .. 
+				" | tips: " .. #world.entities.tip .. "(" .. world.tips .. ")" ..
+				" | total: " .. world:totalents() .. "(" .. world:totalentsdrawn() .. ")" .. 
 				" | ccpf: " .. world.collision,
 				love.graphics.getWidth()/5, love.graphics.getHeight()-50
 			)

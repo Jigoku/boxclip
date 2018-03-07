@@ -182,12 +182,6 @@ function platforms:draw()
 				255
 			)
 			
-			local offset = 5
-			local quad = love.graphics.newQuad( 0,0, platform.w, platform_grass:getHeight(), platform_grass:getDimensions() )
-			platform_grass:setWrap("repeat", "repeat")
-			love.graphics.draw(platform_grass, quad, platform.x,platform.y-offset)
-			
-	
 			--[[ --untextured grass fallback
 			--surface
 			love.graphics.rectangle("fill", platform.x, platform.y-5, platform.w, 10)	
@@ -197,6 +191,13 @@ function platforms:draw()
 			love.graphics.arc( "fill", platform.x, platform.y, 5, math.pi/2, math.pi*1.5 )
 			--]]
 				
+			local offset = 5
+			local quad = love.graphics.newQuad( 0,0, platform.w, platform_grass:getHeight(), platform_grass:getDimensions() )
+			platform_grass:setWrap("repeat", "repeat")
+			love.graphics.draw(platform_grass, quad, platform.x,platform.y-offset)
+			
+	
+
 				
 			if editing or debug then platforms:drawdebug(platform, i) end
 				

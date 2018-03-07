@@ -17,17 +17,20 @@ tips = {}
 
 function tips:add(x,y,text)
 
-	local w, t = fonts.tips:getWrap(text, love.math.random(100,300))
-	local padding = 5
+	local wrapw, t = fonts.tips:getWrap(text, love.math.random(100,300))
+	local padding = 10
+
+	local w = wrapw+padding*2
+	local h = (fonts.tips:getHeight()+fonts.tips:getLineHeight())*(#t) + padding*2
 
 	table.insert(world.entities.tip,{
-		x = x,
+		x = x ,
 		y = y,
 		xorigin = x,
 		yorigin = y,
 		
-		w = w+padding*2,
-		h = (fonts.tips:getHeight()+fonts.tips:getLineHeight())*(#t) + padding,
+		w = w,
+		h = h,
 		
 		padding = padding,
 		text = text,
@@ -75,7 +78,8 @@ function tips:draw()
 		end
 
 	end
-
+	world.tips = count
+	
 	love.graphics.setLineWidth(lw)
 	love.graphics.setFont(font)
 end
