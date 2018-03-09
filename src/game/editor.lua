@@ -424,7 +424,8 @@ function editor:keypressed(key)
 				--fix this for moving platform (yorigin,xorigin etc)
 				if e.selected then
 					if love.keyboard.isDown(self.binds.moveup) then 
-						e.y = math.round(e.y - 10,-1) --up
+						--weird bug, needs to be "11" to actually save to proper position?
+						e.y = math.round(e.y - 11,-1) --up
 					end
 					if love.keyboard.isDown(self.binds.movedown) then 
 						e.y = math.round(e.y + 10,-1) --down
