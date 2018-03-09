@@ -2,7 +2,7 @@
 
 Maps can be created with the custom built-in map editor. Simply drop and place entities into the world.
 
-![gif-editor](https://media.giphy.com/media/xUNd9OREaN1DHuxkcg/giphy.gif)
+[![2018-03-09-193711_1920x1080_thumb](https://user-images.githubusercontent.com/1535179/37226460-ea4f5b86-23d1-11e8-8aa8-7fa2d6eabe17.png)](https://user-images.githubusercontent.com/1535179/37226506-0e246da8-23d2-11e8-99a3-58c9fd12cbf7.png)
 
 ### Features
 * game mode
