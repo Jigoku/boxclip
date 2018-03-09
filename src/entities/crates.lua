@@ -14,7 +14,10 @@
  --]]
  
 crates = {}
-crate = love.graphics.newImage("data/images/crates/crate.png")
+
+crates.textures = {
+	["crate"] = love.graphics.newImage("data/images/crates/crate.png")
+}
 
 function crates:add(x,y,type)
 	table.insert(world.entities.crate, {
@@ -23,11 +26,9 @@ function crates:add(x,y,type)
 		w = 50,
 		h = 50,
 		group = "crate",
-		type = type or nil,
-		gfx = crate,
+		type = type,
 		destroyed = false,
 		score = 50,
-		mass = 300,
 		yvel = 0,
 	})
 	print( "crate added @  X:"..x.." Y: "..y)
@@ -45,7 +46,7 @@ function crates:draw()
 			count = count + 1
 		
 			love.graphics.setColor(crate_r,crate_g,crate_b,255)
-			love.graphics.draw(crate.gfx,crate.x, crate.y, 0, 1, 1)
+			love.graphics.draw(self.textures["crate"],crate.x, crate.y, 0, 1, 1)
 		
 			if editing or debug then
 				self:drawdebug(crate, i)

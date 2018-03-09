@@ -18,7 +18,7 @@ props = {}
 --maybe create "textures" class to load all of these? 
 -- textures.props, textures.platforms etc. ???
 -- as props.textures will be erased when props is reset
-props_textures = {
+props.textures = {
 	["flower"] = love.graphics.newImage("data/images/props/flower.png"),
 	["flower2"] = love.graphics.newImage("data/images/props/flower2.png"),
 	["grass"] = love.graphics.newImage("data/images/props/grass.png"),
@@ -41,29 +41,25 @@ props_textures = {
 
 
 function props:add(x,y,dir,flip,type)
-
-	local gfx = props_textures[type]
-	
 	if dir == 0 or dir == 1 then
-		width = gfx:getWidth()
-		height = gfx:getHeight()
+		w = self.textures[type]:getWidth()
+		h = self.textures[type]:getHeight()
 		end
 	if dir == 2 or dir == 3 then
-		width = gfx:getHeight()
-		height = gfx:getWidth()
+		w = self.textures[type]:getHeight()
+		h = self.textures[type]:getWidth()
 	end
 	
 	table.insert(world.entities.prop, {
 		x = x or 0, 
 		y = y or 0,
-		w = width,
-		h = height,
+		w = w,
+		h = h,
 		dir = dir,
 		flip = flip,
 		
 		group = "prop",
 		type = type,
-		gfx = gfx,
 
 		editor_canrotate = true,
 		editor_canflip = true
@@ -99,27 +95,26 @@ function props:draw()
 				love.graphics.setColor(255,255,255,255)
 			end
 			
-			
+			local texture = props.textures[prop.type]
 			if prop.flip then
-			
 				if prop.dir == 1 then
-					love.graphics.draw(prop.gfx, prop.x, prop.y, 0,(prop.flip and -1 or 1),-1,prop.w,prop.h )
+					love.graphics.draw(texture, prop.x, prop.y, 0,(prop.flip and -1 or 1),-1,prop.w,prop.h )
 				elseif prop.dir == 2 then
-					love.graphics.draw(prop.gfx, prop.x, prop.y, math.rad(90),1,(prop.flip and -1 or 1),0,0 )
+					love.graphics.draw(texture, prop.x, prop.y, math.rad(90),1,(prop.flip and -1 or 1),0,0 )
 				elseif prop.dir == 3 then
-					love.graphics.draw(prop.gfx, prop.x, prop.y, math.rad(-90),-1,(prop.flip and -1 or 1),0,prop.w )
+					love.graphics.draw(texture, prop.x, prop.y, math.rad(-90),-1,(prop.flip and -1 or 1),0,prop.w )
 				else
-					love.graphics.draw(prop.gfx, prop.x, prop.y, 0,(prop.flip and -1 or 1),1,prop.w,0)
+					love.graphics.draw(texture, prop.x, prop.y, 0,(prop.flip and -1 or 1),1,prop.w,0)
 				end
 			else
 				if prop.dir == 1 then
-					love.graphics.draw(prop.gfx, prop.x, prop.y, 0,1,-1,0,prop.h )
+					love.graphics.draw(texture, prop.x, prop.y, 0,1,-1,0,prop.h )
 				elseif prop.dir == 2 then
-					love.graphics.draw(prop.gfx, prop.x, prop.y, math.rad(90),1,1,0,prop.w )
+					love.graphics.draw(texture, prop.x, prop.y, math.rad(90),1,1,0,prop.w )
 				elseif prop.dir == 3 then
-					love.graphics.draw(prop.gfx, prop.x, prop.y, math.rad(-90),-1,1 )
+					love.graphics.draw(texture, prop.x, prop.y, math.rad(-90),-1,1 )
 				else
-					love.graphics.draw(prop.gfx, prop.x, prop.y, 0,1,1)
+					love.graphics.draw(texture, prop.x, prop.y, 0,1,1)
 				end
 			end
 		

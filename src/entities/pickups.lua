@@ -46,7 +46,6 @@ function pickups:add(x,y,type,dropped)
 		h = self.textures[type]:getHeight(),
 		group = "pickup",
 		type = type,
-		gfx = self.textures[type],
 		collected = false,
 		dropped = dropped or false,
 		attract = false,
@@ -54,7 +53,6 @@ function pickups:add(x,y,type,dropped)
 		red = love.math.random(150,255),
 		green = love.math.random(150,255),
 		blue = love.math.random(50,255),
-		mass = 800,
 		xvel = 0,
 		yvel = 0,
 		score = score,
@@ -71,44 +69,31 @@ function pickups:draw()
 		if not pickup.collected and world:inview(pickup) then
 			count = count + 1
 			
+			local texture = self.textures[pickup.type]
+			
 			if pickup.type == "gem" then
 				love.graphics.setColor(pickup.red,pickup.green,pickup.blue,255)	
-				love.graphics.draw(
-					pickup.gfx, pickup.x, 
-					pickup.y, 0, 1, 1
-				)
+				love.graphics.draw(texture, pickup.x, pickup.y, 0, 1, 1)
 			end
 			
 			if pickup.type == "life" then
 				love.graphics.setColor(255,0,0, 255)	
-				love.graphics.draw(
-					pickup.gfx, pickup.x, 
-					pickup.y, 0, 1, 1
-				)
+				love.graphics.draw(texture, pickup.x, pickup.y, 0, 1, 1)
 			end
 
 			if pickup.type == "magnet" then
 				love.graphics.setColor(255,255,255, 255)	
-				love.graphics.draw(
-					pickup.gfx, pickup.x, 
-					pickup.y, 0, 1, 1
-				)
+				love.graphics.draw(texture, pickup.x, pickup.y, 0, 1, 1)
 			end
 			
 			if pickup.type == "shield" then
 				love.graphics.setColor(255,255,255, 255)	
-				love.graphics.draw(
-					pickup.gfx, pickup.x, 
-					pickup.y, 0, 1, 1
-				)
+				love.graphics.draw(texture, pickup.x, pickup.y, 0, 1, 1)
 			end
 			
 			if pickup.type == "star" then
 				love.graphics.setColor(255,255,255, 255)	
-				love.graphics.draw(
-					pickup.gfx, pickup.x, 
-					pickup.y, 0, 1, 1
-				)
+				love.graphics.draw(texture, pickup.x, pickup.y, 0, 1, 1)
 			end
 
 			if editing or debug then
@@ -127,8 +112,8 @@ function pickups:drawdebug(pickup, i)
 		"line", 
 		pickup.x, 
 		pickup.y, 
-		pickup.gfx:getWidth(), 
-		pickup.gfx:getHeight()
+		pickup.w,
+		pickup.h
 	)
 	
 	editor:drawid(pickup, i)

@@ -15,7 +15,9 @@
 
 bumpers = {}
 
-bumpers.textures = textures:load("data/images/bumpers/")
+bumpers.textures = {
+	["bumper"] = love.graphics.newImage("data/images/bumpers/bumper.png")
+}
 bumpers.scalespeed =  5
 bumpers.maxscale = 1.5
 
@@ -25,8 +27,8 @@ function bumpers:add(x,y)
 		--position
 		x = x or 0,
 		y = y or 0,
-		w = self.textures[2]:getWidth(),
-		h = self.textures[2]:getHeight(),
+		w = self.textures["bumper"]:getWidth(),
+		h = self.textures["bumper"]:getHeight(),
 		
 		--properties
 		score = 25,
@@ -34,7 +36,6 @@ function bumpers:add(x,y)
 		force = 1000,
 		group = "bumper",
 		scale = 1,
-		gfx = self.textures[2]
 	})
 
 end
@@ -62,15 +63,17 @@ function bumpers:draw()
 			--offset for centred scaling
 			local ox, oy = bumper.w *.5, bumper.h * .5
 
+
+			local texture = self.textures["bumper"]
 			if bumper.scale > 1 then
 			love.graphics.draw(
-				bumper.gfx, bumper.x+ox+love.math.random(-5,5), bumper.y+oy+love.math.random(-5,5), 0, 
+				texture, bumper.x+ox+love.math.random(-5,5), bumper.y+oy+love.math.random(-5,5), 0, 
 				bumper.scale, bumper.scale,
 				ox,oy	
 			)
 			else
 			love.graphics.draw(
-				bumper.gfx, bumper.x+ox, bumper.y+oy, 0, 
+				texture, bumper.x+ox, bumper.y+oy, 0, 
 				bumper.scale, bumper.scale,
 				ox,oy	
 			)

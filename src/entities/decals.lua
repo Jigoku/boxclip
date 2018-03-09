@@ -61,26 +61,21 @@ function decals:add(x,y,w,h,type)
 		
 		group = "decal",
 		type = type,
-		gfx = gfx,
 		quad = love.graphics.newQuad( x,y,w,h, self.textures[type]:getDimensions() ) 
-
 	})
 
 end
 
 function decals:update(dt)
 	for i, decal in ipairs(world.entities.decal) do
-	
+		local texture = self.textures[decal.type]
+		
 		if world:inview(decal) then
-			if type(decal.gfx) == "userdata" then
-				decal.scroll = decal.scroll + (decal.scrollspeed * dt)
-				if decal.scroll > decal.gfx:getHeight()then
-					decal.scroll = decal.scroll - decal.gfx:getHeight()
-				end
-				decal.quad:setViewport(0,-decal.scroll, decal.w,decal.h )
-			else
-				decal.scroll = 0
+			decal.scroll = decal.scroll + (decal.scrollspeed * dt)
+			if decal.scroll > texture:getHeight()then
+				decal.scroll = decal.scroll - texture:getHeight()
 			end
+			decal.quad:setViewport(0,-decal.scroll, decal.w,decal.h )
 		end
 	end
 	
@@ -99,11 +94,12 @@ function decals:draw()
 		if world:inview(decal) then
 			count = count + 1
 			
+			local texture = self.textures[decal.type]
 			
 			--waterfall
 			if decal.type == "water" then
 				love.graphics.setColor(255,255,255,215)
-				love.graphics.draw(decal.gfx, decal.quad, decal.x,decal.y)
+				love.graphics.draw(texture, decal.quad, decal.x,decal.y)
 			
 				love.graphics.setColor(190,240,255,255)
 				for i=0, decal.w, self.textures["waterfall"]:getWidth()/2 do
@@ -118,7 +114,7 @@ function decals:draw()
 			
 			elseif decal.type == "lava" then
 				love.graphics.setColor(255,255,255,255)
-				love.graphics.draw(decal.gfx, decal.quad, decal.x,decal.y)
+				love.graphics.draw(texture, decal.quad, decal.x,decal.y)
 			
 				love.graphics.setColor(180,70,0,255)
 				for i=0, decal.w, self.textures["waterfall"]:getWidth()/2 do
@@ -134,7 +130,7 @@ function decals:draw()
 			else
 				--everything else
 				love.graphics.setColor(255,255,255,255)
-				love.graphics.draw(decal.gfx, decal.quad, decal.x,decal.y)
+				love.graphics.draw(texture, decal.quad, decal.x,decal.y)
 			
 			end
 

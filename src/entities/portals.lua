@@ -46,7 +46,6 @@ function portals:add(x,y,type)
 			group = "portal",
 			type = type,
 			activated = false,
-			gfx = self.textures[type]
 		})
 	end
 	
@@ -56,26 +55,26 @@ end
 function portals:draw()
 	local count = 0
 	
-	for i, p in ipairs(world.entities.portal) do
-		if world:inview(p) then
+	for i, portal in ipairs(world.entities.portal) do
+		if world:inview(portal) then
 		count = count + 1
 				
-			if p.type == "goal" then
+			if portal.type == "goal" then
 				love.graphics.setColor(255,255,255,255)
 				
-				love.graphics.draw(p.gfx, p.x, p.y, 0,1,1)
+				love.graphics.draw(self.textures[portal.type], portal.x, portal.y, 0,1,1)
 				
-				if p.activated then	
+				if portal.activated then	
 					--debug
 					love.graphics.setFont(fonts.large)
 					love.graphics.setColor(255,0,0,255)
-					love.graphics.print("next map in: " .. math.round(world.scoreboard.timer,0),p.x-10,p.y-20)
+					love.graphics.print("next map in: " .. math.round(world.scoreboard.timer,0),portal.x-10,portal.y-20)
 					love.graphics.setFont(fonts.default)
 				end
 			end				
 				
 			if editing or debug then
-				self:drawdebug(p, i)
+				self:drawdebug(portal, i)
 			end
 
 		end
@@ -83,14 +82,14 @@ function portals:draw()
 	world.portals = count
 end
 
-function portals:drawdebug(p, i)
+function portals:drawdebug(portal, i)
 	love.graphics.setColor(255,100,0,50)
-	love.graphics.rectangle("fill", p.x,p.y,p.w,p.h)
+	love.graphics.rectangle("fill", portal.x,portal.y,portal.w,portal.h)
 	love.graphics.setColor(255,0,0,255)
-	love.graphics.rectangle("line", p.x,p.y,p.w,p.h)
+	love.graphics.rectangle("line", portal.x,portal.y,portal.w,portal.h)
 	
-	editor:drawid(p, i)
-	editor:drawcoordinates(p)
+	editor:drawid(portal, i)
+	editor:drawcoordinates(portal)
 	
 end
 

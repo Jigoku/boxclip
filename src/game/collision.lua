@@ -31,36 +31,29 @@ end
 
 function collision:right(a,b)
 	world.collision = world.collision +1
-	return a.newX < b.x+b.w and 
-					a.x > b.x+b.w 
+	return a.newX < b.x+b.w and a.x > b.x+b.w 
 end
 
 function collision:left(a,b)
 	world.collision = world.collision +1
-	return a.newX+a.w > b.x and 
-					a.x+a.w < b.x 
+	return a.newX+a.w > b.x and a.x+a.w < b.x 
 end
 
 function collision:top(a,b)
 	world.collision = world.collision +1
+	return a.newY+a.h > b.y and a.y+a.h-10 < b.y
 
-	return a.newY+a.h > b.y  and 
-					a.y+a.h-(a.h/4) < b.y
-					--a.y+a.h-2 < b.y
-					-- why -2?
 end
 
 function collision:bottom(a,b)
 	world.collision = world.collision +1
-	return a.newY < b.y+b.h and 
-					a.y+a.h > b.y+b.h
+	return a.newY < b.y+b.h and a.y > b.y+b.h
 end
 
 function collision:above(a,b)
 	--use this for a bigger intersect, eg; attacking a small enemy from above
 	world.collision = world.collision +1
-	return a.newY+a.h > b.y  and 
-					a.y-a.h < b.y
+	return a.newY+a.h > b.y and a.y-a.h < b.y
 end
 
 function collision:bounds() 

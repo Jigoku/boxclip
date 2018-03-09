@@ -425,8 +425,8 @@ function physics:pickups(dt)
 			if pickup.attract then
 				if player.alive then
 					local angle = math.atan2(player.y+player.h/2 - pickup.h/2 - pickup.y, player.x+player.w/2 - pickup.w/2 - pickup.x)
-					pickup.newX = pickup.x + (math.cos(angle) * pickup.mass/2 * dt)
-					pickup.newY = pickup.y + (math.sin(angle) * pickup.mass/2 * dt)
+					pickup.newX = pickup.x + (math.cos(angle) * pickups.magnet_power * dt)
+					pickup.newY = pickup.y + (math.sin(angle) * pickups.magnet_power * dt)
 				
 				end
 			else
@@ -443,7 +443,7 @@ function physics:pickups(dt)
 				if player.hasmagnet then
 					if collision:check(player.x-pickups.magnet_power,player.y-pickups.magnet_power,
 						player.w+(pickups.magnet_power*2),player.h+(pickups.magnet_power*2),
-						pickup.x, pickup.y,pickup.gfx:getWidth(),pickup.gfx:getHeight()) then
+						pickup.x, pickup.y,pickup.w,pickup.h) then
 
 						if not pickup.attract then
 							pickup.attract = true
@@ -452,7 +452,7 @@ function physics:pickups(dt)
 				end
 			
 				if player.alive and collision:check(player.x,player.y,player.w,player.h,
-					pickup.x, pickup.y,pickup.gfx:getWidth(),pickup.gfx:getHeight()) then
+					pickup.x, pickup.y,pickup.w,pickup.h) then
 						popups:add(pickup.x+pickup.w/2,pickup.y+pickup.h/2,"+"..pickup.score)
 						console:print(pickup.group.."("..i..") collected")	
 						player:collect(pickup)
@@ -584,8 +584,8 @@ function physics:enemies(dt)
 								if platform.clip == 1 and platform.movex == 0 and platform.movey == 0 then
 									enemy.falling = false
 									sound:play(sound.effects["slice"])
-									enemy.gfx = enemies.textures["icicle_d"]
-									enemy.h = enemies.textures["icicle_d"]:getHeight()
+									enemy.type = "icicle_d"
+									enemy.h = enemies.textures[enemy.type]:getHeight()
 									enemy.newY = platform.y-enemy.h
 								end
 							end
@@ -627,7 +627,7 @@ function physics:enemies(dt)
 				
 				-- NOT ACTIVE WHILST EDITING
 				if mode == "game" and player.alive and collision:check(player.newX,player.newY,player.w,player.h,
-					enemy.x-enemy.gfx:getWidth()/2+5,enemy.y-enemy.gfx:getHeight()/2+5,enemy.w-10,enemy.h-10)  then
+					enemy.x-enemy.w/2+5,enemy.y-enemy.h/2+5,enemy.w-10,enemy.h-10)  then
 					
 					if not player.invincible then
 						player.yvel = -player.yvel

@@ -15,7 +15,7 @@
  
 checkpoints = {}
 
-checkpoint_textures = {
+checkpoints.textures = {
 	["front"] = love.graphics.newImage("data/images/checkpoints/front.png"),
 	["back"] = love.graphics.newImage("data/images/checkpoints/back.png")
 }
@@ -24,8 +24,8 @@ function checkpoints:add(x,y)
 	table.insert(world.entities.checkpoint, {
 		x = x or 0,
 		y = y or 0,
-		w = checkpoint_textures["front"]:getWidth(),
-		h = checkpoint_textures["front"]:getHeight(),
+		w = self.textures["front"]:getWidth(),
+		h = self.textures["front"]:getHeight(),
 		group = "checkpoint",
 		activated = false,
 	})
@@ -46,8 +46,8 @@ function checkpoints:draw()
 				love.graphics.setColor(150,255,150,245)
 			end
 			
-			love.graphics.draw(checkpoint_textures["back"], checkpoint.x-checkpoint_textures["back"]:getWidth()/2+checkpoint_textures["front"]:getWidth()/2,checkpoint.y,0, 1, 1)
-			love.graphics.draw(checkpoint_textures["front"], checkpoint.x,checkpoint.y,0, 1, 1)
+			love.graphics.draw(checkpoints.textures["back"], checkpoint.x-checkpoints.textures["back"]:getWidth()/2+checkpoints.textures["front"]:getWidth()/2,checkpoint.y,0, 1, 1)
+			love.graphics.draw(checkpoints.textures["front"], checkpoint.x,checkpoint.y,0, 1, 1)
 	
 			--love.graphics.rectangle("fill", checkpoint.x, checkpoint.y, checkpoint.w, checkpoint.h)
 			

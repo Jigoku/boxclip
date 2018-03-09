@@ -15,7 +15,7 @@
  
 traps = {}
 
-traps_textures = {
+traps.textures = {
 	["log"] = love.graphics.newImage("data/images/traps/log.png"),
 	["bridge"] = love.graphics.newImage("data/images/traps/bridge.png"),
 	["brick"] = love.graphics.newImage("data/images/traps/brick.png"),
@@ -24,28 +24,25 @@ traps_textures = {
 
 function traps:add(x,y,type)
 
-	local gfx = traps_textures[type]
-
 	if type == "brick" then
 		table.insert(world.entities.trap, {
 			--dimensions
 			x = x or 0,
 			y = y or 0,
-			w = gfx:getWidth()*2,
-			h = gfx:getHeight()*2,
+			w = self.textures[type]:getWidth()*2,
+			h = self.textures[type]:getHeight()*2,
 			--properties
 			group = "trap",
 			type = type,
-			gfx = gfx,
 			falling = false,
 			active = true,
 			timer = 0.00,
 			mass = 800,
 			segments = {
 				[1] = {x=0,y=0 } ,
-				[2] = {x=gfx:getWidth(),y=0 } ,
-				[3] = {x=0,y=gfx:getHeight() } ,
-				[4] = {x=gfx:getWidth(),y=gfx:getHeight() } ,
+				[2] = {x=self.textures[type]:getWidth(),y=0 } ,
+				[3] = {x=0,y=self.textures[type]:getHeight() } ,
+				[4] = {x=self.textures[type]:getWidth(),y=self.textures[type]:getHeight() } ,
 			},
 			xvel = 100,
 			yvel = 0,
@@ -61,12 +58,11 @@ function traps:add(x,y,type)
 		--dimensions
 		x = x or 0,
 		y = y or 0,
-		w = gfx:getWidth(),
-		h = gfx:getHeight(),
+		w = self.textures[type]:getWidth(),
+		h = self.textures[type]:getHeight(),
 		--properties
 		group = "trap",
 		type = type,
-		gfx = gfx,
 		falling = false,
 		active = true,
 		timer = 0.05,
@@ -87,17 +83,19 @@ function traps:draw()
 					
 			love.graphics.setColor(255,255,255,255)
 
+			local texture = self.textures[trap.type]
+
 			if trap.type == "brick"  then
-				love.graphics.draw(trap.gfx, trap.x+trap.segments[1].x,trap.y+trap.segments[1].y,0, 1, 1)
-				love.graphics.draw(trap.gfx, trap.x+trap.segments[2].x,trap.y+trap.segments[2].y,0, 1, 1)
-				love.graphics.draw(trap.gfx, trap.x+trap.segments[3].x,trap.y+trap.segments[3].y,0, 1, 1)
-				love.graphics.draw(trap.gfx, trap.x+trap.segments[4].x,trap.y+trap.segments[4].y,0, 1, 1)
+				love.graphics.draw(texture, trap.x+trap.segments[1].x,trap.y+trap.segments[1].y,0, 1, 1)
+				love.graphics.draw(texture, trap.x+trap.segments[2].x,trap.y+trap.segments[2].y,0, 1, 1)
+				love.graphics.draw(texture, trap.x+trap.segments[3].x,trap.y+trap.segments[3].y,0, 1, 1)
+				love.graphics.draw(texture, trap.x+trap.segments[4].x,trap.y+trap.segments[4].y,0, 1, 1)
 			else
 				if trap.falling then
 					local wobble = 1.5
-					love.graphics.draw(trap.gfx, trap.x+love.math.random(-wobble,wobble),trap.y,0, 1, 1)
+					love.graphics.draw(texture, trap.x+love.math.random(-wobble,wobble),trap.y,0, 1, 1)
 				else
-					love.graphics.draw(trap.gfx, trap.x,trap.y,0, 1, 1)
+					love.graphics.draw(texture, trap.x,trap.y,0, 1, 1)
 				end
 			end
 
