@@ -1172,15 +1172,12 @@ function editor:rotate(dy)
 					e.dir = 3
 				end
 				
-				if e.dir == 0 or e.dir == 1 then
-					e.w = e.gfx:getWidth()
-					e.h = e.gfx:getHeight()
-				end
-				if e.dir == 2 or e.dir == 3 then
-					e.w = e.gfx:getHeight()
-					e.h = e.gfx:getWidth()
-				end
+				local w = e.w
+				local h = e.h
 				
+				e.w = h
+				e.h = w
+					
 				console:print( e.group .. " (" .. n .. ") rotated, direction = "..e.dir)
 				e.selected = false
 				should_break = true

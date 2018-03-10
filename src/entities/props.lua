@@ -98,9 +98,9 @@ function props:draw()
 			local texture = props.textures[prop.type]
 			if prop.flip then
 				if prop.dir == 1 then
-					love.graphics.draw(texture, prop.x, prop.y, 0,(prop.flip and -1 or 1),-1,prop.w,prop.h )
-				elseif prop.dir == 2 then
 					love.graphics.draw(texture, prop.x, prop.y, math.rad(90),1,(prop.flip and -1 or 1),0,0 )
+				elseif prop.dir == 2 then
+					love.graphics.draw(texture, prop.x, prop.y, 0,(prop.flip and -1 or 1),-1,prop.w,prop.h )	
 				elseif prop.dir == 3 then
 					love.graphics.draw(texture, prop.x, prop.y, math.rad(-90),-1,(prop.flip and -1 or 1),0,prop.w )
 				else
@@ -108,9 +108,9 @@ function props:draw()
 				end
 			else
 				if prop.dir == 1 then
-					love.graphics.draw(texture, prop.x, prop.y, 0,1,-1,0,prop.h )
-				elseif prop.dir == 2 then
 					love.graphics.draw(texture, prop.x, prop.y, math.rad(90),1,1,0,prop.w )
+				elseif prop.dir == 2 then
+					love.graphics.draw(texture, prop.x, prop.y, 0,1,-1,0,prop.h )
 				elseif prop.dir == 3 then
 					love.graphics.draw(texture, prop.x, prop.y, math.rad(-90),-1,1 )
 				else
