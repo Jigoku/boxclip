@@ -22,7 +22,7 @@
 
 editor = {}
 editing = false
-require "editbinds"
+require "editor/editbinds"
 
 editor.mouse = {
 	x = 0,
