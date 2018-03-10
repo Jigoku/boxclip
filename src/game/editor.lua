@@ -337,7 +337,7 @@ function editor:update(dt)
 		end
 	end
 	--]]
-	
+
 end
 
 function editor:settheme()
@@ -920,7 +920,7 @@ function editor:drawhelpmenu()
 	love.graphics.clear()
 	
 	--frame
-	love.graphics.setColor(0,0,0,150)
+	love.graphics.setColor(0,0,0,200)
 	love.graphics.rectangle("fill",0,0, self.helpmenu:getWidth(), self.helpmenu:getHeight(),10)
 	--border
 	love.graphics.setColor(255,255,255,150)

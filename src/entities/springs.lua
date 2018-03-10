@@ -13,46 +13,45 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  --]]
  
- springs = {}
+springs = {}
 
-spring_s = love.graphics.newImage("data/images/springs/spring_s2.png")
-spring_m = love.graphics.newImage("data/images/springs/spring_m2.png")
-spring_l = love.graphics.newImage("data/images/springs/spring_l2.png")
+springs.textures = {
+	["spring_s"] = love.graphics.newImage("data/images/springs/spring_s2.png"),
+	["spring_m"] = love.graphics.newImage("data/images/springs/spring_m2.png"),
+	["spring_l"] = love.graphics.newImage("data/images/springs/spring_l2.png"),
+}
 
 function springs:add(x,y,dir,type)
 
 	if type == "spring_s" then
 		vel = 1200
-		gfx = spring_s
 	elseif type == "spring_m" then
 		vel = 1500
-		gfx = spring_m
 	elseif type == "spring_l" then
 		vel = 1800
-		gfx = spring_l
 	end
 	
+	local w,h
 
-	if dir == 0 or dir == 1 then
-		width = gfx:getWidth()
-		height = gfx:getHeight()
-		end
-	if dir == 2 or dir == 3 then
-		width = gfx:getHeight()
-		height = gfx:getWidth()
+	if dir == 0 or dir == 2 then
+		w = self.textures[type]:getWidth()
+		h = self.textures[type]:getHeight()
+	end
+	if dir == 3 or dir == 1 then
+		w = self.textures[type]:getHeight()
+		h = self.textures[type]:getWidth()
 	end
 	
 	table.insert(world.entities.spring, {
 		--dimensions
 		x = x or 0, 
 		y = y or 0, 
-		w = width,
-		h = height,
+		w = w,
+		h = h,
 		
 		--properties
 		group = "spring",
 		type = type,
-		gfx = gfx,
 		vel = vel,
 		dir = dir,
 		
@@ -70,14 +69,15 @@ function springs:draw()
 			count = count +1
 			love.graphics.setColor(255,255,255,255)
 				
+			local texture = self.textures[spring.type]
 			if spring.dir == 1 then
-				love.graphics.draw(spring.gfx, spring.x, spring.y, 0,1,-1,0,spring.h )
+				love.graphics.draw(texture, spring.x, spring.y, math.rad(90),1,(spring.flip and -1 or 1),0,(spring.flip and 0 or spring.w))
 			elseif spring.dir == 2 then
-				love.graphics.draw(spring.gfx, spring.x, spring.y, math.rad(90),1,1,0,spring.w )
+				love.graphics.draw(texture, spring.x, spring.y, 0,(spring.flip and 1 or -1),-1,(spring.flip and 0 or spring.w),spring.h)	
 			elseif spring.dir == 3 then
-				love.graphics.draw(spring.gfx, spring.x, spring.y, math.rad(-90),-1,1 )
+				love.graphics.draw(texture, spring.x, spring.y, math.rad(-90),1,(spring.flip and -1 or 1),spring.h,(spring.flip and spring.w or 0))
 			else
-				love.graphics.draw(spring.gfx, spring.x, spring.y, 0,1,1)
+				love.graphics.draw(texture, spring.x, spring.y, 0,(spring.flip and -1 or 1),1,(spring.flip and spring.w or 0),0,0)
 			end
 			
 			if editing or debug then

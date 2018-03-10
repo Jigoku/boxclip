@@ -41,11 +41,12 @@ props.textures = {
 
 
 function props:add(x,y,dir,flip,type)
-	if dir == 0 or dir == 1 then
+	local w,h
+	if dir == 0 or dir == 2 then
 		w = self.textures[type]:getWidth()
 		h = self.textures[type]:getHeight()
 		end
-	if dir == 2 or dir == 3 then
+	if dir == 3 or dir == 1 then
 		w = self.textures[type]:getHeight()
 		h = self.textures[type]:getWidth()
 	end
@@ -96,28 +97,16 @@ function props:draw()
 			end
 			
 			local texture = props.textures[prop.type]
-			if prop.flip then
-				if prop.dir == 1 then
-					love.graphics.draw(texture, prop.x, prop.y, math.rad(90),1,(prop.flip and -1 or 1),0,0 )
-				elseif prop.dir == 2 then
-					love.graphics.draw(texture, prop.x, prop.y, 0,(prop.flip and -1 or 1),-1,prop.w,prop.h )	
-				elseif prop.dir == 3 then
-					love.graphics.draw(texture, prop.x, prop.y, math.rad(-90),-1,(prop.flip and -1 or 1),0,prop.w )
-				else
-					love.graphics.draw(texture, prop.x, prop.y, 0,(prop.flip and -1 or 1),1,prop.w,0)
-				end
+	
+			if prop.dir == 1 then
+				love.graphics.draw(texture, prop.x, prop.y, math.rad(90),1,(prop.flip and -1 or 1),0,(prop.flip and 0 or prop.w))
+			elseif prop.dir == 2 then
+				love.graphics.draw(texture, prop.x, prop.y, 0,(prop.flip and 1 or -1),-1,(prop.flip and 0 or prop.w),prop.h)	
+			elseif prop.dir == 3 then
+				love.graphics.draw(texture, prop.x, prop.y, math.rad(-90),1,(prop.flip and -1 or 1),prop.h,(prop.flip and prop.w or 0))
 			else
-				if prop.dir == 1 then
-					love.graphics.draw(texture, prop.x, prop.y, math.rad(90),1,1,0,prop.w )
-				elseif prop.dir == 2 then
-					love.graphics.draw(texture, prop.x, prop.y, 0,1,-1,0,prop.h )
-				elseif prop.dir == 3 then
-					love.graphics.draw(texture, prop.x, prop.y, math.rad(-90),-1,1 )
-				else
-					love.graphics.draw(texture, prop.x, prop.y, 0,1,1)
-				end
+				love.graphics.draw(texture, prop.x, prop.y, 0,(prop.flip and -1 or 1),1,(prop.flip and prop.w or 0),0,0)
 			end
-		
 
 			if editing or debug then
 				props:drawdebug(prop, i)
