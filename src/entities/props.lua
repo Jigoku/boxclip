@@ -29,8 +29,7 @@ props.textures = {
 	["arch1_r"] = love.graphics.newImage("data/images/props/arch1_r.png"),
 	["arch2"] = love.graphics.newImage("data/images/props/arch2.png"),
 	["arch3"] = love.graphics.newImage("data/images/props/arch3.png"),
-	["arch3_end_l"] = love.graphics.newImage("data/images/props/arch3_end_l.png"),
-	["arch3_end_r"] = love.graphics.newImage("data/images/props/arch3_end_r.png"),
+	["arch3_end"] = love.graphics.newImage("data/images/props/arch3_end.png"),
 	["arch3_pillar"] = love.graphics.newImage("data/images/props/arch3_pillar.png"),
 	["porthole"] = love.graphics.newImage("data/images/props/porthole.png"),
 	["pillar"] = love.graphics.newImage("data/images/props/pillar.png"),
@@ -77,7 +76,7 @@ function props:draw()
 			count = count +1
 				
 			if prop.type == "arch" or prop.type == "arch2" or prop.type == "arch3" 
-			or prop.type == "arch3_end_l" or prop.type == "arch3_end_r" or prop.type == "arch3_pillar"
+			or prop.type == "arch3_end" or prop.type == "arch3_pillar"
 			then
 				love.graphics.setColor(
 					platform_r,

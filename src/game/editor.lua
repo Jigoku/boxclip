@@ -115,12 +115,11 @@ editor.entities = {
 	"rock",
 	"tree" ,
 	"post",
-	"arch" ,
+	"arch",
 	"arch1_r",
 	"arch2",
 	"arch3",
-	"arch3_end_l",
-	"arch3_end_r",
+	"arch3_end",
 	"arch3_pillar",
 	"porthole",
 	"mesh",
@@ -574,8 +573,7 @@ function editor:mousepressed(x,y,button)
 		if selection == "arch1_r" then props:add(x,y,self.entdir,false,"arch1_r") end
 		if selection == "arch2" then props:add(x,y,self.entdir,false,"arch2") end
 		if selection == "arch3" then props:add(x,y,self.entdir,false,"arch3") end
-		if selection == "arch3_end_l" then props:add(x,y,self.entdir,false,"arch3_end_l") end
-		if selection == "arch3_end_r" then props:add(x,y,self.entdir,false,"arch3_end_r") end
+		if selection == "arch3_end" then props:add(x,y,self.entdir,false,"arch3_end") end
 		if selection == "arch3_pillar" then props:add(x,y,self.entdir,false,"arch3_pillar") end
 		if selection == "porthole" then props:add(x,y,self.entdir,false,"porthole") end
 		if selection == "mesh" then props:add(x,y,self.entdir,false,"mesh") end
@@ -810,7 +808,7 @@ function editor:draw()
 	
 	--editor hud
 	love.graphics.setColor(0,0,0,125)
-	love.graphics.rectangle("fill", love.graphics.getWidth() -130, 10, 120,50,10)
+	love.graphics.rectangle("fill", love.graphics.getWidth() -130, 10, 120,(editing and 120 or 50),10)
 	love.graphics.setFont(fonts.large)
 	love.graphics.setColor(255,255,255,175)
 	love.graphics.print("editing",love.graphics.getWidth()-100, 10,0,1,1)
