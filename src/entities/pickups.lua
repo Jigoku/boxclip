@@ -15,7 +15,7 @@
  
 pickups = {}
 
-pickups.magnet_power = 300
+pickups.magnet_power = 200
 
 pickups.textures = {
 	["gem"] = love.graphics.newImage("data/images/pickups/gem.png"),

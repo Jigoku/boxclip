@@ -45,7 +45,8 @@ function love.load(args)
 		game.icon = love.image.newImageData("data/images/icon.png")
 		game.runtime = os.time()
 		game.ticks = 0
-
+		game.utick_time = 0
+		game.dtick_time = 0
 	
 	local options = {
 		{
@@ -62,11 +63,6 @@ function love.load(args)
 			pattern = "^[-]-m$", 
 			description = "mute audio", 
 			exec = function() sound:toggle() end
-		},
-		{
-			pattern = "^[-]-b$",
-			description = "benchmark",
-			exec = function() benchmark = require("benchmark") end
 		}
 	}
 	
@@ -82,8 +78,6 @@ function love.load(args)
 	love.window.setIcon(game.icon)
 	love.mouse.setVisible(false)
 	love.mouse.setGrabbed(true)
-	
-	
 
 	sound:init()
 	title:init()
@@ -93,10 +87,9 @@ end
 
 
 function love.update(dt)
-
-	if benchmark then benchmark.start()	 end
 	game.ticks = game.ticks +1
-
+	game.utick_start = love.timer.getTime()*1000
+	
 	--[ frame rate cap
 		-- fix for lag (ex; caused by dragging window)
 		--   stops collision failures when dt drops below min_dt
@@ -122,14 +115,14 @@ function love.update(dt)
 		editor:update(dt) 
 	end
 	
-
-	if benchmark then benchmark.finish() end
+	game.utick_time = love.timer.getTime( )*1000 - game.utick_start
 end
 
 
 
 function love.draw()
-
+	game.dtick_start = love.timer.getTime()*1000
+	
 	if mode == "title" then 
 		title:draw() 
 		
@@ -147,16 +140,29 @@ function love.draw()
 
 	if benchmark then benchmark.draw(love.graphics.getWidth()-benchmark.canvas:getWidth()-10,10) end
 	
-    
+	love.graphics.setColor(0,0,0,200)
+    love.graphics.rectangle("fill",love.graphics.getWidth()-160, love.graphics.getHeight()/2-160,150,150,10)
+    love.graphics.setFont(fonts.debug)
+    love.graphics.setColor(255,255,255,255)
+	love.graphics.print(
+		"fps " .. love.timer.getFPS() .. "\n" ..
+		"memory(gc) " ..  gcinfo() .."kB\n"..
+		string.format("vram %.2fMB", love.graphics.getStats().texturememory / 1024 / 1024) .. "\n" ..
+		"tick " .. game.ticks .. "\n" ..
+		"update " .. math.round(game.utick_time,1) .. "ms\n" ..
+		"draw " .. math.round(game.dtick_time,1) .. "ms",
+		love.graphics.getWidth()-155, love.graphics.getHeight()/2-155
+	)
+	
+	game.dtick_time = love.timer.getTime( )*1000 - game.dtick_start
+	
 	-- caps fps
 	local cur_time = love.timer.getTime()
 	if game.next_time <= cur_time then
 		game.next_time = cur_time
 		return
 	end
-	love.timer.sleep(game.next_time - cur_time)
-	
-
+	love.timer.sleep(game.next_time - cur_time)	
 end
 
 function love.resize(w,h)

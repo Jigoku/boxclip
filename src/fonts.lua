@@ -1,5 +1,6 @@
 fonts = {
 	default = love.graphics.newFont("data/fonts/Hanken/Hanken-Book.ttf",12),
+	debug = love.graphics.newFont("data/fonts/Hanken/Hanken-Book.ttf",14),
 	tips = love.graphics.newFont("data/fonts/Hanken/Hanken-Book.ttf",20),
 	menu = love.graphics.newFont("data/fonts/Hanken/Hanken-Book.ttf",16),
 	popups = love.graphics.newFont("data/fonts/Hanken/Hanken-Book.ttf",15),

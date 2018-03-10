@@ -44,15 +44,7 @@ function console:draw()
 		love.graphics.rectangle("line", 1, 1, love.graphics.getWidth()-2, 160)
 		
 		
-		--sysinfo
-		love.graphics.setColor(100,255,100,255)
-		love.graphics.print(
-			"FPS: " .. love.timer.getFPS() .. 
-			" | memory(gc): " ..  gcinfo() .."kB"..
-			string.format(" | vram: %.2fMB", love.graphics.getStats().texturememory / 1024 / 1024),
-			5,5
-		)
-		
+
 		if not (mode == "title") then
 			--score etc
 			if mode == "game" then
