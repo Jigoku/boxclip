@@ -225,7 +225,7 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			speed = 3,
 			alive = true,
 			swing = 1,
-			angle = 0,
+			angle = 0, --should restore set angleorigin here TODO
 			radius = 200,
 			movespeed = 0,
 			movedist = 0,

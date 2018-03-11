@@ -478,7 +478,8 @@ function editor:movedist(dir,dt)
 		for _,e in ipairs(type) do
 			if e.selected then
 				if e.swing == 1 then
-					e.angle = math.max(0,math.min(math.pi,e.angle - dir*2 *dt))
+					e.angleorigin = math.max(0,math.min(math.pi,e.angle - dir*2 *dt))
+					e.angle = e.angleorigin
 					return true
 				end
 

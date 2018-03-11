@@ -29,7 +29,7 @@ for _,texture in pairs(platforms.textures) do
 end
 
 
-function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing,angle,texture)
+function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing,angleorigin,texture)
 
 	local cols = math.ceil(w/self.textures[texture]:getWidth())
 	local rows = math.ceil(h/self.textures[texture]:getHeight())
@@ -56,7 +56,8 @@ function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing,angle,t
 		
 		--swing platforms
 		swing = swing or 0,
-		angle = angle or 0,
+		angleorigin = angleorigin or 0,
+		angle = angleorigin or 0,
 		radius = (swing and 200 or 0),
 		
 		--texturing

@@ -822,10 +822,10 @@ function physics:springs(dt)
 				if spring.dir == 0 then
 					player.y = spring.y-player.h -1 *dt
 					player.yvel =  spring.vel
-				elseif spring.dir == 1 then
+				elseif spring.dir == 2 then
 					player.y = spring.y +spring.h +1 *dt
 					player.yvel = -spring.vel
-				elseif spring.dir == 2 then
+				elseif spring.dir == 1 then
 					player.x = spring.x +spring.w +1 *dt
 					player.xvel = spring.vel
 				elseif spring.dir == 3 then

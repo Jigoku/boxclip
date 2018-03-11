@@ -36,7 +36,7 @@ end
 
 function gameover:keypressed(key)
 	if not transitions.active then
-		if key == "escape" or key == "return" or key == "space" then title:init() end
+		title:init()
 	end
 end
 
@@ -57,6 +57,7 @@ function gameover:draw()
 	love.graphics.setColor(255,255,255,155)
 	love.graphics.printf("Game Over",love.graphics.getWidth()/4,love.graphics.getHeight()/4,love.graphics.getWidth()/2,"center")
 	love.graphics.print("SCORE: "..player.score,love.graphics.getWidth()/4,love.graphics.getHeight()/4+100)
+	love.graphics.printf("Press any key to exit",love.graphics.getWidth()/4,love.graphics.getHeight()-100,love.graphics.getWidth()/2,"center")
 	
 	love.graphics.setFont(fonts.default)
 end
