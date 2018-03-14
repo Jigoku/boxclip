@@ -19,17 +19,15 @@ platform_link = love.graphics.newImage("data/images/tiles/link.png")
 platform_link_origin = love.graphics.newImage("data/images/tiles/link_origin.png")
 platform_cradle = love.graphics.newImage("data/images/tiles/cradle.png")
 
-platform_grass = love.graphics.newImage("data/images/tiles/grass.png")
-
-
-platforms.textures =  textures:load("data/images/textures/")
+platforms.grass = textures:load("data/images/surfaces/")
+platforms.textures = textures:load("data/images/platforms/")
 
 for _,texture in pairs(platforms.textures) do
 	texture:setWrap("repeat", "repeat")
 end
 
 
-function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing,angleorigin,texture)
+function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing,angleorigin,texture,surface)
 
 	local cols = math.ceil(w/self.textures[texture]:getWidth())
 	local rows = math.ceil(h/self.textures[texture]:getHeight())
@@ -62,6 +60,7 @@ function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing,angleor
 		
 		--texturing
 		texture = texture or 1,
+		surface = surface or 2,
 		mesh = love.graphics.newMesh(4, "fan", "static"),
 		
 		verts = { 
@@ -192,19 +191,13 @@ function platforms:draw()
 			love.graphics.arc( "fill", platform.x, platform.y, 5, math.pi/2, math.pi*1.5 )
 			--]]
 				
-			local offset = 5
-			local quad = love.graphics.newQuad( 0,0, platform.w, platform_grass:getHeight(), platform_grass:getDimensions() )
-			platform_grass:setWrap("repeat", "repeat")
-			love.graphics.draw(platform_grass, quad, platform.x,platform.y-offset)
+			local offset = platforms.grass[platform.surface]:getHeight()/2
+			local quad = love.graphics.newQuad( 0,0, platform.w, platforms.grass[platform.surface]:getHeight(), platforms.grass[platform.surface]:getDimensions() )
+			platforms.grass[platform.surface]:setWrap("repeat", "repeat")
+			love.graphics.draw(platforms.grass[platform.surface], quad, platform.x,platform.y-offset)
 			
-	
-
-				
 			if editing or debug then platforms:drawdebug(platform, i) end
 				
-					
-
-
 		end
 	end
 	world.platforms = count

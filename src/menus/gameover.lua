@@ -17,7 +17,7 @@ gameover = {}
 
 function gameover:init()
 	mode = "gameover"
-	self.bg = love.graphics.newImage("data/images/textures/0001.png")
+	self.bg = love.graphics.newImage("data/images/platforms/0001.png")
 	self.bg:setWrap("repeat", "repeat")
 	self.bgquad = love.graphics.newQuad( 0,0, love.graphics.getWidth(), love.graphics.getHeight(), self.bg:getDimensions() )
 	self.bgscroll = 0

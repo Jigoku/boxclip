@@ -315,7 +315,6 @@ end
 
 
 function physics:platforms(object, dt)
-	object.carried = false
 	for i, platform in ipairs(world.entities.platform) do	
 			if collision:check(platform.x,platform.y,platform.w,platform.h,
 					object.newX,object.newY,object.w,object.h) then
@@ -470,16 +469,10 @@ end
 function physics:enemies(dt)
 	for i, enemy in ipairs(world.entities.enemy) do
 		if enemy.alive then
+			enemy.carried = false
 		
 			if enemy.type == "walker" then
 			
-				--test
-				--hopper enemy, move this statement to a new entity TODO
-				if enemy.carried then
-					if enemy.x <= enemy.xorigin or enemy.x >= enemy.xorigin + enemy.movedist then
-						enemy.yvel=500	
-					end
-				end
 				self:applyGravity(enemy, dt)
 				--enemy.yorigin = enemy.newY
 
@@ -487,6 +480,16 @@ function physics:enemies(dt)
 				self:crates(enemy,dt)
 				self:traps(enemy, dt)
 				self:platforms(enemy, dt)
+				
+				--test
+				--hopper enemy, move this statement to a new entity TODO
+				--this is broken, enemy.carried when true for traps, gets reset to false for platforms.
+				if enemy.carried then
+					if enemy.x <= enemy.xorigin or enemy.x >= enemy.xorigin + enemy.movedist then
+						enemy.yvel=500	
+					end
+				end
+				
 				self:update(enemy)
 				
 				-- NOT ACTIVE WHILST EDITING
@@ -647,6 +650,7 @@ end
 function physics:player(dt)
 	if editing then return end
 		if player.alive  then
+			player.carried = false
 			self:applyVelocity(player, dt)
 			self:applyGravity(player, dt)
 			self:applyRotation(player,math.pi*8,dt)
@@ -719,7 +723,6 @@ function physics:traps(object, dt)
 	for i, trap in ipairs(world.entities.trap) do
 		if trap.active then
 			if collision:check(object.newX,object.newY,object.w,object.h, trap.x,trap.y,trap.w,trap.h) then
-				object.carried = false
 				if trap.type == "log" or trap.type == "bridge" then
 					if collision:top(object,trap) and object.yvel < 0 then
 						object.newY = trap.y - object.h -1 *dt
@@ -730,10 +733,11 @@ function physics:traps(object, dt)
 						elseif object.bounce then
 							self:bounce(object)
 						end
-											
+						
+						object.yvel = 0			
+						
 						-- only player can make logs fall
 						if object.group == "players" then
-							object.yvel = 0
 							if mode == "game" then
 								trap.falling = true
 								sound:play(sound.effects["creek"])

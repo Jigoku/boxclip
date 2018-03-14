@@ -43,7 +43,7 @@ end
 function world:initsplash()
 	--loading/act overlay
 	world.splash = {}
-	world.splash.bg = love.graphics.newImage("data/images/textures/0001.png")
+	world.splash.bg = love.graphics.newImage("data/images/platforms/0001.png")
 	world.splash.bg:setWrap("repeat", "repeat")
 	world.splash.active = true
 	world.splash.opacity = 255
