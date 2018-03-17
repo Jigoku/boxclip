@@ -14,58 +14,57 @@
  --]]
  
 props = {}
+props.path = "data/images/props/"
 
---maybe create "textures" class to load all of these? 
--- textures.props, textures.platforms etc. ???
--- as props.textures will be erased when props is reset
-props.textures = {
-	["flower"] = love.graphics.newImage("data/images/props/flower.png"),
-	["flower2"] = love.graphics.newImage("data/images/props/flower2.png"),
-	["grass"] = love.graphics.newImage("data/images/props/grass.png"),
-	["rock"] = love.graphics.newImage("data/images/props/rock.png"),
-	["tree"] = love.graphics.newImage("data/images/props/tree.png"),
-	["post"] = love.graphics.newImage("data/images/props/post.png"),
-	["arch"] = love.graphics.newImage("data/images/props/arch.png"),
-	["arch1_r"] = love.graphics.newImage("data/images/props/arch1_r.png"),
-	["arch2"] = love.graphics.newImage("data/images/props/arch2.png"),
-	["arch3"] = love.graphics.newImage("data/images/props/arch3.png"),
-	["arch3_end"] = love.graphics.newImage("data/images/props/arch3_end.png"),
-	["arch3_pillar"] = love.graphics.newImage("data/images/props/arch3_pillar.png"),
-	["porthole"] = love.graphics.newImage("data/images/props/porthole.png"),
-	["pillar"] = love.graphics.newImage("data/images/props/pillar.png"),
-	["mesh"] = love.graphics.newImage("data/images/props/mesh.png"),
-	["girder"] = love.graphics.newImage("data/images/props/girder.png")
-}
+props.list = {}
+for _,prop in ipairs(love.filesystem.getDirectoryItems(props.path)) do
+	--possibly merge this into shared function ....
+	--get file name without extension
+	local name = prop:match("^(.+)%..+$")
+	--store list of prop names
+	table.insert(props.list, name)
+	--insert into editor menu
+	table.insert(editor.entities, {name, "prop"})
+end
 
-
+--load the textures
+props.textures = textures:load(props.path)
 
 function props:add(x,y,dir,flip,type)
-	local w,h
-	if dir == 0 or dir == 2 then
-		w = self.textures[type]:getWidth()
-		h = self.textures[type]:getHeight()
-		end
-	if dir == 3 or dir == 1 then
-		w = self.textures[type]:getHeight()
-		h = self.textures[type]:getWidth()
-	end
+
+	for i,prop in ipairs(props.list) do
+		--maybe better way to do this? 
+		--loop over entity.list, find matching name
+		-- then only insert when a match is found
+		if prop == type then
+			local w,h
+			if dir == 0 or dir == 2 then
+				w = self.textures[i]:getWidth()
+				h = self.textures[i]:getHeight()
+				end
+			if dir == 3 or dir == 1 then
+				w = self.textures[i]:getHeight()
+				h = self.textures[i]:getWidth()
+			end
 	
-	table.insert(world.entities.prop, {
-		x = x or 0, 
-		y = y or 0,
-		w = w,
-		h = h,
-		dir = dir,
-		flip = flip,
-		
-		group = "prop",
-		type = type,
+			table.insert(world.entities.prop, {
+				x = x or 0, 
+				y = y or 0,
+				w = w,
+				h = h,
+				dir = dir,
+				flip = flip,
+				slot = i,
+				group = "prop",
+				type = type,
 
-		editor_canrotate = true,
-		editor_canflip = true
-	})
-	print(type .. " added @  X:"..x.." Y: "..y)
-
+				editor_canrotate = true,
+				editor_canflip = true
+			})
+			print(type .. " added @  X:"..x.." Y: "..y)
+			return
+		end
+	end
 end
 
 function props:draw()
@@ -95,7 +94,7 @@ function props:draw()
 				love.graphics.setColor(255,255,255,255)
 			end
 			
-			local texture = props.textures[prop.type]
+			local texture = props.textures[prop.slot]
 	
 			if prop.dir == 1 then
 				love.graphics.draw(texture, prop.x, prop.y, math.rad(90),1,(prop.flip and -1 or 1),0,(prop.flip and 0 or prop.w))

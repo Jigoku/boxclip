@@ -315,7 +315,7 @@ function world:draw()
 		love.graphics.printf("PAUSED", 0,love.graphics.getHeight()/3,love.graphics.getWidth(),"center",0,1,1)
 		love.graphics.setFont(fonts.default)
 		love.graphics.line(love.graphics.getWidth()/2.5,love.graphics.getHeight()/3,love.graphics.getWidth()-love.graphics.getWidth()/2.5,love.graphics.getHeight()/3)
-		love.graphics.line(love.graphics.getWidth()/2.5,love.graphics.getHeight()/3+30,love.graphics.getWidth()-love.graphics.getWidth()/2.5,love.graphics.getHeight()/3+30)
+		love.graphics.line(love.graphics.getWidth()/2.5,love.graphics.getHeight()/3+40,love.graphics.getWidth()-love.graphics.getWidth()/2.5,love.graphics.getHeight()/3+40)
 	end
 end
 

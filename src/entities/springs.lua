@@ -15,49 +15,58 @@
  
 springs = {}
 
-springs.textures = {
-	["spring_s"] = love.graphics.newImage("data/images/springs/spring_s2.png"),
-	["spring_m"] = love.graphics.newImage("data/images/springs/spring_m2.png"),
-	["spring_l"] = love.graphics.newImage("data/images/springs/spring_l2.png"),
-}
+springs.path = "data/images/springs/"
+springs.list = {}
+for _,spring in ipairs(love.filesystem.getDirectoryItems(springs.path)) do
+	local name = spring:match("^(.+)%..+$")
+	table.insert(springs.list, name)
+	table.insert(editor.entities, {name, "spring"})
+end
+
+springs.textures = textures:load(springs.path)
 
 function springs:add(x,y,dir,type)
-
-	if type == "spring_s" then
-		vel = 1200
-	elseif type == "spring_m" then
-		vel = 1500
-	elseif type == "spring_l" then
-		vel = 1800
-	end
+	for i,spring in ipairs(springs.list) do
+		if spring == type then
+			if type == "spring_s" then
+				vel = 1200
+			elseif type == "spring_m" then
+				vel = 1500
+			elseif type == "spring_l" then
+				vel = 1800
+			end
 	
-	local w,h
+			local w,h
 
-	if dir == 0 or dir == 2 then
-		w = self.textures[type]:getWidth()
-		h = self.textures[type]:getHeight()
-	end
-	if dir == 3 or dir == 1 then
-		w = self.textures[type]:getHeight()
-		h = self.textures[type]:getWidth()
-	end
+			if dir == 0 or dir == 2 then
+				w = self.textures[i]:getWidth()
+				h = self.textures[i]:getHeight()
+			end
+			if dir == 3 or dir == 1 then
+				w = self.textures[i]:getHeight()
+				h = self.textures[i]:getWidth()
+			end
 	
-	table.insert(world.entities.spring, {
-		--dimensions
-		x = x or 0, 
-		y = y or 0, 
-		w = w,
-		h = h,
-		
-		--properties
-		group = "spring",
-		type = type,
-		vel = vel,
-		dir = dir,
-		
-		editor_canrotate = true,
-	})
-	print("spring added @  X:"..x.." Y: "..y)
+			table.insert(world.entities.spring, {
+				--dimensions
+				x = x or 0, 
+				y = y or 0, 
+				w = w,
+				h = h,
+				
+				--properties
+				group = "spring",
+				slot = i,
+				type = type,
+				vel = vel,
+				dir = dir,
+				
+				editor_canrotate = true,
+			})
+			print("spring added @  X:"..x.." Y: "..y)
+			return
+		end
+	end
 	
 end
 
@@ -69,7 +78,7 @@ function springs:draw()
 			count = count +1
 			love.graphics.setColor(255,255,255,255)
 				
-			local texture = self.textures[spring.type]
+			local texture = self.textures[spring.slot]
 			if spring.dir == 1 then
 				love.graphics.draw(texture, spring.x, spring.y, math.rad(90),1,(spring.flip and -1 or 1),0,(spring.flip and 0 or spring.w))
 			elseif spring.dir == 2 then

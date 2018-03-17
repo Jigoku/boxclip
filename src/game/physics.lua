@@ -649,28 +649,26 @@ end
 
 function physics:player(dt)
 	if editing then return end
-		if player.alive  then
-			player.carried = false
-			self:applyVelocity(player, dt)
-			self:applyGravity(player, dt)
-			self:applyRotation(player,math.pi*8,dt)
+	if player.alive  then
+		player.carried = false
+		self:applyVelocity(player, dt)
+		self:applyGravity(player, dt)
+		self:applyRotation(player,math.pi*8,dt)
 	
-			self:traps(player,dt)
-			self:crates(player,dt)
-			self:bumpers(player,dt)
-			self:platforms(player, dt)
-			self:update(player)
+		self:traps(player,dt)
+		self:crates(player,dt)
+		self:bumpers(player,dt)
+		self:platforms(player, dt)
+		self:update(player)
 			
-		else
-			--death physics (float up)
-			player.y = player.y - (250 * dt)
-			if player.y < player.newY-600 then
-				player.lives = player.lives -1
-				player:respawn()
-			end
-			
-		end
-	
+	else
+		--death physics (float up)
+		player.y = player.y - (250 * dt)
+		if player.y < player.newY-600 then
+			player.lives = player.lives -1
+			player:respawn()
+		end		
+	end
 end
 
 function physics:trapsworld(dt)

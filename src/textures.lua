@@ -15,8 +15,6 @@
 
 textures = {}
 
--- TODO revert this back to previous implementation and zero pad all file names
--- 0001.png etc
 
 function textures:load(path)
 	--returns table of loaded images from 'path' directory
@@ -33,3 +31,6 @@ function textures:load(path)
 	
 	return t
 end
+
+
+

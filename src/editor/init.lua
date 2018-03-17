@@ -80,72 +80,53 @@ editor.texmenu = love.graphics.newCanvas(editor.texmenuw,editor.texmenuh)
 
 --order of placable entities in entmenu
 editor.entities = {
-	"spawn",
-	"goal",
-	"tip",
-	"platform" ,
-	"platform_b" ,
-	"platform_x" ,
-	"platform_y" ,
-	"platform_s" ,
-	"log",
-	"bridge",
-	"brick",
-	"water",
-	"stream",
-	"lava",
-	"blood",
-	"death",
-	"checkpoint" ,
-	"crate" ,
-	"spike",
-	"spike_large",
-	"icicle" ,
-	"walker",
-	"floater", 
-	"spikeball" ,
-	"gem" ,
-	"life",
-	"star",
-	"magnet", 
-	"shield" ,
-	"flower" ,
-	"flower2" ,
-	"grass" ,
-	"rock",
-	"tree" ,
-	"post",
-	"arch",
-	"arch1_r",
-	"arch2",
-	"arch3",
-	"arch3_end",
-	"arch3_pillar",
-	"porthole",
-	"mesh",
-	"girder",
-	"pillar", 
-	"spring_s",
-	"spring_m" ,
-	"spring_l",
-	"bumper",
+	{"spawn", "portal"},
+	{"goal", "portal"},
+	{"tip", "tip"},
+	{"platform", "platform"},
+	{"platform_b", "platform"},
+	{"platform_x", "platform"},
+	{"platform_y", "platform"},
+	{"platform_s", "platform"},
+	{"log","trap"},
+	{"bridge","trap"},
+	{"brick","trap"},
+	{"water", "decal"},
+	{"stream", "decal"},
+	{"lava", "decal"},
+	{"blood", "decal"},
+	{"death", "material"},
+	{"checkpoint", "checkpoint"},
+	{"crate", "crate"},
+	{"spike", "enemy"},
+	{"spike_large", "enemy"},
+	{"icicle", "enemy"},
+	{"walker", "enemy"},
+	{"floater",  "enemy"},
+	{"spikeball", "enemy"},
+	{"gem", "pickup"},
+	{"life", "pickup"},
+	{"star", "pickup"},
+	{"magnet", "pickup"}, 
+	{"shield", "pickup"},
+	{"bumper", "bumper"}
 }
 
 -- entity priority for selection / hover mouse
 editor.entorder = {
 	"tip",
-    "material",
-    "trap",
-    "enemy",
-    "pickup",
-    "portal",
-    "crate",
-    "checkpoint",
-    "bumper",
-    "spring",
-    "platform",
-    "prop",
-    "decal"
+	"material",
+	"trap",
+	"enemy",
+	"pickup",
+	"portal",
+	"crate",
+	"checkpoint",
+	"bumper",
+	"spring",
+	"platform",
+	"prop",
+	"decal"
  }
 
 
@@ -529,7 +510,7 @@ function editor:mousepressed(x,y,button)
 	local y = self.mouse.pressed.y
 	
 	if button == 1 then
-		local selection = self.entities[self.entsel]
+		local selection = self.entities[self.entsel][1]
 		
 		if selection == "spawn" then
 			self:removeall("portal", "spawn")
@@ -540,54 +521,43 @@ function editor:mousepressed(x,y,button)
 			portals:add(x,y,"goal")
 		end
 		
-		if selection == "crate" then crates:add(x,y,"gem") end
+		for i,ent in pairs(self.entities) do
+			if ent[1] == selection then
+				if ent[2] == "prop" then
+					props:add(x,y,self.entdir,false,ent[1])	
+				elseif
+					ent[2] == "crate" then
+					crates:add(x,y,"gem")
+				elseif
+					ent[2] == "pickup" then
+					pickups:add(x,y,ent[1])
+				elseif
+					ent[2] == "checkpoint" then
+					checkpoints:add(x,y)
+				elseif
+					ent[2] == "trap" then
+					traps:add(x,y,ent[1])
+				elseif
+					ent[2] == "spring" then
+					springs:add(x,y,self.entdir,ent[1])
+				elseif
+					ent[2] == "bumper" then
+					bumpers:add(x,y) 
+				elseif
+					ent[2] == "tip" then
+					tips:add(x,y,"this is a multi line text test to see how everything can fit nicely in the frame")
+				elseif
+					ent[2] == "enemy" then
+					enemies:add(x,y,100,100,self.entdir,ent[1])
+
+				end
+				
+			end
+			
+		end
 		
-		if selection == "walker" then enemies:add(x,y,100,100,0,"walker") end
-		
-		if selection == "floater" then enemies:add(x,y,100,400,0,"floater") end
-		if selection == "spikeball" then enemies:add(x,y,0,0,0,"spikeball") end
-		if selection == "spike" then enemies:add(x,y,0,0,self.entdir,"spike") end
-		if selection == "spike_large" then enemies:add(x,y,0,0,self.entdir,"spike_large") end
-		if selection == "icicle" then enemies:add(x,y,0,0,0,"icicle") end
-		
+		-- this should be moved outside of platforms.lua eventually
 		if selection == "platform_s" then platforms:add(x,y,0,20,0,0,0,1.5,0,1,0,self.texturesel) end
-
-		if selection == "checkpoint" then checkpoints:add(x,y) end
-		
-		if selection == "gem" then pickups:add(x,y,"gem") end
-		if selection == "life" then pickups:add(x,y,"life") end
-		if selection == "magnet" then pickups:add(x,y,"magnet") end
-		if selection == "shield" then pickups:add(x,y,"shield") end
-		if selection == "star" then pickups:add(x,y,"star") end
-
-		if selection == "log" then traps:add(x,y,"log") end
-		if selection == "bridge" then traps:add(x,y,"bridge") end
-		if selection == "brick" then traps:add(x,y,"brick") end
-		
-		if selection == "flower" then props:add(x,y,self.entdir,false,"flower") end
-		if selection == "flower2" then props:add(x,y,self.entdir,false,"flower2") end
-		if selection == "grass" then props:add(x,y,self.entdir,false,"grass") end
-		if selection == "rock" then props:add(x,y,self.entdir,false,"rock") end
-		if selection == "tree" then props:add(x,y,self.entdir,false,"tree") end
-		if selection == "post" then props:add(x,y,self.entdir,false,"post") end
-		if selection == "arch" then props:add(x,y,self.entdir,false,"arch") end
-		if selection == "arch1_r" then props:add(x,y,self.entdir,false,"arch1_r") end
-		if selection == "arch2" then props:add(x,y,self.entdir,false,"arch2") end
-		if selection == "arch3" then props:add(x,y,self.entdir,false,"arch3") end
-		if selection == "arch3_end" then props:add(x,y,self.entdir,false,"arch3_end") end
-		if selection == "arch3_pillar" then props:add(x,y,self.entdir,false,"arch3_pillar") end
-		if selection == "porthole" then props:add(x,y,self.entdir,false,"porthole") end
-		if selection == "mesh" then props:add(x,y,self.entdir,false,"mesh") end
-		if selection == "pillar" then props:add(x,y,self.entdir,false,"pillar") end
-		if selection == "girder" then props:add(x,y,self.entdir,false,"girder") end
-		
-		if selection == "spring_s" then springs:add(x,y,self.entdir,"spring_s") end
-		if selection == "spring_m" then springs:add(x,y,self.entdir,"spring_m") end
-		if selection == "spring_l" then springs:add(x,y,self.entdir,"spring_l") end
-		
-		if selection == "bumper" then bumpers:add(x,y) end
-		
-		if selection == "tip" then tips:add(x,y,"this is a multi line text test to see how everything can fit nicely in the frame") end
 		
 	elseif button == 2 then
 		self:remove()
@@ -605,7 +575,7 @@ function editor:mousereleased(x,y,button)
 
 	if button == 1 then 
 		for _,entity in pairs(self.draggable) do
-			if self.entities[self.entsel] == entity then
+			if self.entities[self.entsel][1] == entity then
 				self:placedraggable(self.mouse.pressed.x,self.mouse.pressed.y,self.mouse.released.x,self.mouse.released.y)
 			end
 		end
@@ -643,7 +613,7 @@ function editor:placedraggable(x1,y1,x2,y2)
 	--this function is used for placing entities which 
 	-- can be dragged/resized when placing
 	
-	local ent = self.entities[self.entsel]
+	local ent = self.entities[self.entsel][1]
 
 	--we must drag down and right
 	if not (x2 < x1 or y2 < y1) then
@@ -865,7 +835,7 @@ function editor:drawselbox()
 	-- entsel is one of these types
 	if self.drawsel then
 		for _,entity in ipairs(self.draggable) do
-			if self.entities[self.entsel] == entity then
+			if self.entities[self.entsel][1] == entity then
 				love.graphics.setColor(0,255,255,255)
 				love.graphics.rectangle(
 					"line", 
@@ -977,17 +947,17 @@ function editor:drawentmenu()
 	)
 	
 	local s = 20 -- vertical spacing
-	local entname = self.entities[self.entsel]
 	local empty = "*"
 	local padding = 2
 	
 	love.graphics.setFont(fonts.menu)
-	
+
 	love.graphics.setColor(150,150,150,255)
-	love.graphics.print(self.entities[self.entsel-4] or empty,10,s*2)
-	love.graphics.print(self.entities[self.entsel-3] or empty,10,s*3)
-	love.graphics.print(self.entities[self.entsel-2] or empty,10,s*4)
-	love.graphics.print(self.entities[self.entsel-1] or empty,10,s*5)
+	
+	love.graphics.print(self.entities[self.entsel-4] and self.entities[self.entsel-4][1] or empty,10,s*2)
+	love.graphics.print(self.entities[self.entsel-3] and self.entities[self.entsel-3][1] or empty,10,s*3)
+	love.graphics.print(self.entities[self.entsel-2] and self.entities[self.entsel-2][1] or empty,10,s*4)
+	love.graphics.print(self.entities[self.entsel-1] and self.entities[self.entsel-1][1] or empty,10,s*5)
 	
 	--selected
 	love.graphics.setColor(150,150,150,255)
@@ -998,13 +968,13 @@ function editor:drawentmenu()
 	----------
 	
 	love.graphics.setColor(0,0,0,255)
-	love.graphics.print(self.entities[self.entsel] or empty,10,s*6)
+	love.graphics.print(self.entities[self.entsel][1] or empty,10,s*6)
 	
 	love.graphics.setColor(150,150,150,255)
-	love.graphics.print(self.entities[self.entsel+1] or empty,10,s*7)
-	love.graphics.print(self.entities[self.entsel+2] or empty,10,s*8)
-	love.graphics.print(self.entities[self.entsel+3] or empty,10,s*9)
-	love.graphics.print(self.entities[self.entsel+4] or empty,10,s*10)
+	love.graphics.print(self.entities[self.entsel+1] and self.entities[self.entsel+1][1] or empty,10,s*7)
+	love.graphics.print(self.entities[self.entsel+2] and self.entities[self.entsel+2][1] or empty,10,s*8)
+	love.graphics.print(self.entities[self.entsel+3] and self.entities[self.entsel+3][1] or empty,10,s*9)
+	love.graphics.print(self.entities[self.entsel+4] and self.entities[self.entsel+4][1] or empty,10,s*10)
 	love.graphics.setFont(fonts.default)
 	
 	love.graphics.setCanvas()
