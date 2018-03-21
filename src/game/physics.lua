@@ -354,7 +354,7 @@ function physics:platforms(object, dt)
 				-- top side
 				platform.carrying = false
 				
-				if collision:top(object,platform) and not  then
+				if collision:top(object,platform) then
 					object.carried = true
 					
 					if platform.clip == 0 then
