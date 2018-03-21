@@ -48,7 +48,7 @@ function mapio:savemap(map)
 	
 
 	for _, e in ipairs(world.entities.platform) do
-		fh:write("platforms:add("..math.round(e.xorigin)..","..math.round(e.yorigin)..","..e.w..","..e.h..","..e.clip..","..e.movex..","..e.movey..","..e.movespeed..","..e.movedist..","..e.swing..","..e.angleorigin..","..e.texture..")\n")
+		fh:write("platforms:add("..math.round(e.xorigin)..","..math.round(e.yorigin)..","..e.w..","..e.h..","..tostring(e.clip)..","..tostring(e.movex)..","..tostring(e.movey)..","..e.movespeed..","..e.movedist..","..tostring(e.swing)..","..e.angleorigin..","..e.texture..")\n")
 	end
 	for _, e in ipairs(world.entities.pickup) do
 		fh:write("pickups:add("..math.round(e.x)..","..math.round(e.y)..",\""..e.type.."\")\n")

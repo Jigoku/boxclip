@@ -145,9 +145,9 @@ function physics:world(dt)
 	-- moving platforms etc
 	
 	for i, object in ipairs(world.entities.platform) do
-		if object.movex == 1 then self:movex(object, dt) end
-		if object.movey == 1 then self:movey(object, dt) end
-		if object.swing == 1 then self:swing(object, dt) end
+		if object.movex then self:movex(object, dt) end
+		if object.movey then self:movey(object, dt) end
+		if object.swing then self:swing(object, dt) end
 		
 		--[[ platform texture scroll?  test this more, maybe move to platforms:update(dt)
 		if object.verts then
@@ -323,7 +323,7 @@ function physics:platforms(object, dt)
 				-- adjust position/velocity if neccesary
 				
 				-- only check these when clip is true
-				if platform.clip == 1 then
+				if platform.clip then
 					
 					-- right side
 					if collision:right(object,platform) 
@@ -357,10 +357,10 @@ function physics:platforms(object, dt)
 				if collision:top(object,platform) then
 					object.carried = true
 					
-					if platform.clip == 0 then
-						object.candrop = true
-					else
+					if platform.clip then
 						object.candrop = false
+					else
+						object.candrop = true
 					end
 
 						
@@ -379,18 +379,18 @@ function physics:platforms(object, dt)
 					end
 						
 
-					if platform.movex == 1 then
+					if platform.movex then
 						-- move along x-axis with platform	
 						object.newX = object.newX + platform.movespeed *dt
 					end
 
-					if platform.swing == 1 then	
+					if platform.swing then	
 						object.newX =  platform.radius * math.cos(platform.angle) + platform.xorigin +platform.w/2 - object.w/2
 						object.newY = platform.y - object.h+1 *dt
 						object.yvel = -player.jumpheight
 					end
 
-					if platform.movey == 1 and not object.jumping then
+					if platform.movey and not object.jumping then
 						--object.yvel = -platform.movespeed *dt
 						
 						if platform.movespeed <= 0 then
@@ -587,7 +587,7 @@ function physics:enemies(dt)
 							if collision:check(platform.x,platform.y,platform.w,platform.h,
 								enemy.x,enemy.newY,enemy.w,enemy.h) then
 								
-								if platform.clip == 1 and platform.movex == 0 and platform.movey == 0 then
+								if platform.clip and not platform.movex and not platform.movey then
 									enemy.falling = false
 									sound:play(sound.effects["slice"])
 									enemy.type = "icicle_d"

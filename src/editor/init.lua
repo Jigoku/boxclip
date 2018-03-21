@@ -556,7 +556,7 @@ function editor:mousepressed(x,y,button)
 		end
 		
 		-- this should be moved outside of platforms.lua eventually
-		if selection == "platform_s" then platforms:add(x,y,0,20,0,0,0,1.5,0,1,0,self.texturesel) end
+		if selection == "platform_s" then platforms:add(x,y,0,20,false,false,false,1.5,0,true,0,self.texturesel) end
 		
 	elseif button == 2 then
 		self:remove()
@@ -626,10 +626,10 @@ function editor:placedraggable(x1,y1,x2,y2)
 		local h = (y2-y1)
 		
 		--place the platform
-		if ent == "platform" then platforms:add(x,y,w,h,1,0,0,0,0,0,0,self.texturesel) end
-		if ent == "platform_b" then platforms:add(x,y,w,h,0,0,0,0,0,0,0,self.texturesel) end
-		if ent == "platform_x" then platforms:add(x,y,w,h,0,1,0,100,200,0,0,self.texturesel) end
-		if ent == "platform_y" then platforms:add(x,y,w,h,0,0,1,100,200,0,0,self.texturesel) end
+		if ent == "platform" then platforms:add(x,y,w,h,true,false,false,0,0,false,0,self.texturesel) end
+		if ent == "platform_b" then platforms:add(x,y,w,h,false,false,false,0,0,false,0,self.texturesel) end
+		if ent == "platform_x" then platforms:add(x,y,w,h,false,true,false,100,200,false,0,self.texturesel) end
+		if ent == "platform_y" then platforms:add(x,y,w,h,false,false,true,100,200,false,0,self.texturesel) end
 		
 		if ent == "blood" then decals:add(x,y,w,h,"blood") end
 		if ent == "lava" then decals:add(x,y,w,h,"lava") end
@@ -1015,7 +1015,7 @@ function editor:selection()
 			--if should_break then break end
 			if world:inview(e) then
 				editor.selname = (e.type or e.group).. "("..n..")"
-				if e.movex == 1 then
+				if e.movex then
 					--collision area for moving entity
 					if collision:check(self.mouse.x,self.mouse.y,1,1,e.xorigin, e.y, e.movedist+e.w, e.h) then
 						self.selbox = { 
@@ -1027,7 +1027,7 @@ function editor:selection()
 						e.selected = true
 						
 					end
-				elseif e.movey == 1 then
+				elseif e.movey then
 					--collision area for moving entity
 					if collision:check(self.mouse.x,self.mouse.y,1,1,e.xorigin, e.yorigin, e.w, e.h+e.movedist) then
 						self.selbox = { 	
@@ -1039,7 +1039,7 @@ function editor:selection()
 						e.selected = true
 					
 					end
-				elseif e.swing == 1 then
+				elseif e.swing then
 					--collision area for swinging entity
 					if collision:check(self.mouse.x,self.mouse.y,1,1,
 						e.xorigin-platform_link_origin:getWidth()/2, e.yorigin-platform_link_origin:getHeight()/2,  

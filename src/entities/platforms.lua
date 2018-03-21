@@ -43,17 +43,17 @@ function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing,angleor
 		group = "platform",
 				
 		--movement
-		movex = movex or 0,
-		movey = movey or 0,
+		movex = movex or false,
+		movey = movey or false,
 		movespeed = movespeed or 100,
 		movedist = movedist or 200,
-		clip = clip or 1,
+		clip = clip or false,
 		xorigin = x,
 		yorigin = y,
 		carrying = false,
 		
 		--swing platforms
-		swing = swing or 0,
+		swing = swing or false,
 		angleorigin = angleorigin or 0,
 		angle = angleorigin or 0,
 		radius = (swing and 200 or 0),
@@ -107,7 +107,7 @@ function platforms:draw()
 		if world:inview(platform) then
 			count = count + 1
 			
-			if platform.swing == 1 then
+			if platform.swing then
 				platforms:drawlink(platform, radius)
 					
 				love.graphics.setColor(
@@ -130,12 +130,12 @@ function platforms:draw()
 			
 			--apply world pallete/theme colors to platform mesh on the fly
 			for i,v in ipairs(platform.verts) do
-				if (platform.movex == 1) or (platform.movey == 1) then		
+				if platform.movex or platform.movey then		
 					v[5] =	platform_move_r
 					v[6] =	platform_move_g
 					v[7] =	platform_move_b
 					v[8] = 255
-				elseif platform.clip == 0 then						
+				elseif not platform.clip then						
 					v[5] =	platform_behind_r
 					v[6] =	platform_behind_g
 					v[7] =	platform_behind_b
@@ -157,7 +157,7 @@ function platforms:draw()
 				
 			--shadows
 			local offset
-			if platform.movex == 1 or (platform.movey == 1) then
+			if platform.movex or platform.movey then
 				 offset = 4
 			else
 				 offset = 10
@@ -208,14 +208,14 @@ function platforms:drawdebug(platform, i)
 	-- debug mode drawing
 	
 	-- collision area
-	if not (platform.swing == 1) and (platform.clip == 1) then
+	if not platform.swing and platform.clip then
 		love.graphics.setColor(255,0,0,40)
 		love.graphics.rectangle("fill", platform.x, platform.y, platform.w, platform.h)
 		love.graphics.setColor(255,0,0,255)
 		love.graphics.rectangle("line", platform.x, platform.y, platform.w, platform.h)
 	end
 	
-	if platform.clip == 0 then
+	if not platform.clip then
 		love.graphics.setColor(0,255,0,40)
 		love.graphics.rectangle("fill", platform.x, platform.y, platform.w, platform.h)
 		love.graphics.setColor(255,0,0,255)
@@ -223,14 +223,14 @@ function platforms:drawdebug(platform, i)
 	end
 	
 	-- yaxis waypoint
-	if platform.movey == 1 then
+	if platform.movey then
 		love.graphics.setColor(255,0,255,20)
 		love.graphics.rectangle("fill", platform.xorigin, platform.yorigin, platform.w, platform.h+platform.movedist)
 		love.graphics.setColor(255,0,255,255)
 		love.graphics.rectangle("line", platform.xorigin, platform.yorigin, platform.w, platform.h+platform.movedist)
 	end
 	-- xaxis waypoint
-	if platform.movex == 1 then
+	if platform.movex then
 		love.graphics.setColor(255,0,255,20)
 		love.graphics.rectangle("fill", platform.xorigin, platform.yorigin, platform.movedist+platform.w, platform.h)
 		love.graphics.setColor(255,0,255,255)
@@ -238,7 +238,7 @@ function platforms:drawdebug(platform, i)
 	end 
 	
 	--debug connector
-	if platform.swing == 1 then 
+	if platform.swing then 
 		love.graphics.setColor(255,0,255,100)
 		love.graphics.line( platform.xorigin,platform.yorigin,platform.x,platform.y)	
 		love.graphics.setColor(255,0,0,100)

@@ -5,11 +5,11 @@ world.maptitle = "unnamed map"
 world.nextmap = "title"
 world.deadzone = 2000
 world:settheme("sunny")
-platforms:add(-1380,-9550,1010,3090,1,0,0,0,0,0,0,1)
-platforms:add(-370,-6880,1630,420,1,0,0,0,0,0,0,1)
-platforms:add(2610,-6880,1980,420,1,0,0,0,0,0,0,1)
-platforms:add(4360,-7560,600,1100,1,0,0,0,0,0,0,1)
-platforms:add(410,-7100,2330,50,1,0,0,0,0,0,0,1)
+platforms:add(-1380,-9550,1010,3090,true,false,false,0,0,false,0,1)
+platforms:add(-370,-6880,1630,420,true,false,false,0,0,false,0,1)
+platforms:add(2610,-6880,1980,420,true,false,false,0,0,false,0,1)
+platforms:add(4360,-7560,600,1100,true,false,false,0,0,false,0,1)
+platforms:add(410,-7100,2330,50,true,false,false,0,0,false,0,1)
 pickups:add(-50,-6910,"gem")
 pickups:add(-30,-6910,"gem")
 pickups:add(160,-6910,"gem")
