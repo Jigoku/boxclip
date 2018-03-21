@@ -14,7 +14,7 @@
  --]]
  
 materials = {}
-materials.death = love.graphics.newImage("data/images/death.png")
+materials.death = love.graphics.newImage("data/images/materials/death.png")
 materials.death:setWrap("repeat","repeat")
 
 

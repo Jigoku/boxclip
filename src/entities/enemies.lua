@@ -92,11 +92,11 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 		})
 
 	elseif type == "spike" then
-		if dir == 0 or dir == 1 then
+		if dir == 0 or dir == 2 then
 			width = self.textures[type]:getWidth()
 			height = self.textures[type]:getHeight()
 		end
-		if dir == 2 or dir == 3 then
+		if dir == 3 or dir == 1 then
 			width = self.textures[type]:getHeight()
 			height = self.textures[type]:getWidth()
 		end
@@ -124,11 +124,11 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 		})
 
 	elseif type == "spike_large" then
-		if dir == 0 or dir == 1 then
+		if dir == 0 or dir == 2 then
 			width = self.textures[type]:getWidth()
 			height = self.textures[type]:getHeight()
 		end
-		if dir == 2 or dir == 3 then
+		if dir == 3 or dir == 1 then
 			width = self.textures[type]:getHeight()
 			height = self.textures[type]:getWidth()
 		end
@@ -258,14 +258,14 @@ function enemies:draw()
 			love.graphics.setColor(255,255,255,255)
 			if enemy.type == "spike" or enemy.type == "spike_large" then
 			
-				if enemy.dir == 0 then
-					love.graphics.draw(texture, enemy.x, enemy.y, 0,1,1)
-				elseif enemy.dir == 1 then
-					love.graphics.draw(texture, enemy.x, enemy.y, 0,1,-1,0,enemy.h )
+				if enemy.dir == 1 then
+					love.graphics.draw(texture, enemy.x, enemy.y, math.rad(90),1,(enemy.flip and -1 or 1),0,(enemy.flip and 0 or enemy.w))
 				elseif enemy.dir == 2 then
-					love.graphics.draw(texture, enemy.x, enemy.y, math.rad(90),1,1,0,enemy.w )
+					love.graphics.draw(texture, enemy.x, enemy.y, 0,(enemy.flip and 1 or -1),-1,(enemy.flip and 0 or enemy.w),enemy.h)	
 				elseif enemy.dir == 3 then
-					love.graphics.draw(texture, enemy.x, enemy.y, math.rad(-90),-1,1 )
+					love.graphics.draw(texture, enemy.x, enemy.y, math.rad(-90),1,(enemy.flip and -1 or 1),enemy.h,(enemy.flip and enemy.w or 0))
+				else
+					love.graphics.draw(texture, enemy.x, enemy.y, 0,(enemy.flip and -1 or 1),1,(enemy.flip and enemy.w or 0),0,0)
 				end
 			end
 			

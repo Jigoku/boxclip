@@ -47,7 +47,7 @@ editor.floatspeed = 1000		--editing floatspeed
 editor.maxcamerascale = 6		--maximum zoom
 editor.mincamerascale = 0.1		--minimum zoom
 
-editor.errortex = love.graphics.newImage("data/images/error.png")
+editor.errortex = love.graphics.newImage("data/images/editor/error.png")
 
 -- minimap
 editor.mmapw = love.graphics.getWidth()/3
@@ -104,11 +104,6 @@ editor.entities = {
 	{"walker", "enemy"},
 	{"floater",  "enemy"},
 	{"spikeball", "enemy"},
-	{"gem", "pickup"},
-	{"life", "pickup"},
-	{"star", "pickup"},
-	{"magnet", "pickup"}, 
-	{"shield", "pickup"},
 	{"bumper", "bumper"}
 }
 
@@ -406,18 +401,22 @@ function editor:keypressed(key)
 					if love.keyboard.isDown(self.binds.moveup) then 
 						--weird bug, needs to be "11" to actually save to proper position?
 						e.y = math.round(e.y - 11,-1) --up
+						self.mouse.y = self.mouse.y -10
 					end
 					if love.keyboard.isDown(self.binds.movedown) then 
 						e.y = math.round(e.y + 10,-1) --down
 						e.yorigin = e.y
+						self.mouse.y = self.mouse.y +10
 					end 
 					if love.keyboard.isDown(self.binds.moveleft) then 
 						e.x = math.round(e.x - 10,-1) --left
 						e.xorigin = e.x
+						self.mouse.x = self.mouse.x -10
 					end 
 					if love.keyboard.isDown(self.binds.moveright) then 
 						e.x = math.round(e.x + 10,-1)  --right
 						e.xorigin = e.x
+						self.mouse.x = self.mouse.x+10
 					end
 	
 					return true
@@ -952,29 +951,34 @@ function editor:drawentmenu()
 	
 	love.graphics.setFont(fonts.menu)
 
-	love.graphics.setColor(150,150,150,255)
-	
-	love.graphics.print(self.entities[self.entsel-4] and self.entities[self.entsel-4][1] or empty,10,s*2)
-	love.graphics.print(self.entities[self.entsel-3] and self.entities[self.entsel-3][1] or empty,10,s*3)
-	love.graphics.print(self.entities[self.entsel-2] and self.entities[self.entsel-2][1] or empty,10,s*4)
-	love.graphics.print(self.entities[self.entsel-1] and self.entities[self.entsel-1][1] or empty,10,s*5)
-	
-	--selected
-	love.graphics.setColor(150,150,150,255)
 
-	love.graphics.rectangle(
-		"fill",-padding+10,-padding+s*6, self.entmenu:getWidth()-20+padding*2, 15+padding*2
-	)
-	----------
 	
-	love.graphics.setColor(0,0,0,255)
-	love.graphics.print(self.entities[self.entsel][1] or empty,10,s*6)
+
+	local n = 1
+	for i=-5,15 do 
+		if self.entities[self.entsel+i] and self.entities[self.entsel+i][1] then
+			n = n +1
+			local texture = self.errortex --placeholder
+			love.graphics.setColor(255,255,255,255)
+			love.graphics.draw(texture,10,s*n,0,s/texture:getWidth(), s/texture:getHeight())
+			
+			if i == 0 then 
+				love.graphics.setColor(150,150,150,255)
+
+				love.graphics.rectangle(
+					"fill",s/texture:getWidth()+s*2,-padding+s*n, self.entmenu:getWidth()-20+padding*2, 15+padding*2
+				)
+			
+				love.graphics.setColor(0,0,0,255)
+				love.graphics.print(self.entities[self.entsel+i][1],s/texture:getWidth()+s*2,s*n)
+			else
+				love.graphics.setColor(150,150,150,255)
+				love.graphics.print(self.entities[self.entsel+i][1],s/texture:getWidth()+s*2,s*n)
+			end
+		end
+	end
 	
-	love.graphics.setColor(150,150,150,255)
-	love.graphics.print(self.entities[self.entsel+1] and self.entities[self.entsel+1][1] or empty,10,s*7)
-	love.graphics.print(self.entities[self.entsel+2] and self.entities[self.entsel+2][1] or empty,10,s*8)
-	love.graphics.print(self.entities[self.entsel+3] and self.entities[self.entsel+3][1] or empty,10,s*9)
-	love.graphics.print(self.entities[self.entsel+4] and self.entities[self.entsel+4][1] or empty,10,s*10)
+
 	love.graphics.setFont(fonts.default)
 	
 	love.graphics.setCanvas()

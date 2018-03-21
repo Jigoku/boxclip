@@ -186,7 +186,6 @@ end
 
 function physics:bounce(object,dt)
 	object.yvel = -object.yvel/1.5
-
 end
 
 function physics:crates(object,dt)
@@ -203,8 +202,9 @@ function physics:crates(object,dt)
 					player.score = player.score+crate.score
 					sound:play(sound.effects["crate"])
 					pickups:add(
-						crate.x+crate.w/2-pickups.textures["gem"]:getWidth()/2, 
-						crate.y+crate.h/2-pickups.textures["gem"]:getHeight()/2, 
+						--TODO fix texture assignment
+						crate.x+crate.w/2-pickups.textures[1]:getWidth()/2, 
+						crate.y+crate.h/2-pickups.textures[1]:getHeight()/2, 
 						crate.type
 					)
 				end
@@ -327,14 +327,16 @@ function physics:platforms(object, dt)
 					
 					-- right side
 					if collision:right(object,platform) 
-					and not collision:top(object,platform) then
+					and not collision:top(object,platform) 
+					and not collision:left(object,platform) then
 						object.xvel = 0
 						object.xvelboost = 0
 						object.newX = platform.x+platform.w +1 *dt
 						
 					-- left side
 					elseif collision:left(object,platform) 
-					and not collision:top(object,platform) then
+					and not collision:top(object,platform) 
+					and not collision:right(object,platform) then
 						object.xvel = 0
 						object.xvelboost = 0
 						object.newX = platform.x-object.w -1 *dt
@@ -352,7 +354,7 @@ function physics:platforms(object, dt)
 				-- top side
 				platform.carrying = false
 				
-				if collision:top(object,platform)  then
+				if collision:top(object,platform) and not  then
 					object.carried = true
 					
 					if platform.clip == 0 then

@@ -17,59 +17,77 @@ pickups = {}
 
 pickups.magnet_power = 200
 
-pickups.textures = {
-	["gem"] = love.graphics.newImage("data/images/pickups/gem.png"),
-	["life"] = love.graphics.newImage( "data/images/pickups/heart.png"),
-	["magnet"] = love.graphics.newImage( "data/images/pickups/magnet.png"),
-	["shield"] = love.graphics.newImage( "data/images/pickups/shield.png"),
-	["star"] = love.graphics.newImage( "data/images/pickups/star.png"),
-}
+
+pickups.path = "data/images/pickups/"
+
+pickups.list = {}
+for _,pickup in ipairs(love.filesystem.getDirectoryItems(pickups.path)) do
+	--possibly merge this into shared function ....
+	--get file name without extension
+	local name = pickup:match("^(.+)%..+$")
+	--store list of prop names
+	table.insert(pickups.list, name)
+	--insert into editor menu
+	table.insert(editor.entities, {name, "pickup"})
+end
+
+--load the textures
+pickups.textures = textures:load(pickups.path)
+
 
 function pickups:add(x,y,type,dropped)
-	local score
-	if type == "gem" then
-		score = "200"
-	elseif type == "life" then
-		score = "1000"
-	elseif type == "magnet" then
-		score = "1000"
-	elseif type == "shield" then
-		score = "1000"
-	elseif type == "star" then
-		score = "2500"
-	end
-	
-	table.insert(world.entities.pickup, {
-		x =x or 0,
-		y =y or 0,
-		w = self.textures[type]:getWidth(),
-		h = self.textures[type]:getHeight(),
-		group = "pickup",
-		type = type,
-		collected = false,
-		dropped = dropped or false,
-		attract = false,
-		bounce = true,
-		red = love.math.random(150,255),
-		green = love.math.random(150,255),
-		blue = love.math.random(50,255),
-		xvel = 0,
-		yvel = 0,
-		score = score,
-	})	
+	for i,pickup in ipairs(pickups.list) do
+		--maybe better way to do this? 
+		--loop over entity.list, find matching name
+		-- then only insert when a match is found
+		if pickup == type then
 
-	print( "pickup added @  X:"..x.." Y: "..y)
+			local score = 0
+			if type == "gem" then
+				score = "200"
+			elseif type == "life" then
+				score = "1000"
+			elseif type == "magnet" then
+				score = "1000"
+			elseif type == "shield" then
+				score = "1000"
+			elseif type == "star" then
+				score = "2500"
+			end
+	
+			table.insert(world.entities.pickup, {
+				x =x or 0,
+				y =y or 0,
+				w = self.textures[i]:getWidth(),
+				h = self.textures[i]:getHeight(),
+				group = "pickup",
+				type = type,
+				collected = false,
+				dropped = dropped or false,
+				attract = false,
+				bounce = true,
+				slot = i,
+				red = love.math.random(150,255),
+				green = love.math.random(150,255),
+				blue = love.math.random(50,255),
+				xvel = 0,
+				yvel = 0,
+				score = score,
+			})	
+
+			print( "pickup added @  X:"..x.." Y: "..y)
+		end
+	end
 end
 
 
 function pickups:draw()
 	local count = 0
-	local i, pickup
 	for i, pickup in ipairs(world.entities.pickup) do
 		if not pickup.collected and world:inview(pickup) then
 			count = count + 1
 			
-			local texture = self.textures[pickup.type]
+			local texture = self.textures[pickup.slot]
 			
 			if pickup.type == "gem" then
 				love.graphics.setColor(pickup.red,pickup.green,pickup.blue,255)	

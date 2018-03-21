@@ -50,7 +50,7 @@ function player:init()
 
 	--particle setup
 	-- horrible implementation... fix this
-	self.particles_invincible = love.graphics.newParticleSystem(pickups.textures["star"], 32)
+	self.particles_invincible = love.graphics.newParticleSystem(pickups.textures[5], 32)
 	self.particles_invincible:setParticleLifetime(3, 4) -- Particles live at least 2s and at most 5s.
 	self.particles_invincible:setEmissionRate(10)
 	self.particles_invincible:setSizeVariation(1)

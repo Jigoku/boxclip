@@ -417,7 +417,7 @@ function world:drawhud()
 	love.graphics.printf("x"..player.lives, 20,love.graphics.getHeight()-40,50,"right",0,1,1)
 	love.graphics.setFont(fonts.hud)
 	
-	love.graphics.draw(pickups.textures["life"],20,love.graphics.getHeight()-40,0,0.5,0.5)
+	love.graphics.draw(pickups.textures[2],20,love.graphics.getHeight()-40,0,0.5,0.5)
 end
 
 function world:timer(dt)
