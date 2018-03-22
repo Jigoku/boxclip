@@ -1,9 +1,9 @@
 platform_r = 255
 platform_g = 163
 platform_b = 74
-platform_behind_r = 140
-platform_behind_g = 112
-platform_behind_b = 76
+platform_behind_r = 120
+platform_behind_g = 92
+platform_behind_b = 56
 platform_top_r = 94
 platform_top_g = 171
 platform_top_b = 80

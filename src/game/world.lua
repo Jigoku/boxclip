@@ -480,7 +480,7 @@ end
 function world:inview(entity) 
 	local x,y = camera:toWorldCoords(entity.x,entity.y)
 	
-	if entity.swing == 1 then
+	if entity.swing then
 		if (camera.x + love.graphics.getWidth()/2/camera.scale > entity.xorigin-entity.radius) 
 		and (camera.x - love.graphics.getWidth()/2/camera.scale < entity.xorigin+entity.w+entity.radius)
 		and (camera.y + love.graphics.getHeight()/2/camera.scale > entity.yorigin-entity.radius)
@@ -661,7 +661,7 @@ end
 function world:resetcamera()
 	camera = Camera(camera.x,camera.y,love.graphics.getWidth(),love.graphics.getHeight(),love.graphics.getWidth() / default_width)
 	camera:setFollowStyle('LOCKON')
-	camera:setFollowLerp(0.1)
+	camera:setFollowLerp(0.075)
 	--camera:setFollowLerp(0.2)
 end
 

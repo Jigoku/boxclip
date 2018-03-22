@@ -457,18 +457,18 @@ function editor:movedist(dir,dt)
 	for _,type in pairs(world.entities) do
 		for _,e in ipairs(type) do
 			if e.selected then
-				if e.swing == 1 then
+				if e.swing then
 					e.angleorigin = math.max(0,math.min(math.pi,e.angle - dir*2 *dt))
 					e.angle = e.angleorigin
 					return true
 				end
 
-				if e.movex == 1 then
+				if e.movex then
 					e.movedist = math.round(e.movedist + dir*2,1)
 					if e.movedist < e.w then e.movedist = e.w end
 					return true
 				end
-				if e.movey == 1  then
+				if e.movey then
 					e.movedist = math.round(e.movedist + dir*2,1)
 					if e.movedist < e.h then e.movedist = e.h end
 					return true
