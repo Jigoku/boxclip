@@ -223,7 +223,7 @@ function player:die(this)
 		camera:fade(2, {0,0,0,255})
 		camera:shake(8, 1, 60, 'XY')
 		
-		
+		joystick:vibrate(2,2,1)
 		
 		console:print("player killed by " .. this)	
 		sound:play(sound.effects["die"])
@@ -319,12 +319,22 @@ function player:checkkeys(dt)
 	if paused or editing or world.splash.active then return end
 	
 	if self.alive then
-		if love.keyboard.isDown(binds.right) then
+		if love.keyboard.isDown(binds.right) 
+			or joystick:isDown("dpright") then
 			self:moveright()
-		elseif love.keyboard.isDown(binds.left) then
+		elseif love.keyboard.isDown(binds.left)
+			or joystick:isDown("dpleft") then
 			self:moveleft()
 		else
 			self.dir = "idle"
+		end
+	
+		if love.keyboard.isDown(binds.jump) or joystick:isDown("a") then
+			if love.keyboard.isDown(binds.down) or joystick:isDown("dpdown") then
+				self:drop()
+			else
+				self:jump()
+			end
 		end
 	
 	end
@@ -334,11 +344,5 @@ end
 function player:keypressed(key)
 	if paused or editing or world.splash.active then return end 
 	
-	if key == binds.jump then
-		if love.keyboard.isDown(binds.down) then
-			self:drop()
-		else
-			self:jump()
-		end
-	end
+	--maybe remove this function, not needed?
 end

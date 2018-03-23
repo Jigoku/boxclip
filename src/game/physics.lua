@@ -200,6 +200,7 @@ function physics:crates(object,dt)
 					popups:add(crate.x+crate.w/2,crate.y+crate.h/2,"+"..crate.score)
 					crate.destroyed = true
 					player.score = player.score+crate.score
+					joystick:vibrate(0.5,0.5,0.25)
 					sound:play(sound.effects["crate"])
 					pickups:add(
 						--TODO fix texture assignment
@@ -282,7 +283,7 @@ function physics:bumpers(object,dt)
 			
 			object.jumping = true
 			bumper.scale = bumpers.maxscale
-									
+			joystick:vibrate(1,1,0.25)				
 			sound:play(sound.effects["bumper"])
 				
 			if bumper.totalscore > 0 then
@@ -511,7 +512,7 @@ function physics:enemies(dt)
 							enemy.alive = false
 							sound:play(sound.effects["kill"])
 							console:print(enemy.group .." killed")
-							
+							joystick:vibrate(0.5,0.5,0.5)
 							return true
 							
 						else
@@ -544,7 +545,7 @@ function physics:enemies(dt)
 						enemy.alive = false
 						sound:play(sound.effects["kill"])
 						console:print(enemy.group .." killed")
-						
+						joystick:vibrate(0.5,0.5,0.5)
 					else			
 						-- otherwise we die			
 						player:die(enemy.group)
@@ -593,6 +594,7 @@ function physics:enemies(dt)
 									enemy.type = "icicle_d"
 									enemy.h = enemies.textures[enemy.type]:getHeight()
 									enemy.newY = platform.y-enemy.h
+									joystick:vibrate(0.35,0.35,0.5)
 								end
 							end
 						
@@ -740,6 +742,7 @@ function physics:traps(object, dt)
 						if object.group == "players" then
 							if mode == "game" then
 								trap.falling = true
+								joystick:vibrate(0.35,0.35,0.5)
 								sound:play(sound.effects["creek"])
 							end
 						end
@@ -775,6 +778,7 @@ function physics:traps(object, dt)
 										trap.yvel = 500							
 										trap.falling = true
 										sound:play(sound.effects["brick"])
+										joystick:vibrate(0.4,0.4,0.5)
 										camera:shake(8, 1, 30, 'XY')
 									end
 							else
@@ -822,6 +826,7 @@ function physics:springs(dt)
 			if collision:check(player.x,player.y,player.w,player.h,
 				spring.x, spring.y,spring.w,spring.h) then
 				player.jumping = true
+				joystick:vibrate(1,1,0.25)
 				sound:play(sound.effects["spring"])
 				if spring.dir == 0 then
 					player.y = spring.y-player.h -1 *dt

@@ -22,6 +22,9 @@ function love.load(args)
 
 	debug = false
 
+
+
+	require("joystick")
 	require("tools")
 	require("console")
 	require("mapio")
