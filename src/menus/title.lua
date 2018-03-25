@@ -18,7 +18,7 @@
  -- https://love2d.org/wiki/love.keyboard.setTextInput
 title = {}
 title.key_delay_timer = 0
-title.key_delay = 0.2
+title.key_delay = 0.15
 
 function title:mapname(id)
 	for i,map in ipairs(self.maps) do
@@ -91,6 +91,8 @@ function title:draw()
 	
 	if self.menu == "main" then
 		self:drawmain()
+	elseif self.menu == "options" then
+		self:drawoptions()
 	end
 	
 	love.graphics.setFont(fonts.default)
@@ -111,50 +113,68 @@ function title:update(dt)
 		if transitions.active then return end
 		
 		if love.keyboard.isDown("down") or joystick:isDown("dpdown") then
-			self.sel = self.sel +1 
+			if self.menu == "main" then
+				self.sel = self.sel +1 
+			end
+			sound:play(sound.effects["blip"])
+			self.key_delay_timer = self.key_delay
+			
+		elseif love.keyboard.isDown("up") or joystick:isDown("dpup") then 
+			if self.menu == "main" then
+				self.sel = self.sel -1 
+			end
+			sound:play(sound.effects["blip"])
+			self.key_delay_timer = self.key_delay
+			
+		elseif love.keyboard.isDown("left") or joystick:isDown("dpleft") then
+			if self.menu == "main" then
+				self.mapsel = self.mapsel -1 
+			end
+			sound:play(sound.effects["blip"])
+			self.key_delay_timer = self.key_delay
+			
+		elseif love.keyboard.isDown("right") or joystick:isDown("dpright") then 
+			if self.menu == "main" then
+				self.mapsel = self.mapsel +1
+			end
+			sound:play(sound.effects["blip"])
+			self.key_delay_timer = self.key_delay
+			
+		elseif love.keyboard.isDown("return") or joystick:isDown("a") then 
+			if self.menu == "main" then
+				world.map = self:mapname(self.mapsel)
+			end
+			sound:play(sound.effects["blip"])
+			self.key_delay_timer = self.key_delay
+			
+			if self.menu == "main" then
+				if self.sel == 1 then 
+					transitions:fadeoutmode("game") 
+					sound:play(sound.effects["start"])
+				end
+				if self.sel == 2 then 
+					transitions:fadeoutmode("editing") 
+				end
+				if self.sel == 3 then 
+					self.menu = "options" 
+				end
+				if self.sel == 4 then 
+					love.event.quit() 
+				end
+			elseif self.menu == "options" then
+				--unimplemented
+			end
+			
+		elseif love.keyboard.isDown("escape") or joystick:isDown("b") then 
+			self.menu = "main"
 			sound:play(sound.effects["blip"])
 			self.key_delay_timer = self.key_delay
 		end
-		if love.keyboard.isDown("up") or joystick:isDown("dpup") then 
-			self.sel = self.sel -1 
-			sound:play(sound.effects["blip"])
-			self.key_delay_timer = self.key_delay
-		end
-		if love.keyboard.isDown("left") or joystick:isDown("dpleft") then
-			self.mapsel = self.mapsel -1 
-			sound:play(sound.effects["blip"])
-			self.key_delay_timer = self.key_delay
-		end
-		if love.keyboard.isDown("right") or joystick:isDown("dpright") then 
-			self.mapsel = self.mapsel +1
-			sound:play(sound.effects["blip"])
-			self.key_delay_timer = self.key_delay
-		end
-		if love.keyboard.isDown("return") or joystick:isDown("a") then 
-			world.map = self:mapname(self.mapsel)
-			self.key_delay_timer = self.key_delay
-			if self.sel == 1 then 
-				transitions:fadeoutmode("game") 
-				sound:play(sound.effects["start"])
-			end
-			if self.sel == 2 then 
-				transitions:fadeoutmode("editing") 
-				sound:play(sound.effects["blip"])
-			end
-			if self.sel == 3 then 
-				self.menu = "options" 
-				sound:play(sound.effects["blip"])
-			end
-			if self.sel == 4 then 
-				love.event.quit() 
-			end
-		end
+		
+		self.sel = math.min(math.max(self.sel,1),4)
+		self.mapsel = math.min(math.max(self.mapsel,1),#self.maps)
 	end
 	
-	if self.sel < 1 then self.sel = 1 return end
-	if self.sel > 4 then self.sel = 4 return end
-	if self.mapsel < 1 then self.mapsel = 1 end
-	if self.mapsel > #self.maps then self.mapsel = #self.maps end
 
 end
 
@@ -197,6 +217,44 @@ function title:checkcheatcodes(key)
 	end
 end
 
+
+function title:drawoptions()
+	love.graphics.setFont(fonts.menu)
+	if self.sel == 0 then
+		love.graphics.setColor(0,0,0,155)
+		love.graphics.rectangle("fill", love.graphics.getWidth()/4-10,love.graphics.getHeight()/4+90,love.graphics.getWidth()/2+20,40)
+	end
+	love.graphics.setColor(255,255,255,255)
+	love.graphics.printf("Press left/right to change setting",love.graphics.getWidth()/4,love.graphics.getHeight()/4+100,love.graphics.getWidth()/3,"left")
+
+	--play 
+	if self.sel == 1 then
+		love.graphics.setColor(0,0,0,155)
+		love.graphics.rectangle("fill", love.graphics.getWidth()/4-10,love.graphics.getHeight()/4+130,love.graphics.getWidth()/2+20,40)
+	end
+		
+	love.graphics.setColor(100,150,160,255)
+	love.graphics.printf("vsync",love.graphics.getWidth()/4,love.graphics.getHeight()/4+140,love.graphics.getWidth()/3,"left")
+	love.graphics.setColor(100,140,60,155)
+	love.graphics.printf("n/a",love.graphics.getWidth()/4,love.graphics.getHeight()/4+140,love.graphics.getWidth()/2,"right")
+
+	--editing 
+		
+	if self.sel == 2 then
+		love.graphics.setColor(0,0,0,155)
+		love.graphics.rectangle("fill", love.graphics.getWidth()/4-10,love.graphics.getHeight()/4+170,love.graphics.getWidth()/2+20,40)
+	end
+		
+	love.graphics.setColor(100,150,160,255)
+	love.graphics.printf("joystick",love.graphics.getWidth()/4,love.graphics.getHeight()/4+180,love.graphics.getWidth()/3,"left")
+	love.graphics.setColor(100,140,60,155)
+	love.graphics.printf(joystick.active:getName(),love.graphics.getWidth()/4,love.graphics.getHeight()/4+180,love.graphics.getWidth()/2,"right")
+		
+	
+	love.graphics.setColor(100,150,160,255)
+	love.graphics.printf("Back",love.graphics.getWidth()/4,love.graphics.getHeight()/4+260,love.graphics.getWidth()/3,"left")
+	
+end
 
 function title:drawmain()
 	--options
