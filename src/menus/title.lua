@@ -17,9 +17,8 @@
  -- https://love2d.org/wiki/love.textinput
  -- https://love2d.org/wiki/love.keyboard.setTextInput
 title = {}
-
-
-
+title.key_delay_timer = 0
+title.key_delay = 0.2
 
 function title:mapname(id)
 	for i,map in ipairs(self.maps) do
@@ -27,12 +26,7 @@ function title:mapname(id)
 	end
 end
 
-
-
-
 function title:init()
-	
-
 	mode = "title"
 	self.bg = love.graphics.newImage("data/images/platforms/0001.png")
 	self.bg:setWrap("repeat", "repeat")
@@ -64,68 +58,10 @@ function title:init()
 	console:print("initialized title")
 end
 
-function title:mainselect(cmd)
-
-	if cmd == "up" then 
-		self.sel = self.sel -1 
-		sound:play(sound.effects["blip"])
-	end
-	
-	if cmd == "down" then 
-		self.sel = self.sel +1 
-		sound:play(sound.effects["blip"])
-	end
-	
- 
-	if cmd == "left" then self.mapsel = self.mapsel -1 end
-	if cmd == "right" then self.mapsel = self.mapsel +1 end
-		
-	if self.mapsel < 1 then self.mapsel = 1 end
-	if self.mapsel > #self.maps then self.mapsel = #self.maps end
-
-	
-	if cmd == "go" then
-		world.map = self:mapname(self.mapsel)
-		if self.sel == 1 then 
-			transitions:fadeoutmode("game") 
-			sound:play(sound.effects["start"])
-		end
-		if self.sel == 2 then 
-			transitions:fadeoutmode("editing") 
-			sound:play(sound.effects["blip"])
-		end
-		if self.sel == 3 then 
-			self.menu = "options" 
-			sound:play(sound.effects["blip"])
-		end
-		if self.sel == 4 then 
-			love.event.quit() 
-		end
-	end
-	
-	if self.sel < 1 then self.sel = 1 return end
-	if self.sel > 4 then self.sel = 4 return end
-
-end
 
 
 function title:keypressed(key)
-	if not transitions.active then
-		self:checkcheatcodes(key)
-	
-		if self.menu == "main" then
-			if key == "escape" then love.event.quit() end
-			if key == "up"     then title:mainselect("up") end
-			if key == "down"   then title:mainselect("down") end
-			if key == "return"   then title:mainselect("go") end
-			if key == "left"   then title:mainselect("left") end
-			if key == "right"   then title:mainselect("right") end
-		end
-	
-		if self.menu == "options" then
-			if key == "escape" then self.menu = "main" end
-		end
-	end
+	self:checkcheatcodes(key)
 end
 
 function title:draw()
@@ -153,7 +89,6 @@ function title:draw()
 	love.graphics.setColor(255,255,255,155)
 	love.graphics.printf("v"..version..build.." ("..love.system.getOS() ..") by "..author,10,love.graphics.getHeight()-25,300,"left",0,1,1)
 	
-	
 	if self.menu == "main" then
 		self:drawmain()
 	end
@@ -164,14 +99,64 @@ end
 
 
 function title:update(dt)
+	--scrolling background animation
 	self.bgscroll = self.bgscroll + self.bgscrollspeed * dt
 	if self.bgscroll > self.bg:getHeight() then
 		self.bgscroll = self.bgscroll - self.bg:getWidth()
 	end	
+	
+	--joystick/keyboard support
+	self.key_delay_timer = math.max(0, self.key_delay_timer - dt)
+	if self.key_delay_timer <= 0 then
+		if transitions.active then return end
+		
+		if love.keyboard.isDown("down") or joystick:isDown("dpdown") then
+			self.sel = self.sel +1 
+			sound:play(sound.effects["blip"])
+			self.key_delay_timer = self.key_delay
+		end
+		if love.keyboard.isDown("up") or joystick:isDown("dpup") then 
+			self.sel = self.sel -1 
+			sound:play(sound.effects["blip"])
+			self.key_delay_timer = self.key_delay
+		end
+		if love.keyboard.isDown("left") or joystick:isDown("dpleft") then
+			self.mapsel = self.mapsel -1 
+			sound:play(sound.effects["blip"])
+			self.key_delay_timer = self.key_delay
+		end
+		if love.keyboard.isDown("right") or joystick:isDown("dpright") then 
+			self.mapsel = self.mapsel +1
+			sound:play(sound.effects["blip"])
+			self.key_delay_timer = self.key_delay
+		end
+		if love.keyboard.isDown("return") or joystick:isDown("a") then 
+			world.map = self:mapname(self.mapsel)
+			self.key_delay_timer = self.key_delay
+			if self.sel == 1 then 
+				transitions:fadeoutmode("game") 
+				sound:play(sound.effects["start"])
+			end
+			if self.sel == 2 then 
+				transitions:fadeoutmode("editing") 
+				sound:play(sound.effects["blip"])
+			end
+			if self.sel == 3 then 
+				self.menu = "options" 
+				sound:play(sound.effects["blip"])
+			end
+			if self.sel == 4 then 
+				love.event.quit() 
+			end
+		end
+	end
+	
+	if self.sel < 1 then self.sel = 1 return end
+	if self.sel > 4 then self.sel = 4 return end
+	if self.mapsel < 1 then self.mapsel = 1 end
+	if self.mapsel > #self.maps then self.mapsel = #self.maps end
+
 end
-
-
-
 
 
 
@@ -225,10 +210,6 @@ function title:drawmain()
 	love.graphics.setColor(255,255,255,255)
 	love.graphics.printf("Press left/right to select map",love.graphics.getWidth()/4,love.graphics.getHeight()/4+100,love.graphics.getWidth()/3,"left")
 
-
-
-
-
 	--play 
 	if self.sel == 1 then
 		love.graphics.setColor(0,0,0,155)
@@ -272,8 +253,6 @@ function title:drawmain()
 	love.graphics.setColor(100,150,160,255)
 	love.graphics.printf("Quit",love.graphics.getWidth()/4,love.graphics.getHeight()/4+260,love.graphics.getWidth()/3,"left")
 	
-
-
 end
 
 
