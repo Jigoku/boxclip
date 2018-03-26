@@ -1,10 +1,9 @@
 input = {}
 
 function input:checkkeys(dt)
-	if mode == "game" then player:checkkeys(dt) end
+
 	
 	if mode == "editing" then
-		player:checkkeys(dt)
 		if editing then editor:checkkeys(dt) end
 	end
 end

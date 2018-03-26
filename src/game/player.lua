@@ -41,6 +41,7 @@ function player:init()
 	self.angle = 0
 	self.camerashift = 50
 	self.candrop = false
+	self.canjump = true
 
 	self.invincible = false
 	self.invincibility_timer = 15
@@ -172,6 +173,34 @@ function player:update(dt)
 		sound:play(sound.effects["lifeup"])
 	end
 	--]]
+	
+	
+	if paused or editing or world.splash.active then return end
+	
+	if self.alive then
+		if love.keyboard.isDown(binds.right) 
+			or joystick:isDown("dpright") then
+			self:moveright()
+		elseif love.keyboard.isDown(binds.left)
+			or joystick:isDown("dpleft") then
+			self:moveleft()
+		else
+			self.dir = "idle"
+		end
+	
+	
+		if love.keyboard.isDown(binds.jump) or joystick:isDown("a") then
+			if love.keyboard.isDown(binds.down) or joystick:isDown("dpdown") then
+				self:drop()
+			else
+				self:jump()
+			end
+		else
+			self.canjump = true
+		end
+	
+	end
+	
 end
 
 
@@ -284,10 +313,11 @@ function player:attack(enemy)
 end
 
 function player:jump()
-	if self.alive and not self.jumping or cheats.jetpack then
+	if self.alive and self.canjump and not self.jumping or cheats.jetpack then
 		sound:play(sound.effects["jump"])
 		self.jumping = true
-		self.yvel = self.jumpheight					
+		self.canjump = false
+		self.yvel = self.jumpheight	
 	end
 end
 
@@ -314,31 +344,6 @@ function player:moveright()
 	self.dir = "right"	
 end
 
-
-function player:checkkeys(dt)
-	if paused or editing or world.splash.active then return end
-	
-	if self.alive then
-		if love.keyboard.isDown(binds.right) 
-			or joystick:isDown("dpright") then
-			self:moveright()
-		elseif love.keyboard.isDown(binds.left)
-			or joystick:isDown("dpleft") then
-			self:moveleft()
-		else
-			self.dir = "idle"
-		end
-	
-		if love.keyboard.isDown(binds.jump) or joystick:isDown("a") then
-			if love.keyboard.isDown(binds.down) or joystick:isDown("dpdown") then
-				self:drop()
-			else
-				self:jump()
-			end
-		end
-	
-	end
-end
 
 
 function player:keypressed(key)
