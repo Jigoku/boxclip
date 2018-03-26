@@ -1,5 +1,5 @@
 --[[
- * Copyright (C) 2018 Ricky K. Thomson
+ * Copyright (C) 2015 - 2018 Ricky K. Thomson
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,5 +27,11 @@ end
 
 function joystick:vibrate(left,right,dur)
 	if not joystick.active then return end
+	print("joystick:vibrate(".. left,right,dur ..")")
 	return joystick.active:setVibration(left,right,dur)
+end
+
+function joystick:getName()
+	if not joystick.active then return "disconnected" end
+	return joystick.active:getName()
 end

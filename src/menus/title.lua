@@ -1,5 +1,5 @@
 --[[
- * Copyright (C) 2015 Ricky K. Thomson
+ * Copyright (C) 2015 - 2018 Ricky K. Thomson
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -248,7 +248,7 @@ function title:drawoptions()
 	love.graphics.setColor(100,150,160,255)
 	love.graphics.printf("joystick",love.graphics.getWidth()/4,love.graphics.getHeight()/4+180,love.graphics.getWidth()/3,"left")
 	love.graphics.setColor(100,140,60,155)
-	love.graphics.printf(joystick.active:getName(),love.graphics.getWidth()/4,love.graphics.getHeight()/4+180,love.graphics.getWidth()/2,"right")
+	love.graphics.printf(joystick:getName(),love.graphics.getWidth()/4,love.graphics.getHeight()/4+180,love.graphics.getWidth()/2,"right")
 		
 	
 	love.graphics.setColor(100,150,160,255)
