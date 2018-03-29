@@ -13,14 +13,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  --]]
  
- portals = {}
-
-
+portals = {}
 
 portals.textures = {
 	["goal"] = love.graphics.newImage("data/images/portals/goal.png"),
 	["goal_activated"] = love.graphics.newImage("data/images/portals/goal_activated.png"),
 }
+
+table.insert(editor.entities, {"spawn", "portal"})
+table.insert(editor.entities, {"goal", "portal"})
 
 function portals:add(x,y,type)
 	if type == "spawn" then

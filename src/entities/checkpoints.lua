@@ -20,6 +20,8 @@ checkpoints.textures = {
 	["back"] = love.graphics.newImage("data/images/checkpoints/back.png")
 }
 
+table.insert(editor.entities, {"checkpoint", "checkpoint"})
+
 function checkpoints:add(x,y)
 	table.insert(world.entities.checkpoint, {
 		x = x or 0,

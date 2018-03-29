@@ -79,36 +79,12 @@ editor.texmenuh = (editor.texmenutexsize*(editor.texmenuoffset*2+1))+(editor.tex
 editor.texmenu = love.graphics.newCanvas(editor.texmenuw,editor.texmenuh)
 
 
---order of placable entities in entmenu
-editor.entities = {
-	{"spawn", "portal"},
-	{"goal", "portal"},
-	{"tip", "tip"},
-	{"platform", "platform"},
-	{"platform_b", "platform"},
-	{"platform_x", "platform"},
-	{"platform_y", "platform"},
-	{"platform_s", "platform"},
-	{"log","trap"},
-	{"bridge","trap"},
-	{"brick","trap"},
-	{"water", "decal"},
-	{"stream", "decal"},
-	{"lava", "decal"},
-	{"blood", "decal"},
-	{"death", "material"},
-	{"checkpoint", "checkpoint"},
-	{"crate", "crate"},
-	{"spike", "enemy"},
-	{"spike_large", "enemy"},
-	{"icicle", "enemy"},
-	{"walker", "enemy"},
-	{"floater",  "enemy"},
-	{"spikeball", "enemy"},
-	{"bumper", "bumper"}
-}
+--placable entities listed in entmenu
+--these are defined at top of entities/*.lua
+editor.entities = {}
 
 -- entity priority for selection / hover mouse
+-- TODO should be moved to entities/init.lua
 editor.entorder = {
 	"tip",
 	"material",
@@ -127,13 +103,15 @@ editor.entorder = {
 
 
 --entities which are draggable (size placement)
+-- TODO should be moved to entities/init.lua
 editor.draggable = {
 	"platform", "platform_b", "platform_x", "platform_y", 
-	"blood", "lava", "water", "stream", 
+	"decal",
 	"death" 
 }
 
 -- world themes
+-- TODO should be moved elsewhere
 editor.themes = {
 	"default",
 	"sunny",
@@ -486,6 +464,10 @@ function editor:wheelmoved(dx, dy)
 		
 	elseif love.keyboard.isDown(self.binds.texturesel) then
 		--platform texture slot selection
+		
+		if self.selected then
+		print (self.selected.group)
+		end
 		self.texturesel = math.max(1,math.min(#platforms.textures,self.texturesel - dy))
 		self:settexture(p)
 		
@@ -511,7 +493,7 @@ function editor:mousepressed(x,y,button)
 	
 	if button == 1 then
 		local selection = self.entities[self.entsel][1]
-		
+		-- TODO should be moved to entities/init.lua as function
 		if selection == "spawn" then
 			self:removeall("portal", "spawn")
 			portals:add(x,y,"spawn")
@@ -627,15 +609,13 @@ function editor:placedraggable(x1,y1,x2,y2)
 		local h = (y2-y1)
 		
 		--place the platform
+		-- TODO should be moved to entities/init.lua as function
 		if ent == "platform" then platforms:add(x,y,w,h,true,false,false,0,0,false,0,self.texturesel) end
 		if ent == "platform_b" then platforms:add(x,y,w,h,false,false,false,0,0,false,0,self.texturesel) end
 		if ent == "platform_x" then platforms:add(x,y,w,h,false,true,false,100,200,false,0,self.texturesel) end
 		if ent == "platform_y" then platforms:add(x,y,w,h,false,false,true,100,200,false,0,self.texturesel) end
 		
-		if ent == "blood" then decals:add(x,y,w,h,"blood") end
-		if ent == "lava" then decals:add(x,y,w,h,"lava") end
-		if ent == "water" then decals:add(x,y,w,h,"water") end
-		if ent == "stream" then decals:add(x,y,w,h,"stream") end
+		if ent == "decal" then decals:add(x,y,w,h,1) end
 		
 		if ent == "death" then materials:add(x,y,w,h,"death") end
 	end
@@ -1196,7 +1176,9 @@ end
 
 
 function editor:drawmmap()
-	
+	-- TODO define a mmap colour for each entity in its own file, 
+	-- then loop over world.entities and apply colour, so that
+	-- editor does not specify actual entity names
 	love.graphics.setCanvas(self.mmapcanvas)
 	love.graphics.clear()
 

@@ -19,6 +19,9 @@ crates.textures = {
 	["crate"] = love.graphics.newImage("data/images/crates/crate.png")
 }
 
+table.insert(editor.entities, {"crate", "crate"})
+	
+	
 function crates:add(x,y,type)
 	table.insert(world.entities.crate, {
 		x = x or 0,

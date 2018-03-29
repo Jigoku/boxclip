@@ -72,7 +72,7 @@ function mapio:savemap(map)
 		fh:write("portals:add("..math.round(e.x)..","..math.round(e.y)..",\""..e.type.."\")\n")
 	end
 	for _, e in ipairs(world.entities.decal) do
-		fh:write("decals:add("..math.round(e.x)..","..math.round(e.y)..","..e.w..","..e.h..",\""..e.type.."\")\n")
+		fh:write("decals:add("..math.round(e.x)..","..math.round(e.y)..","..e.w..","..e.h..","..e.texture..")\n")
 	end
 	for _, e in ipairs(world.entities.bumper) do
 		fh:write("bumpers:add("..math.round(e.x)..","..math.round(e.y)..")\n")

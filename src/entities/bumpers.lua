@@ -18,6 +18,9 @@ bumpers = {}
 bumpers.textures = {
 	["bumper"] = love.graphics.newImage("data/images/bumpers/bumper.png")
 }
+
+table.insert(editor.entities, {"bumper", "bumper"})
+
 bumpers.scalespeed =  5
 bumpers.maxscale = 1.5
 

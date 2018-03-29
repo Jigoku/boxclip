@@ -15,6 +15,8 @@
  
 tips = {}
 
+table.insert(editor.entities, {"tip", "tip"})
+
 function tips:add(x,y,text)
 
 	local wrapw, t = fonts.tips:getWrap(text, love.math.random(100,300))

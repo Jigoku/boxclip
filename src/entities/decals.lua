@@ -16,38 +16,18 @@
 decals = {}
 
 
-decals.textures = {
-	["water"] = love.graphics.newImage("data/images/decals/water.png"),
-	["lava"] = love.graphics.newImage("data/images/decals/lava.png"),
-	["blood"] = love.graphics.newImage("data/images/decals/blood.png"),
-	["stream"] = love.graphics.newImage("data/images/decals/stream.png"),
-	["waterfall"] = love.graphics.newImage("data/images/decals/waterfall.png"),
-	["snowflake"] = love.graphics.newImage("data/images/decals/snowflake.png"),
-}
+decals.textures = textures:load("data/images/decals/")
+for _,texture in pairs(decals.textures) do
+	texture:setWrap("repeat", "repeat")
+end
+
+table.insert(editor.entities, {"decal", "decal"})
+
+decals.waterfall_texture = love.graphics.newImage("data/images/tiles/waterfall.png")
+decals.waterfall_spin = 0
 
 
-decals.waterfallspin = 0
-decal_water_scroll = 130
-decal_lava_scroll = 36
-decal_blood_scroll = 80
-decal_stream_scroll = 80
-
-function decals:add(x,y,w,h,type)
-	local scrollspeed,gfx
-	gfx = self.textures[type]
-	gfx:setWrap("repeat", "repeat")
-	
-	if type == "blood" then
-		scrollspeed = decal_blood_scroll
-	elseif type == "lava" then
-		scrollspeed = decal_lava_scroll
-	elseif type == "stream" then
-		scrollspeed = decal_stream_scroll
-	elseif type == "water" then
-		scrollspeed = decal_water_scroll
-	end
-	
-	
+function decals:add(x,y,w,h,texture)
 	table.insert(world.entities.decal, {		
 		--position
 		x = x or 0,
@@ -57,18 +37,17 @@ function decals:add(x,y,w,h,type)
 		
 		--properties
 		scroll = 0,
-		scrollspeed = scrollspeed,
-		
+		scrollspeed = 130,
+		texture = texture or 1,
 		group = "decal",
-		type = type,
-		quad = love.graphics.newQuad( x,y,w,h, self.textures[type]:getDimensions() ) 
-	})
 
+		quad = love.graphics.newQuad( x,y,w,h, self.textures[texture]:getDimensions() ) 
+	})
 end
 
 function decals:update(dt)
 	for i, decal in ipairs(world.entities.decal) do
-		local texture = self.textures[decal.type]
+		local texture = self.textures[decal.texture]
 		
 		if world:inview(decal) then
 			decal.scroll = decal.scroll + (decal.scrollspeed * dt)
@@ -80,8 +59,8 @@ function decals:update(dt)
 	end
 	
 	if world.decals and world.decals > 0 then
-		self.waterfallspin = self.waterfallspin + dt * 10
-		self.waterfallspin = self.waterfallspin % (2*math.pi)
+		self.waterfall_spin = self.waterfall_spin + dt * 10
+		self.waterfall_spin = self.waterfall_spin % (2*math.pi)
 	end
 
 end
@@ -94,45 +73,26 @@ function decals:draw()
 		if world:inview(decal) then
 			count = count + 1
 			
-			local texture = self.textures[decal.type]
+			local texture = self.textures[decal.texture]
 			
-			--waterfall
-			if decal.type == "water" then
-				love.graphics.setColor(255,255,255,215)
-				love.graphics.draw(texture, decal.quad, decal.x,decal.y)
+			love.graphics.setColor(255,255,255,255)
+			love.graphics.draw(texture, decal.quad, decal.x,decal.y)
 			
+			
+			if decal.texture == 1 then
 				love.graphics.setColor(190,240,255,255)
-				for i=0, decal.w, self.textures["waterfall"]:getWidth()/2 do
-				
-					local t = self.textures["waterfall"]
-					love.graphics.draw(t, decal.x+i,decal.y,
-						(love.math.random(0,1) == 1 and self.waterfallspin or -self.waterfallspin),
-						1,1,t:getWidth()/2,t:getHeight()/2
-					)
-					
-				end
-			
-			elseif decal.type == "lava" then
-				love.graphics.setColor(255,255,255,255)
-				love.graphics.draw(texture, decal.quad, decal.x,decal.y)
-			
-				love.graphics.setColor(180,70,0,255)
-				for i=0, decal.w, self.textures["waterfall"]:getWidth()/2 do
-				
-					local t = self.textures["waterfall"]
-					love.graphics.draw(t, decal.x+i,decal.y,
-						(love.math.random(0,1) == 1 and self.waterfallspin or -self.waterfallspin),
-						1,1,t:getWidth()/2,t:getHeight()/2
-					)
-					
-				end
-			
-			else
-				--everything else
-				love.graphics.setColor(255,255,255,255)
-				love.graphics.draw(texture, decal.quad, decal.x,decal.y)
-			
+				self:drawwaterfall(decal)
+			elseif decal.texture == 2 then
+				love.graphics.setColor(157,189,152,255)
+				self:drawwaterfall(decal)
+			elseif decal.texture == 3 then
+				love.graphics.setColor(173,83,15,255)
+				self:drawwaterfall(decal)
+			elseif decal.texture == 4 then
+				love.graphics.setColor(199,89,4,255)
+				self:drawwaterfall(decal)
 			end
+			
 
 
 			if editing or debug then
@@ -145,5 +105,12 @@ function decals:draw()
 end
 
 
-
-
+function decals:drawwaterfall(decal)
+	local texture = self.waterfall_texture
+	for i=0, decal.w, texture:getWidth()/2 do
+		love.graphics.draw(texture, decal.x+i,decal.y,
+			(love.math.random(0,1) == 1 and self.waterfall_spin or -self.waterfall_spin),
+			1,1,texture:getWidth()/2,texture:getHeight()/2
+		)	
+	end
+end

@@ -26,7 +26,12 @@ enemies.textures = {
 }
 
 
-
+table.insert(editor.entities, {"spike", "enemy"})
+table.insert(editor.entities, {"spike_large", "enemy"})
+table.insert(editor.entities, {"icicle", "enemy"})
+table.insert(editor.entities, {"walker", "enemy"})
+table.insert(editor.entities, {"floater",  "enemy"})
+table.insert(editor.entities, {"spikeball", "enemy"})
 
 
 function enemies:add(x,y,movespeed,movedist,dir,type)

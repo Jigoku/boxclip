@@ -13,6 +13,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  --]]
  
+--TODO
+--experiment with performance of textured polygons instead of meshes (don't need 3D)
+--http://benhumphreys.ca/blog/2012/06/24/drawing-a-textured-polygon-in-love2d/
+ 
 platforms = {}
 
 platform_link = love.graphics.newImage("data/images/tiles/link.png")
@@ -26,6 +30,11 @@ for _,texture in pairs(platforms.textures) do
 	texture:setWrap("repeat", "repeat")
 end
 
+table.insert(editor.entities, {"platform", "platform"})
+table.insert(editor.entities, {"platform_b", "platform"})	
+table.insert(editor.entities, {"platform_x", "platform"})
+table.insert(editor.entities, {"platform_y", "platform"})
+table.insert(editor.entities, {"platform_s", "platform"})
 
 function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing,angleorigin,texture,surface)
 
@@ -107,6 +116,7 @@ function platforms:draw()
 		if world:inview(platform) then
 			count = count + 1
 			
+			-- move this eventually, chainlinks should be drawn on top of player.
 			if platform.swing then
 				platforms:drawlink(platform, radius)
 					
@@ -154,47 +164,8 @@ function platforms:draw()
 			love.graphics.setColor(255,255,255,255)
 			love.graphics.draw(platform.mesh, platform.x, platform.y)
 				
-				
-			--shadows
-			local offset
-			if platform.movex or platform.movey then
-				 offset = 4
-			else
-				 offset = 10
-			end
-				
-			--shaded edges
-			love.graphics.setColor(0,0,0,85)
-			--right
-			love.graphics.rectangle("fill", platform.x+platform.w-offset, platform.y, offset, platform.h -offset)
-			--bottom
-			love.graphics.rectangle("fill", platform.x, platform.y+platform.h-offset, platform.w, offset)
-			--left
-			love.graphics.rectangle("fill", platform.x, platform.y, offset, platform.h - offset)
-			--top
-			--love.graphics.rectangle("fill", platform.x, platform.y, platform.w, offset)
-		
-			--top surface
-			love.graphics.setColor(
-				platform_top_r,
-				platform_top_g,
-				platform_top_b,
-				255
-			)
-			
-			--[[ --untextured grass fallback
-			--surface
-			love.graphics.rectangle("fill", platform.x, platform.y-5, platform.w, 10)	
-			
-			--arced edges
-			love.graphics.arc( "fill", platform.x+platform.w, platform.y, -5, math.pi/2, math.pi*1.5 )
-			love.graphics.arc( "fill", platform.x, platform.y, 5, math.pi/2, math.pi*1.5 )
-			--]]
-				
-			local offset = platforms.grass[platform.surface]:getHeight()/2
-			local quad = love.graphics.newQuad( 0,0, platform.w, platforms.grass[platform.surface]:getHeight(), platforms.grass[platform.surface]:getDimensions() )
-			platforms.grass[platform.surface]:setWrap("repeat", "repeat")
-			love.graphics.draw(platforms.grass[platform.surface], quad, platform.x,platform.y-offset)
+			self:drawshadow(platform)
+			self:drawsurface(platform)
 			
 			if editing or debug then platforms:drawdebug(platform, i) end
 				
@@ -257,7 +228,48 @@ end
 
 
 
+function platforms:drawshadow(platform)
+	if platform.swing then return false end
+	--shadows
+	local offset = 10
+	
+	if platform.w < 40 or platform.h < 40 then
+		offset = 5
+	end
+	
+	--shaded edges
+	love.graphics.setColor(0,0,0,85)
+	--right
+	love.graphics.rectangle("fill", platform.x+platform.w-offset, platform.y, offset, platform.h -offset)
+	--bottom
+	love.graphics.rectangle("fill", platform.x, platform.y+platform.h-offset, platform.w, offset)
+	--left
+	love.graphics.rectangle("fill", platform.x, platform.y, offset, platform.h - offset)
+	--top
+	--love.graphics.rectangle("fill", platform.x, platform.y, platform.w, offset)
+end
 
 
-
-
+function platforms:drawsurface(platform)
+	--top surface
+	love.graphics.setColor(
+		platform_top_r,
+		platform_top_g,
+		platform_top_b,
+		255
+	)
+			
+	--[[ --untextured grass fallback
+	--surface
+	love.graphics.rectangle("fill", platform.x, platform.y-5, platform.w, 10)	
+			
+	--arced edges
+	love.graphics.arc( "fill", platform.x+platform.w, platform.y, -5, math.pi/2, math.pi*1.5 )
+	love.graphics.arc( "fill", platform.x, platform.y, 5, math.pi/2, math.pi*1.5 )
+	--]]
+				
+	local offset = platforms.grass[platform.surface]:getHeight()/2
+	local quad = love.graphics.newQuad( 0,0, platform.w, platforms.grass[platform.surface]:getHeight(), platforms.grass[platform.surface]:getDimensions() )
+	platforms.grass[platform.surface]:setWrap("repeat", "repeat")
+	love.graphics.draw(platforms.grass[platform.surface], quad, platform.x,platform.y-offset)
+end

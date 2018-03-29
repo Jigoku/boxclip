@@ -21,6 +21,9 @@ traps.textures = {
 	["brick"] = love.graphics.newImage("data/images/traps/brick.png"),
 }
 
+table.insert(editor.entities, {"log","trap"})
+table.insert(editor.entities, {"bridge","trap"})
+table.insert(editor.entities, {"brick","trap"})
 
 function traps:add(x,y,type)
 

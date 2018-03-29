@@ -18,6 +18,7 @@ materials.death = love.graphics.newImage("data/images/materials/death.png")
 materials.death:setWrap("repeat","repeat")
 
 
+table.insert(editor.entities, {"death", "material"})
 
 function materials:add(x,y,w,h,t)
 	table.insert(world.entities.material, {		
