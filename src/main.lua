@@ -78,6 +78,11 @@ end
 
 
 function love.update(dt)
+	--collect garbage every update(), gets rid of 
+	--intermittent lag caused by garbage collection
+	--temporary fix
+	collectgarbage()
+	
 	game.ticks = game.ticks +1
 	game.utick_start = love.timer.getTime()*1000
 	
@@ -107,6 +112,7 @@ function love.update(dt)
 	end
 	
 	game.utick_time = love.timer.getTime( )*1000 - game.utick_start
+	
 end
 
 

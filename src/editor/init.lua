@@ -48,6 +48,7 @@ editor.maxcamerascale = 6		--maximum zoom
 editor.mincamerascale = 0.1		--minimum zoom
 
 editor.errortex = love.graphics.newImage("data/images/editor/error.png")
+editor.bullettex = love.graphics.newImage("data/images/editor/bullet.png")
 
 -- minimap
 editor.mmapw = love.graphics.getWidth()/3
@@ -958,7 +959,7 @@ function editor:drawentmenu()
 	for i=-5,15 do 
 		if self.entities[self.entsel+i] and self.entities[self.entsel+i][1] then
 			n = n +1
-			local texture = self.errortex --placeholder
+			local texture = self.bullettex --placeholder
 			love.graphics.setColor(255,255,255,255)
 			love.graphics.draw(texture,10,s*n,0,s/texture:getWidth(), s/texture:getHeight())
 			

@@ -39,9 +39,8 @@ function player:init()
 	self.lives = 3
 	self.gems = 0
 	self.angle = 0
-	self.camerashift = 50
-	self.candrop = false
-	self.canjump = true
+	--self.candrop = false
+	--self.canjump = true
 
 	self.invincible = false
 	self.invincibility_timer = 15
