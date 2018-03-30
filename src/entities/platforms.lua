@@ -38,8 +38,6 @@ table.insert(editor.entities, {"platform_s", "platform"})
 
 function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing,angleorigin,texture,surface)
 
-	local cols = math.ceil(w/self.textures[texture]:getWidth())
-	local rows = math.ceil(h/self.textures[texture]:getHeight())
 
 	table.insert(world.entities.platform, {
 		--dimensions
@@ -71,23 +69,30 @@ function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing,angleor
 		texture = texture or 1,
 		surface = surface or 2,
 		mesh = love.graphics.newMesh(4, "fan", "static"),
-		
-		verts = { 
-			--top left
-			{0,0,0,0},  
-			--top right
-			{0+w,0,cols,0},
-			--bottom right
-			{0+w,0+h,cols,rows}, 
-			--bottom left
-			{0,0+h,0,rows}, 
-		}
+
 	})
-	
+	self:settexture(world.entities.platform[#world.entities.platform],texture)
 	
 	print("platform added @  X:"..x.." Y: "..y .. "(w:" .. w .. " h:".. h.. ")")
 end
 
+function platforms:settexture(platform,texture)
+
+	local cols = math.ceil(platform.w/platforms.textures[texture]:getWidth())
+	local rows = math.ceil(platform.h/platforms.textures[texture]:getHeight())
+			
+	platform.texture = texture
+	platform.verts = { 
+		--top left
+		{0,0,0,0},  
+		--top right
+		{0+platform.w,0,cols,0},
+		--bottom right
+		{0+platform.w,0+platform.h,cols,rows}, 	
+		--bottom left
+		{0,0+platform.h,0,rows}
+	}
+end
 
 
 function platforms:drawlink(platform)

@@ -77,7 +77,7 @@ editor.texmenufadespeed = 300
 editor.texmenuw = editor.texmenutexsize+(editor.texmenupadding*2)
 editor.texmenuh = (editor.texmenutexsize*(editor.texmenuoffset*2+1))+(editor.texmenupadding*(editor.texmenuoffset*2))+(editor.texmenupadding*2)
 editor.texmenu = love.graphics.newCanvas(editor.texmenuw,editor.texmenuh)
-
+editor.texlist = {}
 
 --placable entities listed in entmenu
 --these are defined at top of entities/*.lua
@@ -229,31 +229,39 @@ editor.help = {
 	
 }
 
-function editor:settexture(platform)
-	--show the texture browser display
-	
+function editor:showtexmenu(textures)
+	--make the texture browser display visible
+	self.texlist = textures
 	self.texmenutimer = editor.texmenuduration
 	self.texmenuopacity = 255
+end
+
+function editor:settexture(dy)
 	
-	--update the texture value
-	for _,platform in ripairs(world.entities.platform) do
-		if platform.selected then
-			local cols = math.ceil(platform.w/platforms.textures[self.texturesel]:getWidth())
-			local rows = math.ceil(platform.h/platforms.textures[self.texturesel]:getHeight())
-			
-			platform.texture = self.texturesel
-			platform.verts = { 
-				--top left
-				{0,0,0,0},  
-				--top right
-				{0+platform.w,0,cols,0},
-				--bottom right
-				{0+platform.w,0+platform.h,cols,rows}, 
-				--bottom left
-				{0,0+platform.h,0,rows}
-			}
-			break
+
+	if editor.selname == "platform" then
+		--update the texture value
+		for _,platform in ripairs(world.entities.platform) do
+			if platform.selected then
+				self:showtexmenu(platforms.textures)
+				self.texturesel = math.max(1,math.min(#self.texlist,self.texturesel - dy))
+				--TODO, change platforms to polygons, shouldn't need this function when fixed
+				platforms:settexture(platform,self.texturesel)
+				break
+			end
 		end
+		
+	elseif editor.selname == "decal" then
+		
+		for _,decal in ripairs(world.entities.decal) do
+			if decal.selected then
+				self:showtexmenu(decals.textures)
+				self.texturesel = math.max(1,math.min(#self.texlist,self.texturesel - dy))
+				decal.texture = self.texturesel
+				break
+			end		
+		end
+		
 	end
 end
 
@@ -463,13 +471,8 @@ function editor:wheelmoved(dx, dy)
 		camera.scale = math.max(self.mincamerascale,math.min(self.maxcamerascale,camera.scale + dy/25))
 		
 	elseif love.keyboard.isDown(self.binds.texturesel) then
-		--platform texture slot selection
-		
-		if self.selected then
-		print (self.selected.group)
-		end
-		self.texturesel = math.max(1,math.min(#platforms.textures,self.texturesel - dy))
-		self:settexture(p)
+
+		self:settexture(dy)
 		
 	elseif love.keyboard.isDown(self.binds.rotate) then
 		self:rotate(dy)
@@ -702,18 +705,18 @@ function editor:drawtexturesel()
 
 		
 		for i=math.max(-self.texmenuoffset,self.texturesel-self.texmenuoffset), 
-			math.min(#platforms.textures+self.texmenuoffset,self.texturesel+self.texmenuoffset) do
+			math.min(#self.texlist+self.texmenuoffset,self.texturesel+self.texmenuoffset) do
 			
-			if type(platforms.textures[i]) == "userdata" then
+			if type(self.texlist[i]) == "userdata" then
 			
 				love.graphics.setColor(255,255,255,255)
 				love.graphics.draw(
-					platforms.textures[i],
+					self.texlist[i],
 					x,
 					y+(n*self.texmenutexsize)+n*(self.texmenupadding),
 					0,
-					self.texmenutexsize/platforms.textures[i]:getWidth(),
-					self.texmenutexsize/platforms.textures[i]:getHeight()
+					self.texmenutexsize/self.texlist[i]:getWidth(),
+					self.texmenutexsize/self.texlist[i]:getHeight()
 				)
 				
 				if self.texturesel == i then
@@ -995,7 +998,7 @@ function editor:selection()
 		for n,e in ripairs(world.entities[i]) do
 			--if should_break then break end
 			if world:inview(e) then
-				editor.selname = (e.type or e.group).. "("..n..")"
+				editor.selname = (e.type or e.group)
 				if e.movex then
 					--collision area for moving entity
 					if collision:check(self.mouse.x,self.mouse.y,1,1,e.xorigin, e.y, e.movedist+e.w, e.h) then

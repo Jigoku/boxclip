@@ -86,10 +86,10 @@ function decals:draw()
 				love.graphics.setColor(157,189,152,255)
 				self:drawwaterfall(decal)
 			elseif decal.texture == 3 then
-				love.graphics.setColor(173,83,15,255)
+				love.graphics.setColor(130,40,40,255)
 				self:drawwaterfall(decal)
 			elseif decal.texture == 4 then
-				love.graphics.setColor(199,89,4,255)
+				love.graphics.setColor(173,83,15,255)
 				self:drawwaterfall(decal)
 			end
 			
