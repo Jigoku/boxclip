@@ -53,6 +53,30 @@ function portals:add(x,y,type)
 	print(type .. " added @  X:"..x.." Y: "..y)
 end
 
+function portals:update(dt)
+	if mode == "editing" then return end
+	for _, portal in ipairs(world.entities.portal) do
+		if world:inview(portal) then
+			if collision:check(player.x,player.y,player.w,player.h,
+				portal.x, portal.y,portal.w,portal.h) then
+				
+				if portal.type == "goal" then
+					if not portal.activated then
+						portal.activated = true
+						portal.gfx = portals.textures["goal_activated"]
+						popups:add(portal.x+portal.w/2,portal.y+portal.h/2,"LEVEL COMPLETE")
+						sound:play(sound.effects["goal"])
+						sound:playbgm(10)
+						console:print("goal reached")	
+						world:endoflevel()
+					end
+				end
+				
+			end
+		end
+	end
+end
+
 function portals:draw()
 	local count = 0
 	

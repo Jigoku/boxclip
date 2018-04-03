@@ -34,6 +34,26 @@ function checkpoints:add(x,y)
 	print( "checkpoint added @  X:"..x.." Y: "..y)
 end
 
+function checkpoints:update(dt)
+	if mode == "editing" then return end
+	for _, checkpoint in ipairs(world.entities.checkpoint) do
+		if world:inview(checkpoint) then
+			if collision:check(player.x,player.y,player.w,player.h,
+				checkpoint.x, checkpoint.y,checkpoint.w,checkpoint.h) then
+				if not checkpoint.activated then
+					popups:add(checkpoint.x+checkpoint.w/2,checkpoint.y+checkpoint.h/2,"CHECKPOINT")
+					console:print("checkpoint activated")	
+					world:savestate()
+					sound:play(sound.effects["checkpoint"])
+					checkpoint.activated = true
+					player.spawnX = checkpoint.x+(checkpoint.w/2)-player.w/2
+					player.spawnY = checkpoint.y+checkpoint.h-player.h	
+				end
+			end
+		end
+	end
+end
+
 function checkpoints:draw()
 	local count = 0
 	

@@ -70,6 +70,33 @@ function springs:add(x,y,dir,type)
 	
 end
 
+function springs:update(dt)
+	if editing then return end
+	for _, spring in ipairs(world.entities.spring) do
+		if world:inview(spring) then
+			if collision:check(player.x,player.y,player.w,player.h,
+				spring.x, spring.y,spring.w,spring.h) then
+				player.jumping = true
+				joystick:vibrate(1,1,0.25)
+				sound:play(sound.effects["spring"])
+				if spring.dir == 0 then
+					player.y = spring.y-player.h -1 *dt
+					player.yvel =  spring.vel
+				elseif spring.dir == 2 then
+					player.y = spring.y +spring.h +1 *dt
+					player.yvel = -spring.vel
+				elseif spring.dir == 1 then
+					player.x = spring.x +spring.w +1 *dt
+					player.xvel = spring.vel
+				elseif spring.dir == 3 then
+					player.x = spring.x -player.w -1 *dt
+					player.xvel = -spring.vel
+				end
+			end
+		end
+	end
+end
+
 function springs:draw()
 	local count = 0
 	

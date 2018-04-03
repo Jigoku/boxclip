@@ -200,6 +200,28 @@ function player:update(dt)
 	
 	end
 	
+	
+	if editing then return end
+	if player.alive  then
+		player.carried = false
+		physics:applyVelocity(player, dt)
+		physics:applyGravity(player, dt)
+		physics:applyRotation(player,math.pi*8,dt)
+	
+		physics:traps(player,dt)
+		physics:crates(player,dt)
+		physics:bumpers(player,dt)
+		physics:platforms(player, dt)
+		physics:update(player)
+			
+	else
+		--death physics (float up)
+		player.y = player.y - (250 * dt)
+		if player.y < player.newY-600 then
+			player.lives = player.lives -1
+			player:respawn()
+		end		
+	end
 end
 
 

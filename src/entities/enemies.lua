@@ -38,62 +38,44 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 
 	if type == "walker" then
 		table.insert(world.entities.enemy, {
-			--movement
 			movespeed = movespeed or 100,
 			movedist = movedist or 200,
 			movex = 1,
 			dir = 0,
-			--origin
 			xorigin = x,
 			yorigin = y,
-			
-			--position
 			x = love.math.random(x,x+movedist) or 0,
 			y = y or 0,
-			
-			--dimension
 			w = self.textures[type]:getWidth(),
 			h = self.textures[type]:getHeight(),
-			
-			--properties
 			group = "enemy",
 			type = type,
 			xvel = 0,
 			yvel = 0,
 			dir = 0,
 			alive = true,
-			score = 230,
-			newY = y
+			score = 100
 		})
 		
 	elseif type == "hopper" then
 		table.insert(world.entities.enemy, {
-			--movement
 			movespeed = movespeed or 100,
 			movedist = movedist or 200,
 			movex = 0,
 			dir = 0,
-			--origin
 			xorigin = x,
 			yorigin = y,
-			
-			--position
-			x = x or 0,
+			x = love.math.random(x,x+movedist) or 0,
 			y = y or 0,
-			
-			--dimension
 			w = self.textures[type]:getWidth(),
 			h = self.textures[type]:getHeight(),
-			
-			--properties
 			group = "enemy",
 			type = type,
 			xvel = 0,
 			yvel = 0,
 			dir = 0,
 			alive = true,
-			score = 230,
-			newY = y
+			score = 100
 		})
 
 	elseif type == "spike" then
@@ -106,17 +88,12 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			height = self.textures[type]:getWidth()
 		end
 		table.insert(world.entities.enemy, {		
-			--position
 			x = x or 0,
 			y = y or 0,
 			xorigin = x,
 			yorigin = y,
-			
-			--dimension
 			w = width,
 			h = height,
-			
-			--properties
 			group = "enemy",
 			type = type,
 			alive = true,
@@ -124,7 +101,6 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			dir = dir,
 			movespeed = 0,
 			movedist = 0,
-			
 			editor_canrotate = true
 		})
 
@@ -138,17 +114,12 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			height = self.textures[type]:getWidth()
 		end
 		table.insert(world.entities.enemy, {		
-			--position
 			x = x or 0,
 			y = y or 0,
 			xorigin = x,
 			yorigin = y,
-			
-			--dimension
 			w = width,
 			h = height,
-			
-			--properties
 			group = "enemy",
 			type = type,
 			alive = true,
@@ -161,17 +132,12 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 
 	elseif type == "icicle" then
 		table.insert(world.entities.enemy, {		
-			--position
 			x = x or 0,
 			y = y or 0,
 			xorigin = x,
 			yorigin = y,
-			
-			--dimension
 			w = self.textures[type]:getWidth(),
 			h = self.textures[type]:getHeight(),
-			
-			--properties
 			group = "enemy",
 			type = type,
 			alive = true,
@@ -185,34 +151,24 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 
 	elseif type == "floater" then
 		table.insert(world.entities.enemy, {
-			--movement
 			movespeed = movespeed or 100,
 			movedist = movedist or 400,
 			movex = 1,
-			--origin
 			xorigin = x,
 			yorigin = y,
-			--y sin movement
 			ticks = love.math.random(100),
 			yspeed = 0.01,
-			--position
 			x = love.math.random(x,x+movedist) or 0,
 			y = y or 0,
-		
-			--dimension
 			w = self.textures[type]:getWidth(),
 			h = self.textures[type]:getHeight(),
-		
-			--properties
 			group = "enemy",
 			type = type,
 			xvel = 0,
 			yvel = 0,
 			dir = 0,
-
 			alive = true,
-			score = 350,
-			--newY = y,
+			score = 150,
 		})
 	
 	elseif type == "spikeball" then
@@ -223,8 +179,6 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			yorigin = y,
 			x = x or 0,
 			y = y or 0,
-			
-			--properties
 			group = "enemy",
 			type = type,
 			speed = 3,
@@ -241,6 +195,187 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 end
 
 
+
+function enemies:update(dt)
+	for i, enemy in ipairs(world.entities.enemy) do
+		if enemy.alive then
+			enemy.carried = false
+		
+			if enemy.type == "walker" then
+			
+				physics:applyGravity(enemy, dt)
+				--enemy.yorigin = enemy.newY
+
+				physics:movex(enemy, dt)	
+				physics:crates(enemy,dt)
+				physics:traps(enemy, dt)
+				physics:platforms(enemy, dt)
+				
+				--test
+				--hopper enemy, move this statement to a new entity TODO
+				--this is broken, enemy.carried when true for traps, gets reset to false for platforms.
+				if enemy.carried then
+					if enemy.x <= enemy.xorigin or enemy.x >= enemy.xorigin + enemy.movedist then
+						enemy.yvel=500	
+					end
+				end
+				
+				physics:update(enemy)
+				
+				-- NOT ACTIVE WHILST EDITING
+				if mode == "game" and player.alive and collision:check(player.newX,player.newY,player.w,player.h,
+					enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
+					-- if we land on top, kill enemy
+					if collision:above(player,enemy) then	
+						if player.jumping or player.invincible then
+							
+							if player.y > enemy.y then
+								player.yvel = -player.jumpheight
+							elseif player.y < enemy.y then
+								player.yvel = player.jumpheight
+							end
+							popups:add(enemy.x+enemy.w/2,enemy.y+enemy.h/2,"+"..enemy.score)
+							player.score = player.score + enemy.score
+							enemy.alive = false
+							sound:play(sound.effects["kill"])
+							console:print(enemy.group .." killed")
+							joystick:vibrate(0.5,0.5,0.5)
+							return true
+							
+						else
+							player:die(enemy.group)
+						end
+					end
+				end
+				
+			end	
+			
+			if enemy.type == "floater" then
+				enemy.y = enemy.yorigin - (10*math.sin(enemy.ticks*enemy.yspeed*math.pi)) + 20
+				enemy.ticks = enemy.ticks +1
+				physics:movex(enemy, dt)
+				physics:update(enemy)
+				
+				-- NOT ACTIVE WHILST EDITING
+				if mode == "game" and player.alive and collision:check(player.newX,player.newY,player.w,player.h,
+					enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
+
+					if player.jumping or player.invincible then			
+						if player.y > enemy.y then
+							player.yvel = -player.jumpheight
+						elseif player.y < enemy.y then
+							player.yvel = player.jumpheight
+						end
+
+						popups:add(enemy.x+enemy.w/2,enemy.y+enemy.h/2,"+"..enemy.score)
+						player.score = player.score + enemy.score
+						enemy.alive = false
+						sound:play(sound.effects["kill"])
+						console:print(enemy.group .." killed")
+						joystick:vibrate(0.5,0.5,0.5)
+					else			
+						-- otherwise we die			
+						player:die(enemy.group)
+					end
+				end
+			
+			end
+			
+			if enemy.type == "spike" or enemy.type == "spike_large" then
+				-- NOT ACTIVE WHILST EDITING
+				if mode == "game" and player.alive and  collision:check(player.newX,player.newY,player.w,player.h,
+					enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
+					player.yvel = -player.yvel
+					player:die(enemy.group)
+				end
+			end
+			
+			
+			if enemy.type == "icicle" then
+				if enemy.falling then
+					
+					physics:applyGravity(enemy, dt)
+					
+					--kill enemies hit by icicle
+					local i,e
+					for i, e in ipairs(world.entities.enemy) do
+						if e.alive and not (e.type == "icicle") then
+							if collision:check(e.x,e.y,e.w,e.h,
+							enemy.x,enemy.newY,enemy.w,enemy.h) then
+								e.alive = false
+								sound:play(sound.effects["kill"])
+								console:print(e.group .. " killed by " .. enemy.group)
+							end
+						end
+					end
+					
+					--stop falling when colliding with platform
+					local i,platform
+					for i,platform in ipairs(world.entities.platform) do
+							if collision:check(platform.x,platform.y,platform.w,platform.h,
+								enemy.x,enemy.newY,enemy.w,enemy.h) then
+								
+								if platform.clip and not platform.movex and not platform.movey then
+									enemy.falling = false
+									sound:play(sound.effects["slice"])
+									enemy.type = "icicle_d"
+									enemy.h = enemies.textures[enemy.type]:getHeight()
+									enemy.newY = platform.y-enemy.h
+									joystick:vibrate(0.35,0.35,0.5)
+								end
+							end
+						
+					end
+					
+					physics:update(enemy)
+
+				else
+					--make dropped spikes act like platforms???
+				end
+				
+				-- NOT ACTIVE WHILST EDITING
+				if mode == "game" and player.alive then
+					if collision:check(player.newX,player.newY,player.w,player.h,
+						enemy.x-50,enemy.y,enemy.w+50,enemy.h+200) and enemy.y == enemy.yorigin then
+						enemy.falling = true
+					end
+			
+					if collision:check(player.newX,player.newY,player.w,player.h,
+						enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) and enemy.falling then
+						if not player.invincible then
+							player.yvel = -player.yvel
+							player:die(enemy.group)
+						end
+					end
+				end
+			end
+			
+			if enemy.type == "spikeball" then
+				enemy.angle = enemy.angle - (enemy.speed * dt)
+				
+				if enemy.angle > math.pi*2 then enemy.angle = 0 end
+		
+				enemy.newX = enemy.radius * math.cos(enemy.angle) + enemy.xorigin
+				enemy.newY = enemy.radius * math.sin(enemy.angle) + enemy.yorigin
+					
+				physics:update(enemy)
+				
+				-- NOT ACTIVE WHILST EDITING
+				if mode == "game" and player.alive and collision:check(player.newX,player.newY,player.w,player.h,
+					enemy.x-enemy.w/2+5,enemy.y-enemy.h/2+5,enemy.w-10,enemy.h-10)  then
+					
+					if not player.invincible then
+						player.yvel = -player.yvel
+						player:die(enemy.group)
+					end
+				end
+			end
+	
+		end
+	end	
+end
+
+
 function enemies:draw()
 	local count = 0
 
@@ -252,7 +387,6 @@ function enemies:draw()
 			
 			if enemy.type == "walker" or enemy.type == "floater" then
 				love.graphics.setColor(255,255,255,255)
-				--love.graphics.rectangle("fill", enemy.x, enemy.y, enemy.w, enemy.h)
 				if enemy.movespeed < 0 then
 					love.graphics.draw(texture, enemy.x, enemy.y, 0, 1, 1)
 				elseif enemy.movespeed > 0 then

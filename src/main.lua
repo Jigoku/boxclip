@@ -21,9 +21,7 @@
 function love.load(args)
 
 	debug = false
-
-
-
+	
 	require("joystick")
 	require("tools")
 	require("console")
@@ -39,6 +37,7 @@ function love.load(args)
 	require("editor")
 	require("entities")
 	
+	--set argument flags
 	local options = {
 		{
 			pattern = "^[-]-c$",
@@ -57,6 +56,7 @@ function love.load(args)
 		}
 	}
 	
+	--parse / execute arguments
 	for _,arg in ipairs(args) do 
 		for n, o in ipairs(options) do
 			if string.match(arg, o.pattern) then 
@@ -65,7 +65,7 @@ function love.load(args)
 		end
 	end
 
-
+	--initialise everything
 	love.window.setIcon(game.icon)
 	love.mouse.setVisible(false)
 	love.mouse.setGrabbed(true)

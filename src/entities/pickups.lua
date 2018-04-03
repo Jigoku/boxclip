@@ -80,6 +80,53 @@ function pickups:add(x,y,type,dropped)
 	end
 end
 
+function pickups:update(dt)
+	for i, pickup in ipairs(world.entities.pickup) do			
+		if not pickup.collected then
+			--pulls all gems to player when attract = true
+			if pickup.attract then
+				pickup.speed = pickup.speed + (pickups.magnet_power*2) *dt
+				if player.alive then
+					local angle = math.atan2(player.y+player.h/2 - pickup.h/2 - pickup.y, player.x+player.w/2 - pickup.w/2 - pickup.x)
+					pickup.newX = pickup.x + (math.cos(angle) * pickup.speed * dt)
+					pickup.newY = pickup.y + (math.sin(angle) * pickup.speed * dt)
+				
+				end
+			else
+				pickup.speed = 100
+				physics:applyGravity(pickup, dt)
+				physics:applyVelocity(pickup,dt)
+				physics:traps(pickup,dt)
+				physics:platforms(pickup, dt)
+				physics:crates(pickup, dt)			
+			end
+			
+			physics:update(pickup)
+			
+			if mode == "game" and not pickup.collected then	
+				if player.hasmagnet then
+					if collision:check(player.x-pickups.magnet_power,player.y-pickups.magnet_power,
+						player.w+(pickups.magnet_power*2),player.h+(pickups.magnet_power*2),
+						pickup.x, pickup.y,pickup.w,pickup.h) then
+
+						if not pickup.attract then
+							pickup.attract = true
+						end
+					end
+				end
+			
+				if player.alive and collision:check(player.x,player.y,player.w,player.h,
+					pickup.x, pickup.y,pickup.w,pickup.h) then
+						popups:add(pickup.x+pickup.w/2,pickup.y+pickup.h/2,"+"..pickup.score)
+						console:print(pickup.group.."("..i..") collected")	
+						player:collect(pickup)
+						pickup.collected = true
+
+				end
+			end	
+		end
+	end
+end
 
 function pickups:draw()
 	local count = 0

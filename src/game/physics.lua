@@ -144,29 +144,15 @@ end
 function physics:world(dt)
 	-- moving platforms etc
 	
-	for i, object in ipairs(world.entities.platform) do
+	for i, object in pairs(world.entities) do
 		if object.movex then self:movex(object, dt) end
 		if object.movey then self:movey(object, dt) end
 		if object.swing then self:swing(object, dt) end
 		
-		--[[ platform texture scroll?  test this more, maybe move to platforms:update(dt)
-		if object.verts then
-			for _,v in ipairs(object.verts) do
-				v[3] = v[3] - 4 *dt
-			end
-		end
-		--]]
 		self:update(object)
 	end
 	
-	self:player(dt)
-	self:pickups(dt)
-	self:enemies(dt)		
 	self:trapsworld(dt)
-	self:springs(dt)
-	self:checkpoints(dt)
-	self:portals(dt)
-	self:materials(dt)
 	self:deadzone(dt)
 end
 
@@ -259,21 +245,6 @@ function physics:crates(object,dt)
 end
 
 
-
-function physics:materials()
-	if mode == "editing" then return end
-	for i, mat in ipairs(world.entities.material) do
-		if world:inview(mat) then
-			if collision:check(player.x,player.y,player.w,player.h,mat.x,mat.y,mat.w,mat.h) then
-				if mat.type == "death" then
-					player.y = mat.y-player.h
-					player:die("death material @ x:".. math.floor(player.x) .. " y:"..math.floor(player.y))
-				end
-			end
-		end
-		
-	end
-end
 
 
 function physics:bumpers(object,dt)
@@ -419,261 +390,7 @@ function physics:update(object)
 	if object.newX then object.x = object.newX,2 end
 end
 
-function physics:pickups(dt)
-	for i, pickup in ipairs(world.entities.pickup) do			
-		if not pickup.collected then
-			--pulls all gems to player when attract = true
-			if pickup.attract then
-				pickup.speed = pickup.speed + (pickups.magnet_power*2) *dt
-				if player.alive then
-					local angle = math.atan2(player.y+player.h/2 - pickup.h/2 - pickup.y, player.x+player.w/2 - pickup.w/2 - pickup.x)
-					pickup.newX = pickup.x + (math.cos(angle) * pickup.speed * dt)
-					pickup.newY = pickup.y + (math.sin(angle) * pickup.speed * dt)
-				
-				end
-			else
-				pickup.speed = 100
-				self:applyGravity(pickup, dt)
-				self:applyVelocity(pickup,dt)
-				self:traps(pickup,dt)
-				self:platforms(pickup, dt)
-				self:crates(pickup, dt)			
-			end
-			
-			self:update(pickup)
-			
-			if mode == "game" and not pickup.collected then	
-				if player.hasmagnet then
-					if collision:check(player.x-pickups.magnet_power,player.y-pickups.magnet_power,
-						player.w+(pickups.magnet_power*2),player.h+(pickups.magnet_power*2),
-						pickup.x, pickup.y,pickup.w,pickup.h) then
 
-						if not pickup.attract then
-							pickup.attract = true
-						end
-					end
-				end
-			
-				if player.alive and collision:check(player.x,player.y,player.w,player.h,
-					pickup.x, pickup.y,pickup.w,pickup.h) then
-						popups:add(pickup.x+pickup.w/2,pickup.y+pickup.h/2,"+"..pickup.score)
-						console:print(pickup.group.."("..i..") collected")	
-						player:collect(pickup)
-						pickup.collected = true
-
-				end
-			end	
-		end
-	end
-end
-
-	
-
-function physics:enemies(dt)
-	for i, enemy in ipairs(world.entities.enemy) do
-		if enemy.alive then
-			enemy.carried = false
-		
-			if enemy.type == "walker" then
-			
-				self:applyGravity(enemy, dt)
-				--enemy.yorigin = enemy.newY
-
-				self:movex(enemy, dt)	
-				self:crates(enemy,dt)
-				self:traps(enemy, dt)
-				self:platforms(enemy, dt)
-				
-				--test
-				--hopper enemy, move this statement to a new entity TODO
-				--this is broken, enemy.carried when true for traps, gets reset to false for platforms.
-				if enemy.carried then
-					if enemy.x <= enemy.xorigin or enemy.x >= enemy.xorigin + enemy.movedist then
-						enemy.yvel=500	
-					end
-				end
-				
-				self:update(enemy)
-				
-				-- NOT ACTIVE WHILST EDITING
-				if mode == "game" and player.alive and collision:check(player.newX,player.newY,player.w,player.h,
-					enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
-					-- if we land on top, kill enemy
-					if collision:above(player,enemy) then	
-						if player.jumping or player.invincible then
-							
-							if player.y > enemy.y then
-								player.yvel = -player.jumpheight
-							elseif player.y < enemy.y then
-								player.yvel = player.jumpheight
-							end
-							popups:add(enemy.x+enemy.w/2,enemy.y+enemy.h/2,"+"..enemy.score)
-							player.score = player.score + enemy.score
-							enemy.alive = false
-							sound:play(sound.effects["kill"])
-							console:print(enemy.group .." killed")
-							joystick:vibrate(0.5,0.5,0.5)
-							return true
-							
-						else
-							player:die(enemy.group)
-						end
-					end
-				end
-				
-			end	
-			
-			if enemy.type == "floater" then
-				enemy.y = enemy.yorigin - (10*math.sin(enemy.ticks*enemy.yspeed*math.pi)) + 20
-				enemy.ticks = enemy.ticks +1
-				self:movex(enemy, dt)
-				self:update(enemy)
-				
-				-- NOT ACTIVE WHILST EDITING
-				if mode == "game" and player.alive and collision:check(player.newX,player.newY,player.w,player.h,
-					enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
-
-					if player.jumping or player.invincible then			
-						if player.y > enemy.y then
-							player.yvel = -player.jumpheight
-						elseif player.y < enemy.y then
-							player.yvel = player.jumpheight
-						end
-
-						popups:add(enemy.x+enemy.w/2,enemy.y+enemy.h/2,"+"..enemy.score)
-						player.score = player.score + enemy.score
-						enemy.alive = false
-						sound:play(sound.effects["kill"])
-						console:print(enemy.group .." killed")
-						joystick:vibrate(0.5,0.5,0.5)
-					else			
-						-- otherwise we die			
-						player:die(enemy.group)
-					end
-				end
-			
-			end
-			
-			if enemy.type == "spike" or enemy.type == "spike_large" then
-				-- NOT ACTIVE WHILST EDITING
-				if mode == "game" and player.alive and  collision:check(player.newX,player.newY,player.w,player.h,
-					enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
-					player.yvel = -player.yvel
-					player:die(enemy.group)
-				end
-			end
-			
-			
-			if enemy.type == "icicle" then
-				if enemy.falling then
-					
-					self:applyGravity(enemy, dt)
-					
-					--kill enemies hit by icicle
-					local i,e
-					for i, e in ipairs(world.entities.enemy) do
-						if e.alive and not (e.type == "icicle") then
-							if collision:check(e.x,e.y,e.w,e.h,
-							enemy.x,enemy.newY,enemy.w,enemy.h) then
-								e.alive = false
-								sound:play(sound.effects["kill"])
-								console:print(e.group .. " killed by " .. enemy.group)
-							end
-						end
-					end
-					
-					--stop falling when colliding with platform
-					local i,platform
-					for i,platform in ipairs(world.entities.platform) do
-							if collision:check(platform.x,platform.y,platform.w,platform.h,
-								enemy.x,enemy.newY,enemy.w,enemy.h) then
-								
-								if platform.clip and not platform.movex and not platform.movey then
-									enemy.falling = false
-									sound:play(sound.effects["slice"])
-									enemy.type = "icicle_d"
-									enemy.h = enemies.textures[enemy.type]:getHeight()
-									enemy.newY = platform.y-enemy.h
-									joystick:vibrate(0.35,0.35,0.5)
-								end
-							end
-						
-					end
-					
-					self:update(enemy)
-
-				else
-					--make dropped spikes act like platforms???
-				end
-				
-				-- NOT ACTIVE WHILST EDITING
-				if mode == "game" and player.alive then
-					if collision:check(player.newX,player.newY,player.w,player.h,
-						enemy.x-50,enemy.y,enemy.w+50,enemy.h+200) and enemy.y == enemy.yorigin then
-						enemy.falling = true
-					end
-			
-					if collision:check(player.newX,player.newY,player.w,player.h,
-						enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) and enemy.falling then
-						if not player.invincible then
-							player.yvel = -player.yvel
-							player:die(enemy.group)
-						end
-					end
-				end
-			end
-			
-			if enemy.type == "spikeball" then
-				enemy.angle = enemy.angle - (enemy.speed * dt)
-				
-				if enemy.angle > math.pi*2 then enemy.angle = 0 end
-		
-				enemy.newX = enemy.radius * math.cos(enemy.angle) + enemy.xorigin
-				enemy.newY = enemy.radius * math.sin(enemy.angle) + enemy.yorigin
-					
-				self:update(enemy)
-				
-				-- NOT ACTIVE WHILST EDITING
-				if mode == "game" and player.alive and collision:check(player.newX,player.newY,player.w,player.h,
-					enemy.x-enemy.w/2+5,enemy.y-enemy.h/2+5,enemy.w-10,enemy.h-10)  then
-					
-					if not player.invincible then
-						player.yvel = -player.yvel
-						player:die(enemy.group)
-					end
-				end
-			end
-	
-		end
-	end	
-end
-
-
-
-
-function physics:player(dt)
-	if editing then return end
-	if player.alive  then
-		player.carried = false
-		self:applyVelocity(player, dt)
-		self:applyGravity(player, dt)
-		self:applyRotation(player,math.pi*8,dt)
-	
-		self:traps(player,dt)
-		self:crates(player,dt)
-		self:bumpers(player,dt)
-		self:platforms(player, dt)
-		self:update(player)
-			
-	else
-		--death physics (float up)
-		player.y = player.y - (250 * dt)
-		if player.y < player.newY-600 then
-			player.lives = player.lives -1
-			player:respawn()
-		end		
-	end
-end
 
 function physics:trapsworld(dt)
 	for i, trap in ipairs(world.entities.trap) do
@@ -697,26 +414,6 @@ function physics:trapsworld(dt)
 
 			end
 		end	
-	end
-end
-
-function physics:checkpoints(dt)
-	if mode == "editing" then return end
-	for i, checkpoint in ipairs(world.entities.checkpoint) do
-		if world:inview(checkpoint) then
-			if collision:check(player.x,player.y,player.w,player.h,
-				checkpoint.x, checkpoint.y,checkpoint.w,checkpoint.h) then
-				if not checkpoint.activated then
-					popups:add(checkpoint.x+checkpoint.w/2,checkpoint.y+checkpoint.h/2,"CHECKPOINT")
-					console:print("checkpoint activated")	
-					world:savestate()
-					sound:play(sound.effects["checkpoint"])
-					checkpoint.activated = true
-					player.spawnX = checkpoint.x+(checkpoint.w/2)-player.w/2
-					player.spawnY = checkpoint.y+checkpoint.h-player.h	
-				end
-			end
-		end
 	end
 end
 
@@ -785,8 +482,6 @@ function physics:traps(object, dt)
 								object.newY = trap.y - object.h -1 *dt
 								object.yvel = 0
 							end
-							
-							
 						end	
 					end	
 				end	
@@ -795,56 +490,7 @@ function physics:traps(object, dt)
 	end
 end
 
-function physics:portals(dt)
-	if mode == "editing" then return end
-	for i, portal in ipairs(world.entities.portal) do
-		if world:inview(portal) then
-			if collision:check(player.x,player.y,player.w,player.h,
-				portal.x, portal.y,portal.w,portal.h) then
-					
-					if portal.type == "goal" then
-						if not portal.activated then
-							--add paramater for "next map"?
-							portal.activated = true
-							portal.gfx = portals.textures["goal_activated"]
-							popups:add(portal.x+portal.w/2,portal.y+portal.h/2,"LEVEL COMPLETE")
-							sound:play(sound.effects["goal"])
-							sound:playbgm(10)
-							console:print("goal reached")	
-							world:endoflevel()
-						end
-					end
-			end
-		end
-	end
-end
 
-function physics:springs(dt)
-	if editing then return end
-	for i, spring in ipairs(world.entities.spring) do
-		if world:inview(spring) then
-			if collision:check(player.x,player.y,player.w,player.h,
-				spring.x, spring.y,spring.w,spring.h) then
-				player.jumping = true
-				joystick:vibrate(1,1,0.25)
-				sound:play(sound.effects["spring"])
-				if spring.dir == 0 then
-					player.y = spring.y-player.h -1 *dt
-					player.yvel =  spring.vel
-				elseif spring.dir == 2 then
-					player.y = spring.y +spring.h +1 *dt
-					player.yvel = -spring.vel
-				elseif spring.dir == 1 then
-					player.x = spring.x +spring.w +1 *dt
-					player.xvel = spring.vel
-				elseif spring.dir == 3 then
-					player.x = spring.x -player.w -1 *dt
-					player.xvel = -spring.vel
-				end
-			end
-		end
-	end
-end
 
 
 

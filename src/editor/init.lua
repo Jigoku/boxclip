@@ -31,7 +31,7 @@ editor.mouse = {
 	released = { x=0, y=0 }
 }
 
-editor.entdir = 0				--rotation placement 0,1,2,3 = up,down,right,left
+editor.entdir = 0				--rotation placement 0,1,2,3 = up,right,down,left
 editor.entsel = 1				--current entity id for placement
 editor.themesel = 1				--world theme/pallete
 editor.texturesel = 1			--texture slot to use for platforms
@@ -309,6 +309,7 @@ function editor:settheme()
 	
 	--fix this
 	--update themeable textures
+	--TODO allow texture setting for enemy entities
 	--[[for i,e in ipairs(enemies) do 
 		if e.name == "spike" then e.gfx = spike_gfx end
 		if e.name == "spike_large" then e.gfx = spike_large_gfx end
@@ -497,6 +498,7 @@ function editor:mousepressed(x,y,button)
 	if button == 1 then
 		local selection = self.entities[self.entsel][1]
 		-- TODO should be moved to entities/init.lua as function
+		
 		if selection == "spawn" then
 			self:removeall("portal", "spawn")
 			portals:add(x,y,"spawn")
@@ -505,7 +507,7 @@ function editor:mousepressed(x,y,button)
 			self:removeall("portal", "goal")
 			portals:add(x,y,"goal")
 		end
-		
+
 		for i,ent in pairs(self.entities) do
 			if ent[1] == selection then
 				if ent[2] == "prop" then
@@ -1147,7 +1149,6 @@ end
 
 
 function editor:copy()
-	--primitive copy (dimensions only for now)
 	for _,type in pairs(world.entities) do
 		for i, e in ipairs(type) do
 			if e.selected then
@@ -1189,7 +1190,7 @@ function editor:drawmmap()
 	love.graphics.rectangle("fill", 0,0,self.mmapw,self.mmaph)
 	
 	for i, platform in ipairs(world.entities.platform) do
-		if platform.clip == 1 then
+		if platform.clip then
 			love.graphics.setColor(
 				platform_r,
 				platform_g,

@@ -595,7 +595,13 @@ function world:update(dt)
 		popups:update(dt)
 		player:update(dt)
 		decals:update(dt)
+		materials:update(dt)
+		portals:update(dt)
+		checkpoints:update(dt)
+		springs:update(dt)
+		pickups:update(dt)
 		bumpers:update(dt)
+		enemies:update(dt)
 		tips:update(dt)
 		
 		world.collision = 0
@@ -633,7 +639,6 @@ function world:update(dt)
 				return 
 			end
 		
-			
 			--end of level (show scoreboard)
 			if world.complete then
 				world.scoreboard.opacity = math.min(255, world.scoreboard.opacity+world.scoreboard.fadespeed*dt)
