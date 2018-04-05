@@ -432,15 +432,15 @@ function editor:checkkeys(dt)
 	end
 	
 	if love.keyboard.isDown(self.binds.decmovedist) then
-		self:movedist(-1,dt)
+		self:setattribute(-1,dt)
 	end
 	if love.keyboard.isDown(self.binds.incmovedist) then
-		self:movedist(1,dt)
+		self:setattribute(1,dt)
 	end
 end
 
 
-function editor:movedist(dir,dt)
+function editor:setattribute(dir,dt)
 	--horizontal size adjustment
 	local should_break = false
 					
