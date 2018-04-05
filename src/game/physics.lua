@@ -43,7 +43,7 @@ function physics:applyVelocity(object, dt)
 				if object.jumping then
 					object.xvel = (object.xvel - object.speed *multiplier *dt)
 				else
-					--if we were travelling right
+                    --if we were travelling right
 					if object.xvel > 0 then object.xvel = (object.xvel - object.speed/ multiplier *dt) end
 					object.xvel = (object.xvel - object.speed *dt)
 				end
@@ -142,16 +142,6 @@ end
 
 
 function physics:world(dt)
-	-- moving platforms etc
-	
-	for i, object in pairs(world.entities) do
-		if object.movex then self:movex(object, dt) end
-		if object.movey then self:movey(object, dt) end
-		if object.swing then self:swing(object, dt) end
-		
-		self:update(object)
-	end
-	
 	self:trapsworld(dt)
 	self:deadzone(dt)
 end

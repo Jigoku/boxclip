@@ -90,7 +90,6 @@ function pickups:update(dt)
 					local angle = math.atan2(player.y+player.h/2 - pickup.h/2 - pickup.y, player.x+player.w/2 - pickup.w/2 - pickup.x)
 					pickup.newX = pickup.x + (math.cos(angle) * pickup.speed * dt)
 					pickup.newY = pickup.y + (math.sin(angle) * pickup.speed * dt)
-				
 				end
 			else
 				pickup.speed = 100

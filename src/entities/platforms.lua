@@ -114,6 +114,17 @@ function platforms:drawlink(platform)
 	
 end
 
+function platforms:update(dt)
+	-- moving platforms etc
+	for i, platform in pairs(world.entities.platform) do
+		if platform.movex then physics:movex(platform, dt) end
+		if platform.movey then physics:movey(platform, dt) end
+		if platform.swing then physics:swing(platform, dt) end
+		
+		physics:update(platform)
+	end
+end
+
 function platforms:draw()
 	local count = 0
 

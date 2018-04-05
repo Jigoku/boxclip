@@ -2,4 +2,4 @@
 *.bak
 *.old
 build/
-devnotes
+*.*~
