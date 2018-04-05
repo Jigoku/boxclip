@@ -442,25 +442,30 @@ end
 
 function editor:movedist(dir,dt)
 	--horizontal size adjustment
+	local should_break = false
+					
 	for _,type in pairs(world.entities) do
+		if should_break then break end
 		for _,e in ipairs(type) do
 			if e.selected then
 				if e.swing then
 					e.angleorigin = math.max(0,math.min(math.pi,e.angle - dir*2 *dt))
 					e.angle = e.angleorigin
-					return true
-				end
 
-				if e.movex then
+				elseif e.movex then
 					e.movedist = math.round(e.movedist + dir*2,1)
 					if e.movedist < e.w then e.movedist = e.w end
-					return true
-				end
-				if e.movey then
+
+				elseif e.movey then
 					e.movedist = math.round(e.movedist + dir*2,1)
 					if e.movedist < e.h then e.movedist = e.h end
-					return true
+
+				elseif e.scrollspeed then
+					e.scrollspeed = math.round(e.scrollspeed + dir*2,1)
+					
 				end
+					should_break = true
+					break
 			end
 		end
 	end
@@ -620,7 +625,7 @@ function editor:placedraggable(x1,y1,x2,y2)
 		if ent == "platform_x" then platforms:add(x,y,w,h,false,true,false,100,200,false,0,self.texturesel) end
 		if ent == "platform_y" then platforms:add(x,y,w,h,false,false,true,100,200,false,0,self.texturesel) end
 		
-		if ent == "decal" then decals:add(x,y,w,h,1) end
+		if ent == "decal" then decals:add(x,y,w,h,100,1) end
 		
 		if ent == "death" then materials:add(x,y,w,h,"death") end
 	end

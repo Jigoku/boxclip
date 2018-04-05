@@ -26,8 +26,8 @@ table.insert(editor.entities, {"decal", "decal"})
 decals.waterfall_texture = love.graphics.newImage("data/images/tiles/waterfall.png")
 decals.waterfall_spin = 0
 
+function decals:add(x,y,w,h,scrollspeed,texture)
 
-function decals:add(x,y,w,h,texture)
 	table.insert(world.entities.decal, {		
 		--position
 		x = x or 0,
@@ -37,7 +37,7 @@ function decals:add(x,y,w,h,texture)
 		
 		--properties
 		scroll = 0,
-		scrollspeed = 130,
+		scrollspeed = scrollspeed or 100,
 		texture = texture or 1,
 		group = "decal",
 
