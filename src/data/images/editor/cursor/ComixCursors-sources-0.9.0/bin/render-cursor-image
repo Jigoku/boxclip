@@ -1,0 +1,167 @@
+#! /bin/bash
+#
+# bin/render-cursor-image
+# Part of ComixCursors, a desktop cursor theme.
+#
+# Copyright © 2010–2013 Ben Finney <ben+opendesktop@benfinney.id.au>
+# Copyright © 2006–2013 Jens Luetkens <j.luetkens@limitland.de>
+#
+# This work is free software: you can redistribute it and/or modify it
+# under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This work is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this work. If not, see <http://www.gnu.org/licenses/>.
+
+# Generate a PNG cursor image from SVG source.
+#
+# Required tools:
+# ImageMagick:  http://www.imagemagick.org/
+# librsvg:      http://librsvg.sourceforge.net/
+
+function show_usage_message {
+    cat <<_EOT_
+Usage: $0 [options] <in name> <in file> <out file>
+
+Generate a PNG cursor image from SVG source.
+
+Take a simple SVG file, export it to PNG.
+
+Options:
+    --help                    Show this help text, then exit.
+    --orientation <facing>    Specify the orientation of this cursor.
+    --frame <frame num>       Specify frame number of animated cursor.
+    --duration <duration>     Duration (in milliseconds) for this frame.
+
+_EOT_
+}
+
+# source the theme config file
+THEMENAME="${THEMENAME:-Custom}"
+configfile="ComixCursorsConfigs/${THEMENAME}.CONFIG"
+source "${configfile}"
+
+# don't do transparency post-processing by default
+# used for ComixCursors but not for flatbedcursors
+CURSORTRANS=0
+
+# some initialisation before argument processing
+orientation="RightHanded"
+frame=0
+
+# parse argument list
+while [ "${1::1}" == "-" ] ; do
+    case "$1" in
+        --help)
+            show_usage_message
+            exit
+            ;;
+        --orientation)
+            shift
+            orientation="$1"
+            ;;
+    	--frame)
+            shift
+    	    frame=$1
+    	    ;;
+    	--duration)
+    	    shift
+    	    duration=$1
+    	    ;;
+        *)
+            printf "Unexpected option: %q\n" "$1" >&2
+            show_usage_message
+            exit 2
+            ;;
+    esac
+    shift
+done
+
+if [ $# -lt 3 ] ; then
+    show_usage_message
+    exit 2
+fi
+
+NAME="$1"
+infile="$2"
+outfile="$3"
+
+if [ $VERBOSE ] ; then
+    if [ "$frame" -lt 1 ]; then
+        echo "processing $NAME..."
+    else
+        echo "processing $NAME frame $frame..."
+    fi
+fi
+
+xcursor_config="${builddir}/${NAME}.conf"
+
+# write the hotspot config file
+hotspots_file="$(dirname $infile)/HOTSPOTS"
+hotspot_name="$NAME"
+hotspot=( $(grep "^$hotspot_name" "$hotspots_file") )
+
+function reset_xcursor_config {
+    # Delete the config file if it exists.
+    local xcursor_config="$1"
+    local frame="$2"
+    if [ "$frame" -lt 2 ] ; then
+        if [ -e "${xcursor_config}" ] ; then
+            rm "${xcursor_config}"
+        fi
+    fi
+}
+
+function svg2png {
+    # Convert a single SVG image to PNG.
+    local infile="$1"
+    local outfile="$2"
+    local size=$3
+
+    # Write hotspots to config file.
+    hotx=$(echo "${hotspot[1]} * $size / 500" | bc)
+    hoty=$(echo "${hotspot[2]} * $size / 500" | bc)
+
+    if [ "$frame" -gt 0 ] ; then
+        echo "$size $hotx $hoty $outfile $duration" >> "${xcursor_config}"
+    else
+        echo "$size $hotx $hoty $outfile" >> "${xcursor_config}"
+    fi
+
+    # Render png image.
+    rsvg-convert --format png \
+        --dpi-x 72 --dpi-y 72 \
+        --width $size --height $size \
+        "$infile" > "$outfile"
+}
+
+# Render the cursor image/s.
+
+xcursor_config="${builddir}/${NAME}.conf"
+
+if [ ${MULTISIZE} ]; then
+    # Render multiple sizes combined cursors per default.
+    # Reset the config file (hotspots).
+    reset_xcursor_config "$xcursor_config" "$frame"
+    # Render multiple cursor sizes.
+    for SIZENAMES in ${SIZES[@]} ; do
+        SIZENAME=${SIZENAMES%%=*}
+        SIZE=${SIZENAMES##*=}
+        # Render the cursor image.
+        svg2png "$infile" "${outfile%.*}.${SIZE}.png" "${SIZE}"
+    done
+else
+    # Render single sized cursors.#
+    export CURSORSIZE="${CURSORSIZE:-32}"
+    # Reset the config file (hotspots).
+    reset_xcursor_config "$xcursor_config" "$frame" "${CURSORSIZE}"
+    # Render the cursor image.
+    svg2png "$infile" "${outfile%.*}.${SIZE}.png" "${CURSORSIZE}"
+fi
+

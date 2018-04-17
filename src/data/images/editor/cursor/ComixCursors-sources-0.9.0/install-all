@@ -1,0 +1,147 @@
+#! /bin/bash
+#
+# install-all
+# Part of ComixCursors, a desktop cursor theme.
+#
+# Copyright © 2010–2013 Ben Finney <ben+opendesktop@benfinney.id.au>
+# Copyright © 2006–2013 Jens Luetkens <j.luetkens@limitland.de>
+#
+# This work is free software: you can redistribute it and/or modify it
+# under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This work is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this work. If not, see <http://www.gnu.org/licenses/>.
+
+# Build and install all the ComixCursors themes.
+
+themename_stem="ComixCursors"
+configfile_dir="${themename_stem}Configs"
+configfile_template_name="Custom"
+
+bindir="$(dirname $0)"/bin
+
+# Set the ICONSDIR destination to a default (if not already set).
+ICONSDIR=${ICONSDIR:-~/.icons}
+export ICONSDIR
+
+# We want to use cursors with multiple sizes combined.
+# The script check wether MULTISIZE is exported at all, so don't export
+# MULTISIZE if you want distinct cursor sizes, comment it out here or
+# unset it from the shell.
+export MULTISIZE=true
+
+# argument processing and usage
+function show_usage_message {
+    cat <<_EOT_
+Usage: $0 [option]
+
+Install the ComixCursors mouse theme.
+
+Options:
+    -h:    Display this help text, then exit.
+    -u:    Uninstall the ComixCursors mouse theme.
+    -v:    Be verbose.
+
+_EOT_
+}
+
+while getopts ":uhv" opt; do
+    case $opt in
+        h)
+            show_usage_message
+            exit
+            ;;
+        u)
+            UNINSTALL=true
+            ;;
+        v)
+            export VERBOSE=true
+            ;;
+        *)
+            printf "Unexpected option: -%s\n" "$OPTARG" >&2
+            show_usage_message
+            exit 2
+            ;;
+    esac
+done
+
+function build_theme {
+    # Build the cursors for a particular theme.
+    THEMENAME="$1"
+    export THEMENAME
+
+    if [ $UNINSTALL ]; then
+        make uninstall
+    else
+        if [ ${MULTISIZE} ] ; then
+            printf "\nBuilding \"${THEMENAME}${THEMEOPTIONS}${THEMEINCLUDE}\" (multisize)\n"
+            "${bindir}"/build-cursors
+            if [ $VERBOSE ] ; then
+                make
+                make install
+            else
+                make -s
+                make -s install
+            fi
+        else
+            # build one theme for each configured size
+            configfile="${configfile_dir}/${THEMENAME}.CONFIG"
+            source "${configfile}"
+            for SIZENAMES in ${SIZES[@]} ; do
+                export SIZENAME="-${SIZENAMES%%=*}"
+                export CURSORSIZE=${SIZENAMES##*=}
+                printf "\nBuilding \"${THEMENAME}${THEMEOPTIONS}${THEMEINCLUDE}${SIZENAME}\"\n"
+                "${bindir}"/build-cursors
+                if [ $VERBOSE ] ; then
+                    make
+                    make install
+                else
+                    make -s
+                    make -s install
+                fi
+            done
+        fi
+    fi
+}
+
+function build_include_theme {
+    themename="$1"
+
+    # build the right-handed version
+    export ORIENTATION="RightHanded"
+    export THEMEOPTIONS=""
+    build_theme "$themename"
+
+    # also build the left-handed version
+    export ORIENTATION="LeftHanded"
+    export THEMEOPTIONS="-LH"
+    build_theme "$themename"
+}
+
+for configfile in "${configfile_dir}"/*.CONFIG ; do
+    # Each config file represents a theme to be built.
+    configfile_name=$(basename "$configfile")
+    themename="${configfile_name%.CONFIG}"
+    if [ "$themename" == "$configfile_template_name" ]; then
+        # The template isn't a theme we want to build.
+        continue
+    fi
+
+    unset THEMEINCLUDE
+    build_include_theme "$themename"
+
+    for includefile in "${configfile_dir}"/*.INCLUDE ; do
+        includefile_name=$(basename "$includefile")
+        export THEMEINCLUDE="-${includefile_name%.INCLUDE}"
+        build_include_theme "$themename"
+    done
+done
+
+exit 0

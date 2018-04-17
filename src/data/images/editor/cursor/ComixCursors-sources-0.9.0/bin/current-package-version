@@ -1,0 +1,33 @@
+#! /bin/bash
+#
+# bin/current-package-version
+# Part of ComixCursors, a desktop cursor theme.
+#
+# Copyright © 2010–2013 Ben Finney <ben+opendesktop@benfinney.id.au>
+#
+# This work is free software: you can redistribute it and/or modify it
+# under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This work is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this work. If not, see <http://www.gnu.org/licenses/>.
+
+# Parse the NEWS document and output the current version string.
+
+bindir="$(dirname $0)"
+
+newsfile="$(dirname ${bindir})"/NEWS
+
+current_release_header=$(
+    "${bindir}"/news-to-specfile-changelog < "${newsfile}" | head -n 1)
+
+current_version=$(
+    printf "${current_release_header}" | sed -e 's/^.\+ - \([^ ]\+\)$/\1/')
+
+printf ${current_version}

@@ -1,0 +1,5 @@
+#
+# override the cursor transparency and outline width for opaque-slim  cursors
+#
+CURSORTRANS=0.0
+OUTLINE=20

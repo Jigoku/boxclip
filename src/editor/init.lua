@@ -28,8 +28,15 @@ editor.mouse = {
 	x = 0,
 	y = 0,
 	pressed  = { x=0, y=0 },
-	released = { x=0, y=0 }
+	released = { x=0, y=0 },
+	
+	--cursor drawing
+	hotspotx = 6, --hotspot offset for image
+	hotspoty = 4,
+	cursors = textures:load("data/images/editor/cursor/"),
+	cur = 1, --default cursor
 }
+
 
 editor.entdir = 0				--rotation placement 0,1,2,3 = up,right,down,left
 editor.entsel = 1				--current entity id for placement
@@ -671,10 +678,13 @@ function editor:drawguide()
 			math.round(self.mouse.x+love.graphics.getWidth()/camera.scale-1),
 			math.round(self.mouse.y,-1)
 		)
+		
+
 	end
 end
 
 function editor:drawcursor()
+--[[
 	--draw the cursor
 	love.graphics.setColor(255,255,255,255)
 	love.graphics.line(
@@ -689,6 +699,19 @@ function editor:drawcursor()
 		math.round(self.mouse.x,-1),
 		math.round(self.mouse.y,-1)+10
 	)
+	--]]
+	
+	-- detach camera so cursor doesn't scale in size
+		
+	camera:detach()
+		
+	local x,y = camera:toCameraCoords(self.mouse.x,self.mouse.y)
+		
+	love.graphics.setColor(255,255,255,255)
+	love.graphics.draw(self.mouse.cursors[self.mouse.cur], x-self.mouse.hotspotx,y-self.mouse.hotspoty)
+		
+	camera:attach()
+	
 	
 	if debug then
 	self:drawcoordinates(
