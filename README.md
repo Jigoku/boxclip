@@ -31,7 +31,7 @@ $ git clone git@github.com:Jigoku/boxclip.git
 ```
 
 ### Run the game/engine
-Install [love2d](https://love2d.org/) (at least version 0.10.2), and simply type
+Install [love2d](https://love2d.org/) (at least version 11.1), and simply type
 `love .` in the *src/* directory or you can create a love executable which can be ran directly by using the Makefile:
 
 ```
