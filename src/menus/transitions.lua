@@ -13,11 +13,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  --]]
  
- transitions = {}
- transitions.active = false
+transitions = {}
+transitions.active = false
+
+transitions.fadespeed = 2
 
 function transitions:fadein()
-	transitions.fade = 255
+	self.fade = 1
 	self.state_fadein = true
 	self.active = true
 end
@@ -26,7 +28,7 @@ end
 
 --fade out and then execute gamemode change
 function transitions:fadeoutmode(mode)
-	transitions.fade = 0
+	self.fade = 0
 	self.state_fadeoutmode = true
 	self.active = true
 	self.mode = mode
@@ -37,9 +39,9 @@ end
 
 function transitions:run(dt)
 	if self.state_fadeoutmode then
-		self.fade = self.fade +500 *dt
+		self.fade = self.fade +self.fadespeed *dt
 		sound.bgm:setVolume(sound.bgm:getVolume()-1*dt)
-		if self.fade > 255 then
+		if self.fade > 1 then
 			self.fade = 0
 			self.state_fadeoutmode = false
 			self.active = false
@@ -50,9 +52,9 @@ function transitions:run(dt)
 	end
 	
 	if self.state_fadein then
-		self.fade = self.fade -500 *dt
+		self.fade = self.fade -self.fadespeed *dt
 		if self.fade < 0 then
-			self.fade = 255
+			self.fade = 1
 			self.state_fadein = false
 			self.active = false
 		end

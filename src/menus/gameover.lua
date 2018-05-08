@@ -43,18 +43,18 @@ end
 function gameover:draw()
 
 	---background
-	love.graphics.setBackgroundColor(0,0,0,255)
-	love.graphics.setColor(255,255,255,50)		
+	love.graphics.setBackgroundColor(0,0,0,1)
+	love.graphics.setColor(1,1,1,0.19)		
 	self.bgquad:setViewport(-self.bgscroll,-self.bgscroll,love.graphics.getWidth(), love.graphics.getHeight() )
 	love.graphics.draw(self.bg, self.bgquad, 0,0)
 		
 	--frames	
-	love.graphics.setColor(10,10,10,150)
+	love.graphics.setColor(0.03,0.03,0.03,0.58)
 	love.graphics.rectangle("fill", love.graphics.getWidth()/4-50, love.graphics.getHeight()/4+50, love.graphics.getWidth()/2+100,love.graphics.getHeight()/2-50,10)
 	
 	--gameover	
 	love.graphics.setFont(fonts.huge)
-	love.graphics.setColor(255,255,255,155)
+	love.graphics.setColor(1,1,1,0.60)
 	love.graphics.printf("Game Over",love.graphics.getWidth()/4,love.graphics.getHeight()/4,love.graphics.getWidth()/2,"center")
 	love.graphics.print("SCORE: "..player.score,love.graphics.getWidth()/4,love.graphics.getHeight()/4+100)
 	love.graphics.printf("Press any key to exit",love.graphics.getWidth()/4,love.graphics.getHeight()-100,love.graphics.getWidth()/2,"center")

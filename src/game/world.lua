@@ -85,7 +85,7 @@ function world:settheme(theme)
 	else
 	
 		--background	
-		love.graphics.setBackgroundColor(background_r,background_g,background_b,255)
+		love.graphics.setBackgroundColor(0.3,0.3,0.3,1)
 		
 		--only set background image if it exists
 		if type(background) == "userdata" then
@@ -231,9 +231,9 @@ function world:drawparallax()
 	
 	--front layer
 	love.graphics.setColor(
-		platform_top_r-1.5,
-		platform_top_g-1.5,
-		platform_top_b-1.5,
+		platform_top_r-.1,
+		platform_top_g-.1,
+		platform_top_b-.1,
 		1
 	)
 		

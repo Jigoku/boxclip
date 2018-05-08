@@ -644,7 +644,7 @@ function editor:drawguide()
 	if self.showguide then
 
 		--grid
-		love.graphics.setColor(255,255,255,25)
+		love.graphics.setColor(1,1,1,0.09)
 		-- horizontal
 		for x=camera.x-love.graphics.getWidth()/2/camera.scale,
 			camera.x+love.graphics.getWidth()/2/camera.scale,10 do
@@ -663,7 +663,7 @@ function editor:drawguide()
 		end
 
 		--crosshair
-		love.graphics.setColor(200,200,255,50)
+		love.graphics.setColor(0.78,0.78,1,0.19)
 		--vertical
 		love.graphics.line(
 			math.round(self.mouse.x,-1),
@@ -707,7 +707,7 @@ function editor:drawcursor()
 		
 	local x,y = camera:toCameraCoords(self.mouse.x,self.mouse.y)
 		
-	love.graphics.setColor(255,255,255,255)
+	love.graphics.setColor(1,1,1,1)
 	love.graphics.draw(self.mouse.cursors[self.mouse.cur], x-self.mouse.hotspotx,y-self.mouse.hotspoty)
 		
 	camera:attach()
@@ -730,7 +730,7 @@ function editor:drawtexturesel()
 		local y = self.texmenupadding
 		local n = 0
 	
-		love.graphics.setColor(0,0,0,150)
+		love.graphics.setColor(0,0,0,0.58)
 		love.graphics.rectangle("fill",0,0,self.texmenu:getWidth(), self.texmenu:getHeight(),10)
 
 		
@@ -739,7 +739,7 @@ function editor:drawtexturesel()
 			
 			if type(self.texlist[i]) == "userdata" then
 			
-				love.graphics.setColor(255,255,255,255)
+				love.graphics.setColor(1,1,1,1)
 				love.graphics.draw(
 					self.texlist[i],
 					x,
@@ -750,7 +750,7 @@ function editor:drawtexturesel()
 				)
 				
 				if self.texturesel == i then
-					love.graphics.setColor(0,255,0,255)
+					love.graphics.setColor(0,1,0,1)
 					love.graphics.rectangle(
 						"line",
 						x,
@@ -759,12 +759,12 @@ function editor:drawtexturesel()
 					)
 				end
 				
-				love.graphics.setColor(0,0,0,255)
+				love.graphics.setColor(0,0,0,1)
 				love.graphics.print(i,x+5,y+(n*self.texmenutexsize)+n*(self.texmenupadding)+5)
 			
 			else
 				
-				love.graphics.setColor(255,255,255,255)
+				love.graphics.setColor(1,1,1,1)
 				
 				love.graphics.draw(
 					self.errortex,
@@ -782,7 +782,7 @@ function editor:drawtexturesel()
 			
 		love.graphics.setCanvas()
 	
-		love.graphics.setColor(255,255,255,self.texmenuopacity)
+		love.graphics.setColor(1,1,1,self.texmenuopacity)
 		love.graphics.draw(self.texmenu, 10, 10)
 	end
 end
@@ -791,10 +791,10 @@ end
 function editor:draw()
 	
 	--editor hud
-	love.graphics.setColor(0,0,0,125)
+	love.graphics.setColor(0,0,0,0.49)
 	love.graphics.rectangle("fill", love.graphics.getWidth() -130, 10, 120,(editing and 120 or 50),10)
 	love.graphics.setFont(fonts.large)
-	love.graphics.setColor(255,255,255,175)
+	love.graphics.setColor(1,1,1,0.68)
 	love.graphics.print("editing",love.graphics.getWidth()-100, 10,0,1,1)
 	love.graphics.setFont(fonts.default)
 	love.graphics.print("press 'h' for help",love.graphics.getWidth()-120, 40,0,1,1)
@@ -814,23 +814,23 @@ function editor:draw()
 		if world.collision == 0 then
 			--notify keybind for camera reset when 
 			--no entities are in view
-			love.graphics.setColor(255,255,255,255)
+			love.graphics.setColor(1,1,1,1)
 			love.graphics.setFont(fonts.menu)
 			love.graphics.print("(Tip: press \"".. self.binds.respawn .. "\" to reset camera)", 200, love.graphics.getHeight()-50,0,1,1)
 			love.graphics.setFont(fonts.default)
 		end
 		
 		
-		love.graphics.setColor(255,255,255,255)
+		love.graphics.setColor(1,1,1,2155)
 		love.graphics.print("selection:",love.graphics.getWidth()-115, 65,0,1,1)
 	
-		love.graphics.setColor(255,155,55,255)
+		love.graphics.setColor(1,0.60,0.21,1)
 		love.graphics.print(editor.selname or "",love.graphics.getWidth()-115, 80,0,1,1)
 	
-		love.graphics.setColor(255,255,255,255)
+		love.graphics.setColor(1,1,1,1)
 		love.graphics.print("theme:",love.graphics.getWidth()-115, 95,0,1,1)
 	
-		love.graphics.setColor(255,155,55,255)
+		love.graphics.setColor(1,0.60,0.21,1)
 		love.graphics.print(world.theme or "default",love.graphics.getWidth()-115, 110,0,1,1)
 	
 		if self.showentmenu then self:drawentmenu() end
@@ -849,7 +849,7 @@ function editor:drawselbox()
 	if self.drawsel then
 		for _,entity in ipairs(self.draggable) do
 			if self.entities[self.entsel][1] == entity then
-				love.graphics.setColor(0,255,255,255)
+				love.graphics.setColor(0,1,1,1)
 				love.graphics.rectangle(
 					"line", 
 					self.mouse.pressed.x,self.mouse.pressed.y, 
@@ -864,12 +864,12 @@ function editor:drawselbox()
 		local lw = love.graphics.getLineWidth()
 		love.graphics.setLineWidth(2)
 		--frame
-		love.graphics.setColor(0,255,0,255)
+		love.graphics.setColor(0,1,0,1)
 		love.graphics.rectangle("line", self.selbox.x, self.selbox.y, self.selbox.w, self.selbox.h)
 		
 		--corner markers
 		local size = 5
-		love.graphics.setColor(0,255,0,255)
+		love.graphics.setColor(0,1,0,1)
 		--top left
 		love.graphics.rectangle("fill", self.selbox.x-size/2, self.selbox.y-size/2, size, size)
 		--top right
@@ -887,9 +887,9 @@ function editor:formathelp(t)
 	local s = 15 -- vertical spacing
 	love.graphics.setFont(fonts.menu)
 	for i,item in ipairs(t) do
-		love.graphics.setColor(155,255,255,155)
+		love.graphics.setColor(0.60,1,1,0.60)
 		love.graphics.print(string.upper(item[1]),10,s*i+s); 
-		love.graphics.setColor(255,255,255,155)
+		love.graphics.setColor(1,1,1,0.60)
 		love.graphics.printf(item[2],150,s*i+s,fonts.menu:getWidth(item[2]),"left")
 	end
 	love.graphics.setFont(fonts.default)
@@ -902,22 +902,22 @@ function editor:drawhelpmenu()
 	love.graphics.clear()
 	
 	--frame
-	love.graphics.setColor(0,0,0,200)
+	love.graphics.setColor(0,0,0,0.78)
 	love.graphics.rectangle("fill",0,0, self.helpmenu:getWidth(), self.helpmenu:getHeight(),10)
 	--border
-	love.graphics.setColor(255,255,255,150)
+	love.graphics.setColor(1,1,1,0.58)
 	love.graphics.rectangle("fill",0,0, self.helpmenu:getWidth(), 5)
 	--title
-	love.graphics.setColor(255,255,255,255)
+	love.graphics.setColor(1,1,1,1)
 	love.graphics.print("Editor Help",10,10)
 	
 	--hrule
-	love.graphics.setColor(255,255,255,150)
+	love.graphics.setColor(1,1,1,0.58)
 	love.graphics.rectangle("fill",10,25, self.helpmenu:getWidth()-10, 1)
 
 
 	--menu title
-	love.graphics.setColor(255,255,255,155)
+	love.graphics.setColor(1,1,1,0.58)
 	love.graphics.printf("["..self.binds.helptoggle.."] to close",self.helpmenu:getWidth()-110,10,100,"right")
 		
 	--loop bind/key description and format it
@@ -925,7 +925,7 @@ function editor:drawhelpmenu()
 
 	love.graphics.setCanvas()
 	
-	love.graphics.setColor(255,255,255,255)
+	love.graphics.setColor(1,1,1,1)
 	love.graphics.draw(self.helpmenu, love.graphics.getWidth()/2-self.helpmenu:getWidth()/2, love.graphics.getHeight()/2-self.helpmenu:getHeight()/2 )
 	
 	
@@ -939,22 +939,22 @@ function editor:drawentmenu()
 	love.graphics.clear()
 		
 	--frame
-	love.graphics.setColor(0,0,0,150)
+	love.graphics.setColor(0,0,0,0.58)
 	love.graphics.rectangle(
 		"fill",0,0, self.entmenu:getWidth(), self.entmenu:getHeight(),10
 	)
 	
 	--border
-	love.graphics.setColor(255,255,255,150)
+	love.graphics.setColor(1,1,1,0.58)
 	love.graphics.rectangle(
 		"fill",0,0, self.entmenu:getWidth(), 5
 	)
 	
-	love.graphics.setColor(255,255,255,255)
+	love.graphics.setColor(1,1,1,1)
 	love.graphics.print("entity selection",10,10)
 	
 	--hrule
-	love.graphics.setColor(255,255,255,150)
+	love.graphics.setColor(1,1,1,0.58)
 	love.graphics.rectangle(
 		"fill",10,25, self.entmenu:getWidth()-10, 1
 	)
@@ -973,20 +973,20 @@ function editor:drawentmenu()
 		if self.entities[self.entsel+i] and self.entities[self.entsel+i][1] then
 			n = n +1
 			local texture = self.bullettex --placeholder
-			love.graphics.setColor(255,255,255,255)
+			love.graphics.setColor(1,1,1,1)
 			love.graphics.draw(texture,10,s*n,0,s/texture:getWidth(), s/texture:getHeight())
 			
 			if i == 0 then 
-				love.graphics.setColor(150,150,150,255)
+				love.graphics.setColor(0.58,0.58,0.58,1)
 
 				love.graphics.rectangle(
 					"fill",s/texture:getWidth()+s*2,-padding+s*n, self.entmenu:getWidth()-20+padding*2, 15+padding*2
 				)
 			
-				love.graphics.setColor(0,0,0,255)
+				love.graphics.setColor(0,0,0,1)
 				love.graphics.print(self.entities[self.entsel+i][1],s/texture:getWidth()+s*2,s*n)
 			else
-				love.graphics.setColor(150,150,150,255)
+				love.graphics.setColor(0.58,0.58,0.58,1)
 				love.graphics.print(self.entities[self.entsel+i][1],s/texture:getWidth()+s*2,s*n)
 			end
 		end
@@ -997,7 +997,7 @@ function editor:drawentmenu()
 	
 	love.graphics.setCanvas()
 	
-	love.graphics.setColor(255,255,255,255)
+	love.graphics.setColor(1,1,1,1)
 	love.graphics.draw(self.entmenu, 10, love.graphics.getHeight()-self.entmenu:getHeight()-10 )
 end
 
@@ -1214,7 +1214,7 @@ function editor:drawmmap()
 	love.graphics.setCanvas(self.mmapcanvas)
 	love.graphics.clear()
 
-	love.graphics.setColor(0,0,0,150)
+	love.graphics.setColor(0,0,0,0.58)
 	love.graphics.rectangle("fill", 0,0,self.mmapw,self.mmaph)
 	
 	for i, platform in ipairs(world.entities.platform) do
@@ -1223,14 +1223,14 @@ function editor:drawmmap()
 				platform_r,
 				platform_g,
 				platform_b,
-				255
+				1
 			)
 		else
 			love.graphics.setColor(
 				platform_behind_r,
 				platform_behind_g,
 				platform_behind_b,
-				255
+				1
 			)
 		end
 		love.graphics.rectangle(
@@ -1242,7 +1242,7 @@ function editor:drawmmap()
 		)
 	end
 
-	love.graphics.setColor(0,255,255,255)
+	love.graphics.setColor(0,1,1,1)
 	for i, crate in ipairs(world.entities.crate) do
 		love.graphics.rectangle(
 			"fill", 
@@ -1253,7 +1253,7 @@ function editor:drawmmap()
 		)
 	end
 	
-	love.graphics.setColor(255,50,50,255)
+	love.graphics.setColor(1,0.19,0.19,1)
 	for i, enemy in ipairs(world.entities.enemy) do
 		love.graphics.rectangle(
 			"fill", 
@@ -1264,7 +1264,7 @@ function editor:drawmmap()
 		)
 	end
 	
-	love.graphics.setColor(100,255,100,255)
+	love.graphics.setColor(0.58,1,0.58,1)
 	for i, pickup in ipairs(world.entities.pickup) do
 		love.graphics.rectangle(
 			"fill", 
@@ -1275,7 +1275,7 @@ function editor:drawmmap()
 		)
 	end
 	
-	love.graphics.setColor(0,255,255,255)
+	love.graphics.setColor(0,1,1,1)
 	for i, checkpoint in ipairs(world.entities.checkpoint) do
 		love.graphics.rectangle(
 			"fill", 
@@ -1286,7 +1286,7 @@ function editor:drawmmap()
 		)
 	end
 
-	love.graphics.setColor(255,30,255,255)
+	love.graphics.setColor(1,0.11,1,1)
 	for i, spring in ipairs(world.entities.spring) do
 		love.graphics.rectangle(
 			"fill", 
@@ -1297,7 +1297,7 @@ function editor:drawmmap()
 		)
 	end
 
-	love.graphics.setColor(255,155,0,255)
+	love.graphics.setColor(1,0.58,0,1)
 	for i, bumper in ipairs(world.entities.bumper) do
 		love.graphics.rectangle(
 			"fill", 
@@ -1308,7 +1308,7 @@ function editor:drawmmap()
 		)
 	end
 	
-	love.graphics.setColor(255,255,255,255)
+	love.graphics.setColor(1,1,1,1)
 	for i, trap in ipairs(world.entities.trap) do
 		love.graphics.rectangle(
 			"fill", 
@@ -1319,7 +1319,7 @@ function editor:drawmmap()
 		)
 	end
 	
-	love.graphics.setColor(255,255,255,255)
+	love.graphics.setColor(1,1,1,1)
 	love.graphics.rectangle(
 		"line", 
 		(player.x*self.mmapscale)-(camera.x*self.mmapscale)+self.mmapw/2, 
@@ -1330,7 +1330,7 @@ function editor:drawmmap()
 	
 
 	love.graphics.setCanvas()
-	love.graphics.setColor(255, 255, 255, 255)
+	love.graphics.setColor(1, 1, 1, 1)
 	love.graphics.draw(self.mmapcanvas, love.graphics.getWidth()-10-self.mmapw,love.graphics.getHeight()-10-self.mmaph )
 
 end
@@ -1340,14 +1340,14 @@ function editor:drawid(entity,i)
 	--local id = split(string.format("%s",entity) ," ")
 	--local hash = id[2]
 	if editor.showid then
-		love.graphics.setColor(255,255,0,100)       
+		love.graphics.setColor(1,1,0,0.39)       
 		love.graphics.print(entity.group .. "(" .. i .. ")", entity.x-20, entity.y-40, 0)
 	end
 end
 
 function editor:drawcoordinates(object)
 	if editor.showpos then
-		love.graphics.setColor(255,255,255,100)
+		love.graphics.setColor(1,1,1,0.39)
 		love.graphics.print("x ".. math.round(object.x) ..", y " .. math.round(object.y) , object.x-20,object.y-20,0)  
 	end
 end
