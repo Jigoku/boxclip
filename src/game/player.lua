@@ -72,7 +72,7 @@ function player:draw()
 		
 		--draw this powerup behind player
 		if self.invincible then
-			love.graphics.setColor(255,255,255,100)
+			love.graphics.setColor(1,1,1,0.5)
 			love.graphics.draw(self.particles_invincible, player.x+player.w/2,player.y+player.h/2, 0,0.25,0.25)
 		end
 		--rotating for jumping
@@ -83,24 +83,23 @@ function player:draw()
 			love.graphics.translate(-self.x-self.w/2,-self.y-self.h/2)
 	
 			--player main (circle)
-			love.graphics.setColor(80,170,120,255)
+			love.graphics.setColor(0.4,0.7,0.6,1)
 			love.graphics.circle("fill", self.x+self.w/2, self.y+self.h/2, self.w/1.5, self.h)
-			love.graphics.setColor(80,80,80,255)
+			love.graphics.setColor(0.4,0.4,0.4,1)
 			love.graphics.circle("line", self.x+self.w/2, self.y+self.h/2, self.w/1.5, self.h)
 				
 		else
 			--player main (square)
-			local opacity = 255
-			if not self.alive then  opacity = 100 end
-		
-			love.graphics.setColor(80,170,120,opacity)
+			local opacity = 1
+			if not self.alive then  opacity = 0.5 end
+			love.graphics.setColor(0.4,0.7,0.6,opacity)
 			love.graphics.rectangle("fill", self.x, self.y, self.w, self.h,5,5,5)
-			love.graphics.setColor(80,80,80,opacity)
+			love.graphics.setColor(0.4,0.4,0.4,opacity)
 			love.graphics.rectangle("line", self.x, self.y, self.w, self.h,5,5,5)
 		end
 	
 		-- eyes
-		love.graphics.setColor(0,0,0,255)
+		love.graphics.setColor(0,0,0,1)
 		if self.lastdir == "right" then
 			love.graphics.rectangle("fill", self.x+self.w-10, self.y+10, 3, 4)
 			love.graphics.rectangle("fill", self.x+self.w-20, self.y+10, 3, 4 )
@@ -118,9 +117,9 @@ function player:draw()
 		--
 	end
 	if self.hasshield then
-		love.graphics.setColor(105,255,255,100)
+		love.graphics.setColor(0.4,1,1,0.4)
 		love.graphics.circle("fill", self.x+self.w/2, self.y+self.h/2, self.w, self.h)
-		love.graphics.setColor(25,55,55,100)
+		love.graphics.setColor(0.1,0.3,0.3,0.4)
 		love.graphics.circle("line", self.x+self.w/2, self.y+self.h/2, self.w, self.h)
 	end
 	
@@ -133,7 +132,7 @@ end
 
 function player:drawdebug()
 
-	love.graphics.setColor(255,0,0,155)
+	love.graphics.setColor(1,0,0,0.6)
 	love.graphics.rectangle("line", self.x, self.y, self.w, self.h)
 	
 end
