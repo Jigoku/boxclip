@@ -98,7 +98,7 @@ end
 function platforms:drawlink(platform)
 
 	--origin
-	love.graphics.setColor(255,255,255,255)
+	love.graphics.setColor(1,1,1,1)
 	love.graphics.draw(platform_link_origin, platform.xorigin-platform_link_origin:getWidth()/2, platform.yorigin-platform_link_origin:getHeight()/2, 0,1,1)
 	
 	local r = 0
@@ -160,24 +160,24 @@ function platforms:draw()
 					v[5] =	platform_move_r
 					v[6] =	platform_move_g
 					v[7] =	platform_move_b
-					v[8] = 255
+					v[8] = 1
 				elseif not platform.clip then						
 					v[5] =	platform_behind_r
 					v[6] =	platform_behind_g
 					v[7] =	platform_behind_b
-					v[8] =	255		
+					v[8] =	1		
 				else
 					v[5] =	platform_r
 					v[6] =	platform_g
 					v[7] =	platform_b
-					v[8] =	255
+					v[8] =	1
 				end
 			end
 			
 			platform.mesh:setVertices(platform.verts)
 			platform.mesh:setTexture(self.textures[platform.texture])
 				
-			love.graphics.setColor(255,255,255,255)
+			love.graphics.setColor(1,1,1,1)
 			love.graphics.draw(platform.mesh, platform.x, platform.y)
 				
 			self:drawshadow(platform)
@@ -196,39 +196,39 @@ function platforms:drawdebug(platform, i)
 	
 	-- collision area
 	if not platform.swing and platform.clip then
-		love.graphics.setColor(255,0,0,40)
+		love.graphics.setColor(1,0,0,0.15)
 		love.graphics.rectangle("fill", platform.x, platform.y, platform.w, platform.h)
-		love.graphics.setColor(255,0,0,255)
+		love.graphics.setColor(1,0,0,1)
 		love.graphics.rectangle("line", platform.x, platform.y, platform.w, platform.h)
 	end
 	
 	if not platform.clip then
-		love.graphics.setColor(0,255,0,40)
+		love.graphics.setColor(0,1,0,0.15)
 		love.graphics.rectangle("fill", platform.x, platform.y, platform.w, platform.h)
-		love.graphics.setColor(255,0,0,255)
+		love.graphics.setColor(1,0,0,1)
 		love.graphics.rectangle("line", platform.x, platform.y, platform.w, platform.h)
 	end
 	
 	-- yaxis waypoint
 	if platform.movey then
-		love.graphics.setColor(255,0,255,20)
+		love.graphics.setColor(1,0,1,0.07)
 		love.graphics.rectangle("fill", platform.xorigin, platform.yorigin, platform.w, platform.h+platform.movedist)
-		love.graphics.setColor(255,0,255,255)
+		love.graphics.setColor(1,0,1,1)
 		love.graphics.rectangle("line", platform.xorigin, platform.yorigin, platform.w, platform.h+platform.movedist)
 	end
 	-- xaxis waypoint
 	if platform.movex then
-		love.graphics.setColor(255,0,255,20)
+		love.graphics.setColor(1,0,1,0.07)
 		love.graphics.rectangle("fill", platform.xorigin, platform.yorigin, platform.movedist+platform.w, platform.h)
-		love.graphics.setColor(255,0,255,255)
+		love.graphics.setColor(1,0,1,1)
 		love.graphics.rectangle("line", platform.xorigin, platform.yorigin, platform.movedist+platform.w, platform.h)
 	end 
 	
 	--debug connector
 	if platform.swing then 
-		love.graphics.setColor(255,0,255,100)
+		love.graphics.setColor(1,0,1,0.39)
 		love.graphics.line( platform.xorigin,platform.yorigin,platform.x,platform.y)	
-		love.graphics.setColor(255,0,0,100)
+		love.graphics.setColor(1,0,0,0.39)
 		love.graphics.rectangle("line", 
 			platform.xorigin-platform_link_origin:getWidth()/2, 
 			platform.yorigin-platform_link_origin:getHeight()/2,
@@ -254,7 +254,7 @@ function platforms:drawshadow(platform)
 	end
 	
 	--shaded edges
-	love.graphics.setColor(0,0,0,85)
+	love.graphics.setColor(0,0,0,0.33)
 	--right
 	love.graphics.rectangle("fill", platform.x+platform.w-offset, platform.y, offset, platform.h -offset)
 	--bottom
@@ -272,7 +272,7 @@ function platforms:drawsurface(platform)
 		platform_top_r,
 		platform_top_g,
 		platform_top_b,
-		255
+		1
 	)
 			
 	--[[ --untextured grass fallback

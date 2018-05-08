@@ -67,9 +67,9 @@ function pickups:add(x,y,type,dropped)
 				attract = false,
 				bounce = true,
 				slot = i,
-				red = love.math.random(150,255),
-				green = love.math.random(150,255),
-				blue = love.math.random(50,255),
+				red = love.math.random(0.75,1),
+				green = love.math.random(0.75,1),
+				blue = love.math.random(0.75,1),
 				xvel = 0,
 				yvel = 0,
 				score = score,
@@ -136,27 +136,27 @@ function pickups:draw()
 			local texture = self.textures[pickup.slot]
 			
 			if pickup.type == "gem" then
-				love.graphics.setColor(pickup.red,pickup.green,pickup.blue,255)	
+				love.graphics.setColor(pickup.red,pickup.green,pickup.blue,1)	
 				love.graphics.draw(texture, pickup.x, pickup.y, 0, 1, 1)
 			end
 			
 			if pickup.type == "life" then
-				love.graphics.setColor(255,0,0, 255)	
+				love.graphics.setColor(1,0,0, 1)	
 				love.graphics.draw(texture, pickup.x, pickup.y, 0, 1, 1)
 			end
 
 			if pickup.type == "magnet" then
-				love.graphics.setColor(255,255,255, 255)	
+				love.graphics.setColor(1,1,1, 1)	
 				love.graphics.draw(texture, pickup.x, pickup.y, 0, 1, 1)
 			end
 			
 			if pickup.type == "shield" then
-				love.graphics.setColor(255,255,255, 255)	
+				love.graphics.setColor(1,1,1, 1)	
 				love.graphics.draw(texture, pickup.x, pickup.y, 0, 1, 1)
 			end
 			
 			if pickup.type == "star" then
-				love.graphics.setColor(255,255,255, 255)	
+				love.graphics.setColor(1,1,1, 1)	
 				love.graphics.draw(texture, pickup.x, pickup.y, 0, 1, 1)
 			end
 
@@ -171,7 +171,7 @@ end
 
 
 function pickups:drawdebug(pickup, i)
-	love.graphics.setColor(100,255,100,100)
+	love.graphics.setColor(0.39,1,0.39,0.39)
 	love.graphics.rectangle(
 		"line", 
 		pickup.x, 

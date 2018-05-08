@@ -76,21 +76,21 @@ function decals:draw()
 			
 			local texture = self.textures[decal.texture]
 			
-			love.graphics.setColor(255,255,255,255)
+			love.graphics.setColor(1,1,1,1)
 			love.graphics.draw(texture, decal.quad, decal.x,decal.y)
 			
 			
 			if decal.texture == 1 then
-				love.graphics.setColor(190,240,255,255)
+				love.graphics.setColor(0.74,0.94,1,1)
 				self:drawwaterfall(decal)
 			elseif decal.texture == 2 then
-				love.graphics.setColor(157,189,152,255)
+				love.graphics.setColor(0.61,0.74,0.59,1)
 				self:drawwaterfall(decal)
 			elseif decal.texture == 3 then
-				love.graphics.setColor(130,40,40,255)
+				love.graphics.setColor(0.50,0.15,0.15,1)
 				self:drawwaterfall(decal)
 			elseif decal.texture == 4 then
-				love.graphics.setColor(173,83,15,255)
+				love.graphics.setColor(0.67,0.32,0.05,1)
 				self:drawwaterfall(decal)
 			end
 			
