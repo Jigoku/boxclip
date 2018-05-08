@@ -67,26 +67,26 @@ end
 function title:draw()
 
 	---background
-	love.graphics.setBackgroundColor(0,0,0,255)
-	love.graphics.setColor(255,255,255,50)		
+	love.graphics.setBackgroundColor(0,0,0,0)
+	love.graphics.setColor(1,1,1,0.4)
 	self.bgquad:setViewport(-self.bgscroll,-self.bgscroll,love.graphics.getWidth(), love.graphics.getHeight() )
 	love.graphics.draw(self.bg, self.bgquad, 0,0)
 		
 	--frames	
-	love.graphics.setColor(100,100,100,150)
+	love.graphics.setColor(0.1,0.1,0.1,0.8)
 	love.graphics.rectangle("fill",love.graphics.getWidth()/4-80, love.graphics.getHeight()/4-30,love.graphics.getWidth()/2+160,love.graphics.getHeight()/2+60,20)
 	
-	love.graphics.setColor(10,10,10,150)
+	love.graphics.setColor(0.2,0.2,0.2,1)
 	love.graphics.rectangle("fill", love.graphics.getWidth()/4-50, love.graphics.getHeight()/4+50, love.graphics.getWidth()/2+100,love.graphics.getHeight()/2-50,10)
 	
 	--title	
 	love.graphics.setFont(fonts.huge)
-	love.graphics.setColor(255,255,255,155)
+	love.graphics.setColor(1,1,1,0.5)
 	love.graphics.printf("Boxclip",love.graphics.getWidth()/4,love.graphics.getHeight()/4,love.graphics.getWidth()/2,"center")
 	
 	--version
 	love.graphics.setFont(fonts.menu)
-	love.graphics.setColor(255,255,255,155)
+	love.graphics.setColor(1,1,1,0.5)
 	love.graphics.printf("v"..version..build.." ("..love.system.getOS() ..") by "..author,10,love.graphics.getHeight()-25,300,"left",0,1,1)
 	
 	if self.menu == "main" then
@@ -221,37 +221,37 @@ end
 function title:drawoptions()
 	love.graphics.setFont(fonts.menu)
 	if self.sel == 0 then
-		love.graphics.setColor(0,0,0,155)
+		love.graphics.setColor(0,0,0,0.5)
 		love.graphics.rectangle("fill", love.graphics.getWidth()/4-10,love.graphics.getHeight()/4+90,love.graphics.getWidth()/2+20,40)
 	end
-	love.graphics.setColor(255,255,255,255)
+	love.graphics.setColor(1,1,1,1)
 	love.graphics.printf("Press left/right to change setting",love.graphics.getWidth()/4,love.graphics.getHeight()/4+100,love.graphics.getWidth()/3,"left")
 
 	--play 
 	if self.sel == 1 then
-		love.graphics.setColor(0,0,0,155)
+		love.graphics.setColor(0,0,0,0.5)
 		love.graphics.rectangle("fill", love.graphics.getWidth()/4-10,love.graphics.getHeight()/4+130,love.graphics.getWidth()/2+20,40)
 	end
 		
-	love.graphics.setColor(100,150,160,255)
+	love.graphics.setColor(0.5,0.6,0.7,1)
 	love.graphics.printf("vsync",love.graphics.getWidth()/4,love.graphics.getHeight()/4+140,love.graphics.getWidth()/3,"left")
-	love.graphics.setColor(100,140,60,155)
+	love.graphics.setColor(0.5,0.7,0.4,0.5)
 	love.graphics.printf("n/a",love.graphics.getWidth()/4,love.graphics.getHeight()/4+140,love.graphics.getWidth()/2,"right")
 
 	--editing 
 		
 	if self.sel == 2 then
-		love.graphics.setColor(0,0,0,155)
+		love.graphics.setColor(0,0,0,0.5)
 		love.graphics.rectangle("fill", love.graphics.getWidth()/4-10,love.graphics.getHeight()/4+170,love.graphics.getWidth()/2+20,40)
 	end
 		
-	love.graphics.setColor(100,150,160,255)
+	love.graphics.setColor(0.5,0.6,0.7,1)
 	love.graphics.printf("joystick",love.graphics.getWidth()/4,love.graphics.getHeight()/4+180,love.graphics.getWidth()/3,"left")
-	love.graphics.setColor(100,140,60,155)
+	love.graphics.setColor(0.5,0.7,0.4,0.5)
 	love.graphics.printf(joystick:getName(),love.graphics.getWidth()/4,love.graphics.getHeight()/4+180,love.graphics.getWidth()/2,"right")
 		
 	
-	love.graphics.setColor(100,150,160,255)
+	love.graphics.setColor(0.5,0.6,0.7,1)
 	love.graphics.printf("Back",love.graphics.getWidth()/4,love.graphics.getHeight()/4+260,love.graphics.getWidth()/3,"left")
 	
 end
@@ -262,53 +262,53 @@ function title:drawmain()
 
 
 	if self.sel == 0 then
-		love.graphics.setColor(0,0,0,155)
+		love.graphics.setColor(0,0,0,0.5)
 		love.graphics.rectangle("fill", love.graphics.getWidth()/4-10,love.graphics.getHeight()/4+90,love.graphics.getWidth()/2+20,40)
 	end
-	love.graphics.setColor(255,255,255,255)
+	love.graphics.setColor(1,1,1,1)
 	love.graphics.printf("Press left/right to select map",love.graphics.getWidth()/4,love.graphics.getHeight()/4+100,love.graphics.getWidth()/3,"left")
 
 	--play 
 	if self.sel == 1 then
-		love.graphics.setColor(0,0,0,155)
+		love.graphics.setColor(0,0,0,0.75)
 		love.graphics.rectangle("fill", love.graphics.getWidth()/4-10,love.graphics.getHeight()/4+130,love.graphics.getWidth()/2+20,40)
 	end
 		
-	love.graphics.setColor(100,150,160,255)
+	love.graphics.setColor(0.5,0.6,0.7,1)
 	love.graphics.printf("Play",love.graphics.getWidth()/4,love.graphics.getHeight()/4+140,love.graphics.getWidth()/3,"left")
-	love.graphics.setColor(100,140,60,155)
+	love.graphics.setColor(0.5,0.7,0.4,0.5)
 	love.graphics.printf("play " .. self:mapname(self.mapsel),love.graphics.getWidth()/4,love.graphics.getHeight()/4+140,love.graphics.getWidth()/2,"right")
 
 	--editing 
 		
 	if self.sel == 2 then
-		love.graphics.setColor(0,0,0,155)
+		love.graphics.setColor(0,0,0,0.75)
 		love.graphics.rectangle("fill", love.graphics.getWidth()/4-10,love.graphics.getHeight()/4+170,love.graphics.getWidth()/2+20,40)
 	end
 		
-	love.graphics.setColor(100,150,160,255)
+	love.graphics.setColor(0.5,0.6,0.7,1)
 	love.graphics.printf("Map Editor",love.graphics.getWidth()/4,love.graphics.getHeight()/4+180,love.graphics.getWidth()/3,"left")
-	love.graphics.setColor(100,140,60,155)
+	love.graphics.setColor(0.5,0.7,0.4,0.5)
 	love.graphics.printf("edit " .. self:mapname(self.mapsel),love.graphics.getWidth()/4,love.graphics.getHeight()/4+180,love.graphics.getWidth()/2,"right")
 		
 	--options
 	if self.sel == 3 then
-		love.graphics.setColor(0,0,0,155)
+		love.graphics.setColor(0,0,0,0.75)
 		love.graphics.rectangle("fill", love.graphics.getWidth()/4-10,love.graphics.getHeight()/4+210,love.graphics.getWidth()/2+20,40)
 	end
 		
-	love.graphics.setColor(100,150,160,255)
+	love.graphics.setColor(0.5,0.6,0.7,1)
 	love.graphics.printf("Options",love.graphics.getWidth()/4,love.graphics.getHeight()/4+220,love.graphics.getWidth()/3,"left")
-	love.graphics.setColor(100,140,60,155)
+	love.graphics.setColor(0.5,0.7,0.4,0.5)
 	love.graphics.printf("(unimplemented)",love.graphics.getWidth()/4,love.graphics.getHeight()/4+220,love.graphics.getWidth()/2,"right")
 	
 	--quit
 	if self.sel == 4 then
-		love.graphics.setColor(0,0,0,155)
+		love.graphics.setColor(0,0,0,0.75)
 		love.graphics.rectangle("fill", love.graphics.getWidth()/4-10,love.graphics.getHeight()/4+250,love.graphics.getWidth()/2+20,40)
 	end
 	
-	love.graphics.setColor(100,150,160,255)
+	love.graphics.setColor(0.5,0.6,0.7,1)
 	love.graphics.printf("Quit",love.graphics.getWidth()/4,love.graphics.getHeight()/4+260,love.graphics.getWidth()/3,"left")
 	
 end

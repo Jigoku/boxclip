@@ -8,7 +8,7 @@ default_height = 768
 
 function love.conf(t)
 	t.identity = "boxclip"
-	t.version = "0.10.2"
+	t.version = "11.1"
 	t.window.title = name .. " " .. version
 	t.window.width = default_width
 	t.window.height = default_height

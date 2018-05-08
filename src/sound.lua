@@ -54,28 +54,28 @@ sound.effects = {
 
 sound.music = {
 	[0] = nil,
-	[1] = love.audio.newSource("data/sounds/music/jungle.ogg"),
-	[2] = love.audio.newSource("data/sounds/music/underwater.ogg"),
-	[3] = love.audio.newSource("data/sounds/music/walking.ogg"),
-	[4] = love.audio.newSource("data/sounds/music/intense.ogg"),
-	[5] = love.audio.newSource("data/sounds/music/busy.ogg"),
-	[6] = love.audio.newSource("data/sounds/music/intro.ogg"),
-	[7] = love.audio.newSource("data/sounds/music/riverside.ogg"),
-	[8] = love.audio.newSource("data/sounds/music/exploration.ogg"),
-	[9] = love.audio.newSource("data/sounds/music/rainbow.ogg"),
-	[10] = love.audio.newSource("data/sounds/music/level_complete.ogg"),
-	[11] = love.audio.newSource("data/sounds/music/fight.ogg"),
-	[12] = love.audio.newSource("data/sounds/music/paradise.ogg"),
-	[13] = love.audio.newSource("data/sounds/music/happy.ogg"),
-	[14] = love.audio.newSource("data/sounds/music/grasslands.ogg"),
+	[1] = love.audio.newSource("data/sounds/music/jungle.ogg", "stream"),
+	[2] = love.audio.newSource("data/sounds/music/underwater.ogg", "stream"),
+	[3] = love.audio.newSource("data/sounds/music/walking.ogg", "stream"),
+	[4] = love.audio.newSource("data/sounds/music/intense.ogg", "stream"),
+	[5] = love.audio.newSource("data/sounds/music/busy.ogg", "stream"),
+	[6] = love.audio.newSource("data/sounds/music/intro.ogg", "stream"),
+	[7] = love.audio.newSource("data/sounds/music/riverside.ogg", "stream"),
+	[8] = love.audio.newSource("data/sounds/music/exploration.ogg", "stream"),
+	[9] = love.audio.newSource("data/sounds/music/rainbow.ogg", "stream"),
+	[10] = love.audio.newSource("data/sounds/music/level_complete.ogg", "stream"),
+	[11] = love.audio.newSource("data/sounds/music/fight.ogg", "stream"),
+	[12] = love.audio.newSource("data/sounds/music/paradise.ogg", "stream"),
+	[13] = love.audio.newSource("data/sounds/music/happy.ogg", "stream"),
+	[14] = love.audio.newSource("data/sounds/music/grasslands.ogg", "stream"),
 }
 
 sound.ambience = {
 	[0] = nil,
-	[1] = love.audio.newSource("data/sounds/ambient/swamp.ogg"),
-	[2] = love.audio.newSource("data/sounds/ambient/stream.ogg"),
-	[3] = love.audio.newSource("data/sounds/ambient/drip.ogg"),
-	[4] = love.audio.newSource("data/sounds/ambient/storm.ogg")
+	[1] = love.audio.newSource("data/sounds/ambient/swamp.ogg", "stream"),
+	[2] = love.audio.newSource("data/sounds/ambient/stream.ogg", "stream"),
+	[3] = love.audio.newSource("data/sounds/ambient/drip.ogg", "stream"),
+	[4] = love.audio.newSource("data/sounds/ambient/storm.ogg", "stream")
 }
 
 
@@ -95,7 +95,7 @@ function sound:playbgm(id)
 	self.bgm = self.music[id]
 	self:stoplooping(self.music)
 	
-	love.audio.rewind()
+--	love.audio.rewind()
 	
 	if id ~= 0 then
 		self.bgm:setLooping(true)
@@ -111,7 +111,7 @@ function sound:playambient(id)
 	self.ambient = self.ambience[id]
 	self:stoplooping(self.ambience)
 		
-	love.audio.rewind( )
+--	love.audio.rewind( )
 	
 	if id ~= 0 then
 		self.ambient:setLooping(true)
@@ -122,13 +122,7 @@ end
 
 
 function sound:play(fx)
-
-	--this can sound HORRIFIC with lots of entites
-	--fx:clone():play()
-	--below is a quick workaround, needs more testing
-	love.audio.rewind(fx)
-	fx:play()
-
+	fx:clone():play()
 end
 
 function sound:stoplooping(type)
