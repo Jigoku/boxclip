@@ -61,7 +61,7 @@ function bumpers:draw()
 	for i, bumper in ipairs(world.entities.bumper) do
 		if world:inview(bumper) then
 			count = count + 1
-			love.graphics.setColor(255,255,255,255)
+			love.graphics.setColor(1,1,1,1)
 
 			--offset for centred scaling
 			local ox, oy = bumper.w *.5, bumper.h * .5
@@ -83,7 +83,7 @@ function bumpers:draw()
 			end
 
 			if editing or debug then
-				love.graphics.setColor(255,150,0,255)
+				love.graphics.setColor(1,0.58,0,1)
 				love.graphics.rectangle("line", bumper.x, bumper.y, bumper.w, bumper.h)
 			
 				editor:drawid(bumper,i)

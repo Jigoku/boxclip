@@ -48,7 +48,7 @@ function world:initsplash()
 	world.splash.active = true
 	world.splash.opacity = 1
 	world.splash.timer = 3
-	world.splash.fadespeed = 400
+	world.splash.fadespeed = 1
 	world.splash.box_h = 100
 	world.splash.box_y = -world.splash.box_h/2
 	world.splash.text_y = -world.splash.box_h/2
@@ -231,9 +231,9 @@ function world:drawparallax()
 	
 	--front layer
 	love.graphics.setColor(
-		platform_top_r-40,
-		platform_top_g-40,
-		platform_top_b-40,
+		platform_top_r-1.5,
+		platform_top_g-1.5,
+		platform_top_b-1.5,
 		1
 	)
 		

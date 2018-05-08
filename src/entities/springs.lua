@@ -103,7 +103,7 @@ function springs:draw()
 	for i, spring in ipairs(world.entities.spring) do
 		if world:inview(spring) then
 			count = count +1
-			love.graphics.setColor(255,255,255,255)
+			love.graphics.setColor(1,1,1,1)
 				
 			local texture = self.textures[spring.slot]
 			if spring.dir == 1 then
@@ -128,7 +128,7 @@ end
 
 function springs:drawdebug(spring, i)
 	
-	love.graphics.setColor(255,155,55,200)
+	love.graphics.setColor(1,0.60,0.21,0.78)
 	love.graphics.rectangle(
 		"line", 
 		spring.x, 
@@ -136,7 +136,7 @@ function springs:drawdebug(spring, i)
 		spring.w, 
 		spring.h
 	)
-	love.graphics.setColor(155,255,55,200)
+	love.graphics.setColor(0.60,1,0.21,0.78)
 	
 	--offset for smaller collision, but unimplemented: TODO
 	love.graphics.rectangle(

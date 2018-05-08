@@ -85,14 +85,14 @@ function portals:draw()
 		count = count + 1
 				
 			if portal.type == "goal" then
-				love.graphics.setColor(255,255,255,255)
+				love.graphics.setColor(1,1,1,1)
 				
 				love.graphics.draw(self.textures[portal.type], portal.x, portal.y, 0,1,1)
 				
 				if portal.activated then	
 					--debug
 					love.graphics.setFont(fonts.large)
-					love.graphics.setColor(255,0,0,255)
+					love.graphics.setColor(1,0,0,1)
 					love.graphics.print("next map in: " .. math.round(world.scoreboard.timer,0),portal.x-10,portal.y-20)
 					love.graphics.setFont(fonts.default)
 				end
@@ -108,9 +108,9 @@ function portals:draw()
 end
 
 function portals:drawdebug(portal, i)
-	love.graphics.setColor(255,100,0,50)
+	love.graphics.setColor(1,0.39,0,0.19)
 	love.graphics.rectangle("fill", portal.x,portal.y,portal.w,portal.h)
-	love.graphics.setColor(255,0,0,255)
+	love.graphics.setColor(1,0,0,1)
 	love.graphics.rectangle("line", portal.x,portal.y,portal.w,portal.h)
 	
 	editor:drawid(portal, i)

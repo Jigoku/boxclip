@@ -48,7 +48,7 @@ function crates:draw()
 		if world:inview(crate) and not crate.destroyed then
 			count = count + 1
 		
-			love.graphics.setColor(crate_r,crate_g,crate_b,255)
+			love.graphics.setColor(crate_r,crate_g,crate_b,1)
 			love.graphics.draw(self.textures["crate"],crate.x, crate.y, 0, 1, 1)
 		
 			if editing or debug then
@@ -60,7 +60,7 @@ function crates:draw()
 end
 
 function crates:drawdebug(crate, i)
-	love.graphics.setColor(0,255,255,100)
+	love.graphics.setColor(0,1,1,0.39)
 	love.graphics.rectangle("line", crate.x, crate.y, crate.w, crate.h)
 
 	editor:drawid(crate,i)

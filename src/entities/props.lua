@@ -81,17 +81,17 @@ function props:draw()
 					platform_r,
 					platform_g,
 					platform_b,
-					255
+					1
 				)	
 			elseif prop.type == "porthole" or prop.type == "arch1_r" then
 				love.graphics.setColor(
 					platform_behind_r,
 					platform_behind_g,
 					platform_behind_b,
-					255
+					1
 				)
 			else
-				love.graphics.setColor(255,255,255,255)
+				love.graphics.setColor(1,1,1,1)
 			end
 			
 			local texture = props.textures[prop.slot]
@@ -119,7 +119,7 @@ end
 
 
 function props:drawdebug(prop, i)
-	love.graphics.setColor(255,0,155,100)
+	love.graphics.setColor(1,0,0.60,0.39)
 	love.graphics.rectangle(
 		"line", 
 		prop.x, 

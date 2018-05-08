@@ -55,11 +55,11 @@ function materials:draw()
 			if world:inview(mat) then
 				if mat.type == "death" then
 					
-					love.graphics.setColor(0,0,0,100)
+					love.graphics.setColor(0,0,0,0.39)
 					love.graphics.rectangle("fill",mat.x,mat.y,mat.w,mat.h)
-					love.graphics.setColor(0,0,0,255)
+					love.graphics.setColor(0,0,0,1)
 					love.graphics.rectangle("line",mat.x,mat.y,mat.w,mat.h)
-					love.graphics.setColor(255,255,255,100)
+					love.graphics.setColor(1,1,1,0.39)
 					love.graphics.draw(self.death, mat.quad, mat.x,mat.y)
 				end
 			

@@ -386,7 +386,7 @@ function enemies:draw()
 			local texture = self.textures[enemy.type]
 			
 			if enemy.type == "walker" or enemy.type == "floater" then
-				love.graphics.setColor(255,255,255,255)
+				love.graphics.setColor(1,1,1,1)
 				if enemy.movespeed < 0 then
 					love.graphics.draw(texture, enemy.x, enemy.y, 0, 1, 1)
 				elseif enemy.movespeed > 0 then
@@ -394,7 +394,7 @@ function enemies:draw()
 				end
 			end
 			
-			love.graphics.setColor(255,255,255,255)
+			love.graphics.setColor(1,1,1,1)
 			if enemy.type == "spike" or enemy.type == "spike_large" then
 			
 				if enemy.dir == 1 then
@@ -432,19 +432,19 @@ function enemies:drawdebug(enemy, i)
 
 	if enemy.type == "spikeball" then
 		--bounds
-		love.graphics.setColor(255,0,0,255)
+		love.graphics.setColor(1,0,0,1)
 		love.graphics.rectangle("line", enemy.x-texture:getWidth()/2+5, enemy.y-texture:getHeight()/2+5, texture:getWidth()-10, texture:getHeight()-10)
 		--hitbox
-		love.graphics.setColor(255,200,100,255)
+		love.graphics.setColor(1,0.78,0.39,1)
 		love.graphics.rectangle("line", enemy.x-texture:getWidth()/2, enemy.y-texture:getHeight()/2, texture:getWidth(), texture:getHeight())
 
 		--waypoint
-		love.graphics.setColor(255,0,255,100)
+		love.graphics.setColor(1,0,1,0.39)
 		love.graphics.line(enemy.xorigin,enemy.yorigin,enemy.x,enemy.y)	
 		love.graphics.circle("line", enemy.xorigin,enemy.yorigin, enemy.radius,enemy.radius)	
 		
 		--selectable area in editor
-		love.graphics.setColor(255,0,0,100)
+		love.graphics.setColor(1,0,0,0.39)
 		love.graphics.rectangle("line", 
 			enemy.xorigin-platform_link_origin:getWidth()/2,enemy.yorigin-platform_link_origin:getHeight()/2,
 			platform_link_origin:getWidth(),platform_link_origin:getHeight()
@@ -453,19 +453,19 @@ function enemies:drawdebug(enemy, i)
 	else
 	--all other enemies
 		--bounds
-		love.graphics.setColor(255,0,0,255)
+		love.graphics.setColor(1,0,0,1)
 		love.graphics.rectangle("line", enemy.x+5, enemy.y+5, enemy.w-10, enemy.h-10)
 		--hitbox
-		love.graphics.setColor(255,200,100,255)
+		love.graphics.setColor(1,0.78,0.39,1)
 		love.graphics.rectangle("line", enemy.x, enemy.y, enemy.w, enemy.h)
 	end
 
 	--waypoint	
 	if enemy.type == "walker" or enemy.type == "floater" then
 		
-		love.graphics.setColor(255,0,255,50)
+		love.graphics.setColor(1,0,1,0.19)
 		love.graphics.rectangle("fill", enemy.xorigin, enemy.y, enemy.movedist+texture:getWidth(), texture:getHeight())
-		love.graphics.setColor(255,0,255,255)
+		love.graphics.setColor(1,0,1,1)
 		love.graphics.rectangle("line", enemy.xorigin, enemy.y, enemy.movedist+texture:getWidth(), texture:getHeight())
 	end
 

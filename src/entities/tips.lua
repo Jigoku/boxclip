@@ -70,10 +70,10 @@ function tips:draw()
 			local corners = 15
 			
 			--background
-			love.graphics.setColor(255,255,255,200)
+			love.graphics.setColor(1,1,1,0.78)
 			love.graphics.rectangle("fill", tip.x, tip.y, tip.w, tip.h,corners)
 			--frame
-			love.graphics.setColor(0,0,0,255)
+			love.graphics.setColor(0,0,0,1)
 			love.graphics.rectangle("line", tip.x, tip.y, tip.w, tip.h,corners)
 			--tip text
 			love.graphics.printf(tip.text, tip.x+tip.padding, tip.y+tip.padding, tip.w-tip.padding*2, "center")

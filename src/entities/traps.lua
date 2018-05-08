@@ -84,7 +84,7 @@ function traps:draw()
 		if world:inview(trap) and trap.active then
 			count = count +1
 					
-			love.graphics.setColor(255,255,255,255)
+			love.graphics.setColor(1,1,1,1)
 
 			local texture = self.textures[trap.type]
 
@@ -114,7 +114,7 @@ end
 
 
 function traps:drawdebug(trap, i)
-	love.graphics.setColor(255,0,155,100)
+	love.graphics.setColor(1,0,0.60,0.39)
 	love.graphics.rectangle(
 		"line", 
 		trap.x, 

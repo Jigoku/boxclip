@@ -63,9 +63,9 @@ function checkpoints:draw()
 		count = count + 1
 
 			if not checkpoint.activated then
-				love.graphics.setColor(255,100,100,245)
+				love.graphics.setColor(1,0.39,0.39,0.9)
 			else 
-				love.graphics.setColor(150,255,150,245)
+				love.graphics.setColor(0.58,1,0.58,0.9)
 			end
 			
 			love.graphics.draw(checkpoints.textures["back"], checkpoint.x-checkpoints.textures["back"]:getWidth()/2+checkpoints.textures["front"]:getWidth()/2,checkpoint.y,0, 1, 1)
@@ -84,7 +84,7 @@ end
 
 function checkpoints:drawdebug(checkpoint, i)
 
-	love.graphics.setColor(255,0,0,100)
+	love.graphics.setColor(1,0,0,0.39)
 	love.graphics.rectangle("line", checkpoint.x, checkpoint.y, checkpoint.w, checkpoint.h)
 	
 	editor:drawid(checkpoint,i)
