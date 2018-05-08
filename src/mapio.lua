@@ -16,14 +16,16 @@
 mapio = {}
 mapio.path = love.filesystem.getSaveDirectory( )
 
+
+
 --create maps folder if it doesn't exist
-if not love.filesystem.exists( mapio.path .. "/maps/" ) then
-	love.filesystem.createDirectory( "maps" )
+if not love.filesystem.getInfo(mapio.path .. "/maps/") then
+	love.filesystem.createDirectory("maps")
 end
 
 --create screenshots folder if it doesn't exist
-if not love.filesystem.exists( mapio.path .. "/screenshots/" ) then
-	love.filesystem.createDirectory( "screenshots" )
+if not love.filesystem.getInfo(mapio.path .. "/screenshots/") then
+	love.filesystem.createDirectory("screenshots")
 end
 
 
