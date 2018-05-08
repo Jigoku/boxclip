@@ -24,7 +24,7 @@ function popups:add(x,y,text,entity)
 		y = y,
 		speed = 150,
 		text = text,
-		o = 255
+		o = 1
 	})
 end
 
@@ -32,7 +32,7 @@ function popups:draw()
 	local oldfont = love.graphics.getFont()
 	love.graphics.setFont(fonts.popups)
 	for _,p in ipairs(popups) do
-		love.graphics.setColor(255,255,0,p.o)
+		love.graphics.setColor(1,1,0,p.o)
 		love.graphics.printf(p.text, p.x-fonts.popups:getWidth(p.text)/2,p.y,fonts.popups:getWidth(p.text),"center")
 	end
 	love.graphics.setFont(oldfont)
@@ -42,7 +42,7 @@ function popups:update(dt)
 	for i,p in ipairs(popups) do
 		p.y = p.y - p.speed *dt
 		 if p.y < p.yorigin - 50 then
-			p.o = p.o - 200 *dt
+			p.o = p.o - p.speed *dt
 			if p.o <= 0 then
 				table.remove(popups,i)
 			end

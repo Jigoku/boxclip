@@ -46,7 +46,7 @@ function world:initsplash()
 	world.splash.bg = love.graphics.newImage("data/images/platforms/0001.png")
 	world.splash.bg:setWrap("repeat", "repeat")
 	world.splash.active = true
-	world.splash.opacity = 255
+	world.splash.opacity = 1
 	world.splash.timer = 3
 	world.splash.fadespeed = 400
 	world.splash.box_h = 100
@@ -184,7 +184,7 @@ end
 
 function world:drawparallax()
 	if editing then return end
-	love.graphics.setColor(255,255,255,255)
+	love.graphics.setColor(1,1,1,1)
 	
 	--paralax background sky
 	if type(background) == "userdata" then
@@ -200,7 +200,7 @@ function world:drawparallax()
 		platform_top_r,
 		platform_top_g,
 		platform_top_b,
-		255
+		1
 	)
 		
 	test_quad:setViewport(
@@ -217,7 +217,7 @@ function world:drawparallax()
 		platform_behind_r,
 		platform_behind_g,
 		platform_behind_b,
-		255
+		1
 	)
 
 	test_quad2:setViewport(
@@ -234,7 +234,7 @@ function world:drawparallax()
 		platform_top_r-40,
 		platform_top_g-40,
 		platform_top_b-40,
-		255
+		1
 	)
 		
 	test_quad3:setViewport(
@@ -260,7 +260,7 @@ function world:draw()
 		unimplemented
 	--]]
 
-	love.graphics.setColor(255,255,255,255)
+	love.graphics.setColor(1,1,1,1)
 
 	decals:draw()
 	props:draw()
@@ -308,9 +308,9 @@ function world:draw()
 	end
 	
 	if paused then
-		love.graphics.setColor(0,0,0,155)
+		love.graphics.setColor(0,0,0,0.6)
 		love.graphics.rectangle("fill",0,0,love.graphics.getWidth(),love.graphics.getHeight())
-		love.graphics.setColor(255,255,255,155)
+		love.graphics.setColor(1,1,1,0.6)
 		love.graphics.setFont(fonts.huge)
 		love.graphics.printf("PAUSED", 0,love.graphics.getHeight()/3,love.graphics.getWidth(),"center",0,1,1)
 		love.graphics.setFont(fonts.default)
@@ -325,7 +325,7 @@ end
 function world:drawsplash()
 	if debug then return end
 	-- textured background
-		love.graphics.setColor(50,50,50,world.splash.opacity)		
+		love.graphics.setColor(0.2,0.2,0.2,world.splash.opacity)		
 		self.splash.quad = love.graphics.newQuad( 0,0, love.graphics.getWidth(),love.graphics.getHeight(), self.splash.bg:getDimensions() )
 		love.graphics.draw(self.splash.bg, self.splash.quad, 0, 0)
 	
@@ -336,7 +336,7 @@ function world:drawsplash()
 		
 		--text
 		love.graphics.setFont(fonts.huge)
-		love.graphics.setColor(255,255,255,world.splash.opacity)
+		love.graphics.setColor(1,1,1,world.splash.opacity)
 		love.graphics.print(world.maptitle, love.graphics.getWidth()-fonts.huge:getWidth(world.maptitle)-100, world.splash.text_y+love.graphics.getHeight()/2+world.splash.box_h/2)
 		love.graphics.setFont(fonts.default)
 			
@@ -350,14 +350,14 @@ function world:drawscoreboard()
 	love.graphics.clear()
 	
 	--frame
-	love.graphics.setColor(0,0,0,200)
+	love.graphics.setColor(0,0,0,0.75)
 	love.graphics.rectangle("fill",0,0,world.scoreboard.canvas:getWidth(),world.scoreboard.canvas:getHeight(),10)
 	
 	--title
 	love.graphics.setFont(fonts.huge)
-	love.graphics.setColor(60,60,60,255)
+	love.graphics.setColor(0.3,0.3,0.3,1)
 	love.graphics.rectangle("fill",world.scoreboard.padding,world.scoreboard.padding,world.scoreboard.canvas:getWidth()-world.scoreboard.padding*2,fonts.huge:getHeight(world.scoreboard.title)+world.scoreboard.padding*2,10)
-	love.graphics.setColor(255,255,255,255)
+	love.graphics.setColor(1,1,1,1)
 	love.graphics.print(world.scoreboard.title, world.scoreboard.canvas:getWidth()/2-fonts.huge:getWidth(world.scoreboard.title)/2,world.scoreboard.padding*2)
 	
 	--love.graphics.setColor(0,255,0,255)
@@ -368,25 +368,25 @@ function world:drawscoreboard()
 	love.graphics.setFont(fonts.large)
 	local y = 80
 	
-	love.graphics.setColor(200,200,200,255)
+	love.graphics.setColor(0.8,0.8,0.8,1)
 	love.graphics.print("SCORE",world.scoreboard.padding*2,y)
-	love.graphics.setColor(0,255,0,255)
+	love.graphics.setColor(0,1,0,1)
 	love.graphics.print(player.score,world.scoreboard.canvas:getWidth()/2,y)
 	
-	love.graphics.setColor(200,200,200,255)
+	love.graphics.setColor(0.8,0.8,0.8,1)
 	love.graphics.print("TIME",world.scoreboard.padding*2,y+25)
-	love.graphics.setColor(0,255,0,255)
+	love.graphics.setColor(0,1,0,1)
 	love.graphics.print(world:formattime(world.time),world.scoreboard.canvas:getWidth()/2,y+25)
 
-	love.graphics.setColor(200,200,200,255)
+	love.graphics.setColor(0.8,0.8,0.8,1)
 	love.graphics.print("GEMS",world.scoreboard.padding*2,y+50)
-	love.graphics.setColor(0,255,0,255)
+	love.graphics.setColor(0,1,0,1)
 	love.graphics.print(player.gems,world.scoreboard.canvas:getWidth()/2,y+50)
 	
 	love.graphics.setCanvas()
 	
 	--draw canvas
-	love.graphics.setColor(255,255,255,world.scoreboard.opacity)
+	love.graphics.setColor(1,1,1,world.scoreboard.opacity)
 	love.graphics.draw(world.scoreboard.canvas,love.graphics.getWidth()/2-world.scoreboard.canvas:getWidth()/2, love.graphics.getHeight()/2-world.scoreboard.canvas:getHeight()/2)
 end
 
@@ -394,7 +394,7 @@ function world:drawhud()
 	if debug then return end
 	love.graphics.setFont(fonts.hud)
 	
-	love.graphics.setColor(0,0,0,155)
+	love.graphics.setColor(0,0,0,0.6)
 
 	love.graphics.printf("SCORE", 21,21,300,"left",0,1,1)
 	love.graphics.printf("TIME", 21,41,300,"left",0,1,1)
@@ -406,7 +406,7 @@ function world:drawhud()
 	love.graphics.printf("x"..player.lives, 21,love.graphics.getHeight()-40+1,50,"right",0,1,1)
 	
 	
-	love.graphics.setColor(255,255,255,200)
+	love.graphics.setColor(1,1,1,0.6)
 	love.graphics.printf("SCORE", 20,20,300,"left",0,1,1)
 	love.graphics.printf("TIME", 20,40,300,"left",0,1,1)
 	love.graphics.printf("GEMS", 20,60,300,"left",0,1,1)
@@ -642,7 +642,7 @@ function world:update(dt)
 		
 			--end of level (show scoreboard)
 			if world.complete then
-				world.scoreboard.opacity = math.min(255, world.scoreboard.opacity+world.scoreboard.fadespeed*dt)
+				world.scoreboard.opacity = math.min(1, world.scoreboard.opacity+world.scoreboard.fadespeed*dt)
 				world.scoreboard.timer = math.max(0, world.scoreboard.timer - dt)
 				if world.scoreboard.timer <= 0 then
 					if world.nextmap == "title" then title:init() return end
