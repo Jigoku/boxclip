@@ -635,7 +635,7 @@ function world:update(dt)
 					world.splash.active = false
 					world.splash.opacity = world.splash.opacity -world.splash.fadespeed *dt
 					world.splash.text_y = world.splash.text_y + world.splash.fadespeed *dt
-					world.splash.box_y = world.splash.box_y + world.splash.fadespeed *dt
+					world.splash.box_y = world.splash.box_y + world.splash.fadespeed*500 *dt
 				end
 				return 
 			end
