@@ -269,7 +269,7 @@ function player:die(this)
 				pickup.attract = false
 			end
 		end
-		camera:fade(2, {0,0,0,255})
+		camera:fade(2, {0,0,0,1})
 		camera:shake(8, 1, 60, 'XY')
 		
 		joystick:vibrate(2,2,1)

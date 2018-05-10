@@ -1,6 +1,6 @@
 platform_r = 1
-platform_g = 0.63
-platform_b = 0.29
+platform_g = 0.7
+platform_b = 0.4
 platform_behind_r = 0.47
 platform_behind_g = 0.36
 platform_behind_b = 0.21

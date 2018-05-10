@@ -667,7 +667,7 @@ end
 function world:resetcamera()
 	camera = Camera(camera.x,camera.y,love.graphics.getWidth(),love.graphics.getHeight(),love.graphics.getWidth() / default_width)
 	camera:setFollowStyle('LOCKON')
-	camera:setFollowLerp(0.075)
+	camera:setFollowLerp(0.065)
 	--camera:setFollowLerp(0.2)
 end
 

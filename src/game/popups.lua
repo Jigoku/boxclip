@@ -23,6 +23,7 @@ function popups:add(x,y,text,entity)
 		x = x,
 		y = y,
 		speed = 150,
+		fadespeed = 2,
 		text = text,
 		o = 1
 	})
@@ -42,7 +43,7 @@ function popups:update(dt)
 	for i,p in ipairs(popups) do
 		p.y = p.y - p.speed *dt
 		 if p.y < p.yorigin - 50 then
-			p.o = p.o - p.speed *dt
+			p.o = p.o - p.fadespeed *dt
 			if p.o <= 0 then
 				table.remove(popups,i)
 			end

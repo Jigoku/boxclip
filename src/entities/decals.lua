@@ -69,14 +69,13 @@ end
 function decals:draw()
 	local count = 0
 	
-
 	for i, decal in ipairs(world.entities.decal) do
 		if world:inview(decal) then
 			count = count + 1
 			
 			local texture = self.textures[decal.texture]
 			
-			love.graphics.setColor(1,1,1,1)
+			love.graphics.setColor(1,1,1,0.9)
 			love.graphics.draw(texture, decal.quad, decal.x,decal.y)
 			
 			
@@ -94,7 +93,6 @@ function decals:draw()
 				self:drawwaterfall(decal)
 			end
 			
-
 
 			if editing or debug then
 				editor:drawid(decal,i)
