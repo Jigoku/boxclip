@@ -38,9 +38,9 @@ function console:draw()
 	if self.show then
 		--console info
 		love.graphics.setFont(fonts.default)
-		love.graphics.setColor(0,0,0,100)
+		love.graphics.setColor(0.0,0.0,0.0,0.7)
 		love.graphics.rectangle("fill", 1, 1, love.graphics.getWidth()-2, 160)	
-		love.graphics.setColor(100,100,100,100)
+		love.graphics.setColor(0.40,0.40,0.40,0.40)
 		love.graphics.rectangle("line", 1, 1, love.graphics.getWidth()-2, 160)
 		
 		
@@ -48,7 +48,7 @@ function console:draw()
 		if not (mode == "title") then
 			--score etc
 			if mode == "game" then
-				love.graphics.setColor(255,0,255,255)
+				love.graphics.setColor(1,0,1,1)
 				love.graphics.print(
 					"[lives: " .. player.lives .. "]"..
 					"[score: " .. player.score .. "]"..
@@ -58,7 +58,7 @@ function console:draw()
 				)
 			end
 		
-			love.graphics.setColor(255,255,255,255)
+			love.graphics.setColor(1,1,1,1)
 			love.graphics.print(
 				"X: " .. math.round(player.x) .. 
 				" | Y: " .. math.round(player.y) .. 
@@ -71,9 +71,9 @@ function console:draw()
 			)
 		
 	
-			love.graphics.setColor(0,0,0,55)
+			love.graphics.setColor(0,0,0,0.20)
 			love.graphics.rectangle("fill",  love.graphics.getWidth()/5, love.graphics.getHeight()-50, 600, 25)
-			love.graphics.setColor(255,100,255,255)
+			love.graphics.setColor(1,0.4,1,1)
 			love.graphics.print(
 				"pickups: " .. #world.entities.pickup .. "(".. world.pickups .. ")" ..
 				" | enemies: " .. #world.entities.enemy .. "(".. world.enemies .. ")" ..
@@ -93,7 +93,7 @@ function console:draw()
 			)
 			end
 		
-			love.graphics.setColor(155,155,155,255)
+			love.graphics.setColor(0.60,0.60,0.60,1)
 			love.graphics.print(self.buffer.l1,5,50)
 			love.graphics.print(self.buffer.l2,5,65)
 			love.graphics.print(self.buffer.l3,5,80)

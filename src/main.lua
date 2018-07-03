@@ -137,10 +137,10 @@ function love.draw()
 
 	if benchmark then benchmark.draw(love.graphics.getWidth()-benchmark.canvas:getWidth()-10,10) end
 	
-	love.graphics.setColor(0,0,0,200)
-    love.graphics.rectangle("fill",love.graphics.getWidth()-160, love.graphics.getHeight()/2-160,150,150,10)
+	love.graphics.setColor(0,0,0,0.7)
+    love.graphics.rectangle("fill",love.graphics.getWidth()-160, love.graphics.getHeight()/2-160,150,105,10)
     love.graphics.setFont(fonts.debug)
-    love.graphics.setColor(255,255,255,255)
+    love.graphics.setColor(1,1,1,1)
 	love.graphics.print(
 		"fps " .. love.timer.getFPS() .. "\n" ..
 		"memory(gc) " ..  gcinfo() .."kB\n"..
