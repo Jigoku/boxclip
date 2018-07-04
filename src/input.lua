@@ -1,13 +1,15 @@
 input = {}
 
+--[[ Check additional keys when in the editor
+--]]
 function input:checkkeys(dt)
-
-	
 	if mode == "editing" then
 		if editing then editor:checkkeys(dt) end
 	end
 end
 
+--[[ Mouse input is only used whilst in the editor 
+--]]
 function love.mousemoved(x,y,dx,dy)
 	if mode == "editing" then editor:mousemoved(x,y,dx,dy) end
 end
@@ -20,10 +22,11 @@ function love.mousereleased(x, y, button)
 	if mode == "editing" then editor:mousereleased(x,y,button) end
 end
 
-
 function love.wheelmoved(x, y)
 	if mode == "editing" then editor:wheelmoved(x,y) end
 end
+
+
 
 function love.keypressed(key)
 	
@@ -56,6 +59,10 @@ function love.keypressed(key)
 		console:toggle()
 	end
 
+	--[[ take a screenshot and save to local game data folder
+		   * Linux/*nix = ~/.local/share/love/boxclip/screenshots/
+		   * Windows    = ????
+	--]]
 	if key == binds.screenshot then
 		local file = "screenshots/" .. os.date("%Y-%m-%d_%H%M%S") .. ".png"
 		love.graphics.captureScreenshot(file)
@@ -65,7 +72,6 @@ function love.keypressed(key)
 	--toggle fullscreen
 	if key == binds.fullscreen then 
 	
-		
 		local fs, fstype = love.window.getFullscreen()
 	
 		if fs then
@@ -82,7 +88,6 @@ function love.keypressed(key)
 		if not success then
 			console:print("Failed to toggle fullscreen mode!")
 		end
-		
 	
 	 end
 		
@@ -91,6 +96,10 @@ function love.keypressed(key)
 		sound.enabled = not sound.enabled
 	end
 
+	--[[ open local data folder with user set application
+	     NOTE to change this:
+	     $ xdg-mime default Thunar.desktop inode/directory
+	--]]
 	if key == binds.savefolder then
 		love.system.openURL( "file://"..mapio.path )
 	end
