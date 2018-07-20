@@ -13,6 +13,21 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  --]]
  
+ 
+--[[
+	TODO
+	remove functions from map files, store as table data; eg;
+	
+		print (dump(world.entities))
+		^ this can be written to a map file.
+		  loading maps only then relies on setting this data to world.entities
+		  
+		  one problem right now is that;
+			meshdata is stored as ["mesh"] = Mesh: 0x0161e8c0
+			quads are stored as ["quad"] = Quad: 0x016bed50
+		  this will obviously break things, needs adjusting
+--]]
+ 
 mapio = {}
 mapio.path = love.filesystem.getSaveDirectory( )
 

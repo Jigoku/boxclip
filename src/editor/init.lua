@@ -48,7 +48,6 @@ editor.showmmap = true			--show minimap
 editor.showguide = true			--show guidelines/grid
 editor.showentmenu = true		--show entmenu
 editor.showhelpmenu = false		--show helpmenu
-editor.showmusicbrowser = false --show musicbrowser
 editor.drawsel = false			--draw selection area
 editor.floatspeed = 1000		--editing floatspeed
 editor.maxcamerascale = 6		--maximum zoom
@@ -80,11 +79,19 @@ editor.texmenuoffset = 2
 editor.texmenutimer = 0
 editor.texmenuduration = 2
 editor.texmenuopacity = 0
-editor.texmenufadespeed = 300
+editor.texmenufadespeed = 5
 editor.texmenuw = editor.texmenutexsize+(editor.texmenupadding*2)
 editor.texmenuh = (editor.texmenutexsize*(editor.texmenuoffset*2+1))+(editor.texmenupadding*(editor.texmenuoffset*2))+(editor.texmenupadding*2)
 editor.texmenu = love.graphics.newCanvas(editor.texmenuw,editor.texmenuh)
 editor.texlist = {}
+
+-- music track preview
+editor.musicmenu = love.graphics.newCanvas(150,50)
+editor.musicmenupadding = 10
+editor.musicmenuopacity = 0
+editor.musicmenufadespeed = 5
+editor.musicmenutimer = 0
+editor.musicmenuduration = 4
 
 --placable entities listed in entmenu
 --these are defined at top of entities/*.lua
@@ -240,11 +247,17 @@ function editor:showtexmenu(textures)
 	--make the texture browser display visible
 	self.texlist = textures
 	self.texmenutimer = editor.texmenuduration
-	self.texmenuopacity = 255
+	self.texmenuopacity = 1
 end
 
+function editor:showmusicmenu()
+	--make the music menu display visible
+	self.musicmenuopacity = 1
+	self.musicmenutimer = editor.musicmenuduration
+end
+
+
 function editor:settexture(dy)
-	
 
 	if editor.selname == "platform" then
 		--update the texture value
@@ -290,13 +303,24 @@ function editor:update(dt)
 	self.mmapscale = camera.scale/4
 		
 	--texture browser display
-	self.texmenutimer = math.max(0, self.texmenutimer- dt)
+	self.texmenutimer = math.max(0, self.texmenutimer - dt)
 		
 	if self.texmenutimer == 0 then
 		if self.texmenuopacity > 0 then
 			self.texmenuopacity = math.max(0,self.texmenuopacity - self.texmenufadespeed * dt)
 		end
 	end
+	
+
+	--music browser display
+	self.musicmenutimer = math.max(0, self.musicmenutimer - dt)
+		
+	if self.musicmenutimer == 0 then
+		if self.musicmenuopacity > 0 then
+			self.musicmenuopacity = math.max(0,self.musicmenuopacity - self.musicmenufadespeed * dt)
+		end
+	end
+
 
 	--debug stuff
 	--[[
@@ -343,11 +367,8 @@ function editor:keypressed(key)
 		player.xvelboost = 0
 	end
 
-
 	if key == self.binds.helptoggle then self.showhelpmenu = not self.showhelpmenu end	
 	if key == self.binds.maptoggle then self.showmmap = not self.showmmap end
-	if key == self.binds.musicbrowser then self.showmusicbrowser = not self.showmusicbrowser end
-		
 	
 	--free roaming	
 	if editing then
@@ -372,6 +393,7 @@ function editor:keypressed(key)
 				world.mapmusic = world.mapmusic -1
 			end
 		
+			self:showmusicmenu(  )
 			sound:playbgm(world.mapmusic)
 			sound:playambient(world.mapambient)	
 		end
@@ -383,6 +405,7 @@ function editor:keypressed(key)
 				world.mapmusic = world.mapmusic +1
 			end
 			
+			self:showmusicmenu( )
 			sound:playbgm(world.mapmusic)
 			sound:playambient(world.mapambient)	
 		end
@@ -720,6 +743,40 @@ function editor:drawcursor()
 	end
 end
 
+
+function editor:drawmusicmenu()
+	if self.musicmenuopacity > 0 then
+		love.graphics.setCanvas(self.musicmenu)
+		love.graphics.clear()
+		
+		local x = self.musicmenupadding
+		local y = self.musicmenupadding
+		
+		love.graphics.setColor(0,0,0,0.58)
+		love.graphics.rectangle("fill",0,0,self.musicmenu:getWidth(), self.musicmenu:getHeight(),10)
+		
+		love.graphics.setColor(1,1,1,1)
+		
+		local oldfont = love.graphics.getFont()
+		love.graphics.setFont(fonts.hud)
+		
+		local str = "bgm track: " .. (world.mapmusic or "0")
+		
+		-- center the text within canvas
+		love.graphics.printf(
+			str, 
+			self.musicmenu:getWidth()/2-love.graphics.getFont():getWidth(str)/2, 
+			self.musicmenu:getHeight()/2-love.graphics.getFont():getHeight(str)/2, 
+			love.graphics.getFont():getWidth(str)
+		)
+		love.graphics.setFont(oldfont)
+		love.graphics.setCanvas()
+	
+		love.graphics.setColor(1,1,1,self.musicmenuopacity)
+		love.graphics.draw(self.musicmenu, love.graphics.getWidth()/2-self.musicmenu:getWidth()/2, 20)
+	end
+end
+
 function editor:drawtexturesel()
 	if self.texmenuopacity > 0 then
 	
@@ -834,8 +891,7 @@ function editor:draw()
 		love.graphics.print(world.theme or "default",love.graphics.getWidth()-115, 110,0,1,1)
 	
 		if self.showentmenu then self:drawentmenu() end
-		if self.showmusicbrowser then musicbrowser:draw() end
-		
+		self:drawmusicmenu()
 		self:drawtexturesel()
 	end
 	

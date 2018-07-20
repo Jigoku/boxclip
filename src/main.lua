@@ -101,6 +101,7 @@ function love.update(dt)
 	--run the world
 	if mode == "title" then	
 		title:update(dt) 
+		
 	end
 	
 	if mode == "game" then 

@@ -177,6 +177,8 @@ function world:init(gamemode)
 	player:respawn()
 
 	console:print("initialized world")
+	
+	
 end
 
 
