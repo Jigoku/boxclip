@@ -197,7 +197,7 @@ editor.help = {
 		"exit to title"
 	},
 	{
-		binds.debug,
+		binds.console,
 		"toggle console"
 	},
 	{

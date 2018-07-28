@@ -15,17 +15,17 @@
 
 console = {}
 console.buffer = {}
-console.h = 300
-console.w = love.graphics.getWidth()
+console.h = 200
+console.w = love.graphics.getWidth()/1.5
 console.canvas = love.graphics.newCanvas(console.w, console.h)
 console.opacity = 0
 console.maxopacity = 0
 console.minopacity = 0.8
 console.fadespeed = 4
 console.active = false
---console.scrollback = 256
-console.scrollback = 20
+console.scrollback = 11
 
+--console.scrollback = 256
 --[[
 add pgup pgdn to move selection of scrollback, by setting for eg;
 	console.min = 10
@@ -157,12 +157,12 @@ end
 -- add console with capability to set variables as command input TODO
 function console:print(event)
 	local elapsed =  world:formattime(os.difftime(os.time()-game.runtime))
-	local line = elapsed .. " | " ..  event
+	local line = { {1,0.5,1}, elapsed, {0.5,1,0.5}, " | ", {1,1,0.5}, event }
 	
 	if #self.buffer >= self.scrollback then 
 		table.remove(self.buffer, 1)
 	end
 	
 	table.insert(self.buffer, line)
-	print (line)
+	--print (line)
 end

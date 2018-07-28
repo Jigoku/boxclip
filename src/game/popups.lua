@@ -33,6 +33,11 @@ function popups:draw()
 	local oldfont = love.graphics.getFont()
 	love.graphics.setFont(fonts.popups)
 	for _,p in ipairs(popups) do
+		--shadow
+		love.graphics.setColor(0,0,0,p.o)
+		love.graphics.printf(p.text, p.x-fonts.popups:getWidth(p.text)/2+1,p.y+1,fonts.popups:getWidth(p.text),"center")
+	
+		-- text
 		love.graphics.setColor(1,1,0,p.o)
 		love.graphics.printf(p.text, p.x-fonts.popups:getWidth(p.text)/2,p.y,fonts.popups:getWidth(p.text),"center")
 	end
