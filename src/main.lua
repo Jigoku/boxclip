@@ -97,7 +97,8 @@ function love.update(dt)
 	
 	transitions:run(dt)
 	input:checkkeys(dt)
-
+	console:update(dt)
+	
 	--run the world
 	if mode == "title" then	
 		title:update(dt) 
@@ -134,9 +135,7 @@ function love.draw()
 	--transition overlay
 	transitions:draw()
 	
-	if console.show then console:draw() end
-
-	if benchmark then benchmark.draw(love.graphics.getWidth()-benchmark.canvas:getWidth()-10,10) end
+	console:draw()
 	
 	love.graphics.setColor(0,0,0,0.7)
     love.graphics.rectangle("fill",love.graphics.getWidth()-160, love.graphics.getHeight()/2-160,150,105,10)

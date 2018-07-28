@@ -55,7 +55,7 @@ function love.keypressed(key)
 	end
 	
 	--debug mode console
-	if key == binds.debug then
+	if key == binds.console then
 		console:toggle()
 	end
 

@@ -14,37 +14,36 @@
  --]]
 
 console = {}
+console.buffer = {}
+console.h = 305
+console.canvas = love.graphics.newCanvas(love.graphics.getWidth(), console.h)
+console.opacity = 0
+console.maxopacity = 0
+console.minopacity = 0.8
+console.fadespeed = 4
+console.active = false
+--console.scrollback = 256
+console.scrollback = 20
 
-console.show = false
+--[[
+add pgup pgdn to move selection of scrollback, by setting for eg;
+	console.min = 10
+	console.max = 20
+--]]
 
-console.buffer = {
-	--make this configurable (maxconlines etc, with scrollback buffer)
-	l1 = "",
-	l2 = "",
-	l3 = "",
-	l4 = "",
-	l5 = "",
-	l6 = "",
-	l7 = ""
-}
+
+
 
 function console:toggle()
 	sound:play(sound.effects["beep"])
-	console.show = not console.show
+	self.active = not self.active
 	debug = not debug
 end
 
 function console:draw()
-	if self.show then
-		--console info
-		love.graphics.setFont(fonts.default)
-		love.graphics.setColor(0.0,0.0,0.0,0.7)
-		love.graphics.rectangle("fill", 1, 1, love.graphics.getWidth()-2, 160)	
-		love.graphics.setColor(0.40,0.40,0.40,0.40)
-		love.graphics.rectangle("line", 1, 1, love.graphics.getWidth()-2, 160)
-		
-		
+	if self.active then
 
+		-- this could be moved elsewhere on screen, as it's debug info (not console info)
 		if not (mode == "title") then
 			--score etc
 			if mode == "game" then
@@ -91,33 +90,57 @@ function console:draw()
 				" | ccpf: " .. world.collision,
 				love.graphics.getWidth()/5, love.graphics.getHeight()-50
 			)
-			end
-		
-			love.graphics.setColor(0.60,0.60,0.60,1)
-			love.graphics.print(self.buffer.l1,5,50)
-			love.graphics.print(self.buffer.l2,5,65)
-			love.graphics.print(self.buffer.l3,5,80)
-			love.graphics.print(self.buffer.l4,5,95)
-			love.graphics.print(self.buffer.l5,5,110)
-			love.graphics.print(self.buffer.l6,5,125)
-			love.graphics.print(self.buffer.l7,5,140)
-	
 		end
+	end
+		
+	if self.opacity > 0 then
+		-- draw the console contents
+		love.graphics.setCanvas(self.canvas)
+		love.graphics.setFont(fonts.default)
+		love.graphics.setColor(0,0,0,1)
+		love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), self.h,10,10)	
+		love.graphics.setColor(1,1,1,1)
+		love.graphics.rectangle("line", 0, 0, love.graphics.getWidth(), self.h,10,10)
+		
+		
+		love.graphics.setColor(1,1,1,1)
+			
+		for i, line in ripairs(self.buffer) do
+			if i > self.scrollback then break end
+			love.graphics.print(self.buffer[i],5,i*15-10)			
+		end
+		
+		love.graphics.print("> ",5,console.h-20)
+		love.graphics.setCanvas()
+		
+		love.graphics.setColor(1,1,1,self.opacity)
+		love.graphics.draw(self.canvas, 0,0)
+	end
+	
 end
 
 
+function console:update(dt)
+	-- animate console transition
+	if self.active then
+		if self.opacity < 1 then
+			self.opacity = math.min(self.minopacity, self.opacity + self.fadespeed * dt)
+		end
+	else
+		self.opacity = math.max(self.maxopacity, self.opacity - self.fadespeed * dt)
+	end
+end
 
 
 -- add console with capability to set variables as command input TODO
 function console:print(event)
 	local elapsed =  world:formattime(os.difftime(os.time()-game.runtime))
 	local line = elapsed .. " | " ..  event
-	self.buffer.l1 = self.buffer.l2
-	self.buffer.l2 = self.buffer.l3
-	self.buffer.l3 = self.buffer.l4
-	self.buffer.l4 = self.buffer.l5
-	self.buffer.l5 = self.buffer.l6
-	self.buffer.l6 = self.buffer.l7
-	self.buffer.l7 = line
+	
+	if #self.buffer >= self.scrollback then 
+		table.remove(self.buffer, 1)
+	end
+	
+	table.insert(self.buffer, line)
 	print (line)
 end
