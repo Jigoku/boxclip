@@ -15,8 +15,9 @@
 
 console = {}
 console.buffer = {}
-console.h = 305
-console.canvas = love.graphics.newCanvas(love.graphics.getWidth(), console.h)
+console.h = 300
+console.w = love.graphics.getWidth()
+console.canvas = love.graphics.newCanvas(console.w, console.h)
 console.opacity = 0
 console.maxopacity = 0
 console.minopacity = 0.8
@@ -45,15 +46,19 @@ function console:draw()
 
 		-- this could be moved elsewhere on screen, as it's debug info (not console info)
 		if not (mode == "title") then
+		
+			love.graphics.setColor(0,0,0,0.8)
+			love.graphics.rectangle("fill",  love.graphics.getWidth()/5, love.graphics.getHeight()-100, 600, 90)
+			
 			--score etc
 			if mode == "game" then
-				love.graphics.setColor(1,0,1,1)
+				love.graphics.setColor(1,1,1,1)
 				love.graphics.print(
 					"[lives: " .. player.lives .. "]"..
 					"[score: " .. player.score .. "]"..
 					"[time: " .. world:formattime(world.time) .. "]"..
 					"[alive: "..(player.alive and 1 or 0).."]", 
-					250,5
+					love.graphics.getWidth()/5, love.graphics.getHeight()-100
 				)
 			end
 		
@@ -66,12 +71,10 @@ function console:draw()
 				" | yvel: " .. math.round(player.yvel) .. 
 				" | jumping: " .. (player.jumping and 1 or 0) ..
 				" | camera.scale: " .. camera.scale, 
-				5, 20
+				love.graphics.getWidth()/5, love.graphics.getHeight()-75
 			)
 		
-	
-			love.graphics.setColor(0,0,0,0.20)
-			love.graphics.rectangle("fill",  love.graphics.getWidth()/5, love.graphics.getHeight()-50, 600, 25)
+
 			love.graphics.setColor(1,0.4,1,1)
 			love.graphics.print(
 				"pickups: " .. #world.entities.pickup .. "(".. world.pickups .. ")" ..
@@ -91,17 +94,36 @@ function console:draw()
 				love.graphics.getWidth()/5, love.graphics.getHeight()-50
 			)
 		end
+		
+		
+		--fps info etc
+		love.graphics.setColor(0,0,0,0.7)
+		love.graphics.rectangle("fill",love.graphics.getWidth()-160, love.graphics.getHeight()/2-160,150,105,10)
+		love.graphics.setFont(fonts.debug)
+		love.graphics.setColor(1,1,1,1)
+		love.graphics.print(
+			"fps " .. love.timer.getFPS() .. "\n" ..
+			"memory(gc) " ..  gcinfo() .."kB\n"..
+			string.format("vram %.2fMB", love.graphics.getStats().texturememory / 1024 / 1024) .. "\n" ..
+			"tick " .. game.ticks .. "\n" ..
+			"update " .. math.round(game.utick_time,1) .. "ms\n" ..
+			"draw " .. math.round(game.dtick_time,1) .. "ms",
+			love.graphics.getWidth()-155, love.graphics.getHeight()/2-155
+		)
+		
 	end
 		
 	if self.opacity > 0 then
 		-- draw the console contents
 		love.graphics.setCanvas(self.canvas)
-		love.graphics.setFont(fonts.default)
-		love.graphics.setColor(0,0,0,1)
-		love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), self.h,10,10)	
-		love.graphics.setColor(1,1,1,1)
-		love.graphics.rectangle("line", 0, 0, love.graphics.getWidth(), self.h,10,10)
-		
+		love.graphics.setFont(fonts.console)
+		love.graphics.setColor(0,0,0.1,1)
+		love.graphics.rectangle("fill", 0, 0, self.w, self.h,10,10)	
+		love.graphics.setColor(0.3,0.3,0.5,1)
+		local lw = love.graphics.getLineWidth()
+		love.graphics.setLineWidth(4)
+		love.graphics.rectangle("line", 0, 0, self.w, self.h,10,10)
+		love.graphics.setLineWidth(lw)
 		
 		love.graphics.setColor(1,1,1,1)
 			
@@ -110,7 +132,7 @@ function console:draw()
 			love.graphics.print(self.buffer[i],5,i*15-10)			
 		end
 		
-		love.graphics.print("> ",5,console.h-20)
+		love.graphics.print("exec> placeholder",5,console.h-20)
 		love.graphics.setCanvas()
 		
 		love.graphics.setColor(1,1,1,self.opacity)
