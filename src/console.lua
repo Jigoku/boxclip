@@ -14,16 +14,9 @@
  --]]
 
 console = {}
-console.buffer = {}
-console.h = 200
-console.w = love.graphics.getWidth()/1.5
-console.canvas = love.graphics.newCanvas(console.w, console.h)
-console.opacity = 0
-console.maxopacity = 0
-console.minopacity = 0.8
-console.fadespeed = 4
-console.active = false
-console.scrollback = 11
+
+
+love.keyboard.setTextInput(false)
 
 --console.scrollback = 256
 --[[
@@ -33,12 +26,36 @@ add pgup pgdn to move selection of scrollback, by setting for eg;
 --]]
 
 
+function console:init()
+	self.buffer = {}
+	self.h = 200
+	self.w = love.graphics.getWidth()/1.5
+	self.canvas = love.graphics.newCanvas(self.w, self.h)
+	self.opacity = 0
+	self.maxopacity = 0
+	self.minopacity = 0.8
+	self.fadespeed = 4
+	self.active = false
+	self.scrollback = 11
+	self.command = ""
+	self:print (name .. " " .. version .. build .. " by " .. author)
+end
 
-
-function console:toggle()
-	sound:play(sound.effects["beep"])
-	self.active = not self.active
+function console:toggle(v)
+	--sound:play(sound.effects["beep"])
 	debug = not debug
+	self.command = ""
+	
+	if self.active then
+		self.active = false
+		love.keyboard.setTextInput(false)
+		
+	else
+		self.active = true
+		love.keyboard.setTextInput(true)
+	end
+	
+
 end
 
 function console:draw()
@@ -98,7 +115,7 @@ function console:draw()
 		
 		--fps info etc
 		love.graphics.setColor(0,0,0,0.7)
-		love.graphics.rectangle("fill",love.graphics.getWidth()-160, love.graphics.getHeight()/2-160,150,105,10)
+		love.graphics.rectangle("fill",love.graphics.getWidth()-160, 5,150,105,10)
 		love.graphics.setFont(fonts.debug)
 		love.graphics.setColor(1,1,1,1)
 		love.graphics.print(
@@ -108,7 +125,7 @@ function console:draw()
 			"tick " .. game.ticks .. "\n" ..
 			"update " .. math.round(game.utick_time,1) .. "ms\n" ..
 			"draw " .. math.round(game.dtick_time,1) .. "ms",
-			love.graphics.getWidth()-155, love.graphics.getHeight()/2-155
+			love.graphics.getWidth()-155, 10
 		)
 		
 	end
@@ -132,7 +149,7 @@ function console:draw()
 			love.graphics.print(self.buffer[i],5,i*15-10)			
 		end
 		
-		love.graphics.print("exec> placeholder",5,console.h-20)
+		love.graphics.print("exec> ".. self.command, 5, console.h-20)
 		love.graphics.setCanvas()
 		
 		love.graphics.setColor(1,1,1,self.opacity)
@@ -141,23 +158,61 @@ function console:draw()
 	
 end
 
+function console:textinput(t)
+	-- concatenate text into console command input
+	if self.active then
+		self.command = self.command .. t
+	end
+end
+
+function console:keypressed(key)
+
+		-- add special keys
+		if key == "return" then
+		
+			if     console.command == "quit" then love.event.quit() 
+			elseif console.command == "kill" then player:die("suicide")
+			else
+				-- run/exec function here
+				console:print("unknown command: " .. console.command)
+			end
+			
+			console.command = ""
+		end
+		
+		if key == "`" then
+			console:toggle()
+		end
+	
+end
 
 function console:update(dt)
-	-- animate console transition
+	
 	if self.active then
+	
+		-- animate console transition when activated
 		if self.opacity < 1 then
 			self.opacity = math.min(self.minopacity, self.opacity + self.fadespeed * dt)
 		end
+		
+		-- check for backspace key (TODO: add keydelay value)
+		if love.keyboard.isDown("backspace") then
+			console.command = console.command:sub(1, -2)
+		end
+		
 	else
+		-- animate console transition when deactivated
 		self.opacity = math.max(self.maxopacity, self.opacity - self.fadespeed * dt)
 	end
+	
+
 end
 
 
 -- add console with capability to set variables as command input TODO
 function console:print(event)
 	local elapsed =  world:formattime(os.difftime(os.time()-game.runtime))
-	local line = { {1,0.5,1}, elapsed, {0.5,1,0.5}, " | ", {1,1,0.5}, event }
+	local line = { --[[{1,0.5,1}, elapsed, --]]{0.5,1,0.5}, " | ", {1,1,0.5}, event }
 	
 	if #self.buffer >= self.scrollback then 
 		table.remove(self.buffer, 1)

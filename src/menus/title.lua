@@ -20,6 +20,23 @@ title = {}
 title.key_delay_timer = 0
 title.key_delay = 0.15
 
+title.splash = true
+title.splash_logo = love.graphics.newImage("data/artsoftware.png")
+title.splashDelay = 1
+title.splashCycle = 1
+title.splashOpacity = 1
+
+title.opacity = 1
+title.opacitystep = 1
+title.opacitymin = 0.4
+title.opacitymax = 1
+
+title.overlay = {}
+title.overlay.opacity = 0
+title.overlay.fadeout = false
+title.overlay.fadein = false
+title.overlay.fadespeed = 0.78
+
 function title:mapname(id)
 	for i,map in ipairs(self.maps) do
 		if i == id then return map end
@@ -65,7 +82,13 @@ function title:keypressed(key)
 end
 
 function title:draw()
-
+	if title.splash then
+		love.graphics.setColor(1,1,1,title.splashOpacity)
+		love.graphics.draw(title.splash_logo,love.graphics.getWidth()/2-title.splash_logo:getWidth()/2, love.graphics.getHeight()/2-title.splash_logo:getHeight()/2)
+		return
+	end
+	
+	
 	---background
 	love.graphics.setBackgroundColor(0,0,0,0)
 	love.graphics.setColor(1,1,1,0.4)
@@ -101,6 +124,56 @@ end
 
 
 function title:update(dt)
+
+	if title.splash then
+		title.splashCycle = math.max(0, title.splashCycle - dt)
+		
+		if title.splashCycle <= 0 then
+			if title.splashOpacity > 0 then
+				title.splashOpacity = title.splashOpacity - 0.4 *dt
+			else
+				title.overlay.fadein = true
+				title.splashCycle = title.splashDelay
+				title.splash = false
+			end
+		end
+	
+		return
+	
+	end
+
+	--main title sequence
+	
+
+	title.opacity = (title.opacity - title.opacitystep*dt)
+	if title.opacity < title.opacitymin  then
+	title.opacity = title.opacitymin
+		title.opacitystep = -title.opacitystep
+	end
+	if title.opacity > title.opacitymax  then
+		title.opacity = title.opacitymax
+		title.opacitystep = -title.opacitystep
+	end		
+	
+	if title.overlay.fadeout then
+		title.overlay.opacity = title.overlay.opacity +title.overlay.fadespeed *dt
+		
+		if title.overlay.opacity > 1 then
+			title.overlay.opacity = 0
+			title.overlay.fadeout = false
+		end
+	end
+	
+	if title.overlay.fadein then
+		title.overlay.opacity = title.overlay.opacity -title.overlay.fadespeed *dt
+		
+		if title.overlay.opacity < 0 then
+			title.overlay.opacity = 0
+			title.overlay.fadein = false
+		end
+	end
+
+
 	--scrolling background animation
 	self.bgscroll = self.bgscroll + self.bgscrollspeed * dt
 	if self.bgscroll > self.bg:getHeight() then

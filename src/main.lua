@@ -69,7 +69,8 @@ function love.load(args)
 	love.window.setIcon(game.icon)
 	love.mouse.setVisible(false)
 	love.mouse.setGrabbed(true)
-
+	
+	console:init()
 	sound:init()
 	title:init()
 
@@ -161,4 +162,7 @@ function love.resize(w,h)
 end
 
 
+function love.textinput(t)
+	console:textinput(t)
+end
 

@@ -29,6 +29,19 @@ end
 
 
 function love.keypressed(key)
+
+	--debug mode console
+	if console.active then
+		console:keypressed(key)
+	else
+		if key == binds.console then
+			console:toggle()
+		end
+	end
+	
+	-- keypress are still registered despite "return" when console is active????????????
+	-- TODO: THIS DOESN'T FUCKING WORK
+	
 	
 	if     mode == "title" then title:keypressed(key)
 	elseif mode == "editing" then editor:keypressed(key)
@@ -54,10 +67,7 @@ function love.keypressed(key)
 		end
 	end
 	
-	--debug mode console
-	if key == binds.console then
-		console:toggle()
-	end
+
 
 	--[[ take a screenshot and save to local game data folder
 		   * Linux/*nix = ~/.local/share/love/boxclip/screenshots/
