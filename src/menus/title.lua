@@ -22,8 +22,8 @@ title.key_delay = 0.15
 
 title.splash = true
 title.splash_logo = love.graphics.newImage("data/artsoftware.png")
-title.splashDelay = 1
-title.splashCycle = 1
+title.splashDelay = 1.5
+title.splashCycle = 1.5
 title.splashOpacity = 1
 
 title.opacity = 1
@@ -33,8 +33,7 @@ title.opacitymax = 1
 
 title.overlay = {}
 title.overlay.opacity = 0
-title.overlay.fadeout = false
-title.overlay.fadein = false
+
 title.overlay.fadespeed = 0.78
 
 function title:mapname(id)
@@ -130,11 +129,11 @@ function title:update(dt)
 		
 		if title.splashCycle <= 0 then
 			if title.splashOpacity > 0 then
-				title.splashOpacity = title.splashOpacity - 0.4 *dt
+				title.splashOpacity = title.splashOpacity - 1 *dt
 			else
-				title.overlay.fadein = true
 				title.splashCycle = title.splashDelay
 				title.splash = false
+				transitions:fadein()
 			end
 		end
 	
