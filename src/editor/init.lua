@@ -991,6 +991,8 @@ end
 function editor:drawentmenu()
 	--gui scrolling list for entity selection
 	if not editing then return end
+	
+	love.graphics.setFont(fonts.menu)
 	love.graphics.setCanvas(self.entmenu)
 	love.graphics.clear()
 		
@@ -1018,10 +1020,6 @@ function editor:drawentmenu()
 	local s = 20 -- vertical spacing
 	local empty = "*"
 	local padding = 2
-	
-	love.graphics.setFont(fonts.menu)
-
-
 	
 
 	local n = 1
@@ -1396,6 +1394,7 @@ function editor:drawid(entity,i)
 	--local id = split(string.format("%s",entity) ," ")
 	--local hash = id[2]
 	if editor.showid then
+		love.graphics.setFont(fonts.console)
 		love.graphics.setColor(1,1,0,0.39)       
 		love.graphics.print(entity.group .. "(" .. i .. ")", entity.x-20, entity.y-40, 0)
 	end
@@ -1403,6 +1402,7 @@ end
 
 function editor:drawcoordinates(object)
 	if editor.showpos then
+		love.graphics.setFont(fonts.console)
 		love.graphics.setColor(1,1,1,0.39)
 		love.graphics.print("x ".. math.round(object.x) ..", y " .. math.round(object.y) , object.x-20,object.y-20,0)  
 	end

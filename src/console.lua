@@ -177,6 +177,7 @@ function console:keypressed(key)
 	if key == "return" then
 		if     console.command == "quit" then love.event.quit() 
 		elseif console.command == "kill" then player:die("suicide")
+		elseif console.command == "title" then title:init()
 		else
 				-- run/exec function here
 				console:print("unknown command: " .. console.command)
@@ -197,7 +198,6 @@ function console:update(dt)
 	if self.active then
 		self.key_delay_timer = math.max(0, self.key_delay_timer - dt)
 		if self.key_delay_timer <= 0 then
-			-- check for backspace key (TODO: add keydelay value)
 			if love.keyboard.isDown("backspace") then
 				console.command = console.command:sub(1, -2)
 			end
@@ -209,14 +209,11 @@ function console:update(dt)
 			self.opacity = math.min(self.minopacity, self.opacity + self.fadespeed * dt)
 		end
 		
-
-		
 	else
 		-- animate console transition when deactivated
 		self.opacity = math.max(self.maxopacity, self.opacity - self.fadespeed * dt)
 	end
 	
-
 end
 
 
