@@ -614,7 +614,6 @@ function world:update(dt)
 			camera:follow(player.x+player.w/2, player.y+player.h/2)
 		end
 
-
 		-- draw background
 		if type(background) == "userdata" then
 			background_scroll = background_scroll + background_scrollspeed * dt

@@ -26,6 +26,8 @@ add pgup pgdn to move selection of scrollback, by setting for eg;
 --]]
 
 
+
+
 function console:init()
 	self.buffer = {}
 	self.h = 200
@@ -38,7 +40,6 @@ function console:init()
 	self.active = false
 	self.scrollback = 11
 	self.command = ""
-	self.keydelay = 4
 	
 	self.key_delay_timer = 0 -- used for backspace key only at the moment
 	self.key_delay = 0.05
@@ -172,15 +173,20 @@ end
 
 function console:keypressed(key)
 
-
-	-- add special keys
+	-- add special commands
 	if key == "return" then
-		if     console.command == "quit" then love.event.quit() 
-		elseif console.command == "kill" then player:die("suicide")
-		elseif console.command == "title" then title:init()
+		if     console.command == "/quit" then love.event.quit() 
+		elseif console.command == "/kill" then player:die("suicide")
+		elseif console.command == "/title" then title:init()
 		else
+				
 				-- run/exec function here
-				console:print("unknown command: " .. console.command)
+				console:print("DEBUG:: " .. console.command)
+				
+				-- this almost works (however crashes when syntax error... so fix that)
+				local out = assert(loadstring(console.command))()
+				console:print(out)
+				
 		end			
 		console.command = ""
 	end
@@ -189,7 +195,6 @@ function console:keypressed(key)
 	if key == "`" then
 		console:toggle()
 	end
-
 
 end
 
@@ -220,7 +225,7 @@ end
 -- add console with capability to set variables as command input TODO
 function console:print(event)
 	local elapsed =  world:formattime(os.difftime(os.time()-game.runtime))
-	local line = { --[[{1,0.5,1}, elapsed, --]]{0.5,1,0.5}, " | ", {1,1,0.5}, event }
+	local line = { {1,0.5,0}, elapsed, {0.5,1,0.5}, " | ", {1,1,0.5}, event }
 	
 	if #self.buffer >= self.scrollback then 
 		table.remove(self.buffer, 1)
