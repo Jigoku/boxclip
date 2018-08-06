@@ -181,72 +181,74 @@ function title:update(dt)
 	
 	--joystick/keyboard support
 	self.key_delay_timer = math.max(0, self.key_delay_timer - dt)
-	if self.key_delay_timer <= 0 then
-		if transitions.active then return end
-		
-		if love.keyboard.isDown("down") or joystick:isDown("dpdown") then
-			if self.menu == "main" then
-				self.sel = self.sel +1 
-			end
-			sound:play(sound.effects["blip"])
-			self.key_delay_timer = self.key_delay
-			
-		elseif love.keyboard.isDown("up") or joystick:isDown("dpup") then 
-			if self.menu == "main" then
-				self.sel = self.sel -1 
-			end
-			sound:play(sound.effects["blip"])
-			self.key_delay_timer = self.key_delay
-			
-		elseif love.keyboard.isDown("left") or joystick:isDown("dpleft") then
-			if self.menu == "main" then
-				self.mapsel = self.mapsel -1 
-			end
-			sound:play(sound.effects["blip"])
-			self.key_delay_timer = self.key_delay
-			
-		elseif love.keyboard.isDown("right") or joystick:isDown("dpright") then 
-			if self.menu == "main" then
-				self.mapsel = self.mapsel +1
-			end
-			sound:play(sound.effects["blip"])
-			self.key_delay_timer = self.key_delay
-			
-		elseif love.keyboard.isDown("return") or joystick:isDown("a") then 
-			if self.menu == "main" then
-				world.map = self:mapname(self.mapsel)
-			end
-			sound:play(sound.effects["blip"])
-			self.key_delay_timer = self.key_delay
-			
-			if self.menu == "main" then
-				if self.sel == 1 then 
-					transitions:fadeoutmode("game") 
-					sound:play(sound.effects["start"])
-				end
-				if self.sel == 2 then 
-					transitions:fadeoutmode("editing") 
-				end
-				if self.sel == 3 then 
-					self.menu = "options" 
-				end
-				if self.sel == 4 then 
-					love.event.quit() 
-				end
-			elseif self.menu == "options" then
-				--unimplemented
-			end
-			
-		elseif love.keyboard.isDown("escape") or joystick:isDown("b") then 
-			self.menu = "main"
-			sound:play(sound.effects["blip"])
-			self.key_delay_timer = self.key_delay
-		end
-		
-		self.sel = math.min(math.max(self.sel,1),4)
-		self.mapsel = math.min(math.max(self.mapsel,1),#self.maps)
-	end
 	
+	if not console.active then 
+		if self.key_delay_timer <= 0 then
+			if transitions.active then return end
+		
+			if love.keyboard.isDown("down") or joystick:isDown("dpdown") then
+				if self.menu == "main" then
+					self.sel = self.sel +1 
+				end
+				sound:play(sound.effects["blip"])
+				self.key_delay_timer = self.key_delay
+			
+			elseif love.keyboard.isDown("up") or joystick:isDown("dpup") then 
+				if self.menu == "main" then
+					self.sel = self.sel -1 
+				end
+				sound:play(sound.effects["blip"])
+				self.key_delay_timer = self.key_delay
+			
+			elseif love.keyboard.isDown("left") or joystick:isDown("dpleft") then
+				if self.menu == "main" then
+					self.mapsel = self.mapsel -1 
+				end
+				sound:play(sound.effects["blip"])
+				self.key_delay_timer = self.key_delay
+			
+			elseif love.keyboard.isDown("right") or joystick:isDown("dpright") then 
+				if self.menu == "main" then
+					self.mapsel = self.mapsel +1
+				end
+				sound:play(sound.effects["blip"])
+				self.key_delay_timer = self.key_delay
+			
+			elseif love.keyboard.isDown("return") or joystick:isDown("a") then 
+				if self.menu == "main" then
+					world.map = self:mapname(self.mapsel)
+				end
+				sound:play(sound.effects["blip"])
+				self.key_delay_timer = self.key_delay
+			
+				if self.menu == "main" then
+					if self.sel == 1 then 
+						transitions:fadeoutmode("game") 
+						sound:play(sound.effects["start"])
+					end
+					if self.sel == 2 then 
+						transitions:fadeoutmode("editing") 
+					end
+					if self.sel == 3 then 
+						self.menu = "options" 
+					end
+					if self.sel == 4 then 
+						love.event.quit() 
+					end
+				elseif self.menu == "options" then
+					--unimplemented
+				end
+			
+			elseif love.keyboard.isDown("escape") or joystick:isDown("b") then 
+				self.menu = "main"
+				sound:play(sound.effects["blip"])
+				self.key_delay_timer = self.key_delay
+			end
+		
+			self.sel = math.min(math.max(self.sel,1),4)
+			self.mapsel = math.min(math.max(self.mapsel,1),#self.maps)
+		end
+	end
 
 end
 

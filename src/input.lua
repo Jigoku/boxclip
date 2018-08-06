@@ -33,6 +33,7 @@ function love.keypressed(key)
 	--debug mode console
 	if console.active then
 		console:keypressed(key)
+		return
 	else
 		if key == binds.console then
 			console:toggle()

@@ -175,7 +175,7 @@ function player:update(dt)
 	
 	if paused or editing or world.splash.active then return end
 	
-	if self.alive then
+	if self.alive and not console.active then
 		if love.keyboard.isDown(binds.right) 
 			or joystick:isDown("dpright") then
 			self:moveright()
