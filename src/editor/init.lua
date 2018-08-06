@@ -358,6 +358,7 @@ function editor:warn(func)
 end
 
 function editor:keypressed(key)
+	
 	if key == self.binds.edittoggle then 
 		editing = not editing
 		player.xvel = 0
@@ -447,7 +448,7 @@ function editor:keypressed(key)
 end
 
 function editor:checkkeys(dt)
-
+	if console.active then return end
 	if love.keyboard.isDown(self.binds.right)  then
 		player.x = player.x + self.floatspeed /camera.scale *dt
 	end
