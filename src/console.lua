@@ -38,6 +38,11 @@ function console:init()
 	self.active = false
 	self.scrollback = 11
 	self.command = ""
+	self.keydelay = 4
+	
+	self.key_delay_timer = 0 -- used for backspace key only at the moment
+	self.key_delay = 0.05
+	
 	self:print (name .. " " .. version .. build .. " by " .. author)
 end
 
@@ -167,38 +172,44 @@ end
 
 function console:keypressed(key)
 
-		-- add special keys
-		if key == "return" then
-		
-			if     console.command == "quit" then love.event.quit() 
-			elseif console.command == "kill" then player:die("suicide")
-			else
+
+	-- add special keys
+	if key == "return" then
+		if     console.command == "quit" then love.event.quit() 
+		elseif console.command == "kill" then player:die("suicide")
+		else
 				-- run/exec function here
 				console:print("unknown command: " .. console.command)
-			end
-			
-			console.command = ""
-		end
+		end			
+		console.command = ""
+	end
 		
-		if key == "`" then
-			console:toggle()
-		end
-	
+		
+	if key == "`" then
+		console:toggle()
+	end
+
+
 end
 
 function console:update(dt)
 	
 	if self.active then
-	
+		self.key_delay_timer = math.max(0, self.key_delay_timer - dt)
+		if self.key_delay_timer <= 0 then
+			-- check for backspace key (TODO: add keydelay value)
+			if love.keyboard.isDown("backspace") then
+				console.command = console.command:sub(1, -2)
+			end
+			self.key_delay_timer = self.key_delay
+		end
+		
 		-- animate console transition when activated
 		if self.opacity < 1 then
 			self.opacity = math.min(self.minopacity, self.opacity + self.fadespeed * dt)
 		end
 		
-		-- check for backspace key (TODO: add keydelay value)
-		if love.keyboard.isDown("backspace") then
-			console.command = console.command:sub(1, -2)
-		end
+
 		
 	else
 		-- animate console transition when deactivated
