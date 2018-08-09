@@ -40,12 +40,14 @@ title.menuitem = 1
 
 
 title.mainmenu = {
+	label="Boxclip (alpha preview)",
 	{ "Play Map", select=function() title.activemenu = title:listmaps(0) end },
 	{ "Edit Map", select=function() title.activemenu = title:listmaps(1) end },
 	{ "Game Options", select=function() title.activemenu = title.optionsmenu end },
 	{ "Quit", select=function() love.event.quit() end }
 }
 title.optionsmenu = {
+	label="Game Options",
 	{ "Keyboard/Input", select=function() return end },
 	{ "Sound", select=function() return end },
 	{ "Graphics", select=function() return end},
@@ -65,7 +67,7 @@ function title:init()
 	self.bgscrollspeed = 25
 
 	sound:playambient(0)
-	sound:playbgm(6)
+	sound:playbgm(12)
 	self.keystr = ""
 	
 	cheats = {
@@ -96,6 +98,7 @@ function title:listmaps(mode)
 		})
 	end
 	table.insert(menu,{ "<- Back", select=function() title.activemenu = title.mainmenu end})
+	menu.label = "Select a map to " .. (mode == 0 and "play" or "edit")
 	
 	return menu
 	
@@ -131,7 +134,7 @@ function title:draw()
 	--title	
 	love.graphics.setFont(fonts.huge)
 	love.graphics.setColor(1,1,1,0.5)
-	love.graphics.printf("Boxclip",love.graphics.getWidth()/4,love.graphics.getHeight()/4,love.graphics.getWidth()/2,"center")
+	love.graphics.printf(self.activemenu.label,love.graphics.getWidth()/4,love.graphics.getHeight()/4,love.graphics.getWidth()/2,"center")
 	
 	--version
 	love.graphics.setFont(fonts.default)
@@ -220,35 +223,35 @@ function title:update(dt)
 	--joystick/keyboard support for controlling menu
 	self.key_delay_timer = math.max(0, self.key_delay_timer - dt)
 
-	self.menuitem = math.max(math.min(self.menuitem,#title.activemenu),1)
+
+	
+	if self.key_delay_timer <= 0 then
+		if transitions.active or console.active then return end
 		
-	if not console.active then 
-		if self.key_delay_timer <= 0 then
-			if transitions.active then return end
-		
-			if love.keyboard.isDown("down") or joystick:isDown("dpdown") then
-				self.menuitem = self.menuitem +1
-				sound:play(sound.effects["blip"])
-				self.key_delay_timer = self.key_delay
+		if love.keyboard.isDown("down") or joystick:isDown("dpdown") then
+			self.menuitem = self.menuitem +1
+			--sound:play(sound.effects["blip"])
+			self.key_delay_timer = self.key_delay
 			
-			elseif love.keyboard.isDown("up") or joystick:isDown("dpup") then 
-				self.menuitem = self.menuitem -1
-				sound:play(sound.effects["blip"])
-				self.key_delay_timer = self.key_delay
+		elseif love.keyboard.isDown("up") or joystick:isDown("dpup") then 
+			self.menuitem = self.menuitem -1
+			--sound:play(sound.effects["blip"])
+			self.key_delay_timer = self.key_delay
 			
-			elseif love.keyboard.isDown("return") or joystick:isDown("a") then 
-				title.activemenu[title.menuitem].select()
-				title.menuitem = 1
-				sound:play(sound.effects["blip"])
-				self.key_delay_timer = self.key_delay
+		elseif love.keyboard.isDown("return") or joystick:isDown("a") then 
+			title.activemenu[title.menuitem].select()
+			title.menuitem = 1
+			sound:play(sound.effects["blip"])
+			self.key_delay_timer = self.key_delay
 			
-			elseif love.keyboard.isDown("escape") or joystick:isDown("b") then 
-				title.activemenu[#title.activemenu].select()
-				sound:play(sound.effects["blip"])
-				self.key_delay_timer = self.key_delay
-			end
+		elseif love.keyboard.isDown("escape") or joystick:isDown("b") then 
+			title.activemenu[#title.activemenu].select()
+			sound:play(sound.effects["blip"])
+			self.key_delay_timer = self.key_delay
 		end
 	end
+	
+	self.menuitem = math.max(math.min(self.menuitem,#title.activemenu),1)
 
 end
 
