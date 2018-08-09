@@ -20,7 +20,7 @@ title = {}
 title.key_delay_timer = 0
 title.key_delay = 0.15
 
-title.splash = false -- disable this for debugging
+title.splash = true -- disable this for debugging
 title.splash_logo = love.graphics.newImage("data/artsoftware.png")
 title.splashDelay = 1.5
 title.splashCycle = 1.5
@@ -48,10 +48,28 @@ title.mainmenu = {
 }
 title.optionsmenu = {
 	label="Game Options",
-	{ "Keyboard/Input", select=function() return end },
-	{ "Sound", select=function() return end },
-	{ "Graphics", select=function() return end},
+	{ "Keyboard/Input", select=function() title.activemenu = title.inputmenu  end },
+	{ "Sound", select=function() title.activemenu = title.soundmenu  end },
+	{ "Graphics", select=function() title.activemenu = title.graphicsmenu  end},
 	{ "<- Back", select=function() title.activemenu = title.mainmenu end},		
+}
+
+title.inputmenu = {
+	label="Keyboard/Input",
+	{ "joystick: " ..joystick:getName(), select=function() return end },
+	{ "<- Back", select=function() title.activemenu = title.optionsmenu end},		
+}
+
+title.graphicsmenu = {
+	label="Graphics",
+	{ "unimplemented", select=function() return end },
+	{ "<- Back", select=function() title.activemenu = title.optionsmenu end},		
+}
+
+title.soundmenu = {
+	label="Sound",
+	{ "unimplemented", select=function() return end },
+	{ "<- Back", select=function() title.activemenu = title.optionsmenu end},		
 }
 
 title.activemenu = title.mainmenu -- set the default menu to show
@@ -148,7 +166,7 @@ function title:draw()
 	for i,menu in ipairs(title.activemenu) do
 		if title.menuitem == i then
 			love.graphics.setColor(0.7,0.5,0.2,1)
-			love.graphics.rectangle("fill",love.graphics.getWidth()/4, love.graphics.getHeight()/3+(i*padding)-padding/4,200,padding,5,5)
+			love.graphics.rectangle("fill",love.graphics.getWidth()/4, love.graphics.getHeight()/3+(i*padding)-padding/4,300,padding,5,5)
 			love.graphics.setColor(0,0,0,1)
 		else
 			love.graphics.setColor(1,1,1,1)	
@@ -184,7 +202,6 @@ function title:update(dt)
 
 	--main title sequence
 	
-
 	title.opacity = (title.opacity - title.opacitystep*dt)
 	if title.opacity < title.opacitymin  then
 	title.opacity = title.opacitymin
@@ -224,7 +241,6 @@ function title:update(dt)
 	self.key_delay_timer = math.max(0, self.key_delay_timer - dt)
 
 
-	
 	if self.key_delay_timer <= 0 then
 		if transitions.active or console.active then return end
 		
@@ -291,36 +307,3 @@ function title:checkcheatcodes(key)
 		sound:play(sound.effects["start"])
 	end
 end
-
---[[
-function title:drawoptions()
-	love.graphics.setFont(fonts.menu)
-		
-	love.graphics.setColor(0.5,0.6,0.7,1)
-	love.graphics.printf("vsync",love.graphics.getWidth()/4,love.graphics.getHeight()/4+140,love.graphics.getWidth()/3,"left")
-	love.graphics.setColor(0.5,0.7,0.4,0.5)
-	love.graphics.printf("n/a",love.graphics.getWidth()/4,love.graphics.getHeight()/4+140,love.graphics.getWidth()/2,"right")
-
-	--editing 
-		
-	if self.sel == 2 then
-		love.graphics.setColor(0,0,0,0.5)
-		love.graphics.rectangle("fill", love.graphics.getWidth()/4-10,love.graphics.getHeight()/4+170,love.graphics.getWidth()/2+20,40)
-	end
-		
-	love.graphics.setColor(0.5,0.6,0.7,1)
-	love.graphics.printf("joystick",love.graphics.getWidth()/4,love.graphics.getHeight()/4+180,love.graphics.getWidth()/3,"left")
-	love.graphics.setColor(0.5,0.7,0.4,0.5)
-	love.graphics.printf(joystick:getName(),love.graphics.getWidth()/4,love.graphics.getHeight()/4+180,love.graphics.getWidth()/2,"right")
-		
-	
-	love.graphics.setColor(0.5,0.6,0.7,1)
-	love.graphics.printf("Back",love.graphics.getWidth()/4,love.graphics.getHeight()/4+260,love.graphics.getWidth()/3,"left")
-	
-end
-
-
---]]
-
-
-
