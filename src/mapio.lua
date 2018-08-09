@@ -119,6 +119,23 @@ function mapio:loadmap(mapname)
 	end
 end
 
+--[[ broken
+function mapio:getmaptitle(map)
+	local filename = "maps/"..map
+	local fh = love.filesystem.newFile(filename)
+	
+	if not fh:open("r") then
+		local errortitle = "Error"
+		local errormessage = "Unable to read the map '"..filename.."'\n"..
+		love.window.showMessageBox(errortitle, errormessage, "error")
+	end
+	
+	local file = fh:read()
+	local key = string.match(file, "^world.maptitle = .*")
+	fh:close()
+
+end
+--]]
 
 function mapio:getmaps()
 	-- custom maps override built ins with the same name

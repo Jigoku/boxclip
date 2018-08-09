@@ -20,7 +20,7 @@ title = {}
 title.key_delay_timer = 0
 title.key_delay = 0.15
 
-title.splash = true -- disable this for debugging
+title.splash = false -- disable this for debugging
 title.splash_logo = love.graphics.newImage("data/artsoftware.png")
 title.splashDelay = 1.5
 title.splashCycle = 1.5
@@ -120,7 +120,7 @@ function title:draw()
 	
 	---background
 	love.graphics.setBackgroundColor(0,0,0,0)
-	love.graphics.setColor(1,1,1,0.4)
+	love.graphics.setColor(1,1,0.9,0.4)
 	self.bgquad:setViewport(-self.bgscroll,-self.bgscroll,love.graphics.getWidth(), love.graphics.getHeight() )
 	love.graphics.draw(self.bg, self.bgquad, 0,0)
 		
@@ -148,7 +148,7 @@ function title:draw()
 	for i,menu in ipairs(title.activemenu) do
 		if title.menuitem == i then
 			love.graphics.setColor(0.7,0.5,0.2,1)
-			love.graphics.rectangle("fill",love.graphics.getWidth()/4, love.graphics.getHeight()/3+(i*padding)-padding/4,200,padding,10,5)
+			love.graphics.rectangle("fill",love.graphics.getWidth()/4, love.graphics.getHeight()/3+(i*padding)-padding/4,200,padding,5,5)
 			love.graphics.setColor(0,0,0,1)
 		else
 			love.graphics.setColor(1,1,1,1)	

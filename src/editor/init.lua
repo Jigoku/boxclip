@@ -124,19 +124,19 @@ editor.draggable = {
 	"death" 
 }
 
--- world themes
--- TODO should be moved elsewhere
-editor.themes = {
-	"default",
-	"sunny",
-	"neon",
-	"frost",
-	"hell",
-	"mist",
-	"dust",
-	"swamp",
-	"night"
-}
+
+-- allow themes to be added by simply placing a theme.lua file
+function editor:getthemes()
+	local files = love.filesystem.getDirectoryItems( "themes/" )
+	local themes = {}
+	for i,f in ipairs(files) do
+		table.insert(themes, f:match("^(.+).lua$"))
+	end
+	
+	return themes
+end
+editor.themes = editor:getthemes()
+
 
 
 editor.help = {
@@ -1423,5 +1423,3 @@ function editor:mousemoved(x,y,dx,dy)
 	end
 
 end
-
-
