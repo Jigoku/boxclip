@@ -3,6 +3,7 @@ fonts = {
 	debug = love.graphics.newFont("data/fonts/Hanken/Hanken-Book.ttf",14),
 	tips = love.graphics.newFont("data/fonts/Hanken/Hanken-Book.ttf",20),
 	menu = love.graphics.newFont("data/fonts/Hanken/Hanken-Book.ttf",16),
+	titlemenu = love.graphics.newFont("data/fonts/Hanken/Hanken-Book.ttf",25),
 	popups = love.graphics.newFont("data/fonts/Hanken/Hanken-Book.ttf",15),
 	hud = love.graphics.newFont("data/fonts/Hanken/Hanken-Book.ttf",20),
 	scoreboard = love.graphics.newFont("data/fonts/Hanken/Hanken-Book.ttf",30),

@@ -20,7 +20,7 @@ title = {}
 title.key_delay_timer = 0
 title.key_delay = 0.15
 
-title.splash = true
+title.splash = true -- disable this for debugging
 title.splash_logo = love.graphics.newImage("data/artsoftware.png")
 title.splashDelay = 1.5
 title.splashCycle = 1.5
@@ -33,14 +33,28 @@ title.opacitymax = 1
 
 title.overlay = {}
 title.overlay.opacity = 0
-
 title.overlay.fadespeed = 0.78
 
-function title:mapname(id)
-	for i,map in ipairs(self.maps) do
-		if i == id then return map end
-	end
-end
+title.menuitem = 1
+
+
+
+title.mainmenu = {
+	{ "Play Map", select=function() title.activemenu = title:listmaps(0) end },
+	{ "Edit Map", select=function() title.activemenu = title:listmaps(1) end },
+	{ "Game Options", select=function() title.activemenu = title.optionsmenu end },
+	{ "Quit", select=function() love.event.quit() end }
+}
+title.optionsmenu = {
+	{ "Keyboard/Input", select=function() return end },
+	{ "Sound", select=function() return end },
+	{ "Graphics", select=function() return end},
+	{ "<- Back", select=function() title.activemenu = title.mainmenu end},		
+}
+
+title.activemenu = title.mainmenu -- set the default menu to show
+
+
 
 function title:init()
 	mode = "title"
@@ -50,15 +64,9 @@ function title:init()
 	self.bgscroll = 0
 	self.bgscrollspeed = 25
 
-	
 	sound:playambient(0)
 	sound:playbgm(6)
-	self.sel = 1
-	self.menu = "main"
 	self.keystr = ""
-	self.mapsel = 1
-	
-	self.maps = mapio:getmaps()
 	
 	cheats = {
 		catlife = false,
@@ -67,26 +75,45 @@ function title:init()
 		millionare = false,
 	}
 	
-	--use for fade transition
-	--self.fade = 255
 	transitions:fadein()
-
 	console:print("initialized title")
 end
 
+
+function title:listmaps(mode)
+	-- build a dynamic menu for existing maps
+	-- 0 = game
+	-- 1 = edit
+	local maps = mapio:getmaps()
+	local menu = {}
+	for i,map in ipairs(maps) do
+		table.insert(menu, { 
+			map, select = function() 
+				world.map = title.activemenu[title.menuitem][1] 
+				transitions:fadeoutmode((mode == 0 and "game" or "editing"))
+				sound:play(sound.effects["start"])
+			end
+		})
+	end
+	table.insert(menu,{ "<- Back", select=function() title.activemenu = title.mainmenu end})
+	
+	return menu
+	
+end
 
 
 function title:keypressed(key)
 	self:checkcheatcodes(key)
 end
 
+
 function title:draw()
+	
 	if title.splash then
 		love.graphics.setColor(1,1,1,title.splashOpacity)
 		love.graphics.draw(title.splash_logo,love.graphics.getWidth()/2-title.splash_logo:getWidth()/2, love.graphics.getHeight()/2-title.splash_logo:getHeight()/2)
 		return
 	end
-	
 	
 	---background
 	love.graphics.setBackgroundColor(0,0,0,0)
@@ -107,16 +134,27 @@ function title:draw()
 	love.graphics.printf("Boxclip",love.graphics.getWidth()/4,love.graphics.getHeight()/4,love.graphics.getWidth()/2,"center")
 	
 	--version
-	love.graphics.setFont(fonts.menu)
+	love.graphics.setFont(fonts.default)
 	love.graphics.setColor(1,1,1,0.5)
 	love.graphics.printf("v"..version..build.." ("..love.system.getOS() ..") by "..author,10,love.graphics.getHeight()-25,300,"left",0,1,1)
-	
-	if self.menu == "main" then
-		self:drawmain()
-	elseif self.menu == "options" then
-		self:drawoptions()
+
+
+	--menu / selection
+	love.graphics.setFont(fonts.titlemenu)
+	local padding = 30
+	for i,menu in ipairs(title.activemenu) do
+		if title.menuitem == i then
+			love.graphics.setColor(0.7,0.5,0.2,1)
+			love.graphics.rectangle("fill",love.graphics.getWidth()/4, love.graphics.getHeight()/3+(i*padding)-padding/4,200,padding,10,5)
+			love.graphics.setColor(0,0,0,1)
+		else
+			love.graphics.setColor(1,1,1,1)	
+		end
+		
+		love.graphics.print(menu,love.graphics.getWidth()/4, love.graphics.getHeight()/3+(i*padding))
 	end
-	
+
+
 	love.graphics.setFont(fonts.default)
 end
 
@@ -178,81 +216,41 @@ function title:update(dt)
 	if self.bgscroll > self.bg:getHeight() then
 		self.bgscroll = self.bgscroll - self.bg:getWidth()
 	end	
-	
-	--joystick/keyboard support
+
+	--joystick/keyboard support for controlling menu
 	self.key_delay_timer = math.max(0, self.key_delay_timer - dt)
-	
+
+	self.menuitem = math.max(math.min(self.menuitem,#title.activemenu),1)
+		
 	if not console.active then 
 		if self.key_delay_timer <= 0 then
 			if transitions.active then return end
 		
 			if love.keyboard.isDown("down") or joystick:isDown("dpdown") then
-				if self.menu == "main" then
-					self.sel = self.sel +1 
-				end
+				self.menuitem = self.menuitem +1
 				sound:play(sound.effects["blip"])
 				self.key_delay_timer = self.key_delay
 			
 			elseif love.keyboard.isDown("up") or joystick:isDown("dpup") then 
-				if self.menu == "main" then
-					self.sel = self.sel -1 
-				end
-				sound:play(sound.effects["blip"])
-				self.key_delay_timer = self.key_delay
-			
-			elseif love.keyboard.isDown("left") or joystick:isDown("dpleft") then
-				if self.menu == "main" then
-					self.mapsel = self.mapsel -1 
-				end
-				sound:play(sound.effects["blip"])
-				self.key_delay_timer = self.key_delay
-			
-			elseif love.keyboard.isDown("right") or joystick:isDown("dpright") then 
-				if self.menu == "main" then
-					self.mapsel = self.mapsel +1
-				end
+				self.menuitem = self.menuitem -1
 				sound:play(sound.effects["blip"])
 				self.key_delay_timer = self.key_delay
 			
 			elseif love.keyboard.isDown("return") or joystick:isDown("a") then 
-				if self.menu == "main" then
-					world.map = self:mapname(self.mapsel)
-				end
+				title.activemenu[title.menuitem].select()
+				title.menuitem = 1
 				sound:play(sound.effects["blip"])
 				self.key_delay_timer = self.key_delay
 			
-				if self.menu == "main" then
-					if self.sel == 1 then 
-						transitions:fadeoutmode("game") 
-						sound:play(sound.effects["start"])
-					end
-					if self.sel == 2 then 
-						transitions:fadeoutmode("editing") 
-					end
-					if self.sel == 3 then 
-						self.menu = "options" 
-					end
-					if self.sel == 4 then 
-						love.event.quit() 
-					end
-				elseif self.menu == "options" then
-					--unimplemented
-				end
-			
 			elseif love.keyboard.isDown("escape") or joystick:isDown("b") then 
-				self.menu = "main"
+				title.activemenu[#title.activemenu].select()
 				sound:play(sound.effects["blip"])
 				self.key_delay_timer = self.key_delay
 			end
-		
-			self.sel = math.min(math.max(self.sel,1),4)
-			self.mapsel = math.min(math.max(self.mapsel,1),#self.maps)
 		end
 	end
 
 end
-
-
 
 function title:checkcheatcodes(key)
 
@@ -291,21 +289,9 @@ function title:checkcheatcodes(key)
 	end
 end
 
-
+--[[
 function title:drawoptions()
 	love.graphics.setFont(fonts.menu)
-	if self.sel == 0 then
-		love.graphics.setColor(0,0,0,0.5)
-		love.graphics.rectangle("fill", love.graphics.getWidth()/4-10,love.graphics.getHeight()/4+90,love.graphics.getWidth()/2+20,40)
-	end
-	love.graphics.setColor(1,1,1,1)
-	love.graphics.printf("Press left/right to change setting",love.graphics.getWidth()/4,love.graphics.getHeight()/4+100,love.graphics.getWidth()/3,"left")
-
-	--play 
-	if self.sel == 1 then
-		love.graphics.setColor(0,0,0,0.5)
-		love.graphics.rectangle("fill", love.graphics.getWidth()/4-10,love.graphics.getHeight()/4+130,love.graphics.getWidth()/2+20,40)
-	end
 		
 	love.graphics.setColor(0.5,0.6,0.7,1)
 	love.graphics.printf("vsync",love.graphics.getWidth()/4,love.graphics.getHeight()/4+140,love.graphics.getWidth()/3,"left")
@@ -330,63 +316,8 @@ function title:drawoptions()
 	
 end
 
-function title:drawmain()
-	--options
-	love.graphics.setFont(fonts.menu)
 
-
-	if self.sel == 0 then
-		love.graphics.setColor(0,0,0,0.5)
-		love.graphics.rectangle("fill", love.graphics.getWidth()/4-10,love.graphics.getHeight()/4+90,love.graphics.getWidth()/2+20,40)
-	end
-	love.graphics.setColor(1,1,1,1)
-	love.graphics.printf("Press left/right to select map",love.graphics.getWidth()/4,love.graphics.getHeight()/4+100,love.graphics.getWidth()/3,"left")
-
-	--play 
-	if self.sel == 1 then
-		love.graphics.setColor(0,0,0,0.75)
-		love.graphics.rectangle("fill", love.graphics.getWidth()/4-10,love.graphics.getHeight()/4+130,love.graphics.getWidth()/2+20,40)
-	end
-		
-	love.graphics.setColor(0.5,0.6,0.7,1)
-	love.graphics.printf("Play",love.graphics.getWidth()/4,love.graphics.getHeight()/4+140,love.graphics.getWidth()/3,"left")
-	love.graphics.setColor(0.5,0.7,0.4,0.5)
-	love.graphics.printf("play " .. self:mapname(self.mapsel),love.graphics.getWidth()/4,love.graphics.getHeight()/4+140,love.graphics.getWidth()/2,"right")
-
-	--editing 
-		
-	if self.sel == 2 then
-		love.graphics.setColor(0,0,0,0.75)
-		love.graphics.rectangle("fill", love.graphics.getWidth()/4-10,love.graphics.getHeight()/4+170,love.graphics.getWidth()/2+20,40)
-	end
-		
-	love.graphics.setColor(0.5,0.6,0.7,1)
-	love.graphics.printf("Map Editor",love.graphics.getWidth()/4,love.graphics.getHeight()/4+180,love.graphics.getWidth()/3,"left")
-	love.graphics.setColor(0.5,0.7,0.4,0.5)
-	love.graphics.printf("edit " .. self:mapname(self.mapsel),love.graphics.getWidth()/4,love.graphics.getHeight()/4+180,love.graphics.getWidth()/2,"right")
-		
-	--options
-	if self.sel == 3 then
-		love.graphics.setColor(0,0,0,0.75)
-		love.graphics.rectangle("fill", love.graphics.getWidth()/4-10,love.graphics.getHeight()/4+210,love.graphics.getWidth()/2+20,40)
-	end
-		
-	love.graphics.setColor(0.5,0.6,0.7,1)
-	love.graphics.printf("Options",love.graphics.getWidth()/4,love.graphics.getHeight()/4+220,love.graphics.getWidth()/3,"left")
-	love.graphics.setColor(0.5,0.7,0.4,0.5)
-	love.graphics.printf("(unimplemented)",love.graphics.getWidth()/4,love.graphics.getHeight()/4+220,love.graphics.getWidth()/2,"right")
-	
-	--quit
-	if self.sel == 4 then
-		love.graphics.setColor(0,0,0,0.75)
-		love.graphics.rectangle("fill", love.graphics.getWidth()/4-10,love.graphics.getHeight()/4+250,love.graphics.getWidth()/2+20,40)
-	end
-	
-	love.graphics.setColor(0.5,0.6,0.7,1)
-	love.graphics.printf("Quit",love.graphics.getWidth()/4,love.graphics.getHeight()/4+260,love.graphics.getWidth()/3,"left")
-	
-end
-
+--]]
 
 
 
