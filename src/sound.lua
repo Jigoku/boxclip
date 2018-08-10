@@ -17,7 +17,7 @@ sound = {}
 
 -- add menu / keybind to toggle this
 sound.enabled = true
-sound.volume = 100
+sound.volume = 80
 
 function sound:init()
 	if sound.enabled then

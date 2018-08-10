@@ -37,8 +37,8 @@ function tips:add(x,y,text)
 		padding = padding,
 		text = text,
 		time = love.math.random(100),
-		yspeed = 2,
-		xspeed = 3,
+		yspeed = 1,
+		xspeed = 2,
 		group = "tip"
 	})
 end
@@ -47,11 +47,8 @@ function tips:update(dt)
 	if paused then return end
 	for _, tip in ipairs(world.entities.tip) do
 		if world:inview(tip) then
-		
-			--tip.x = tip.xorigin - (4*math.sin(tip.ticks*tip.xspeed*math.pi)) + 8
-			--tip.y = tip.yorigin - (5*math.sin(tip.ticks*tip.yspeed*math.pi)) + 10
-			tip.x = tip.xorigin - math.sin(tip.time*tip.xspeed*math.pi) * 2
-			tip.y = tip.yorigin - math.sin(tip.time*tip.yspeed*math.pi) * 2
+			tip.x = tip.xorigin - math.sin(tip.time*tip.xspeed*math.pi) * 3
+			tip.y = tip.yorigin - math.sin(tip.time*tip.yspeed*math.pi) * 3
 			tip.time = tip.time + dt
 		end
 	end

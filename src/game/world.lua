@@ -183,8 +183,10 @@ end
 
 
 
-
 function world:drawparallax()
+
+	--TODO this still needs fixing
+	
 	if editing then return end
 	love.graphics.setColor(1,1,1,1)
 	
@@ -195,13 +197,12 @@ function world:drawparallax()
 		)
 	end
 	
-	
 
 	--back layer
 	love.graphics.setColor(
-		platform_top_r,
-		platform_top_g,
-		platform_top_b,
+		platform_top_r/2,
+		platform_top_g/2,
+		platform_top_b/2,
 		1
 	)
 		
@@ -233,9 +234,9 @@ function world:drawparallax()
 	
 	--front layer
 	love.graphics.setColor(
-		platform_top_r-.1,
-		platform_top_g-.1,
-		platform_top_b-.1,
+		platform_top_r/1.5,
+		platform_top_g/1.5,
+		platform_top_b/1.5,
 		1
 	)
 		

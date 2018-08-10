@@ -20,6 +20,7 @@ enemies.textures = {
 	["floater"] = love.graphics.newImage( "data/images/enemies/floater.png"),
 	["spike"] = love.graphics.newImage( "data/images/enemies/spike.png"),
 	["spike_large"] = love.graphics.newImage( "data/images/enemies/spike_large.png"),
+	["spike_timer"] = love.graphics.newImage( "data/images/enemies/spike.png"),
 	["icicle"] = love.graphics.newImage( "data/images/enemies/icicle.png"),
 	["icicle_d"] = love.graphics.newImage( "data/images/enemies/icicle_d.png"),
 	["spikeball"] = love.graphics.newImage( "data/images/enemies/spikeball.png"),
@@ -28,6 +29,7 @@ enemies.textures = {
 
 table.insert(editor.entities, {"spike", "enemy"})
 table.insert(editor.entities, {"spike_large", "enemy"})
+table.insert(editor.entities, {"spike_timer", "enemy"})
 table.insert(editor.entities, {"icicle", "enemy"})
 table.insert(editor.entities, {"walker", "enemy"})
 table.insert(editor.entities, {"floater",  "enemy"})
@@ -127,6 +129,34 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			movespeed = 0,
 			dir = dir,
 			
+			editor_canrotate = true
+		})
+
+	elseif type == "spike_timer" then
+		if dir == 0 or dir == 2 then
+			width = self.textures[type]:getWidth()
+			height = self.textures[type]:getHeight()
+		end
+		if dir == 3 or dir == 1 then
+			width = self.textures[type]:getHeight()
+			height = self.textures[type]:getWidth()
+		end
+		table.insert(world.entities.enemy, {		
+			x = x or 0,
+			y = y or 0,
+			xorigin = x,
+			yorigin = y,
+			w = width,
+			h = height,
+			group = "enemy",
+			type = type,
+			alive = true,
+			timer = 1.25,
+			timer_cycle = 1.25,
+			movedist = 0,
+			dir = dir,
+			movespeed = 0,
+			movedist = 0,
 			editor_canrotate = true
 		})
 
@@ -281,7 +311,7 @@ function enemies:update(dt)
 			
 			end
 			
-			if enemy.type == "spike" or enemy.type == "spike_large" then
+			if enemy.type == "spike" or enemy.type == "spike_large" or enemy.type == "spike_timer" and enemy.alive then
 				-- NOT ACTIVE WHILST EDITING
 				if mode == "game" and player.alive and  collision:check(player.newX,player.newY,player.w,player.h,
 					enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
@@ -289,7 +319,6 @@ function enemies:update(dt)
 					player:die(enemy.group)
 				end
 			end
-			
 			
 			if enemy.type == "icicle" then
 				if enemy.falling then
@@ -372,6 +401,20 @@ function enemies:update(dt)
 			end
 	
 		end
+			
+		-- only used for "spike_timer" right now
+		-- toggles alive state (visibility) on a delayed timer loop
+		if enemy.timer then 
+			enemy.timer_cycle = math.max(0, enemy.timer_cycle - dt)
+			if enemy.timer_cycle <= 0 then
+			
+				if world:inview(enemy) then
+					sound:play(sound.effects["slice"])
+				end
+				enemy.alive = not enemy.alive
+				enemy.timer_cycle = enemy.timer
+			end
+		end
 	end	
 end
 
@@ -380,42 +423,45 @@ function enemies:draw()
 	local count = 0
 
 	for i, enemy in ipairs(world.entities.enemy) do
-		if enemy.alive and world:inview(enemy) then
+		if world:inview(enemy) then
+		
 			count = count + 1
+			if enemy.alive then
 			
-			local texture = self.textures[enemy.type]
+				local texture = self.textures[enemy.type]
 			
-			if enemy.type == "walker" or enemy.type == "floater" then
+				if enemy.type == "walker" or enemy.type == "floater" then
+					love.graphics.setColor(1,1,1,1)
+					if enemy.movespeed < 0 then
+						love.graphics.draw(texture, enemy.x, enemy.y, 0, 1, 1)
+					elseif enemy.movespeed > 0 then
+						love.graphics.draw(texture, enemy.x+texture:getWidth(), enemy.y, 0, -1, 1)
+					end
+				end
+			
 				love.graphics.setColor(1,1,1,1)
-				if enemy.movespeed < 0 then
-					love.graphics.draw(texture, enemy.x, enemy.y, 0, 1, 1)
-				elseif enemy.movespeed > 0 then
-					love.graphics.draw(texture, enemy.x+texture:getWidth(), enemy.y, 0, -1, 1)
+				if enemy.type == "spike" or enemy.type == "spike_large" or enemy.type == "spike_timer" and enemy.alive then
+					if enemy.dir == 1 then
+						love.graphics.draw(texture, enemy.x, enemy.y, math.rad(90),1,(enemy.flip and -1 or 1),0,(enemy.flip and 0 or enemy.w))
+					elseif enemy.dir == 2 then
+						love.graphics.draw(texture, enemy.x, enemy.y, 0,(enemy.flip and 1 or -1),-1,(enemy.flip and 0 or enemy.w),enemy.h)	
+					elseif enemy.dir == 3 then
+						love.graphics.draw(texture, enemy.x, enemy.y, math.rad(-90),1,(enemy.flip and -1 or 1),enemy.h,(enemy.flip and enemy.w or 0))
+					else
+						love.graphics.draw(texture, enemy.x, enemy.y, 0,(enemy.flip and -1 or 1),1,(enemy.flip and enemy.w or 0),0,0)
+					end
 				end
-			end
 			
-			love.graphics.setColor(1,1,1,1)
-			if enemy.type == "spike" or enemy.type == "spike_large" then
-			
-				if enemy.dir == 1 then
-					love.graphics.draw(texture, enemy.x, enemy.y, math.rad(90),1,(enemy.flip and -1 or 1),0,(enemy.flip and 0 or enemy.w))
-				elseif enemy.dir == 2 then
-					love.graphics.draw(texture, enemy.x, enemy.y, 0,(enemy.flip and 1 or -1),-1,(enemy.flip and 0 or enemy.w),enemy.h)	
-				elseif enemy.dir == 3 then
-					love.graphics.draw(texture, enemy.x, enemy.y, math.rad(-90),1,(enemy.flip and -1 or 1),enemy.h,(enemy.flip and enemy.w or 0))
-				else
-					love.graphics.draw(texture, enemy.x, enemy.y, 0,(enemy.flip and -1 or 1),1,(enemy.flip and enemy.w or 0),0,0)
+				if enemy.type == "icicle" or enemy.type == "icicle_d" then
+					love.graphics.draw(texture, enemy.x, enemy.y, 0,1,1)
 				end
-			end
-			
-			if enemy.type == "icicle" or enemy.type == "icicle_d" then
-				love.graphics.draw(texture, enemy.x, enemy.y, 0,1,1)
-			end
 			
 			
-			if enemy.type == "spikeball" then
-				platforms:drawlink(enemy)
-				love.graphics.draw(texture, enemy.x, enemy.y, -enemy.angle*2,1,1,enemy.w/2,enemy.h/2)
+				if enemy.type == "spikeball" then
+					platforms:drawlink(enemy)
+					love.graphics.draw(texture, enemy.x, enemy.y, -enemy.angle*2,1,1,enemy.w/2,enemy.h/2)
+				end
+			
 			end
 			
 			if editing or  debug then

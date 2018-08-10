@@ -267,7 +267,9 @@ function title:update(dt)
 		end
 	end
 	
-	self.menuitem = math.max(math.min(self.menuitem,#title.activemenu),1)
+	if self.menuitem < 1 then self.menuitem = #title.activemenu end
+	if self.menuitem > #title.activemenu then self.menuitem = 1 end
+	--self.menuitem = math.max(math.min(self.menuitem,#title.activemenu),1)
 
 end
 
