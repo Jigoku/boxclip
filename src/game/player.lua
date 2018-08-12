@@ -15,9 +15,38 @@
  
 player = {}
 
-player.textures = {
-	["idle"] = love.graphics.newImage("data/images/player/idle/frame-1.png"),
-	["jump"] = love.graphics.newImage("data/images/player/jump/frame.png")
+player.sprite = {
+	["idle"] = {
+		love.graphics.newImage("data/images/player/idle/frame-1.png"),
+		love.graphics.newImage("data/images/player/idle/frame-2.png"),
+	},
+	
+	["jump"] = {
+		love.graphics.newImage("data/images/player/jump/frame.png"),
+	},
+	
+	["fall"] = {
+		love.graphics.newImage("data/images/player/fall/frame.png"),
+	},
+	
+	["run"] = {
+		love.graphics.newImage("data/images/player/run/frame-1.png"),
+		love.graphics.newImage("data/images/player/run/frame-2.png"),
+		love.graphics.newImage("data/images/player/run/frame-3.png"),
+		love.graphics.newImage("data/images/player/run/frame-4.png"),
+	},
+	
+	["dizzy"] = {
+		love.graphics.newImage("data/images/player/dizzy/frame-1.png"),
+		love.graphics.newImage("data/images/player/dizzy/frame-2.png"),
+	},
+	
+	["faint"] = {
+		love.graphics.newImage("data/images/player/faint/frame-1.png"),
+		love.graphics.newImage("data/images/player/faint/frame-2.png"),
+		love.graphics.newImage("data/images/player/faint/frame-3.png"),
+	}
+	
 }
 
 
@@ -26,19 +55,19 @@ function player:init()
 	self.group = "players"
 	
 	
-	self.w = player.textures["idle"]:getWidth()
-	self.h = player.textures["idle"]:getHeight()
-	--[[
-	self.w = 50
-	self.h = 60
-	--]]
+	self.framedelay = 1
+	self.framecycle = 0
+	self.frame = 1
+	self.state = "idle"
+	self.texture = self.sprite[self.state][self.frame]
+	
+	self.w = player.texture:getWidth()
+	self.h = player.texture:getHeight()
 	
 	self.spawnX = 0
 	self.spawnY = 0 
 	self.x = spawnX
 	self.y = spawnY 
-	
-	--self.state = "idle" -- jump/run/fall etc
 	
 	self.speed = 470 --600
 	self.friction = 300
@@ -89,49 +118,18 @@ function player:draw()
 			love.graphics.setColor(1,1,1,0.5)
 			love.graphics.draw(self.particles_invincible, player.x+player.w/2,player.y+player.h/2, 0,0.25,0.25)
 		end
-		--rotating for jumping
-		if self.jumping then
+		love.graphics.setColor(1,1,1,1)
 		
-			--love.graphics.translate(self.x+self.w/2,self.y+self.h/2)
-			--love.graphics.rotate(self.angle)
-			--love.graphics.translate(-self.x-self.w/2,-self.y-self.h/2)
-	
-			love.graphics.setColor(1,1,1,opacity)
-			love.graphics.draw(player.textures["jump"], self.x,self.y)
-	
-		--[[	--player main (circle)
-			love.graphics.setColor(0.4,0.7,0.6,1)
-			love.graphics.circle("fill", self.x+self.w/2, self.y+self.h/2, self.w/1.5, self.h)
-			love.graphics.setColor(0.4,0.4,0.4,1)
-			love.graphics.circle("line", self.x+self.w/2, self.y+self.h/2, self.w/1.5, self.h)
-		--]]	
-		else
-			--player main (square)
-			local opacity = 1
-			if not self.alive then  opacity = 0.5 end
-			
-			love.graphics.setColor(1,1,1,opacity)
-			love.graphics.draw(player.textures["idle"], self.x,self.y)
-			
-			--[[
-			love.graphics.setColor(0.4,0.7,0.6,opacity)
-			love.graphics.rectangle("fill", self.x, self.y, self.w, self.h,5,5,5)
-			love.graphics.setColor(0.4,0.4,0.4,opacity)
-			love.graphics.rectangle("line", self.x, self.y, self.w, self.h,5,5,5)
-			--]]
-		end
-	
-		-- eyes
-		love.graphics.setColor(0,0,0,1)
-		if self.lastdir == "right" then
-			love.graphics.rectangle("fill", self.x+self.w-10, self.y+10, 3, 4)
-			love.graphics.rectangle("fill", self.x+self.w-20, self.y+10, 3, 4 )
-		end
-	
+		
 		if self.lastdir == "left" then
-			love.graphics.rectangle("fill", self.x+10, self.y+10, 3, 4)
-			love.graphics.rectangle("fill", self.x+20, self.y+10, 3, 4 )
+			love.graphics.draw(self.texture, self.x,self.y,0, -1,1, self.texture:getWidth(), 0)
+		else
+			love.graphics.draw(self.texture, self.x,self.y)
 		end
+			
+
+	
+		
 		love.graphics.pop()
 	end
 	
@@ -161,9 +159,49 @@ function player:drawdebug()
 end
 
 
-
+player.frame = 1
 
 function player:update(dt)
+
+	--player frame/sprite animation
+	self.framecycle = math.max(0, self.framecycle - dt)
+	
+	if self.framecycle <= 0 then
+		self.frame = self.frame + 1
+		
+		if self.frame > #self.sprite[self.state] then
+			self.frame = 1
+		end
+		
+		self.framecycle = self.framedelay
+	end
+
+	if self.jumping then
+		self.framedelay = 0
+	
+		if self.yvel < 0 then
+			self.state = "fall"
+		else
+			self.state = "jump"
+		end
+		
+	else
+		if self.xvel ~= 0 then
+			self.framedelay = 0.1
+			self.state = "run"
+		else
+			self.state = "idle"
+			self.framedelay = 0.2
+		end
+		
+	end
+	
+	self.texture = self.sprite[self.state][math.min(self.frame, #self.sprite[self.state])]
+	
+	--update player bounds
+	--self.w = self.texture:getWidth()
+	--self.h = self.texture:getHeight()
+
 
 	-- invincibility check
 	if self.invincible then
@@ -179,7 +217,7 @@ function player:update(dt)
 	end
 
 	-- end game if no lives left
-	if player.lives < 0 then
+	if self.lives < 0 then
 		console:print("game over")
 		--add game over transition screen
 		--should fade in, press button to exit to title
