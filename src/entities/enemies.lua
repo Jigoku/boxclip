@@ -16,15 +16,49 @@
 enemies = {}
 
 enemies.textures = {
-	["walker"] = love.graphics.newImage( "data/images/enemies/walker.png"),
-	["floater"] = love.graphics.newImage( "data/images/enemies/floater.png"),
-	["spike"] = love.graphics.newImage( "data/images/enemies/spike.png"),
-	["spike_large"] = love.graphics.newImage( "data/images/enemies/spike_large.png"),
-	["spike_timer"] = love.graphics.newImage( "data/images/enemies/spike.png"),
-	["icicle"] = love.graphics.newImage( "data/images/enemies/icicle.png"),
-	["icicle_d"] = love.graphics.newImage( "data/images/enemies/icicle_d.png"),
-	["spikeball"] = love.graphics.newImage( "data/images/enemies/spikeball.png"),
+	["walker"] = { 
+		love.graphics.newImage( "data/images/enemies/walker.png"),
+	},
+	
+	["hopper"] = { 
+		love.graphics.newImage( "data/images/enemies/walker.png"),
+	},
+	
+	["floater"] = {
+		love.graphics.newImage( "data/images/enemies/grumpy_bee/1.png"),
+		love.graphics.newImage( "data/images/enemies/grumpy_bee/2.png"),
+		love.graphics.newImage( "data/images/enemies/grumpy_bee/3.png"),
+		love.graphics.newImage( "data/images/enemies/grumpy_bee/4.png"),
+		love.graphics.newImage( "data/images/enemies/grumpy_bee/5.png"),
+		love.graphics.newImage( "data/images/enemies/grumpy_bee/6.png"),
+	},
+	["spike"] = { 
+		love.graphics.newImage( "data/images/enemies/spike.png"),
+	},
+	
+	["spike_large"] = {
+		love.graphics.newImage( "data/images/enemies/spike_large.png"),
+	},
+	
+	["spike_timer"] = { 
+		love.graphics.newImage( "data/images/enemies/spike.png"),
+	},
+	
+	["icicle"] = { 
+		love.graphics.newImage( "data/images/enemies/icicle.png"),
+	},
+	
+	["icicle_d"] = { 
+		love.graphics.newImage( "data/images/enemies/icicle_d.png"),
+	},
+	
+	["spikeball"] = { 
+		love.graphics.newImage( "data/images/enemies/spikeball.png"),
+	}
 }
+
+
+	
 
 
 table.insert(editor.entities, {"spike", "enemy"})
@@ -32,6 +66,7 @@ table.insert(editor.entities, {"spike_large", "enemy"})
 table.insert(editor.entities, {"spike_timer", "enemy"})
 table.insert(editor.entities, {"icicle", "enemy"})
 table.insert(editor.entities, {"walker", "enemy"})
+table.insert(editor.entities, {"hopper", "enemy"})
 table.insert(editor.entities, {"floater",  "enemy"})
 table.insert(editor.entities, {"spikeball", "enemy"})
 
@@ -48,8 +83,8 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			yorigin = y,
 			x = love.math.random(x,x+movedist) or 0,
 			y = y or 0,
-			w = self.textures[type]:getWidth(),
-			h = self.textures[type]:getHeight(),
+			w = self.textures[type][1]:getWidth(),
+			h = self.textures[type][1]:getHeight(),
 			group = "enemy",
 			type = type,
 			xvel = 0,
@@ -69,8 +104,8 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			yorigin = y,
 			x = love.math.random(x,x+movedist) or 0,
 			y = y or 0,
-			w = self.textures[type]:getWidth(),
-			h = self.textures[type]:getHeight(),
+			w = self.textures[type][1]:getWidth(),
+			h = self.textures[type][1]:getHeight(),
 			group = "enemy",
 			type = type,
 			xvel = 0,
@@ -82,12 +117,12 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 
 	elseif type == "spike" then
 		if dir == 0 or dir == 2 then
-			width = self.textures[type]:getWidth()
-			height = self.textures[type]:getHeight()
+			width = self.textures[type][1]:getWidth()
+			height = self.textures[type][1]:getHeight()
 		end
 		if dir == 3 or dir == 1 then
-			width = self.textures[type]:getHeight()
-			height = self.textures[type]:getWidth()
+			width = self.textures[type][1]:getHeight()
+			height = self.textures[type][1]:getWidth()
 		end
 		table.insert(world.entities.enemy, {		
 			x = x or 0,
@@ -108,12 +143,12 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 
 	elseif type == "spike_large" then
 		if dir == 0 or dir == 2 then
-			width = self.textures[type]:getWidth()
-			height = self.textures[type]:getHeight()
+			width = self.textures[type][1]:getWidth()
+			height = self.textures[type][1]:getHeight()
 		end
 		if dir == 3 or dir == 1 then
-			width = self.textures[type]:getHeight()
-			height = self.textures[type]:getWidth()
+			width = self.textures[type][1]:getHeight()
+			height = self.textures[type][1]:getWidth()
 		end
 		table.insert(world.entities.enemy, {		
 			x = x or 0,
@@ -134,12 +169,12 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 
 	elseif type == "spike_timer" then
 		if dir == 0 or dir == 2 then
-			width = self.textures[type]:getWidth()
-			height = self.textures[type]:getHeight()
+			width = self.textures[type][1]:getWidth()
+			height = self.textures[type][1]:getHeight()
 		end
 		if dir == 3 or dir == 1 then
-			width = self.textures[type]:getHeight()
-			height = self.textures[type]:getWidth()
+			width = self.textures[type][1]:getHeight()
+			height = self.textures[type][1]:getWidth()
 		end
 		table.insert(world.entities.enemy, {		
 			x = x or 0,
@@ -166,8 +201,8 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			y = y or 0,
 			xorigin = x,
 			yorigin = y,
-			w = self.textures[type]:getWidth(),
-			h = self.textures[type]:getHeight(),
+			w = self.textures[type][1]:getWidth(),
+			h = self.textures[type][1]:getHeight(),
 			group = "enemy",
 			type = type,
 			alive = true,
@@ -180,6 +215,10 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 		})
 
 	elseif type == "floater" then
+	
+
+	local texture = self.textures["floater"][1]
+	
 		table.insert(world.entities.enemy, {
 			movespeed = movespeed or 100,
 			movedist = movedist or 400,
@@ -190,8 +229,12 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			yspeed = 0.01,
 			x = love.math.random(x,x+movedist) or 0,
 			y = y or 0,
-			w = self.textures[type]:getWidth(),
-			h = self.textures[type]:getHeight(),
+			texture = texture,
+			w = texture:getWidth(),
+			h = texture:getHeight(),
+			framecycle = 0,
+			frame = 1,
+			framedelay = 0.05,
 			group = "enemy",
 			type = type,
 			xvel = 0,
@@ -203,8 +246,8 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 	
 	elseif type == "spikeball" then
 		table.insert(world.entities.enemy, {
-			w = self.textures[type]:getWidth(),
-			h = self.textures[type]:getHeight(),
+			w = self.textures[type][1]:getWidth(),
+			h = self.textures[type][1]:getHeight(),
 			xorigin = x,
 			yorigin = y,
 			x = x or 0,
@@ -228,6 +271,31 @@ end
 
 function enemies:update(dt)
 	for i, enemy in ipairs(world.entities.enemy) do
+	
+		--animate frames if given
+		if enemy.frame then
+			enemy.framecycle = math.max(0, enemy.framecycle - dt)
+			
+			if enemy.framecycle <= 0 then
+				enemy.frame = enemy.frame + 1
+				
+				if enemy.frame > #self.textures[enemy.type] then
+					enemy.frame = 1
+				end
+			
+				enemy.framecycle = enemy.framedelay
+			end
+			
+			enemy.texture = self.textures[enemy.type][math.min(enemy.frame, #self.textures[enemy.type])]
+	
+			--update bounds
+			enemy.w = enemy.texture:getWidth()
+			enemy.h = enemy.texture:getHeight()
+			
+			
+		end
+		
+	
 		if enemy.alive then
 			enemy.carried = false
 		
@@ -240,13 +308,52 @@ function enemies:update(dt)
 				physics:crates(enemy,dt)
 				physics:traps(enemy, dt)
 				physics:platforms(enemy, dt)
+			
 				
-				--test
-				--hopper enemy, move this statement to a new entity TODO
-				--this is broken, enemy.carried when true for traps, gets reset to false for platforms.
+				physics:update(enemy)
+				
+				-- NOT ACTIVE WHILST EDITING
+				if mode == "game" and player.alive and collision:check(player.newX,player.newY,player.w,player.h,
+					enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
+					-- if we land on top, kill enemy
+					if collision:above(player,enemy) then	
+						if player.jumping or player.invincible then
+							
+							if player.y > enemy.y then
+								player.yvel = -player.jumpheight
+							elseif player.y < enemy.y then
+								player.yvel = player.jumpheight
+							end
+							popups:add(enemy.x+enemy.w/2,enemy.y+enemy.h/2,"+"..enemy.score)
+							player.score = player.score + enemy.score
+							enemy.alive = false
+							sound:play(sound.effects["kill"])
+							console:print(enemy.group .." killed")
+							joystick:vibrate(0.5,0.5,0.5)
+							return true
+							
+						else
+							player:die(enemy.group)
+						end
+					end
+				end
+				
+			end	
+			
+			
+			if enemy.type == "hopper" then
+			
+				physics:applyGravity(enemy, dt)
+				--enemy.yorigin = enemy.newY
+
+				physics:movex(enemy, dt)	
+				physics:crates(enemy,dt)
+				physics:traps(enemy, dt)
+				physics:platforms(enemy, dt)
+				
 				if enemy.carried then
 					if enemy.x <= enemy.xorigin or enemy.x >= enemy.xorigin + enemy.movedist then
-						enemy.yvel=500	
+						enemy.yvel=600
 					end
 				end
 				
@@ -428,9 +535,9 @@ function enemies:draw()
 			count = count + 1
 			if enemy.alive then
 			
-				local texture = self.textures[enemy.type]
+				local texture = self.textures[enemy.type][1]
 			
-				if enemy.type == "walker" or enemy.type == "floater" then
+				if enemy.type == "walker" or enemy.type == "hopper" then
 					love.graphics.setColor(1,1,1,1)
 					
 					if enemy.movespeed < 0 then
@@ -441,6 +548,15 @@ function enemies:draw()
 					
 				end
 			
+				
+				if enemy.type == "floater" then
+					love.graphics.setColor(1,1,1,1)
+					if enemy.movespeed < 0 then
+						love.graphics.draw(enemy.texture, enemy.x, enemy.y, 0, 1, 1)
+					elseif enemy.movespeed > 0 then
+						love.graphics.draw(enemy.texture, enemy.x+enemy.w, enemy.y, 0, -1, 1)
+					end
+				end
 				
 				
 				-- Implement this for "spike_timer", so it can be animated (move smoothly out of drawable area)
@@ -493,10 +609,10 @@ function enemies:drawdebug(enemy, i)
 	if enemy.type == "spikeball" then
 		--bounds
 		love.graphics.setColor(1,0,0,1)
-		love.graphics.rectangle("line", enemy.x-texture:getWidth()/2+5, enemy.y-texture:getHeight()/2+5, texture:getWidth()-10, texture:getHeight()-10)
+		love.graphics.rectangle("line", enemy.x-texture[(enemy.frame or 1)]:getWidth()/2+5, enemy.y-texture[(enemy.frame or 1)]:getHeight()/2+5, texture[(enemy.frame or 1)]:getWidth()-10, texture[(enemy.frame or 1)]:getHeight()-10)
 		--hitbox
 		love.graphics.setColor(1,0.78,0.39,1)
-		love.graphics.rectangle("line", enemy.x-texture:getWidth()/2, enemy.y-texture:getHeight()/2, texture:getWidth(), texture:getHeight())
+		love.graphics.rectangle("line", enemy.x-texture[(enemy.frame or 1)]:getWidth()/2, enemy.y-texture[(enemy.frame or 1)]:getHeight()/2, texture[(enemy.frame or 1)]:getWidth(), texture[(enemy.frame or 1)]:getHeight())
 
 		--waypoint
 		love.graphics.setColor(1,0,1,0.39)
@@ -521,12 +637,12 @@ function enemies:drawdebug(enemy, i)
 	end
 
 	--waypoint	
-	if enemy.type == "walker" or enemy.type == "floater" then
+	if enemy.type == "walker" or enemy.type == "floater" or enemy.type == "hopper" then
 		
 		love.graphics.setColor(1,0,1,0.19)
-		love.graphics.rectangle("fill", enemy.xorigin, enemy.y, enemy.movedist+texture:getWidth(), texture:getHeight())
+		love.graphics.rectangle("fill", enemy.xorigin, enemy.y, enemy.movedist+texture[(enemy.frame or 1)]:getWidth(), texture[(enemy.frame or 1)]:getHeight())
 		love.graphics.setColor(1,0,1,1)
-		love.graphics.rectangle("line", enemy.xorigin, enemy.y, enemy.movedist+texture:getWidth(), texture:getHeight())
+		love.graphics.rectangle("line", enemy.xorigin, enemy.y, enemy.movedist+texture[(enemy.frame or 1)]:getWidth(), texture[(enemy.frame or 1)]:getHeight())
 	end
 
 	

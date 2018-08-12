@@ -125,6 +125,10 @@ end
 
 function title:keypressed(key)
 	self:checkcheatcodes(key)
+	
+	if title.splash and key == "space" then
+		title.splash = false
+	end
 end
 
 
