@@ -23,7 +23,7 @@ function physics:applyVelocity(object, dt)
 	
 
 		-- x-axis friction
-		if object.dir == "right" then
+		if object.dir == 1 then
 			--if we are not travelling at max speed
 			if object.xvel < object.speed  then
 				if object.jumping then
@@ -37,7 +37,7 @@ function physics:applyVelocity(object, dt)
 			
 			
 		end
-		if object.dir == "left"  then
+		if object.dir == -1  then
 			--if we are not travelling at max speed
 			if not (object.xvel < -object.speed)  then
 				if object.jumping then
@@ -51,7 +51,7 @@ function physics:applyVelocity(object, dt)
 		end
 		
 		-- increase friction when 'idle' until velocity is zero
-		if object.dir == "idle" and not object.jumping  then
+		if object.dir == 0 and not object.jumping  then
 			if object.xvel > 0 then
 				object.xvel = math.max(0,object.xvel - (object.friction *dt))
 			elseif object.xvel < 0 then

@@ -75,8 +75,8 @@ function player:init()
 	self.yvel = 0
 	self.jumpheight = 780
 	self.jumping = false
-	self.dir = "idle"
-	self.lastdir = "idle"
+	self.dir = 0
+	self.lastdir = 0
 	self.score = 0
 	self.alive = true
 	self.lives = 3
@@ -121,14 +121,17 @@ function player:draw()
 		love.graphics.setColor(1,1,1,1)
 		
 		
-		if self.lastdir == "left" then
-			love.graphics.draw(self.texture, self.x,self.y,0, -1,1, self.texture:getWidth(), 0)
-		else
-			love.graphics.draw(self.texture, self.x,self.y)
-		end
-			
-
-	
+		-- active player sprite
+		love.graphics.draw(
+			self.texture, 
+			self.x,
+			self.y,
+			0, 
+			(self.lastdir == -1 and -1 or 1),
+			1,
+			(self.lastdir == -1 and self.texture:getWidth() or 0), 
+			0
+		)
 		
 		love.graphics.pop()
 	end
@@ -159,11 +162,40 @@ function player:drawdebug()
 end
 
 
-player.frame = 1
-
-function player:update(dt)
-
-	--player frame/sprite animation
+function player:update(dt)	
+	
+	if paused or editing or world.splash.active then return end
+	
+	
+	
+	-- player input / movement
+	
+	if self.alive and not console.active then
+		if love.keyboard.isDown(binds.right) 
+			or joystick:isDown("dpright") then
+			self:moveright()
+		elseif love.keyboard.isDown(binds.left)
+			or joystick:isDown("dpleft") then
+			self:moveleft()
+		else
+			self.dir = 0
+		end
+	
+	
+		if love.keyboard.isDown(binds.jump) or joystick:isDown("a") then
+			if love.keyboard.isDown(binds.down) or joystick:isDown("dpdown") then
+				self:drop()
+			else
+				self:jump()
+			end
+		else
+			self.canjump = true
+		end
+	
+	end
+	
+	
+	-- player frame/sprite animation
 	self.framecycle = math.max(0, self.framecycle - dt)
 	
 	if self.framecycle <= 0 then
@@ -191,29 +223,26 @@ function player:update(dt)
 		if self.xvel ~= 0 then
 			self.framedelay = 0.1
 			self.state = "run"
+
 		else
 			self.state = "idle"
 			self.framedelay = 0.2
 		end
 	end
 	
-	--set the correct texture base don player state
+	if not self.alive then
+		self.framedelay = 0.1
+		self.state = "dizzy"
+	end
+	
+	
+	-- set the correct texture based on player state
 	self.texture = self.sprite[self.state][math.min(self.frame, #self.sprite[self.state])]
 	
 	if ostate ~= self.state then
 		--update player bounds
 		self.w = self.texture:getWidth()
 		self.h = self.texture:getHeight()
-		
-		-- note, 
-		--[[
-			updating this when changing from jumping to idle, causes a small drop
-			resulting in the sprite twitching momentarily. maybe resize the jump vertical 
-			size (add blank space to the image?)
-			
-			holding right at spawn/splash screen, also causes stuck frame momentarily
-			
-		--]]
 	end
 	
 
@@ -229,7 +258,7 @@ function player:update(dt)
 			console:print("invincibility ended")
 		end
 	end
-
+	
 	-- end game if no lives left
 	if self.lives < 0 then
 		console:print("game over")
@@ -248,34 +277,6 @@ function player:update(dt)
 	--]]
 	
 	
-	if paused or editing or world.splash.active then return end
-	
-	if self.alive and not console.active then
-		if love.keyboard.isDown(binds.right) 
-			or joystick:isDown("dpright") then
-			self:moveright()
-		elseif love.keyboard.isDown(binds.left)
-			or joystick:isDown("dpleft") then
-			self:moveleft()
-		else
-			self.dir = "idle"
-		end
-	
-	
-		if love.keyboard.isDown(binds.jump) or joystick:isDown("a") then
-			if love.keyboard.isDown(binds.down) or joystick:isDown("dpdown") then
-				self:drop()
-			else
-				self:jump()
-			end
-		else
-			self.canjump = true
-		end
-	
-	end
-	
-	
-	if editing then return end
 	if player.alive  then
 		player.carried = false
 		physics:applyVelocity(player, dt)
@@ -291,6 +292,7 @@ function player:update(dt)
 	else
 		--death physics (float up)
 		player.y = player.y - (250 * dt)
+	
 		if player.y < player.newY-600 then
 			player.lives = player.lives -1
 			player:respawn()
@@ -301,28 +303,36 @@ end
 
 
 function player:respawn()
-	--if mode == "game" then
+
+	-- restart bgm/ambient on respawn
 	sound:playbgm(world.mapmusic)
 	sound:playambient(world.mapambient)	
-	--end
 
+	-- load the previously stored state
 	world:loadstate()
+	
+	-- set the spawn
 	self.x = self.spawnX
 	self.y = self.spawnY
 	self.newX = self.spawnX
 	self.newY = self.spawnY
+
+	-- reset properties
 	self.xvel = 0
 	self.xvelboost = 0
 	self.yvel = 0
 	self.jumping = false
-	self.dir = "idle"
-	self.lastdir = "idle"
+	self.dir = 0
+	self.lastdir = 0
 	self.alive = true
 	self.candrop = false
 	self.invincible = false
 	camera.x = player.spawnX
 	camera.y = player.spawnY
+	
+	-- fade in camera
 	camera:fade(1, {0,0,0,0})
+	
 	self:cheats()
 	
 	console:print("respawn player")
@@ -344,9 +354,9 @@ function player:die(this)
 				pickup.attract = false
 			end
 		end
-		camera:fade(2, {0,0,0,1})
-		camera:shake(8, 1, 60, 'XY')
 		
+		camera:shake(8, 1, 60, 'XY')
+		camera:fade(2, {0,0,0,1})
 		joystick:vibrate(2,2,1)
 		
 		console:print("player killed by " .. this)	
@@ -431,12 +441,12 @@ end
 
 function player:moveleft()
 	self.lastdir = self.dir
-	self.dir = "left"
+	self.dir = -1
 end
 
 function player:moveright()
 	self.lastdir = self.dir
-	self.dir = "right"	
+	self.dir = 1
 end
 
 
