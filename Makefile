@@ -1,6 +1,6 @@
 APP_NAME=boxclip
 APP_VERSION=0.2
-LOVE_VERSION=0.10.2
+LOVE_VERSION=11.1
 
 build setup:
 	mkdir build
