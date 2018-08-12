@@ -1,5 +1,6 @@
 APP_NAME=boxclip
-APP_VERSION=0.2
+APP_VERSION=0.2.1
+
 LOVE_VERSION=11.1
 
 build setup:
@@ -18,7 +19,7 @@ win32:
 	cd build/win32 && \
 		wget -N https://bitbucket.org/rude/love/downloads/love-$(LOVE_VERSION)-win32.zip && \
 		unzip -o love-$(LOVE_VERSION)-win32.zip && \
-		cd love-$(LOVE_VERSION)-win32 && \
+		cd love-$(LOVE_VERSION).0-win32 && \
 		cat love.exe ../../$(APP_NAME)-$(APP_VERSION).love > $(APP_NAME)-$(APP_VERSION)-win32.exe && \
 		rm -f love.exe && \
 		zip -9 -q -r ../$(APP_NAME)-$(APP_VERSION)-win32.zip .
@@ -28,7 +29,7 @@ win64:
 	cd build/win64 && \
 		wget -N https://bitbucket.org/rude/love/downloads/love-$(LOVE_VERSION)-win64.zip && \
 		unzip -o love-$(LOVE_VERSION)-win64.zip && \
-		cd love-$(LOVE_VERSION)-win64 && \
+		cd love-$(LOVE_VERSION).0-win64 && \
 		cat love.exe ../../$(APP_NAME)-$(APP_VERSION).love > $(APP_NAME)-$(APP_VERSION)-win64.exe && \
 		rm -rf love.exe && \
 		zip -9 -q -r ../$(APP_NAME)-$(APP_VERSION)-win64.zip .
