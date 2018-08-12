@@ -160,6 +160,7 @@ function world:init(gamemode)
 	mapio:loadmap(world.map)
 
 	-- find the spawn entity
+	-- set as player spawn position
 	for _, portal in ipairs(world.entities.portal) do
 		if portal.type == "spawn" then
 			player.spawnX = portal.x

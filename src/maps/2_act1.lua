@@ -1,8 +1,8 @@
 world.gravity = 2000
 world.mapmusic = 13
 world.mapambient = 0
-world.maptitle = "Wastelands Act 3"
-world.nextmap = "title"
+world.maptitle = "Misty Palace - Act 1"
+world.nextmap = "2_act2.lua"
 world.deadzone = 2000
 world:settheme("mist")
 platforms:add(7000,-6920,500,180,false,false,false,0,0,false,0,13)

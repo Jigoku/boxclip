@@ -152,7 +152,7 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			type = type,
 			alive = true,
 			timer = 1.25,
-			timer_cycle = 1.25,
+			timer_cycle = love.math.random(0,125)/100,
 			movedist = 0,
 			dir = dir,
 			movespeed = 0,
@@ -432,14 +432,28 @@ function enemies:draw()
 			
 				if enemy.type == "walker" or enemy.type == "floater" then
 					love.graphics.setColor(1,1,1,1)
+					
 					if enemy.movespeed < 0 then
 						love.graphics.draw(texture, enemy.x, enemy.y, 0, 1, 1)
 					elseif enemy.movespeed > 0 then
 						love.graphics.draw(texture, enemy.x+texture:getWidth(), enemy.y, 0, -1, 1)
 					end
+					
 				end
 			
+				
+				
+				-- Implement this for "spike_timer", so it can be animated (move smoothly out of drawable area)
+					--[[ NOTE, clip/scissor 
+					local x,y = camera:toCameraCoords(enemy.x, enemy.y)
+					love.graphics.setScissor( x,y,enemy.w,enemy.h/2)
+					
+						--draw here
+						
+					love.graphics.setScissor()
+					--]]
 				love.graphics.setColor(1,1,1,1)
+				
 				if enemy.type == "spike" or enemy.type == "spike_large" or enemy.type == "spike_timer" and enemy.alive then
 					if enemy.dir == 1 then
 						love.graphics.draw(texture, enemy.x, enemy.y, math.rad(90),1,(enemy.flip and -1 or 1),0,(enemy.flip and 0 or enemy.w))

@@ -13,19 +13,33 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  --]]
  
- player = {}
+player = {}
+
+player.textures = {
+	["idle"] = love.graphics.newImage("data/images/player/idle/frame-1.png"),
+	["jump"] = love.graphics.newImage("data/images/player/jump/frame.png")
+}
 
 
 function player:init() 
 	--initialize the player defaults
 	self.group = "players"
+	
+	
+	self.w = player.textures["idle"]:getWidth()
+	self.h = player.textures["idle"]:getHeight()
+	--[[
 	self.w = 50
 	self.h = 60
+	--]]
+	
 	self.spawnX = 0
 	self.spawnY = 0 
 	self.x = spawnX
 	self.y = spawnY 
-
+	
+	--self.state = "idle" -- jump/run/fall etc
+	
 	self.speed = 470 --600
 	self.friction = 300
 	self.xvel = 0
@@ -78,24 +92,33 @@ function player:draw()
 		--rotating for jumping
 		if self.jumping then
 		
-			love.graphics.translate(self.x+self.w/2,self.y+self.h/2)
-			love.graphics.rotate(self.angle)
-			love.graphics.translate(-self.x-self.w/2,-self.y-self.h/2)
+			--love.graphics.translate(self.x+self.w/2,self.y+self.h/2)
+			--love.graphics.rotate(self.angle)
+			--love.graphics.translate(-self.x-self.w/2,-self.y-self.h/2)
 	
-			--player main (circle)
+			love.graphics.setColor(1,1,1,opacity)
+			love.graphics.draw(player.textures["jump"], self.x,self.y)
+	
+		--[[	--player main (circle)
 			love.graphics.setColor(0.4,0.7,0.6,1)
 			love.graphics.circle("fill", self.x+self.w/2, self.y+self.h/2, self.w/1.5, self.h)
 			love.graphics.setColor(0.4,0.4,0.4,1)
 			love.graphics.circle("line", self.x+self.w/2, self.y+self.h/2, self.w/1.5, self.h)
-				
+		--]]	
 		else
 			--player main (square)
 			local opacity = 1
 			if not self.alive then  opacity = 0.5 end
+			
+			love.graphics.setColor(1,1,1,opacity)
+			love.graphics.draw(player.textures["idle"], self.x,self.y)
+			
+			--[[
 			love.graphics.setColor(0.4,0.7,0.6,opacity)
 			love.graphics.rectangle("fill", self.x, self.y, self.w, self.h,5,5,5)
 			love.graphics.setColor(0.4,0.4,0.4,opacity)
 			love.graphics.rectangle("line", self.x, self.y, self.w, self.h,5,5,5)
+			--]]
 		end
 	
 		-- eyes

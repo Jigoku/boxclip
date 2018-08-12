@@ -41,7 +41,6 @@ function decals:add(x,y,w,h,scrollspeed,texture)
 		scrollspeed = scrollspeed or 100,
 		texture = texture or 1,
 		group = "decal",
-
 		quad = love.graphics.newQuad( x,y,w,h, self.textures[texture]:getDimensions() ) 
 	})
 end
@@ -56,6 +55,7 @@ function decals:update(dt)
 				decal.scroll = decal.scroll - texture:getHeight()
 			end
 			decal.quad:setViewport(0,-decal.scroll, decal.w,decal.h )
+			
 		end
 	end
 	
@@ -63,9 +63,14 @@ function decals:update(dt)
 		self.waterfall_spin = self.waterfall_spin + dt * 10
 		self.waterfall_spin = self.waterfall_spin % (2*math.pi)
 	end
+	
+	
 
 end
 
+
+
+ 
 function decals:draw()
 	local count = 0
 	
@@ -76,7 +81,11 @@ function decals:draw()
 			local texture = self.textures[decal.texture]
 			
 			love.graphics.setColor(1,1,1,0.9)
+			
 			love.graphics.draw(texture, decal.quad, decal.x,decal.y)
+
+			
+			
 			
 			
 			if decal.texture == 1 then

@@ -1,7 +1,7 @@
 world.gravity = 2000
 world.mapmusic = 14
 world.mapambient = 4
-world.maptitle = "Sunny Hill Act 1"
+world.maptitle = "Sunny Hill - Act 1"
 world.nextmap = "1_act2.lua"
 world.deadzone = 2000
 world:settheme("sunny")
