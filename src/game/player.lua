@@ -176,6 +176,8 @@ function player:update(dt)
 		self.framecycle = self.framedelay
 	end
 
+	local ostate = self.state
+
 	if self.jumping then
 		self.framedelay = 0
 	
@@ -193,15 +195,27 @@ function player:update(dt)
 			self.state = "idle"
 			self.framedelay = 0.2
 		end
-		
 	end
 	
+	--set the correct texture base don player state
 	self.texture = self.sprite[self.state][math.min(self.frame, #self.sprite[self.state])]
 	
-	--update player bounds
-	--self.w = self.texture:getWidth()
-	--self.h = self.texture:getHeight()
-
+	if ostate ~= self.state then
+		--update player bounds
+		self.w = self.texture:getWidth()
+		self.h = self.texture:getHeight()
+		
+		-- note, 
+		--[[
+			updating this when changing from jumping to idle, causes a small drop
+			resulting in the sprite twitching momentarily. maybe resize the jump vertical 
+			size (add blank space to the image?)
+			
+			holding right at spawn/splash screen, also causes stuck frame momentarily
+			
+		--]]
+	end
+	
 
 	-- invincibility check
 	if self.invincible then
