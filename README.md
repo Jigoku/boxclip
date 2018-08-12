@@ -2,7 +2,7 @@
 
 Maps can be created with the custom built-in map editor. Simply drop and place entities into the world.
 
-[![2018-03-09-193711_1920x1080_thumb](https://user-images.githubusercontent.com/1535179/37226460-ea4f5b86-23d1-11e8-8aa8-7fa2d6eabe17.png)](https://user-images.githubusercontent.com/1535179/37226506-0e246da8-23d2-11e8-99a3-58c9fd12cbf7.png)
+[![1](screenshots/2018-08-12_153245.png)](screenshots/2018-08-12_153245.png)
 
 ### Features
 * game mode
@@ -43,5 +43,9 @@ Windows archives are not currently available, but you can create one using the a
 
 ### Note
 Please note this is alpha software, there is no stable release yet. Currently the plans are to have a box collision based world with a map editor, and simple path-based enemies. This may change at any time! 
+
+[![2](screenshots/2018-08-12_153022.png)](screenshots/2018-08-12_153022.png)
+
+[![3](screenshots/2018-08-12_153031.png)](screenshots/2018-08-12_153031.png)
 
 
