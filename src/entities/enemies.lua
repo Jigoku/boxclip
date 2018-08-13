@@ -82,7 +82,7 @@ enemies.textures = {
 	},
 	
 	["hopper"] = { 
-		love.graphics.newImage( "data/images/enemies/walker.png"),
+		love.graphics.newImage( "data/images/enemies/hopper.png"),
 	},
 	
 	["floater"] = {
