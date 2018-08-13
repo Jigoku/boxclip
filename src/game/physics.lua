@@ -278,108 +278,99 @@ end
 
 function physics:platforms(object, dt)
 	for i, platform in ipairs(world.entities.platform) do	
-			if collision:check(platform.x,platform.y,platform.w,platform.h,
-					object.newX,object.newY,object.w,object.h) then
+		if collision:check(platform.x,platform.y,platform.w,platform.h,
+				object.newX,object.newY,object.w,object.h) then
 					
-				-- if anything collides, check which sides did
-				-- adjust position/velocity if neccesary
+			-- if anything collides, check which sides did
+			-- adjust position/velocity if neccesary
 				
-				-- only check these when clip is true
-				if platform.clip then
+			-- only check these when clip is true
+			if platform.clip then
 					
-					-- right side
-					if collision:right(object,platform) 
-					and not collision:top(object,platform) 
-					and not collision:left(object,platform) then
-						object.xvel = 0
-						object.xvelboost = 0
-						object.newX = platform.x+platform.w +1 *dt
+				-- right side
+				if collision:right(object,platform) 
+				and not collision:top(object,platform) 
+				and not collision:left(object,platform) then
+					object.xvel = 0
+					object.xvelboost = 0
+					object.newX = platform.x+platform.w +1 *dt
 						
-					-- left side
-					elseif collision:left(object,platform) 
-					and not collision:top(object,platform) 
-					and not collision:right(object,platform) then
-						object.xvel = 0
-						object.xvelboost = 0
-						object.newX = platform.x-object.w -1 *dt
+				-- left side
+				elseif collision:left(object,platform) 
+				and not collision:top(object,platform) 
+				and not collision:right(object,platform) then
+					object.xvel = 0
+					object.xvelboost = 0
+					object.newX = platform.x-object.w -1 *dt
 						
-					-- bottom side	
-					elseif collision:bottom(object,platform) 
-					and not collision:right(object,platform) 
-					and not collision:left(object,platform) then	
-						object.yvel = 0		
-						object.newY = platform.y +platform.h +1 *dt
-			
-					end
+				-- bottom side	
+				elseif collision:bottom(object,platform) 
+				and not collision:right(object,platform) 
+				and not collision:left(object,platform) then	
+					object.yvel = 0		
+					object.newY = platform.y +platform.h +1 *dt
 				end
-
-				-- top side
-				platform.carrying = false
-				
-				if collision:top(object,platform) then
-					object.carried = true
-					
-					if platform.clip then
-						object.candrop = false
-					else
-						object.candrop = true
-					end
-
-						
-					if object.yvel < 0 then
-						if object.bounce then
-							self:bounce(object)
-						elseif object.jumping then
-							sound:play(sound.effects["hit"])
-							object.jumping = false
-							object.yvel = 0
-						else
-							object.yvel = 0
-						end
-							
-						object.newY = platform.y - object.h +1 *dt
-					end
-						
-
-					if platform.movex then
-						-- move along x-axis with platform	
-						object.newX = object.newX + platform.movespeed *dt
-					end
-
-					if platform.swing then	
-						object.newX =  platform.radius * math.cos(platform.angle) + platform.xorigin +platform.w/2 - object.w/2
-						object.newY = platform.y - object.h+1 *dt
-						object.yvel = -player.jumpheight
-					end
-
-					if platform.movey and not object.jumping then
-						--object.yvel = -platform.movespeed *dt
-						
-						if platform.movespeed <= 0 then
-							--going up
-							object.newY = platform.y - object.h +1 - (platform.movespeed *dt)
-						else
-							--going down	
-							object.newY = platform.y - object.h +1 + (platform.movespeed *dt)
-						end
-						
-					end		
-						
-					
-					
-				end
-
 			end
-		
+
+			-- top side
+			platform.carrying = false
+				
+			if collision:top(object,platform) then
+				object.carried = true
+					
+				if platform.clip then
+					object.candrop = false
+				else
+					object.candrop = true
+				end
+						
+				if object.yvel < 0 then
+					if object.bounce then
+						self:bounce(object)
+					elseif object.jumping then
+						sound:play(sound.effects["hit"])
+						object.jumping = false
+						object.yvel = 0
+					else
+						object.yvel = 0
+					end
+							
+					object.newY = platform.y - object.h +1 *dt
+				end
+						
+
+				if platform.movex then
+					-- move along x-axis with platform	
+					object.newX = object.newX + platform.movespeed *dt
+				end
+
+				if platform.swing then	
+					object.newX =  platform.radius * math.cos(platform.angle) + platform.xorigin +platform.w/2 - object.w/2
+					object.newY = platform.y - object.h+1 *dt
+					object.yvel = -player.jumpheight
+				end
+
+				if platform.movey and not object.jumping then
+					--object.yvel = -platform.movespeed *dt
+						
+					if platform.movespeed <= 0 then
+						--going up
+						object.newY = platform.y - object.h +1 - (platform.movespeed *dt)
+					else
+						--going down	
+						object.newY = platform.y - object.h +1 + (platform.movespeed *dt)
+					end			
+				end		
+			
+			end
+		end
 	end
-	
 end
 
 function physics:update(object)
-	if object.newY then object.y = object.newY,2 end
-	if object.newX then object.x = object.newX,2 end
+	if object.newY then object.y = object.newY end
+	if object.newX then object.x = object.newX end
 end
-
 
 
 function physics:trapsworld(dt)
@@ -479,18 +470,3 @@ function physics:traps(object, dt)
 		end
 	end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

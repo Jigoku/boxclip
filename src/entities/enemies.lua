@@ -17,7 +17,68 @@ enemies = {}
 
 enemies.textures = {
 	["walker"] = { 
-		love.graphics.newImage( "data/images/enemies/walker.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_000.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_001.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_002.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_003.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_004.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_005.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_006.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_007.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_008.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_009.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_010.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_011.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_012.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_013.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_014.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_015.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_016.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_017.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_018.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_019.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_020.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_021.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_022.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_023.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_024.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_025.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_026.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_027.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_028.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_029.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_030.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_031.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_032.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_033.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_034.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_035.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_036.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_037.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_038.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_039.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_040.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_041.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_042.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_043.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_044.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_045.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_046.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_047.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_048.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_049.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_050.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_051.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_052.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_053.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_054.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_055.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_056.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_057.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_058.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_059.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_060.png"),
+		love.graphics.newImage("data/images/enemies/cube_monster/w_061.png"),
 	},
 	
 	["hopper"] = { 
@@ -69,11 +130,13 @@ table.insert(editor.entities, {"walker", "enemy"})
 table.insert(editor.entities, {"hopper", "enemy"})
 table.insert(editor.entities, {"floater",  "enemy"})
 table.insert(editor.entities, {"spikeball", "enemy"})
-
+	
 
 function enemies:add(x,y,movespeed,movedist,dir,type)
 
 	if type == "walker" then
+	
+		local texture = self.textures["walker"][1]
 		table.insert(world.entities.enemy, {
 			movespeed = movespeed or 100,
 			movedist = movedist or 200,
@@ -83,8 +146,12 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			yorigin = y,
 			x = love.math.random(x,x+movedist) or 0,
 			y = y or 0,
-			w = self.textures[type][1]:getWidth(),
-			h = self.textures[type][1]:getHeight(),
+			texture = texture,
+			w = texture:getWidth(),
+			h = texture:getHeight(),
+			framecycle = 0,
+			frame = 1,
+			framedelay = 0.001,
 			group = "enemy",
 			type = type,
 			xvel = 0,
@@ -537,7 +604,7 @@ function enemies:draw()
 			
 				local texture = self.textures[enemy.type][1]
 			
-				if enemy.type == "walker" or enemy.type == "hopper" then
+				if enemy.type == "hopper" then
 					love.graphics.setColor(1,1,1,1)
 					
 					if enemy.movespeed < 0 then
@@ -548,8 +615,9 @@ function enemies:draw()
 					
 				end
 			
+
 				
-				if enemy.type == "floater" then
+				if enemy.type == "floater" or enemy.type == "walker" then
 					love.graphics.setColor(1,1,1,1)
 					if enemy.movespeed < 0 then
 						love.graphics.draw(enemy.texture, enemy.x, enemy.y, 0, 1, 1)
