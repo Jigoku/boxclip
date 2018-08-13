@@ -19,10 +19,7 @@
  
 platforms = {}
 
-platform_link = love.graphics.newImage("data/images/tiles/link.png")
-platform_link_origin = love.graphics.newImage("data/images/tiles/link_origin.png")
 platform_cradle = love.graphics.newImage("data/images/tiles/cradle.png")
-
 platforms.grass = textures:load("data/images/surfaces/")
 platforms.textures = textures:load("data/images/platforms/")
 
@@ -95,25 +92,6 @@ function platforms:settexture(platform,texture)
 end
 
 
-function platforms:drawlink(platform)
-
-	--origin
-	love.graphics.setColor(1,1,1,1)
-	love.graphics.draw(platform_link_origin, platform.xorigin-platform_link_origin:getWidth()/2, platform.yorigin-platform_link_origin:getHeight()/2, 0,1,1)
-	
-	local r = 0
-
-	--link
-	while r < platform.radius do
-		r = r + platform_link:getHeight()
-		local x = r * math.cos(platform.angle) + platform.xorigin
-		local y = r * math.sin(platform.angle) + platform.yorigin
-
-		love.graphics.draw(platform_link, x-platform_link:getWidth()/2, y-platform_link:getHeight()/2, 0,1,1)
-	end
-	
-end
-
 function platforms:update(dt)
 	-- moving platforms etc
 	for i, platform in pairs(world.entities.platform) do
@@ -132,9 +110,9 @@ function platforms:draw()
 		if world:inview(platform) then
 			count = count + 1
 			
-			-- move this eventually, chainlinks should be drawn on top of player.
+
 			if platform.swing then
-				platforms:drawlink(platform, radius)
+				chainlink:draw(platform)
 					
 				love.graphics.setColor(
 					platform_behind_r,
@@ -225,18 +203,19 @@ function platforms:drawdebug(platform, i)
 	end 
 	
 	--debug connector
+
 	if platform.swing then 
 		love.graphics.setColor(1,0,1,0.39)
 		love.graphics.line( platform.xorigin,platform.yorigin,platform.x,platform.y)	
 		love.graphics.setColor(1,0,0,0.39)
-		love.graphics.rectangle("line", 
+	--[[	love.graphics.rectangle("line", 
 			platform.xorigin-platform_link_origin:getWidth()/2, 
 			platform.yorigin-platform_link_origin:getHeight()/2,
 			platform_link_origin:getWidth(),
 			platform_link_origin:getHeight()
-		)
+		)--]]
 	end
-	
+
 	editor:drawid(platform,i)
 	editor:drawcoordinates(platform)
 	

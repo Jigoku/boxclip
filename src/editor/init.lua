@@ -1111,13 +1111,13 @@ function editor:selection()
 				elseif e.swing then
 					--collision area for swinging entity
 					if collision:check(self.mouse.x,self.mouse.y,1,1,
-						e.xorigin-platform_link_origin:getWidth()/2, e.yorigin-platform_link_origin:getHeight()/2,  
-						platform_link_origin:getWidth(),platform_link_origin:getHeight()) then
+						e.xorigin-chainlink.textures["origin"]:getWidth()/2, e.yorigin-chainlink.textures["origin"]:getHeight()/2,  
+						chainlink.textures["origin"]:getWidth(),chainlink.textures["origin"]:getHeight()) then
 						self.selbox = {	
-							x = e.xorigin-platform_link_origin:getWidth()/2, 
-							y = e.yorigin-platform_link_origin:getHeight()/2,  
-							w = platform_link_origin:getWidth(),
-							h = platform_link_origin:getHeight()
+							x = e.xorigin-chainlink.textures["origin"]:getWidth()/2, 
+							y = e.yorigin-chainlink.textures["origin"]:getHeight()/2,  
+							w = chainlink.textures["origin"]:getWidth(),
+							h = chainlink.textures["origin"]:getHeight()
 						}
 						e.selected = true
 					

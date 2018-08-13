@@ -15,6 +15,7 @@
  
 entities = {}
 
+require("entities/chainlink")
 require("entities/platforms")
 require("entities/materials")
 require("entities/props")

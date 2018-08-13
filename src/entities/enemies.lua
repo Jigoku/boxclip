@@ -656,7 +656,7 @@ function enemies:draw()
 			
 			
 				if enemy.type == "spikeball" then
-					platforms:drawlink(enemy)
+					chainlink:draw(enemy)
 					love.graphics.draw(texture, enemy.x, enemy.y, -enemy.angle*2,1,1,enemy.w/2,enemy.h/2)
 				end
 			
@@ -690,8 +690,8 @@ function enemies:drawdebug(enemy, i)
 		--selectable area in editor
 		love.graphics.setColor(1,0,0,0.39)
 		love.graphics.rectangle("line", 
-			enemy.xorigin-platform_link_origin:getWidth()/2,enemy.yorigin-platform_link_origin:getHeight()/2,
-			platform_link_origin:getWidth(),platform_link_origin:getHeight()
+			enemy.xorigin-chainlink.textures["origin"]:getWidth()/2,enemy.yorigin-chainlink.textures["origin"]:getHeight()/2,
+			chainlink.textures["origin"]:getWidth(),chainlink.textures["origin"]:getHeight()
 		)
 
 	else
