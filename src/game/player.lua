@@ -243,7 +243,21 @@ function player:update(dt)
 		--update player bounds
 		self.w = self.texture:getWidth()
 		self.h = self.texture:getHeight()
+		
+		-- reset frame counter if state changed
+		self.frame = 1
+		
+		-- reposition player y position if state differs
+		-- difference between oldstate/newstate
+		-- this keeps the sprite in place relative to the characters head
+		local oldtex = self.sprite[ostate][self.frame]:getHeight()
+		local newtex = self.sprite[self.state][self.frame]:getHeight()
+		
+		if newtex > oldtex then
+			self.y = self.y + (oldtex - newtex)
+		end
 	end
+	
 	
 
 	-- invincibility check

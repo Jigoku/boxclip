@@ -8,7 +8,7 @@ Maps can be created with the custom built-in map editor. Simply drop and place e
 * game mode
 * editor mode
 * fully customizable world
-* STALKER-X (camera module)
+* [STALKER-X](https://github.com/SSYGEN/STALKER-X) (camera module)
 * simple AABB collisions
 * gravity / velocity
 * moving platforms
