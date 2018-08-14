@@ -111,9 +111,13 @@ function console:keypressed(key)
 				-- run/exec function here
 				console:print("DEBUG:: " .. console.command)
 				
-				-- this almost works (however crashes when syntax error... so fix that)
-				local out = assert(loadstring(console.command))()
-				console:print(out)
+				local out = pcall(function() assert(loadstring(console.command))() end)
+				
+				if out then 
+					console:print(out)
+				else
+					console:print("ERROR: invalid lua snytax!")
+				end
 				
 		end			
 		console.command = ""
