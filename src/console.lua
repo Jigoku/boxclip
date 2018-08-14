@@ -49,7 +49,7 @@ end
 
 function console:toggle(v)
 	--sound:play(sound.effects["beep"])
-	debug = not debug
+	--debug = not debug
 	self.command = ""
 	
 	if self.active then
@@ -65,78 +65,7 @@ function console:toggle(v)
 end
 
 function console:draw()
-	if self.active then
-
-		-- this could be moved elsewhere on screen, as it's debug info (not console info)
-		if not (mode == "title") then
-		
-			love.graphics.setColor(0,0,0,0.8)
-			love.graphics.rectangle("fill",  love.graphics.getWidth()/5, love.graphics.getHeight()-100, 600, 90)
-			
-			--score etc
-			if mode == "game" then
-				love.graphics.setColor(1,1,1,1)
-				love.graphics.print(
-					"[lives: " .. player.lives .. "]"..
-					"[score: " .. player.score .. "]"..
-					"[time: " .. world:formattime(world.time) .. "]"..
-					"[alive: "..(player.alive and 1 or 0).."]", 
-					love.graphics.getWidth()/5, love.graphics.getHeight()-100
-				)
-			end
-		
-			love.graphics.setColor(1,1,1,1)
-			love.graphics.print(
-				"X: " .. math.round(player.x) .. 
-				" | Y: " .. math.round(player.y) .. 
-				" | dir: " .. player.dir .. 
-				" | xvel: " .. math.round(player.xvel) .. 
-				" | yvel: " .. math.round(player.yvel) .. 
-				" | jumping: " .. (player.jumping and 1 or 0) ..
-				" | camera.scale: " .. camera.scale, 
-				love.graphics.getWidth()/5, love.graphics.getHeight()-75
-			)
-		
-
-			love.graphics.setColor(1,0.4,1,1)
-			love.graphics.print(
-				"pickups: " .. #world.entities.pickup .. "(".. world.pickups .. ")" ..
-				" | enemies: " .. #world.entities.enemy .. "(".. world.enemies .. ")" ..
-				" | platforms: " .. #world.entities.platform .. "(".. world.platforms .. ")" ..
-				" | props: " .. #world.entities.prop .. "("..world.props .. ")" ..
-				" | springs: " .. #world.entities.spring .. "("..world.springs .. ")" ..
-				" | portals: " .. #world.entities.portal .. "("..world.portals .. ")" ..
-				" | crates: " .. #world.entities.crate .. "("..world.crates .. ")" .. "\n"..
-				"checkpoints: " .. #world.entities.checkpoint .. "("..world.checkpoints .. ")" ..
-				" | decals: " .. #world.entities.decal .. "("..world.decals .. ")" ..
-				" | bumpers: " .. #world.entities.bumper .. "("..world.bumpers .. ")" ..
-				" | traps: " .. #world.entities.trap .. "(" .. world.traps .. ")" ..
-				" | tips: " .. #world.entities.tip .. "(" .. world.tips .. ")" ..
-				" | total: " .. world:totalents() .. "(" .. world:totalentsdrawn() .. ")" .. 
-				" | ccpf: " .. world.collision,
-				love.graphics.getWidth()/5, love.graphics.getHeight()-50
-			)
-		end
-		
-		
-		--fps info etc
-		love.graphics.setColor(0,0,0,0.7)
-		love.graphics.rectangle("fill",love.graphics.getWidth()-160, 5,150,105,10)
-		love.graphics.setFont(fonts.debug)
-		love.graphics.setColor(1,1,1,1)
-		love.graphics.print(
-			"fps " .. love.timer.getFPS() .. "\n" ..
-			"memory(gc) " ..  gcinfo() .."kB\n"..
-			string.format("vram %.2fMB", love.graphics.getStats().texturememory / 1024 / 1024) .. "\n" ..
-			"tick " .. game.ticks .. "\n" ..
-			"update " .. math.round(game.utick_time,1) .. "ms\n" ..
-			"draw " .. math.round(game.dtick_time,1) .. "ms",
-			love.graphics.getWidth()-155, 10
-		)
-		
-	end
-		
-	if self.opacity > 0 then
+	if self.active and self.opacity > 0 then
 		-- draw the console contents
 		love.graphics.setCanvas(self.canvas)
 		love.graphics.setFont(fonts.console)
@@ -161,7 +90,6 @@ function console:draw()
 		love.graphics.setColor(1,1,1,self.opacity)
 		love.graphics.draw(self.canvas, 0,0)
 	end
-	
 end
 
 function console:textinput(t)
