@@ -17,6 +17,8 @@ joystick = {}
 
 --set default gamepad/joystick as first device if available
 --TODO, implement selecting active joystick device in game settings/menu
+--TODO, add pause buttons
+
 joystick.active = love.joystick.getJoysticks()[1] or false
 
 function joystick:isDown(button)

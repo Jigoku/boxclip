@@ -49,14 +49,12 @@ function love.keypressed(key)
 	elseif mode == "gameover" then gameover:keypressed(key)
 	elseif mode == "game" then
 		if key == binds.pause then
-				
-			-- broken? does not resume.
 			if paused then love.audio.play(sound.music[world.mapmusic]) else love.audio.pause(sound.music[world.mapmusic]) end
 			paused = not paused
-			
 			sound:play(sound.effects["beep"])
 		end
 	end
+
 	
 	--quit
 	if mode == "game" or mode == "editing" then

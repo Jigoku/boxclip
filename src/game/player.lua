@@ -16,36 +16,12 @@
 player = {}
 
 player.sprite = {
-	["idle"] = {
-		love.graphics.newImage("data/images/player/idle/frame-1.png"),
-		love.graphics.newImage("data/images/player/idle/frame-2.png"),
-	},
-	
-	["jump"] = {
-		love.graphics.newImage("data/images/player/jump/frame.png"),
-	},
-	
-	["fall"] = {
-		love.graphics.newImage("data/images/player/fall/frame.png"),
-	},
-	
-	["run"] = {
-		love.graphics.newImage("data/images/player/run/frame-1.png"),
-		love.graphics.newImage("data/images/player/run/frame-2.png"),
-		love.graphics.newImage("data/images/player/run/frame-3.png"),
-		love.graphics.newImage("data/images/player/run/frame-4.png"),
-	},
-	
-	["dizzy"] = {
-		love.graphics.newImage("data/images/player/dizzy/frame-1.png"),
-		love.graphics.newImage("data/images/player/dizzy/frame-2.png"),
-	},
-	
-	["faint"] = {
-		love.graphics.newImage("data/images/player/faint/frame-1.png"),
-		love.graphics.newImage("data/images/player/faint/frame-2.png"),
-		love.graphics.newImage("data/images/player/faint/frame-3.png"),
-	}
+	["idle" ] = textures:load("data/images/player/idle/" ),
+	["jump" ] = textures:load("data/images/player/jump/" ),
+	["fall" ] = textures:load("data/images/player/fall/" ),
+	["run"  ] = textures:load("data/images/player/run/"  ),
+	["dizzy"] = textures:load("data/images/player/dizzy/"),	 
+	["faint"] = textures:load("data/images/player/faint/"),
 	
 }
 
