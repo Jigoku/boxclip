@@ -16,12 +16,10 @@
 enemies = {}
 
 enemies.textures = {
-	["walker" ] = textures:load("data/images/enemies/cube_monster/"),
-	["floater"] = textures:load("data/images/enemies/grumpy_bee/"  ),
+	["walker" ] = textures:load("data/images/enemies/cube_monster/" ),
+	["hopper" ] = textures:load("data/images/enemies/green_monster/"),
+	["floater"] = textures:load("data/images/enemies/grumpy_bee/"   ),
 	
-	["hopper"] = { 
-		love.graphics.newImage( "data/images/enemies/hopper.png"),
-	},
 	
 	["spike"] = { 
 		love.graphics.newImage( "data/images/enemies/spike.png"),
@@ -46,10 +44,7 @@ enemies.textures = {
 	["spikeball"] = { 
 		love.graphics.newImage( "data/images/enemies/spikeball.png"),
 	}
-}
-
-
-	
+}	
 
 
 table.insert(editor.entities, {"spike", "enemy"})
@@ -92,17 +87,22 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 		})
 		
 	elseif type == "hopper" then
+		local texture = self.textures["hopper"][1]
 		table.insert(world.entities.enemy, {
 			movespeed = movespeed or 100,
 			movedist = movedist or 200,
-			movex = 0,
+			movex = 1,
 			dir = 0,
 			xorigin = x,
 			yorigin = y,
 			x = love.math.random(x,x+movedist) or 0,
 			y = y or 0,
-			w = self.textures[type][1]:getWidth(),
-			h = self.textures[type][1]:getHeight(),
+			texture = texture,
+			w = texture:getWidth(),
+			h = texture:getHeight(),
+			framecycle = 0,
+			frame = 1,
+			framedelay = 0.025,
 			group = "enemy",
 			type = type,
 			xvel = 0,
@@ -212,10 +212,7 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 		})
 
 	elseif type == "floater" then
-	
-
-	local texture = self.textures["floater"][1]
-	
+		local texture = self.textures["floater"][1]
 		table.insert(world.entities.enemy, {
 			movespeed = movespeed or 100,
 			movedist = movedist or 400,
@@ -270,7 +267,7 @@ function enemies:update(dt)
 	for i, enemy in ipairs(world.entities.enemy) do
 	
 		--animate frames if given
-		if enemy.frame then
+		if #self.textures[enemy.type] > 1 then
 			enemy.framecycle = math.max(0, enemy.framecycle - dt)
 			
 			if enemy.framecycle <= 0 then
@@ -284,12 +281,11 @@ function enemies:update(dt)
 			end
 			
 			enemy.texture = self.textures[enemy.type][math.min(enemy.frame, #self.textures[enemy.type])]
-	
+
 			--update bounds
 			enemy.w = enemy.texture:getWidth()
 			enemy.h = enemy.texture:getHeight()
-			
-			
+
 		end
 		
 	
@@ -533,21 +529,8 @@ function enemies:draw()
 			if enemy.alive then
 			
 				local texture = self.textures[enemy.type][1]
-			
-				if enemy.type == "hopper" then
-					love.graphics.setColor(1,1,1,1)
-					
-					if enemy.movespeed < 0 then
-						love.graphics.draw(texture, enemy.x, enemy.y, 0, 1, 1)
-					elseif enemy.movespeed > 0 then
-						love.graphics.draw(texture, enemy.x+texture:getWidth(), enemy.y, 0, -1, 1)
-					end
-					
-				end
-			
-
 				
-				if enemy.type == "floater" or enemy.type == "walker" then
+				if enemy.type == "floater" or enemy.type == "walker" or enemy.type =="hopper" then
 					love.graphics.setColor(1,1,1,1)
 					if enemy.movespeed < 0 then
 						love.graphics.draw(enemy.texture, enemy.x, enemy.y, 0, 1, 1)
