@@ -109,15 +109,21 @@ function console:keypressed(key)
 		else
 				
 				-- run/exec function here
-				console:print("DEBUG:: " .. console.command)
+				--console:print("DEBUG:: " .. console.command)
 				
-				local out = pcall(function() assert(loadstring(console.command))() end)
-				
-				if out then 
-					console:print(out)
+			local fn, err = loadstring(console.command)
+			if not fn then
+				console:print(err)
 				else
-					console:print("ERROR: invalid lua snytax!")
+				local ok, result = pcall(fn)
+				if not ok then
+					-- There was an error, so result is an error. Print it out.
+					console:print(result)
+				elseif result then
+					console:print(result)
 				end
+			end
+
 				
 		end			
 		console.command = ""
