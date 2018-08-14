@@ -67,7 +67,7 @@ function world:endoflevel()
 	world.scoreboard.padding = 10
 	world.scoreboard.canvas = love.graphics.newCanvas(world.scoreboard.w,world.scoreboard.h)
 	world.scoreboard.opacity = 0
-	world.scoreboard.fadespeed = 200
+	world.scoreboard.fadespeed = 1
 	--world.scoreboard.wait = 3
 end
 
