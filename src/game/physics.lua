@@ -420,7 +420,7 @@ function physics:traps(object, dt)
 						if object.group == "players" then
 							if mode == "game" then
 								trap.falling = true
-								joystick:vibrate(0.35,0.35,0.5)
+								joystick:vibrate(0.25,0.25,0.5)
 								sound:play(sound.effects["creek"])
 							end
 						end

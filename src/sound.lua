@@ -122,7 +122,8 @@ end
 
 
 function sound:play(fx)
-	fx:clone():play()
+	fx:stop()
+	fx:play()
 end
 
 function sound:stoplooping(type)

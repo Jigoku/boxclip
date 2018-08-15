@@ -99,39 +99,62 @@ function console:textinput(t)
 	end
 end
 
+
+
 function console:keypressed(key)
 
-	-- add special commands
 	if key == "return" then
-		if     console.command == "/quit" then love.event.quit() 
-		elseif console.command == "/kill" then player:die("suicide")
-		elseif console.command == "/title" then title:init()
+	
+		-- add special commands
+		if string.match(self.command, "^/") then
+			if     self.command == "/quit" then love.event.quit() 
+			elseif self.command == "/kill" then player:die("suicide")
+			elseif self.command == "/title" then title:init()
+			else
+				self:print ("unknown command")
+				
+			end
 		else
-				
-				-- run/exec function here
-				--console:print("DEBUG:: " .. console.command)
-				
-			local fn, err = loadstring(console.command)
-			if not fn then
-				console:print(err)
+			-- run/exec lua code here	
+			--console:print("DEBUG:: " .. self.command)
+			local fn, err = loadstring(self.command)
+			if not fn then	
+					self:print(err)
 				else
 				local ok, result = pcall(fn)
 				if not ok then
 					-- There was an error, so result is an error. Print it out.
-					console:print(result)
+					self:print(result)
 				elseif result then
-					console:print(result)
+					self:print(result)
 				end
 			end
 
-				
+
+			--[[local fn, err = loadstring(console.command)
+			if not fn then
+				console:print(err)
+			else
+				local result = {pcall(fn)}
+				local ok = table.remove(result, 1)
+				if not ok then
+					console:print(result[1])
+				else
+					for i = 1, #result do
+						result[i] = tostring(result[i])
+					end
+					console:print(table.concat(result, '\t'))
+				end
+			end--]]
+
 		end			
-		console.command = ""
+		
+		self.command = ""
 	end
 		
 		
 	if key == "`" then
-		console:toggle()
+		self:toggle()
 	end
 
 end
