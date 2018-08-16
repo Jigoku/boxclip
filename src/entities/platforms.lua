@@ -73,6 +73,7 @@ function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing,angleor
 	print("platform added @  X:"..x.." Y: "..y .. "(w:" .. w .. " h:".. h.. ")")
 end
 
+
 function platforms:settexture(platform,texture)
 
 	local cols = math.ceil(platform.w/platforms.textures[texture]:getWidth())
@@ -103,6 +104,7 @@ function platforms:update(dt)
 	end
 end
 
+
 function platforms:draw()
 	local count = 0
 
@@ -130,7 +132,6 @@ function platforms:draw()
 				love.graphics.draw(self.textures[platform.texture], quad, platform.x,platform.y)
 				
 			--]]
-			
 			
 			--apply world pallete/theme colors to platform mesh on the fly
 			for i,v in ipairs(platform.verts) do

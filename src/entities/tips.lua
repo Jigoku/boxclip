@@ -43,6 +43,7 @@ function tips:add(x,y,text)
 	})
 end
 
+
 function tips:update(dt)
 	if paused then return end
 	for _, tip in ipairs(world.entities.tip) do
@@ -53,6 +54,7 @@ function tips:update(dt)
 		end
 	end
 end
+
 
 function tips:draw()
 	local count = 0

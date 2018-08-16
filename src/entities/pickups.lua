@@ -16,8 +16,6 @@
 pickups = {}
 
 pickups.magnet_power = 200
-
-
 pickups.path = "data/images/pickups/"
 
 pickups.list = {}
@@ -80,6 +78,7 @@ function pickups:add(x,y,type,dropped)
 	end
 end
 
+
 function pickups:update(dt)
 	for i, pickup in ipairs(world.entities.pickup) do			
 		if not pickup.collected then
@@ -127,6 +126,7 @@ function pickups:update(dt)
 	end
 end
 
+
 function pickups:draw()
 	local count = 0
 	for i, pickup in ipairs(world.entities.pickup) do
@@ -167,7 +167,6 @@ function pickups:draw()
 	end
 	world.pickups = count
 end
-
 
 
 function pickups:drawdebug(pickup, i)

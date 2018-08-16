@@ -32,11 +32,11 @@ mapio = {}
 mapio.path = love.filesystem.getSaveDirectory( )
 
 
-
 --create maps folder if it doesn't exist
 if not love.filesystem.getInfo(mapio.path .. "/maps/") then
 	love.filesystem.createDirectory("maps")
 end
+
 
 --create screenshots folder if it doesn't exist
 if not love.filesystem.getInfo(mapio.path .. "/screenshots/") then
@@ -63,7 +63,6 @@ function mapio:savemap(map)
 	fh:write("world:settheme(\""..world.theme.."\")\n")
 	
 	
-
 	for _, e in ipairs(world.entities.platform) do
 		fh:write("platforms:add("..math.round(e.xorigin)..","..math.round(e.yorigin)..","..e.w..","..e.h..","..tostring(e.clip)..","..tostring(e.movex)..","..tostring(e.movey)..","..e.movespeed..","..e.movedist..","..tostring(e.swing)..","..e.angleorigin..","..e.texture..")\n")
 	end
@@ -108,7 +107,6 @@ function mapio:savemap(map)
 		console:print("saved map: " ..self.path.."/"..filename)
 	end
 end
-
 
 
 function mapio:loadmap(mapname)

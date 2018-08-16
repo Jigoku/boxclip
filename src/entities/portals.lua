@@ -23,6 +23,7 @@ portals.textures = {
 table.insert(editor.entities, {"spawn", "portal"})
 table.insert(editor.entities, {"goal", "portal"})
 
+
 function portals:add(x,y,type)
 	if type == "spawn" then
 		table.insert(world.entities.portal, {
@@ -53,6 +54,7 @@ function portals:add(x,y,type)
 	print(type .. " added @  X:"..x.." Y: "..y)
 end
 
+
 function portals:update(dt)
 	if mode == "editing" then return end
 	for _, portal in ipairs(world.entities.portal) do
@@ -76,6 +78,7 @@ function portals:update(dt)
 		end
 	end
 end
+
 
 function portals:draw()
 	local count = 0
@@ -106,6 +109,7 @@ function portals:draw()
 	end
 	world.portals = count
 end
+
 
 function portals:drawdebug(portal, i)
 	love.graphics.setColor(1,0.39,0,0.19)

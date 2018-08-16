@@ -30,6 +30,7 @@ end
 --load the textures
 props.textures = textures:load(props.path)
 
+
 function props:add(x,y,dir,flip,type)
 
 	for i,prop in ipairs(props.list) do
@@ -66,6 +67,7 @@ function props:add(x,y,dir,flip,type)
 		end
 	end
 end
+
 
 function props:draw()
 	local count = 0
@@ -115,7 +117,6 @@ function props:draw()
 
 	world.props = count
 end
-
 
 
 function props:drawdebug(prop, i)

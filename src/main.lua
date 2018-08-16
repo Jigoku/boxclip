@@ -73,9 +73,7 @@ function love.load(args)
 	console:init()
 	sound:init()
 	title:init()
-
 end
-
 
 
 function love.update(dt)
@@ -132,13 +130,11 @@ function love.draw()
 		gameover:draw()
 	end
 	
-	
 	--transition overlay
 	transitions:draw()
 	
+	--draw the console
 	console:draw()
-	
-	
 	
 	if debug then
 			-- this could be moved elsewhere on screen, as it's debug info (not console info)
@@ -212,8 +208,6 @@ function love.draw()
 		
 	end
 	
-
-	
 	game.dtick_time = love.timer.getTime( )*1000 - game.dtick_start
 	
 	-- caps fps
@@ -225,8 +219,8 @@ function love.draw()
 	love.timer.sleep(game.next_time - cur_time)	
 end
 
-function love.resize(w,h)
 
+function love.resize(w,h)
 	console:print("resized window ("..w.."x"..h..")")
 
 	if mode == "game" or mode =="editing" then

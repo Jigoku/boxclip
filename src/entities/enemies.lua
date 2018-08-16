@@ -262,7 +262,6 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 end
 
 
-
 function enemies:update(dt)
 	for i, enemy in ipairs(world.entities.enemy) do
 	
@@ -288,7 +287,6 @@ function enemies:update(dt)
 
 		end
 		
-	
 		if enemy.alive then
 			enemy.carried = false
 		
@@ -302,7 +300,6 @@ function enemies:update(dt)
 				physics:traps(enemy, dt)
 				physics:platforms(enemy, dt)
 			
-				
 				physics:update(enemy)
 				
 				-- NOT ACTIVE WHILST EDITING
@@ -333,7 +330,7 @@ function enemies:update(dt)
 				
 			end	
 			
-			
+
 			if enemy.type == "hopper" then
 			
 				physics:applyGravity(enemy, dt)
@@ -539,7 +536,6 @@ function enemies:draw()
 					end
 				end
 				
-				
 				-- Implement this for "spike_timer", so it can be animated (move smoothly out of drawable area)
 					--[[ NOTE, clip/scissor 
 					local x,y = camera:toCameraCoords(enemy.x, enemy.y)
@@ -549,6 +545,7 @@ function enemies:draw()
 						
 					love.graphics.setScissor()
 					--]]
+					
 				love.graphics.setColor(1,1,1,1)
 				
 				if enemy.type == "spike" or enemy.type == "spike_large" or enemy.type == "spike_timer" and enemy.alive then
@@ -626,7 +623,6 @@ function enemies:drawdebug(enemy, i)
 		love.graphics.rectangle("line", enemy.xorigin, enemy.y, enemy.movedist+texture[(enemy.frame or 1)]:getWidth(), texture[(enemy.frame or 1)]:getHeight())
 	end
 
-	
 	editor:drawid(enemy,i)
 	editor:drawcoordinates(enemy)
 end

@@ -70,6 +70,7 @@ function springs:add(x,y,dir,type)
 	
 end
 
+
 function springs:update(dt)
 	if editing then return end
 	for _, spring in ipairs(world.entities.spring) do
@@ -96,6 +97,7 @@ function springs:update(dt)
 		end
 	end
 end
+
 
 function springs:draw()
 	local count = 0
@@ -125,6 +127,7 @@ function springs:draw()
 
 	world.springs = count
 end
+
 
 function springs:drawdebug(spring, i)
 	

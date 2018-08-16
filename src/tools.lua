@@ -7,6 +7,7 @@ function math.round(num, idp)
 	return math.floor(num * mult + 0.5) / mult
 end
 
+
 function ripairs(t)
 	--same as ipairs, but itterate from last to first
 	local function ripairs_it(t,i)
@@ -18,6 +19,7 @@ function ripairs(t)
 	return ripairs_it, t, #t+1
 end
 
+
 function split(s, delimiter)
 	--split string into a table
     result = {};
@@ -27,12 +29,14 @@ function split(s, delimiter)
     return result;
 end
 
+
 function tableconcat(t1,t2)
     for i=1,#t2 do
         t1[#t1+1] = t2[i]
     end
     return t1
 end
+
 
 function table.deepcopy(orig)
     local orig_type = type(orig)
@@ -49,6 +53,7 @@ function table.deepcopy(orig)
     return copy
 end
 
+
 function dump(o)
    if type(o) == 'table' then
       local s = '{ '
@@ -61,6 +66,7 @@ function dump(o)
       return tostring(o)
    end
 end
+
 
 --[[
 function get_cpuusage()

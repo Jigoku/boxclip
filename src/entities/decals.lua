@@ -15,16 +15,16 @@
  
 decals = {}
 
-
 decals.textures = textures:load("data/images/decals/")
+decals.waterfall_texture = love.graphics.newImage("data/images/tiles/waterfall.png")
+decals.waterfall_spin = 0
+
+--make sure the texture repeats
 for _,texture in pairs(decals.textures) do
 	texture:setWrap("repeat", "repeat")
 end
 
 table.insert(editor.entities, {"decal", "decal"})
-
-decals.waterfall_texture = love.graphics.newImage("data/images/tiles/waterfall.png")
-decals.waterfall_spin = 0
 
 
 function decals:add(x,y,w,h,scrollspeed,texture)
@@ -45,6 +45,7 @@ function decals:add(x,y,w,h,scrollspeed,texture)
 	})
 end
 
+
 function decals:update(dt)
 	for i, decal in ipairs(world.entities.decal) do
 		local texture = self.textures[decal.texture]
@@ -63,12 +64,7 @@ function decals:update(dt)
 		self.waterfall_spin = self.waterfall_spin + dt * 10
 		self.waterfall_spin = self.waterfall_spin % (2*math.pi)
 	end
-	
-	
-
 end
-
-
 
  
 function decals:draw()
@@ -79,14 +75,8 @@ function decals:draw()
 			count = count + 1
 			
 			local texture = self.textures[decal.texture]
-			
 			love.graphics.setColor(1,1,1,0.9)
-			
 			love.graphics.draw(texture, decal.quad, decal.x,decal.y)
-
-			
-			
-			
 			
 			if decal.texture == 1 then
 				love.graphics.setColor(0.74,0.94,1,1)
@@ -102,7 +92,6 @@ function decals:draw()
 				self:drawwaterfall(decal)
 			end
 			
-
 			if editing or debug then
 				editor:drawid(decal,i)
 				editor:drawcoordinates(decal)

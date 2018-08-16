@@ -1,31 +1,51 @@
-input = {}
+--[[
+ * Copyright (C) 2015 - 2018 Ricky K. Thomson
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ * u should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ --]]
+ 
+ input = {}
 
---[[ Check additional keys when in the editor
---]]
+
 function input:checkkeys(dt)
+	-- Check additional keys when in the editor
 	if mode == "editing" then
 		if editing then editor:checkkeys(dt) end
 	end
 end
 
---[[ Mouse input is only used whilst in the editor 
---]]
+
 function love.mousemoved(x,y,dx,dy)
+	-- Mouse input is only used whilst in the editor 
 	if mode == "editing" then editor:mousemoved(x,y,dx,dy) end
 end
 
+
 function love.mousepressed(x, y, button)
+	-- Mouse input is only used whilst in the editor 
 	if mode == "editing" then editor:mousepressed(x,y,button) end
 end
 
+
 function love.mousereleased(x, y, button)
+	-- Mouse input is only used whilst in the editor 
 	if mode == "editing" then editor:mousereleased(x,y,button) end
 end
 
+
 function love.wheelmoved(x, y)
+	-- Mouse input is only used whilst in the editor 
 	if mode == "editing" then editor:wheelmoved(x,y) end
 end
-
 
 
 function love.keypressed(key)
@@ -40,10 +60,6 @@ function love.keypressed(key)
 		end
 	end
 	
-	-- keypress are still registered despite "return" when console is active????????????
-	-- TODO: THIS DOESN'T FUCKING WORK
-	
-	
 	if     mode == "title" then title:keypressed(key)
 	elseif mode == "editing" then editor:keypressed(key)
 	elseif mode == "gameover" then gameover:keypressed(key)
@@ -55,7 +71,6 @@ function love.keypressed(key)
 		end
 	end
 
-	
 	--quit
 	if mode == "game" or mode == "editing" then
 		player:keypressed(key) 
@@ -65,8 +80,6 @@ function love.keypressed(key)
 			title:init()
 		end
 	end
-	
-
 
 	--[[ take a screenshot and save to local game data folder
 		   * Linux/*nix = ~/.local/share/love/boxclip/screenshots/

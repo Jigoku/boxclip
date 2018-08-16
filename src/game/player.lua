@@ -30,7 +30,6 @@ function player:init()
 	--initialize the player defaults
 	self.group = "players"
 	
-	
 	self.framedelay = 1
 	self.framecycle = 0
 	self.frame = 1
@@ -66,7 +65,6 @@ function player:init()
 	
 	console:print("initialized player")
 
-
 	--particle setup
 	-- horrible implementation... fix this
 	self.particles_invincible = love.graphics.newParticleSystem(pickups.textures[5], 32)
@@ -78,11 +76,13 @@ function player:init()
 	self.particles_invincible:setSpin( 1, 5 )
 end
 
+
 function player:cheats()
 	--cheats enabled for entire game
 	if cheats.magnet then self.hasmagnet = true else self.hasmagnet = false end
 	if cheats.shield then self.hasshield = true else self.hasshield = false end
 end
+
 
 function player:draw()
 
@@ -94,8 +94,8 @@ function player:draw()
 			love.graphics.setColor(1,1,1,0.5)
 			love.graphics.draw(self.particles_invincible, player.x+player.w/2,player.y+player.h/2, 0,0.25,0.25)
 		end
-		love.graphics.setColor(1,1,1,1)
 		
+		love.graphics.setColor(1,1,1,1)
 		
 		-- active player sprite
 		love.graphics.draw(
@@ -130,19 +130,16 @@ function player:draw()
 
 end
 
-function player:drawdebug()
 
+function player:drawdebug()
 	love.graphics.setColor(1,0,0,0.6)
 	love.graphics.rectangle("line", self.x, self.y, self.w, self.h)
-	
 end
 
 
 function player:update(dt)	
 	
 	if paused or editing or world.splash.active then return end
-	
-	
 	
 	-- player input / movement
 	
@@ -169,7 +166,6 @@ function player:update(dt)
 		end
 	
 	end
-	
 	
 	-- player frame/sprite animation
 	self.framecycle = math.max(0, self.framecycle - dt)
@@ -211,7 +207,6 @@ function player:update(dt)
 		self.state = "dizzy"
 	end
 	
-	
 	-- set the correct texture based on player state
 	self.texture = self.sprite[self.state][math.min(self.frame, #self.sprite[self.state])]
 	
@@ -234,8 +229,6 @@ function player:update(dt)
 		end
 	end
 	
-	
-
 	-- invincibility check
 	if self.invincible then
 		self.particles_invincible:update(dt)
@@ -266,7 +259,6 @@ function player:update(dt)
 	end
 	--]]
 	
-	
 	if player.alive  then
 		player.carried = false
 		physics:applyVelocity(player, dt)
@@ -291,9 +283,7 @@ function player:update(dt)
 end
 
 
-
 function player:respawn()
-
 	-- restart bgm/ambient on respawn
 	sound:playbgm(world.mapmusic)
 	sound:playambient(world.mapambient)	
@@ -327,6 +317,7 @@ function player:respawn()
 	
 	console:print("respawn player")
 end
+
 
 function player:die(this)
 	if mode == "game" then
@@ -363,8 +354,6 @@ function player:die(this)
 end
 
 
-
-
 function player:collect(pickup)
 	--increase score when pickups are collected
 	
@@ -391,6 +380,7 @@ function player:collect(pickup)
 	end
 end
 
+
 function player:invincibility() 
 	if not self.invincible then
 		sound:playbgm(9)
@@ -402,10 +392,12 @@ function player:invincibility()
 	console:print("invincibility started")
 end
 
+
 function player:attack(enemy)
 	-- increase score when attacking an enemy
 	self.score = self.score + enemy.score
 end
+
 
 function player:jump()
 	if self.alive and self.canjump and not self.jumping or cheats.jetpack then
@@ -415,6 +407,7 @@ function player:jump()
 		self.yvel = self.jumpheight	
 	end
 end
+
 
 function player:drop()
 	if self.alive and not self.jumping then
@@ -429,10 +422,12 @@ function player:drop()
 	end
 end
 
+
 function player:moveleft()
 	self.lastdir = self.dir
 	self.dir = -1
 end
+
 
 function player:moveright()
 	self.lastdir = self.dir
@@ -440,9 +435,7 @@ function player:moveright()
 end
 
 
-
 function player:keypressed(key)
 	if paused or editing or world.splash.active then return end 
-	
 	--maybe remove this function, not needed?
 end

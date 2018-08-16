@@ -15,7 +15,6 @@
  
 popups = {}
 
-
 function popups:add(x,y,text,entity)
 	table.insert(popups, {
 		xorigin = x,
@@ -28,6 +27,7 @@ function popups:add(x,y,text,entity)
 		o = 1
 	})
 end
+
 
 function popups:draw()
 	local oldfont = love.graphics.getFont()
@@ -43,6 +43,7 @@ function popups:draw()
 	end
 	love.graphics.setFont(oldfont)
 end
+
 
 function popups:update(dt)
 	for i,p in ipairs(popups) do

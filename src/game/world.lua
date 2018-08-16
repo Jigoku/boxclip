@@ -55,9 +55,9 @@ function world:initsplash()
 	transitions:fadein()
 end
 
+
 function world:endoflevel()
 	world.complete = true
-
 	world.scoreboard = {}
 	world.scoreboard.timer = 12
 	world.scoreboard.title = world.maptitle
@@ -70,6 +70,7 @@ function world:endoflevel()
 	world.scoreboard.fadespeed = 1
 	--world.scoreboard.wait = 3
 end
+
 
 function world:settheme(theme)
 	--theme palettes for different level style
@@ -98,6 +99,7 @@ function world:settheme(theme)
 	end
 	
 end
+
 
 function world:setdefaults()
 	--defaults in case not specified in map file
@@ -136,9 +138,8 @@ function world:setdefaults()
 	world.nextmap = "title"
 end
 
+
 function world:init(gamemode) 
-	
-	
 	mode = gamemode
 	--console = false
 	editing = false
@@ -178,8 +179,6 @@ function world:init(gamemode)
 	player:respawn()
 
 	console:print("initialized world")
-	
-	
 end
 
 
@@ -197,7 +196,6 @@ function world:drawparallax()
 			background, background_quad,0,0
 		)
 	end
-	
 
 	--back layer
 	love.graphics.setColor(
@@ -251,6 +249,7 @@ function world:drawparallax()
 	)
 	--]]
 end
+
 
 function world:draw()
 	
@@ -324,8 +323,6 @@ function world:draw()
 end
 
 
-	
-
 function world:drawsplash()
 	if debug then return end
 	-- textured background
@@ -333,7 +330,6 @@ function world:drawsplash()
 		self.splash.quad = love.graphics.newQuad( 0,0, love.graphics.getWidth(),love.graphics.getHeight(), self.splash.bg:getDimensions() )
 		love.graphics.draw(self.splash.bg, self.splash.quad, 0, 0)
 	
-		
 		--box
 		love.graphics.setColor(platform_r/2,platform_g/2,platform_b/2,world.splash.opacity)
 		love.graphics.rectangle("fill", 0,world.splash.box_y+love.graphics.getHeight()/2,love.graphics.getWidth(), world.splash.box_h )
@@ -343,9 +339,8 @@ function world:drawsplash()
 		love.graphics.setColor(1,1,1,world.splash.opacity)
 		love.graphics.print(world.maptitle, love.graphics.getWidth()-fonts.huge:getWidth(world.maptitle)-100, world.splash.text_y+love.graphics.getHeight()/2+world.splash.box_h/2)
 		love.graphics.setFont(fonts.default)
-			
-
 end
+
 
 function world:drawscoreboard()
 	if debug then return end
@@ -394,6 +389,7 @@ function world:drawscoreboard()
 	love.graphics.draw(world.scoreboard.canvas,love.graphics.getWidth()/2-world.scoreboard.canvas:getWidth()/2, love.graphics.getHeight()/2-world.scoreboard.canvas:getHeight()/2)
 end
 
+
 function world:drawhud()
 	if debug then return end
 	love.graphics.setFont(fonts.hud)
@@ -423,6 +419,7 @@ function world:drawhud()
 	
 	love.graphics.draw(pickups.textures[2],20,love.graphics.getHeight()-40,0,0.5,0.5)
 end
+
 
 function world:timer(dt)
 	if not world.complete then
@@ -463,6 +460,7 @@ function world:reset()
 	}
 end
 
+
 function world:totalents()
 	--return the total number of entities
 	local c = 0
@@ -473,6 +471,7 @@ function world:totalents()
 	end
 	return c
 end
+
 
 function world:totalentsdrawn()
 	--returns total drawn entities visible on screen
@@ -507,6 +506,7 @@ function world:inview(entity)
 		end
 	end
 end
+
 
 function world:weatherUpdate(dt)
 	--rewrite this TODO
@@ -552,9 +552,6 @@ function world:weatherUpdate(dt)
 	
 
 		for i,snow in ipairs(world.weather) do
-	
-
-
 			snow.y = snow.y + snow.yvel * dt
 			snow.x = snow.x + snow.xvel * dt
 		
@@ -589,6 +586,7 @@ function world:weatherUpdate(dt)
 		world.weather = {}	
 	end
 end
+
 
 function world:update(dt)
 	
@@ -667,6 +665,7 @@ function world:update(dt)
 	end
 end
 
+
 function world:resetcamera()
 	camera = Camera(camera.x,camera.y,love.graphics.getWidth(),love.graphics.getHeight(),love.graphics.getWidth() / default_width)
 	camera:setFollowStyle('LOCKON')
@@ -674,17 +673,20 @@ function world:resetcamera()
 	--camera:setFollowLerp(0.2)
 end
 
+
 function world.savestate()
 	world.score = player.score
 	world.gems = player.gems
 	world.state = table.deepcopy(world.entities)
 end
 
+
 function world.loadstate()
 	player.score = world.score
 	player.gems = world.gems
 	world.entities = table.deepcopy(world.state)
 end
+
 
 function world:sendtoback(t,i)
 	local item = t[i]
@@ -693,6 +695,7 @@ function world:sendtoback(t,i)
 
 	console:print( t[i].group .. " (" .. i .. ") sent to back" )
 end
+
 
 function world:sendtofront(t,i)
 	local item = t[i]

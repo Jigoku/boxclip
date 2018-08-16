@@ -27,6 +27,7 @@ function sound:init()
 	end
 end
 
+
 sound.effects = {
 	["jump"] = love.audio.newSource("data/sounds/effect/jump.ogg", "static"),
 	["gem"] = love.audio.newSource("data/sounds/effect/gem.ogg", "static"),
@@ -50,7 +51,6 @@ sound.effects = {
 	["bounce"] = love.audio.newSource("data/sounds/effect/bounce.ogg", "static"),
 
 }
-
 
 sound.music = {
 	[0] = nil,
@@ -89,13 +89,9 @@ function sound:toggle()
 end
 
 
-
 function sound:playbgm(id)
-
 	self.bgm = self.music[id]
 	self:stoplooping(self.music)
-	
---	love.audio.rewind()
 	
 	if id ~= 0 then
 		self.bgm:setLooping(true)
@@ -105,14 +101,10 @@ function sound:playbgm(id)
 end
 
 
-
 function sound:playambient(id)
-
 	self.ambient = self.ambience[id]
 	self:stoplooping(self.ambience)
 		
---	love.audio.rewind( )
-	
 	if id ~= 0 then
 		self.ambient:setLooping(true)
 		self.ambient:setVolume(1)
@@ -125,6 +117,7 @@ function sound:play(fx)
 	fx:stop()
 	fx:play()
 end
+
 
 function sound:stoplooping(type)
 	for _,t in ipairs(type) do

@@ -21,6 +21,7 @@ function collision:checkWorld(dt)
 	end
 end
 
+
 function collision:check(x1,y1,w1,h1, x2,y2,w2,h2)
 	world.collision = world.collision +1
 	return x1 < x2+w2 and
@@ -29,15 +30,18 @@ function collision:check(x1,y1,w1,h1, x2,y2,w2,h2)
 		 y2 < y1+h1
 end
 
+
 function collision:right(a,b)
 	world.collision = world.collision +1
 	return a.newX < b.x+b.w and a.x > b.x+b.w 
 end
 
+
 function collision:left(a,b)
 	world.collision = world.collision +1
 	return a.newX+a.w > b.x and a.x+a.w < b.x 
 end
+
 
 function collision:top(a,b)
 	world.collision = world.collision +1
@@ -45,16 +49,19 @@ function collision:top(a,b)
 
 end
 
+
 function collision:bottom(a,b)
 	world.collision = world.collision +1
 	return a.newY < b.y+b.h and a.y > b.y+b.h
 end
+
 
 function collision:above(a,b)
 	--use this for a bigger intersect, eg; attacking a small enemy from above
 	world.collision = world.collision +1
 	return a.newY+a.h > b.y and a.y-a.h < b.y
 end
+
 
 function collision:bounds() 
 	-- we might not need these, if map size can be unlimited?

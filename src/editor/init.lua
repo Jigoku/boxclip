@@ -37,7 +37,7 @@ editor.mouse = {
 	cur = 1, --default cursor
 }
 
-
+--editor settings
 editor.entdir = 0				--rotation placement 0,1,2,3 = up,right,down,left
 editor.entsel = 1				--current entity id for placement
 editor.themesel = 1				--world theme/pallete
@@ -53,6 +53,7 @@ editor.floatspeed = 1000		--editing floatspeed
 editor.maxcamerascale = 6		--maximum zoom
 editor.mincamerascale = 0.1		--minimum zoom
 
+--misc textures
 editor.errortex = love.graphics.newImage("data/images/editor/error.png")
 editor.bullettex = love.graphics.newImage("data/images/editor/bullet.png")
 
@@ -136,7 +137,6 @@ function editor:getthemes()
 	return themes
 end
 editor.themes = editor:getthemes()
-
 
 
 editor.help = {
@@ -250,6 +250,7 @@ function editor:showtexmenu(textures)
 	self.texmenuopacity = 1
 end
 
+
 function editor:showmusicmenu()
 	--make the music menu display visible
 	self.musicmenuopacity = 1
@@ -285,6 +286,7 @@ function editor:settexture(dy)
 	end
 end
 
+
 function editor:update(dt)
 	--update world before anything else
 	if editor.paused then
@@ -311,7 +313,6 @@ function editor:update(dt)
 		end
 	end
 	
-
 	--music browser display
 	self.musicmenutimer = math.max(0, self.musicmenutimer - dt)
 		
@@ -320,42 +321,24 @@ function editor:update(dt)
 			self.musicmenuopacity = math.max(0,self.musicmenuopacity - self.musicmenufadespeed * dt)
 		end
 	end
-
-
-	--debug stuff
-	--[[
-	for _,i in ipairs(self.entorder) do
-		for n,e in ripairs(world.entities[i]) do
-			if e.selected then print(n,e.group) end
-		end
-	end
-	--]]
-
 end
+
 
 function editor:settheme()
 	world.theme = self.themes[self.themesel]
-
 	world:settheme(world.theme)
-	
-	--fix this
-	--update themeable textures
-	--TODO allow texture setting for enemy entities
-	--[[for i,e in ipairs(enemies) do 
-		if e.name == "spike" then e.gfx = spike_gfx end
-		if e.name == "spike_large" then e.gfx = spike_large_gfx end
-		if e.name == "icicle" then e.gfx = icicle_gfx end
-	end--]]
+
 	self.themesel = self.themesel +1
 	if self.themesel > #self.themes then self.themesel = 1 end
-	
 end
+
 
 function editor:warn(func)
 	if not func then
 		console:print("action cannot be performed on selected entity")
 	end
 end
+
 
 function editor:keypressed(key)
 	
@@ -447,6 +430,7 @@ function editor:keypressed(key)
 	end
 end
 
+
 function editor:checkkeys(dt)
 	if console.active then return end
 	if love.keyboard.isDown(self.binds.right)  then
@@ -502,6 +486,7 @@ function editor:setattribute(dir,dt)
 	end
 end
 
+
 function editor:wheelmoved(dx, dy)
     if love.keyboard.isDown(self.binds.camera) then
 		--camer zoom
@@ -519,6 +504,7 @@ function editor:wheelmoved(dx, dy)
 
 	end
 end
+
 
 function editor:mousepressed(x,y,button)
 	if not editing then return end
@@ -587,6 +573,7 @@ function editor:mousepressed(x,y,button)
 	end
 end
 
+
 function editor:mousereleased(x,y,button)
 	--check if we have selected draggable entity, then place if neccesary
 	if not editing then return end
@@ -620,7 +607,6 @@ end
 
 
 function editor:sendtospawn()
-	--world:resetcamera()
 	-- find the spawn entity
 	for _, portal in ipairs(world.entities.portal) do
 		if portal.type == "spawn" then
@@ -661,6 +647,7 @@ function editor:placedraggable(x1,y1,x2,y2)
 		if ent == "death" then materials:add(x,y,w,h,"death") end
 	end
 end
+
 
 function editor:drawguide()
 	--draw crosshairs/grid
@@ -707,6 +694,7 @@ function editor:drawguide()
 	end
 end
 
+
 function editor:drawcursor()
 --[[
 	--draw the cursor
@@ -726,7 +714,6 @@ function editor:drawcursor()
 	--]]
 	
 	-- detach camera so cursor doesn't scale in size
-		
 	camera:detach()
 		
 	local x,y = camera:toCameraCoords(self.mouse.x,self.mouse.y)
@@ -735,7 +722,6 @@ function editor:drawcursor()
 	love.graphics.draw(self.mouse.cursors[self.mouse.cur], x-self.mouse.hotspotx,y-self.mouse.hotspoty)
 		
 	camera:attach()
-	
 	
 	if debug then
 	self:drawcoordinates(
@@ -777,6 +763,7 @@ function editor:drawmusicmenu()
 		love.graphics.draw(self.musicmenu, love.graphics.getWidth()/2-self.musicmenu:getWidth()/2, 20)
 	end
 end
+
 
 function editor:drawtexturesel()
 	if self.texmenuopacity > 0 then
@@ -860,7 +847,6 @@ function editor:draw()
 	
 	--interactive editing
 	if editing then
-	
 		camera:attach()
 	
 		self:drawguide()
@@ -899,6 +885,7 @@ function editor:draw()
 	if self.showmmap then self:drawmmap() end
 	if self.showhelpmenu then self:drawhelpmenu() end
 end
+
 
 function editor:drawselbox()
 	--draw an outline when dragging mouse if 
@@ -984,8 +971,6 @@ function editor:drawhelpmenu()
 	
 	love.graphics.setColor(1,1,1,1)
 	love.graphics.draw(self.helpmenu, love.graphics.getWidth()/2-self.helpmenu:getWidth()/2, love.graphics.getHeight()/2-self.helpmenu:getHeight()/2 )
-	
-	
 end
 
 
@@ -1047,18 +1032,12 @@ function editor:drawentmenu()
 		end
 	end
 	
-
 	love.graphics.setFont(fonts.default)
-	
 	love.graphics.setCanvas()
 	
 	love.graphics.setColor(1,1,1,1)
 	love.graphics.draw(self.entmenu, 10, love.graphics.getHeight()-self.entmenu:getHeight()-10 )
 end
-
-
-
-
 
 
 function editor:selection()
@@ -1162,6 +1141,7 @@ function editor:removeall(group,type)
 	end
 end
 
+
 function editor:remove()
 	--removes the currently selected entity from the world
 	local should_break = false
@@ -1172,7 +1152,6 @@ function editor:remove()
 				table.remove(world.entities[i],n)
 				console:print( e.group .. " (" .. n .. ") removed" )
 				self.selbox = nil
-				
 				should_break = true
 				break
 			end
@@ -1190,13 +1169,13 @@ function editor:flip()
 				e.flip = not e.flip
 				console:print( e.group .. " (" .. n .. ") flipped" )
 				e.selected = false
-				
 				should_break = true
 				break
 			end
 		end
 	end
 end
+
 
 function editor:rotate(dy)
 	--set rotation value for the entity
@@ -1243,6 +1222,7 @@ function editor:copy()
 	end
 end
 
+
 function editor:paste()
 	local x = math.round(self.mouse.x,-1)
 	local y = math.round(self.mouse.y,-1)
@@ -1258,8 +1238,6 @@ function editor:paste()
 		console:print("paste "..p.group.."("..#world.entities[p.group]..")")
 	end
 end
-
-
 
 
 function editor:drawmmap()
@@ -1383,7 +1361,6 @@ function editor:drawmmap()
 		player.h*self.mmapscale
 	)
 	
-
 	love.graphics.setCanvas()
 	love.graphics.setColor(1, 1, 1, 1)
 	love.graphics.draw(self.mmapcanvas, love.graphics.getWidth()-10-self.mmapw,love.graphics.getHeight()-10-self.mmaph )
@@ -1400,6 +1377,7 @@ function editor:drawid(entity,i)
 		love.graphics.print(entity.group .. "(" .. i .. ")", entity.x-20, entity.y-40, 0)
 	end
 end
+
 
 function editor:drawcoordinates(object)
 	if editor.showpos then

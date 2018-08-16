@@ -15,13 +15,10 @@
 
 physics = {}
 
-
-
 function physics:applyVelocity(object, dt) 
 	--allow extra movement whilst jumping
 	local multiplier = 1.3
 	
-
 		-- x-axis friction
 		if object.dir == 1 then
 			--if we are not travelling at max speed
@@ -34,8 +31,7 @@ function physics:applyVelocity(object, dt)
 					object.xvel = (object.xvel + object.speed *dt)
 				end
 			end
-			
-			
+				
 		end
 		if object.dir == -1  then
 			--if we are not travelling at max speed
@@ -83,10 +79,9 @@ function physics:applyRotation(object,n,dt)
 	end
 end
 
+
 function physics:swing(object,dt)
-	
 	if not editing then 
-	
 		if object.reverse then
 			object.angle = object.angle -(object.movespeed * dt)
 		else
@@ -102,13 +97,12 @@ function physics:swing(object,dt)
 			object.angle = 0
 			object.reverse = false
 		end
-		
 	end
 	
 	object.x = object.radius * math.cos(object.angle) + object.xorigin 
-	object.y = object.radius * math.sin(object.angle) + object.yorigin
-			
+	object.y = object.radius * math.sin(object.angle) + object.yorigin	
 end
+
 
 function physics:movex(object, dt)
 	-- traverse x-axis
@@ -160,81 +154,79 @@ function physics:deadzone(dt)
 	end
 end
 
+
 function physics:bounce(object,dt)
 	object.yvel = -object.yvel/1.5
 end
 
+
 function physics:crates(object,dt)
 	for i, crate in ipairs(world.entities.crate) do
-			if collision:check(crate.x,crate.y,crate.w,crate.h,
-				object.newX,object.newY,object.w,object.h) and not crate.destroyed then
-				object.candrop = false
-				object.carried = false
+		if collision:check(crate.x,crate.y,crate.w,crate.h,
+			object.newX,object.newY,object.w,object.h) and not crate.destroyed then
+			object.candrop = false
+			object.carried = false
+			
+			if object.jumping and mode == "game" then 
+				console:print("crate(" .. i..") destroyed, item ="..crate.type)
+				popups:add(crate.x+crate.w/2,crate.y+crate.h/2,"+"..crate.score)
+				crate.destroyed = true
+				player.score = player.score+crate.score
+				joystick:vibrate(0.5,0.5,0.25)
+				sound:play(sound.effects["crate"])
+				pickups:add(
+					--TODO fix texture assignment
+					crate.x+crate.w/2-pickups.textures[1]:getWidth()/2, 
+					crate.y+crate.h/2-pickups.textures[1]:getHeight()/2, 
+					crate.type
+				)
+			end
+			
+			if collision:top(object,crate) then
+				object.carried = true
+				object.newY = crate.y - object.h -1 *dt
 				
-				if object.jumping and mode == "game" then 
-					console:print("crate(" .. i..") destroyed, item ="..crate.type)
-					popups:add(crate.x+crate.w/2,crate.y+crate.h/2,"+"..crate.score)
-					crate.destroyed = true
-					player.score = player.score+crate.score
-					joystick:vibrate(0.5,0.5,0.25)
-					sound:play(sound.effects["crate"])
-					pickups:add(
-						--TODO fix texture assignment
-						crate.x+crate.w/2-pickups.textures[1]:getWidth()/2, 
-						crate.y+crate.h/2-pickups.textures[1]:getHeight()/2, 
-						crate.type
-					)
+				if object.jumping then
+					object.yvel = player.jumpheight
+				elseif object.bounce then
+					self:bounce(object)
+				else
+					object.yvel = 0
 				end
 				
-				if collision:top(object,crate) then
-					object.carried = true
-					object.newY = crate.y - object.h -1 *dt
-					
-					if object.jumping then
-						object.yvel = player.jumpheight
-					elseif object.bounce then
-						self:bounce(object)
-					else
-						object.yvel = 0
-					end
-					
-				--extra cheecks to stop falling underneath
-				elseif collision:bottom(object,crate) and not collision:left(object,crate) and not collision:right(object,crate) then
-					object.newY = crate.y +crate.h  +1 *dt
+			--extra cheecks to stop falling underneath
+			elseif collision:bottom(object,crate) and not collision:left(object,crate) and not collision:right(object,crate) then
+				object.newY = crate.y +crate.h  +1 *dt
 
-					if object.jumping then
-						object.yvel = -player.jumpheight
-					else
-						object.yvel = 0
-					end
+				if object.jumping then
+					object.yvel = -player.jumpheight
+				else
+					object.yvel = 0
+				end
 					
-				elseif collision:right(object,crate) then
-					object.newX = crate.x+crate.w +1 *dt
-					object.xvelboost = 0
+			elseif collision:right(object,crate) then
+				object.newX = crate.x+crate.w +1 *dt
+				object.xvelboost = 0
 					
-					if object.jumping then
-						object.xvel = player.jumpheight
-					else
-						object.xvel = 0
-					end
+				if object.jumping then
+					object.xvel = player.jumpheight
+				else
+					object.xvel = 0
+				end
 					
-				elseif collision:left(object,crate) then
-					object.newX = crate.x-object.w -1 *dt
-					object.xvelboost = 0
+			elseif collision:left(object,crate) then
+				object.newX = crate.x-object.w -1 *dt
+				object.xvelboost = 0
 					
-					if object.jumping then
-						object.xvel = -player.jumpheight
-					else
-						object.xvel = 0
-					end
-					
-
+				if object.jumping then
+					object.xvel = -player.jumpheight
+				else
+					object.xvel = 0
 				end		
-			end
+			end		
 		end
+	end
 end
-
-
 
 
 function physics:bumpers(object,dt)
@@ -273,7 +265,6 @@ function physics:bumpers(object,dt)
 		end
 	end
 end
-
 
 
 function physics:platforms(object, dt)
@@ -336,8 +327,7 @@ function physics:platforms(object, dt)
 					end
 							
 					object.newY = platform.y - object.h +1 *dt
-				end
-						
+				end			
 
 				if platform.movex then
 					-- move along x-axis with platform	
@@ -367,6 +357,7 @@ function physics:platforms(object, dt)
 	end
 end
 
+
 function physics:update(object)
 	if object.newY then object.y = object.newY end
 	if object.newX then object.x = object.newX end
@@ -392,7 +383,6 @@ function physics:trapsworld(dt)
 				if not world:inview(trap) then
 					trap.active = false
 				end
-
 			end
 		end	
 	end
@@ -442,9 +432,7 @@ function physics:traps(object, dt)
 							object.yvel = 0
 			
 						elseif collision:top(object,trap) then
-							object.carried = true
-							
-							
+							object.carried = true	
 							
 							if object.jumping then
 								object.newY = trap.y - object.h -1 *dt

@@ -25,6 +25,8 @@ table.insert(editor.entities, {"log","trap"})
 table.insert(editor.entities, {"bridge","trap"})
 table.insert(editor.entities, {"brick","trap"})
 
+
+
 function traps:add(x,y,type)
 
 	if type == "brick" then
@@ -76,6 +78,7 @@ function traps:add(x,y,type)
 	print("trap added @  X:"..x.." Y: "..y)
 	
 end
+
 
 function traps:draw()
 	local count = 0

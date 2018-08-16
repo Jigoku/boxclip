@@ -34,6 +34,7 @@ function materials:add(x,y,w,h,t)
 	})
 end
 
+
 function materials:update(dt)
 	if mode == "editing" then return end
 	for _, mat in ipairs(world.entities.material) do
@@ -47,6 +48,7 @@ function materials:update(dt)
 		end
 	end
 end
+
 
 function materials:draw()
 	if editing or debug then

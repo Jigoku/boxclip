@@ -38,7 +38,6 @@ title.overlay.fadespeed = 0.78
 title.menuitem = 1
 
 
-
 title.mainmenu = {
 	label="Boxclip (alpha preview)",
 	{ "Play Map", select=function() title.activemenu = title:listmaps(0) end },
@@ -184,7 +183,6 @@ function title:draw()
 end
 
 
-
 function title:update(dt)
 
 	if title.splash then
@@ -276,6 +274,7 @@ function title:update(dt)
 	--self.menuitem = math.max(math.min(self.menuitem,#title.activemenu),1)
 
 end
+
 
 function title:checkcheatcodes(key)
 

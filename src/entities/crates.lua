@@ -15,9 +15,8 @@
  
 crates = {}
 
-crates.textures = {
-	["crate"] = love.graphics.newImage("data/images/crates/crate.png")
-}
+crates.textures = textures:load("data/images/crates/")
+
 
 table.insert(editor.entities, {"crate", "crate"})
 	
@@ -26,8 +25,9 @@ function crates:add(x,y,type)
 	table.insert(world.entities.crate, {
 		x = x or 0,
 		y = y or 0,
-		w = 50,
-		h = 50,
+		w = self.textures[1]:getWidth(),
+		h = self.textures[1]:getHeight(),
+		texture = self.textures[1],
 		group = "crate",
 		type = type,
 		destroyed = false,
@@ -49,7 +49,7 @@ function crates:draw()
 			count = count + 1
 		
 			love.graphics.setColor(crate_r,crate_g,crate_b,1)
-			love.graphics.draw(self.textures["crate"],crate.x, crate.y, 0, 1, 1)
+			love.graphics.draw(crate.texture,crate.x, crate.y, 0, 1, 1)
 		
 			if editing or debug then
 				self:drawdebug(crate, i)

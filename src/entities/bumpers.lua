@@ -14,15 +14,14 @@
  --]]
 
 bumpers = {}
+bumpers.scalespeed =  5
+bumpers.maxscale = 1.5
 
-bumpers.textures = {
-	["bumper"] = love.graphics.newImage("data/images/bumpers/bumper.png")
-}
+bumpers.textures = textures:load("data/images/bumpers/")
+
 
 table.insert(editor.entities, {"bumper", "bumper"})
 
-bumpers.scalespeed =  5
-bumpers.maxscale = 1.5
 
 function bumpers:add(x,y)
 
@@ -30,18 +29,20 @@ function bumpers:add(x,y)
 		--position
 		x = x or 0,
 		y = y or 0,
-		w = self.textures["bumper"]:getWidth(),
-		h = self.textures["bumper"]:getHeight(),
-		
+		w = self.textures[1]:getWidth(),
+		h = self.textures[1]:getHeight(),
+		texture = self.textures[1],
 		--properties
 		score = 25,
 		totalscore = 250,
 		force = 1000,
 		group = "bumper",
 		scale = 1,
+		
 	})
 
 end
+
 
 function bumpers:update(dt)
 	for i, bumper in ipairs(world.entities.bumper) do		
@@ -54,9 +55,9 @@ function bumpers:update(dt)
 	end
 end
 
+
 function bumpers:draw()
 	local count = 0
-	
 
 	for i, bumper in ipairs(world.entities.bumper) do
 		if world:inview(bumper) then
@@ -67,16 +68,15 @@ function bumpers:draw()
 			local ox, oy = bumper.w *.5, bumper.h * .5
 
 
-			local texture = self.textures["bumper"]
 			if bumper.scale > 1 then
 			love.graphics.draw(
-				texture, bumper.x+ox+love.math.random(-5,5), bumper.y+oy+love.math.random(-5,5), 0, 
+				bumper.texture, bumper.x+ox+love.math.random(-5,5), bumper.y+oy+love.math.random(-5,5), 0, 
 				bumper.scale, bumper.scale,
 				ox,oy	
 			)
 			else
 			love.graphics.draw(
-				texture, bumper.x+ox, bumper.y+oy, 0, 
+				bumper.texture, bumper.x+ox, bumper.y+oy, 0, 
 				bumper.scale, bumper.scale,
 				ox,oy	
 			)

@@ -22,7 +22,6 @@ chainlink.textures = {
 }
 
 function chainlink:draw(entity)
-
 	--origin
 	love.graphics.setColor(1,1,1,1)
 	love.graphics.draw(self.textures["origin"], entity.xorigin-self.textures["origin"]:getWidth()/2, entity.yorigin-self.textures["origin"]:getHeight()/2, 0,1,1)

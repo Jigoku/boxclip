@@ -16,19 +16,8 @@
 console = {}
 
 
-love.keyboard.setTextInput(false)
-
---console.scrollback = 256
---[[
-add pgup pgdn to move selection of scrollback, by setting for eg;
-	console.min = 10
-	console.max = 20
---]]
-
-
-
-
 function console:init()
+	love.keyboard.setTextInput(false)
 	self.buffer = {}
 	self.h = 200
 	self.w = love.graphics.getWidth()/1.5
@@ -44,12 +33,12 @@ function console:init()
 	self.key_delay_timer = 0 -- used for backspace key only at the moment
 	self.key_delay = 0.05
 	
-	self:print (name .. " " .. version .. build .. " by " .. author)
+	self:print (name .. " " .. version .. build .. "-" .. love.system.getOS() .. " by " .. author)
 end
 
+
 function console:toggle(v)
-	--sound:play(sound.effects["beep"])
-	--debug = not debug
+
 	self.command = ""
 	
 	if self.active then
@@ -60,9 +49,9 @@ function console:toggle(v)
 		self.active = true
 		love.keyboard.setTextInput(true)
 	end
-	
 
 end
+
 
 function console:draw()
 	if self.active and self.opacity > 0 then
@@ -92,13 +81,13 @@ function console:draw()
 	end
 end
 
+
 function console:textinput(t)
 	-- concatenate text into console command input
 	if self.active then
 		self.command = self.command .. t
 	end
 end
-
 
 
 function console:keypressed(key)
@@ -115,8 +104,7 @@ function console:keypressed(key)
 				
 			end
 		else
-			-- run/exec lua code here	
-			--console:print("DEBUG:: " .. self.command)
+			-- run/exec lua code here
 			local fn, err = loadstring(self.command)
 			if not fn then	
 					self:print(err)
@@ -130,7 +118,7 @@ function console:keypressed(key)
 				end
 			end
 
-
+			--alternative method
 			--[[local fn, err = loadstring(console.command)
 			if not fn then
 				console:print(err)
@@ -152,12 +140,12 @@ function console:keypressed(key)
 		self.command = ""
 	end
 		
-		
 	if key == "`" then
 		self:toggle()
 	end
 
 end
+
 
 function console:update(dt)
 	

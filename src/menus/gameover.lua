@@ -32,16 +32,14 @@ function gameover:init()
 end
 
 
-
-
 function gameover:keypressed(key)
 	if not transitions.active then
 		title:init()
 	end
 end
 
-function gameover:draw()
 
+function gameover:draw()
 	---background
 	love.graphics.setBackgroundColor(0,0,0,1)
 	love.graphics.setColor(1,1,1,0.19)		
@@ -61,7 +59,6 @@ function gameover:draw()
 	
 	love.graphics.setFont(fonts.default)
 end
-
 
 
 function gameover:update(dt)

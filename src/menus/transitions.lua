@@ -15,8 +15,8 @@
  
 transitions = {}
 transitions.active = false
-
 transitions.fadespeed = 2
+
 
 function transitions:fadein()
 	self.fade = 1
@@ -25,16 +25,13 @@ function transitions:fadein()
 end
 
 
-
---fade out and then execute gamemode change
 function transitions:fadeoutmode(mode)
+	--fade out and then execute gamemode change
 	self.fade = 0
 	self.state_fadeoutmode = true
 	self.active = true
 	self.mode = mode
 end
-
-
 
 
 function transitions:run(dt)
@@ -59,7 +56,6 @@ function transitions:run(dt)
 			self.active = false
 		end
 	end
-
 end
 
 

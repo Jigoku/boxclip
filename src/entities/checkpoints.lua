@@ -22,6 +22,7 @@ checkpoints.textures = {
 
 table.insert(editor.entities, {"checkpoint", "checkpoint"})
 
+
 function checkpoints:add(x,y)
 	table.insert(world.entities.checkpoint, {
 		x = x or 0,
@@ -33,6 +34,7 @@ function checkpoints:add(x,y)
 	})
 	print( "checkpoint added @  X:"..x.." Y: "..y)
 end
+
 
 function checkpoints:update(dt)
 	if mode == "editing" then return end
@@ -54,6 +56,7 @@ function checkpoints:update(dt)
 	end
 end
 
+
 function checkpoints:draw()
 	local count = 0
 	
@@ -68,11 +71,24 @@ function checkpoints:draw()
 				love.graphics.setColor(0.58,1,0.58,0.9)
 			end
 			
-			love.graphics.draw(checkpoints.textures["back"], checkpoint.x-checkpoints.textures["back"]:getWidth()/2+checkpoints.textures["front"]:getWidth()/2,checkpoint.y,0, 1, 1)
-			love.graphics.draw(checkpoints.textures["front"], checkpoint.x,checkpoint.y,0, 1, 1)
-	
-			--love.graphics.rectangle("fill", checkpoint.x, checkpoint.y, checkpoint.w, checkpoint.h)
+			love.graphics.draw(
+				checkpoints.textures["back"], 
+				checkpoint.x-checkpoints.textures["back"]:getWidth()/2+checkpoints.textures["front"]:getWidth()/2,
+				checkpoint.y,
+				0, 
+				1, 
+				1
+			)
 			
+			love.graphics.draw(
+				checkpoints.textures["front"], 
+				checkpoint.x,
+				checkpoint.y,
+				0, 
+				1,
+				1
+			)
+	
 			if editing or debug then
 				self:drawdebug(checkpoint, i)
 			end
@@ -83,12 +99,10 @@ end
 
 
 function checkpoints:drawdebug(checkpoint, i)
-
 	love.graphics.setColor(1,0,0,0.39)
 	love.graphics.rectangle("line", checkpoint.x, checkpoint.y, checkpoint.w, checkpoint.h)
 	
 	editor:drawid(checkpoint,i)
 	editor:drawcoordinates(checkpoint)
-	
 end
 
