@@ -1,4 +1,4 @@
-**Boxclip** is a 2D platformer engine built using the [love2d](https://love2d.org/) framework. 
+**Boxclip** is a 2D platformer engine, with an emphasis on interactive map editing. Built using the [LÖVE2D](https://love2d.org/) framework.
 
 Maps can be created with the custom built-in map editor. Simply drop and place entities into the world.
 
