@@ -40,7 +40,11 @@ end
 
 
 function weather:update(dt)
-
+	if editing then 
+		weather.particles = {}
+		return 
+	end
+	
 	weather:populate()
 
 	if world.theme == "frost" then
@@ -108,6 +112,8 @@ end
 
 
 function weather:draw()
+	if editing then return end
+	
 	if world.theme == "frost" then
 		for i,particle in ipairs(self.particles) do
 			love.graphics.setColor(particle.r,particle.g,particle.b,particle.o)

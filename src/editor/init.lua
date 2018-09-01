@@ -717,10 +717,19 @@ function editor:drawcursor()
 	camera:detach()
 		
 	local x,y = camera:toCameraCoords(self.mouse.x,self.mouse.y)
-		
+	
+	-- draw the cursor	
 	love.graphics.setColor(1,1,1,1)
 	love.graphics.draw(self.mouse.cursors[self.mouse.cur], x-self.mouse.hotspotx,y-self.mouse.hotspoty)
-		
+	
+	-- print active entity selection info
+	
+	if self.selname ~= "null" then
+		love.graphics.setFont(fonts.console)
+		love.graphics.setColor(1,1,1,1)
+		love.graphics.print(self.selname.."("..self.id..")",x+20,y+20)
+	end
+	
 	camera:attach()
 	
 	if debug then
@@ -1063,6 +1072,7 @@ function editor:selection()
 			--if should_break then break end
 			if world:inview(e) then
 				editor.selname = (e.type or e.group)
+				editor.id = n
 				if e.movex then
 					--collision area for moving entity
 					if collision:check(self.mouse.x,self.mouse.y,1,1,e.xorigin, e.y, e.movedist+e.w, e.h) then
