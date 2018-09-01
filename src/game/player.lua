@@ -180,29 +180,35 @@ function player:update(dt)
 		self.framecycle = self.framedelay
 	end
 
+	-- old/previous state
 	local ostate = self.state
 
-	if self.jumping then
-		self.framedelay = 0
+	if self.alive then
+		if self.jumping then
+			self.framedelay = 0
 	
-		if self.yvel < 0 then
-			self.state = "fall"
-		else
-			self.state = "jump"
-		end
+			if self.yvel < 0 then
+				--falling animation
+				self.state = "fall"
+			else
+				--jumping animation
+				self.state = "jump"
+			end
 		
-	else
-		if self.xvel ~= 0 then
-			self.framedelay = 0.1
-			self.state = "run"
-
 		else
-			self.state = "idle"
-			self.framedelay = 0.2
+			if self.xvel ~= 0 then
+				--running animation
+				self.framedelay = 0.1
+				self.state = "run"
+
+			else
+				--idle animation
+				self.state = "idle"
+				self.framedelay = 0.2
+			end
 		end
-	end
-	
-	if not self.alive then
+	else
+		--death animation
 		self.framedelay = 0.1
 		self.state = "dizzy"
 	end
@@ -210,6 +216,7 @@ function player:update(dt)
 	-- set the correct texture based on player state
 	self.texture = self.sprite[self.state][math.min(self.frame, #self.sprite[self.state])]
 	
+	-- only do this if state has changed
 	if ostate ~= self.state then
 		--update player bounds
 		self.w = self.texture:getWidth()
@@ -219,7 +226,7 @@ function player:update(dt)
 		self.frame = 1
 		
 		-- reposition player y position if state differs
-		-- difference between oldstate/newstate
+		-- difference between oldstate/newstate :getHeight()
 		-- this keeps the sprite in place relative to the characters head
 		local oldtex = self.sprite[ostate][self.frame]:getHeight()
 		local newtex = self.sprite[self.state][self.frame]:getHeight()
@@ -259,7 +266,7 @@ function player:update(dt)
 	end
 	--]]
 	
-	if player.alive  then
+	if player.alive then
 		player.carried = false
 		physics:applyVelocity(player, dt)
 		physics:applyGravity(player, dt)
@@ -438,4 +445,7 @@ end
 function player:keypressed(key)
 	if paused or editing or world.splash.active then return end 
 	--maybe remove this function, not needed?
+	--if/when an "interact" key is implemented, this function could be used
+	-- for example, press "E" to activate, etc. 
+	-- one idea was to add levers of some kind, to trigger certain entities.
 end

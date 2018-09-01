@@ -227,7 +227,7 @@ end
 function platforms:drawshadow(platform)
 	if platform.swing then return false end
 	--shadows
-	local offset = 10
+	local offset = 15
 	
 	if platform.w < 40 or platform.h < 40 then
 		offset = 5

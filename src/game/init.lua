@@ -14,6 +14,7 @@ camera = Camera() -- initialise a dummy camera
 	
 require("game/physics")
 require("game/collision")
+require("game/weather")
 require("game/world")
 require("game/player")
 require("game/popups")
