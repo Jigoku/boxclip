@@ -284,6 +284,7 @@ function editor:settexture(dy)
 		end
 		
 	end
+	
 end
 
 
@@ -377,7 +378,7 @@ function editor:keypressed(key)
 				world.mapmusic = world.mapmusic -1
 			end
 		
-			self:showmusicmenu(  )
+			self:showmusicmenu()
 			sound:playbgm(world.mapmusic)
 			sound:playambient(world.mapambient)	
 		end
@@ -389,7 +390,7 @@ function editor:keypressed(key)
 				world.mapmusic = world.mapmusic +1
 			end
 			
-			self:showmusicmenu( )
+			self:showmusicmenu()
 			sound:playbgm(world.mapmusic)
 			sound:playambient(world.mapambient)	
 		end
@@ -402,6 +403,7 @@ function editor:keypressed(key)
 				if e.selected then
 					if love.keyboard.isDown(self.binds.moveup) then 
 						--weird bug, needs to be "11" to actually save to proper position?
+						--maybe it's being rounded down? So that expected "10" becomes "9" ?
 						e.y = math.round(e.y - 11,-1) --up
 						self.mouse.y = self.mouse.y -10
 					end
@@ -489,14 +491,15 @@ end
 
 function editor:wheelmoved(dx, dy)
     if love.keyboard.isDown(self.binds.camera) then
-		--camer zoom
+		--camera zoom
 		camera.scale = math.max(self.mincamerascale,math.min(self.maxcamerascale,camera.scale + dy/25))
 		
 	elseif love.keyboard.isDown(self.binds.texturesel) then
-
+		--change entity texture
 		self:settexture(dy)
 		
 	elseif love.keyboard.isDown(self.binds.rotate) then
+		--rotate an entity
 		self:rotate(dy)
 	else
 		--entmenu selection
@@ -787,8 +790,17 @@ function editor:drawtexturesel()
 		love.graphics.setColor(0,0,0,0.58)
 		love.graphics.rectangle("fill",0,0,self.texmenu:getWidth(), self.texmenu:getHeight(),10)
 
+		--[[
+			this loop fails (crash) when changing texture of decal or platform, 
+			then moving mouse over an enemy entity, whilst texture menu is visible...
+			fix this...
+		--]]
 		
-		for i=math.max(-self.texmenuoffset,self.texturesel-self.texmenuoffset), 
+		if self.selname ~= ("platform" or "decal") then return false end
+		-- temporary fix... whitelist entity types that can be textured above^^^^
+		
+		
+		for i = math.max(-self.texmenuoffset,self.texturesel-self.texmenuoffset), 
 			math.min(#self.texlist+self.texmenuoffset,self.texturesel+self.texmenuoffset) do
 			
 			if type(self.texlist[i]) == "userdata" then
