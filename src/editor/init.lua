@@ -282,7 +282,10 @@ function editor:settexture(dy)
 				break
 			end		
 		end
-		
+	else 
+		--empty list
+		self:showtexmenu({ nil })
+		self.texturesel = 1
 	end
 	
 end
@@ -787,8 +790,14 @@ function editor:drawtexturesel()
 		local y = self.texmenupadding
 		local n = 0
 	
-		love.graphics.setColor(0,0,0,0.58)
-		love.graphics.rectangle("fill",0,0,self.texmenu:getWidth(), self.texmenu:getHeight(),10)
+		love.graphics.setColor(0,0,0,0.5)
+		love.graphics.rectangle("fill",0,0,self.texmenu:getWidth(), self.texmenu:getHeight(),0)
+		
+		local lw = love.graphics.getLineWidth()
+		love.graphics.setLineWidth(5)
+		love.graphics.setColor(1,1,1,0.5)
+		love.graphics.rectangle("line",0,0,self.texmenu:getWidth(), self.texmenu:getHeight(),0)
+		love.graphics.setLineWidth(lw)
 
 		--[[
 			this loop fails (crash) when changing texture of decal or platform, 
@@ -796,9 +805,10 @@ function editor:drawtexturesel()
 			fix this...
 		--]]
 		
-		if self.selname ~= ("platform" or "decal") then return false end
+		--
 		-- temporary fix... whitelist entity types that can be textured above^^^^
-		
+		if self.selname ~= ("platform" or "decal") then return false end
+
 		
 		for i = math.max(-self.texmenuoffset,self.texturesel-self.texmenuoffset), 
 			math.min(#self.texlist+self.texmenuoffset,self.texturesel+self.texmenuoffset) do
@@ -816,6 +826,8 @@ function editor:drawtexturesel()
 				)
 				
 				if self.texturesel == i then
+					local lw = love.graphics.getLineWidth()
+					love.graphics.setLineWidth(3)
 					love.graphics.setColor(0,1,0,1)
 					love.graphics.rectangle(
 						"line",
@@ -823,6 +835,7 @@ function editor:drawtexturesel()
 						y+(n*self.texmenutexsize)+n*(self.texmenupadding),
 						self.texmenutexsize,self.texmenutexsize
 					)
+					love.graphics.setLineWidth(lw)
 				end
 				
 				love.graphics.setColor(0,0,0,1)
@@ -830,7 +843,7 @@ function editor:drawtexturesel()
 			
 			else
 				
-				love.graphics.setColor(1,1,1,1)
+				love.graphics.setColor(1,1,1,0.5)
 				
 				love.graphics.draw(
 					self.errortex,
