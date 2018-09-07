@@ -27,7 +27,7 @@ function crates:add(x,y,type)
 		y = y or 0,
 		w = self.textures[1]:getWidth(),
 		h = self.textures[1]:getHeight(),
-		texture = self.textures[1],
+		texture = self.textures[love.math.random(#self.textures)],
 		group = "crate",
 		type = type,
 		destroyed = false,

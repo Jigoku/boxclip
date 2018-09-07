@@ -99,6 +99,7 @@ function console:keypressed(key)
 			if     self.command == "/quit" then love.event.quit() 
 			elseif self.command == "/kill" then player:die("suicide")
 			elseif self.command == "/title" then title:init()
+			elseif self.command == "/savemap" then mapio:savemap(world.map)
 			else
 				self:print ("unknown command")
 				
@@ -171,7 +172,6 @@ function console:update(dt)
 end
 
 
--- add console with capability to set variables as command input TODO
 function console:print(event)
 	local elapsed =  world:formattime(os.difftime(os.time()-game.runtime))
 	local line = { {1,0.5,0}, elapsed, {0.5,1,0.5}, " | ", {1,1,0.5}, event }

@@ -45,6 +45,7 @@ end
 
 
 function mapio:savemap(map)
+
 	local filename = "maps/"..map
 	local fh = love.filesystem.newFile(filename)
 	

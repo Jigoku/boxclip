@@ -808,7 +808,7 @@ function editor:drawtexturesel()
 		--
 		-- temporary fix... whitelist entity types that can be textured above^^^^
 		if self.selname ~= ("platform" or "decal") then return false end
-
+		
 		
 		for i = math.max(-self.texmenuoffset,self.texturesel-self.texmenuoffset), 
 			math.min(#self.texlist+self.texmenuoffset,self.texturesel+self.texmenuoffset) do

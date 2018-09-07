@@ -567,7 +567,12 @@ function enemies:draw()
 			
 				if enemy.type == "spikeball" then
 					chainlink:draw(enemy)
-					love.graphics.draw(texture, enemy.x, enemy.y, -enemy.angle*2,1,1,enemy.w/2,enemy.h/2)
+					
+					--spin
+					--love.graphics.draw(texture, enemy.x, enemy.y, -enemy.angle*2,1,1,enemy.w/2,enemy.h/2)
+					
+					--no spin
+					love.graphics.draw(texture, enemy.x, enemy.y, 0,1,1,enemy.w/2,enemy.h/2)
 				end
 			
 			end

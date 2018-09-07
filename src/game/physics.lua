@@ -148,7 +148,11 @@ function physics:deadzone(dt)
 				e.yvel = 0
 				e.xvel = 0
 				e.y = world.deadzone - e.h +1 *dt
-			--	console:print(e.group .. "("..n..") out of bounds (x:"..math.round(e.x).." y:"..math.round(e.y)..")")
+				
+				if not e.out_of_bounds then
+					console:print(e.group .. "("..n..") out of bounds (x:"..math.round(e.x).." y:"..math.round(e.y)..")")
+					e.out_of_bounds = true
+				end
 			end
 		end
 	end
