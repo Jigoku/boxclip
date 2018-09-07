@@ -73,10 +73,12 @@ function tips:draw()
 			
 			--background
 			love.graphics.setColor(1,1,1,0.78)
-			love.graphics.rectangle("fill", tip.x, tip.y, tip.w, tip.h,corners)
+			love.graphics.rectangle("fill", tip.x, tip.y, tip.w, tip.h-tip.padding,corners)
+			
 			--frame
 			love.graphics.setColor(0,0,0,1)
-			love.graphics.rectangle("line", tip.x, tip.y, tip.w, tip.h,corners)
+			love.graphics.rectangle("line", tip.x, tip.y, tip.w, tip.h-tip.padding,corners)
+			
 			--tip text
 			love.graphics.printf(tip.text, tip.x+tip.padding, tip.y+tip.padding, tip.w-tip.padding*2, "center")
 		end
