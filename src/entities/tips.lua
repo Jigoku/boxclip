@@ -62,9 +62,6 @@ function tips:draw()
 	local lw = love.graphics.getLineWidth()
 	love.graphics.setLineWidth(2)
 	
-	local font = love.graphics.getFont()
-	love.graphics.setFont(fonts.tips)
-	
 	for i, tip in ipairs(world.entities.tip) do
 		if world:inview(tip) then
 			count = count + 1
@@ -80,12 +77,24 @@ function tips:draw()
 			love.graphics.rectangle("line", tip.x, tip.y, tip.w, tip.h-tip.padding,corners)
 			
 			--tip text
+			love.graphics.setFont(fonts.tips)
 			love.graphics.printf(tip.text, tip.x+tip.padding, tip.y+tip.padding, tip.w-tip.padding*2, "center")
+			
+			if debug or editing then
+				self:drawdebug(tip, i)
+			end
 		end
 
 	end
 	world.tips = count
 	
 	love.graphics.setLineWidth(lw)
-	love.graphics.setFont(font)
+end
+
+function tips:drawdebug(tip, i)
+	love.graphics.setColor(0,1,1,0.39)
+	love.graphics.rectangle("line", tip.xorigin, tip.yorigin, tip.w, tip.h)
+
+	editor:drawid(tip,i)
+	editor:drawcoordinates(tip)
 end

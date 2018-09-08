@@ -117,9 +117,9 @@ function platforms:draw()
 				chainlink:draw(platform)
 					
 				love.graphics.setColor(
-					platform_behind_r,
-					platform_behind_g,
-					platform_behind_b,
+					platform_r,
+					platform_g,
+					platform_b,
 					255
 				)
 				love.graphics.draw(platform_cradle, platform.x-platform_cradle:getWidth()/2,platform.y-platform_cradle:getHeight()/1.5)
