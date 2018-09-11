@@ -571,7 +571,7 @@ function enemies:draw()
 				if enemy.type == "spike_timer" then
 					love.graphics.setColor(1,1,1,1)
 					local x,y = camera:toCameraCoords(enemy.xorigin, enemy.yorigin)
-					love.graphics.setScissor( x,y,enemy.w,enemy.h)
+					love.graphics.setScissor( x,y,enemy.w*camera.scale,enemy.h*camera.scale)
 					love.graphics.draw(texture, enemy.x, enemy.y, 0,1,1)
 					love.graphics.setScissor()
 				end
