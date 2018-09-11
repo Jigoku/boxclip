@@ -878,10 +878,10 @@ function editor:draw()
 	if editing then
 	
 		camera:attach()
-			self:drawinfo()
 			self:drawguide()
 			self:drawcursor()
 			self:drawselbox()
+			self:drawinfo()
 		camera:detach()
 		
 		if world.collision == 0 then
@@ -1406,15 +1406,16 @@ function editor:drawinfo()
 		
 		for _, t in pairs(world.entities) do
 			for i, e in pairs(t) do
-				
-				if e.x and e.y then
-					
-					if world:inview(e) then
-						love.graphics.setColor(1,1,1,0.5)
-						love.graphics.print("x ".. math.round(e.x) ..", y " .. math.round(e.y) , e.x-20,e.y-20,0)  
-				
-						love.graphics.setColor(1,1,0,0.5)       
+				if e.x and e.y and world:inview(e) then	
+					if e.selected then
+						local info = "x ".. math.round(e.x) ..", y " .. math.round(e.y) 
+						local padding = 5
+						love.graphics.setColor(0.1,0.1,0.1,0.75)
+						love.graphics.rectangle("fill", e.x-20-padding,e.y-40-padding,love.graphics.getFont():getWidth(info)+padding*2,50,5)
+						love.graphics.setColor(0,1,0,1)
 						love.graphics.print(e.group .. "(" .. i .. ")", e.x-20, e.y-40, 0)
+						love.graphics.setColor(1,1,1,0.5)
+						love.graphics.print(info, e.x-20,e.y-20,0)  
 					end
 				end
 			end
