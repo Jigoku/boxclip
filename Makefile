@@ -4,19 +4,19 @@ APP_VERSION=0.2.1
 LOVE_VERSION=11.1
 
 build setup:
-	mkdir build
-	cd build && mkdir linux32 linux64 win32 win64
+	mkdir dist
+	cd dist && mkdir linux32 linux64 win32 win64
 
 all:portable linux32 linux64 win32 win64
 
 portable:
 	#compress the lua sources to a *.love file
 	#this can run anywhere where love is already installed system wide
-	cd src && zip -9 -q -r ../build/$(APP_NAME)-$(APP_VERSION).love . -x \*.git* \build
+	cd src && zip -9 -q -r ../dist/$(APP_NAME)-$(APP_VERSION).love . -x \*.git* \dist
 
 win32:
 	#create a windows 32bit standalone executable
-	cd build/win32 && \
+	cd dist/win32 && \
 		wget -N https://bitbucket.org/rude/love/downloads/love-$(LOVE_VERSION)-win32.zip && \
 		unzip -o love-$(LOVE_VERSION)-win32.zip && \
 		cd love-$(LOVE_VERSION).0-win32 && \
@@ -26,7 +26,7 @@ win32:
 
 win64:
 	#create a windows 64bit standalone executable
-	cd build/win64 && \
+	cd dist/win64 && \
 		wget -N https://bitbucket.org/rude/love/downloads/love-$(LOVE_VERSION)-win64.zip && \
 		unzip -o love-$(LOVE_VERSION)-win64.zip && \
 		cd love-$(LOVE_VERSION).0-win64 && \
@@ -41,4 +41,4 @@ linux64:
 install:
 
 clean:
-	rm -rf build/
+	rm -rf dist

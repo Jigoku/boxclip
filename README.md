@@ -36,10 +36,8 @@ Install [love2d](https://love2d.org/) (at least version 11.1), and simply type
 
 ```
 $ make && make all
-$ cd build
-$ love boxclip-*.love
 ```
-Windows archives are not currently available, but you can create one using the above. Find them in `build/win{32,64}/boxclip-0.2-win{32,64}.zip`
+Windows archives are not currently available, but you can create them using the above. Find them in `dist/win{32,64}/boxclip-0.2-win{32,64}.zip`
 
 ### Note
 Please note this is alpha software, there is no stable release yet. Currently the plans are to have a box collision based world with a map editor, and simple path-based enemies. This may change at any time! 

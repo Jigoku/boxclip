@@ -1,9 +1,0 @@
-[Desktop Entry]
-Categories=Application;Games;Game
-Comment=2D Platform Engine
-Exec=@@@binary@@@
-Icon=@@@icon@@@
-Name=Boxclip
-NoDisplay=false
-Terminal=0
-Type=Application
