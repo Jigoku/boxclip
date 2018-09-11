@@ -219,10 +219,6 @@ editor.help = {
 		editor.binds.showinfo,
 		"toggle entity coordinate information"
 	},
-	{
-		editor.binds.showid,
-		"toggle entity id"
-	},
 	{	
 		editor.binds.decmovedist .. ", " .. editor.binds.incmovedist,
 		"increase/decrease move distance"
@@ -1404,17 +1400,6 @@ function editor:drawmmap()
 end
 
 
-function editor:drawid(entity,i)
-	--local id = split(string.format("%s",entity) ," ")
-	--local hash = id[2]
-	if editor.showid then
-		love.graphics.setFont(fonts.console)
-		love.graphics.setColor(1,1,0,0.39)       
-		love.graphics.print(entity.group .. "(" .. i .. ")", entity.x-20, entity.y-40, 0)
-	end
-end
-
-
 function editor:drawinfo()
 	if editor.showinfo then
 		love.graphics.setFont(fonts.console)
@@ -1425,10 +1410,10 @@ function editor:drawinfo()
 				if e.x and e.y then
 					
 					if world:inview(e) then
-						love.graphics.setColor(1,1,1,0.39)
+						love.graphics.setColor(1,1,1,0.5)
 						love.graphics.print("x ".. math.round(e.x) ..", y " .. math.round(e.y) , e.x-20,e.y-20,0)  
 				
-						love.graphics.setColor(1,1,0,0.39)       
+						love.graphics.setColor(1,1,0,0.5)       
 						love.graphics.print(e.group .. "(" .. i .. ")", e.x-20, e.y-40, 0)
 					end
 				end
