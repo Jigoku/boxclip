@@ -216,9 +216,6 @@ function platforms:drawdebug(platform, i)
 			platform_link_origin:getHeight()
 		)--]]
 	end
-
-	editor:drawid(platform,i)
-	editor:drawcoordinates(platform)
 	
 end
 

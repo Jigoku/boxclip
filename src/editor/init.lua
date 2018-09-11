@@ -42,8 +42,7 @@ editor.entdir = 0				--rotation placement 0,1,2,3 = up,right,down,left
 editor.entsel = 1				--current entity id for placement
 editor.themesel = 1				--world theme/pallete
 editor.texturesel = 1			--texture slot to use for platforms
-editor.showpos = true			--display coordinates of entities
-editor.showid  = true			--display numeric id of entities
+editor.showinfo = true			--display coordinates of entities
 editor.showmmap = true			--show minimap
 editor.showguide = true			--show guidelines/grid
 editor.showentmenu = true		--show entmenu
@@ -217,8 +216,8 @@ editor.help = {
 		"reset camera"
 	},
 	{
-		editor.binds.showpos,
-		"toggle entity coordinates"
+		editor.binds.showinfo,
+		"toggle entity coordinate information"
 	},
 	{
 		editor.binds.showid,
@@ -370,7 +369,7 @@ function editor:keypressed(key)
 		if key == self.binds.flip then self:flip() end
 		if key == self.binds.guidetoggle then self.showguide = not self.showguide end
 		if key == self.binds.respawn then self:sendtospawn() end
-		if key == self.binds.showpos then self.showpos = not self.showpos end
+		if key == self.binds.showinfo then self.showinfo = not self.showinfo end
 		if key == self.binds.showid then self.showid = not self.showid end
 		if key == self.binds.savemap then mapio:savemap(world.map) end
 	
@@ -739,9 +738,9 @@ function editor:drawcursor()
 	camera:attach()
 	
 	if debug then
-	self:drawcoordinates(
-		{ x = self.mouse.x, y = self.mouse.y }
-	)
+	--self:drawcoordinates(
+	--		{ x = self.mouse.x, y = self.mouse.y }
+	--		)
 	end
 end
 
@@ -881,12 +880,12 @@ function editor:draw()
 	
 	--interactive editing
 	if editing then
-		camera:attach()
 	
-		self:drawguide()
-		self:drawcursor()
-		self:drawselbox()
-		
+		camera:attach()
+			self:drawinfo()
+			self:drawguide()
+			self:drawcursor()
+			self:drawselbox()
 		camera:detach()
 		
 		if world.collision == 0 then
@@ -918,6 +917,8 @@ function editor:draw()
 	
 	if self.showmmap then self:drawmmap() end
 	if self.showhelpmenu then self:drawhelpmenu() end
+	
+	
 end
 
 
@@ -1414,11 +1415,25 @@ function editor:drawid(entity,i)
 end
 
 
-function editor:drawcoordinates(object)
-	if editor.showpos then
+function editor:drawinfo()
+	if editor.showinfo then
 		love.graphics.setFont(fonts.console)
-		love.graphics.setColor(1,1,1,0.39)
-		love.graphics.print("x ".. math.round(object.x) ..", y " .. math.round(object.y) , object.x-20,object.y-20,0)  
+		
+		for _, t in pairs(world.entities) do
+			for i, e in pairs(t) do
+				
+				if e.x and e.y then
+					
+					if world:inview(e) then
+						love.graphics.setColor(1,1,1,0.39)
+						love.graphics.print("x ".. math.round(e.x) ..", y " .. math.round(e.y) , e.x-20,e.y-20,0)  
+				
+						love.graphics.setColor(1,1,0,0.39)       
+						love.graphics.print(e.group .. "(" .. i .. ")", e.x-20, e.y-40, 0)
+					end
+				end
+			end
+		end
 	end
 end
 

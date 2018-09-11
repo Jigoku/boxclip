@@ -313,6 +313,8 @@ function world:draw()
 		love.graphics.line(love.graphics.getWidth()/2.5,love.graphics.getHeight()/3,love.graphics.getWidth()-love.graphics.getWidth()/2.5,love.graphics.getHeight()/3)
 		love.graphics.line(love.graphics.getWidth()/2.5,love.graphics.getHeight()/3+40,love.graphics.getWidth()-love.graphics.getWidth()/2.5,love.graphics.getHeight()/3+40)
 	end
+	
+
 end
 
 
@@ -457,8 +459,8 @@ end
 function world:totalents()
 	--return the total number of entities
 	local c = 0
-	for _, type in pairs(world.entities) do
-		for _, e in pairs(type) do
+	for _,t in pairs(world.entities) do
+		for _,e in pairs(t) do
 			c = c + 1
 		end
 	end

@@ -128,7 +128,4 @@ function props:drawdebug(prop, i)
 		prop.w, 
 		prop.h
 	)
-	
-	editor:drawid(prop, i)
-	editor:drawcoordinates(prop)
 end

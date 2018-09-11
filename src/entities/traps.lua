@@ -125,9 +125,7 @@ function traps:drawdebug(trap, i)
 		trap.w, 
 		trap.h
 	)
-	
-	editor:drawid(trap, i)
-	editor:drawcoordinates(trap)
+
 end
 
 

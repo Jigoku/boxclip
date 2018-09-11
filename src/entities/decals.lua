@@ -91,11 +91,6 @@ function decals:draw()
 				love.graphics.setColor(0.67,0.32,0.05,1)
 				self:drawwaterfall(decal)
 			end
-			
-			if editing or debug then
-				editor:drawid(decal,i)
-				editor:drawcoordinates(decal)
-			end
 		end
 	end
 	world.decals = count

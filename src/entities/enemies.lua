@@ -15,6 +15,9 @@
  
 enemies = {}
 
+-- TODO, split this up into seperate entities...
+-- eg; floater.lua, walker.lua, etc
+
 enemies.textures = {
 	["walker" ] = textures:load("data/images/enemies/cube_monster/" ),
 	["hopper" ] = textures:load("data/images/enemies/green_monster/"),
@@ -628,8 +631,6 @@ function enemies:drawdebug(enemy, i)
 		love.graphics.rectangle("line", enemy.xorigin, enemy.y, enemy.movedist+texture[(enemy.frame or 1)]:getWidth(), texture[(enemy.frame or 1)]:getHeight())
 	end
 
-	editor:drawid(enemy,i)
-	editor:drawcoordinates(enemy)
 end
 
 

@@ -94,7 +94,4 @@ end
 function tips:drawdebug(tip, i)
 	love.graphics.setColor(0,1,1,0.39)
 	love.graphics.rectangle("line", tip.xorigin, tip.yorigin, tip.w, tip.h)
-
-	editor:drawid(tip,i)
-	editor:drawcoordinates(tip)
 end

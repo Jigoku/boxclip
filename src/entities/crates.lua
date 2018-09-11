@@ -62,7 +62,4 @@ end
 function crates:drawdebug(crate, i)
 	love.graphics.setColor(0,1,1,0.39)
 	love.graphics.rectangle("line", crate.x, crate.y, crate.w, crate.h)
-
-	editor:drawid(crate,i)
-	editor:drawcoordinates(crate)
 end

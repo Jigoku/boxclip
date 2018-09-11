@@ -65,8 +65,6 @@ function materials:draw()
 					love.graphics.draw(self.death, mat.quad, mat.x,mat.y)
 				end
 			
-				editor:drawid(mat,i)
-				editor:drawcoordinates(mat)
 			end
 		end
 				

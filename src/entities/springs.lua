@@ -150,6 +150,4 @@ function springs:drawdebug(spring, i)
 		spring.h-20
 	)
 	
-	editor:drawid(spring, i)
-	editor:drawcoordinates(spring)
 end

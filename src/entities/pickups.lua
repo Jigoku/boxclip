@@ -178,9 +178,7 @@ function pickups:drawdebug(pickup, i)
 		pickup.w,
 		pickup.h
 	)
-	
-	editor:drawid(pickup, i)
-	editor:drawcoordinates(pickup)
+
 end
 
 function pickups:destroy(pickups, i)
