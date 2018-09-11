@@ -192,7 +192,7 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			dir = dir,
 			movespeed = 0,
 			movedist = 0,
-			editor_canrotate = true
+			editor_canrotate = false
 		})
 
 	elseif type == "icicle" then
@@ -411,9 +411,37 @@ function enemies:update(dt)
 			
 			end
 			
-			if enemy.type == "spike" or enemy.type == "spike_large" or enemy.type == "spike_timer" and enemy.alive then
+			if enemy.type == "spike" or enemy.type == "spike_large" and enemy.alive then
 				-- NOT ACTIVE WHILST EDITING
-				if mode == "game" and player.alive and  collision:check(player.newX,player.newY,player.w,player.h,
+				if mode == "game" and player.alive and collision:check(player.newX,player.newY,player.w,player.h,
+					enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
+					player.yvel = -player.yvel
+					player:die(enemy.group)
+				end
+			end
+			
+			if enemy.type == "spike_timer" then
+					
+				enemy.timer_cycle = math.max(0, enemy.timer_cycle - dt)
+				if enemy.timer_cycle <= 0 then
+
+					if world:inview(enemy) then
+						sound:play(sound.effects["slice"])
+					end
+					
+					enemy.switch = not enemy.switch
+					enemy.timer_cycle = enemy.timer
+					
+				end
+				
+				if enemy.switch then
+					enemy.y = math.max(enemy.yorigin,enemy.y - 400 *dt)
+				else
+					enemy.y = math.min(enemy.yorigin+enemy.h,enemy.y + 400 *dt)
+				end
+				
+				-- NOT ACTIVE WHILST EDITING
+				if mode == "game" and player.alive and collision:check(player.newX,player.newY,player.w,player.h,
 					enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
 					player.yvel = -player.yvel
 					player:die(enemy.group)
@@ -502,19 +530,6 @@ function enemies:update(dt)
 	
 		end
 			
-		-- only used for "spike_timer" right now
-		-- toggles alive state (visibility) on a delayed timer loop
-		if enemy.timer then 
-			enemy.timer_cycle = math.max(0, enemy.timer_cycle - dt)
-			if enemy.timer_cycle <= 0 then
-			
-				if world:inview(enemy) then
-					sound:play(sound.effects["slice"])
-				end
-				enemy.alive = not enemy.alive
-				enemy.timer_cycle = enemy.timer
-			end
-		end
 	end	
 end
 
@@ -539,19 +554,9 @@ function enemies:draw()
 					end
 				end
 				
-				-- Implement this for "spike_timer", so it can be animated (move smoothly out of drawable area)
-					--[[ NOTE, clip/scissor 
-					local x,y = camera:toCameraCoords(enemy.x, enemy.y)
-					love.graphics.setScissor( x,y,enemy.w,enemy.h/2)
 					
-						--draw here
-						
-					love.graphics.setScissor()
-					--]]
-					
-				love.graphics.setColor(1,1,1,1)
-				
-				if enemy.type == "spike" or enemy.type == "spike_large" or enemy.type == "spike_timer" and enemy.alive then
+				if enemy.type == "spike" or enemy.type == "spike_large" and enemy.alive then
+					love.graphics.setColor(1,1,1,1)
 					if enemy.dir == 1 then
 						love.graphics.draw(texture, enemy.x, enemy.y, math.rad(90),1,(enemy.flip and -1 or 1),0,(enemy.flip and 0 or enemy.w))
 					elseif enemy.dir == 2 then
@@ -563,24 +568,34 @@ function enemies:draw()
 					end
 				end
 			
+				if enemy.type == "spike_timer" then
+					love.graphics.setColor(1,1,1,1)
+					local x,y = camera:toCameraCoords(enemy.xorigin, enemy.yorigin)
+					love.graphics.setScissor( x,y,enemy.w,enemy.h)
+					love.graphics.draw(texture, enemy.x, enemy.y, 0,1,1)
+					love.graphics.setScissor()
+				end
+			
 				if enemy.type == "icicle" or enemy.type == "icicle_d" then
+					love.graphics.setColor(1,1,1,1)
 					love.graphics.draw(texture, enemy.x, enemy.y, 0,1,1)
 				end
 			
 			
 				if enemy.type == "spikeball" then
+					love.graphics.setColor(1,1,1,1)
 					chainlink:draw(enemy)
 					
 					--spin
-					--love.graphics.draw(texture, enemy.x, enemy.y, -enemy.angle*2,1,1,enemy.w/2,enemy.h/2)
+					love.graphics.draw(texture, enemy.x, enemy.y, -enemy.angle*2,1,1,enemy.w/2,enemy.h/2)
 					
 					--no spin
-					love.graphics.draw(texture, enemy.x, enemy.y, 0,1,1,enemy.w/2,enemy.h/2)
+					--love.graphics.draw(texture, enemy.x, enemy.y, 0,1,1,enemy.w/2,enemy.h/2)
 				end
 			
 			end
 			
-			if editing or  debug then
+			if editing or debug then
 				enemies:drawdebug(enemy, i)
 			end
 		end
@@ -612,6 +627,14 @@ function enemies:drawdebug(enemy, i)
 			chainlink.textures["origin"]:getWidth(),chainlink.textures["origin"]:getHeight()
 		)
 
+	elseif enemy.type == "spike_timer" then
+		--bounds
+		love.graphics.setColor(1,0,0,1)
+		love.graphics.rectangle("line", enemy.x+5, enemy.y+5, enemy.w-10, enemy.h-10)
+		--hitbox
+		love.graphics.setColor(1,0.78,0.39,1)
+		love.graphics.rectangle("line", enemy.xorigin, enemy.yorigin, enemy.w, enemy.h*2)
+	
 	else
 	--all other enemies
 		--bounds
