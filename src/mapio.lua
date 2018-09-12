@@ -70,7 +70,7 @@ function mapio:savemap(map)
 	for _, e in ipairs(world.entities.pickup) do
 		fh:write("pickups:add("..math.round(e.x)..","..math.round(e.y)..",\""..e.type.."\")\n")
 	end
-	for _, e in ipairs(world.entities.coins) do
+	for _, e in ipairs(world.entities.coin) do
 		fh:write("coins:add("..math.round(e.x)..","..math.round(e.y)..")\n")
 	end
 	for _, e in ipairs(world.entities.crate) do
