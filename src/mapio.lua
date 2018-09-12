@@ -64,6 +64,8 @@ function mapio:savemap(map)
 	fh:write("world:settheme(\""..world.theme.."\")\n")
 	
 	
+	--this is getting stupid, change how this is saved...
+	
 	for _, e in ipairs(world.entities.platform) do
 		fh:write("platforms:add("..math.round(e.xorigin)..","..math.round(e.yorigin)..","..e.w..","..e.h..","..tostring(e.clip)..","..tostring(e.movex)..","..tostring(e.movey)..","..e.movespeed..","..e.movedist..","..tostring(e.swing)..","..e.angleorigin..","..e.texture..")\n")
 	end

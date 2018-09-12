@@ -27,7 +27,7 @@ Visit the [Wiki](https://github.com/Jigoku/boxclip/wiki) for help with game cont
 
 ### Get the development branch
 ```
-$ git clone git@github.com:Jigoku/boxclip.git
+$ git clone --recursive git@github.com:Jigoku/boxclip.git
 ```
 
 ### Run the game/engine
