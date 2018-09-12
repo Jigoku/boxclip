@@ -30,6 +30,8 @@ Visit the [Wiki](https://github.com/Jigoku/boxclip/wiki) for help with game cont
 $ git clone --recursive git@github.com:Jigoku/boxclip.git
 ```
 
+NOTE: if you download the generated "zip" archive, the game will fail to run, as submodules are not included with this method, you will need to run the above command to pull in the required submodules)
+
 ### Run the game/engine
 Install [love2d](https://love2d.org/) (at least version 11.1), and simply type
 `love .` in the *src/* directory or you can create a love executable which can be ran directly by using the Makefile:
