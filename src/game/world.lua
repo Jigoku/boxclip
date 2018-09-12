@@ -266,6 +266,7 @@ function world:draw()
 	checkpoints:draw()
 	crates:draw()
 	portals:draw()
+	coins:draw()
 	pickups:draw()
 	enemies:draw()
 	traps:draw()
@@ -442,6 +443,7 @@ function world:reset()
 		["trap"] = {group = "traps"},
 		["enemy"] = {group = "enemies"},
 		["pickup"] = {group = "pickups"},
+		["coin"] = {group = "coins"},
 		["portal"] = {group = "portals"},
 		["crate"] = {group = "crates"},
 		["checkpoint"] = {group = "checkpoints"},
@@ -518,6 +520,7 @@ function world:update(dt)
 		portals:update(dt)
 		checkpoints:update(dt)
 		springs:update(dt)
+		coins:update(dt)
 		pickups:update(dt)
 		bumpers:update(dt)
 		enemies:update(dt)

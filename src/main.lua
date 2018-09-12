@@ -171,6 +171,7 @@ function love.draw()
 			love.graphics.setColor(1,0.4,1,1)
 			love.graphics.print(
 				"pickups: " .. #world.entities.pickup .. "(".. world.pickups .. ")" ..
+				" | coins: " .. #world.entities.coin .. "(".. world.coins .. ")" ..
 				" | enemies: " .. #world.entities.enemy .. "(".. world.enemies .. ")" ..
 				" | platforms: " .. #world.entities.platform .. "(".. world.platforms .. ")" ..
 				" | props: " .. #world.entities.prop .. "("..world.props .. ")" ..

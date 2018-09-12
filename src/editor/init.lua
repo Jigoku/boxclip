@@ -542,6 +542,9 @@ function editor:mousepressed(x,y,button)
 					ent[2] == "pickup" then
 					pickups:add(x,y,ent[1])
 				elseif
+					ent[2] == "coin" then
+					coins:add(x,y)
+				elseif
 					ent[2] == "checkpoint" then
 					checkpoints:add(x,y)
 				elseif
