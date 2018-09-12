@@ -42,8 +42,8 @@ function coins:add(x,y)
 		yvel = 0,
 		score = 100,
 		frame = 1,
-		framecycle = 0,
-		framedelay = 0.03,
+		framecycle = love.math.random(0, 7)/100,
+		framedelay = 0.07,
 	})	
 
 	print( "coin added @  X:"..x.." Y: "..y)
@@ -54,14 +54,7 @@ end
 function coins:update(dt)
 	for i, coin in ipairs(world.entities.coin) do		
 		if world:inview(coin) then
-			if coin.bounce then 
-				coin.state = "rotate"
-				coin.framedelay = 0.03
-			else
-				coin.state = "shine"
-				coin.framedelay = 0.05
-			end
-	
+
 			if #self.textures[coin.state] > 1 then
 				coin.framecycle = math.max(0, coin.framecycle - dt)
 			

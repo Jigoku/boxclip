@@ -161,9 +161,6 @@ end
 
 function physics:bounce(object,dt)
 	object.yvel = -object.yvel/1.5
-	if object.yvel < 10 and object.yvel > -10 then
-		object.bounce = false
-	end
 end
 
 

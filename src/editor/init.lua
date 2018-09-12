@@ -728,12 +728,7 @@ function editor:drawcursor()
 	love.graphics.draw(self.mouse.cursors[self.mouse.cur], x-self.mouse.hotspotx,y-self.mouse.hotspoty)
 	
 	-- print active entity selection info
-	
-	if self.selname ~= "null" then
-		love.graphics.setFont(fonts.console)
-		love.graphics.setColor(1,1,1,1)
-		love.graphics.print(self.selname.."("..self.id..")",x+20,y+20)
-	end
+	self:drawinfo(x+40,y+60)
 	
 	camera:attach()
 	
@@ -874,7 +869,7 @@ function editor:draw()
 	love.graphics.setFont(fonts.large)
 	love.graphics.setColor(1,1,1,0.68)
 	love.graphics.print("editing",love.graphics.getWidth()-100, 10,0,1,1)
-	love.graphics.setFont(fonts.default)
+	love.graphics.setFont(fonts.console)
 	love.graphics.print("press 'h' for help",love.graphics.getWidth()-120, 40,0,1,1)
 	
 	
@@ -887,7 +882,6 @@ function editor:draw()
 			self:drawselbox()
 		camera:detach()
 		
-		self:drawinfo()
 		
 		if world.collision == 0 then
 			--notify keybind for camera reset when 
@@ -1405,14 +1399,13 @@ function editor:drawmmap()
 end
 
 
-function editor:drawinfo()
+function editor:drawinfo(x,y)
 	if editor.showinfo then
 		love.graphics.setFont(fonts.console)
 		
 		for _, t in pairs(world.entities) do
 			for i, e in pairs(t) do
 				if e.selected and world:inview(e) then	
-					local x,y = camera:toCameraCoords(e.x,e.y)
 					local info = "x ".. math.round(e.x) ..", y " .. math.round(e.y) 
 					local padding = 5
 					love.graphics.setColor(0.1,0.1,0.1,0.75)
