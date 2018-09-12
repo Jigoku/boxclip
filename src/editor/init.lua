@@ -105,6 +105,7 @@ editor.entorder = {
 	"trap",
 	"enemy",
 	"pickup",
+	"coin",
 	"portal",
 	"crate",
 	"checkpoint",

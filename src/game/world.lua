@@ -472,7 +472,7 @@ end
 
 function world:totalentsdrawn()
 	--returns total drawn entities visible on screen
-	return world.pickups+world.enemies+world.platforms+world.crates+
+	return world.pickups+world.coins+world.enemies+world.platforms+world.crates+
 		world.checkpoints+world.portals+world.props+world.springs+world.decals+world.traps
 end
 
