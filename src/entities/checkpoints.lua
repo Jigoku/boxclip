@@ -15,10 +15,7 @@
  
 checkpoints = {}
 
-checkpoints.textures = {
-	["front"] = love.graphics.newImage("data/images/checkpoints/front.png"),
-	["back"] = love.graphics.newImage("data/images/checkpoints/back.png")
-}
+checkpoints.texture = love.graphics.newImage("data/images/checkpoints/crystal.png")
 
 table.insert(editor.entities, {"checkpoint", "checkpoint"})
 
@@ -27,8 +24,8 @@ function checkpoints:add(x,y)
 	table.insert(world.entities.checkpoint, {
 		x = x or 0,
 		y = y or 0,
-		w = self.textures["front"]:getWidth(),
-		h = self.textures["front"]:getHeight(),
+		w = self.texture:getWidth(),
+		h = self.texture:getHeight(),
 		group = "checkpoint",
 		activated = false,
 	})
@@ -72,16 +69,7 @@ function checkpoints:draw()
 			end
 			
 			love.graphics.draw(
-				checkpoints.textures["back"], 
-				checkpoint.x-checkpoints.textures["back"]:getWidth()/2+checkpoints.textures["front"]:getWidth()/2,
-				checkpoint.y,
-				0, 
-				1, 
-				1
-			)
-			
-			love.graphics.draw(
-				checkpoints.textures["front"], 
+				self.texture, 
 				checkpoint.x,
 				checkpoint.y,
 				0, 
