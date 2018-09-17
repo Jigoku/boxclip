@@ -63,9 +63,9 @@ function checkpoints:draw()
 		count = count + 1
 
 			if not checkpoint.activated then
-				love.graphics.setColor(1,0.39,0.39,0.9)
+				love.graphics.setColor(1,0.39,0.39,0.7)
 			else 
-				love.graphics.setColor(0.58,1,0.58,0.9)
+				love.graphics.setColor(0.58,1,0.58,0.7)
 			end
 			
 			love.graphics.draw(

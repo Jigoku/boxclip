@@ -512,10 +512,15 @@ function editor:mousepressed(x,y,button)
 	if not editing then return end
 	
 	--this function is used to place entities which are not resizable. 
-	
+
+
+	--self.mouse.pressed.x, self.mouse.pressed.y = camera:toWorldCoords(x,y)
+	--local x = math.round(self.mouse.pressed.x,-1)
+	--local y = math.round(self.mouse.pressed.y,-1)
+
+
 	self.mouse.pressed.x = math.round(camera.x-(love.graphics.getWidth()/2/camera.scale)+x/camera.scale,-1)
 	self.mouse.pressed.y = math.round(camera.y-(love.graphics.getHeight()/2/camera.scale)+y/camera.scale,-1)
-
 	local x = self.mouse.pressed.x
 	local y = self.mouse.pressed.y
 	
@@ -585,6 +590,10 @@ function editor:mousereleased(x,y,button)
 	
 	self.mouse.released.x = math.round(camera.x-(love.graphics.getWidth()/2/camera.scale)+x/camera.scale,-1)
 	self.mouse.released.y = math.round(camera.y-(love.graphics.getHeight()/2/camera.scale)+y/camera.scale,-1)
+	
+	--self.mouse.released.x, self.mouse.released.y = camera:toWorldCoords(x,y)
+	--self.mouse.released.x = math.round(self.mouse.released.x,-1)
+	--self.mouse.released.y = math.round(self.mouse.released.y,-1)
 	
 	editor.drawsel = false
 
@@ -936,9 +945,9 @@ function editor:drawselbox()
 	--draw box  for actively selected entity
 	if self.selbox then
 		local lw = love.graphics.getLineWidth()
-		love.graphics.setLineWidth(2)
+		love.graphics.setLineWidth(3)
 		--frame
-		love.graphics.setColor(0,1,0,1)
+		love.graphics.setColor(0,0.9,0,1)
 		love.graphics.rectangle("line", self.selbox.x, self.selbox.y, self.selbox.w, self.selbox.h)
 		
 		--corner markers

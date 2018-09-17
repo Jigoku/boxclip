@@ -168,6 +168,7 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 		})
 
 	elseif type == "spike_timer" then
+	--[[
 		if dir == 0 or dir == 2 then
 			width = self.textures[type][1]:getWidth()
 			height = self.textures[type][1]:getHeight()
@@ -176,6 +177,7 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			width = self.textures[type][1]:getHeight()
 			height = self.textures[type][1]:getWidth()
 		end
+	--]]
 		table.insert(world.entities.enemy, {		
 			x = x or 0,
 			y = y or 0,

@@ -198,7 +198,7 @@ function physics:crates(object,dt)
 					object.yvel = 0
 				end
 				
-			--extra cheecks to stop falling underneath
+			--extra checks to stop falling underneath
 			elseif collision:bottom(object,crate) and not collision:left(object,crate) and not collision:right(object,crate) then
 				object.newY = crate.y +crate.h  +1 *dt
 

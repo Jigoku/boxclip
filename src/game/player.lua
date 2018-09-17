@@ -47,7 +47,7 @@ function player:init()
 	self.yvel = 0
 	
 	self.speed = 500
-	self.friction = 350
+	self.friction = 300
 	self.jumpheight = 780
 	self.jumping = false
 	self.dir = 0
@@ -61,17 +61,17 @@ function player:init()
 	--self.canjump = true
 
 	self.invincible = false
-	self.invincibility_timer = 15
+	self.invincible_timer = 15
 	
 	console:print("initialized player")
 
 	--particle setup
 	-- horrible implementation... fix this
 	self.particles_invincible = love.graphics.newParticleSystem(pickups.textures[5], 32)
-	self.particles_invincible:setParticleLifetime(3, 4) -- Particles live at least 2s and at most 5s.
+	self.particles_invincible:setParticleLifetime(2, 2) -- particle lifetime
 	self.particles_invincible:setEmissionRate(10)
 	self.particles_invincible:setSizeVariation(1)
-	self.particles_invincible:setLinearAcceleration(-200, -200, 200, 200) -- Random movement in all directions.
+	self.particles_invincible:setLinearAcceleration(-400, -400, 400, 400) -- Random movement in all directions.
 	self.particles_invincible:setColors(255, 255, 255, 255, 255, 255, 255, 0) -- Fade to transparency.
 	self.particles_invincible:setSpin( 1, 5 )
 end
@@ -91,7 +91,7 @@ function player:draw()
 		
 		--draw this powerup behind player
 		if self.invincible then
-			love.graphics.setColor(1,1,1,0.5)
+			love.graphics.setColor(1,1,1,1)
 			love.graphics.draw(self.particles_invincible, player.x+player.w/2,player.y+player.h/2, 0,0.25,0.25)
 		end
 		
