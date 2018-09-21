@@ -26,6 +26,7 @@ function checkpoints:add(x,y)
 		y = y or 0,
 		w = self.texture:getWidth(),
 		h = self.texture:getHeight(),
+		o = 0.8,
 		group = "checkpoint",
 		activated = false,
 	})
@@ -63,9 +64,9 @@ function checkpoints:draw()
 		count = count + 1
 
 			if not checkpoint.activated then
-				love.graphics.setColor(1,0.39,0.39,0.7)
+				love.graphics.setColor(1,0.39,0.39,checkpoint.o)
 			else 
-				love.graphics.setColor(0.58,1,0.58,0.7)
+				love.graphics.setColor(0.58,1,0.58,checkpoint.o)
 			end
 			
 			love.graphics.draw(

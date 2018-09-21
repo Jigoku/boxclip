@@ -10,4 +10,5 @@ fonts = {
 	large = love.graphics.newFont("data/fonts/Hanken/Hanken-Book.ttf",25),
 	huge = love.graphics.newFont("data/fonts/Hanken/Hanken-Book.ttf",40),
 	console = love.graphics.newFont("data/fonts/0xa000/0xA000-Squareish-Mono.ttf",12),
+	fps = love.graphics.newFont("data/fonts/0xa000/0xA000-Squareish-Mono.ttf",12),
 }

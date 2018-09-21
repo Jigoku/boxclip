@@ -193,17 +193,18 @@ function love.draw()
 	
 	if fps then
 		--fps info etc
+		love.graphics.setFont(fonts.fps)
 		love.graphics.setColor(0,0,0,0.7)
 		love.graphics.rectangle("fill",love.graphics.getWidth()-160, 5,150,105,10)
-		love.graphics.setFont(fonts.debug)
-		love.graphics.setColor(1,1,1,1)
+		
+		love.graphics.setColor(0.5,1,1,1)
 		love.graphics.print(
-			"fps " .. love.timer.getFPS() .. "\n" ..
-			"memory(gc) " ..  gcinfo() .."kB\n"..
-			string.format("vram %.2fMB", love.graphics.getStats().texturememory / 1024 / 1024) .. "\n" ..
-			"tick " .. game.ticks .. "\n" ..
-			"update " .. math.round(game.utick_time,1) .. "ms\n" ..
-			"draw " .. math.round(game.dtick_time,1) .. "ms",
+			"fps  : " .. love.timer.getFPS() .. "\n" ..
+			"ram  : " .. math.round(collectgarbage('count')) .."kB\n"..
+			"vram : " .. string.format("%.2fMB", love.graphics.getStats().texturememory / 1024 / 1024) .. "\n" ..
+			"tick : " .. game.ticks .. "\n" ..
+			"utime: " .. math.round(game.utick_time,1) .. "ms\n" ..
+			"dtime: " .. math.round(game.dtick_time,1) .. "ms",
 			love.graphics.getWidth()-155, 10
 		)
 		

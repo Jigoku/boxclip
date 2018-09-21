@@ -99,6 +99,8 @@ function console:keypressed(key)
 			if     self.command == "/quit" then love.event.quit() 
 			elseif self.command == "/kill" then player:die("suicide")
 			elseif self.command == "/title" then title:init()
+			elseif self.command == "/showfps" then fps = not fps
+			elseif self.command == "/debug" then debug = not debug
 			elseif self.command == "/savemap" then mapio:savemap(world.map)
 			else
 				self:print ("unknown command")
