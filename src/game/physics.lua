@@ -312,7 +312,8 @@ function physics:platforms(object, dt)
 				
 			if collision:top(object,platform) then
 				object.carried = true
-					
+				platform.carrying = true
+				
 				if platform.clip then
 					object.candrop = false
 				else
@@ -336,6 +337,16 @@ function physics:platforms(object, dt)
 				if platform.movex then
 					-- move along x-axis with platform	
 					object.newX = object.newX + platform.movespeed *dt
+					
+					--[[
+					if platform.carrying then
+						platform.y = math.min(platform.yorigin+10, platform.y+200*dt)
+					
+					else
+						-- this doesn't work?
+						platform.y = math.max(platform.yorigin, platform.y-200*dt)
+					end
+					--]]
 				end
 
 				if platform.swing then	

@@ -34,6 +34,10 @@ function console:init()
 	self.key_delay = 0.05
 	
 	self:print (name .. " " .. version .. build .. "-" .. love.system.getOS() .. " by " .. author)
+	self:print ("-------------------------------------------------")
+	self:print (love.system.getOS() .. " | " .. _VERSION .. " | " .. string.format("Love2D %d.%d.%d - %s",love.getVersion()))
+	self:print ("-------------------------------------------------")
+	
 end
 
 
@@ -183,5 +187,5 @@ function console:print(event)
 	end
 	
 	table.insert(self.buffer, line)
-	--print (line)
+	print (event)
 end
