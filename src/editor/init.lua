@@ -68,8 +68,8 @@ editor.entmenuh = 300
 editor.entmenu = love.graphics.newCanvas(editor.entmenuw,editor.entmenuh)
 	
 -- help menu
-editor.helpmenuw = 420
-editor.helpmenuh = 500
+editor.helpmenuw = 460
+editor.helpmenuh = 600
 editor.helpmenu = love.graphics.newCanvas(editor.helpmenuw,editor.helpmenuh)
 
 -- texture preview
@@ -144,13 +144,9 @@ editor.help = {
 		editor.binds.edittoggle, 
 		"toggle editmode" 
 	},
-	{ 
-		binds.screenshot, 
-		"take a screenshot" 
-	},
-	{ 
-		binds.savefolder, 
-		"open local data directory" 
+	{
+		editor.binds.camera .. " + scroll",
+		"set camera zoom level"
 	},
 	{ 
 		editor.binds.up..", "..editor.binds.left..", "..editor.binds.down..", "..editor.binds.right, 
@@ -177,6 +173,30 @@ editor.help = {
 		"adjust entity position"
 	},
 	{
+		editor.binds.respawn,
+		"reset camera"
+	},
+	{
+		editor.binds.showinfo,
+		"toggle entity coordinate information"
+	},
+	{	
+		editor.binds.decmovedist,
+		"increase entity move distance / angle"
+	},
+	{	
+		editor.binds.incmovedist,
+		"decrease entity move distance / angle"
+	},
+	{
+		editor.binds.texturesel .. " + scroll",
+		"change entity texture"
+	},
+	{
+		editor.binds.musicnext  .. ", " .. editor.binds.musicprev,
+		"set world music"
+	},
+	{
 		editor.binds.themecycle,
 		"set the world theme"
 	},
@@ -193,14 +213,6 @@ editor.help = {
 		"save the map"
 	},
 	{
-		binds.exit,
-		"exit to title"
-	},
-	{
-		binds.console,
-		"toggle console"
-	},
-	{
 		editor.binds.guidetoggle,
 		"toggle grid"
 	},
@@ -212,29 +224,21 @@ editor.help = {
 		editor.binds.helptoggle,
 		"help menu"
 	},
-	{
-		editor.binds.respawn,
-		"reset camera"
+	{ 
+		binds.screenshot, 
+		"take a screenshot" 
+	},
+	{ 
+		binds.savefolder, 
+		"open local data directory" 
 	},
 	{
-		editor.binds.showinfo,
-		"toggle entity coordinate information"
-	},
-	{	
-		editor.binds.decmovedist .. ", " .. editor.binds.incmovedist,
-		"increase/decrease move distance"
+		binds.exit,
+		"exit to title"
 	},
 	{
-		editor.binds.texturesel .. " + scroll",
-		"change entity texture"
-	},
-	{
-		editor.binds.musicnext  .. ", " .. editor.binds.musicprev,
-		"set world music"
-	},
-	{
-		editor.binds.camera .. " + scroll",
-		"set camera zoom level"
+		binds.console,
+		"toggle console"
 	}
 	
 }
@@ -874,12 +878,12 @@ function editor:draw()
 	
 	--editor hud
 	love.graphics.setColor(0,0,0,0.49)
-	love.graphics.rectangle("fill", love.graphics.getWidth() -130, 10, 120,(editing and 120 or 50),10)
+	love.graphics.rectangle("fill", love.graphics.getWidth() -130, 10, 120,(editing and 120 or 70),10)
 	love.graphics.setFont(fonts.large)
 	love.graphics.setColor(1,1,1,0.68)
-	love.graphics.print("editing",love.graphics.getWidth()-100, 10,0,1,1)
-	love.graphics.setFont(fonts.console)
-	love.graphics.print("press 'h' for help",love.graphics.getWidth()-120, 40,0,1,1)
+	love.graphics.print("editing",love.graphics.getWidth()-120, 20,0,1,1)
+	love.graphics.setFont(fonts.default)
+	love.graphics.print("press [h] for help",love.graphics.getWidth()-120, 50,0,1,1)
 	
 	
 	--interactive editing
@@ -901,7 +905,7 @@ function editor:draw()
 			love.graphics.setFont(fonts.default)
 		end
 		
-		
+		love.graphics.setFont(fonts.console)
 		love.graphics.setColor(1,1,1,2155)
 		love.graphics.print("selection:",love.graphics.getWidth()-115, 65,0,1,1)
 	
@@ -913,6 +917,7 @@ function editor:draw()
 	
 		love.graphics.setColor(1,0.60,0.21,1)
 		love.graphics.print(world.theme or "default",love.graphics.getWidth()-115, 110,0,1,1)
+		--love.graphics.setFont(fonts.default)
 	
 		if self.showentmenu then self:drawentmenu() end
 		self:drawmusicmenu()
@@ -967,13 +972,13 @@ end
 
 
 function editor:formathelp(t)
-	local s = 15 -- vertical spacing
+	local s = 20 -- vertical spacing
 	love.graphics.setFont(fonts.menu)
 	for i,item in ipairs(t) do
 		love.graphics.setColor(0.60,1,1,0.60)
 		love.graphics.print(string.upper(item[1]),10,s*i+s); 
 		love.graphics.setColor(1,1,1,0.60)
-		love.graphics.printf(item[2],150,s*i+s,fonts.menu:getWidth(item[2]),"left")
+		love.graphics.printf(item[2],160,s*i+s,fonts.menu:getWidth(item[2]),"left")
 	end
 	love.graphics.setFont(fonts.default)
 end
