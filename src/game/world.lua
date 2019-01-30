@@ -258,7 +258,7 @@ function world:draw()
 
 	love.graphics.setColor(1,1,1,1)
 
-	decals:draw()
+	
 	props:draw()
 	platforms:draw()
 	springs:draw()
@@ -274,7 +274,7 @@ function world:draw()
 	tips:draw()
 
 	player:draw()	
-
+decals:draw()
 	
 	weather:draw()
 	

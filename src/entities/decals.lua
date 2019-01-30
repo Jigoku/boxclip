@@ -76,22 +76,8 @@ function decals:draw()
 			count = count + 1
 			
 			local texture = self.textures[decal.texture]
-			love.graphics.setColor(1,1,1,0.9)
+			love.graphics.setColor(1,1,1,0.6)
 			love.graphics.draw(texture, decal.quad, decal.x,decal.y)
-			
-			if decal.texture == 1 then
-				love.graphics.setColor(0.74,0.94,1,1)
-				--self:drawwaterfall(decal)
-			elseif decal.texture == 2 then
-				love.graphics.setColor(0.61,0.74,0.59,1)
-				--self:drawwaterfall(decal)
-			elseif decal.texture == 3 then
-				love.graphics.setColor(0.50,0.15,0.15,1)
-				--self:drawwaterfall(decal)
-			elseif decal.texture == 4 then
-				love.graphics.setColor(0.67,0.32,0.05,1)
-				--self:drawwaterfall(decal)
-			end
 			
 			self:drawwaterfall(decal)
 		end
@@ -110,6 +96,16 @@ function decals:drawwaterfall(decal)
 		decal.w*camera.scale,
 		texture:getHeight()*camera.scale*2
 	)
+	
+	if decal.texture == 1 then
+		love.graphics.setColor(0.74,0.94,1,1)
+	elseif decal.texture == 2 then
+		love.graphics.setColor(0.61,0.74,0.59,1)
+	elseif decal.texture == 3 then
+		love.graphics.setColor(0.50,0.15,0.15,1)
+	elseif decal.texture == 4 then
+		love.graphics.setColor(0.67,0.32,0.05,1)
+	end
 	
 	for i=0, decal.w+1, texture:getWidth()/2 do
 		love.graphics.draw(texture, decal.x+i,decal.y,
