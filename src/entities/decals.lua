@@ -16,6 +16,7 @@
 decals = {}
 
 decals.textures = textures:load("data/images/decals/")
+
 decals.waterfall_texture = love.graphics.newImage("data/images/tiles/waterfall.png")
 decals.waterfall_spin = 0
 
@@ -80,17 +81,19 @@ function decals:draw()
 			
 			if decal.texture == 1 then
 				love.graphics.setColor(0.74,0.94,1,1)
-				self:drawwaterfall(decal)
+				--self:drawwaterfall(decal)
 			elseif decal.texture == 2 then
 				love.graphics.setColor(0.61,0.74,0.59,1)
-				self:drawwaterfall(decal)
+				--self:drawwaterfall(decal)
 			elseif decal.texture == 3 then
 				love.graphics.setColor(0.50,0.15,0.15,1)
-				self:drawwaterfall(decal)
+				--self:drawwaterfall(decal)
 			elseif decal.texture == 4 then
 				love.graphics.setColor(0.67,0.32,0.05,1)
-				self:drawwaterfall(decal)
+				--self:drawwaterfall(decal)
 			end
+			
+			self:drawwaterfall(decal)
 		end
 	end
 	world.decals = count
@@ -99,10 +102,21 @@ end
 
 function decals:drawwaterfall(decal)
 	local texture = self.waterfall_texture
-	for i=0, decal.w, texture:getWidth()/2 do
+	
+	local x,y = camera:toCameraCoords(decal.x,decal.y)
+	love.graphics.setScissor( 
+		x,
+		y-texture:getHeight()*camera.scale,
+		decal.w*camera.scale,
+		texture:getHeight()*camera.scale*2
+	)
+	
+	for i=0, decal.w+1, texture:getWidth()/2 do
 		love.graphics.draw(texture, decal.x+i,decal.y,
 			(love.math.random(0,1) == 1 and self.waterfall_spin or -self.waterfall_spin),
 			1,1,texture:getWidth()/2,texture:getHeight()/2
 		)	
 	end
+	
+	love.graphics.setScissor()
 end
