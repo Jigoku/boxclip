@@ -274,7 +274,7 @@ function world:draw()
 	tips:draw()
 
 	player:draw()	
-decals:draw()
+	decals:draw()
 	
 	weather:draw()
 	

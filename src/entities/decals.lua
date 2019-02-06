@@ -13,6 +13,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  --]]
  
+ 
+ -- NOTE these are now drawn above player. 
+ -- implement a decal_b entity for decals that should be on the rear layer behind everything else
+ 
 decals = {}
 
 decals.textures = textures:load("data/images/decals/")

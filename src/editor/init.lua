@@ -632,6 +632,7 @@ function editor:sendtospawn()
 			player.y = portal.y
 		end
 	end	
+	camera.scale = 1
 end
 
 
