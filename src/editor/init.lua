@@ -51,6 +51,7 @@ editor.drawsel = false			--draw selection area
 editor.floatspeed = 1000		--editing floatspeed
 editor.maxcamerascale = 6		--maximum zoom
 editor.mincamerascale = 0.1		--minimum zoom
+editor.placing = false			--check if an entity is being placed
 
 --misc textures
 editor.errortex = love.graphics.newImage("data/images/editor/error.png")
@@ -325,6 +326,8 @@ function editor:update(dt)
 			self.musicmenuopacity = math.max(0,self.musicmenuopacity - self.musicmenufadespeed * dt)
 		end
 	end
+	
+	if love.mouse.isDown(1) then self.placing = true else self.placing = false end
 end
 
 
@@ -693,7 +696,7 @@ function editor:drawgrid()
 		end
 
 		--crosshair
-		love.graphics.setColor(0.78,0.78,1,1)
+		love.graphics.setColor(0.78,0.78,1,0.3)
 		--vertical
 		love.graphics.line(
 			math.round(self.mouse.x,-1),
@@ -979,6 +982,7 @@ function editor:formathelp(t)
 		love.graphics.print(string.upper(item[1]),10,s*i+s); 
 		love.graphics.setColor(1,1,1,0.60)
 		love.graphics.printf(item[2],160,s*i+s,fonts.menu:getWidth(item[2]),"left")
+		--print("| " ..item[1].." | "..item[2] .. "|")
 	end
 	love.graphics.setFont(fonts.default)
 end
@@ -1085,6 +1089,9 @@ end
 
 
 function editor:selection()
+	-- no need to find a selection if we are placing a new entity
+	if self.placing then return end
+	
 	-- selects the entity when mouseover 	
 	for _, i in ipairs(self.entorder) do
 		for n,e in ipairs(world.entities[i]) do
@@ -1106,6 +1113,7 @@ function editor:selection()
 			if world:inview(e) then
 				editor.selname = (e.type or e.group)
 				editor.id = n
+				
 				if e.movex then
 					--collision area for moving entity
 					if collision:check(self.mouse.x,self.mouse.y,1,1,e.xorigin, e.y, e.movedist+e.w, e.h) then
@@ -1153,19 +1161,35 @@ function editor:selection()
 						h = e.h 
 					} 
 					e.selected = true
-					
-					-- exit both loops 
-					break_entities = true
-					break_entorder = true
 
 				else
 					self.selbox = nil
 					editor.selname = "null"
 				end
 				
-				--update active selected texture for entity
-				self.texturesel = e.texture or 1
-
+				
+				if e.selected then
+					-- selection cursor 
+					self.mouse.cur = 2
+					
+					-- update texture selection (platforms only for now)
+					-- temporary, until other entities use numeric texture id slot
+					-- otherwise enemy texture = nil and causes crashing
+					if e.group == "platform" then
+						self.texturesel = e.texture
+					end
+					
+					-- exit both loops
+					break_entities = true
+					break_entorder = true
+					
+					return
+				else
+					-- default cursor
+					self.mouse.cur = 1
+					
+				end
+				
 			end
 		end
 	end
