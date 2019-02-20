@@ -66,7 +66,7 @@ function platforms:add(x,y,w,h,clip,movex,movey,movespeed,movedist,swing,angleor
 		texture = texture or 1,
 		surface = surface or 2,
 		mesh = love.graphics.newMesh(4, "fan", "static"),
-
+		
 	})
 	self:settexture(world.entities.platform[#world.entities.platform],texture)
 	

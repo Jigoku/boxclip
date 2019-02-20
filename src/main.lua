@@ -19,7 +19,7 @@
 --]]
 
 function love.load(args)
-
+	
 	debug = false
 	
 	require("joystick")
@@ -136,79 +136,6 @@ function love.draw()
 	--draw the console
 	console:draw()
 	
-	if debug then
-			-- this could be moved elsewhere on screen, as it's debug info (not console info)
-		if not (mode == "title") then
-		
-			love.graphics.setColor(0,0,0,0.8)
-			love.graphics.rectangle("fill",  20, love.graphics.getHeight()-100, 900, 90,5,5)
-			
-			--score etc
-			if mode == "game" then
-				love.graphics.setColor(1,1,1,1)
-				love.graphics.print(
-					"[lives: " .. player.lives .. "]"..
-					"[score: " .. player.score .. "]"..
-					"[time: " .. world:formattime(world.time) .. "]"..
-					"[alive: "..(player.alive and 1 or 0).."]", 
-					20, love.graphics.getHeight()-100
-				)
-			end
-		
-			love.graphics.setColor(1,1,1,1)
-			love.graphics.print(
-				"X: " .. math.round(player.x) .. 
-				" | Y: " .. math.round(player.y) .. 
-				" | dir: " .. player.dir .. 
-				" | xvel: " .. math.round(player.xvel) .. 
-				" | yvel: " .. math.round(player.yvel) .. 
-				" | jumping: " .. (player.jumping and 1 or 0) ..
-				" | camera.scale: " .. camera.scale, 
-				20, love.graphics.getHeight()-75
-			)
-		
-
-			love.graphics.setColor(1,0.4,1,1)
-			love.graphics.print(
-				"pickups: " .. #world.entities.pickup .. "(".. world.pickups .. ")" ..
-				" | coins: " .. #world.entities.coin .. "(".. world.coins .. ")" ..
-				" | enemies: " .. #world.entities.enemy .. "(".. world.enemies .. ")" ..
-				" | platforms: " .. #world.entities.platform .. "(".. world.platforms .. ")" ..
-				" | props: " .. #world.entities.prop .. "("..world.props .. ")" ..
-				" | springs: " .. #world.entities.spring .. "("..world.springs .. ")" ..
-				" | portals: " .. #world.entities.portal .. "("..world.portals .. ")" ..
-				" | crates: " .. #world.entities.crate .. "("..world.crates .. ")" .. "\n"..
-				"checkpoints: " .. #world.entities.checkpoint .. "("..world.checkpoints .. ")" ..
-				" | decals: " .. #world.entities.decal .. "("..world.decals .. ")" ..
-				" | bumpers: " .. #world.entities.bumper .. "("..world.bumpers .. ")" ..
-				" | traps: " .. #world.entities.trap .. "(" .. world.traps .. ")" ..
-				" | tips: " .. #world.entities.tip .. "(" .. world.tips .. ")" ..
-				" | total: " .. world:totalents() .. "(" .. world:totalentsdrawn() .. ")" .. 
-				" | ccpf: " .. world.collision,
-				20, love.graphics.getHeight()-50
-			)
-		end
-		
-	end
-	
-	if fps then
-		--fps info etc
-		love.graphics.setFont(fonts.fps)
-		love.graphics.setColor(0,0,0,0.7)
-		love.graphics.rectangle("fill",love.graphics.getWidth()-160, 5,150,105,10)
-		
-		love.graphics.setColor(0.5,1,1,1)
-		love.graphics.print(
-			"fps  : " .. love.timer.getFPS() .. "\n" ..
-			"ram  : " .. math.round(collectgarbage('count')) .."kB\n"..
-			"vram : " .. string.format("%.2fMB", love.graphics.getStats().texturememory / 1024 / 1024) .. "\n" ..
-			"tick : " .. game.ticks .. "\n" ..
-			"utime: " .. math.round(game.utick_time,1) .. "ms\n" ..
-			"dtime: " .. math.round(game.dtick_time,1) .. "ms",
-			love.graphics.getWidth()-155, 10
-		)
-		
-	end
 	
 	game.dtick_time = love.timer.getTime( )*1000 - game.dtick_start
 	

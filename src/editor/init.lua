@@ -44,7 +44,7 @@ editor.themesel = 1				--world theme/pallete
 editor.texturesel = 1			--texture slot to use for platforms
 editor.showinfo = true			--display coordinates of entities
 editor.showmmap = true			--show minimap
-editor.showguide = true			--show guidelines/grid
+editor.showgrid = true			--show guidelines/grid
 editor.showentmenu = true		--show entmenu
 editor.showhelpmenu = false		--show helpmenu
 editor.drawsel = false			--draw selection area
@@ -368,7 +368,7 @@ function editor:keypressed(key)
 		if key == self.binds.entpaste then self:paste() end
 		if key == self.binds.entmenutoggle then self.showentmenu = not self.showentmenu end
 		if key == self.binds.flip then self:flip() end
-		if key == self.binds.guidetoggle then self.showguide = not self.showguide end
+		if key == self.binds.guidetoggle then self.showgrid = not self.showgrid end
 		if key == self.binds.respawn then self:sendtospawn() end
 		if key == self.binds.showinfo then self.showinfo = not self.showinfo end
 		if key == self.binds.showid then self.showid = not self.showid end
@@ -638,7 +638,7 @@ end
 
 function editor:placedraggable(x1,y1,x2,y2)
 
-	--this function is used for placing entities which 
+	-- this function is used for placing entities which 
 	-- can be dragged/resized when placing
 	
 	local ent = self.entities[self.entsel][1]
@@ -668,10 +668,10 @@ function editor:placedraggable(x1,y1,x2,y2)
 end
 
 
-function editor:drawguide()
+function editor:drawgrid()
 	--draw crosshairs/grid
 
-	if self.showguide then
+	if self.showgrid then
 
 		--grid
 		love.graphics.setColor(1,1,1,0.09)
@@ -693,7 +693,7 @@ function editor:drawguide()
 		end
 
 		--crosshair
-		love.graphics.setColor(0.78,0.78,1,0.19)
+		love.graphics.setColor(0.78,0.78,1,1)
 		--vertical
 		love.graphics.line(
 			math.round(self.mouse.x,-1),
@@ -715,7 +715,7 @@ end
 
 
 function editor:drawcursor()
---[[
+--[[ -- old cursor
 	--draw the cursor
 	love.graphics.setColor(255,255,255,255)
 	love.graphics.line(
@@ -746,11 +746,6 @@ function editor:drawcursor()
 	
 	camera:attach()
 	
-	if debug then
-	--self:drawcoordinates(
-	--		{ x = self.mouse.x, y = self.mouse.y }
-	--		)
-	end
 end
 
 
@@ -891,7 +886,7 @@ function editor:draw()
 	if editing then
 		
 		camera:attach()
-			self:drawguide()
+			self:drawgrid()
 			self:drawcursor()
 			self:drawselbox()
 		camera:detach()
@@ -946,29 +941,33 @@ function editor:drawselbox()
 				)
 			end
 		end
+		
+		else
+		
+			--draw box  for actively selected entity
+			if self.selbox then
+			local lw = love.graphics.getLineWidth()
+			love.graphics.setLineWidth(3)
+			--frame
+			love.graphics.setColor(0,0.9,0,1)
+			love.graphics.rectangle("line", self.selbox.x, self.selbox.y, self.selbox.w, self.selbox.h)
+		
+			--corner markers
+			local size = 5
+			love.graphics.setColor(0,1,0,1)
+			--top left
+			love.graphics.rectangle("fill", self.selbox.x-size/2, self.selbox.y-size/2, size, size)
+			--top right
+			love.graphics.rectangle("fill", self.selbox.x+self.selbox.w-size/2, self.selbox.y-size/2, size, size)
+			--bottom left
+			love.graphics.rectangle("fill", self.selbox.x-size/2, self.selbox.y+self.selbox.h-size/2, size, size)
+			--bottom right
+			love.graphics.rectangle("fill", self.selbox.x+self.selbox.w-size/2, self.selbox.y+self.selbox.h-size/2, size, size)
+			love.graphics.setLineWidth(lw)
+		end
 	end
 	
-	--draw box  for actively selected entity
-	if self.selbox then
-		local lw = love.graphics.getLineWidth()
-		love.graphics.setLineWidth(3)
-		--frame
-		love.graphics.setColor(0,0.9,0,1)
-		love.graphics.rectangle("line", self.selbox.x, self.selbox.y, self.selbox.w, self.selbox.h)
-		
-		--corner markers
-		local size = 5
-		love.graphics.setColor(0,1,0,1)
-		--top left
-		love.graphics.rectangle("fill", self.selbox.x-size/2, self.selbox.y-size/2, size, size)
-		--top right
-		love.graphics.rectangle("fill", self.selbox.x+self.selbox.w-size/2, self.selbox.y-size/2, size, size)
-		--bottom left
-		love.graphics.rectangle("fill", self.selbox.x-size/2, self.selbox.y+self.selbox.h-size/2, size, size)
-		--bottom right
-		love.graphics.rectangle("fill", self.selbox.x+self.selbox.w-size/2, self.selbox.y+self.selbox.h-size/2, size, size)
-		love.graphics.setLineWidth(lw)
-	end
+
 end
 
 
@@ -1086,26 +1085,24 @@ end
 
 
 function editor:selection()
-	-- selects the entity when mouseover 
-	
-	-- so we can break nested loop
-	-- and not have multiple entities selected
-	local should_break = false 
-	
+	-- selects the entity when mouseover 	
 	for _, i in ipairs(self.entorder) do
 		for n,e in ipairs(world.entities[i]) do
-			--deselect all before continuing
-			--stops weird texture change bug for non-selected platforms
-			--also, stops performing actions on entities "below" selected ones
+			--deselect all entities before continuing
 			e.selected = false
 		end
 	end
 	
+	-- this let's us break nested loops below
+	-- and not have multiple entities selected, resulting in a crash
+	local break_entities = false 
+	local break_entorder = false 
+	
 	for _, i in ipairs(self.entorder) do
-		if should_break then break end
+		if break_entorder then break end
 		--reverse loop
 		for n,e in ripairs(world.entities[i]) do
-			--if should_break then break end
+			if break_entities then break end
 			if world:inview(e) then
 				editor.selname = (e.type or e.group)
 				editor.id = n
@@ -1156,6 +1153,10 @@ function editor:selection()
 						h = e.h 
 					} 
 					e.selected = true
+					
+					-- exit both loops 
+					break_entities = true
+					break_entorder = true
 
 				else
 					self.selbox = nil
@@ -1164,12 +1165,7 @@ function editor:selection()
 				
 				--update active selected texture for entity
 				self.texturesel = e.texture or 1
-				
-				--if we've selected an entity, break entire loop
-				if e.selected then	
-					should_break = true
-					break
-				end
+
 			end
 		end
 	end
@@ -1429,6 +1425,7 @@ function editor:drawinfo(x,y)
 					love.graphics.print(e.group .. "(" .. i .. ")", x-20, y-40, 0)
 					love.graphics.setColor(1,1,1,0.5)
 					love.graphics.print(info, x-20,y-20,0)  
+					
 					return
 				end
 			end
