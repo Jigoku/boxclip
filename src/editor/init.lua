@@ -465,30 +465,29 @@ end
 
 function editor:setattribute(dir,dt)
 	--horizontal size adjustment
-	local should_break = false
+	do			
+		for _,type in pairs(world.entities) do
+			for _,e in ipairs(type) do
+				if e.selected then
+					if e.swing then
+						e.angleorigin = math.max(0,math.min(math.pi,e.angle - dir*2 *dt))
+						e.angle = e.angleorigin
+
+					elseif e.movex then
+						e.movedist = math.round(e.movedist + dir*2,1)
+						if e.movedist < e.w then e.movedist = e.w end
+
+					elseif e.movey then
+						e.movedist = math.round(e.movedist + dir*2,1)
+						if e.movedist < e.h then e.movedist = e.h end
+
+					elseif e.scrollspeed then
+						e.scrollspeed = math.round(e.scrollspeed + dir*2,1)
 					
-	for _,type in pairs(world.entities) do
-		if should_break then break end
-		for _,e in ipairs(type) do
-			if e.selected then
-				if e.swing then
-					e.angleorigin = math.max(0,math.min(math.pi,e.angle - dir*2 *dt))
-					e.angle = e.angleorigin
-
-				elseif e.movex then
-					e.movedist = math.round(e.movedist + dir*2,1)
-					if e.movedist < e.w then e.movedist = e.w end
-
-				elseif e.movey then
-					e.movedist = math.round(e.movedist + dir*2,1)
-					if e.movedist < e.h then e.movedist = e.h end
-
-				elseif e.scrollspeed then
-					e.scrollspeed = math.round(e.scrollspeed + dir*2,1)
+					end
 					
+					return
 				end
-					should_break = true
-					break
 			end
 		end
 	end
@@ -1100,96 +1099,89 @@ function editor:selection()
 		end
 	end
 	
-	-- this let's us break nested loops below
-	-- and not have multiple entities selected, resulting in a crash
-	local break_entities = false 
-	local break_entorder = false 
-	
-	for _, i in ipairs(self.entorder) do
-		if break_entorder then break end
-		--reverse loop
-		for n,e in ripairs(world.entities[i]) do
-			if break_entities then break end
-			if world:inview(e) then
-				editor.selname = (e.type or e.group)
-				editor.id = n
+	do
+		for _, i in ipairs(self.entorder) do
+			--reverse loop
+			for n,e in ripairs(world.entities[i]) do
+				if break_entities then break end
+				if world:inview(e) then
+					editor.selname = (e.type or e.group)
+					editor.id = n
 				
-				if e.movex then
-					--collision area for moving entity
-					if collision:check(self.mouse.x,self.mouse.y,1,1,e.xorigin, e.y, e.movedist+e.w, e.h) then
-						self.selbox = { 
-							x = e.xorigin, 
-							y = e.y, 
-							w = e.movedist+e.w, 
-							h = e.h 
-						}
-						e.selected = true
+					if e.movex then
+						--collision area for moving entity
+						if collision:check(self.mouse.x,self.mouse.y,1,1,e.xorigin, e.y, e.movedist+e.w, e.h) then
+							self.selbox = { 
+								x = e.xorigin, 
+								y = e.y, 
+								w = e.movedist+e.w, 
+								h = e.h 
+							}
+							e.selected = true
 						
-					end
-				elseif e.movey then
-					--collision area for moving entity
-					if collision:check(self.mouse.x,self.mouse.y,1,1,e.xorigin, e.yorigin, e.w, e.h+e.movedist) then
-						self.selbox = { 	
-							x = e.xorigin, 
-							y = e.yorigin, 
+						end
+					elseif e.movey then
+						--collision area for moving entity
+						if collision:check(self.mouse.x,self.mouse.y,1,1,e.xorigin, e.yorigin, e.w, e.h+e.movedist) then
+							self.selbox = { 	
+								x = e.xorigin, 
+								y = e.yorigin, 
+								w = e.w, 
+								h = e.h+e.movedist 
+							}
+							e.selected = true
+					
+						end
+					elseif e.swing then
+						--collision area for swinging entity
+						if collision:check(self.mouse.x,self.mouse.y,1,1,
+							e.xorigin-chainlink.textures["origin"]:getWidth()/2, e.yorigin-chainlink.textures["origin"]:getHeight()/2,  
+							chainlink.textures["origin"]:getWidth(),chainlink.textures["origin"]:getHeight()) then
+							self.selbox = {	
+								x = e.xorigin-chainlink.textures["origin"]:getWidth()/2, 
+								y = e.yorigin-chainlink.textures["origin"]:getHeight()/2,  
+								w = chainlink.textures["origin"]:getWidth(),
+								h = chainlink.textures["origin"]:getHeight()
+							}
+							e.selected = true
+					
+						end
+					elseif collision:check(self.mouse.x,self.mouse.y,1,1,e.x,e.y,e.w,e.h) then
+						--collision area for static entities
+						self.selbox = { 
+							x = e.x, 
+							y = e.y, 
 							w = e.w, 
-							h = e.h+e.movedist 
-						}
+							h = e.h 
+						} 
 						e.selected = true
-					
-					end
-				elseif e.swing then
-					--collision area for swinging entity
-					if collision:check(self.mouse.x,self.mouse.y,1,1,
-						e.xorigin-chainlink.textures["origin"]:getWidth()/2, e.yorigin-chainlink.textures["origin"]:getHeight()/2,  
-						chainlink.textures["origin"]:getWidth(),chainlink.textures["origin"]:getHeight()) then
-						self.selbox = {	
-							x = e.xorigin-chainlink.textures["origin"]:getWidth()/2, 
-							y = e.yorigin-chainlink.textures["origin"]:getHeight()/2,  
-							w = chainlink.textures["origin"]:getWidth(),
-							h = chainlink.textures["origin"]:getHeight()
-						}
-						e.selected = true
-					
-					end
-				elseif collision:check(self.mouse.x,self.mouse.y,1,1,e.x,e.y,e.w,e.h) then
-					--collision area for static entities
-					self.selbox = { 
-						x = e.x, 
-						y = e.y, 
-						w = e.w, 
-						h = e.h 
-					} 
-					e.selected = true
 
-				else
-					self.selbox = nil
-					editor.selname = "null"
-				end
-				
-				
-				if e.selected then
-					-- selection cursor 
-					self.mouse.cur = 2
-					
-					-- update texture selection (platforms only for now)
-					-- temporary, until other entities use numeric texture id slot
-					-- otherwise enemy texture = nil and causes crashing
-					if e.group == "platform" then
-						self.texturesel = e.texture
+					else
+						self.selbox = nil
+						editor.selname = "null"
 					end
-					
-					-- exit both loops
-					break_entities = true
-					break_entorder = true
-					
-					return
-				else
-					-- default cursor
-					self.mouse.cur = 1
-					
-				end
 				
+				
+					if e.selected then
+						-- selection cursor 
+						self.mouse.cur = 2
+					
+						-- update texture selection (platforms only for now)
+						-- temporary, until other entities use numeric texture id slot
+						-- otherwise enemy texture = nil and causes crashing
+						if e.group == "platform" then
+							self.texturesel = e.texture
+						end					
+						
+						-- will exit nested loop here, as for being wrapped with do/end
+						return
+					else
+						-- default cursor
+						self.mouse.cur = 1
+					
+					end
+				
+				end
 			end
 		end
 	end
@@ -1210,16 +1202,17 @@ end
 
 function editor:remove()
 	--removes the currently selected entity from the world
-	local should_break = false
-	for _, i in ipairs(self.entorder) do
-		if should_break then break end
-		for n,e in ipairs(world.entities[i]) do
-			if e.selected then
-				table.remove(world.entities[i],n)
-				console:print( e.group .. " (" .. n .. ") removed" )
-				self.selbox = nil
-				should_break = true
-				break
+	do
+		for _, i in ipairs(self.entorder) do
+
+			for n,e in ipairs(world.entities[i]) do
+				print (e.type)
+				if e.selected then
+					table.remove(world.entities[i],n)
+					console:print( e.group .. " (" .. n .. ") removed" )
+					self.selbox = nil
+					return
+				end
 			end
 		end
 	end
@@ -1227,16 +1220,15 @@ end
 
 
 function editor:flip()
-	local should_break = false
-	for _, i in ipairs(self.entorder) do
-		if should_break then break end
-		for n,e in ipairs(world.entities[i]) do
-			if e.selected and e.editor_canflip then
-				e.flip = not e.flip
-				console:print( e.group .. " (" .. n .. ") flipped" )
-				e.selected = false
-				should_break = true
-				break
+	do
+		for _, i in ipairs(self.entorder) do
+			for n,e in ipairs(world.entities[i]) do
+				if e.selected and e.editor_canflip then
+					e.flip = not e.flip
+					console:print( e.group .. " (" .. n .. ") flipped" )
+					e.selected = false
+					return
+				end
 			end
 		end
 	end
@@ -1246,30 +1238,28 @@ end
 function editor:rotate(dy)
 	--set rotation value for the entity
 	--four directions, 0,1,2,3 at 90degree angles
-	local should_break = false
-	for _, i in ipairs(self.entorder) do
-		if should_break then break end
-		for n,e in ipairs(world.entities[i]) do
-			if e.selected and e.editor_canrotate then
+	do
+		for _, i in ipairs(self.entorder) do
+			for n,e in ipairs(world.entities[i]) do
+				if e.selected and e.editor_canrotate then
 			
-				e.dir = e.dir + dy
-				if e.dir > 3 then
-					e.dir = 0
-				elseif e.dir < 0 then
-					e.dir = 3
-				end
+					e.dir = e.dir + dy
+					if e.dir > 3 then
+						e.dir = 0
+					elseif e.dir < 0 then
+						e.dir = 3
+					end
 				
-				local w = e.w
-				local h = e.h
+					local w = e.w
+					local h = e.h
 				
-				e.w = h
-				e.h = w
+					e.w = h
+					e.h = w
 					
-				console:print( e.group .. " (" .. n .. ") rotated, direction = "..e.dir)
-				e.selected = false
-				should_break = true
-				break
-
+					console:print( e.group .. " (" .. n .. ") rotated, direction = "..e.dir)
+					e.selected = false
+					return
+				end
 			end
 		end
 	end
