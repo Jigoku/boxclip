@@ -14,21 +14,23 @@
  --]]
  
 entities = {}
+local path = "entities/"
+print("Loading Entities...")
 
-require("entities/chainlink")
-require("entities/platforms")
-require("entities/materials")
-require("entities/props")
-require("entities/decals")
-require("entities/springs")
-require("entities/traps")
-require("entities/crates")
-require("entities/enemies")
-require("entities/checkpoints")
-require("entities/coins")
-require("entities/pickups")
-require("entities/bumpers")
-require("entities/portals")
-require("entities/tips")
+local files = love.filesystem.getDirectoryItems(path)
+
+-- load all files in entities/ to allow drop-in modules
+for i, file in ipairs(files) do
+
+	local info = love.filesystem.getInfo(path .. file)
+	
+	
+	if info.type == "file" and file ~= "init.lua" then
+		local m = file:match("(.+)%..+")
+		print(i .. ". " .. path .. m)
+		require(path .. m)
+	end
+	
+end
 
 return entities
