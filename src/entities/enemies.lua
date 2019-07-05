@@ -21,7 +21,8 @@ enemies = {}
 enemies.textures = {
 	["walker" ] = textures:load("data/images/enemies/cube_monster/" ),
 	["hopper" ] = textures:load("data/images/enemies/green_monster/"),
-	["floater"] = textures:load("data/images/enemies/grumpy_bee/"   ),
+	["bee"    ] = textures:load("data/images/enemies/grumpy_bee/"   ),
+	["bird"   ] = textures:load("data/images/enemies/bird/"    ),
 	["blob"   ] = textures:load("data/images/enemies/blob/"    ),
 	
 	["spike"] = { 
@@ -57,7 +58,8 @@ table.insert(editor.entities, {"icicle", "enemy"})
 table.insert(editor.entities, {"walker", "enemy"})
 table.insert(editor.entities, {"blob", "enemy"})
 table.insert(editor.entities, {"hopper", "enemy"})
-table.insert(editor.entities, {"floater",  "enemy"})
+table.insert(editor.entities, {"bee",  "enemy"})
+table.insert(editor.entities, {"bird",  "enemy"})
 table.insert(editor.entities, {"spikeball", "enemy"})
 	
 
@@ -245,8 +247,8 @@ function enemies:add(x,y,movespeed,movedist,dir,name)
 			dir = 0,
 		})
 
-	elseif name == "floater" then
-		local texture = self.textures["floater"][1]
+	elseif name == "bee" or name == "bird" then
+		local texture = self.textures[name][1]
 		table.insert(world.entities.enemy, {
 			movespeed = movespeed or 100,
 			movedist = movedist or 400,
@@ -411,7 +413,7 @@ function enemies:update(dt)
 				
 			end	
 			
-			if enemy.type == "floater" then
+			if enemy.type == "bee" or enemy.type == "bird" then
 				enemy.y = enemy.yorigin - (10*math.sin(enemy.ticks*enemy.yspeed*math.pi)) + 20
 				enemy.ticks = enemy.ticks +1
 				physics:movex(enemy, dt)
@@ -580,7 +582,7 @@ function enemies:draw()
 			
 				local texture = self.textures[enemy.type][1]
 				
-				if enemy.type == "floater" or enemy.type == "walker" or enemy.type =="hopper" or enemy.type == "blob" then
+				if enemy.type == "bee" or enemy.type == "bird" or enemy.type == "walker" or enemy.type =="hopper" or enemy.type == "blob" then
 					love.graphics.setColor(1,1,1,1)
 					if enemy.movespeed < 0 then
 						love.graphics.draw(enemy.texture, enemy.x, enemy.y, 0, 1, 1)
@@ -681,7 +683,7 @@ function enemies:drawdebug(enemy, i)
 	end
 
 	--waypoint	
-	if enemy.type == "walker" or enemy.type == "floater" or enemy.type == "hopper" or enemy.type == "blob" then
+	if enemy.type == "walker" or enemy.type == "bee" or enemy.type == "bird" or enemy.type == "hopper" or enemy.type == "blob" then
 		
 		love.graphics.setColor(1,0,1,0.19)
 		love.graphics.rectangle("fill", enemy.xorigin, enemy.y, enemy.movedist+texture[(enemy.frame or 1)]:getWidth(), texture[(enemy.frame or 1)]:getHeight())
