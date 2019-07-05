@@ -22,7 +22,7 @@ enemies.textures = {
 	["walker" ] = textures:load("data/images/enemies/cube_monster/" ),
 	["hopper" ] = textures:load("data/images/enemies/green_monster/"),
 	["floater"] = textures:load("data/images/enemies/grumpy_bee/"   ),
-	
+	["blob"   ] = textures:load("data/images/enemies/blob/"    ),
 	
 	["spike"] = { 
 		love.graphics.newImage( "data/images/enemies/spike.png"),
@@ -55,16 +55,17 @@ table.insert(editor.entities, {"spike_large", "enemy"})
 table.insert(editor.entities, {"spike_timer", "enemy"})
 table.insert(editor.entities, {"icicle", "enemy"})
 table.insert(editor.entities, {"walker", "enemy"})
+table.insert(editor.entities, {"blob", "enemy"})
 table.insert(editor.entities, {"hopper", "enemy"})
 table.insert(editor.entities, {"floater",  "enemy"})
 table.insert(editor.entities, {"spikeball", "enemy"})
 	
 
-function enemies:add(x,y,movespeed,movedist,dir,type)
+function enemies:add(x,y,movespeed,movedist,dir,name)
 
-	if type == "walker" then
+	if name == "walker" then
 	
-		local texture = self.textures["walker"][1]
+		local texture = self.textures[name][1]
 		table.insert(world.entities.enemy, {
 			movespeed = movespeed or 100,
 			movedist = movedist or 200,
@@ -81,7 +82,7 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			frame = 1,
 			framedelay = 0.001,
 			group = "enemy",
-			type = type,
+			type = name,
 			xvel = 0,
 			yvel = 0,
 			dir = 0,
@@ -89,7 +90,35 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			score = 100
 		})
 		
-	elseif type == "hopper" then
+	elseif name == "blob" then
+	
+		local texture = self.textures[name][1]
+		table.insert(world.entities.enemy, {
+			movespeed = movespeed or 300,
+			movedist = movedist or 200,
+			movex = 1,
+			dir = 0,
+			xorigin = x,
+			yorigin = y,
+			x = love.math.random(x,x+movedist) or 0,
+			y = y or 0,
+			texture = texture,
+			w = texture:getWidth(),
+			h = texture:getHeight(),
+			framecycle = 0,
+			frame = 1,
+			framedelay = 0.025,
+			group = "enemy",
+			type = name,
+			xvel = 0,
+			yvel = 0,
+			dir = 0,
+			alive = true,
+			score = 100
+		})
+			
+	
+	elseif name == "hopper" then
 		local texture = self.textures["hopper"][1]
 		table.insert(world.entities.enemy, {
 			movespeed = movespeed or 100,
@@ -107,7 +136,7 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			frame = 1,
 			framedelay = 0.025,
 			group = "enemy",
-			type = type,
+			type = name,
 			xvel = 0,
 			yvel = 0,
 			dir = 0,
@@ -115,14 +144,14 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			score = 100
 		})
 
-	elseif type == "spike" then
+	elseif name == "spike" then
 		if dir == 0 or dir == 2 then
-			width = self.textures[type][1]:getWidth()
-			height = self.textures[type][1]:getHeight()
+			width = self.textures[name][1]:getWidth()
+			height = self.textures[name][1]:getHeight()
 		end
 		if dir == 3 or dir == 1 then
-			width = self.textures[type][1]:getHeight()
-			height = self.textures[type][1]:getWidth()
+			width = self.textures[name][1]:getHeight()
+			height = self.textures[name][1]:getWidth()
 		end
 		table.insert(world.entities.enemy, {		
 			x = x or 0,
@@ -132,7 +161,7 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			w = width,
 			h = height,
 			group = "enemy",
-			type = type,
+			type = name,
 			alive = true,
 			movedist = 0,
 			dir = dir,
@@ -141,14 +170,14 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			editor_canrotate = true
 		})
 
-	elseif type == "spike_large" then
+	elseif name == "spike_large" then
 		if dir == 0 or dir == 2 then
-			width = self.textures[type][1]:getWidth()
-			height = self.textures[type][1]:getHeight()
+			width = self.textures[name][1]:getWidth()
+			height = self.textures[name][1]:getHeight()
 		end
 		if dir == 3 or dir == 1 then
-			width = self.textures[type][1]:getHeight()
-			height = self.textures[type][1]:getWidth()
+			width = self.textures[name][1]:getHeight()
+			height = self.textures[name][1]:getWidth()
 		end
 		table.insert(world.entities.enemy, {		
 			x = x or 0,
@@ -158,7 +187,7 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			w = width,
 			h = height,
 			group = "enemy",
-			type = type,
+			type = name,
 			alive = true,
 			movedist = 0,
 			movespeed = 0,
@@ -167,15 +196,15 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			editor_canrotate = true
 		})
 
-	elseif type == "spike_timer" then
+	elseif name == "spike_timer" then
 	
 		if dir == 0 or dir == 2 then
-			width = self.textures[type][1]:getWidth()
-			height = self.textures[type][1]:getHeight()
+			width = self.textures[name][1]:getWidth()
+			height = self.textures[name][1]:getHeight()
 		end
 		if dir == 3 or dir == 1 then
-			width = self.textures[type][1]:getHeight()
-			height = self.textures[type][1]:getWidth()
+			width = self.textures[name][1]:getHeight()
+			height = self.textures[name][1]:getWidth()
 		end
 	
 		table.insert(world.entities.enemy, {		
@@ -186,7 +215,7 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			w = width,
 			h = height,
 			group = "enemy",
-			type = type,
+			type = name,
 			alive = true,
 			timer = 1.25,
 			timer_cycle = love.math.random(0,125)/100,
@@ -197,16 +226,16 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			editor_canrotate = false
 		})
 
-	elseif type == "icicle" then
+	elseif name == "icicle" then
 		table.insert(world.entities.enemy, {		
 			x = x or 0,
 			y = y or 0,
 			xorigin = x,
 			yorigin = y,
-			w = self.textures[type][1]:getWidth(),
-			h = self.textures[type][1]:getHeight(),
+			w = self.textures[name][1]:getWidth(),
+			h = self.textures[name][1]:getHeight(),
 			group = "enemy",
-			type = type,
+			type = name,
 			alive = true,
 			falling = false,
 			yvel = 0,
@@ -216,7 +245,7 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			dir = 0,
 		})
 
-	elseif type == "floater" then
+	elseif name == "floater" then
 		local texture = self.textures["floater"][1]
 		table.insert(world.entities.enemy, {
 			movespeed = movespeed or 100,
@@ -235,7 +264,7 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			frame = 1,
 			framedelay = 0.05,
 			group = "enemy",
-			type = type,
+			type = name,
 			xvel = 0,
 			yvel = 0,
 			dir = 0,
@@ -243,16 +272,16 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			score = 150,
 		})
 	
-	elseif type == "spikeball" then
+	elseif name == "spikeball" then
 		table.insert(world.entities.enemy, {
-			w = self.textures[type][1]:getWidth(),
-			h = self.textures[type][1]:getHeight(),
+			w = self.textures[name][1]:getWidth(),
+			h = self.textures[name][1]:getHeight(),
 			xorigin = x,
 			yorigin = y,
 			x = x or 0,
 			y = y or 0,
 			group = "enemy",
-			type = type,
+			type = name,
 			speed = 3,
 			alive = true,
 			swing = 1,
@@ -263,7 +292,7 @@ function enemies:add(x,y,movespeed,movedist,dir,type)
 			dir = 0,
 		})
 	end
-	print( type .. " added @  X:"..x.." Y: "..y)
+	print( name .. " added @  X:"..x.." Y: "..y)
 end
 
 
@@ -295,7 +324,7 @@ function enemies:update(dt)
 		if enemy.alive then
 			enemy.carried = false
 		
-			if enemy.type == "walker" then
+			if enemy.type == "walker" or enemy.type == "blob" then
 			
 				physics:applyGravity(enemy, dt)
 				--enemy.yorigin = enemy.newY
@@ -551,7 +580,7 @@ function enemies:draw()
 			
 				local texture = self.textures[enemy.type][1]
 				
-				if enemy.type == "floater" or enemy.type == "walker" or enemy.type =="hopper" then
+				if enemy.type == "floater" or enemy.type == "walker" or enemy.type =="hopper" or enemy.type == "blob" then
 					love.graphics.setColor(1,1,1,1)
 					if enemy.movespeed < 0 then
 						love.graphics.draw(enemy.texture, enemy.x, enemy.y, 0, 1, 1)
@@ -652,7 +681,7 @@ function enemies:drawdebug(enemy, i)
 	end
 
 	--waypoint	
-	if enemy.type == "walker" or enemy.type == "floater" or enemy.type == "hopper" then
+	if enemy.type == "walker" or enemy.type == "floater" or enemy.type == "hopper" or enemy.type == "blob" then
 		
 		love.graphics.setColor(1,0,1,0.19)
 		love.graphics.rectangle("fill", enemy.xorigin, enemy.y, enemy.movedist+texture[(enemy.frame or 1)]:getWidth(), texture[(enemy.frame or 1)]:getHeight())
