@@ -96,8 +96,8 @@ function enemies:add(x,y,movespeed,movedist,dir,name)
 	
 		local texture = self.textures[name][1]
 		table.insert(world.entities.enemy, {
-			movespeed = movespeed or 300,
-			movedist = movedist or 200,
+			movespeed = movespeed or 160,
+			movedist = movedist or 300,
 			movex = 1,
 			dir = 0,
 			xorigin = x,

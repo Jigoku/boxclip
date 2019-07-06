@@ -77,10 +77,8 @@ end
 
 
 function love.update(dt)
-	--collect garbage every update(), gets rid of 
-	--intermittent lag caused by garbage collection
-	--temporary fix
-	collectgarbage()
+
+	--collectgarbage()
 	
 	game.ticks = game.ticks +1
 	game.utick_start = love.timer.getTime()*1000
@@ -135,6 +133,25 @@ function love.draw()
 	
 	--draw the console
 	console:draw()
+	
+	if fps then
+		--fps info etc
+		love.graphics.setFont(fonts.fps)
+		love.graphics.setColor(0,0,0,0.7)
+		love.graphics.rectangle("fill",love.graphics.getWidth()-160, 5,150,105,10)
+		
+		love.graphics.setColor(0.5,1,1,1)
+		love.graphics.print(
+			"fps  : " .. love.timer.getFPS() .. "\n" ..
+			"ram  : " .. math.round(collectgarbage('count')) .."kB\n"..
+			"vram : " .. string.format("%.2fMB", love.graphics.getStats().texturememory / 1024 / 1024) .. "\n" ..
+			"tick : " .. game.ticks .. "\n" ..
+			"utime: " .. math.round(game.utick_time,1) .. "ms\n" ..
+			"dtime: " .. math.round(game.dtick_time,1) .. "ms",
+			love.graphics.getWidth()-155, 10
+		)
+		
+	end
 	
 	
 	game.dtick_time = love.timer.getTime( )*1000 - game.dtick_start
