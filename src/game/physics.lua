@@ -353,6 +353,7 @@ function physics:platforms(object, dt)
 					object.newX =  platform.radius * math.cos(platform.angle) + platform.xorigin +platform.w/2 - object.w/2
 					object.newY = platform.y - object.h+1 *dt
 					object.yvel = -player.jumpheight
+					object.xvel = 0
 				end
 
 				if platform.movey and not object.jumping then
