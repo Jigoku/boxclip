@@ -22,8 +22,9 @@ enemies.textures = {
 	["walker" ] = textures:load("data/images/enemies/cube_monster/" ),
 	["hopper" ] = textures:load("data/images/enemies/green_monster/"),
 	["bee"    ] = textures:load("data/images/enemies/grumpy_bee/"   ),
-	["bird"   ] = textures:load("data/images/enemies/bird/"    ),
-	["blob"   ] = textures:load("data/images/enemies/blob/"    ),
+	["bird"   ] = textures:load("data/images/enemies/bird/"         ),
+	["blob"   ] = textures:load("data/images/enemies/blob/"         ),
+	["goblin" ] = textures:load("data/images/enemies/goblin/"       ),
 	
 	["spike"] = { 
 		love.graphics.newImage( "data/images/enemies/spike.png"),
@@ -56,6 +57,7 @@ table.insert(editor.entities, {"spike_large", "enemy"})
 table.insert(editor.entities, {"spike_timer", "enemy"})
 table.insert(editor.entities, {"icicle", "enemy"})
 table.insert(editor.entities, {"walker", "enemy"})
+table.insert(editor.entities, {"goblin", "enemy"})
 table.insert(editor.entities, {"blob", "enemy"})
 table.insert(editor.entities, {"hopper", "enemy"})
 table.insert(editor.entities, {"bee",  "enemy"})
@@ -119,6 +121,32 @@ function enemies:add(x,y,movespeed,movedist,dir,name)
 			score = 100
 		})
 			
+	elseif name == "goblin" then
+	
+		local texture = self.textures[name][1]
+		table.insert(world.entities.enemy, {
+			movespeed = 180,
+			movedist = movedist or 300,
+			movex = 1,
+			dir = 0,
+			xorigin = x,
+			yorigin = y,
+			x = love.math.random(x,x+movedist) or 0,
+			y = y or 0,
+			texture = texture,
+			w = texture:getWidth(),
+			h = texture:getHeight(),
+			framecycle = 0,
+			frame = 1,
+			framedelay = 0.005,
+			group = "enemy",
+			type = name,
+			xvel = 0,
+			yvel = 0,
+			dir = 0,
+			alive = true,
+			score = 100
+		})
 	
 	elseif name == "hopper" then
 		local texture = self.textures["hopper"][1]
@@ -326,7 +354,7 @@ function enemies:update(dt)
 		if enemy.alive then
 			enemy.carried = false
 		
-			if enemy.type == "walker" or enemy.type == "blob" then
+			if enemy.type == "walker" or enemy.type == "blob" or enemy.type == "goblin" then
 			
 				physics:applyGravity(enemy, dt)
 				--enemy.yorigin = enemy.newY
@@ -582,7 +610,7 @@ function enemies:draw()
 			
 				local texture = self.textures[enemy.type][1]
 				
-				if enemy.type == "bee" or enemy.type == "bird" or enemy.type == "walker" or enemy.type =="hopper" or enemy.type == "blob" then
+				if enemy.type == "bee" or enemy.type == "bird" or enemy.type == "walker" or enemy.type =="hopper" or enemy.type == "blob" or enemy.type == "goblin" then
 					love.graphics.setColor(1,1,1,1)
 					if enemy.movespeed < 0 then
 						love.graphics.draw(enemy.texture, enemy.x, enemy.y, 0, 1, 1)
@@ -683,7 +711,7 @@ function enemies:drawdebug(enemy, i)
 	end
 
 	--waypoint	
-	if enemy.type == "walker" or enemy.type == "bee" or enemy.type == "bird" or enemy.type == "hopper" or enemy.type == "blob" then
+	if enemy.type == "walker" or enemy.type == "bee" or enemy.type == "bird" or enemy.type == "hopper" or enemy.type == "blob" or enemy.type == "goblin" then
 		
 		love.graphics.setColor(1,0,1,0.19)
 		love.graphics.rectangle("fill", enemy.xorigin, enemy.y, enemy.movedist+texture[(enemy.frame or 1)]:getWidth(), texture[(enemy.frame or 1)]:getHeight())
