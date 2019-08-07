@@ -890,8 +890,8 @@ function editor:draw()
 		
 		camera:attach()
 			self:drawgrid()
-			self:drawcursor()
 			self:drawselbox()
+			self:drawcursor()
 		camera:detach()
 		
 		

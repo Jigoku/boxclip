@@ -19,9 +19,9 @@ enemies = {}
 -- eg; floater.lua, walker.lua, etc
 
 enemies.textures = {
-	["walker" ] = textures:load("data/images/enemies/cube_monster/" ),
-	["hopper" ] = textures:load("data/images/enemies/green_monster/"),
-	["bee"    ] = textures:load("data/images/enemies/grumpy_bee/"   ),
+	["walker" ] = textures:load("data/images/enemies/walker/" ),
+	["hopper" ] = textures:load("data/images/enemies/hopper/"),
+	["bee"    ] = textures:load("data/images/enemies/bee/"   ),
 	["bird"   ] = textures:load("data/images/enemies/bird/"         ),
 	["blob"   ] = textures:load("data/images/enemies/blob/"         ),
 	["shadow" ] = textures:load("data/images/enemies/shadow/"       ),
