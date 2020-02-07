@@ -68,7 +68,7 @@ function love.load(args)
 	--initialise everything
 	love.window.setIcon(game.icon)
 	love.mouse.setVisible(false)
-	love.mouse.setGrabbed(true)
+	--love.mouse.setGrabbed(true)
 	
 	console:init()
 	sound:init()

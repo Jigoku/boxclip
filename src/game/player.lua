@@ -284,7 +284,8 @@ function player:update(dt)
 	
 		if player.y < player.newY-600 then
 			player.lives = player.lives -1
-			player:respawn()
+      player:respawn()
+      world:initsplash()
 		end		
 	end
 end
