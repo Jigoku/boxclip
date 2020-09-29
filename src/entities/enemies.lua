@@ -500,10 +500,11 @@ function enemies:update(dt)
 			
 			
 			if enemy.type == "crusher" then
-				-- enemy.y = enemy.yorigin - (10*math.sin(enemy.ticks * enemy.xspeed*math.pi)) + 20
+				
 				enemy.ticks = enemy.ticks +1
-				physics:movey(enemy, dt)
+				physics:crusher_movey(enemy, dt)
 				physics:update(enemy)
+				
 			end
 			
 			if enemy.type == "bee" or enemy.type == "bird" then

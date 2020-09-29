@@ -146,6 +146,33 @@ function physics:movey(object, dt)
 	
 end
 
+function physics:crusher_movey(object, dt)
+	--traverse y-axis
+	object.newY = object.y 
+	if(object.selected==false) then 
+		if object.y > object.yorigin + object.movedist then
+			object.y = object.yorigin + object.movedist
+			object.movespeed = -object.movespeed 
+			
+		end
+		if object.y < object.yorigin  then
+			object.y = object.yorigin
+			object.movespeed = -object.movespeed
+		end
+		if(object.movespeed>0) then 
+			mv_speed = object.movespeed * 4
+			console:print('move speed positiva')
+		else
+			console:print('move speed negativa')
+			mv_speed = object.movespeed / 2
+		end
+		object.newY = object.y + mv_speed *dt
+		
+		
+	end
+	
+end
+
 
 function physics:world(dt)
 	self:trapsworld(dt)
