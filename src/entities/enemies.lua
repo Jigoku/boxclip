@@ -19,13 +19,17 @@ enemies = {}
 -- eg; floater.lua, walker.lua, etc
 
 enemies.textures = {
-	["walker" ] = textures:load("data/images/enemies/walker/" ),
+	["walker" ] = textures:load("data/images/enemies/walker/"),
 	["hopper" ] = textures:load("data/images/enemies/hopper/"),
-	["bee"    ] = textures:load("data/images/enemies/bee/"   ),
-	["bird"   ] = textures:load("data/images/enemies/bird/"         ),
-	["blob"   ] = textures:load("data/images/enemies/blob/"         ),
-	["shadow" ] = textures:load("data/images/enemies/shadow/"       ),
-	["goblin" ] = textures:load("data/images/enemies/goblin/"       ),
+	["bee"    ] = textures:load("data/images/enemies/bee/"),
+	["bird"   ] = textures:load("data/images/enemies/bird/"),
+	["blob"   ] = textures:load("data/images/enemies/blob/"),
+	["shadow" ] = textures:load("data/images/enemies/shadow/"),
+	["goblin" ] = textures:load("data/images/enemies/goblin/"),
+	
+	["crusher"] = {
+		love.graphics.newImage("data/images/enemies/crusher.png"),
+	},
 	
 	["spike"] = { 
 		love.graphics.newImage( "data/images/enemies/spike.png"),
@@ -65,6 +69,7 @@ table.insert(editor.entities, {"hopper", "enemy"})
 table.insert(editor.entities, {"bee",  "enemy"})
 table.insert(editor.entities, {"bird",  "enemy"})
 table.insert(editor.entities, {"spikeball", "enemy"})
+table.insert(editor.entities, {"crusher", "enemy"})
 	
 
 function enemies:add(x,y,movespeed,movedist,dir,name)
@@ -303,7 +308,30 @@ function enemies:add(x,y,movespeed,movedist,dir,name)
 			movedist = 0,
 			dir = 0,
 		})
-
+	
+	elseif name == "crusher" then
+		
+		table.insert(world.entities.enemy, {
+			movespeed = movespeed or 100,
+			movedist = movedist or 150,
+			movey = 1,
+			xorigin = x,
+			yorigin = y,
+			ticks = love.math.random(100),
+			yspeed = 0.09,
+			x = x or 0,
+			y = y or 0,
+			w = self.textures[name][1]:getWidth(),
+			h = self.textures[name][1]:getHeight() ,
+			framecycle = 0,
+			group = "enemy",
+			type = name,
+			xvel = 0,
+			yvel = 0,
+			dir = 0,
+			alive = true
+		})
+	
 	elseif name == "bee" or name == "bird" then
 		local texture = self.textures[name][1]
 		table.insert(world.entities.enemy, {
@@ -469,6 +497,14 @@ function enemies:update(dt)
 				end
 				
 			end	
+			
+			
+			if enemy.type == "crusher" then
+				-- enemy.y = enemy.yorigin - (10*math.sin(enemy.ticks * enemy.xspeed*math.pi)) + 20
+				enemy.ticks = enemy.ticks +1
+				physics:movey(enemy, dt)
+				physics:update(enemy)
+			end
 			
 			if enemy.type == "bee" or enemy.type == "bird" then
 				enemy.y = enemy.yorigin - (10*math.sin(enemy.ticks*enemy.yspeed*math.pi)) + 20
@@ -671,6 +707,11 @@ function enemies:draw()
 				end
 			
 				if enemy.type == "icicle" or enemy.type == "icicle_d" then
+					love.graphics.setColor(1,1,1,1)
+					love.graphics.draw(texture, enemy.x, enemy.y, 0,1,1)
+				end
+				
+				if enemy.type == "crusher" or enemy.type == "icicle_d" then
 					love.graphics.setColor(1,1,1,1)
 					love.graphics.draw(texture, enemy.x, enemy.y, 0,1,1)
 				end
