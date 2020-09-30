@@ -313,7 +313,8 @@ function enemies:add(x,y,movespeed,movedist,dir,name)
 		
 		table.insert(world.entities.enemy, {
 			movespeed = movespeed or 100,
-			movedist = movedist or 150,
+			movespeed_arch =  100,
+			movedist = movedist or 300,
 			movey = 1,
 			xorigin = x,
 			yorigin = y,

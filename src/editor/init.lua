@@ -411,7 +411,7 @@ function editor:keypressed(key)
 						--weird bug, needs to be "11" to actually save to proper position?
 						--maybe it's being rounded down? So that expected "10" becomes "9" ?
 						e.y = math.round(e.y - 11,-1) --up
-						
+						if(e.movedist~=nil) then e.yorigin = e.y  + e.movedist end
 						self.mouse.y = self.mouse.y -10
 					end
 					if love.keyboard.isDown(self.binds.movedown) then 
