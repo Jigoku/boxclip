@@ -313,23 +313,19 @@ function enemies:add(x,y,movespeed,movedist,dir,name)
 		
 		table.insert(world.entities.enemy, {
 			movespeed = movespeed or 100,
-			movespeed_arch =  100,
 			movedist = movedist or 300,
 			movey = 1,
-			xorigin = x,
-			yorigin = y,
 			ticks = love.math.random(100),
-			yspeed = 0.09,
 			x = x or 0,
 			y = y or 0,
+			xorigin = x,
+			yorigin = y,
 			w = self.textures[name][1]:getWidth(),
 			h = self.textures[name][1]:getHeight() ,
-			framecycle = 0,
 			group = "enemy",
 			type = name,
-			xvel = 0,
-			yvel = 0,
 			dir = 0,
+			frame = 1,
 			alive = true
 		})
 	
@@ -505,6 +501,35 @@ function enemies:update(dt)
 				enemy.ticks = enemy.ticks +1
 				physics:crusher_movey(enemy, dt)
 				physics:update(enemy)
+				
+				
+				-- console:print(mode .. ' - ' .. enemy.x .. ' - ' .. enemy.y .. ' - ' .. enemy.w .. ' - ' .. enemy.h)
+				-- NOT ACTIVE WHILST EDITING 
+				if mode == "game" and player.alive and collision:check(player.newX,player.newY,player.w,player.h,
+					enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
+					console:print('Entrato check crusher collisioni.');
+				elseif collision:check(player.newX,player.newY,player.w,player.h, enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
+					
+					if collision:top(player,enemy) then
+						console:print('collision top.');
+					end
+					
+					if collision:left(player,enemy) then
+						console:print('collision left.');
+					end
+					
+					if collision:right(player,enemy) then
+						console:print('collision right.');
+					end
+					
+					if collision:above(player,enemy) then
+						console:print('collision above.');
+					end
+					
+					if collision:bottom(player, enemy) then
+						console:print('collision bottom.');
+					end
+				end
 				
 			end
 			
