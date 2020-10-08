@@ -401,6 +401,7 @@ function editor:keypressed(key)
 			sound:playambient(world.mapambient)	
 		end
 	
+	
 		if key == self.binds.themecycle then self:settheme() end
 	
 		for _, i in ipairs(self.entorder) do	

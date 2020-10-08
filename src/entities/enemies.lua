@@ -56,7 +56,7 @@ enemies.textures = {
 	}
 }	
 
-
+table.insert(editor.entities, {"crusher", "enemy"})
 table.insert(editor.entities, {"spike", "enemy"})
 table.insert(editor.entities, {"spike_large", "enemy"})
 table.insert(editor.entities, {"spike_timer", "enemy"})
@@ -69,7 +69,7 @@ table.insert(editor.entities, {"hopper", "enemy"})
 table.insert(editor.entities, {"bee",  "enemy"})
 table.insert(editor.entities, {"bird",  "enemy"})
 table.insert(editor.entities, {"spikeball", "enemy"})
-table.insert(editor.entities, {"crusher", "enemy"})
+
 	
 
 function enemies:add(x,y,movespeed,movedist,dir,name)
@@ -507,28 +507,22 @@ function enemies:update(dt)
 				-- NOT ACTIVE WHILST EDITING 
 				if mode == "game" and player.alive and collision:check(player.newX,player.newY,player.w,player.h,
 					enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
-					console:print('Entrato check crusher collisioni.');
+				
+				-- check collision in editor
 				elseif collision:check(player.newX,player.newY,player.w,player.h, enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
 					
-					if collision:top(player,enemy) then
-						console:print('collision top.');
+					-- console:print(enemy.y.." < "..player.y.." and ("..player.x.."<="..enemy.x.." or "..player.x.." >= ("..enemy.x.." + "..enemy.w.."))")
+					-- Collision from top -> player die
+					if(enemy.y < player.y and (player.x > enemy.x and (player.x + player.w) < (enemy.x + enemy.w))) then
+						console:print("Player die " .. enemy.ticks);
+						-- player:die(enemy.group)
+					-- collision from side -> stop movement
+					elseif (enemy.y < player.y and (player.x<=enemy.x or (player.x + player.w) >= (enemy.x + enemy.w))) then 
+						console:print("Player stop " .. enemy.ticks);
+						player.xvel = 0 
+						player.newX = player.x
 					end
 					
-					if collision:left(player,enemy) then
-						console:print('collision left.');
-					end
-					
-					if collision:right(player,enemy) then
-						console:print('collision right.');
-					end
-					
-					if collision:above(player,enemy) then
-						console:print('collision above.');
-					end
-					
-					if collision:bottom(player, enemy) then
-						console:print('collision bottom.');
-					end
 				end
 				
 			end
