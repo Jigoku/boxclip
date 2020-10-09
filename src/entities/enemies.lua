@@ -502,25 +502,21 @@ function enemies:update(dt)
 				physics:crusher_movey(enemy, dt)
 				physics:update(enemy)
 				
-				
-				-- console:print(mode .. ' - ' .. enemy.x .. ' - ' .. enemy.y .. ' - ' .. enemy.w .. ' - ' .. enemy.h)
 				-- NOT ACTIVE WHILST EDITING 
 				if mode == "game" and player.alive and collision:check(player.newX,player.newY,player.w,player.h,
 					enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
-				
-				-- check collision in editor
-				elseif collision:check(player.newX,player.newY,player.w,player.h, enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
 					
-					-- console:print(enemy.y.." < "..player.y.." and ("..player.x.."<="..enemy.x.." or "..player.x.." >= ("..enemy.x.." + "..enemy.w.."))")
-					-- Collision from top -> player die
 					if(enemy.y < player.y and (player.x > enemy.x and (player.x + player.w) < (enemy.x + enemy.w))) then
-						console:print("Player die " .. enemy.ticks);
-						-- player:die(enemy.group)
-					-- collision from side -> stop movement
+						
+						player:die(enemy.group)
+					
 					elseif (enemy.y < player.y and (player.x<=enemy.x or (player.x + player.w) >= (enemy.x + enemy.w))) then 
-						console:print("Player stop " .. enemy.ticks);
+						
+						subtract = player.dir * player.speed * 1.3 * 0.005;
 						player.xvel = 0 
+						player.x = player.x - subtract
 						player.newX = player.x
+						
 					end
 					
 				end

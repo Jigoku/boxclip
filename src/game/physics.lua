@@ -107,7 +107,7 @@ end
 function physics:movex(object, dt)
 	-- traverse x-axis
 	object.newX = object.x 
-	if(object.selected==false) then 
+	if(mode == "game" or object.selected==false) then 
 		
 		if object.x > object.xorigin + object.movedist then
 			object.x = object.xorigin + object.movedist 
@@ -134,7 +134,7 @@ function physics:movey(object, dt)
 	object.newY = object.y 
 	
 	-- Stop the movement on mouseover
-	if(object.selected==false) then 
+	if(mode == "game" or object.selected==false) then 
 		if object.y > object.yorigin + object.movedist then
 			object.y = object.yorigin + object.movedist
 			object.movespeed = -object.movespeed 
@@ -152,7 +152,7 @@ function physics:crusher_movey(object, dt)
 	--traverse y-axis
 	object.newY = object.y 
 	-- Stop the movement on mouseover
-	if(object.selected==false) then 
+	if(mode == "game" or object.selected==false) then 
 		if object.y > object.yorigin + object.movedist then
 			object.y = object.yorigin + object.movedist
 			object.movespeed = -object.movespeed 
