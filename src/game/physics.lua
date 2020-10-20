@@ -213,7 +213,7 @@ function physics:crates(object,dt)
 			object.candrop = false
 			object.carried = false
 			
-			if object.jumping and mode == "game" then 
+			if object.jumping or object.sliding and mode == "game" then 
 				console:print("crate(" .. i..") destroyed, item ="..crate.type)
 				popups:add(crate.x+crate.w/2,crate.y+crate.h/2,"+"..crate.score)
 				crate.destroyed = true
@@ -228,48 +228,50 @@ function physics:crates(object,dt)
 				)
 			end
 			
-			if collision:top(object,crate) then
-				object.carried = true
-				object.newY = crate.y - object.h -1 *dt
-				
-				if object.jumping then
-					object.yvel = player.jumpheight
-				elseif object.bounce then
-					self:bounce(object)
-				else
-					object.yvel = 0
-				end
-				
-			--extra checks to stop falling underneath
-			elseif collision:bottom(object,crate) and not collision:left(object,crate) and not collision:right(object,crate) then
-				object.newY = crate.y +crate.h  +1 *dt
+			if not object.sliding then
+				if collision:top(object,crate) then
+					object.carried = true
+					object.newY = crate.y - object.h -1 *dt
+					
+					if object.jumping then
+						object.yvel = player.jumpheight
+					elseif object.bounce then
+						self:bounce(object)
+					else
+						object.yvel = 0
+					end
+					
+				--extra checks to stop falling underneath
+				elseif collision:bottom(object,crate) and not collision:left(object,crate) and not collision:right(object,crate) then
+					object.newY = crate.y +crate.h  +1 *dt
 
-				if object.jumping then
-					object.yvel = -player.jumpheight
-				else
-					object.yvel = 0
+					if object.jumping then
+						object.yvel = -player.jumpheight
+					else
+						object.yvel = 0
+					end
+						
+				elseif collision:right(object,crate) then
+					object.newX = crate.x+crate.w +1 *dt
+					object.xvelboost = 0
+						
+					if object.jumping then
+						object.xvel = player.jumpheight
+					else
+						object.xvel = 0
+					end
+						
+				elseif collision:left(object,crate) then
+					object.newX = crate.x-object.w -1 *dt
+					object.xvelboost = 0
+						
+					if object.jumping then
+						object.xvel = -player.jumpheight
+					else
+						object.xvel = 0
+					end
 				end
-					
-			elseif collision:right(object,crate) then
-				object.newX = crate.x+crate.w +1 *dt
-				object.xvelboost = 0
-					
-				if object.jumping then
-					object.xvel = player.jumpheight
-				else
-					object.xvel = 0
-				end
-					
-			elseif collision:left(object,crate) then
-				object.newX = crate.x-object.w -1 *dt
-				object.xvelboost = 0
-					
-				if object.jumping then
-					object.xvel = -player.jumpheight
-				else
-					object.xvel = 0
-				end		
-			end		
+			end
 		end
 	end
 end
