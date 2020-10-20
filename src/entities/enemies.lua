@@ -425,7 +425,7 @@ function enemies:update(dt)
 					enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
 					-- if we land on top, kill enemy
 					if collision:above(player,enemy) then	
-						if player.jumping or player.invincible or player.slide then 
+						if player.jumping or player.invincible or player.sliding then 
 							
 							if player.y > enemy.y then
 								player.yvel = -player.jumpheight
@@ -473,7 +473,7 @@ function enemies:update(dt)
 					
 					-- if we land on top, kill enemy
 					if collision:above(player,enemy) then	
-						if player.jumping or player.invincible or player.slide then
+						if player.jumping or player.invincible or player.sliding then
 							
 							if player.y > enemy.y then
 								player.yvel = -player.jumpheight

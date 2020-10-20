@@ -52,7 +52,7 @@ function player:init()
 	self.jumpheight = 780
 	self.jumping = false
 	self.dir = 0
-	self.slide = 0
+	self.sliding = false
 	self.lastdir = 0
 	self.score = 0
 	self.alive = true
@@ -146,15 +146,13 @@ function player:update(dt)
 	-- player input / movement
 	
 	if self.alive and not console.active then
-		if love.keyboard.isDown(binds.right) 
-			or joystick:isDown("dpright") then
+		if love.keyboard.isDown(binds.right) or joystick:isDown("dpright") then
 			if love.keyboard.isDown(binds.slide) then
 				self:slideright()
 			else
 				self:moveright()
 			end
-		elseif love.keyboard.isDown(binds.left)
-			or joystick:isDown("dpleft") then
+		elseif love.keyboard.isDown(binds.left) or joystick:isDown("dpleft") then
 			if love.keyboard.isDown(binds.slide) then 
 				self:slideleft()
 			else
@@ -210,7 +208,7 @@ function player:update(dt)
 			if self.xvel ~= 0 then
 				--running animation
 				self.framedelay = 0.1
-				if self.slide ~= 0 then 
+				if self.sliding then 
 					self.state = "slide"
 				else 
 					self.state = "run"
@@ -298,8 +296,8 @@ function player:update(dt)
 	
 		if player.y < player.newY-600 then
 			player.lives = player.lives -1
-      player:respawn()
-      world:initsplash()
+			player:respawn()
+			world:initsplash()
 		end		
 	end
 end
@@ -325,6 +323,7 @@ function player:respawn()
 	self.yvel = 0
 	self.jumping = false
 	self.dir = 0
+	self.sliding = false
 	self.lastdir = 0
 	self.alive = true
 	self.candrop = false
@@ -448,26 +447,26 @@ end
 function player:slideleft()
 	self.lastdir = self.dir
 	self.dir = -1
-	self.slide = 1
+	self.sliding = true
 end
 
 function player:slideright()
 	self.lastdir = self.dir
 	self.dir = 1
-	self.slide = 1
+	self.sliding = true
 end
 
 
 function player:moveright()
 	self.lastdir = self.dir
 	self.dir = 1
-	self.slide = 0
+	self.sliding = false
 end
 
 function player:moveleft()
 	self.lastdir = self.dir
 	self.dir = -1
-	self.slide = 0
+	self.sliding = false
 end
 
 

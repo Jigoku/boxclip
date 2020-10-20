@@ -19,42 +19,44 @@ function physics:applyVelocity(object, dt)
 	--allow extra movement whilst jumping
 	local multiplier = 1.3
 	
-		-- x-axis friction
-		if object.dir == 1 then
-			--if we are not travelling at max speed
-			if object.xvel < object.speed  then
-				if object.jumping then
-					object.xvel = (object.xvel + object.speed *multiplier *dt)
-				else
-					--if we were travelling left
-					if object.xvel < 0 then object.xvel = (object.xvel + object.speed/multiplier *dt) end
-					object.xvel = (object.xvel + object.speed *dt)
+		if not object.sliding then
+			-- x-axis friction
+			if object.dir == 1 then
+				--if we are not travelling at max speed
+				if object.xvel < object.speed then
+					if object.jumping then
+						object.xvel = (object.xvel + object.speed *multiplier *dt)
+					else
+						--if we were travelling left
+						if object.xvel < 0 then object.xvel = (object.xvel + object.speed/multiplier *dt) end
+						object.xvel = (object.xvel + object.speed *dt)
+					end
+				end
+					
+			end
+			if object.dir == -1 then
+				--if we are not travelling at max speed
+				if not (object.xvel < -object.speed) then
+					if object.jumping then
+						object.xvel = (object.xvel - object.speed *multiplier *dt)
+					else
+						--if we were travelling right
+						if object.xvel > 0 then object.xvel = (object.xvel - object.speed/ multiplier *dt) end
+						object.xvel = (object.xvel - object.speed *dt)
+					end
 				end
 			end
-				
 		end
-		if object.dir == -1  then
-			--if we are not travelling at max speed
-			if not (object.xvel < -object.speed)  then
-				if object.jumping then
-					object.xvel = (object.xvel - object.speed *multiplier *dt)
-				else
-                    --if we were travelling right
-					if object.xvel > 0 then object.xvel = (object.xvel - object.speed/ multiplier *dt) end
-					object.xvel = (object.xvel - object.speed *dt)
-				end
-			end
-		end
-		
+
 		-- increase friction when 'idle' until velocity is zero
-		if object.dir == 0 and not object.jumping  then
+		if (object.dir == 0 or object.sliding) and not object.jumping then
 			if object.xvel > 0 then
-				object.xvel = math.max(0,object.xvel - (object.friction *dt))
+				object.xvel = math.max(0,object.xvel - ((object.sliding and object.friction/2 or object.friction) *dt))
 			elseif object.xvel < 0 then
-				object.xvel = math.min(0,object.xvel + (object.friction *dt))
+				object.xvel = math.min(0,object.xvel + ((object.sliding and object.friction/2 or object.friction) *dt))
 			end
 		end
-		
+
 		-- velocity limits (breaks springs, find workaround)
 		--object.xvel = math.min(object.speed,math.max(-object.speed,object.xvel))
 
