@@ -22,6 +22,7 @@ player.sprite = {
 	["run"  ] = textures:load("data/images/player/run/"  ),
 	["dizzy"] = textures:load("data/images/player/dizzy/"),	 
 	["faint"] = textures:load("data/images/player/faint/"),
+	["slide"] = textures:load("data/images/player/sliding/"),
 	
 }
 
@@ -51,6 +52,7 @@ function player:init()
 	self.jumpheight = 780
 	self.jumping = false
 	self.dir = 0
+	self.slide = 0
 	self.lastdir = 0
 	self.score = 0
 	self.alive = true
@@ -146,10 +148,19 @@ function player:update(dt)
 	if self.alive and not console.active then
 		if love.keyboard.isDown(binds.right) 
 			or joystick:isDown("dpright") then
-			self:moveright()
+			if love.keyboard.isDown(binds.slide) then
+				self:slideright()
+			else
+				self:moveright()
+			end
 		elseif love.keyboard.isDown(binds.left)
 			or joystick:isDown("dpleft") then
-			self:moveleft()
+			if love.keyboard.isDown(binds.slide) then 
+				self:slideleft()
+			else
+				self:moveleft()
+			end
+			
 		else
 			self.dir = 0
 		end
@@ -199,8 +210,11 @@ function player:update(dt)
 			if self.xvel ~= 0 then
 				--running animation
 				self.framedelay = 0.1
-				self.state = "run"
-
+				if self.slide ~= 0 then 
+					self.state = "slide"
+				else 
+					self.state = "run"
+				end
 			else
 				--idle animation
 				self.state = "idle"
@@ -431,16 +445,32 @@ function player:drop()
 end
 
 
-function player:moveleft()
+function player:slideleft()
 	self.lastdir = self.dir
 	self.dir = -1
+	self.slide = 1
+end
+
+function player:slideright()
+	self.lastdir = self.dir
+	self.dir = 1
+	self.slide = 1
 end
 
 
 function player:moveright()
 	self.lastdir = self.dir
 	self.dir = 1
+	self.slide = 0
 end
+
+function player:moveleft()
+	self.lastdir = self.dir
+	self.dir = -1
+	self.slide = 0
+end
+
+
 
 
 function player:keypressed(key)

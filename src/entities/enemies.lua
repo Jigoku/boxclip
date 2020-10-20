@@ -400,7 +400,7 @@ function enemies:update(dt)
 					enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
 					-- if we land on top, kill enemy
 					if collision:above(player,enemy) then	
-						if player.jumping or player.invincible then
+						if player.jumping or player.invincible or player.slide then 
 							
 							if player.y > enemy.y then
 								player.yvel = -player.jumpheight
@@ -445,9 +445,10 @@ function enemies:update(dt)
 				-- NOT ACTIVE WHILST EDITING
 				if mode == "game" and player.alive and collision:check(player.newX,player.newY,player.w,player.h,
 					enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
+					
 					-- if we land on top, kill enemy
 					if collision:above(player,enemy) then	
-						if player.jumping or player.invincible then
+						if player.jumping or player.invincible or player.slide then
 							
 							if player.y > enemy.y then
 								player.yvel = -player.jumpheight
@@ -461,11 +462,12 @@ function enemies:update(dt)
 							console:print(enemy.group .." killed")
 							joystick:vibrate(0.5,0.5,0.5)
 							return true
-							
 						else
 							player:die(enemy.group)
 						end
 					end
+					
+					
 				end
 				
 			end	
