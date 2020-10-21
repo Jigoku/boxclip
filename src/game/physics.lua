@@ -213,7 +213,7 @@ function physics:crates(object,dt)
 			object.candrop = false
 			object.carried = false
 			
-			if object.jumping or object.sliding and mode == "game" then 
+			if (object.jumping or object.sliding) and mode == "game" then
 				console:print("crate(" .. i..") destroyed, item ="..crate.type)
 				popups:add(crate.x+crate.w/2,crate.y+crate.h/2,"+"..crate.score)
 				crate.destroyed = true
@@ -376,8 +376,14 @@ function physics:platforms(object, dt)
 					end
 							
 					object.newY = platform.y - object.h +1 *dt
-				end			
+				end
 
+				if object.xvel ~= 0 and object.sliding then
+					sound:playloop(sound.effects["slide"])
+				else
+					object.sliding = false
+				end
+				
 				if platform.movex then
 					-- move along x-axis with platform	
 					object.newX = object.newX + platform.movespeed *dt
