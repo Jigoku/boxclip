@@ -146,23 +146,20 @@ function player:update(dt)
 	-- player input / movement
 	
 	if self.alive and not console.active then
+
+		if love.keyboard.isDown(binds.slide) and self.carried then
+			self.sliding = true
+		end
+
 		if love.keyboard.isDown(binds.right) or joystick:isDown("dpright") then
-			if love.keyboard.isDown(binds.slide) then
-				self:slideright()
-			else
-				self:moveright()
-			end
-		elseif love.keyboard.isDown(binds.left) or joystick:isDown("dpleft") then
-			if love.keyboard.isDown(binds.slide) then 
-				self:slideleft()
-			else
-				self:moveleft()
-			end
+			self:moveright()
 			
+		elseif love.keyboard.isDown(binds.left) or joystick:isDown("dpleft") then
+			self:moveleft()
+
 		else
 			self.dir = 0
 		end
-	
 	
 		if love.keyboard.isDown(binds.jump) or joystick:isDown("a") then
 			if love.keyboard.isDown(binds.down) or joystick:isDown("dpdown") then
@@ -424,6 +421,7 @@ function player:jump()
 	if self.alive and self.canjump and not self.jumping or cheats.jetpack then
 		sound:play(sound.effects["jump"])
 		self.jumping = true
+		self.sliding = false
 		self.canjump = false
 		self.yvel = self.jumpheight	
 	end
@@ -444,32 +442,22 @@ function player:drop()
 end
 
 
-function player:slideleft()
-	self.lastdir = self.dir
-	self.dir = -1
-	self.sliding = true
-end
-
-function player:slideright()
-	self.lastdir = self.dir
-	self.dir = 1
-	self.sliding = true
-end
-
-
 function player:moveright()
-	self.lastdir = self.dir
-	self.dir = 1
-	self.sliding = false
+	if not player.sliding then
+		self.lastdir = self.dir
+		self.dir = 1
+		self.sliding = false
+	end
 end
+
 
 function player:moveleft()
-	self.lastdir = self.dir
-	self.dir = -1
-	self.sliding = false
+	if not player.sliding then
+		self.lastdir = self.dir
+		self.dir = -1
+		self.sliding = false
+	end
 end
-
-
 
 
 function player:keypressed(key)
