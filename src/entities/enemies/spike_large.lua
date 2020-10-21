@@ -20,12 +20,12 @@ enemies.textures["spike_large"] = {love.graphics.newImage( "data/images/enemies/
 
 function spike_large.worldInsert(x,y,movespeed,movedist,dir,name)
 	if dir == 0 or dir == 2 then
-		width = self.textures[name][1]:getWidth()
-		height = self.textures[name][1]:getHeight()
+		width = enemies.textures[name][1]:getWidth()
+		height = enemies.textures[name][1]:getHeight()
 	end
 	if dir == 3 or dir == 1 then
-		width = self.textures[name][1]:getHeight()
-		height = self.textures[name][1]:getWidth()
+		width = enemies.textures[name][1]:getHeight()
+		height = enemies.textures[name][1]:getWidth()
 	end
 	table.insert(world.entities.enemy, {		
 		x = x or 0,

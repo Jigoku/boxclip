@@ -25,11 +25,11 @@ enemies.list = {}
 
 enemies.textures = {["icicle_d"] = { love.graphics.newImage( "data/images/enemies/icicle_d.png"),},}	
 
-
 table.insert(editor.entities, {"spikeball", "enemy"})
 
 
 function enemies:add(x,y,movespeed,movedist,dir,name)
+	print("name ent:"..name)
 	_G[name].worldInsert(x,y,movespeed,movedist,dir,name)
 	print( name .. " added @  X:"..x.." Y: "..y)
 end
