@@ -347,6 +347,16 @@ function editor:warn(func)
 end
 
 
+
+function editor:clearsel()
+	-- clear selection on active entities
+	for _, i in ipairs(self.entorder) do
+		for n,e in ipairs(world.entities[i]) do
+			e.selected = false
+		end
+	end
+end
+
 function editor:keypressed(key)
 	
 	if key == self.binds.edittoggle then 
@@ -356,6 +366,9 @@ function editor:keypressed(key)
 		player.angle = 0
 		player.jumping = false
 		player.xvelboost = 0
+		
+		self:clearsel()
+
 	end
 
 	if key == self.binds.helptoggle then self.showhelpmenu = not self.showhelpmenu end	
@@ -401,6 +414,7 @@ function editor:keypressed(key)
 			sound:playambient(world.mapambient)	
 		end
 	
+	
 		if key == self.binds.themecycle then self:settheme() end
 	
 		for _, i in ipairs(self.entorder) do	
@@ -410,12 +424,16 @@ function editor:keypressed(key)
 					if love.keyboard.isDown(self.binds.moveup) then 
 						--weird bug, needs to be "11" to actually save to proper position?
 						--maybe it's being rounded down? So that expected "10" becomes "9" ?
+						
 						e.y = math.round(e.y - 11,-1) --up
 						self.mouse.y = self.mouse.y -10
+						
+						if(e.yorigin~=nil) then e.yorigin = e.yorigin - 10 end 
 					end
 					if love.keyboard.isDown(self.binds.movedown) then 
 						e.y = math.round(e.y + 10,-1) --down
-						e.yorigin = e.y
+						if(e.yorigin~=nil) then e.yorigin = e.yorigin + 10 end
+						
 						self.mouse.y = self.mouse.y +10
 					end 
 					if love.keyboard.isDown(self.binds.moveleft) then 
@@ -471,6 +489,7 @@ function editor:setattribute(dir,dt)
 		if should_break then break end
 		for _,e in ipairs(type) do
 			if e.selected then
+				
 				if e.swing then
 					e.angleorigin = math.max(0,math.min(math.pi,e.angle - dir*2 *dt))
 					e.angle = e.angleorigin
@@ -480,13 +499,22 @@ function editor:setattribute(dir,dt)
 					if e.movedist < e.w then e.movedist = e.w end
 
 				elseif e.movey then
+					
 					e.movedist = math.round(e.movedist + dir*2,1)
-					if e.movedist < e.h then e.movedist = e.h end
+					
+					if e.movedist < e.h then 
+						if(e.type=="crusher") then 
+							e.movedist = e.movedist + dir * 2 
+						else 
+							e.movedist = e.h 
+						end
+					end
 
 				elseif e.scrollspeed then
 					e.scrollspeed = math.round(e.scrollspeed + dir*2,1)
 					
 				end
+					
 					should_break = true
 					break
 			end
@@ -1089,6 +1117,8 @@ end
 
 
 function editor:selection()
+	if not editing then return false end
+
 	-- no need to find a selection if we are placing a new entity
 	if self.placing then return end
 	
@@ -1130,10 +1160,10 @@ function editor:selection()
 					--collision area for moving entity
 					if collision:check(self.mouse.x,self.mouse.y,1,1,e.xorigin, e.yorigin, e.w, e.h+e.movedist) then
 						self.selbox = { 	
-							x = e.xorigin, 
-							y = e.yorigin, 
-							w = e.w, 
-							h = e.h+e.movedist 
+							x = e.xorigin , 
+							y = e.yorigin , 
+							w = e.w , 
+							h = e.h + e.movedist 
 						}
 						e.selected = true
 					

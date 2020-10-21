@@ -22,6 +22,7 @@ player.sprite = {
 	["run"  ] = textures:load("data/images/player/run/"  ),
 	["dizzy"] = textures:load("data/images/player/dizzy/"),	 
 	["faint"] = textures:load("data/images/player/faint/"),
+	["slide"] = textures:load("data/images/player/sliding/"),
 	
 }
 
@@ -51,6 +52,7 @@ function player:init()
 	self.jumpheight = 780
 	self.jumping = false
 	self.dir = 0
+	self.sliding = false
 	self.lastdir = 0
 	self.score = 0
 	self.alive = true
@@ -59,6 +61,8 @@ function player:init()
 	self.angle = 0
 	--self.candrop = false
 	--self.canjump = true
+
+	self.shieldscale = 60
 
 	self.invincible = false
 	self.invincible_timer = 15
@@ -116,11 +120,12 @@ function player:draw()
 	if self.hasmagnet then
 		--
 	end
+
 	if self.hasshield then
 		love.graphics.setColor(0.4,1,1,0.4)
-		love.graphics.circle("fill", self.x+self.w/2, self.y+self.h/2, self.w, self.h)
+		love.graphics.circle("fill", self.x+self.w/2, self.y+self.h/2, self.shieldscale, self.shieldscale)
 		love.graphics.setColor(0.1,0.3,0.3,0.4)
-		love.graphics.circle("line", self.x+self.w/2, self.y+self.h/2, self.w, self.h)
+		love.graphics.circle("line", self.x+self.w/2, self.y+self.h/2, self.shieldscale, self.shieldscale)
 	end
 	
 	
@@ -144,16 +149,20 @@ function player:update(dt)
 	-- player input / movement
 	
 	if self.alive and not console.active then
-		if love.keyboard.isDown(binds.right) 
-			or joystick:isDown("dpright") then
+
+		if love.keyboard.isDown(binds.slide) and self.carried then
+			self.sliding = true
+		end
+
+		if love.keyboard.isDown(binds.right) or joystick:isDown("dpright") then
 			self:moveright()
-		elseif love.keyboard.isDown(binds.left)
-			or joystick:isDown("dpleft") then
+			
+		elseif love.keyboard.isDown(binds.left) or joystick:isDown("dpleft") then
 			self:moveleft()
+
 		else
 			self.dir = 0
 		end
-	
 	
 		if love.keyboard.isDown(binds.jump) or joystick:isDown("a") then
 			if love.keyboard.isDown(binds.down) or joystick:isDown("dpdown") then
@@ -199,8 +208,11 @@ function player:update(dt)
 			if self.xvel ~= 0 then
 				--running animation
 				self.framedelay = 0.1
-				self.state = "run"
-
+				if self.sliding then 
+					self.state = "slide"
+				else 
+					self.state = "run"
+				end
 			else
 				--idle animation
 				self.state = "idle"
@@ -284,8 +296,8 @@ function player:update(dt)
 	
 		if player.y < player.newY-600 then
 			player.lives = player.lives -1
-      player:respawn()
-      world:initsplash()
+			player:respawn()
+			world:initsplash()
 		end		
 	end
 end
@@ -311,6 +323,7 @@ function player:respawn()
 	self.yvel = 0
 	self.jumping = false
 	self.dir = 0
+	self.sliding = false
 	self.lastdir = 0
 	self.alive = true
 	self.candrop = false
@@ -411,6 +424,7 @@ function player:jump()
 	if self.alive and self.canjump and not self.jumping or cheats.jetpack then
 		sound:play(sound.effects["jump"])
 		self.jumping = true
+		self.sliding = false
 		self.canjump = false
 		self.yvel = self.jumpheight	
 	end
@@ -431,15 +445,19 @@ function player:drop()
 end
 
 
-function player:moveleft()
-	self.lastdir = self.dir
-	self.dir = -1
+function player:moveright()
+	if not player.sliding then
+		self.lastdir = self.dir
+		self.dir = 1
+	end
 end
 
 
-function player:moveright()
-	self.lastdir = self.dir
-	self.dir = 1
+function player:moveleft()
+	if not player.sliding then
+		self.lastdir = self.dir
+		self.dir = -1
+	end
 end
 
 

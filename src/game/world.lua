@@ -447,6 +447,7 @@ function world:debug()
 				" | xvel: " .. math.round(player.xvel) .. 
 				" | yvel: " .. math.round(player.yvel) .. 
 				" | jumping: " .. (player.jumping and 1 or 0) ..
+				" | sliding: " .. (player.sliding and 1 or 0) ..
 				" | camera.scale: " .. camera.scale, 
 				20, love.graphics.getHeight()-75
 			)

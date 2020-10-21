@@ -14,5 +14,6 @@ binds.left = "a"
 binds.right = "d"
 binds.jump = "space"
 binds.down = "s"
+binds.slide = "w"
 
 

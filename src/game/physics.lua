@@ -19,42 +19,44 @@ function physics:applyVelocity(object, dt)
 	--allow extra movement whilst jumping
 	local multiplier = 1.3
 	
-		-- x-axis friction
-		if object.dir == 1 then
-			--if we are not travelling at max speed
-			if object.xvel < object.speed  then
-				if object.jumping then
-					object.xvel = (object.xvel + object.speed *multiplier *dt)
-				else
-					--if we were travelling left
-					if object.xvel < 0 then object.xvel = (object.xvel + object.speed/multiplier *dt) end
-					object.xvel = (object.xvel + object.speed *dt)
+		if not object.sliding then
+			-- x-axis friction
+			if object.dir == 1 then
+				--if we are not travelling at max speed
+				if object.xvel < object.speed then
+					if object.jumping then
+						object.xvel = (object.xvel + object.speed *multiplier *dt)
+					else
+						--if we were travelling left
+						if object.xvel < 0 then object.xvel = (object.xvel + object.speed/multiplier *dt) end
+						object.xvel = (object.xvel + object.speed *dt)
+					end
+				end
+					
+			end
+			if object.dir == -1 then
+				--if we are not travelling at max speed
+				if not (object.xvel < -object.speed) then
+					if object.jumping then
+						object.xvel = (object.xvel - object.speed *multiplier *dt)
+					else
+						--if we were travelling right
+						if object.xvel > 0 then object.xvel = (object.xvel - object.speed/ multiplier *dt) end
+						object.xvel = (object.xvel - object.speed *dt)
+					end
 				end
 			end
-				
 		end
-		if object.dir == -1  then
-			--if we are not travelling at max speed
-			if not (object.xvel < -object.speed)  then
-				if object.jumping then
-					object.xvel = (object.xvel - object.speed *multiplier *dt)
-				else
-                    --if we were travelling right
-					if object.xvel > 0 then object.xvel = (object.xvel - object.speed/ multiplier *dt) end
-					object.xvel = (object.xvel - object.speed *dt)
-				end
-			end
-		end
-		
+
 		-- increase friction when 'idle' until velocity is zero
-		if object.dir == 0 and not object.jumping  then
+		if (object.dir == 0 or object.sliding) and not object.jumping then
 			if object.xvel > 0 then
-				object.xvel = math.max(0,object.xvel - (object.friction *dt))
+				object.xvel = math.max(0,object.xvel - ((object.sliding and object.friction/2 or object.friction) *dt))
 			elseif object.xvel < 0 then
-				object.xvel = math.min(0,object.xvel + (object.friction *dt))
+				object.xvel = math.min(0,object.xvel + ((object.sliding and object.friction/2 or object.friction) *dt))
 			end
 		end
-		
+
 		-- velocity limits (breaks springs, find workaround)
 		--object.xvel = math.min(object.speed,math.max(-object.speed,object.xvel))
 
@@ -105,24 +107,35 @@ end
 
 
 function physics:movex(object, dt)
+	if object.selected then return false end
+
 	-- traverse x-axis
+	object.newX = object.x 
+		
 	if object.x > object.xorigin + object.movedist then
 		object.x = object.xorigin + object.movedist 
 		object.movespeed = -object.movespeed
 		object.dir = 0
 	end	
+		
 	if object.x < object.xorigin then
 		object.x = object.xorigin
 		object.movespeed = -object.movespeed
 		object.dir = 1
 	end
-	
+		
 	object.newX = object.x + object.movespeed *dt
+	
 end
 
 
 function physics:movey(object, dt)
+	-- Stop the movement on mouseover
+	if object.selected then return false end
+
 	--traverse y-axis
+	object.newY = object.y 
+	
 	if object.y > object.yorigin + object.movedist then
 		object.y = object.yorigin + object.movedist
 		object.movespeed = -object.movespeed 
@@ -132,6 +145,33 @@ function physics:movey(object, dt)
 		object.movespeed = -object.movespeed
 	end
 	object.newY = object.y + object.movespeed *dt
+	
+end
+
+function physics:crusher_movey(object, dt)
+	-- Stop the movement on mouseover
+	if object.selected then return false end
+
+	--traverse y-axis
+	object.newY = object.y 
+
+	if object.y > object.yorigin + object.movedist then
+		object.y = object.yorigin + object.movedist
+		object.movespeed = -object.movespeed 
+	end
+	if object.y < object.yorigin  then
+		object.y = object.yorigin
+		object.movespeed = -object.movespeed 
+	end
+	
+	if(object.movespeed>0) then 
+		mv_speed = object.movespeed *6
+	else
+		mv_speed = object.movespeed / 3
+	end
+	
+	object.newY = object.y + mv_speed * dt
+	
 end
 
 
@@ -171,7 +211,7 @@ function physics:crates(object,dt)
 			object.candrop = false
 			object.carried = false
 			
-			if object.jumping and mode == "game" then 
+			if (object.jumping or object.sliding) and mode == "game" then
 				console:print("crate(" .. i..") destroyed, item ="..crate.type)
 				popups:add(crate.x+crate.w/2,crate.y+crate.h/2,"+"..crate.score)
 				crate.destroyed = true
@@ -186,48 +226,50 @@ function physics:crates(object,dt)
 				)
 			end
 			
-			if collision:top(object,crate) then
-				object.carried = true
-				object.newY = crate.y - object.h -1 *dt
-				
-				if object.jumping then
-					object.yvel = player.jumpheight
-				elseif object.bounce then
-					self:bounce(object)
-				else
-					object.yvel = 0
-				end
-				
-			--extra checks to stop falling underneath
-			elseif collision:bottom(object,crate) and not collision:left(object,crate) and not collision:right(object,crate) then
-				object.newY = crate.y +crate.h  +1 *dt
+			if not object.sliding then
+				if collision:top(object,crate) then
+					object.carried = true
+					object.newY = crate.y - object.h -1 *dt
+					
+					if object.jumping then
+						object.yvel = player.jumpheight
+					elseif object.bounce then
+						self:bounce(object)
+					else
+						object.yvel = 0
+					end
+					
+				--extra checks to stop falling underneath
+				elseif collision:bottom(object,crate) and not collision:left(object,crate) and not collision:right(object,crate) then
+					object.newY = crate.y +crate.h  +1 *dt
 
-				if object.jumping then
-					object.yvel = -player.jumpheight
-				else
-					object.yvel = 0
+					if object.jumping then
+						object.yvel = -player.jumpheight
+					else
+						object.yvel = 0
+					end
+						
+				elseif collision:right(object,crate) then
+					object.newX = crate.x+crate.w +1 *dt
+					object.xvelboost = 0
+						
+					if object.jumping then
+						object.xvel = player.jumpheight
+					else
+						object.xvel = 0
+					end
+						
+				elseif collision:left(object,crate) then
+					object.newX = crate.x-object.w -1 *dt
+					object.xvelboost = 0
+						
+					if object.jumping then
+						object.xvel = -player.jumpheight
+					else
+						object.xvel = 0
+					end
 				end
-					
-			elseif collision:right(object,crate) then
-				object.newX = crate.x+crate.w +1 *dt
-				object.xvelboost = 0
-					
-				if object.jumping then
-					object.xvel = player.jumpheight
-				else
-					object.xvel = 0
-				end
-					
-			elseif collision:left(object,crate) then
-				object.newX = crate.x-object.w -1 *dt
-				object.xvelboost = 0
-					
-				if object.jumping then
-					object.xvel = -player.jumpheight
-				else
-					object.xvel = 0
-				end		
-			end		
+			end
 		end
 	end
 end
@@ -332,8 +374,14 @@ function physics:platforms(object, dt)
 					end
 							
 					object.newY = platform.y - object.h +1 *dt
-				end			
+				end
 
+				if object.xvel ~= 0 and object.sliding then
+					sound:play(sound.effects["slide"])
+				else
+					object.sliding = false
+				end
+				
 				if platform.movex then
 					-- move along x-axis with platform	
 					object.newX = object.newX + platform.movespeed *dt

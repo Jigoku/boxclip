@@ -19,13 +19,17 @@ enemies = {}
 -- eg; floater.lua, walker.lua, etc
 
 enemies.textures = {
-	["walker" ] = textures:load("data/images/enemies/walker/" ),
+	["walker" ] = textures:load("data/images/enemies/walker/"),
 	["hopper" ] = textures:load("data/images/enemies/hopper/"),
-	["bee"    ] = textures:load("data/images/enemies/bee/"   ),
-	["bird"   ] = textures:load("data/images/enemies/bird/"         ),
-	["blob"   ] = textures:load("data/images/enemies/blob/"         ),
-	["shadow" ] = textures:load("data/images/enemies/shadow/"       ),
-	["goblin" ] = textures:load("data/images/enemies/goblin/"       ),
+	["bee"    ] = textures:load("data/images/enemies/bee/"),
+	["bird"   ] = textures:load("data/images/enemies/bird/"),
+	["blob"   ] = textures:load("data/images/enemies/blob/"),
+	["shadow" ] = textures:load("data/images/enemies/shadow/"),
+	["goblin" ] = textures:load("data/images/enemies/goblin/"),
+	
+	["crusher"] = {
+		love.graphics.newImage("data/images/enemies/crusher.png"),
+	},
 	
 	["spike"] = { 
 		love.graphics.newImage( "data/images/enemies/spike.png"),
@@ -52,7 +56,7 @@ enemies.textures = {
 	}
 }	
 
-
+table.insert(editor.entities, {"crusher", "enemy"})
 table.insert(editor.entities, {"spike", "enemy"})
 table.insert(editor.entities, {"spike_large", "enemy"})
 table.insert(editor.entities, {"spike_timer", "enemy"})
@@ -65,6 +69,7 @@ table.insert(editor.entities, {"hopper", "enemy"})
 table.insert(editor.entities, {"bee",  "enemy"})
 table.insert(editor.entities, {"bird",  "enemy"})
 table.insert(editor.entities, {"spikeball", "enemy"})
+
 	
 
 function enemies:add(x,y,movespeed,movedist,dir,name)
@@ -303,7 +308,27 @@ function enemies:add(x,y,movespeed,movedist,dir,name)
 			movedist = 0,
 			dir = 0,
 		})
-
+	
+	elseif name == "crusher" then
+		
+		table.insert(world.entities.enemy, {
+			movespeed = movespeed or 100,
+			movedist = movedist or 300,
+			movey = 1,
+			ticks = love.math.random(100),
+			x = x or 0,
+			y = y or 0,
+			xorigin = x,
+			yorigin = y,
+			w = self.textures[name][1]:getWidth(),
+			h = self.textures[name][1]:getHeight() ,
+			group = "enemy",
+			type = name,
+			dir = 0,
+			frame = 1,
+			alive = true
+		})
+	
 	elseif name == "bee" or name == "bird" then
 		local texture = self.textures[name][1]
 		table.insert(world.entities.enemy, {
@@ -400,7 +425,7 @@ function enemies:update(dt)
 					enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
 					-- if we land on top, kill enemy
 					if collision:above(player,enemy) then	
-						if player.jumping or player.invincible then
+						if player.jumping or player.invincible or player.sliding then 
 							
 							if player.y > enemy.y then
 								player.yvel = -player.jumpheight
@@ -445,9 +470,10 @@ function enemies:update(dt)
 				-- NOT ACTIVE WHILST EDITING
 				if mode == "game" and player.alive and collision:check(player.newX,player.newY,player.w,player.h,
 					enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
+					
 					-- if we land on top, kill enemy
 					if collision:above(player,enemy) then	
-						if player.jumping or player.invincible then
+						if player.jumping or player.invincible or player.sliding then
 							
 							if player.y > enemy.y then
 								player.yvel = -player.jumpheight
@@ -461,14 +487,43 @@ function enemies:update(dt)
 							console:print(enemy.group .." killed")
 							joystick:vibrate(0.5,0.5,0.5)
 							return true
-							
 						else
 							player:die(enemy.group)
 						end
 					end
+					
+					
 				end
 				
 			end	
+			
+			
+			if enemy.type == "crusher" then
+				
+				enemy.ticks = enemy.ticks +1
+				physics:crusher_movey(enemy, dt)
+				physics:update(enemy)
+				
+				-- NOT ACTIVE WHILST EDITING 
+				if mode == "game" and player.alive and collision:check(player.newX,player.newY,player.w,player.h,
+					enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
+					
+					if(enemy.y < player.y and (player.x > enemy.x and (player.x + player.w) < (enemy.x + enemy.w))) then
+						
+						player:die(enemy.group)
+					
+					elseif (enemy.y < player.y and (player.x<=enemy.x or (player.x + player.w) >= (enemy.x + enemy.w))) then 
+						
+						subtract = player.dir * player.speed * 1.3 * 0.005;
+						player.xvel = 0 
+						player.x = player.x - subtract
+						player.newX = player.x
+						
+					end
+					
+				end
+				
+			end
 			
 			if enemy.type == "bee" or enemy.type == "bird" then
 				enemy.y = enemy.yorigin - (10*math.sin(enemy.ticks*enemy.yspeed*math.pi)) + 20
@@ -670,11 +725,10 @@ function enemies:draw()
 					love.graphics.setScissor()
 				end
 			
-				if enemy.type == "icicle" or enemy.type == "icicle_d" then
+				if enemy.type == "icicle" or enemy.type == "icicle_d" or enemy.type == "crusher" then
 					love.graphics.setColor(1,1,1,1)
 					love.graphics.draw(texture, enemy.x, enemy.y, 0,1,1)
 				end
-			
 			
 				if enemy.type == "spikeball" then
 					love.graphics.setColor(1,1,1,1)
