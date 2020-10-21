@@ -62,6 +62,8 @@ function player:init()
 	--self.candrop = false
 	--self.canjump = true
 
+	self.shieldscale = 60
+
 	self.invincible = false
 	self.invincible_timer = 15
 	
@@ -118,11 +120,12 @@ function player:draw()
 	if self.hasmagnet then
 		--
 	end
+
 	if self.hasshield then
 		love.graphics.setColor(0.4,1,1,0.4)
-		love.graphics.circle("fill", self.x+self.w/2, self.y+self.h/2, self.w, self.h)
+		love.graphics.circle("fill", self.x+self.w/2, self.y+self.h/2, self.shieldscale, self.shieldscale)
 		love.graphics.setColor(0.1,0.3,0.3,0.4)
-		love.graphics.circle("line", self.x+self.w/2, self.y+self.h/2, self.w, self.h)
+		love.graphics.circle("line", self.x+self.w/2, self.y+self.h/2, self.shieldscale, self.shieldscale)
 	end
 	
 	
@@ -446,7 +449,6 @@ function player:moveright()
 	if not player.sliding then
 		self.lastdir = self.dir
 		self.dir = 1
-		self.sliding = false
 	end
 end
 
@@ -455,7 +457,6 @@ function player:moveleft()
 	if not player.sliding then
 		self.lastdir = self.dir
 		self.dir = -1
-		self.sliding = false
 	end
 end
 
