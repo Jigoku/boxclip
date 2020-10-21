@@ -49,7 +49,7 @@ sound.effects = {
 	["brick"] = love.audio.newSource("data/sounds/effect/brick.ogg", "static"),
 	["start"] = love.audio.newSource("data/sounds/music/start.ogg", "static"),
 	["bounce"] = love.audio.newSource("data/sounds/effect/bounce.ogg", "static"),
-	["slide"] = love.audio.newSource("data/sounds/effect/hit.ogg", "static"),
+	["slide"] = love.audio.newSource("data/sounds/effect/slide.ogg", "static"),
 }
 
 sound.music = {

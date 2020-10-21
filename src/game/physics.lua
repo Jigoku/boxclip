@@ -379,7 +379,7 @@ function physics:platforms(object, dt)
 				end
 
 				if object.xvel ~= 0 and object.sliding then
-					sound:playloop(sound.effects["slide"])
+					sound:play(sound.effects["slide"])
 				else
 					object.sliding = false
 				end
