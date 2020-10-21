@@ -347,6 +347,16 @@ function editor:warn(func)
 end
 
 
+
+function editor:clearsel()
+	-- clear selection on active entities
+	for _, i in ipairs(self.entorder) do
+		for n,e in ipairs(world.entities[i]) do
+			e.selected = false
+		end
+	end
+end
+
 function editor:keypressed(key)
 	
 	if key == self.binds.edittoggle then 
@@ -356,6 +366,9 @@ function editor:keypressed(key)
 		player.angle = 0
 		player.jumping = false
 		player.xvelboost = 0
+		
+		self:clearsel()
+
 	end
 
 	if key == self.binds.helptoggle then self.showhelpmenu = not self.showhelpmenu end	
@@ -1104,6 +1117,8 @@ end
 
 
 function editor:selection()
+	if not editing then return false end
+
 	-- no need to find a selection if we are placing a new entity
 	if self.placing then return end
 	

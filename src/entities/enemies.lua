@@ -725,16 +725,10 @@ function enemies:draw()
 					love.graphics.setScissor()
 				end
 			
-				if enemy.type == "icicle" or enemy.type == "icicle_d" then
+				if enemy.type == "icicle" or enemy.type == "icicle_d" or enemy.type == "crusher" then
 					love.graphics.setColor(1,1,1,1)
 					love.graphics.draw(texture, enemy.x, enemy.y, 0,1,1)
 				end
-				
-				if enemy.type == "crusher" or enemy.type == "icicle_d" then
-					love.graphics.setColor(1,1,1,1)
-					love.graphics.draw(texture, enemy.x, enemy.y, 0,1,1)
-				end
-			
 			
 				if enemy.type == "spikeball" then
 					love.graphics.setColor(1,1,1,1)
