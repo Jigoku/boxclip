@@ -81,9 +81,13 @@ function springs:update(dt)
 				joystick:vibrate(1,1,0.25)
 				sound:play(sound.effects["spring"])
 				if spring.dir == 0 then
+					player.sliding = false
+					player.carried = false
 					player.y = spring.y-player.h -1 *dt
 					player.yvel =  spring.vel
 				elseif spring.dir == 2 then
+					player.sliding = false
+					player.carried = false
 					player.y = spring.y +spring.h +1 *dt
 					player.yvel = -spring.vel
 				elseif spring.dir == 1 then
