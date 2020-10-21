@@ -32,6 +32,22 @@ for i, file in ipairs(files) do
 end
 
 
+-- **** LOAD ENEMIES **** 
+local enemypath = "entities/enemies/"
+local enemyfiles = love.filesystem.getDirectoryItems(enemypath)
+
+-- Load all files in "entities/enemies/" to allow drop-in modules
+for i, file in ipairs(enemyfiles) do
+	local enemyinfo = love.filesystem.getInfo(enemypath .. file)
+	if enemyinfo.type == "file" and file ~= "init.lua" then
+		local m = file:match("(.+)%.lua")
+		print(i .. ". " .. enemypath .. m)
+		require(enemypath .. m)
+	end
+end
+
+
+
 --[[
 	TODO, read functions from each module, merge into entities tables...
 	

@@ -13,10 +13,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  --]]
 
+
+
 enemies = {}
 
 -- TODO, split this up into seperate entities...
 -- eg; floater.lua, walker.lua, etc
+
+-- List of enemies 
+enemies.list = {}
 
 enemies.textures = {
 	["walker" ] = textures:load("data/images/enemies/walker/"),
@@ -26,10 +31,6 @@ enemies.textures = {
 	["blob"   ] = textures:load("data/images/enemies/blob/"),
 	["shadow" ] = textures:load("data/images/enemies/shadow/"),
 	["goblin" ] = textures:load("data/images/enemies/goblin/"),
-	
-	["crusher"] = {
-		love.graphics.newImage("data/images/enemies/crusher.png"),
-	},
 	
 	["spike"] = { 
 		love.graphics.newImage( "data/images/enemies/spike.png"),
@@ -56,7 +57,7 @@ enemies.textures = {
 	}
 }	
 
-table.insert(editor.entities, {"crusher", "enemy"})
+
 table.insert(editor.entities, {"spike", "enemy"})
 table.insert(editor.entities, {"spike_large", "enemy"})
 table.insert(editor.entities, {"spike_timer", "enemy"})
@@ -310,25 +311,8 @@ function enemies:add(x,y,movespeed,movedist,dir,name)
 		})
 	
 	elseif name == "crusher" then
+		_G[name].worldInsert(x,y,movespeed,movedist,dir,name)
 		
-		table.insert(world.entities.enemy, {
-			movespeed = movespeed or 100,
-			movedist = movedist or 300,
-			movey = 1,
-			ticks = love.math.random(100),
-			x = x or 0,
-			y = y or 0,
-			xorigin = x,
-			yorigin = y,
-			w = self.textures[name][1]:getWidth(),
-			h = self.textures[name][1]:getHeight() ,
-			group = "enemy",
-			type = name,
-			dir = 0,
-			frame = 1,
-			alive = true
-		})
-	
 	elseif name == "bee" or name == "bird" then
 		local texture = self.textures[name][1]
 		table.insert(world.entities.enemy, {
@@ -500,28 +484,7 @@ function enemies:update(dt)
 			
 			if enemy.type == "crusher" then
 				
-				enemy.ticks = enemy.ticks +1
-				physics:crusher_movey(enemy, dt)
-				physics:update(enemy)
-				
-				-- NOT ACTIVE WHILST EDITING 
-				if mode == "game" and player.alive and collision:check(player.newX,player.newY,player.w,player.h,
-					enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
-					
-					if(enemy.y < player.y and (player.x > enemy.x and (player.x + player.w) < (enemy.x + enemy.w))) then
-						
-						player:die(enemy.group)
-					
-					elseif (enemy.y < player.y and (player.x<=enemy.x or (player.x + player.w) >= (enemy.x + enemy.w))) then 
-						
-						subtract = player.dir * player.speed * 1.3 * 0.005;
-						player.xvel = 0 
-						player.x = player.x - subtract
-						player.newX = player.x
-						
-					end
-					
-				end
+				_G[enemy.type].checkCollision(enemy, dt)
 				
 			end
 			
