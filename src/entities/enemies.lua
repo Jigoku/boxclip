@@ -72,7 +72,7 @@ function enemies:draw()
 		
 			count = count + 1
 			if enemy.alive then
-				_G.[enemy.type].draw(enemy)
+				_G[enemy.type].draw(enemy)
 			end
 			
 			if editing or debug then
