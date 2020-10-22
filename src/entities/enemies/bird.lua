@@ -89,3 +89,20 @@ function bird.draw()
 		love.graphics.draw(enemy.texture, enemy.x+enemy.w, enemy.y, 0, -1, 1)
 	end
 end
+
+
+function bird.drawdebug(enemy, i)
+	--bounds
+	love.graphics.setColor(1,0,0,1)
+	love.graphics.rectangle("line", enemy.x+5, enemy.y+5, enemy.w-10, enemy.h-10)
+	--hitbox
+	love.graphics.setColor(1,0.78,0.39,1)
+	love.graphics.rectangle("line", enemy.x, enemy.y, enemy.w, enemy.h)
+		
+	local texture = enemies.textures[enemy.type]
+	love.graphics.setColor(1,0,1,0.19)
+	love.graphics.rectangle("fill", enemy.xorigin, enemy.y, enemy.movedist+texture[(enemy.frame or 1)]:getWidth(), texture[(enemy.frame or 1)]:getHeight())
+	love.graphics.setColor(1,0,1,1)
+	love.graphics.rectangle("line", enemy.xorigin, enemy.y, enemy.movedist+texture[(enemy.frame or 1)]:getWidth(), texture[(enemy.frame or 1)]:getHeight())
+end
+

@@ -92,3 +92,15 @@ function spike_timer.draw(enemy)
 	love.graphics.setScissor()
 end
 
+
+function spike_timer.drawdebug(enemy, i)
+	--bounds
+	love.graphics.setColor(1,0,0,1)
+	love.graphics.rectangle("line", enemy.x+5, enemy.y+5, enemy.w-10, enemy.h-10)
+	--hitbox
+	love.graphics.setColor(1,0.78,0.39,1)
+	love.graphics.rectangle("line", enemy.xorigin, enemy.yorigin, enemy.w, enemy.h*2)
+end
+
+
+

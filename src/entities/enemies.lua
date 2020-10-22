@@ -26,7 +26,6 @@ enemies.textures = {}
 
 
 function enemies:add(x,y,movespeed,movedist,dir,name)
-	
 	_G[name].worldInsert(x,y,movespeed,movedist,dir,name)
 	print( name .. " added @  X:"..x.." Y: "..y)
 end
@@ -73,13 +72,11 @@ function enemies:draw()
 		
 			count = count + 1
 			if enemy.alive then
-				
 				_G.[enemy.type].draw(enemy)
-			
 			end
 			
 			if editing or debug then
-				enemies:drawdebug(enemy, i)
+				_G[enemy.type].drawdebug(enemy, i)
 			end
 		end
 	end
@@ -87,57 +84,6 @@ function enemies:draw()
 end
 
 
-function enemies:drawdebug(enemy, i)
-	local texture = self.textures[enemy.type]
-
-	if enemy.type == "spikeball" then
-		--bounds
-		love.graphics.setColor(1,0,0,1)
-		love.graphics.rectangle("line", enemy.x-texture[(enemy.frame or 1)]:getWidth()/2+5, enemy.y-texture[(enemy.frame or 1)]:getHeight()/2+5, texture[(enemy.frame or 1)]:getWidth()-10, texture[(enemy.frame or 1)]:getHeight()-10)
-		--hitbox
-		love.graphics.setColor(1,0.78,0.39,1)
-		love.graphics.rectangle("line", enemy.x-texture[(enemy.frame or 1)]:getWidth()/2, enemy.y-texture[(enemy.frame or 1)]:getHeight()/2, texture[(enemy.frame or 1)]:getWidth(), texture[(enemy.frame or 1)]:getHeight())
-
-		--waypoint
-		love.graphics.setColor(1,0,1,0.39)
-		love.graphics.line(enemy.xorigin,enemy.yorigin,enemy.x,enemy.y)	
-		love.graphics.circle("line", enemy.xorigin,enemy.yorigin, enemy.radius,enemy.radius)	
-		
-		--selectable area in editor
-		love.graphics.setColor(1,0,0,0.39)
-		love.graphics.rectangle("line", 
-			enemy.xorigin-chainlink.textures["origin"]:getWidth()/2,enemy.yorigin-chainlink.textures["origin"]:getHeight()/2,
-			chainlink.textures["origin"]:getWidth(),chainlink.textures["origin"]:getHeight()
-		)
-
-	elseif enemy.type == "spike_timer" then
-		--bounds
-		love.graphics.setColor(1,0,0,1)
-		love.graphics.rectangle("line", enemy.x+5, enemy.y+5, enemy.w-10, enemy.h-10)
-		--hitbox
-		love.graphics.setColor(1,0.78,0.39,1)
-		love.graphics.rectangle("line", enemy.xorigin, enemy.yorigin, enemy.w, enemy.h*2)
-	
-	else
-	--all other enemies
-		--bounds
-		love.graphics.setColor(1,0,0,1)
-		love.graphics.rectangle("line", enemy.x+5, enemy.y+5, enemy.w-10, enemy.h-10)
-		--hitbox
-		love.graphics.setColor(1,0.78,0.39,1)
-		love.graphics.rectangle("line", enemy.x, enemy.y, enemy.w, enemy.h)
-	end
-
-	--waypoint	
-	if enemy.type == "walker" or enemy.type == "bee" or enemy.type == "bird" or enemy.type == "hopper" or enemy.type == "blob" or enemy.type == "goblin" or enemy.type == "shadow" then
-		
-		love.graphics.setColor(1,0,1,0.19)
-		love.graphics.rectangle("fill", enemy.xorigin, enemy.y, enemy.movedist+texture[(enemy.frame or 1)]:getWidth(), texture[(enemy.frame or 1)]:getHeight())
-		love.graphics.setColor(1,0,1,1)
-		love.graphics.rectangle("line", enemy.xorigin, enemy.y, enemy.movedist+texture[(enemy.frame or 1)]:getWidth(), texture[(enemy.frame or 1)]:getHeight())
-	end
-
-end
 
 
 

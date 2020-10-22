@@ -70,3 +70,13 @@ function spike_large.draw(enemy)
 		love.graphics.draw(texture, enemy.x, enemy.y, 0,(enemy.flip and -1 or 1),1,(enemy.flip and enemy.w or 0),0,0)
 	end
 end
+
+
+function spike_large.drawdebug(enemy, i)
+	--bounds
+	love.graphics.setColor(1,0,0,1)
+	love.graphics.rectangle("line", enemy.x+5, enemy.y+5, enemy.w-10, enemy.h-10)
+	--hitbox
+	love.graphics.setColor(1,0.78,0.39,1)
+	love.graphics.rectangle("line", enemy.x, enemy.y, enemy.w, enemy.h)
+end
