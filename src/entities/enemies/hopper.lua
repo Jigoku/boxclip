@@ -20,7 +20,7 @@ enemies.textures["hopper" ] = textures:load("data/images/enemies/hopper/")
 
 function hopper.worldInsert(x,y,movespeed,movedist,dir,name)
 	
-	local texture = self.textures["hopper"][1]
+	local texture = enemies.textures["hopper"][1]
 	table.insert(world.entities.enemy, {
 		movespeed = movespeed or 100,
 		movedist = movedist or 200,

@@ -20,8 +20,8 @@ enemies.textures["spikeball"] = { love.graphics.newImage( "data/images/enemies/s
 
 function spikeball.worldInsert(x,y,movespeed,movedist,dir,name)
 	table.insert(world.entities.enemy, {
-		w = self.textures[name][1]:getWidth(),
-		h = self.textures[name][1]:getHeight(),
+		w = enemies.textures[name][1]:getWidth(),
+		h = enemies.textures[name][1]:getHeight(),
 		xorigin = x,
 		yorigin = y,
 		x = x or 0,
@@ -40,7 +40,8 @@ function spikeball.worldInsert(x,y,movespeed,movedist,dir,name)
 end
 
 
-function icicle.checkCollision(enemy, dt)
+function spikeball.checkCollision(enemy, dt)
+	
 	
 	enemy.angle = enemy.angle - (enemy.speed * dt)
 	if enemy.angle > math.pi*2 then enemy.angle = 0 end
@@ -59,6 +60,7 @@ function icicle.checkCollision(enemy, dt)
 			player:die(enemy.group)
 		end
 	end
+	
 
 end
 

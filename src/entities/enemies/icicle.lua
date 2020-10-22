@@ -68,7 +68,7 @@ function icicle.checkCollision(enemy, dt)
 						enemy.falling = false
 						sound:play(sound.effects["slice"])
 						enemy.type = "icicle_d"
-						enemy.h = self.textures[enemy.type][1]:getHeight()
+						enemy.h = enemies.textures[enemy.type][1]:getHeight()
 						enemy.newY = platform.y-enemy.h
 						joystick:vibrate(0.35,0.35,0.5)
 					end

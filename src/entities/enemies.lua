@@ -22,14 +22,11 @@ enemies = {}
 
 -- List of enemies 
 enemies.list = {}
-
-enemies.textures = {["icicle_d"] = { love.graphics.newImage( "data/images/enemies/icicle_d.png"),},}	
-
-table.insert(editor.entities, {"spikeball", "enemy"})
+enemies.textures = {}	
 
 
 function enemies:add(x,y,movespeed,movedist,dir,name)
-	print("name ent:"..name)
+	
 	_G[name].worldInsert(x,y,movespeed,movedist,dir,name)
 	print( name .. " added @  X:"..x.." Y: "..y)
 end
@@ -61,40 +58,10 @@ function enemies:update(dt)
 		end
 		
 		if enemy.alive then
+			
 			enemy.carried = false
-		
-			if enemy.type == "walker" or enemy.type == "blob" or enemy.type == "goblin" or enemy.type == "shadow" then
-				_G[enemy.type].checkCollision(enemy, dt)
-			end	
+			_G[enemy.type].checkCollision(enemy, dt)
 			
-			if enemy.type == "crusher" then
-				_G[enemy.type].checkCollision(enemy, dt)
-			end
-
-			if enemy.type == "hopper" then
-				_G[enemy.type].checkCollision(enemy, dt)
-			end	
-			
-			if enemy.type == "bee" or enemy.type == "bird" then
-				_G[enemy.type].checkCollision(enemy, dt)
-			end
-			
-			if enemy.type == "spike" or enemy.type == "spike_large" and enemy.alive then
-				_G[enemy.type].checkCollision(enemy, dt)
-			end
-			
-			if enemy.type == "spike_timer" then
-				_G[enemy.type].checkCollision(enemy, dt)
-			end
-			
-			if enemy.type == "icicle" then
-				_G[enemy.type].checkCollision(enemy, dt)
-			end
-			
-			if enemy.type == "spikeball" then
-				_G[enemy.type].checkCollision(enemy, dt)
-			end
-	
 		end
 			
 	end	

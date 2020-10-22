@@ -20,7 +20,7 @@ enemies.textures["walker" ] = textures:load("data/images/enemies/walker/")
 
 function walker.worldInsert(x,y,movespeed,movedist,dir,name)
 	
-	local texture = self.textures[name][1]
+	local texture = enemies.textures[name][1]
 	table.insert(world.entities.enemy, {
 		movespeed = movespeed or 100,
 		movedist = movedist or 200,
