@@ -68,6 +68,7 @@ sound.music = {
 	[12] = love.audio.newSource("data/sounds/music/paradise.ogg", "stream"),
 	[13] = love.audio.newSource("data/sounds/music/happy.ogg", "stream"),
 	[14] = love.audio.newSource("data/sounds/music/grasslands.ogg", "stream"),
+	[15] = love.audio.newSource("data/sounds/music/raspberry_jam.ogg", "stream"),
 }
 
 sound.ambience = {
