@@ -87,3 +87,14 @@ function goblin.checkCollision(enemy, dt)
 	
 end
 
+
+
+function goblin.draw(enemy)
+	love.graphics.setColor(1,1,1,1)
+	if enemy.movespeed < 0 then
+		love.graphics.draw(enemy.texture, enemy.x, enemy.y, 0, 1, 1)
+	elseif enemy.movespeed > 0 then
+		love.graphics.draw(enemy.texture, enemy.x+enemy.w, enemy.y, 0, -1, 1)
+	end
+end
+

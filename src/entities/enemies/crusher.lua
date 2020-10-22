@@ -66,3 +66,11 @@ function crusher.checkCollision(entityCrusher, dt)
 	
 end
 
+
+function icicle.draw(enemy)
+	local texture = enemies.textures[enemy.type][1]
+	love.graphics.setColor(1,1,1,1)
+	love.graphics.draw(texture, enemy.x, enemy.y, 0,1,1)
+end
+
+

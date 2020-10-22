@@ -61,6 +61,19 @@ function spikeball.checkCollision(enemy, dt)
 		end
 	end
 	
+end
 
+
+
+function spikeball.draw(enemy)
+	local texture = enemies.textures[enemy.type][1]
+	love.graphics.setColor(1,1,1,1)
+	chainlink:draw(enemy)
+	
+	--spin
+	love.graphics.draw(texture, enemy.x, enemy.y, -enemy.angle*2,1,1,enemy.w/2,enemy.h/2)
+	
+	--no spin
+	--love.graphics.draw(texture, enemy.x, enemy.y, 0,1,1,enemy.w/2,enemy.h/2)
 end
 

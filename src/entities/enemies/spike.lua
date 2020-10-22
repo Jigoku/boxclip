@@ -57,3 +57,18 @@ function spike.checkCollision(enemy, dt)
 	
 end
 
+function spike.draw(enemy) 
+	local texture = enemies.textures[enemy.type][1]
+	love.graphics.setColor(1,1,1,1)
+	if enemy.dir == 1 then
+		love.graphics.draw(texture, enemy.x, enemy.y, math.rad(90),1,(enemy.flip and -1 or 1),0,(enemy.flip and 0 or enemy.w))
+	elseif enemy.dir == 2 then
+		love.graphics.draw(texture, enemy.x, enemy.y, 0,(enemy.flip and 1 or -1),-1,(enemy.flip and 0 or enemy.w),enemy.h)	
+	elseif enemy.dir == 3 then
+		love.graphics.draw(texture, enemy.x, enemy.y, math.rad(-90),1,(enemy.flip and -1 or 1),enemy.h,(enemy.flip and enemy.w or 0))
+	else
+		love.graphics.draw(texture, enemy.x, enemy.y, 0,(enemy.flip and -1 or 1),1,(enemy.flip and enemy.w or 0),0,0)
+	end
+end
+
+

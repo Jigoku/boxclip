@@ -82,3 +82,13 @@ function spike_timer.checkCollision(enemy, dt)
 
 end
 
+
+function spike_timer.draw(enemy) 
+	local texture = enemies.textures[enemy.type][1]
+	love.graphics.setColor(1,1,1,1)
+	local x,y = camera:toCameraCoords(enemy.xorigin, enemy.yorigin)
+	love.graphics.setScissor( x,y,enemy.w*camera.scale,enemy.h*camera.scale)
+	love.graphics.draw(texture, enemy.x, enemy.y, 0,1,1)
+	love.graphics.setScissor()
+end
+

@@ -58,12 +58,9 @@ function enemies:update(dt)
 		end
 		
 		if enemy.alive then
-			
 			enemy.carried = false
 			_G[enemy.type].checkCollision(enemy, dt)
-			
 		end
-			
 	end	
 end
 
@@ -76,55 +73,8 @@ function enemies:draw()
 		
 			count = count + 1
 			if enemy.alive then
-			
-				local texture = self.textures[enemy.type][1]
 				
-				if enemy.type == "bee" or enemy.type == "bird" or enemy.type == "walker" or enemy.type =="hopper" or enemy.type == "blob" or enemy.type == "goblin" or enemy.type == "shadow" then
-					love.graphics.setColor(1,1,1,1)
-					if enemy.movespeed < 0 then
-						love.graphics.draw(enemy.texture, enemy.x, enemy.y, 0, 1, 1)
-					elseif enemy.movespeed > 0 then
-						love.graphics.draw(enemy.texture, enemy.x+enemy.w, enemy.y, 0, -1, 1)
-					end
-				end
-				
-					
-				if enemy.type == "spike" or enemy.type == "spike_large" and enemy.alive then
-					love.graphics.setColor(1,1,1,1)
-					if enemy.dir == 1 then
-						love.graphics.draw(texture, enemy.x, enemy.y, math.rad(90),1,(enemy.flip and -1 or 1),0,(enemy.flip and 0 or enemy.w))
-					elseif enemy.dir == 2 then
-						love.graphics.draw(texture, enemy.x, enemy.y, 0,(enemy.flip and 1 or -1),-1,(enemy.flip and 0 or enemy.w),enemy.h)	
-					elseif enemy.dir == 3 then
-						love.graphics.draw(texture, enemy.x, enemy.y, math.rad(-90),1,(enemy.flip and -1 or 1),enemy.h,(enemy.flip and enemy.w or 0))
-					else
-						love.graphics.draw(texture, enemy.x, enemy.y, 0,(enemy.flip and -1 or 1),1,(enemy.flip and enemy.w or 0),0,0)
-					end
-				end
-			
-				if enemy.type == "spike_timer" then
-					love.graphics.setColor(1,1,1,1)
-					local x,y = camera:toCameraCoords(enemy.xorigin, enemy.yorigin)
-					love.graphics.setScissor( x,y,enemy.w*camera.scale,enemy.h*camera.scale)
-					love.graphics.draw(texture, enemy.x, enemy.y, 0,1,1)
-					love.graphics.setScissor()
-				end
-			
-				if enemy.type == "icicle" or enemy.type == "icicle_d" or enemy.type == "crusher" then
-					love.graphics.setColor(1,1,1,1)
-					love.graphics.draw(texture, enemy.x, enemy.y, 0,1,1)
-				end
-			
-				if enemy.type == "spikeball" then
-					love.graphics.setColor(1,1,1,1)
-					chainlink:draw(enemy)
-					
-					--spin
-					love.graphics.draw(texture, enemy.x, enemy.y, -enemy.angle*2,1,1,enemy.w/2,enemy.h/2)
-					
-					--no spin
-					--love.graphics.draw(texture, enemy.x, enemy.y, 0,1,1,enemy.w/2,enemy.h/2)
-				end
+				_G.[enemy.type].draw(enemy)
 			
 			end
 			
