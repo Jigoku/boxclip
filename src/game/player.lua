@@ -282,8 +282,6 @@ function player:update(dt)
 		player.carried = false
 		physics:applyVelocity(player, dt)
 		physics:applyGravity(player, dt)
-		physics:applyRotation(player,math.pi*8,dt)
-	
 		physics:traps(player,dt)
 		physics:crates(player,dt)
 		physics:bumpers(player,dt)
