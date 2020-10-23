@@ -20,7 +20,7 @@ enemies.textures["blob"] = textures:load("data/images/enemies/blob/")
 
 function blob.worldInsert(x,y,movespeed,movedist,dir,name)
 	
-	local texture = self.textures[name][1]
+	local texture = enemies.textures[name][1]
 	table.insert(world.entities.enemy, {
 		movespeed = movespeed or 160,
 		movedist = movedist or 300,
