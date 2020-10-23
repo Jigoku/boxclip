@@ -17,8 +17,6 @@
 
 enemies = {}
 
--- TODO, split this up into seperate entities...
--- eg; floater.lua, walker.lua, etc
 
 -- List of enemies 
 enemies.list = {}
