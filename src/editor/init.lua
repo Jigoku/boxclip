@@ -52,6 +52,7 @@ editor.floatspeed = 1000		--editing floatspeed
 editor.maxcamerascale = 6		--maximum zoom
 editor.mincamerascale = 0.1		--minimum zoom
 editor.placing = false			--check if an entity is being placed
+editor.entdragmin = 20			--minimum grid size per draggable entity
 
 --misc textures
 editor.errortex = love.graphics.newImage("data/images/editor/error.png")
@@ -677,8 +678,8 @@ function editor:placedraggable(x1,y1,x2,y2)
 	--we must drag down and right
 	if not (x2 < x1 or y2 < y1) then
 		--min sizes (we don't want impossible to select/remove platforms)
-		if x2-x1 < 20  then x2 = x1 +20 end
-		if y2-y1 < 20  then y2 = y1 +20 end
+		if x2-x1 < self.entdragmin  then x2 = x1 + self.entdragmin end
+		if y2-y1 < self.entdragmin  then y2 = y1 + self.entdragmin end
 
 		local x = math.round(x1,-1)
 		local y = math.round(y1,-1)
