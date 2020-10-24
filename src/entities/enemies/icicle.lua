@@ -53,7 +53,7 @@ function icicle.checkCollision(enemy, dt)
 				enemy.x,enemy.newY,enemy.w,enemy.h) then
 					e.alive = false
 					sound:play(sound.effects["kill"])
-					console:print(e.group .. " killed by " .. enemy.group)
+					console:print(e.type .. " killed by " .. enemy.type)
 				end
 			end
 		end
@@ -93,7 +93,7 @@ function icicle.checkCollision(enemy, dt)
 			enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) and enemy.falling then
 			if not player.invincible then
 				player.yvel = -player.yvel
-				player:die(enemy.group)
+				player:die(enemy.type)
 			end
 		end
 	end

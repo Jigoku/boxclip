@@ -74,12 +74,12 @@ function walker.checkCollision(enemy, dt)
 				player.score = player.score + enemy.score
 				enemy.alive = false
 				sound:play(sound.effects["kill"])
-				console:print(enemy.group .." killed")
+				console:print(enemy.type .." killed")
 				joystick:vibrate(0.5,0.5,0.5)
 				return true
 				
 			else
-				player:die(enemy.group)
+				player:die(enemy.type)
 			end
 		end
 	end

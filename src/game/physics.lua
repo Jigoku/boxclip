@@ -281,6 +281,8 @@ function physics:bumpers(object,dt)
 				object.newX,object.newY,object.w,object.h) then
 			
 			object.jumping = true
+			object.sliding = false
+			
 			bumper.scale = bumpers.maxscale
 			joystick:vibrate(1,1,0.25)				
 			sound:play(sound.effects["bumper"])
