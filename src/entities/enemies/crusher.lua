@@ -40,20 +40,21 @@ function crusher.worldInsert(x,y,movespeed,movedist,dir,name)
 	})
 end
 
-function crusher.checkCollision(entityCrusher, dt)
-	entityCrusher.ticks = entityCrusher.ticks +1
-	physics:crusher_movey(entityCrusher, dt)
-	physics:update(entityCrusher)
+
+function crusher.checkCollision(crusher, dt)
+	crusher.ticks = crusher.ticks +1
+	physics:crusher_movey(crusher, dt)
+	physics:update(crusher)
 	
 	-- NOT ACTIVE WHILST EDITING 
 	if mode == "game" and player.alive and collision:check(player.newX,player.newY,player.w,player.h,
-		entityCrusher.x+5,entityCrusher.y+5,entityCrusher.w-10,entityCrusher.h-10) then
+		crusher.x+5,crusher.y+5,crusher.w-10,crusher.h-10) then
 		
-		if(entityCrusher.y < player.y and (player.x > entityCrusher.x and (player.x + player.w) < (entityCrusher.x + entityCrusher.w))) then
+		if(crusher.y < player.y and (player.x > crusher.x and (player.x + player.w) < (crusher.x + crusher.w))) then
 			
-			player:die(entityCrusher.type)
+			player:die(crusher.type)
 		
-		elseif (entityCrusher.y < player.y and (player.x<=entityCrusher.x or (player.x + player.w) >= (entityCrusher.x + entityCrusher.w))) then 
+		elseif (crusher.y < player.y and (player.x<=crusher.x or (player.x + player.w) >= (crusher.x + crusher.w))) then 
 			
 			subtract = player.dir * player.speed * 1.3 * 0.005;
 			player.xvel = 0 
@@ -82,4 +83,3 @@ function crusher.drawdebug(enemy, i)
 	love.graphics.setColor(1,0.78,0.39,1)
 	love.graphics.rectangle("line", enemy.x, enemy.y, enemy.w, enemy.h)
 end
-
