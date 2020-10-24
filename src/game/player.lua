@@ -67,17 +67,8 @@ function player:init()
 	self.invincible = false
 	self.invincible_timer = 15
 	
+	self.particles = require("game/particles")
 	console:print("initialized player")
-
-	--particle setup
-	-- horrible implementation... fix this
-	self.particles_invincible = love.graphics.newParticleSystem(pickups.textures[5], 32)
-	self.particles_invincible:setParticleLifetime(2, 2) -- particle lifetime
-	self.particles_invincible:setEmissionRate(10)
-	self.particles_invincible:setSizeVariation(1)
-	self.particles_invincible:setLinearAcceleration(-400, -400, 400, 400) -- Random movement in all directions.
-	self.particles_invincible:setColors(255, 255, 255, 255, 255, 255, 255, 0) -- Fade to transparency.
-	self.particles_invincible:setSpin( 1, 5 )
 end
 
 
@@ -96,7 +87,7 @@ function player:draw()
 		--draw this powerup behind player
 		if self.invincible then
 			love.graphics.setColor(1,1,1,1)
-			love.graphics.draw(self.particles_invincible, player.x+player.w/2,player.y+player.h/2, 0,0.25,0.25)
+			love.graphics.draw(self.particles.invincible, player.x+player.w/2,player.y+player.h/2, 0,0.25,0.25)
 		end
 		
 		love.graphics.setColor(1,1,1,1)
@@ -250,13 +241,13 @@ function player:update(dt)
 	
 	-- invincibility check
 	if self.invincible then
-		self.particles_invincible:update(dt)
+		self.particles.invincible:update(dt)
 		self.invincible_timer = math.max(0, self.invincible_timer - dt)
 		
 		if self.invincible_timer <= 0 then
 			sound:playbgm(world.mapmusic)
 			self.invincible = false
-			self.particles_invincible:stop()
+			self.particles.invincible:stop()
 			console:print("invincibility ended")
 		end
 	end
@@ -282,8 +273,6 @@ function player:update(dt)
 		player.carried = false
 		physics:applyVelocity(player, dt)
 		physics:applyGravity(player, dt)
-		physics:applyRotation(player,math.pi*8,dt)
-	
 		physics:traps(player,dt)
 		physics:crates(player,dt)
 		physics:bumpers(player,dt)
@@ -406,7 +395,7 @@ function player:invincibility()
 	if not self.invincible then
 		sound:playbgm(9)
 		self.invincible = true
-		self.particles_invincible:start()
+		self.particles.invincible:start()
 	end
 
 	self.invincible_timer = 15
