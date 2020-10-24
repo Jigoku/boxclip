@@ -425,6 +425,7 @@ function player:drop()
 	
 		if self.candrop then
 			self.jumping = true
+			self.sliding = false
 
 			--fix this value to stop twitching
 			player.y = player.y + player.h/3
