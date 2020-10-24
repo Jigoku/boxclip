@@ -52,7 +52,7 @@ function spike.checkCollision(enemy, dt)
 	if mode == "game" and player.alive and collision:check(player.newX,player.newY,player.w,player.h,
 		enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
 		player.yvel = -player.yvel
-		player:die(enemy.group)
+		player:die(enemy.type)
 	end
 	
 end

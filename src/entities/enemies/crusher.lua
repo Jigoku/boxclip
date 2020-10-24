@@ -51,7 +51,7 @@ function crusher.checkCollision(entityCrusher, dt)
 		
 		if(entityCrusher.y < player.y and (player.x > entityCrusher.x and (player.x + player.w) < (entityCrusher.x + entityCrusher.w))) then
 			
-			player:die(entityCrusher.group)
+			player:die(entityCrusher.type)
 		
 		elseif (entityCrusher.y < player.y and (player.x<=entityCrusher.x or (player.x + player.w) >= (entityCrusher.x + entityCrusher.w))) then 
 			

@@ -57,7 +57,7 @@ function spikeball.checkCollision(enemy, dt)
 		
 		if not player.invincible then
 			player.yvel = -player.yvel
-			player:die(enemy.group)
+			player:die(enemy.type)
 		end
 	end
 	

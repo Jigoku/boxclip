@@ -76,7 +76,7 @@ function spike_timer.checkCollision(enemy, dt)
 		if enemy.y ~= enemy.yorigin+enemy.h then
 			-- only die when entity is active
 			player.yvel = -player.yvel
-			player:die(enemy.group)
+			player:die(enemy.type)
 		end
 	end
 
