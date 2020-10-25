@@ -1,6 +1,6 @@
 --[[
  * Copyright (C) 2015 - 2018 Ricky K. Thomson
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -12,7 +12,7 @@
  * u should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  --]]
- 
+
 traps = {}
 
 traps.textures = {
@@ -54,7 +54,7 @@ function traps:add(x,y,type)
 			score = 100,
 		})
 		print("trap added @  X:"..x.." Y: "..y)
-	
+
 		return
 	end
 
@@ -76,17 +76,17 @@ function traps:add(x,y,type)
 		yvel = 0,
 	})
 	print("trap added @  X:"..x.." Y: "..y)
-	
+
 end
 
 
 function traps:draw()
 	local count = 0
-	
+
 	for i, trap in ipairs(world.entities.trap) do
 		if world:inview(trap) and trap.active then
 			count = count +1
-					
+
 			love.graphics.setColor(1,1,1,1)
 
 			local texture = self.textures[trap.type]
@@ -119,10 +119,10 @@ end
 function traps:drawdebug(trap, i)
 	love.graphics.setColor(1,0,0.60,0.39)
 	love.graphics.rectangle(
-		"line", 
-		trap.x, 
-		trap.y, 
-		trap.w, 
+		"line",
+		trap.x,
+		trap.y,
+		trap.w,
 		trap.h
 	)
 

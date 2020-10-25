@@ -1,6 +1,6 @@
 --[[
  * Copyright (C) 2015 - 2018 Ricky K. Thomson
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -12,7 +12,7 @@
  * u should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  --]]
- 
+
 world = {}
 world.splash = {}
 
@@ -69,34 +69,34 @@ function world:settheme(theme)
 	--theme palettes for different level style
 	--intialize default fallbacks
 	love.filesystem.load( "themes/default.lua" )( )
-	
+
 	--set the desired theme name
 	world.theme = theme or "default"
 
 	--load the theme file
-	if love.filesystem.load( "themes/".. theme ..".lua" )( ) then 
+	if love.filesystem.load( "themes/".. theme ..".lua" )( ) then
 		console:print("failed to set theme:  " .. theme)
 	else
-	
-		--background	
+
+		--background
 		love.graphics.setBackgroundColor(0.3,0.3,0.3,1)
-		
+
 		--only set background image if it exists
 		if type(background) == "userdata" then
 			background:setWrap("repeat", "repeat")
 			background_quad = love.graphics.newQuad( 0,0, love.graphics.getWidth(),love.graphics.getHeight(), background:getDimensions() )
 		end
-	
+
 		console:print("set theme: " .. theme)
-		
+
 	end
-	
+
 end
 
 
 function world:setdefaults()
 	--defaults in case not specified in map file
-	
+
 	--default gravity
 	world.gravity = 2000
 
@@ -104,51 +104,51 @@ function world:setdefaults()
 	-- for remembering player.score and player.gems
 	world.score = 0
 	world.gems = 0
-	
+
 	--reset time
 	world.time = 0
-	
+
 	world.complete = false
-	
+
 	--default deadzone
 	-- anything falling past this point will land here
 	-- (used to stop entities being lost, eg; falling forever)
 	-- if it collides with gameworld, increase this value so it's below the furthest entity
-	world.deadzone = 2000 
-	
+	world.deadzone = 2000
+
 	--default theme/pallete
 	world:settheme("default")
-	
+
 	--default sound options
 	world.mapmusic = 0
 	world.mapambient = 0
-	
+
 	--default map title
 	world.maptitle = "unnamed map"
-	
+
 	--default map to load on finish
 	--either mapname.lua or title
 	world.nextmap = "title"
 end
 
 
-function world:init(gamemode) 
+function world:init(gamemode)
 	mode = gamemode
 	--console = false
 	editing = false
 	paused = false
-	
+
 	--world loading/splash/act display
 	if mode == "game" then
 		world:initsplash()
 	else
 		world.splash.active = false
 	end
-	
+
 	--collision counter (console/debug)
 	world.collision = 0
-	
-	player:init() 
+
+	player:init()
 	world:reset()
 	world:setdefaults()
 	mapio:loadmap(world.map)
@@ -160,15 +160,15 @@ function world:init(gamemode)
 			player.spawnX = portal.x
 			player.spawnY = portal.y
 		end
-	end	
-	
+	end
+
 	world:resetcamera()
 	world:savestate()
 
 	--enable cheats, if any
 	if cheats.catlife then player.lives = player.lives +  9 end
 	if cheats.millionare then player.score = player.score +  "1000000" end
-	
+
 	player:respawn()
 
 	console:print("initialized world")
@@ -179,11 +179,11 @@ end
 function world:drawparallax()
 
 	--TODO this still needs fixing
-	
+
 	if editing then return end
 	love.graphics.setColor(1,1,1,1)
 
-	
+
 	--paralax background sky
 	if type(background) == "userdata" then
 		love.graphics.draw(
@@ -198,16 +198,16 @@ function world:drawparallax()
 		platform_top_b/2,
 		1
 	)
-		
+
 	test_quad:setViewport(
 		(camera.x*2)/10*camera.scale,((camera.y*2)/40),love.graphics.getWidth(),love.graphics.getHeight()
 	)
 	love.graphics.draw(
 		test,
-		test_quad,				
+		test_quad,
 		0,0
 	)
-	
+
 	--middle layer
 	love.graphics.setColor(
 		platform_behind_r,
@@ -221,10 +221,10 @@ function world:drawparallax()
 	)
 	love.graphics.draw(
 		test2,
-		test_quad2,				
+		test_quad2,
 		0,0
 	)
-	
+
 	--front layer
 	love.graphics.setColor(
 		platform_top_r/1.5,
@@ -232,29 +232,29 @@ function world:drawparallax()
 		platform_top_b/1.5,
 		1
 	)
-		
+
 	test_quad3:setViewport(
 		(camera.x*4)/10*camera.scale,((camera.y*4)/30),love.graphics.getWidth(),love.graphics.getHeight()
 	)
 	love.graphics.draw(
 		test,
-		test_quad3,				
+		test_quad3,
 		0,0
 	)
 	--]]
-	
+
 
 end
 
 
 function world:draw()
-	
+
 
 	self:drawparallax()
-	
+
 	-- set camera for world
 	camera:attach()
-	
+
 	--[[ draw deadzone here
 		unimplemented
 	--]]
@@ -263,7 +263,7 @@ function world:draw()
 
 	decals:draw()
 	props:draw()
-	
+
 	platforms:draw()
 	springs:draw()
 	bumpers:draw()
@@ -277,36 +277,36 @@ function world:draw()
 	materials:draw()
 	tips:draw()
 
-	player:draw()	
-	
+	player:draw()
+
 	weather:draw()
-	
+
 	popups:draw()
 
 	camera:detach()
 
-	
+
 	if mode == "editing" then
 		editor:draw()
 	end
-	
+
 	camera:draw()
-	
+
 	--draw the hud/scoreboard
 	if mode =="game" then
-		
+
 		world:drawhud()
-		
-		if world.splash.opacity > 0 then 
+
+		if world.splash.opacity > 0 then
 			world:drawsplash()
 		end
 	end
-	
-	
+
+
 	if world.complete then
 		world:drawscoreboard()
 	end
-	
+
 	if paused then
 		love.graphics.setColor(0,0,0,0.6)
 		love.graphics.rectangle("fill",0,0,love.graphics.getWidth(),love.graphics.getHeight())
@@ -317,7 +317,7 @@ function world:draw()
 		love.graphics.line(love.graphics.getWidth()/2.5,love.graphics.getHeight()/3,love.graphics.getWidth()-love.graphics.getWidth()/2.5,love.graphics.getHeight()/3)
 		love.graphics.line(love.graphics.getWidth()/2.5,love.graphics.getHeight()/3+40,love.graphics.getWidth()-love.graphics.getWidth()/2.5,love.graphics.getHeight()/3+40)
 	end
-	
+
 
 end
 
@@ -325,14 +325,14 @@ end
 function world:drawsplash()
 	if debug then return end
 	-- textured background
-		love.graphics.setColor(0.2,0.2,0.2,world.splash.opacity)		
+		love.graphics.setColor(0.2,0.2,0.2,world.splash.opacity)
 		self.splash.quad = love.graphics.newQuad( 0,0, love.graphics.getWidth(),love.graphics.getHeight(), self.splash.bg:getDimensions() )
 		love.graphics.draw(self.splash.bg, self.splash.quad, 0, 0)
-	
+
 		--box
 		love.graphics.setColor(platform_r/2,platform_g/2,platform_b/2,world.splash.opacity)
 		love.graphics.rectangle("fill", 0,world.splash.box_y+love.graphics.getHeight()/2,love.graphics.getWidth(), world.splash.box_h )
-		
+
 		--text
 		love.graphics.setFont(fonts.huge)
 		love.graphics.setColor(1,1,1,world.splash.opacity)
@@ -343,34 +343,34 @@ end
 
 function world:drawscoreboard()
 	if debug then return end
-	
+
 	love.graphics.setCanvas(world.scoreboard.canvas)
 	love.graphics.clear()
-	
+
 	--frame
 	love.graphics.setColor(0,0,0,0.75)
 	love.graphics.rectangle("fill",0,0,world.scoreboard.canvas:getWidth(),world.scoreboard.canvas:getHeight(),10)
-	
+
 	--title
 	love.graphics.setFont(fonts.huge)
 	love.graphics.setColor(0.3,0.3,0.3,1)
 	love.graphics.rectangle("fill",world.scoreboard.padding,world.scoreboard.padding,world.scoreboard.canvas:getWidth()-world.scoreboard.padding*2,fonts.huge:getHeight(world.scoreboard.title)+world.scoreboard.padding*2,10)
 	love.graphics.setColor(1,1,1,1)
 	love.graphics.print(world.scoreboard.title, world.scoreboard.canvas:getWidth()/2-fonts.huge:getWidth(world.scoreboard.title)/2,world.scoreboard.padding*2)
-	
+
 	--love.graphics.setColor(0,255,0,255)
 	--love.graphics.setFont(fonts.large)
 	--love.graphics.print(world.scoreboard.status, world.scoreboard.canvas:getWidth()/2-fonts.large:getWidth(world.scoreboard.title)/2,30)
-	
+
 	--stats
 	love.graphics.setFont(fonts.large)
 	local y = 80
-	
+
 	love.graphics.setColor(0.8,0.8,0.8,1)
 	love.graphics.print("SCORE",world.scoreboard.padding*2,y)
 	love.graphics.setColor(0,1,0,1)
 	love.graphics.print(player.score,world.scoreboard.canvas:getWidth()/2,y)
-	
+
 	love.graphics.setColor(0.8,0.8,0.8,1)
 	love.graphics.print("TIME",world.scoreboard.padding*2,y+25)
 	love.graphics.setColor(0,1,0,1)
@@ -380,9 +380,9 @@ function world:drawscoreboard()
 	love.graphics.print("GEMS",world.scoreboard.padding*2,y+50)
 	love.graphics.setColor(0,1,0,1)
 	love.graphics.print(player.gems,world.scoreboard.canvas:getWidth()/2,y+50)
-	
+
 	love.graphics.setCanvas()
-	
+
 	--draw canvas
 	love.graphics.setColor(1,1,1,world.scoreboard.opacity)
 	love.graphics.draw(world.scoreboard.canvas,love.graphics.getWidth()/2-world.scoreboard.canvas:getWidth()/2, love.graphics.getHeight()/2-world.scoreboard.canvas:getHeight()/2)
@@ -392,7 +392,7 @@ end
 function world:drawhud()
 	if debug then world:debug() return end
 	love.graphics.setFont(fonts.hud)
-	
+
 	love.graphics.setColor(0,0,0,0.6)
 
 	love.graphics.printf("SCORE", 21,21,300,"left",0,1,1)
@@ -400,11 +400,11 @@ function world:drawhud()
 	love.graphics.printf("GEMS", 21,61,300,"left",0,1,1)
 	love.graphics.printf(player.score, 21,21,150,"right",0,1,1)
 	love.graphics.printf(world:formattime(world.time), 21,41,150,"right",0,1,1)
-	love.graphics.printf(player.gems, 21,61,150,"right",0,1,1)	
-	
+	love.graphics.printf(player.gems, 21,61,150,"right",0,1,1)
+
 	love.graphics.printf("x"..player.lives, 21,love.graphics.getHeight()-40+1,50,"right",0,1,1)
-	
-	
+
+
 	love.graphics.setColor(1,1,1,0.6)
 	love.graphics.printf("SCORE", 20,20,300,"left",0,1,1)
 	love.graphics.printf("TIME", 20,40,300,"left",0,1,1)
@@ -412,21 +412,21 @@ function world:drawhud()
 	love.graphics.printf(player.score, 20,20,150,"right",0,1,1)
 	love.graphics.printf(world:formattime(world.time), 20,40,150,"right",0,1,1)
 	love.graphics.printf(player.gems, 20,60,150,"right",0,1,1)
-	
+
 	love.graphics.printf("x"..player.lives, 20,love.graphics.getHeight()-40,50,"right",0,1,1)
 	love.graphics.setFont(fonts.hud)
-	
-	love.graphics.draw(pickups.textures[2],20,love.graphics.getHeight()-40,0,0.5,0.5)	
+
+	love.graphics.draw(pickups.textures[2],20,love.graphics.getHeight()-40,0,0.5,0.5)
 end
 
 function world:debug()
 	if debug then
 			-- this could be moved elsewhere on screen, as it's debug info (not console info)
 		if not (mode == "title") then
-		
+
 			love.graphics.setColor(0,0,0,0.8)
 			love.graphics.rectangle("fill",  20, love.graphics.getHeight()-100, 900, 90,5,5)
-			
+
 			--score etc
 			if mode == "game" then
 				love.graphics.setColor(1,1,1,1)
@@ -434,24 +434,24 @@ function world:debug()
 					"[lives: " .. player.lives .. "]"..
 					"[score: " .. player.score .. "]"..
 					"[time: " .. world:formattime(world.time) .. "]"..
-					"[alive: "..(player.alive and 1 or 0).."]", 
+					"[alive: "..(player.alive and 1 or 0).."]",
 					20, love.graphics.getHeight()-100
 				)
 			end
-		
+
 			love.graphics.setColor(1,1,1,1)
 			love.graphics.print(
-				"X: " .. math.round(player.x) .. 
-				" | Y: " .. math.round(player.y) .. 
-				" | dir: " .. player.dir .. 
-				" | xvel: " .. math.round(player.xvel) .. 
-				" | yvel: " .. math.round(player.yvel) .. 
+				"X: " .. math.round(player.x) ..
+				" | Y: " .. math.round(player.y) ..
+				" | dir: " .. player.dir ..
+				" | xvel: " .. math.round(player.xvel) ..
+				" | yvel: " .. math.round(player.yvel) ..
 				" | jumping: " .. (player.jumping and 1 or 0) ..
 				" | sliding: " .. (player.sliding and 1 or 0) ..
-				" | camera.scale: " .. camera.scale, 
+				" | camera.scale: " .. camera.scale,
 				20, love.graphics.getHeight()-75
 			)
-		
+
 
 			love.graphics.setColor(1,0.4,1,1)
 			love.graphics.print(
@@ -468,20 +468,20 @@ function world:debug()
 				" | bumpers: " .. #world.entities.bumper .. "("..world.bumpers .. ")" ..
 				" | traps: " .. #world.entities.trap .. "(" .. world.traps .. ")" ..
 				" | tips: " .. #world.entities.tip .. "(" .. world.tips .. ")" ..
-				" | total: " .. world:totalents() .. "(" .. world:totalentsdrawn() .. ")" .. 
+				" | total: " .. world:totalents() .. "(" .. world:totalentsdrawn() .. ")" ..
 				" | ccpf: " .. world.collision,
 				20, love.graphics.getHeight()-50
 			)
 		end
-		
+
 	end
-	
+
 	if fps then
 		--fps info etc
 		love.graphics.setFont(fonts.fps)
 		love.graphics.setColor(0,0,0,0.7)
 		love.graphics.rectangle("fill",love.graphics.getWidth()-160, 5,150,105,10)
-		
+
 		love.graphics.setColor(0.5,1,1,1)
 		love.graphics.print(
 			"fps  : " .. love.timer.getFPS() .. "\n" ..
@@ -492,7 +492,7 @@ function world:debug()
 			"dtime: " .. math.round(game.dtick_time,1) .. "ms",
 			love.graphics.getWidth()-155, 10
 		)
-		
+
 	end
 end
 
@@ -500,18 +500,18 @@ end
 function world:timer(dt)
 	if not world.complete then
 		--update the world time
-		world.time = world.time + 1 *dt	
+		world.time = world.time + 1 *dt
 	end
 end
 
 
 function world:formattime(n)
-	return  
-		string.format("%02d",n / 60 % 60) .. ":" .. 
+	return
+		string.format("%02d",n / 60 % 60) .. ":" ..
 		string.format("%02d",n % 60)
 end
 
-	
+
 function world:reset()
 	--clear all entities from the world
 	--reinitialise default tables
@@ -557,11 +557,11 @@ function world:totalentsdrawn()
 end
 
 
-function world:inview(entity) 
+function world:inview(entity)
 	local x,y = camera:toWorldCoords(entity.x,entity.y)
-	
+
 	if entity.swing then
-		if (camera.x + love.graphics.getWidth()/2/camera.scale > entity.xorigin-entity.radius) 
+		if (camera.x + love.graphics.getWidth()/2/camera.scale > entity.xorigin-entity.radius)
 		and (camera.x - love.graphics.getWidth()/2/camera.scale < entity.xorigin+entity.w+entity.radius)
 		and (camera.y + love.graphics.getHeight()/2/camera.scale > entity.yorigin-entity.radius)
 		and (camera.y - love.graphics.getHeight()/2/camera.scale < entity.yorigin+entity.h+entity.radius)
@@ -570,10 +570,10 @@ function world:inview(entity)
 			return true
 		end
 	else
-	
+
 		--decides if the entity is visible to the camera
-				
-		if (camera.x + (love.graphics.getWidth()/2/camera.scale) > entity.x ) 
+
+		if (camera.x + (love.graphics.getWidth()/2/camera.scale) > entity.x )
 		and (camera.x - (love.graphics.getWidth()/2/camera.scale) < entity.x+entity.w)
 		and (camera.y + (love.graphics.getHeight()/2/camera.scale) > entity.y)
 		and (camera.y - (love.graphics.getHeight()/2/camera.scale) < entity.y+entity.h)
@@ -588,7 +588,7 @@ end
 
 function world:update(dt)
 
-	if not paused then 
+	if not paused then
 		camera:update(dt)
 		weather:update(dt)
 		physics:world(dt)
@@ -605,7 +605,7 @@ function world:update(dt)
 		bumpers:update(dt)
 		enemies:update(dt)
 		tips:update(dt)
-		
+
 		world.collision = 0
 
 		-- camera follows player
@@ -627,9 +627,9 @@ function world:update(dt)
 
 		if mode == "game"  then
 			--trigger world splash/act display
-			if world.splash.opacity > 0 then 
+			if world.splash.opacity > 0 then
 				world.splash.timer = math.max(0, world.splash.timer - dt)
-		
+
 				if world.splash.timer <= 0 then
 					world.splash.timer = 0
 					world.splash.active = false
@@ -637,9 +637,9 @@ function world:update(dt)
 					world.splash.text_y = world.splash.text_y + world.splash.fadespeed *dt
 					world.splash.box_y = world.splash.box_y + world.splash.fadespeed*500 *dt
 				end
-				return 
+				return
 			end
-		
+
 			--end of level (show scoreboard)
 			if world.complete then
 				world.scoreboard.opacity = math.min(1, world.scoreboard.opacity+world.scoreboard.fadespeed*dt)
@@ -657,10 +657,10 @@ function world:update(dt)
 					end
 				end
 			end
-		
+
 		end
 		world:timer(dt)
-	
+
 	end
 end
 

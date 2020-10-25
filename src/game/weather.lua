@@ -1,6 +1,6 @@
 --[[
  * Copyright (C) 2015 - 2018 Ricky K. Thomson
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -12,7 +12,7 @@
  * u should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  --]]
- 
+
 weather = {}
 weather.particles = {}
 weather.maxparticles = 300
@@ -40,21 +40,21 @@ end
 
 
 function weather:update(dt)
-	if editing then 
+	if editing then
 		weather.particles = {}
-		return 
+		return
 	end
-	
+
 	weather:populate()
 
 	if world.theme == "frost" then
 
 		while #self.particles < self.maxparticles do
-	
+
 			local x,y
 			local rand = love.math.random(1,4)
 			--top
-			if rand == 1 then 
+			if rand == 1 then
 				x = love.math.random(camera.x-love.graphics.getWidth()/2/camera.scale,camera.x+love.graphics.getWidth()/2/camera.scale)
 				y = camera.y-love.graphics.getHeight()/2/camera.scale
 			--right
@@ -70,7 +70,7 @@ function weather:update(dt)
 				x = camera.x-love.graphics.getWidth()/2/camera.scale
 				y = love.math.random(camera.y-love.graphics.getHeight()/2/camera.scale,camera.y+love.graphics.getHeight()/2/camera.scale)
 			end
-	
+
 
 			table.insert(self.particles,{
 				x = x,
@@ -85,27 +85,27 @@ function weather:update(dt)
 				xvel = love.math.random(0,-50)
 			})
 		end
-	
+
 
 		for i,snow in ipairs(self.particles) do
 			snow.y = snow.y + snow.yvel * dt
 			snow.x = snow.x + snow.xvel * dt
-		
+
 			snow.y = snow.y + player.yvel/10 * dt
 			snow.x = snow.x - player.xvel/10 * dt
 
 			snow.o = snow.o - 0.075 *dt
-			
-					
-			if snow.y > camera.y+love.graphics.getHeight()/2/camera.scale 
-			or snow.y < camera.y-love.graphics.getHeight()/2/camera.scale 
+
+
+			if snow.y > camera.y+love.graphics.getHeight()/2/camera.scale
+			or snow.y < camera.y-love.graphics.getHeight()/2/camera.scale
 			or snow.x > camera.x+love.graphics.getWidth()/2/camera.scale
-			or snow.x < camera.x-love.graphics.getWidth()/2/camera.scale 
-			or snow.o < 0 then table.remove(self.particles,i) 
+			or snow.x < camera.x-love.graphics.getWidth()/2/camera.scale
+			or snow.o < 0 then table.remove(self.particles,i)
 			end
 		end
 	else
-		self.particles = {}	
+		self.particles = {}
 	end
 end
 
@@ -113,7 +113,7 @@ end
 
 function weather:draw()
 	if editing then return end
-	
+
 	if world.theme == "frost" then
 		for i,particle in ipairs(self.particles) do
 			love.graphics.setColor(particle.r,particle.g,particle.b,particle.o)

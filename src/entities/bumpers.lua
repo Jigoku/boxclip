@@ -1,6 +1,6 @@
 --[[
  * Copyright (C) 2015 - 2018 Ricky K. Thomson
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -25,7 +25,7 @@ table.insert(editor.entities, {"bumper", "bumper"})
 
 function bumpers:add(x,y)
 
-	table.insert(world.entities.bumper, {		
+	table.insert(world.entities.bumper, {
 		--position
 		x = x or 0,
 		y = y or 0,
@@ -38,14 +38,14 @@ function bumpers:add(x,y)
 		force = 1000,
 		group = "bumper",
 		scale = 1,
-		
+
 	})
 
 end
 
 
 function bumpers:update(dt)
-	for i, bumper in ipairs(world.entities.bumper) do		
+	for i, bumper in ipairs(world.entities.bumper) do
 		if bumper.scale > 1 then
 			bumper.scale = bumper.scale - bumpers.scalespeed *dt
 			if bumper.scale <= 1 then
@@ -70,15 +70,15 @@ function bumpers:draw()
 
 			if bumper.scale > 1 then
 			love.graphics.draw(
-				bumper.texture, bumper.x+ox+love.math.random(-5,5), bumper.y+oy+love.math.random(-5,5), 0, 
+				bumper.texture, bumper.x+ox+love.math.random(-5,5), bumper.y+oy+love.math.random(-5,5), 0,
 				bumper.scale, bumper.scale,
-				ox,oy	
+				ox,oy
 			)
 			else
 			love.graphics.draw(
-				bumper.texture, bumper.x+ox, bumper.y+oy, 0, 
+				bumper.texture, bumper.x+ox, bumper.y+oy, 0,
 				bumper.scale, bumper.scale,
-				ox,oy	
+				ox,oy
 			)
 			end
 

@@ -74,7 +74,7 @@ function get_cpuusage()
 	if love.system.getOS() == "Linux" then
 		local handle = io.popen("ps -p $(pidof love) -o %cpu | tail -n1 | tr -d '\n'")
 		local result = handle:read("*a")
-		handle:close()	
+		handle:close()
 		return result
 	end
 end
