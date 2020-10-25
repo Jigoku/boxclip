@@ -26,25 +26,25 @@ end
 
 function love.mousemoved(x,y,dx,dy)
 	-- Mouse input is only used whilst in the editor 
-	if mode == "editing" then editor:mousemoved(x,y,dx,dy) end
+	if mode == "editing" then editorMouse:mousemoved(x,y,dx,dy) end
 end
 
 
 function love.mousepressed(x, y, button)
 	-- Mouse input is only used whilst in the editor 
-	if mode == "editing" then editor:mousepressed(x,y,button) end
+	if mode == "editing" then editorMouse:mousepressed(x,y,button) end
 end
 
 
 function love.mousereleased(x, y, button)
 	-- Mouse input is only used whilst in the editor 
-	if mode == "editing" then editor:mousereleased(x,y,button) end
+	if mode == "editing" then editorMouse:mousereleased(x,y,button) end
 end
 
 
 function love.wheelmoved(x, y)
 	-- Mouse input is only used whilst in the editor 
-	if mode == "editing" then editor:wheelmoved(x,y) end
+	if mode == "editing" then editorMouse:wheelmoved(x,y) end
 end
 
 

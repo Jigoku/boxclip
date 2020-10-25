@@ -26,6 +26,7 @@ for i, file in ipairs(files) do
 	if info.type == "file" and file ~= "init.lua" then
 		local m = file:match("(.+)%.lua")
 		print(i .. ". " .. path .. m)
+		
 		require(path .. m)
 	end
 	
