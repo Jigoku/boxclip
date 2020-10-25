@@ -29,6 +29,7 @@ editor.mouse = {
 	y = 0,
 	pressed  = { x=0, y=0 },
 	released = { x=0, y=0 },
+	old_pos  = { x=0, y=0 },
 	
 	--cursor drawing
 	hotspotx = 6, --hotspot offset for image
@@ -36,6 +37,10 @@ editor.mouse = {
 	cursors = textures:load("data/images/editor/cursor/"),
 	cur = 1, --default cursor
 }
+
+-- Editor selection save
+editor.is_selected = false 
+editor.entity_selected = {}
 
 --editor settings
 editor.entdir = 0				--rotation placement 0,1,2,3 = up,right,down,left
@@ -356,6 +361,10 @@ function editor:clearsel()
 			e.selected = false
 		end
 	end
+	
+	self.is_selected = false
+	self.entity_selected = {}
+	
 end
 
 function editor:keypressed(key)
@@ -417,7 +426,41 @@ function editor:keypressed(key)
 	
 	
 		if key == self.binds.themecycle then self:settheme() end
-	
+		
+		
+		if (self.is_selected ==true ) then
+			if love.keyboard.isDown(self.binds.moveup) then 
+				--weird bug, needs to be "11" to actually save to proper position?
+				--maybe it's being rounded down? So that expected "10" becomes "9" ?
+				
+				self.entity_selected.y = math.round(self.entity_selected.y - 11,-1) --up
+				self.mouse.y = self.mouse.y -10
+				
+				if(self.entity_selected.yorigin~=nil) then self.entity_selected.yorigin = self.entity_selected.yorigin - 10 end 
+			end
+			if love.keyboard.isDown(self.binds.movedown) then 
+				self.entity_selected.y = math.round(self.entity_selected.y + 10,-1) --down
+				if(self.entity_selected.yorigin~=nil) then self.entity_selected.yorigin = self.entity_selected.yorigin + 10 end
+				
+				self.mouse.y = self.mouse.y +10
+			end 
+			if love.keyboard.isDown(self.binds.moveleft) then 
+				self.entity_selected.x = math.round(self.entity_selected.x - 10,-1) --left
+				self.entity_selected.xorigin = self.entity_selected.x
+				self.mouse.x = self.mouse.x -10
+			end 
+			if love.keyboard.isDown(self.binds.moveright) then 
+				self.entity_selected.x = math.round(self.entity_selected.x + 10,-1)  --right
+				self.entity_selected.xorigin = self.entity_selected.x
+				self.mouse.x = self.mouse.x+10
+			end
+
+			return true
+			
+		end
+		
+		--[[
+		
 		for _, i in ipairs(self.entorder) do	
 			for _,e in ipairs(world.entities[i]) do
 				--fix this for moving platform (yorigin,xorigin etc)
@@ -428,7 +471,6 @@ function editor:keypressed(key)
 						
 						e.y = math.round(e.y - 11,-1) --up
 						self.mouse.y = self.mouse.y -10
-						
 						if(e.yorigin~=nil) then e.yorigin = e.yorigin - 10 end 
 					end
 					if love.keyboard.isDown(self.binds.movedown) then 
@@ -453,6 +495,7 @@ function editor:keypressed(key)
 				end
 			end
 		end
+		--]]
 		
 	end
 end
@@ -560,7 +603,7 @@ function editor:mousepressed(x,y,button)
 	local x = self.mouse.pressed.x
 	local y = self.mouse.pressed.y
 	
-	if button == 1 then
+	if (button == 1 and self.is_selected == false ) then
 		local selection = self.entities[self.entsel][1]
 		-- TODO should be moved to entities/init.lua as function
 		
@@ -614,7 +657,7 @@ function editor:mousepressed(x,y,button)
 		-- this should be moved outside of platforms.lua eventually
 		if selection == "platform_s" then platforms:add(x,y,0,20,false,false,false,1.5,0,true,0,self.texturesel) end
 		
-	elseif button == 2 then
+	elseif button == 2  then
 		self:remove()
 	end
 end
@@ -1155,7 +1198,8 @@ function editor:selection()
 							h = e.h 
 						}
 						e.selected = true
-						
+						self.is_selected = true
+						self.entity_selected = e
 					end
 				elseif e.movey then
 					--collision area for moving entity
@@ -1167,7 +1211,8 @@ function editor:selection()
 							h = e.h + e.movedist 
 						}
 						e.selected = true
-					
+						self.is_selected = true
+						self.entity_selected = e
 					end
 				elseif e.swing then
 					--collision area for swinging entity
@@ -1181,7 +1226,8 @@ function editor:selection()
 							h = chainlink.textures["origin"]:getHeight()
 						}
 						e.selected = true
-					
+						self.is_selected = true
+						self.entity_selected = e
 					end
 				elseif collision:check(self.mouse.x,self.mouse.y,1,1,e.x,e.y,e.w,e.h) then
 					--collision area for static entities
@@ -1192,7 +1238,8 @@ function editor:selection()
 						h = e.h 
 					} 
 					e.selected = true
-
+					self.is_selected = true
+					self.entity_selected = e
 				else
 					self.selbox = nil
 					editor.selname = "null"
@@ -1250,6 +1297,10 @@ function editor:remove()
 				console:print( e.group .. " (" .. n .. ") removed" )
 				self.selbox = nil
 				should_break = true
+				
+				self.is_selected = false
+				self.entity_selected = {}
+				
 				break
 			end
 		end
@@ -1267,6 +1318,9 @@ function editor:flip()
 				console:print( e.group .. " (" .. n .. ") flipped" )
 				e.selected = false
 				should_break = true
+				
+				self.is_selected = false
+				self.entity_selected = {}
 				break
 			end
 		end
@@ -1299,6 +1353,9 @@ function editor:rotate(dy)
 				console:print( e.group .. " (" .. n .. ") rotated, direction = "..e.dir)
 				e.selected = false
 				should_break = true
+				
+				self.is_selected = false
+				self.entity_selected = {}
 				break
 
 			end
@@ -1489,14 +1546,35 @@ function editor:drawinfo(x,y)
 end
 
 
+function editor:mouse_move_entity()
+	
+	local x_move = self.mouse.x - self.mouse.old_pos.x
+	local y_move = self.mouse.y - self.mouse.old_pos.y
+	
+	console:print(editor.mouse.x .. " - " .. editor.mouse.y) 
+	
+	self.entity_selected.x = self.entity_selected.x + x_move 
+	if(self.entity_selected.xorigin~=nil) then self.entity_selected.xorigin = self.entity_selected.xorigin + x_move  end
+	
+	self.entity_selected.y = self.entity_selected.y + y_move
+	if(self.entity_selected.yorigin~=nil) then self.entity_selected.yorigin = self.entity_selected.yorigin + y_move end 
+	
+end
+
 function editor:mousemoved(x,y,dx,dy)
 	if not editing then return end
+	
+	self.mouse.old_pos.x = self.mouse.x
+	self.mouse.old_pos.y = self.mouse.y 
 	
 	self.mouse.x = math.round(camera.x-(love.graphics.getWidth()/2/camera.scale)+x/camera.scale,-1)
 	self.mouse.y = math.round(camera.y-(love.graphics.getHeight()/2/camera.scale)+y/camera.scale,-1)
 	
 	if love.mouse.isDown(1) then
 		editor.drawsel = true
+		if (self.is_selected ) then
+			self:mouse_move_entity()
+		end
 	else
 		editor.drawsel = false
 	end

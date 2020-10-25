@@ -67,12 +67,22 @@ end
 
 function physics:applyGravity(object, dt)
 	--simulate gravity
+	if object.selected and editor.drawsel ==false then return false end
+	
 	object.yvel = object.yvel - (world.gravity *dt)
 	object.newY = object.y - (object.yvel *dt)
+	
+	if object.selected and editor.drawsel==true then 
+		object.newY = object.y
+	else 
+		object.newY = object.y - (object.yvel *dt)
+	end
 end
 
 
 function physics:applyRotation(object,n,dt)
+	
+	
 	if object.jumping then
 		object.angle = object.angle + dt * n
 		object.angle = object.angle % (2*math.pi)
@@ -107,8 +117,8 @@ end
 
 
 function physics:movex(object, dt)
-	if object.selected then return false end
-
+	if object.selected and editor.drawsel ==false then return false end
+	
 	-- traverse x-axis
 	object.newX = object.x 
 		
@@ -123,15 +133,19 @@ function physics:movex(object, dt)
 		object.movespeed = -object.movespeed
 		object.dir = 1
 	end
-		
-	object.newX = object.x + object.movespeed *dt
+	
+	if object.selected and editor.drawsel==true then 
+		object.newX = object.x
+	else 
+		object.newX = object.x + object.movespeed *dt
+	end
 	
 end
 
 
 function physics:movey(object, dt)
 	-- Stop the movement on mouseover
-	if object.selected then return false end
+	if object.selected and editor.drawsel ==false then return false end
 
 	--traverse y-axis
 	object.newY = object.y 
@@ -144,13 +158,18 @@ function physics:movey(object, dt)
 		object.y = object.yorigin
 		object.movespeed = -object.movespeed
 	end
-	object.newY = object.y + object.movespeed *dt
+	
+	if object.selected and editor.drawsel==true then 
+		object.newY = object.y
+	else 
+		object.newY = object.y + object.movespeed *dt
+	end
 	
 end
 
 function physics:crusher_movey(object, dt)
 	-- Stop the movement on mouseover
-	if object.selected then return false end
+	if object.selected and editor.drawsel ==false then return false end
 
 	--traverse y-axis
 	object.newY = object.y 
@@ -170,7 +189,13 @@ function physics:crusher_movey(object, dt)
 		mv_speed = object.movespeed / 3
 	end
 	
-	object.newY = object.y + mv_speed * dt
+	if object.selected and editor.drawsel==true then 
+		object.newY = object.y
+	else 
+		object.newY = object.y + mv_speed * dt
+	end
+	
+	
 	
 end
 
