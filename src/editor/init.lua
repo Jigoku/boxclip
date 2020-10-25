@@ -253,7 +253,7 @@ editor.help = {
 function editor:showtexmenu(textures)
 	--make the texture browser display visible
 	self.texlist = textures
-	self.texmenutimer = editor.texmenuduration
+	self.texmenutimer = self.texmenuduration
 	self.texmenuopacity = 1
 end
 
@@ -261,13 +261,13 @@ end
 function editor:showmusicmenu()
 	--make the music menu display visible
 	self.musicmenuopacity = 1
-	self.musicmenutimer = editor.musicmenuduration
+	self.musicmenutimer = self.musicmenuduration
 end
 
 
 function editor:settexture(dy)
 
-	if editor.selname == "platform" then
+	if self.selname == "platform" then
 		--update the texture value
 		for _,platform in ripairs(world.entities.platform) do
 			if platform.selected then
@@ -279,7 +279,7 @@ function editor:settexture(dy)
 			end
 		end
 
-	elseif editor.selname == "decal" then
+	elseif self.selname == "decal" then
 
 		for _,decal in ripairs(world.entities.decal) do
 			if decal.selected then
@@ -300,7 +300,7 @@ end
 
 function editor:update(dt)
 	--update world before anything else
-	if editor.paused then
+	if self.paused then
 		--only update these when paused
 		camera:update(dt)
 		player:update(dt)
@@ -581,7 +581,7 @@ function editor:wheelmoved(dx, dy)
 		self:rotate(dy)
 	else
 		--entmenu selection
-		editor.entsel = math.max(1,math.min(#editor.entities,editor.entsel - dy))
+		self.entsel = math.max(1,math.min(#self.entities,self.entsel - dy))
 
 	end
 end
@@ -674,7 +674,7 @@ function editor:mousereleased(x,y,button)
 	--self.mouse.released.x = math.round(self.mouse.released.x,-1)
 	--self.mouse.released.y = math.round(self.mouse.released.y,-1)
 
-	editor.drawsel = false
+	self.drawsel = false
 
 	if button == 1 then
 		for _,entity in pairs(self.draggable) do
@@ -1179,8 +1179,8 @@ function editor:selection()
 		for n,e in ripairs(world.entities[i]) do
 			if break_entities then break end
 			if world:inview(e) then
-				editor.selname = (e.type or e.group)
-				editor.id = n
+				self.selname = (e.type or e.group)
+				self.id = n
 
 				if e.movex then
 					--collision area for moving entity
@@ -1236,7 +1236,7 @@ function editor:selection()
 					self.entity_selected = e
 				else
 					self.selbox = nil
-					editor.selname = "null"
+					self.selname = "null"
 				end
 
 
@@ -1517,7 +1517,7 @@ end
 
 
 function editor:drawinfo(x,y)
-	if editor.showinfo then
+	if self.showinfo then
 		love.graphics.setFont(fonts.console)
 
 		for _, t in pairs(world.entities) do
@@ -1545,7 +1545,7 @@ function editor:mouse_move_entity()
 	local x_move = self.mouse.x - self.mouse.old_pos.x
 	local y_move = self.mouse.y - self.mouse.old_pos.y
 
-	console:print(editor.mouse.x .. " - " .. editor.mouse.y)
+	console:print(self.mouse.x .. " - " .. self.mouse.y)
 
 	self.entity_selected.x = self.entity_selected.x + x_move
 	if(self.entity_selected.xorigin~=nil) then self.entity_selected.xorigin = self.entity_selected.xorigin + x_move  end
@@ -1565,12 +1565,12 @@ function editor:mousemoved(x,y,dx,dy)
 	self.mouse.y = math.round(camera.y-(love.graphics.getHeight()/2/camera.scale)+y/camera.scale,-1)
 
 	if love.mouse.isDown(1) then
-		editor.drawsel = true
-		if (self.is_selected ) then
+		self.drawsel = true
+		if self.is_selected then
 			self:mouse_move_entity()
 		end
 	else
-		editor.drawsel = false
+		self.drawsel = false
 	end
 
 end
