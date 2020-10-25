@@ -471,7 +471,6 @@ function editor:keypressed(key)
 						
 						e.y = math.round(e.y - 11,-1) --up
 						self.mouse.y = self.mouse.y -10
-						
 						if(e.yorigin~=nil) then e.yorigin = e.yorigin - 10 end 
 					end
 					if love.keyboard.isDown(self.binds.movedown) then 
