@@ -1166,13 +1166,7 @@ function editor:selection()
 	-- no need to find a selection if we are placing a new entity
 	if self.placing then return end
 	
-	-- selects the entity when mouseover 	
-	for _, i in ipairs(self.entorder) do
-		for n,e in ipairs(world.entities[i]) do
-			--deselect all entities before continuing
-			e.selected = false
-		end
-	end
+	self:clearsel()
 	
 	-- this let's us break nested loops below
 	-- and not have multiple entities selected, resulting in a crash
