@@ -107,8 +107,8 @@ end
 
 
 function physics:movex(object, dt)
-	if object.selected then return false end
-
+	if object.selected and editor.drawsel ==false then return false end
+	
 	-- traverse x-axis
 	object.newX = object.x 
 		
@@ -123,15 +123,20 @@ function physics:movex(object, dt)
 		object.movespeed = -object.movespeed
 		object.dir = 1
 	end
-		
-	object.newX = object.x + object.movespeed *dt
+	
+	if object.selected and editor.drawsel==true then 
+		object.newX = object.x
+	else 
+		object.newX = object.x + object.movespeed *dt
+	end
+	
 	
 end
 
 
 function physics:movey(object, dt)
 	-- Stop the movement on mouseover
-	if object.selected then return false end
+	if object.selected and editor.drawsel ==false then return false end
 
 	--traverse y-axis
 	object.newY = object.y 
@@ -144,7 +149,12 @@ function physics:movey(object, dt)
 		object.y = object.yorigin
 		object.movespeed = -object.movespeed
 	end
-	object.newY = object.y + object.movespeed *dt
+	
+	if object.selected and editor.drawsel==true then 
+		object.newY = object.y
+	else 
+		object.newY = object.y + object.movespeed *dt
+	end
 	
 end
 

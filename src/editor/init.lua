@@ -299,6 +299,24 @@ function editor:keypressed(key)
 	end
 end
 
+function editor.mouseMoveEntity()
+
+	console:print("move entity mouse");
+
+	local x_move = editorMouse.mouse.x - editorMouse.mouse.old_pos.x
+	local y_move = editorMouse.mouse.y - editorMouse.mouse.old_pos.y
+	
+	console:print( "posizione x:"..editor.entitySelected.x.." movimento mouse: " .. x_move );
+	
+	editor.entitySelected.x = editor.entitySelected.x + x_move 
+	editor.entitySelected.xorigin = editor.entitySelected.xorigin + x_move 
+
+	editor.entitySelected.y = editor.entitySelected.y + y_move
+	if(editor.entitySelected.yorigin~=nil) then editor.entitySelected.yorigin = editor.entitySelected.yorigin + y_move end 
+	
+end
+
+
 
 function editor:checkkeys(dt)
 	if console.active then return end

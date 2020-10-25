@@ -161,18 +161,11 @@ function editorMouse:mousemoved(x,y,dx,dy)
 		editor.drawsel = true 
 		console:print("Mouse move from (" .. self.mouse.old_pos.x .. "," .. self.mouse.old_pos.y  ..") to (" .. self.mouse.x .. "," .. self.mouse.y  ..")")
 		
+		
+		
 		if (editor.isSelected ) then
+			editor.mouseMoveEntity()
 			
-			console:print("move entity mouse");
-			
-			local x_move = editorMouse.mouse.x - editorMouse.mouse.old_pos.x
-			local y_move = editorMouse.mouse.y - editorMouse.mouse.old_pos.y
-			
-			editor.entitySelected.x = math.round(editor.entitySelected.x + x_move,-1)
-			editor.entitySelected.xorigin = editor.entitySelected.x
-			
-			editor.entitySelected.y = math.round(editor.entitySelected.y + y_move,-1) --up
-			if(editor.entitySelected.yorigin~=nil) then editor.entitySelected.yorigin = editor.entitySelected.yorigin + y_move end 
 			
 		end
 	else
