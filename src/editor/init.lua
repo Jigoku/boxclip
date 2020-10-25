@@ -666,7 +666,6 @@ function editor:mousereleased(x,y,button)
 				end
 			end
 
-			-- this should be moved outside of platforms.lua eventually
 			if selection == "platform_s" then platforms:add(self.mouse.released.x,self.mouse.released.y,0,20,false,false,false,1.5,0,true,0,self.texturesel) end
 
 			return true

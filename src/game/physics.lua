@@ -471,7 +471,9 @@ function physics:traps(object, dt)
 							self:bounce(object)
 						end
 
-						object.yvel = 0
+						if not object.group == "pickups" then
+							object.yvel = 0
+						end
 
 						-- only player can make logs fall
 						if object.group == "players" then
