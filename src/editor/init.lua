@@ -407,7 +407,7 @@ function editor:keypressed(key)
 	end
 end
 
-function editor.mouseMoveEntity()
+function editor:mouseMoveEntity()
 
 	console:print("move entity mouse");
 
