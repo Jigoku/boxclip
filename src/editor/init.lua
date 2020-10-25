@@ -157,6 +157,10 @@ function editor:clearsel()
 			e.selected = false
 		end
 	end
+	
+	editor.isSelected = false
+	editor.entitySelected = {}
+	
 end
 
 function editor:keypressed(key)
@@ -218,7 +222,42 @@ function editor:keypressed(key)
 	
 	
 		if key == self.binds.themecycle then self:settheme() end
-	
+		
+		
+		if(editor.isSelected and editor.drawsel==false) then 
+			console:print("move entity keyboard");
+			if love.keyboard.isDown(self.binds.moveup) then 
+				--weird bug, needs to be "11" to actually save to proper position?
+				--maybe it's being rounded down? So that expected "10" becomes "9" ?
+				
+				editor.entitySelected.y = math.round(editor.entitySelected.y - 11,-1) --up
+				editorMouse.mouse.y = editorMouse.mouse.y -10
+				if(editor.entitySelected.yorigin~=nil) then editor.entitySelected.yorigin = editor.entitySelected.yorigin - 10 end 
+			end 
+			
+			if love.keyboard.isDown(self.binds.movedown) then 
+				editor.entitySelected.y = math.round(editor.entitySelected.y + 10,-1) --down
+				if(editor.entitySelected.yorigin~=nil) then editor.entitySelected.yorigin = editor.entitySelected.yorigin + 10 end
+				editorMouse.mouse.y = editorMouse.mouse.y +10
+			end 
+			
+			if love.keyboard.isDown(self.binds.moveleft) then 
+				editor.entitySelected.x = math.round(editor.entitySelected.x - 10,-1) --left
+				editor.entitySelected.xorigin = editor.entitySelected.x
+				editorMouse.mouse.x = editorMouse.mouse.x -10
+			end 
+			
+			if love.keyboard.isDown(self.binds.moveright) then 
+				editor.entitySelected.x = math.round(editor.entitySelected.x + 10,-1)  --right
+				editor.entitySelected.xorigin = editor.entitySelected.x
+				editorMouse.mouse.x = editorMouse.mouse.x+10
+			end
+
+			return true
+		
+		end
+		
+		--[[
 		for _, i in ipairs(self.entorder) do	
 			for _,e in ipairs(world.entities[i]) do
 				--fix this for moving platform (yorigin,xorigin etc)
@@ -254,6 +293,8 @@ function editor:keypressed(key)
 				end
 			end
 		end
+		--]]
+		
 		
 	end
 end
@@ -746,6 +787,9 @@ function editor:selection()
 	-- no need to find a selection if we are placing a new entity
 	if self.placing then return end
 	
+	editor.isSelected = false 
+	editor.entitySelected = {}
+	
 	-- selects the entity when mouseover 	
 	for _, i in ipairs(self.entorder) do
 		for n,e in ipairs(world.entities[i]) do
@@ -778,6 +822,8 @@ function editor:selection()
 							h = e.h 
 						}
 						e.selected = true
+						editor.isSelected = true
+						editor.entitySelected = e
 						
 					end
 				elseif e.movey then
@@ -790,6 +836,8 @@ function editor:selection()
 							h = e.h + e.movedist 
 						}
 						e.selected = true
+						editor.isSelected = true
+						editor.entitySelected = e
 					
 					end
 				elseif e.swing then
@@ -804,6 +852,8 @@ function editor:selection()
 							h = chainlink.textures["origin"]:getHeight()
 						}
 						e.selected = true
+						editor.isSelected = true
+						editor.entitySelected = e
 					
 					end
 				elseif collision:check(editorMouse.mouse.x,editorMouse.mouse.y,1,1,e.x,e.y,e.w,e.h) then
@@ -815,6 +865,8 @@ function editor:selection()
 						h = e.h 
 					} 
 					e.selected = true
+					editor.isSelected = true
+					editor.entitySelected = e
 
 				else
 					self.selbox = nil
@@ -873,6 +925,10 @@ function editor:remove()
 				console:print( e.group .. " (" .. n .. ") removed" )
 				self.selbox = nil
 				should_break = true
+				
+				editor.isSelected = false
+				editor.entitySelected = {}
+				
 				break
 			end
 		end
@@ -890,6 +946,9 @@ function editor:flip()
 				console:print( e.group .. " (" .. n .. ") flipped" )
 				e.selected = false
 				should_break = true
+				editor.isSelected = false
+				editor.entitySelected = {}
+				
 				break
 			end
 		end
@@ -922,6 +981,10 @@ function editor:rotate(dy)
 				console:print( e.group .. " (" .. n .. ") rotated, direction = "..e.dir)
 				e.selected = false
 				should_break = true
+				
+				editor.isSelected = false
+				editor.entitySelected = {}
+				
 				break
 
 			end

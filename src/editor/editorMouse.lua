@@ -50,6 +50,8 @@ function editorMouse:mousepressed(x,y,button)
 	local x = self.mouse.pressed.x
 	local y = self.mouse.pressed.y
 	
+	if(editor.isSelected) then return true end
+	
 	if button == 1 then
 		local selection = editor.entities[editor.entsel][1]
 		-- TODO should be moved to entities/init.lua as function
@@ -149,11 +151,30 @@ end
 function editorMouse:mousemoved(x,y,dx,dy)
 	if not editing then return end
 	
+	self.mouse.old_pos.x = self.mouse.x
+	self.mouse.old_pos.y = self.mouse.y 
+	
 	self.mouse.x = math.round(camera.x-(love.graphics.getWidth()/2/camera.scale)+x/camera.scale,-1)
 	self.mouse.y = math.round(camera.y-(love.graphics.getHeight()/2/camera.scale)+y/camera.scale,-1)
 	
 	if love.mouse.isDown(1) then
-		editor.drawsel = true
+		editor.drawsel = true 
+		console:print("Mouse move from (" .. self.mouse.old_pos.x .. "," .. self.mouse.old_pos.y  ..") to (" .. self.mouse.x .. "," .. self.mouse.y  ..")")
+		
+		if (editor.isSelected ) then
+			
+			console:print("move entity mouse");
+			
+			local x_move = editorMouse.mouse.x - editorMouse.mouse.old_pos.x
+			local y_move = editorMouse.mouse.y - editorMouse.mouse.old_pos.y
+			
+			editor.entitySelected.x = math.round(editor.entitySelected.x + x_move,-1)
+			editor.entitySelected.xorigin = editor.entitySelected.x
+			
+			editor.entitySelected.y = math.round(editor.entitySelected.y + y_move,-1) --up
+			if(editor.entitySelected.yorigin~=nil) then editor.entitySelected.yorigin = editor.entitySelected.yorigin + y_move end 
+			
+		end
 	else
 		editor.drawsel = false
 	end

@@ -1,5 +1,4 @@
 
-
 --editor settings
 editor.entdir = 0				--rotation placement 0,1,2,3 = up,right,down,left
 editor.entsel = 1				--current entity id for placement
@@ -15,6 +14,10 @@ editor.maxcamerascale = 6		--maximum zoom
 editor.mincamerascale = 0.1		--minimum zoom
 editor.placing = false			--check if an entity is being placed
 editor.entsizemin = 20			--minimum grid size per draggable entity
+
+-- Editor selection save
+editor.isSelected = false 
+editor.entitySelected = {}
 
 --misc textures
 editor.errortex = love.graphics.newImage("data/images/editor/error.png")
