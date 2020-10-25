@@ -611,11 +611,6 @@ function editor:mousereleased(x,y,button)
 
 	self.drawsel = false
 
-	if not (self.mouse.pressed.x == self.mouse.released.x
-		and self.mouse.pressed.y == self.mouse.released.y) then
-		return false
-	end
-
 	if button == 1 then
 		for _,entity in pairs(self.draggable) do
 			if self.entities[self.entsel][1] == entity then
@@ -623,7 +618,8 @@ function editor:mousereleased(x,y,button)
 			end
 		end
 
-		if x1 == x2 and y1 == y2 then
+		if self.mouse.pressed.x == self.mouse.released.x
+		and self.mouse.pressed.y == self.mouse.released.y then
 
 			local selection = self.entities[self.entsel][1]
 			if selection == "spawn" then
