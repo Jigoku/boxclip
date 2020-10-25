@@ -622,7 +622,7 @@ function editor:mousereleased(x,y,button)
 				self:placedraggable(self.mouse.pressed.x, self.mouse.pressed.y, self.mouse.released.x, self.mouse.released.y)
 			end
 		end
-		console:print(self.mouse.pressed.x.. ",".. self.mouse.pressed.y.. " " .. self.mouse.released.x .. ",".. self.mouse.released.y)
+
 		if x1 == x2 and y1 == y2 then
 
 			local selection = self.entities[self.entsel][1]
