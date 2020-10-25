@@ -712,10 +712,11 @@ end
 
 
 function editor:placedraggable(x1,y1,x2,y2)
+	-- do not place entity if a selection is active
+	if self.is_selected then return false end
 
 	-- this function is used for placing entities which
 	-- can be dragged/resized when placing
-
 	local ent = self.entities[self.entsel][1]
 
 	--we must drag down and right
@@ -1005,7 +1006,7 @@ end
 function editor:drawselbox()
 	--draw an outline when dragging mouse if
 	-- entsel is one of these types
-	if self.drawsel then
+	if self.drawsel and not self.is_selected then
 		for _,entity in ipairs(self.draggable) do
 			if self.entities[self.entsel][1] == entity then
 				love.graphics.setColor(0,1,1,1)
@@ -1544,8 +1545,6 @@ function editor:mouse_move_entity()
 
 	local x_move = self.mouse.x - self.mouse.old_pos.x
 	local y_move = self.mouse.y - self.mouse.old_pos.y
-
-	console:print(self.mouse.x .. " - " .. self.mouse.y)
 
 	self.entity_selected.x = self.entity_selected.x + x_move
 	if(self.entity_selected.xorigin~=nil) then self.entity_selected.xorigin = self.entity_selected.xorigin + x_move  end
