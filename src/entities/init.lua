@@ -1,6 +1,6 @@
 --[[
  * Copyright (C) 2015 - 2018 Ricky K. Thomson
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -12,7 +12,7 @@
  * u should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  --]]
- 
+
 entities = {}
 local path = "entities/"
 print("Loading Entities...")
@@ -26,14 +26,14 @@ for i, file in ipairs(files) do
 	if info.type == "file" and file ~= "init.lua" then
 		local m = file:match("(.+)%.lua")
 		print(i .. ". " .. path .. m)
-		
+
 		require(path .. m)
 	end
-	
+
 end
 
 
--- **** LOAD ENEMIES **** 
+-- **** LOAD ENEMIES ****
 local enemypath = "entities/enemies/"
 local enemyfiles = love.filesystem.getDirectoryItems(enemypath)
 
@@ -52,7 +52,7 @@ end
 
 --[[
 	TODO, read functions from each module, merge into entities tables...
-	
+
 	editor()
 	draw()
 	update()
@@ -62,7 +62,7 @@ end
 			entities.update()
 		end
 	end
-	
+
 	//etc......
 --]]
 

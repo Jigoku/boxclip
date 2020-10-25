@@ -1,6 +1,6 @@
 --[[
  * Copyright (C) 2015 - 2018 Ricky K. Thomson
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -12,7 +12,7 @@
  * u should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  --]]
- 
+
 pickups = {}
 
 pickups.magnet_power = 200
@@ -35,7 +35,7 @@ pickups.textures = textures:load(pickups.path)
 
 function pickups:add(x,y,type,dropped)
 	for i,pickup in ipairs(pickups.list) do
-		--maybe better way to do this? 
+		--maybe better way to do this?
 		--loop over entity.list, find matching name
 		-- then only insert when a match is found
 		if pickup == type then
@@ -52,7 +52,7 @@ function pickups:add(x,y,type,dropped)
 			elseif type == "star" then
 				score = "2500"
 			end
-	
+
 			table.insert(world.entities.pickup, {
 				x =x or 0,
 				y =y or 0,
@@ -71,7 +71,7 @@ function pickups:add(x,y,type,dropped)
 				xvel = 0,
 				yvel = 0,
 				score = score,
-			})	
+			})
 
 			print( "pickup added @  X:"..x.." Y: "..y)
 		end
@@ -80,7 +80,7 @@ end
 
 
 function pickups:update(dt)
-	for i, pickup in ipairs(world.entities.pickup) do			
+	for i, pickup in ipairs(world.entities.pickup) do
 		if not pickup.collected then
 			--pulls all gems to player when attract = true
 			if pickup.attract then
@@ -96,12 +96,12 @@ function pickups:update(dt)
 				physics:applyVelocity(pickup,dt)
 				physics:traps(pickup,dt)
 				physics:platforms(pickup, dt)
-				physics:crates(pickup, dt)			
+				physics:crates(pickup, dt)
 			end
-			
+
 			physics:update(pickup)
-			
-			if mode == "game" and not pickup.collected then	
+
+			if mode == "game" and not pickup.collected then
 				if player.hasmagnet then
 					if collision:check(player.x-pickups.magnet_power,player.y-pickups.magnet_power,
 						player.w+(pickups.magnet_power*2),player.h+(pickups.magnet_power*2),
@@ -112,16 +112,16 @@ function pickups:update(dt)
 						end
 					end
 				end
-			
+
 				if player.alive and collision:check(player.x,player.y,player.w,player.h,
 					pickup.x, pickup.y,pickup.w,pickup.h) then
 						popups:add(pickup.x+pickup.w/2,pickup.y+pickup.h/2,"+"..pickup.score)
-						console:print(pickup.group.."("..i..") collected")	
+						console:print(pickup.group.."("..i..") collected")
 						player:collect(pickup)
 						pickup.collected = true
 
 				end
-			end	
+			end
 		end
 	end
 end
@@ -132,31 +132,31 @@ function pickups:draw()
 	for i, pickup in ipairs(world.entities.pickup) do
 		if not pickup.collected and world:inview(pickup) then
 			count = count + 1
-			
+
 			local texture = self.textures[pickup.slot]
-			
+
 			if pickup.type == "gem" then
-				love.graphics.setColor(pickup.red,pickup.green,pickup.blue,1)	
+				love.graphics.setColor(pickup.red,pickup.green,pickup.blue,1)
 				love.graphics.draw(texture, pickup.x, pickup.y, 0, 1, 1)
 			end
-			
+
 			if pickup.type == "life" then
-				love.graphics.setColor(1,0,0, 1)	
+				love.graphics.setColor(1,0,0, 1)
 				love.graphics.draw(texture, pickup.x, pickup.y, 0, 1, 1)
 			end
 
 			if pickup.type == "magnet" then
-				love.graphics.setColor(1,1,1, 1)	
+				love.graphics.setColor(1,1,1, 1)
 				love.graphics.draw(texture, pickup.x, pickup.y, 0, 1, 1)
 			end
-			
+
 			if pickup.type == "shield" then
-				love.graphics.setColor(1,1,1, 1)	
+				love.graphics.setColor(1,1,1, 1)
 				love.graphics.draw(texture, pickup.x, pickup.y, 0, 1, 1)
 			end
-			
+
 			if pickup.type == "star" then
-				love.graphics.setColor(1,1,1, 1)	
+				love.graphics.setColor(1,1,1, 1)
 				love.graphics.draw(texture, pickup.x, pickup.y, 0, 1, 1)
 			end
 
@@ -172,9 +172,9 @@ end
 function pickups:drawdebug(pickup, i)
 	love.graphics.setColor(0.39,1,0.39,0.39)
 	love.graphics.rectangle(
-		"line", 
-		pickup.x, 
-		pickup.y, 
+		"line",
+		pickup.x,
+		pickup.y,
 		pickup.w,
 		pickup.h
 	)

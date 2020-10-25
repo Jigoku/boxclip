@@ -1,6 +1,6 @@
 --[[
  * Copyright (C) 2015 - 2018 Ricky K. Thomson
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -12,7 +12,7 @@
  * u should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  --]]
- 
+
 checkpoints = {}
 
 checkpoints.texture = love.graphics.newImage("data/images/checkpoints/crystal.png")
@@ -42,12 +42,12 @@ function checkpoints:update(dt)
 				checkpoint.x, checkpoint.y,checkpoint.w,checkpoint.h) then
 				if not checkpoint.activated then
 					popups:add(checkpoint.x+checkpoint.w/2,checkpoint.y+checkpoint.h/2,"CHECKPOINT")
-					console:print("checkpoint activated")	
+					console:print("checkpoint activated")
 					world:savestate()
 					sound:play(sound.effects["checkpoint"])
 					checkpoint.activated = true
 					player.spawnX = checkpoint.x+(checkpoint.w/2)-player.w/2
-					player.spawnY = checkpoint.y+checkpoint.h-player.h	
+					player.spawnY = checkpoint.y+checkpoint.h-player.h
 				end
 			end
 		end
@@ -57,7 +57,7 @@ end
 
 function checkpoints:draw()
 	local count = 0
-	
+
 	local i, checkpoint
 	for i, checkpoint in ipairs(world.entities.checkpoint) do
 		if world:inview(checkpoint) then
@@ -65,19 +65,19 @@ function checkpoints:draw()
 
 			if not checkpoint.activated then
 				love.graphics.setColor(1,0.39,0.39,checkpoint.o)
-			else 
+			else
 				love.graphics.setColor(0.58,1,0.58,checkpoint.o)
 			end
-			
+
 			love.graphics.draw(
-				self.texture, 
+				self.texture,
 				checkpoint.x,
 				checkpoint.y,
-				0, 
+				0,
 				1,
 				1
 			)
-	
+
 			if editing or debug then
 				self:drawdebug(checkpoint, i)
 			end

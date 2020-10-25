@@ -1,6 +1,6 @@
 --[[
  * Copyright (C) 2015 - 2018 Ricky K. Thomson
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -12,15 +12,15 @@
  * u should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  --]]
- 
+
 crates = {}
 
 crates.textures = textures:load("data/images/crates/")
 
 
 table.insert(editor.entities, {"crate", "crate"})
-	
-	
+
+
 function crates:add(x,y,type)
 	table.insert(world.entities.crate, {
 		x = x or 0,
@@ -42,15 +42,15 @@ end
 
 function crates:draw()
 	local count = 0
-	
+
 	local i, crate
-	for i, crate in ipairs(world.entities.crate) do		
+	for i, crate in ipairs(world.entities.crate) do
 		if world:inview(crate) and not crate.destroyed then
 			count = count + 1
-		
+
 			love.graphics.setColor(crate_r,crate_g,crate_b,1)
 			love.graphics.draw(crate.texture,crate.x, crate.y, 0, 1, 1)
-		
+
 			if editing or debug then
 				self:drawdebug(crate, i)
 			end
