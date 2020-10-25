@@ -36,6 +36,7 @@ end
 local enemypath = "entities/enemies/"
 local enemyfiles = love.filesystem.getDirectoryItems(enemypath)
 
+print("\n\nLoading Enemies...")
 -- Load all files in "entities/enemies/" to allow drop-in modules
 for i, file in ipairs(enemyfiles) do
 	local enemyinfo = love.filesystem.getInfo(enemypath .. file)
