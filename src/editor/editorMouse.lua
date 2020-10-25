@@ -161,8 +161,6 @@ function editorMouse:mousemoved(x,y,dx,dy)
 		editor.drawsel = true 
 		console:print("Mouse move from (" .. self.mouse.old_pos.x .. "," .. self.mouse.old_pos.y  ..") to (" .. self.mouse.x .. "," .. self.mouse.y  ..")")
 		
-		
-		
 		if (editor.isSelected ) then
 			editor.mouseMoveEntity()
 			

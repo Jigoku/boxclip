@@ -309,7 +309,7 @@ function editor.mouseMoveEntity()
 	console:print( "posizione x:"..editor.entitySelected.x.." movimento mouse: " .. x_move );
 	
 	editor.entitySelected.x = editor.entitySelected.x + x_move 
-	editor.entitySelected.xorigin = editor.entitySelected.xorigin + x_move 
+	if(editor.entitySelected.xorigin~=nil) then editor.entitySelected.xorigin = editor.entitySelected.xorigin + x_move  end
 
 	editor.entitySelected.y = editor.entitySelected.y + y_move
 	if(editor.entitySelected.yorigin~=nil) then editor.entitySelected.yorigin = editor.entitySelected.yorigin + y_move end 
