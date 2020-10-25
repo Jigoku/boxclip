@@ -426,7 +426,41 @@ function editor:keypressed(key)
 	
 	
 		if key == self.binds.themecycle then self:settheme() end
-	
+		
+		
+		if (self.is_selected ==true ) then
+			if love.keyboard.isDown(self.binds.moveup) then 
+				--weird bug, needs to be "11" to actually save to proper position?
+				--maybe it's being rounded down? So that expected "10" becomes "9" ?
+				
+				self.entity_selected.y = math.round(self.entity_selected.y - 11,-1) --up
+				self.mouse.y = self.mouse.y -10
+				
+				if(self.entity_selected.yorigin~=nil) then self.entity_selected.yorigin = self.entity_selected.yorigin - 10 end 
+			end
+			if love.keyboard.isDown(self.binds.movedown) then 
+				self.entity_selected.y = math.round(self.entity_selected.y + 10,-1) --down
+				if(self.entity_selected.yorigin~=nil) then self.entity_selected.yorigin = self.entity_selected.yorigin + 10 end
+				
+				self.mouse.y = self.mouse.y +10
+			end 
+			if love.keyboard.isDown(self.binds.moveleft) then 
+				self.entity_selected.x = math.round(self.entity_selected.x - 10,-1) --left
+				self.entity_selected.xorigin = self.entity_selected.x
+				self.mouse.x = self.mouse.x -10
+			end 
+			if love.keyboard.isDown(self.binds.moveright) then 
+				self.entity_selected.x = math.round(self.entity_selected.x + 10,-1)  --right
+				self.entity_selected.xorigin = self.entity_selected.x
+				self.mouse.x = self.mouse.x+10
+			end
+
+			return true
+			
+		end
+		
+		--[[
+		
 		for _, i in ipairs(self.entorder) do	
 			for _,e in ipairs(world.entities[i]) do
 				--fix this for moving platform (yorigin,xorigin etc)
@@ -462,6 +496,7 @@ function editor:keypressed(key)
 				end
 			end
 		end
+		--]]
 		
 	end
 end
