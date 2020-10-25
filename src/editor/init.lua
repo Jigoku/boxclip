@@ -23,13 +23,121 @@
 
 editor = {}
 
-
-require("editor/editbinds")
-require("editor/editorVars")
-require("editor/editorHelp")
-require("editor/editorMouse")
-
 editing = false
+require("editor/editbinds")
+
+-- VARIABLES
+
+--editor settings
+editor.entdir = 0				--rotation placement 0,1,2,3 = up,right,down,left
+editor.entsel = 1				--current entity id for placement
+editor.themesel = 1				--world theme/pallete
+editor.texturesel = 1			--texture slot to use for platforms
+editor.showinfo = true			--display coordinates of entities
+editor.showmmap = true			--show minimap
+editor.showgrid = true			--show guidelines/grid
+editor.showentmenu = true		--show entmenu
+editor.drawsel = false			--draw selection area
+editor.floatspeed = 1000		--editing floatspeed
+editor.maxcamerascale = 6		--maximum zoom
+editor.mincamerascale = 0.1		--minimum zoom
+editor.placing = false			--check if an entity is being placed
+editor.entsizemin = 20			--minimum grid size per draggable entity
+
+-- Editor selection save
+editor.isSelected = false 
+editor.entitySelected = {}
+
+-- Help menu
+editor.helpmenuw = 460
+editor.helpmenuh = 600
+editor.helpmenu = love.graphics.newCanvas(editor.helpmenuw,editor.helpmenuh)
+editor.showhelpmenu = false		--show helpmenu
+
+--misc textures
+editor.errortex = love.graphics.newImage("data/images/editor/error.png")
+editor.bullettex = love.graphics.newImage("data/images/editor/bullet.png")
+
+-- minimap
+editor.mmapw = love.graphics.getWidth()/3
+editor.mmaph = love.graphics.getHeight()/3
+editor.mmapscale = camera.scale/2
+editor.mmapcanvas = love.graphics.newCanvas( editor.mmapw, editor.mmaph )
+
+-- entity selection menu
+editor.entmenuw = 150    
+editor.entmenuh = 300	
+editor.entmenu = love.graphics.newCanvas(editor.entmenuw,editor.entmenuh)
+	
+
+-- texture preview
+editor.texmenutexsize = 75
+editor.texmenupadding = 10
+editor.texmenuoffset = 2
+editor.texmenutimer = 0
+editor.texmenuduration = 2
+editor.texmenuopacity = 0
+editor.texmenufadespeed = 5
+editor.texmenuw = editor.texmenutexsize+(editor.texmenupadding*2)
+editor.texmenuh = (editor.texmenutexsize*(editor.texmenuoffset*2+1))+(editor.texmenupadding*(editor.texmenuoffset*2))+(editor.texmenupadding*2)
+editor.texmenu = love.graphics.newCanvas(editor.texmenuw,editor.texmenuh)
+editor.texlist = {}
+
+-- music track preview
+editor.musicmenu = love.graphics.newCanvas(150,50)
+editor.musicmenupadding = 10
+editor.musicmenuopacity = 0
+editor.musicmenufadespeed = 5
+editor.musicmenutimer = 0
+editor.musicmenuduration = 4
+
+--placable entities listed in entmenu
+--these are defined at top of entities/*.lua
+editor.entities = {}
+
+-- entity priority for selection / hover mouse
+-- TODO should be moved to entities/init.lua
+editor.entorder = {
+	"tip",
+	"material",
+	"trap",
+	"enemy",
+	"pickup",
+	"coin",
+	"portal",
+	"crate",
+	"checkpoint",
+	"bumper",
+	"spring",
+	"platform",
+	"prop",
+	"decal"
+ }
+
+
+--entities which are draggable (size placement)
+-- TODO should be moved to entities/init.lua
+editor.draggable = {
+	"platform", "platform_b", "platform_x", "platform_y", 
+	"decal",
+	"death" 
+}
+
+editor.mouse = {
+	x = 0,
+	y = 0,
+	pressed  = { x=0, y=0 },
+	released = { x=0, y=0 },
+	old_pos  = { x=0, y=0 },
+	
+	--cursor drawing
+	hotspotx = 6, --hotspot offset for image
+	hotspoty = 4,
+	cursors = textures:load("data/images/editor/cursor/"),
+	cur = 1, --default cursor
+}
+
+
 
 
 
@@ -177,7 +285,7 @@ function editor:keypressed(key)
 
 	end
 
-	if key == self.binds.helptoggle then editorHelp.showhelpmenu = not editorHelp.showhelpmenu end	
+	if key == self.binds.helptoggle then editor.showhelpmenu = not editor.showhelpmenu end	
 	if key == self.binds.maptoggle then self.showmmap = not self.showmmap end
 	
 	--free roaming	
@@ -231,26 +339,26 @@ function editor:keypressed(key)
 				--maybe it's being rounded down? So that expected "10" becomes "9" ?
 				
 				editor.entitySelected.y = math.round(editor.entitySelected.y - 11,-1) --up
-				editorMouse.mouse.y = editorMouse.mouse.y -10
+				editor.mouse.y = editor.mouse.y -10
 				if(editor.entitySelected.yorigin~=nil) then editor.entitySelected.yorigin = editor.entitySelected.yorigin - 10 end 
 			end 
 			
 			if love.keyboard.isDown(self.binds.movedown) then 
 				editor.entitySelected.y = math.round(editor.entitySelected.y + 10,-1) --down
 				if(editor.entitySelected.yorigin~=nil) then editor.entitySelected.yorigin = editor.entitySelected.yorigin + 10 end
-				editorMouse.mouse.y = editorMouse.mouse.y +10
+				editor.mouse.y = editor.mouse.y +10
 			end 
 			
 			if love.keyboard.isDown(self.binds.moveleft) then 
 				editor.entitySelected.x = math.round(editor.entitySelected.x - 10,-1) --left
 				editor.entitySelected.xorigin = editor.entitySelected.x
-				editorMouse.mouse.x = editorMouse.mouse.x -10
+				editor.mouse.x = editor.mouse.x -10
 			end 
 			
 			if love.keyboard.isDown(self.binds.moveright) then 
 				editor.entitySelected.x = math.round(editor.entitySelected.x + 10,-1)  --right
 				editor.entitySelected.xorigin = editor.entitySelected.x
-				editorMouse.mouse.x = editorMouse.mouse.x+10
+				editor.mouse.x = editor.mouse.x+10
 			end
 
 			return true
@@ -267,7 +375,7 @@ function editor:keypressed(key)
 						--maybe it's being rounded down? So that expected "10" becomes "9" ?
 						
 						e.y = math.round(e.y - 11,-1) --up
-						editorMouse.mouse.y = editorMouse.mouse.y -10
+						editor.mouse.y = editor.mouse.y -10
 						
 						if(e.yorigin~=nil) then e.yorigin = e.yorigin - 10 end 
 					end
@@ -275,17 +383,17 @@ function editor:keypressed(key)
 						e.y = math.round(e.y + 10,-1) --down
 						if(e.yorigin~=nil) then e.yorigin = e.yorigin + 10 end
 						
-						editorMouse.mouse.y = editorMouse.mouse.y +10
+						editor.mouse.y = editor.mouse.y +10
 					end 
 					if love.keyboard.isDown(self.binds.moveleft) then 
 						e.x = math.round(e.x - 10,-1) --left
 						e.xorigin = e.x
-						editorMouse.mouse.x = editorMouse.mouse.x -10
+						editor.mouse.x = editor.mouse.x -10
 					end 
 					if love.keyboard.isDown(self.binds.moveright) then 
 						e.x = math.round(e.x + 10,-1)  --right
 						e.xorigin = e.x
-						editorMouse.mouse.x = editorMouse.mouse.x+10
+						editor.mouse.x = editor.mouse.x+10
 					end
 	
 					return true
@@ -303,8 +411,8 @@ function editor.mouseMoveEntity()
 
 	console:print("move entity mouse");
 
-	local x_move = editorMouse.mouse.x - editorMouse.mouse.old_pos.x
-	local y_move = editorMouse.mouse.y - editorMouse.mouse.old_pos.y
+	local x_move = editor.mouse.x - editor.mouse.old_pos.x
+	local y_move = editor.mouse.y - editor.mouse.old_pos.y
 	
 	console:print( "posizione x:"..editor.entitySelected.x.." movimento mouse: " .. x_move );
 	
@@ -457,17 +565,17 @@ function editor:drawgrid()
 		love.graphics.setColor(0.78,0.78,1,0.3)
 		--vertical
 		love.graphics.line(
-			math.round(editorMouse.mouse.x,-1),
-			math.round(editorMouse.mouse.y+love.graphics.getHeight()/camera.scale,-1),
-			math.round(editorMouse.mouse.x,-1),
-			math.round(editorMouse.mouse.y-love.graphics.getHeight()/camera.scale,-1)
+			math.round(editor.mouse.x,-1),
+			math.round(editor.mouse.y+love.graphics.getHeight()/camera.scale,-1),
+			math.round(editor.mouse.x,-1),
+			math.round(editor.mouse.y-love.graphics.getHeight()/camera.scale,-1)
 		)
 		--horizontal
 		love.graphics.line(
-			math.round(editorMouse.mouse.x-love.graphics.getWidth()/camera.scale,-1),
-			math.round(editorMouse.mouse.y,-1),
-			math.round(editorMouse.mouse.x+love.graphics.getWidth()/camera.scale-1),
-			math.round(editorMouse.mouse.y,-1)
+			math.round(editor.mouse.x-love.graphics.getWidth()/camera.scale,-1),
+			math.round(editor.mouse.y,-1),
+			math.round(editor.mouse.x+love.graphics.getWidth()/camera.scale-1),
+			math.round(editor.mouse.y,-1)
 		)
 		
 
@@ -480,27 +588,27 @@ function editor:drawcursor()
 	--draw the cursor
 	love.graphics.setColor(255,255,255,255)
 	love.graphics.line(
-		math.round(editorMouse.mouse.x,-1),
-		math.round(editorMouse.mouse.y,-1),
-		math.round(editorMouse.mouse.x,-1)+10,
-		math.round(editorMouse.mouse.y,-1)
+		math.round(editor.mouse.x,-1),
+		math.round(editor.mouse.y,-1),
+		math.round(editor.mouse.x,-1)+10,
+		math.round(editor.mouse.y,-1)
 	)
 	love.graphics.line(
-		math.round(editorMouse.mouse.x,-1),
-		math.round(editorMouse.mouse.y,-1),
-		math.round(editorMouse.mouse.x,-1),
-		math.round(editorMouse.mouse.y,-1)+10
+		math.round(editor.mouse.x,-1),
+		math.round(editor.mouse.y,-1),
+		math.round(editor.mouse.x,-1),
+		math.round(editor.mouse.y,-1)+10
 	)
 	--]]
 	
 	-- detach camera so cursor doesn't scale in size
 	camera:detach()
 		
-	local x,y = camera:toCameraCoords(editorMouse.mouse.x,editorMouse.mouse.y)
+	local x,y = camera:toCameraCoords(editor.mouse.x,editor.mouse.y)
 	
 	-- draw the cursor	
 	love.graphics.setColor(1,1,1,1)
-	love.graphics.draw(editorMouse.mouse.cursors[editorMouse.mouse.cur], x - editorMouse.mouse.hotspotx, y - editorMouse.mouse.hotspoty)
+	love.graphics.draw(editor.mouse.cursors[editor.mouse.cur], x - editor.mouse.hotspotx, y - editor.mouse.hotspoty)
 	
 	-- print active entity selection info
 	self:drawinfo(x+40,y+60)
@@ -682,7 +790,7 @@ function editor:draw()
 	end
 	
 	if self.showmmap then self:drawmmap() end
-	if editorHelp.showhelpmenu then editorHelp:drawhelpmenu() end
+	if editor.showhelpmenu then editor:drawhelpmenu() end
 	
 	
 end
@@ -697,8 +805,8 @@ function editor:drawselbox()
 				love.graphics.setColor(0,1,1,1)
 				love.graphics.rectangle(
 					"line", 
-					editorMouse.mouse.pressed.x,editorMouse.mouse.pressed.y, 
-					editorMouse.mouse.x - editorMouse.mouse.pressed.x, editorMouse.mouse.y - editorMouse.mouse.pressed.y
+					editor.mouse.pressed.x,editor.mouse.pressed.y, 
+					editor.mouse.x - editor.mouse.pressed.x, editor.mouse.y - editor.mouse.pressed.y
 				)
 			end
 		end
@@ -832,7 +940,7 @@ function editor:selection()
 				
 				if e.movex then
 					--collision area for moving entity
-					if collision:check(editorMouse.mouse.x,editorMouse.mouse.y,1,1,e.xorigin, e.y, e.movedist+e.w, e.h) then
+					if collision:check(editor.mouse.x,editor.mouse.y,1,1,e.xorigin, e.y, e.movedist+e.w, e.h) then
 						self.selbox = { 
 							x = e.xorigin, 
 							y = e.y, 
@@ -846,7 +954,7 @@ function editor:selection()
 					end
 				elseif e.movey then
 					--collision area for moving entity
-					if collision:check(editorMouse.mouse.x,editorMouse.mouse.y,1,1,e.xorigin, e.yorigin, e.w, e.h+e.movedist) then
+					if collision:check(editor.mouse.x,editor.mouse.y,1,1,e.xorigin, e.yorigin, e.w, e.h+e.movedist) then
 						self.selbox = { 	
 							x = e.xorigin , 
 							y = e.yorigin , 
@@ -860,7 +968,7 @@ function editor:selection()
 					end
 				elseif e.swing then
 					--collision area for swinging entity
-					if collision:check(editorMouse.mouse.x,editorMouse.mouse.y,1,1,
+					if collision:check(editor.mouse.x,editor.mouse.y,1,1,
 						e.xorigin-chainlink.textures["origin"]:getWidth()/2, e.yorigin-chainlink.textures["origin"]:getHeight()/2,  
 						chainlink.textures["origin"]:getWidth(),chainlink.textures["origin"]:getHeight()) then
 						self.selbox = {	
@@ -874,7 +982,7 @@ function editor:selection()
 						editor.entitySelected = e
 					
 					end
-				elseif collision:check(editorMouse.mouse.x,editorMouse.mouse.y,1,1,e.x,e.y,e.w,e.h) then
+				elseif collision:check(editor.mouse.x,editor.mouse.y,1,1,e.x,e.y,e.w,e.h) then
 					--collision area for static entities
 					self.selbox = { 
 						x = e.x, 
@@ -894,7 +1002,7 @@ function editor:selection()
 				
 				if e.selected then
 					-- selection cursor 
-					editorMouse.mouse.cur = 2
+					editor.mouse.cur = 2
 					
 					-- update texture selection (platforms only for now)
 					-- temporary, until other entities use numeric texture id slot
@@ -910,7 +1018,7 @@ function editor:selection()
 					return
 				else
 					-- default cursor
-					editorMouse.mouse.cur = 1
+					editor.mouse.cur = 1
 					
 				end
 				
@@ -1025,8 +1133,8 @@ end
 
 
 function editor:paste()
-	local x = math.round(editorMouse.mouse.x,-1)
-	local y = math.round(editorMouse.mouse.y,-1)
+	local x = math.round(editor.mouse.x,-1)
+	local y = math.round(editor.mouse.y,-1)
 	
 	--paste the cloned entity
 	local p = table.deepcopy(self.clipboard)
@@ -1192,4 +1300,321 @@ function editor:drawinfo(x,y)
 	end
 end
 
+
+-- **** MOUSE  ****
+
+function editor:wheelmoved(dx, dy)
+    if love.keyboard.isDown(editor.binds.camera) then
+		--camera zoom
+		camera.scale = math.max(editor.mincamerascale,math.min(editor.maxcamerascale,camera.scale + dy/25))
+		
+	elseif love.keyboard.isDown(editor.binds.texturesel) then
+		--change entity texture
+		editor:settexture(dy)
+		
+	elseif love.keyboard.isDown(editor.binds.rotate) then
+		--rotate an entity
+		editor:rotate(dy)
+	else
+		--entmenu selection
+		editor.entsel = math.max(1,math.min(#editor.entities,editor.entsel - dy))
+
+	end
+end
+
+
+function editor:mousepressed(x,y,button)
+	if not editing then return end
+	
+	--this function is used to place entities which are not resizable. 
+
+
+	--self.mouse.pressed.x, self.mouse.pressed.y = camera:toWorldCoords(x,y)
+	--local x = math.round(self.mouse.pressed.x,-1)
+	--local y = math.round(self.mouse.pressed.y,-1)
+
+
+	self.mouse.pressed.x = math.round(camera.x-(love.graphics.getWidth()/2/camera.scale)+x/camera.scale,-1)
+	self.mouse.pressed.y = math.round(camera.y-(love.graphics.getHeight()/2/camera.scale)+y/camera.scale,-1)
+	local x = self.mouse.pressed.x
+	local y = self.mouse.pressed.y
+	
+	
+	
+	if button == 1 then
+	
+		if(editor.isSelected) then return true end
+		
+		local selection = editor.entities[editor.entsel][1]
+		-- TODO should be moved to entities/init.lua as function
+		
+		if selection == "spawn" then
+			editor:removeall("portal", "spawn")
+			portals:add(x,y,"spawn")
+		end
+		if selection == "goal" then
+			editor:removeall("portal", "goal")
+			portals:add(x,y,"goal")
+		end
+
+		for i,ent in pairs(editor.entities) do
+			if ent[1] == selection then
+				if ent[2] == "prop" then
+					props:add(x,y,editor.entdir,false,ent[1])	
+				elseif
+					ent[2] == "crate" then
+					crates:add(x,y,"gem")
+				elseif
+					ent[2] == "pickup" then
+					pickups:add(x,y,ent[1])
+				elseif
+					ent[2] == "coin" then
+					coins:add(x,y)
+				elseif
+					ent[2] == "checkpoint" then
+					checkpoints:add(x,y)
+				elseif
+					ent[2] == "trap" then
+					traps:add(x,y,ent[1])
+				elseif
+					ent[2] == "spring" then
+					springs:add(x,y,editor.entdir,ent[1])
+				elseif
+					ent[2] == "bumper" then
+					bumpers:add(x,y) 
+				elseif
+					ent[2] == "tip" then
+					tips:add(x,y,"this is a multi line text test to see how everything can fit nicely in the frame")
+				elseif
+					ent[2] == "enemy" then
+					enemies:add(x,y,100,100,editor.entdir,ent[1])
+
+				end
+				
+			end
+			
+		end
+		
+		-- this should be moved outside of platforms.lua eventually
+		if selection == "platform_s" then platforms:add(x,y,0,20,false,false,false,1.5,0,true,0,editor.texturesel) end
+		
+	elseif button == 2 then
+		editor:remove()
+	end
+end
+
+
+function editor:mousereleased(x,y,button)
+	--check if we have selected draggable entity, then place if neccesary
+	if not editing then return end
+	
+	self.mouse.released.x = math.round(camera.x-(love.graphics.getWidth()/2/camera.scale)+x/camera.scale,-1)
+	self.mouse.released.y = math.round(camera.y-(love.graphics.getHeight()/2/camera.scale)+y/camera.scale,-1)
+	
+	--self.mouse.released.x, self.mouse.released.y = camera:toWorldCoords(x,y)
+	--self.mouse.released.x = math.round(self.mouse.released.x,-1)
+	--self.mouse.released.y = math.round(self.mouse.released.y,-1)
+	
+	editor.drawsel = false
+
+	if button == 1 then 
+		for _,entity in pairs(editor.draggable) do
+			if editor.entities[editor.entsel][1] == entity then
+				editor:placedraggable(self.mouse.pressed.x,self.mouse.pressed.y,self.mouse.released.x,self.mouse.released.y)
+			end
+		end
+		return
+	end
+	
+	--reorder entity (sendtoback)
+	if button == 3 then
+		for _,i in ipairs(editor.entorder) do
+			for n,e in ripairs(world.entities[i]) do
+				if e.selected then
+					world:sendtoback(world.entities[i],n)
+					return true
+				end
+			end
+		end
+	end
+end
+
+
+function editor:mousemoved(x,y,dx,dy)
+	if not editing then return end
+	
+	self.mouse.old_pos.x = self.mouse.x
+	self.mouse.old_pos.y = self.mouse.y 
+	
+	self.mouse.x = math.round(camera.x-(love.graphics.getWidth()/2/camera.scale)+x/camera.scale,-1)
+	self.mouse.y = math.round(camera.y-(love.graphics.getHeight()/2/camera.scale)+y/camera.scale,-1)
+	
+	if love.mouse.isDown(1) then
+		editor.drawsel = true 
+		console:print("Mouse move from (" .. self.mouse.old_pos.x .. "," .. self.mouse.old_pos.y  ..") to (" .. self.mouse.x .. "," .. self.mouse.y  ..")")
+		
+		if (editor.isSelected ) then
+			editor.mouseMoveEntity()
+			
+			
+		end
+	else
+		editor.drawsel = false
+	end
+end
+
+
+-- **** Menu help ****
+
+editor.help = {
+	{ 
+		editor.binds.edittoggle, 
+		"toggle editmode" 
+	},
+	{
+		editor.binds.camera .. " + scroll",
+		"set camera zoom level"
+	},
+	{ 
+		editor.binds.up..", "..editor.binds.left..", "..editor.binds.down..", "..editor.binds.right, 
+		"move"
+	},
+	{
+		"left mouse",
+		"place entity"
+	},
+	{
+		"right mouse",
+		"remove entity"
+	},
+	{
+		"mouse wheel",
+		"scroll entity type"
+	},
+	{
+		editor.binds.rotate .." + scroll",
+		"rotate entity"
+	},
+	{
+		editor.binds.moveup..", "..editor.binds.moveleft..", "..editor.binds.movedown..", "..editor.binds.moveright,
+		"adjust entity position"
+	},
+	{
+		editor.binds.respawn,
+		"reset camera"
+	},
+	{
+		editor.binds.showinfo,
+		"toggle entity coordinate information"
+	},
+	{	
+		editor.binds.decmovedist,
+		"increase entity move distance / angle"
+	},
+	{	
+		editor.binds.incmovedist,
+		"decrease entity move distance / angle"
+	},
+	{
+		editor.binds.texturesel .. " + scroll",
+		"change entity texture"
+	},
+	{
+		editor.binds.musicnext  .. ", " .. editor.binds.musicprev,
+		"set world music"
+	},
+	{
+		editor.binds.themecycle,
+		"set the world theme"
+	},
+	{
+		editor.binds.entcopy,
+		"copy entity to clipboard"
+	},	
+	{
+		editor.binds.entpaste,
+		"paste entity from clipboard"
+	},
+	{
+		editor.binds.savemap,
+		"save the map"
+	},
+	{
+		editor.binds.guidetoggle,
+		"toggle grid"
+	},
+	{
+		editor.binds.maptoggle,
+		"toggle minimap"
+	},
+	{
+		editor.binds.helptoggle,
+		"help menu"
+	},
+	{ 
+		binds.screenshot, 
+		"take a screenshot" 
+	},
+	{ 
+		binds.savefolder, 
+		"open local data directory" 
+	},
+	{
+		binds.exit,
+		"exit to title"
+	},
+	{
+		binds.console,
+		"toggle console"
+	}
+	
+}
+
+
+function editor:formathelp(t)
+	local s = 20 -- vertical spacing
+	love.graphics.setFont(fonts.menu)
+	for i,item in ipairs(t) do
+		love.graphics.setColor(0.60,1,1,0.60)
+		love.graphics.print(string.upper(item[1]),10,s*i+s); 
+		love.graphics.setColor(1,1,1,0.60)
+		love.graphics.printf(item[2],160,s*i+s,fonts.menu:getWidth(item[2]),"left")
+		--print("| " ..item[1].." | "..item[2] .. "|")
+	end
+	love.graphics.setFont(fonts.default)
+end
+
+
+function editor:drawhelpmenu()
+		
+	love.graphics.setCanvas(self.helpmenu)
+	love.graphics.clear()
+	
+	--frame
+	love.graphics.setColor(0,0,0,0.78)
+	love.graphics.rectangle("fill",0,0, self.helpmenu:getWidth(), self.helpmenu:getHeight(),10)
+	--border
+	love.graphics.setColor(1,1,1,0.58)
+	love.graphics.rectangle("fill",0,0, self.helpmenu:getWidth(), 5)
+	--title
+	love.graphics.setColor(1,1,1,1)
+	love.graphics.print("Editor Help",10,10)
+	
+	--hrule
+	love.graphics.setColor(1,1,1,0.58)
+	love.graphics.rectangle("fill",10,25, self.helpmenu:getWidth()-10, 1)
+
+
+	--menu title
+	love.graphics.setColor(1,1,1,0.58)
+	love.graphics.printf("["..editor.binds.helptoggle.."] to close",self.helpmenu:getWidth()-110,10,100,"right")
+		
+	--loop bind/key description and format it
+	self:formathelp(self.help)
+
+	love.graphics.setCanvas()
+	
+	love.graphics.setColor(1,1,1,1)
+	love.graphics.draw(self.helpmenu, love.graphics.getWidth()/2-self.helpmenu:getWidth()/2, love.graphics.getHeight()/2-self.helpmenu:getHeight()/2 )
+end
 
