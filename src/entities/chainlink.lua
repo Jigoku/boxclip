@@ -1,6 +1,6 @@
 --[[
  * Copyright (C) 2015 - 2018 Ricky K. Thomson
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -12,8 +12,8 @@
  * u should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  --]]
- 
- 
+
+
 chainlink = {}
 
 chainlink.textures = {
@@ -25,7 +25,7 @@ function chainlink:draw(entity)
 	--origin
 	love.graphics.setColor(1,1,1,1)
 	love.graphics.draw(self.textures["origin"], entity.xorigin-self.textures["origin"]:getWidth()/2, entity.yorigin-self.textures["origin"]:getHeight()/2, 0,1,1)
-	
+
 	local r = 0
 
 	--link
@@ -36,5 +36,5 @@ function chainlink:draw(entity)
 
 		love.graphics.draw(self.textures["link"], x-self.textures["link"]:getWidth()/2, y-self.textures["link"]:getHeight()/2, 0,1,1)
 	end
-	
+
 end

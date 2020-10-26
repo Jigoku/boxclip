@@ -1,6 +1,6 @@
 --[[
  * Copyright (C) 2015 - 2018 Ricky K. Thomson
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -12,7 +12,7 @@
  * u should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  --]]
- 
+
 collision = {}
 
 function collision:checkWorld(dt)
@@ -33,13 +33,13 @@ end
 
 function collision:right(a,b)
 	world.collision = world.collision +1
-	return a.newX < b.x+b.w and a.x > b.x+b.w 
+	return a.newX < b.x+b.w and a.x > b.x+b.w
 end
 
 
 function collision:left(a,b)
 	world.collision = world.collision +1
-	return a.newX+a.w > b.x and a.x+a.w < b.x 
+	return a.newX+a.w > b.x and a.x+a.w < b.x
 end
 
 
@@ -63,7 +63,7 @@ function collision:above(a,b)
 end
 
 
-function collision:bounds() 
+function collision:bounds()
 	-- we might not need these, if map size can be unlimited?
 	--if player.x < 0 then
 	--	player.x = 0

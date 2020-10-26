@@ -1,6 +1,6 @@
 --[[
  * Copyright (C) 2015 - 2018 Ricky K. Thomson
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -12,7 +12,7 @@
  * u should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  --]]
- 
+
 popups = {}
 
 function popups:add(x,y,text,entity)
@@ -36,7 +36,7 @@ function popups:draw()
 		--shadow
 		love.graphics.setColor(0,0,0,p.o)
 		love.graphics.printf(p.text, p.x-fonts.popups:getWidth(p.text)/2+1,p.y+1,fonts.popups:getWidth(p.text),"center")
-	
+
 		-- text
 		love.graphics.setColor(1,1,0,p.o)
 		love.graphics.printf(p.text, p.x-fonts.popups:getWidth(p.text)/2,p.y,fonts.popups:getWidth(p.text),"center")

@@ -1,6 +1,6 @@
 --[[
  * Copyright (C) 2015 - 2018 Ricky K. Thomson
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -12,7 +12,7 @@
  * u should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  --]]
- 
+
 transitions = {}
 transitions.active = false
 transitions.fadespeed = 2
@@ -47,7 +47,7 @@ function transitions:run(dt)
 			world:init(self.mode)
 		end
 	end
-	
+
 	if self.state_fadein then
 		self.fade = self.fade -self.fadespeed *dt
 		if self.fade < 0 then

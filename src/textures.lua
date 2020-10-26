@@ -1,6 +1,6 @@
 --[[
  * Copyright (C) 2015 - 2018 Ricky K. Thomson
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -20,7 +20,7 @@ function textures:load(path)
 	--returns table of loaded images from 'path' directory
 	local t = {}
 	local supported = { ".png", ".bmp", ".jpg", ".tga" }
-	
+
 	for _,file in ipairs(love.filesystem.getDirectoryItems(path)) do
 		for _,ext in ipairs(supported) do
 			if file:find(ext) then
@@ -28,7 +28,7 @@ function textures:load(path)
 			end
 		end
 	end
-	
+
 	return t
 end
 

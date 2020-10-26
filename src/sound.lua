@@ -1,6 +1,6 @@
 --[[
  * Copyright (C) 2015 - 2018 Ricky K. Thomson
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -12,7 +12,7 @@
  * u should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  --]]
- 
+
 sound = {}
 
 -- add menu / keybind to toggle this
@@ -93,7 +93,7 @@ end
 function sound:playbgm(id)
 	self.bgm = self.music[id]
 	self:stoplooping(self.music)
-	
+
 	if id ~= 0 then
 		self.bgm:setLooping(true)
 		self.bgm:setVolume(0.5)
@@ -105,7 +105,7 @@ end
 function sound:playambient(id)
 	self.ambient = self.ambience[id]
 	self:stoplooping(self.ambience)
-		
+
 	if id ~= 0 then
 		self.ambient:setLooping(true)
 		self.ambient:setVolume(1)

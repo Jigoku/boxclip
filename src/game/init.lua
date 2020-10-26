@@ -11,7 +11,7 @@ game.dtick_time = 0
 
 Camera = require("game/STALKER-X/Camera")
 camera = Camera() -- initialise a dummy camera
-	
+
 require("game/physics")
 require("game/collision")
 require("game/weather")

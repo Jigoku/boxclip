@@ -1,6 +1,6 @@
 --[[
  * Copyright (C) 2015 - 2018 Ricky K. Thomson
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -18,9 +18,9 @@
 enemies = {}
 
 
--- List of enemies 
+-- List of enemies
 enemies.list = {}
-enemies.textures = {}	
+enemies.textures = {}
 
 
 function enemies:add(x,y,movespeed,movedist,dir,name)
@@ -31,21 +31,21 @@ end
 
 function enemies:update(dt)
 	for i, enemy in ipairs(world.entities.enemy) do
-	
+
 		--animate frames if given
 		if #self.textures[enemy.type] > 1 then
 			enemy.framecycle = math.max(0, enemy.framecycle - dt)
-			
+
 			if enemy.framecycle <= 0 then
 				enemy.frame = enemy.frame + 1
-				
+
 				if enemy.frame > #self.textures[enemy.type] then
 					enemy.frame = 1
 				end
-			
+
 				enemy.framecycle = enemy.framedelay
 			end
-			
+
 			enemy.texture = self.textures[enemy.type][math.min(enemy.frame, #self.textures[enemy.type])]
 
 			--update bounds
@@ -53,12 +53,12 @@ function enemies:update(dt)
 			enemy.h = enemy.texture:getHeight()
 
 		end
-		
+
 		if enemy.alive then
 			enemy.carried = false
 			_G[enemy.type].checkCollision(enemy, dt)
 		end
-	end	
+	end
 end
 
 
@@ -67,12 +67,12 @@ function enemies:draw()
 
 	for i, enemy in ipairs(world.entities.enemy) do
 		if world:inview(enemy) then
-		
+
 			count = count + 1
 			if enemy.alive then
 				_G[enemy.type].draw(enemy)
 			end
-			
+
 			if editing or debug then
 				_G[enemy.type].drawdebug(enemy, i)
 			end

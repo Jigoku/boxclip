@@ -16,7 +16,7 @@ function love.conf(t)
 	t.modules.joystick = true
 	t.modules.physics = false
 	t.modules.touch = false
-	t.modules.video = false 
+	t.modules.video = false
 	t.window.msaa = 0
 	t.window.fsaa = 0
 	t.window.display = 1
@@ -24,5 +24,5 @@ function love.conf(t)
 	t.window.vsync = false
 	t.window.fullscreen = false
 	t.window.fullscreentype = "desktop"
-	
+
 end

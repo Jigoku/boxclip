@@ -1,6 +1,6 @@
 --[[
  * Copyright (C) 2015 - 2018 Ricky K. Thomson
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -12,7 +12,7 @@
  * u should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  --]]
- 
+
 tips = {}
 
 table.insert(editor.entities, {"tip", "tip"})
@@ -30,10 +30,10 @@ function tips:add(x,y,text)
 		y = y,
 		xorigin = x,
 		yorigin = y,
-		
+
 		w = w,
 		h = h,
-		
+
 		padding = padding,
 		text = text,
 		time = love.math.random(100),
@@ -61,25 +61,25 @@ function tips:draw()
 
 	local lw = love.graphics.getLineWidth()
 	love.graphics.setLineWidth(2)
-	
+
 	for i, tip in ipairs(world.entities.tip) do
 		if world:inview(tip) then
 			count = count + 1
-			
+
 			local corners = 15
-			
+
 			--background
 			love.graphics.setColor(1,1,1,0.78)
 			love.graphics.rectangle("fill", tip.x, tip.y, tip.w, tip.h-tip.padding,corners)
-			
+
 			--frame
 			love.graphics.setColor(0,0,0,1)
 			love.graphics.rectangle("line", tip.x, tip.y, tip.w, tip.h-tip.padding,corners)
-			
+
 			--tip text
 			love.graphics.setFont(fonts.tips)
 			love.graphics.printf(tip.text, tip.x+tip.padding, tip.y+tip.padding, tip.w-tip.padding*2, "center")
-			
+
 			if debug or editing then
 				self:drawdebug(tip, i)
 			end
@@ -87,7 +87,7 @@ function tips:draw()
 
 	end
 	world.tips = count
-	
+
 	love.graphics.setLineWidth(lw)
 end
 

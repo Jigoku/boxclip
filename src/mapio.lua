@@ -1,6 +1,6 @@
 --[[
  * Copyright (C) 2015 - 2018 Ricky K. Thomson
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -12,22 +12,22 @@
  * u should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  --]]
- 
- 
+
+
 --[[
 	TODO
 	remove functions from map files, store as table data; eg;
-	
+
 		print (dump(world.entities))
 		^ this can be written to a map file.
 		  loading maps only then relies on setting this data to world.entities
-		  
+
 		  one problem right now is that;
 			meshdata is stored as ["mesh"] = Mesh: 0x0161e8c0
 			quads are stored as ["quad"] = Quad: 0x016bed50
 		  this will obviously break things, needs adjusting
 --]]
- 
+
 mapio = {}
 mapio.path = love.filesystem.getSaveDirectory( )
 
@@ -48,13 +48,13 @@ function mapio:savemap(map)
 
 	local filename = "maps/"..map
 	local fh = love.filesystem.newFile(filename)
-	
+
 	if not fh:open("w") then
 		local errortitle = "Error"
 		local errormessage = "Unable to save the map '"..filename.."'\n"..
 		love.window.showMessageBox(errortitle, errormessage, "error")
 	end
-	
+
 	fh:write("world.gravity = ".. world.gravity .."\n")
 	fh:write("world.mapmusic = ".. world.mapmusic .."\n")
 	fh:write("world.mapambient = "..world.mapambient.."\n")
@@ -62,10 +62,10 @@ function mapio:savemap(map)
 	fh:write("world.nextmap = \"".. (world.nextmap or "title") .."\"\n")
 	fh:write("world.deadzone = ".. world.deadzone .."\n")
 	fh:write("world:settheme(\""..world.theme.."\")\n")
-	
-	
+
+
 	--this is getting stupid, change how this is saved...
-	
+
 	for _, e in ipairs(world.entities.platform) do
 		fh:write("platforms:add("..math.round(e.xorigin)..","..math.round(e.yorigin)..","..e.w..","..e.h..","..tostring(e.clip)..","..tostring(e.movex)..","..tostring(e.movey)..","..e.movespeed..","..e.movedist..","..tostring(e.swing)..","..e.angleorigin..","..e.texture..")\n")
 	end
@@ -108,7 +108,7 @@ function mapio:savemap(map)
 	for _, e in ipairs(world.entities.tip) do
 		fh:write("tips:add("..math.round(e.xorigin)..","..math.round(e.yorigin)..",\""..e.text.."\")\n")
 	end
-	
+
 	if fh:close() then
 		console:print("saved map: " ..self.path.."/"..filename)
 	end
@@ -116,7 +116,7 @@ end
 
 
 function mapio:loadmap(mapname)
-	if love.filesystem.load("maps/".. mapname  )( ) then 
+	if love.filesystem.load("maps/".. mapname  )( ) then
 		console:print("failed to load map:  " .. mapname)
 	else
 		console:print("load map: " .. mapname)
@@ -127,13 +127,13 @@ end
 function mapio:getmaptitle(map)
 	local filename = "maps/"..map
 	local fh = love.filesystem.newFile(filename)
-	
+
 	if not fh:open("r") then
 		local errortitle = "Error"
 		local errormessage = "Unable to read the map '"..filename.."'\n"..
 		love.window.showMessageBox(errortitle, errormessage, "error")
 	end
-	
+
 	local file = fh:read()
 	local key = string.match(file, "^world.maptitle = .*")
 	fh:close()
@@ -143,7 +143,7 @@ end
 
 function mapio:getmaps()
 	-- custom maps override built ins with the same name
-	return tableconcat(						
+	return tableconcat(
 		love.filesystem.getDirectoryItems( self.path .. "maps" ),--custom maps
 		love.filesystem.getDirectoryItems( "/maps" )--built in maps
 	)

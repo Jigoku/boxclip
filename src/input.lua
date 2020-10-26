@@ -1,6 +1,6 @@
 --[[
  * Copyright (C) 2015 - 2018 Ricky K. Thomson
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -12,7 +12,7 @@
  * u should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  --]]
- 
+
  input = {}
 
 
@@ -25,25 +25,25 @@ end
 
 
 function love.mousemoved(x,y,dx,dy)
-	-- Mouse input is only used whilst in the editor 
+	-- Mouse input is only used whilst in the editor
 	if mode == "editing" then editor:mousemoved(x,y,dx,dy) end
 end
 
 
 function love.mousepressed(x, y, button)
-	-- Mouse input is only used whilst in the editor 
+	-- Mouse input is only used whilst in the editor
 	if mode == "editing" then editor:mousepressed(x,y,button) end
 end
 
 
 function love.mousereleased(x, y, button)
-	-- Mouse input is only used whilst in the editor 
+	-- Mouse input is only used whilst in the editor
 	if mode == "editing" then editor:mousereleased(x,y,button) end
 end
 
 
 function love.wheelmoved(x, y)
-	-- Mouse input is only used whilst in the editor 
+	-- Mouse input is only used whilst in the editor
 	if mode == "editing" then editor:wheelmoved(x,y) end
 end
 
@@ -59,7 +59,7 @@ function love.keypressed(key)
 			console:toggle()
 		end
 	end
-	
+
 	if     mode == "title" then title:keypressed(key)
 	elseif mode == "editing" then editor:keypressed(key)
 	elseif mode == "gameover" then gameover:keypressed(key)
@@ -73,8 +73,8 @@ function love.keypressed(key)
 
 	--quit
 	if mode == "game" or mode == "editing" then
-		player:keypressed(key) 
-		
+		player:keypressed(key)
+
 		if key == binds.exit then
 			love.audio.stop()
 			title:init()
@@ -92,10 +92,10 @@ function love.keypressed(key)
 	end
 
 	--toggle fullscreen
-	if key == binds.fullscreen then 
-	
+	if key == binds.fullscreen then
+
 		local fs, fstype = love.window.getFullscreen()
-	
+
 		if fs then
 
 			local success = love.window.setMode( default_width,default_height, {resizable=true, vsync=false, minwidth=default_width, minheight=default_height})
@@ -106,15 +106,15 @@ function love.keypressed(key)
 			local success = love.window.setFullscreen( true, "desktop" )
 		end
 
-				
+
 		if not success then
 			console:print("Failed to toggle fullscreen mode!")
 		end
-	
+
 	 end
-		
+
 	--toggle sound
-	if key == binds.mute then 
+	if key == binds.mute then
 		sound.enabled = not sound.enabled
 	end
 
