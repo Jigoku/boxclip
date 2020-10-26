@@ -19,7 +19,7 @@ table.insert(editor.entities, {"crusher", "enemy"})
 enemies.textures["crusher"] = {love.graphics.newImage("data/images/enemies/crusher.png"),}
 
 
-function crusher.worldInsert(x,y,movespeed,movedist,dir,name)
+function crusher:worldInsert(x,y,movespeed,movedist,dir,name)
 	
 	table.insert(world.entities.enemy, {
 		movespeed = movespeed or 100,
@@ -41,20 +41,20 @@ function crusher.worldInsert(x,y,movespeed,movedist,dir,name)
 end
 
 
-function crusher.checkCollision(crusher, dt)
-	crusher.ticks = crusher.ticks +1
-	physics:crusher_movey(crusher, dt)
-	physics:update(crusher)
+function crusher:checkCollision(object, dt)
+	object.ticks = object.ticks +1
+	self:update(object, dt)
+	physics:update(object)
 	
 	-- NOT ACTIVE WHILST EDITING 
 	if mode == "game" and player.alive and collision:check(player.newX,player.newY,player.w,player.h,
-		crusher.x+5,crusher.y+5,crusher.w-10,crusher.h-10) then
+		object.x+5,object.y+5,object.w-10,object.h-10) then
 		
-		if(crusher.y < player.y and (player.x > crusher.x and (player.x + player.w) < (crusher.x + crusher.w))) then
+		if(object.y < player.y and (player.x > object.x and (player.x + player.w) < (object.x + object.w))) then
 			
-			player:die(crusher.type)
+			player:die(object.type)
 		
-		elseif (crusher.y < player.y and (player.x<=crusher.x or (player.x + player.w) >= (crusher.x + crusher.w))) then 
+		elseif (object.y < player.y and (player.x<=object.x or (player.x + player.w) >= (object.x + object.w))) then 
 			
 			subtract = player.dir * player.speed * 1.3 * 0.005;
 			player.xvel = 0 
@@ -68,14 +68,39 @@ function crusher.checkCollision(crusher, dt)
 end
 
 
-function crusher.draw(enemy)
+function crusher:draw(enemy)
 	local texture = enemies.textures[enemy.type][1]
 	love.graphics.setColor(1,1,1,1)
 	love.graphics.draw(texture, enemy.x, enemy.y, 0,1,1)
 end
 
 
-function crusher.drawdebug(enemy, i)
+function crusher:update(object, dt)
+	--traverse y-axis
+	if editing and object.selected then
+		object.newY = object.y
+	else
+		if object.y > object.yorigin + object.movedist then
+			object.y = object.yorigin + object.movedist
+			object.movespeed = -object.movespeed
+		end
+		if object.y < object.yorigin  then
+			object.y = object.yorigin
+			object.movespeed = -object.movespeed
+		end
+
+		if(object.movespeed>0) then
+			mv_speed = object.movespeed *6
+		else
+			mv_speed = object.movespeed / 3
+		end
+
+		object.newY = object.y + mv_speed * dt
+	end
+end
+
+
+function crusher:drawdebug(enemy, i)
 	
 	--bounds
 	love.graphics.setColor(1,0,0,1)

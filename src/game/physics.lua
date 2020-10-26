@@ -155,30 +155,6 @@ function physics:movey(object, dt)
 	end
 end
 
-function physics:crusher_movey(object, dt)
-	--traverse y-axis
-	if editing and object.selected then
-		object.newY = object.y
-	else
-		if object.y > object.yorigin + object.movedist then
-			object.y = object.yorigin + object.movedist
-			object.movespeed = -object.movespeed
-		end
-		if object.y < object.yorigin  then
-			object.y = object.yorigin
-			object.movespeed = -object.movespeed
-		end
-
-		if(object.movespeed>0) then
-			mv_speed = object.movespeed *6
-		else
-			mv_speed = object.movespeed / 3
-		end
-
-		object.newY = object.y + mv_speed * dt
-	end
-end
-
 
 function physics:world(dt)
 	self:trapsworld(dt)
