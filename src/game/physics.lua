@@ -46,6 +46,10 @@ function physics:applyVelocity(object, dt)
 				end
 			end
 		end
+	else
+		if object.xvel == 0 then
+			object.sliding = false
+		end
 	end
 
 	-- increase friction when 'idle' until velocity is zero
