@@ -590,76 +590,11 @@ end
 function editor:mousepressed(x,y,button)
 	if not editing then return end
 
-	--this function is used to place entities which are not resizable.
-
-
+	self.mouse.pressed.x = math.round(camera.x-(love.graphics.getWidth()/2/camera.scale)+x/camera.scale,-1)
+	self.mouse.pressed.y = math.round(camera.y-(love.graphics.getHeight()/2/camera.scale)+y/camera.scale,-1)
 	--self.mouse.pressed.x, self.mouse.pressed.y = camera:toWorldCoords(x,y)
 	--local x = math.round(self.mouse.pressed.x,-1)
 	--local y = math.round(self.mouse.pressed.y,-1)
-
-
-	self.mouse.pressed.x = math.round(camera.x-(love.graphics.getWidth()/2/camera.scale)+x/camera.scale,-1)
-	self.mouse.pressed.y = math.round(camera.y-(love.graphics.getHeight()/2/camera.scale)+y/camera.scale,-1)
-	local x = self.mouse.pressed.x
-	local y = self.mouse.pressed.y
-
-	if (button == 1 and self.is_selected == false ) then
-		local selection = self.entities[self.entsel][1]
-		-- TODO should be moved to entities/init.lua as function
-
-		if selection == "spawn" then
-			self:removeall("portal", "spawn")
-			portals:add(x,y,"spawn")
-		end
-		if selection == "goal" then
-			self:removeall("portal", "goal")
-			portals:add(x,y,"goal")
-		end
-
-		for i,ent in pairs(self.entities) do
-			if ent[1] == selection then
-				if ent[2] == "prop" then
-					props:add(x,y,self.entdir,false,ent[1])
-				elseif
-					ent[2] == "crate" then
-					crates:add(x,y,"gem")
-				elseif
-					ent[2] == "pickup" then
-					pickups:add(x,y,ent[1])
-				elseif
-					ent[2] == "coin" then
-					coins:add(x,y)
-				elseif
-					ent[2] == "checkpoint" then
-					checkpoints:add(x,y)
-				elseif
-					ent[2] == "trap" then
-					traps:add(x,y,ent[1])
-				elseif
-					ent[2] == "spring" then
-					springs:add(x,y,self.entdir,ent[1])
-				elseif
-					ent[2] == "bumper" then
-					bumpers:add(x,y)
-				elseif
-					ent[2] == "tip" then
-					tips:add(x,y,"this is a multi line text test to see how everything can fit nicely in the frame")
-				elseif
-					ent[2] == "enemy" then
-					enemies:add(x,y,100,100,self.entdir,ent[1])
-
-				end
-
-			end
-
-		end
-
-		-- this should be moved outside of platforms.lua eventually
-		if selection == "platform_s" then platforms:add(x,y,0,20,false,false,false,1.5,0,true,0,self.texturesel) end
-
-	elseif button == 2  then
-		self:remove()
-	end
 end
 
 
@@ -679,12 +614,68 @@ function editor:mousereleased(x,y,button)
 	if button == 1 then
 		for _,entity in pairs(self.draggable) do
 			if self.entities[self.entsel][1] == entity then
-				self:placedraggable(self.mouse.pressed.x,self.mouse.pressed.y,self.mouse.released.x,self.mouse.released.y)
+				self:placedraggable(self.mouse.pressed.x, self.mouse.pressed.y, self.mouse.released.x, self.mouse.released.y)
 			end
 		end
-		return
+
+		if self.mouse.pressed.x == self.mouse.released.x
+		and self.mouse.pressed.y == self.mouse.released.y then
+
+			local selection = self.entities[self.entsel][1]
+			if selection == "spawn" then
+				self:removeall("portal", "spawn")
+				portals:add(self.mouse.released.x,self.mouse.released.y,"spawn")
+			end
+			if selection == "goal" then
+				self:removeall("portal", "goal")
+				portals:add(self.mouse.released.x,self.mouse.released.y,"goal")
+			end
+
+			for i,ent in pairs(self.entities) do
+				if ent[1] == selection then
+					if ent[2] == "prop" then
+						props:add(self.mouse.released.x,self.mouse.released.y,self.entdir,false,ent[1])
+					elseif
+						ent[2] == "crate" then
+						crates:add(self.mouse.released.x,self.mouse.released.y,"gem")
+					elseif
+						ent[2] == "pickup" then
+						pickups:add(self.mouse.released.x,self.mouse.released.y,ent[1])
+					elseif
+						ent[2] == "coin" then
+						coins:add(self.mouse.released.x,self.mouse.released.y)
+					elseif
+						ent[2] == "checkpoint" then
+						checkpoints:add(self.mouse.released.x,self.mouse.released.y)
+					elseif
+						ent[2] == "trap" then
+						traps:add(self.mouse.released.x,self.mouse.released.y,ent[1])
+					elseif
+						ent[2] == "spring" then
+						springs:add(self.mouse.released.x,self.mouse.released.y,self.entdir,ent[1])
+					elseif
+						ent[2] == "bumper" then
+						bumpers:add(self.mouse.released.x,self.mouse.released.y)
+					elseif
+						ent[2] == "tip" then
+						tips:add(self.mouse.released.x,self.mouse.released.y,"this is a multi line text test to see how everything can fit nicely in the frame")
+					elseif
+						ent[2] == "enemy" then
+						enemies:add(self.mouse.released.x,self.mouse.released.y,100,100,self.entdir,ent[1])
+					end
+				end
+			end
+
+			if selection == "platform_s" then platforms:add(self.mouse.released.x,self.mouse.released.y,0,20,false,false,false,1.5,0,true,0,self.texturesel) end
+
+			return true
+		end
 	end
 
+	if button == 2 then
+		self:remove()
+		return true
+	end
 	--reorder entity (sendtoback)
 	if button == 3 then
 		for _,i in ipairs(self.entorder) do

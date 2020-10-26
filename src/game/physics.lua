@@ -46,6 +46,10 @@ function physics:applyVelocity(object, dt)
 				end
 			end
 		end
+	else
+		if object.xvel == 0 then
+			object.sliding = false
+		end
 	end
 
 	-- increase friction when 'idle' until velocity is zero
@@ -66,7 +70,7 @@ end
 
 function physics:applyGravity(object, dt)
 	--simulate gravity
-	if object.selected then
+	if editing and object.selected then
 		object.newY = object.y
 	else
 		object.yvel = object.yvel - (world.gravity *dt)
@@ -111,7 +115,7 @@ end
 
 function physics:movex(object, dt)
 
-	if object.selected then
+	if editing and object.selected then
 		-- traverse x-axis
 		object.newX = object.x
 	else
@@ -135,7 +139,7 @@ end
 
 function physics:movey(object, dt)
 	--traverse y-axis
-	if object.selected then
+	if editing and object.selected then
 		object.newY = object.y
 	else
 		if object.y > object.yorigin + object.movedist then
@@ -153,7 +157,7 @@ end
 
 function physics:crusher_movey(object, dt)
 	--traverse y-axis
-	if object.selected then
+	if editing and object.selected then
 		object.newY = object.y
 	else
 		if object.y > object.yorigin + object.movedist then
@@ -471,7 +475,9 @@ function physics:traps(object, dt)
 							self:bounce(object)
 						end
 
-						object.yvel = 0
+						if not (object.group == "pickup") then
+							object.yvel = 0
+						end
 
 						-- only player can make logs fall
 						if object.group == "players" then
