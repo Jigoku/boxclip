@@ -19,11 +19,11 @@ table.insert(editor.entities, {"icicle_d", "enemy"})
 enemies.textures["icicle_d"] = { love.graphics.newImage( "data/images/enemies/icicle_d.png"),}
 
 
-function icicle_d.worldInsert(x,y,movespeed,movedist,dir,name)
+function icicle_d:worldInsert(x,y,movespeed,movedist,dir,name)
 end
 
 
-function icicle_d.checkCollision(enemy, dt)
+function icicle_d:checkCollision(enemy, dt)
 end
 
 function icicle_d.draw(enemy)
@@ -32,7 +32,7 @@ function icicle_d.draw(enemy)
 	love.graphics.draw(texture, enemy.x, enemy.y, 0,1,1)
 end
 
-function icicle_d.drawdebug(enemy, i)
+function icicle_d:drawdebug(enemy, i)
 	--bounds
 	love.graphics.setColor(1,0,0,1)
 	love.graphics.rectangle("line", enemy.x+5, enemy.y+5, enemy.w-10, enemy.h-10)

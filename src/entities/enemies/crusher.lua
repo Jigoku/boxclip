@@ -44,7 +44,7 @@ end
 function crusher:checkCollision(object, dt)
 	object.ticks = object.ticks +1
 	self:update(object, dt)
-	physics:update(object)
+	
 	
 	-- NOT ACTIVE WHILST EDITING 
 	if mode == "game" and player.alive and collision:check(player.newX,player.newY,player.w,player.h,
@@ -97,6 +97,9 @@ function crusher:update(object, dt)
 
 		object.newY = object.y + mv_speed * dt
 	end
+	
+	physics:update(object)
+	
 end
 
 

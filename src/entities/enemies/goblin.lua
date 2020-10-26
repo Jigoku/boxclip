@@ -18,7 +18,7 @@ table.insert(enemies.list, "goblin")
 table.insert(editor.entities, {"goblin", "enemy"})
 enemies.textures["goblin" ] = textures:load("data/images/enemies/goblin/")
 
-function goblin.worldInsert(x,y,movespeed,movedist,dir,name)
+function goblin:worldInsert(x,y,movespeed,movedist,dir,name)
 	
 	local texture = enemies.textures[name][1]
 	table.insert(world.entities.enemy, {
@@ -47,7 +47,7 @@ function goblin.worldInsert(x,y,movespeed,movedist,dir,name)
 end
 
 
-function goblin.checkCollision(enemy, dt)
+function goblin:checkCollision(enemy, dt)
 	
 	physics:applyGravity(enemy, dt)
 
@@ -89,7 +89,7 @@ end
 
 
 
-function goblin.draw(enemy)
+function goblin:draw(enemy)
 	love.graphics.setColor(1,1,1,1)
 	if enemy.movespeed < 0 then
 		love.graphics.draw(enemy.texture, enemy.x, enemy.y, 0, 1, 1)
@@ -99,7 +99,7 @@ function goblin.draw(enemy)
 end
 
 
-function goblin.drawdebug(enemy, i)
+function goblin:drawdebug(enemy, i)
 	--bounds
 	love.graphics.setColor(1,0,0,1)
 	love.graphics.rectangle("line", enemy.x+5, enemy.y+5, enemy.w-10, enemy.h-10)
