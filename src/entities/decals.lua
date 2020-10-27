@@ -52,8 +52,10 @@ end
 
 function decals:update(dt)
 	for i, decal in ipairs(world.entities.decal) do
-		decal.shader:send("millis", love.timer.getTime())
-		decal.shader:send("speed", decal.scrollspeed)
+		if world:inview(decal) then
+			decal.shader:send("millis", love.timer.getTime())
+			decal.shader:send("speed", decal.scrollspeed)
+		end
 	end
 
 	if world.decals and world.decals > 0 then
