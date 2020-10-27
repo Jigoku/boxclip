@@ -17,10 +17,9 @@
  -- NOTE these are now drawn above player.
  -- implement a decal_b entity for decals that should be on the rear layer behind everything else
 
+require("shader")
 decals = {}
-
 decals.textures = textures:load("data/images/decals/")
-
 decals.waterfall_texture = love.graphics.newImage("data/images/tiles/waterfall.png")
 decals.waterfall_spin = 0
 
@@ -33,7 +32,6 @@ table.insert(editor.entities, {"decal", "decal"})
 
 
 function decals:add(x,y,w,h,scrollspeed,texture)
-
 	table.insert(world.entities.decal, {
 		--position
 		x = x or 0,
@@ -46,23 +44,16 @@ function decals:add(x,y,w,h,scrollspeed,texture)
 		scrollspeed = scrollspeed or 100,
 		texture = texture or 1,
 		group = "decal",
-		quad = love.graphics.newQuad( x,y,w,h, self.textures[texture]:getDimensions() )
+		quad = love.graphics.newQuad( x,y,w,h, self.textures[texture]:getDimensions()),
+		shader = love.graphics.newShader(shader.decal)
 	})
 end
 
 
 function decals:update(dt)
 	for i, decal in ipairs(world.entities.decal) do
-		local texture = self.textures[decal.texture]
-
-		if world:inview(decal) then
-			decal.scroll = decal.scroll + (decal.scrollspeed * dt)
-			if decal.scroll > texture:getHeight()then
-				decal.scroll = decal.scroll - texture:getHeight()
-			end
-			decal.quad:setViewport(0,-decal.scroll, decal.w,decal.h )
-
-		end
+		decal.shader:send("millis", love.timer.getTime())
+		decal.shader:send("speed", decal.scrollspeed)
 	end
 
 	if world.decals and world.decals > 0 then
@@ -74,15 +65,14 @@ end
 
 function decals:draw()
 	local count = 0
-
 	for i, decal in ipairs(world.entities.decal) do
 		if world:inview(decal) then
 			count = count + 1
-
+			love.graphics.setShader(decal.shader)
 			local texture = self.textures[decal.texture]
 			love.graphics.setColor(1,1,1,0.6)
 			love.graphics.draw(texture, decal.quad, decal.x,decal.y)
-
+			love.graphics.setShader()
 			self:drawwaterfall(decal)
 		end
 	end
