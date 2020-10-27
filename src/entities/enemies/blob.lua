@@ -18,7 +18,7 @@ table.insert(enemies.list, "blob")
 table.insert(editor.entities, {"blob", "enemy"})
 enemies.textures["blob"] = textures:load("data/images/enemies/blob/")
 
-function blob.worldInsert(x,y,movespeed,movedist,dir,name)
+function blob:worldInsert(x,y,movespeed,movedist,dir,name)
 	
 	local texture = enemies.textures[name][1]
 	table.insert(world.entities.enemy, {
@@ -47,7 +47,7 @@ function blob.worldInsert(x,y,movespeed,movedist,dir,name)
 end
 
 
-function blob.checkCollision(enemy, dt)
+function blob:checkCollision(enemy, dt)
 	
 	physics:applyGravity(enemy, dt)
 
@@ -87,7 +87,7 @@ function blob.checkCollision(enemy, dt)
 end
 
 
-function blob.draw(enemy)
+function blob:draw(enemy)
 	love.graphics.setColor(1,1,1,1)
 	if enemy.movespeed < 0 then
 		love.graphics.draw(enemy.texture, enemy.x, enemy.y, 0, 1, 1)
@@ -97,7 +97,7 @@ function blob.draw(enemy)
 end
 
 
-function blob.drawdebug(enemy, i)
+function blob:drawdebug(enemy, i)
 	--bounds
 	love.graphics.setColor(1,0,0,1)
 	love.graphics.rectangle("line", enemy.x+5, enemy.y+5, enemy.w-10, enemy.h-10)

@@ -18,7 +18,7 @@ table.insert(enemies.list, "bee")
 table.insert(editor.entities, {"bee", "enemy"})
 enemies.textures["bee"] = textures:load("data/images/enemies/bee/")
 
-function bee.worldInsert(x,y,movespeed,movedist,dir,name)
+function bee:worldInsert(x,y,movespeed,movedist,dir,name)
 	
 	local texture = enemies.textures[name][1]
 	table.insert(world.entities.enemy, {
@@ -48,7 +48,7 @@ function bee.worldInsert(x,y,movespeed,movedist,dir,name)
 end
 
 
-function bee.checkCollision(enemy, dt)
+function bee:checkCollision(enemy, dt)
 	
 	enemy.y = enemy.yorigin - (10*math.sin(enemy.ticks*enemy.yspeed*math.pi)) + 20
 	enemy.ticks = enemy.ticks +1
@@ -81,7 +81,7 @@ function bee.checkCollision(enemy, dt)
 end
 
 
-function bee.draw(enemy)
+function bee:draw(enemy)
 	love.graphics.setColor(1,1,1,1)
 	if enemy.movespeed < 0 then
 		love.graphics.draw(enemy.texture, enemy.x, enemy.y, 0, 1, 1)
@@ -90,7 +90,7 @@ function bee.draw(enemy)
 	end
 end
 
-function bee.drawdebug(enemy, i)
+function bee:drawdebug(enemy, i)
 	--bounds
 	love.graphics.setColor(1,0,0,1)
 	love.graphics.rectangle("line", enemy.x+5, enemy.y+5, enemy.w-10, enemy.h-10)

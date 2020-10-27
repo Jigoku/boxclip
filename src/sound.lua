@@ -50,6 +50,7 @@ sound.effects = {
 	["start"] = love.audio.newSource("data/sounds/music/start.ogg", "static"),
 	["bounce"] = love.audio.newSource("data/sounds/effect/bounce.ogg", "static"),
 	["slide"] = love.audio.newSource("data/sounds/effect/slide.ogg", "static"),
+	["crush"] = love.audio.newSource("data/sounds/effect/crush.ogg", "static"),
 }
 
 sound.music = {

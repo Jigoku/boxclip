@@ -18,7 +18,7 @@ table.insert(enemies.list, "icicle")
 table.insert(editor.entities, {"icicle", "enemy"})
 enemies.textures["icicle"] = { love.graphics.newImage( "data/images/enemies/icicle.png"),}
 
-function icicle.worldInsert(x,y,movespeed,movedist,dir,name)
+function icicle:worldInsert(x,y,movespeed,movedist,dir,name)
 	table.insert(world.entities.enemy, {		
 		x = x or 0,
 		y = y or 0,
@@ -39,7 +39,7 @@ function icicle.worldInsert(x,y,movespeed,movedist,dir,name)
 end
 
 
-function icicle.checkCollision(enemy, dt)
+function icicle:checkCollision(enemy, dt)
 	
 	if enemy.falling then
 					
@@ -101,13 +101,13 @@ function icicle.checkCollision(enemy, dt)
 end
 
 
-function icicle.draw(enemy)
+function icicle:draw(enemy)
 	local texture = enemies.textures[enemy.type][1]
 	love.graphics.setColor(1,1,1,1)
 	love.graphics.draw(texture, enemy.x, enemy.y, 0,1,1)
 end
 
-function icicle.drawdebug(enemy, i)
+function icicle:drawdebug(enemy, i)
 	--bounds
 	love.graphics.setColor(1,0,0,1)
 	love.graphics.rectangle("line", enemy.x+5, enemy.y+5, enemy.w-10, enemy.h-10)
