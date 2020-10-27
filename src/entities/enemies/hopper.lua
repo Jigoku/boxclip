@@ -18,7 +18,7 @@ table.insert(enemies.list, "hopper")
 table.insert(editor.entities, {"hopper", "enemy"})
 enemies.textures["hopper" ] = textures:load("data/images/enemies/hopper/")
 
-function hopper.worldInsert(x,y,movespeed,movedist,dir,name)
+function hopper:worldInsert(x,y,movespeed,movedist,dir,name)
 	
 	local texture = enemies.textures["hopper"][1]
 	table.insert(world.entities.enemy, {
@@ -47,7 +47,7 @@ function hopper.worldInsert(x,y,movespeed,movedist,dir,name)
 end
 
 
-function hopper.checkCollision(enemy, dt)
+function hopper:checkCollision(enemy, dt)
 	
 	physics:applyGravity(enemy, dt)
 
@@ -94,7 +94,7 @@ function hopper.checkCollision(enemy, dt)
 end
 
 
-function hopper.draw(enemy)
+function hopper:draw(enemy)
 	love.graphics.setColor(1,1,1,1)
 	if enemy.movespeed < 0 then
 		love.graphics.draw(enemy.texture, enemy.x, enemy.y, 0, 1, 1)
@@ -104,7 +104,7 @@ function hopper.draw(enemy)
 end
 
 
-function hopper.drawdebug(enemy, i)
+function hopper:drawdebug(enemy, i)
 	--bounds
 	love.graphics.setColor(1,0,0,1)
 	love.graphics.rectangle("line", enemy.x+5, enemy.y+5, enemy.w-10, enemy.h-10)

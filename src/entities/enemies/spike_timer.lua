@@ -18,7 +18,7 @@ table.insert(enemies.list, "spike_timer")
 table.insert(editor.entities, {"spike_timer", "enemy"})
 enemies.textures["spike_timer"] = {love.graphics.newImage( "data/images/enemies/spike.png"),}
 
-function spike_timer.worldInsert(x,y,movespeed,movedist,dir,name)
+function spike_timer:worldInsert(x,y,movespeed,movedist,dir,name)
 	if dir == 0 or dir == 2 then
 		width = enemies.textures[name][1]:getWidth()
 		height = enemies.textures[name][1]:getHeight()
@@ -49,7 +49,7 @@ function spike_timer.worldInsert(x,y,movespeed,movedist,dir,name)
 end
 
 
-function spike_timer.checkCollision(enemy, dt)
+function spike_timer:checkCollision(enemy, dt)
 	
 	enemy.timer_cycle = math.max(0, enemy.timer_cycle - dt)
 	if enemy.timer_cycle <= 0 then
@@ -83,7 +83,7 @@ function spike_timer.checkCollision(enemy, dt)
 end
 
 
-function spike_timer.draw(enemy) 
+function spike_timer:draw(enemy) 
 	local texture = enemies.textures[enemy.type][1]
 	love.graphics.setColor(1,1,1,1)
 	local x,y = camera:toCameraCoords(enemy.xorigin, enemy.yorigin)
@@ -93,7 +93,7 @@ function spike_timer.draw(enemy)
 end
 
 
-function spike_timer.drawdebug(enemy, i)
+function spike_timer:drawdebug(enemy, i)
 	--bounds
 	love.graphics.setColor(1,0,0,1)
 	love.graphics.rectangle("line", enemy.x+5, enemy.y+5, enemy.w-10, enemy.h-10)

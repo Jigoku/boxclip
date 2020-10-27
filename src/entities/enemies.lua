@@ -24,7 +24,7 @@ enemies.textures = {}
 
 
 function enemies:add(x,y,movespeed,movedist,dir,name)
-	_G[name].worldInsert(x,y,movespeed,movedist,dir,name)
+	_G[name]:worldInsert(x,y,movespeed,movedist,dir,name)
 	print( name .. " added @  X:"..x.." Y: "..y)
 end
 
@@ -56,7 +56,7 @@ function enemies:update(dt)
 
 		if enemy.alive then
 			enemy.carried = false
-			_G[enemy.type].checkCollision(enemy, dt)
+			_G[enemy.type]:checkCollision(enemy, dt)
 		end
 	end
 end
@@ -70,11 +70,11 @@ function enemies:draw()
 
 			count = count + 1
 			if enemy.alive then
-				_G[enemy.type].draw(enemy)
+				_G[enemy.type]:draw(enemy)
 			end
 
 			if editing or debug then
-				_G[enemy.type].drawdebug(enemy, i)
+				_G[enemy.type]:drawdebug(enemy, i)
 			end
 		end
 	end

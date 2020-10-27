@@ -18,7 +18,7 @@ table.insert(enemies.list, "bird")
 table.insert(editor.entities, {"bird", "enemy"})
 enemies.textures["bird"] = textures:load("data/images/enemies/bird/")
 
-function bird.worldInsert(x,y,movespeed,movedist,dir,name)
+function bird:worldInsert(x,y,movespeed,movedist,dir,name)
 	
 	local texture = enemies.textures[name][1]
 	table.insert(world.entities.enemy, {
@@ -48,7 +48,7 @@ function bird.worldInsert(x,y,movespeed,movedist,dir,name)
 end
 
 
-function bird.checkCollision(enemy, dt)
+function bird:checkCollision(enemy, dt)
 	
 	enemy.y = enemy.yorigin - (10*math.sin(enemy.ticks*enemy.yspeed*math.pi)) + 20
 	enemy.ticks = enemy.ticks +1
@@ -81,7 +81,7 @@ function bird.checkCollision(enemy, dt)
 	
 end
 
-function bird.draw()
+function bird:draw()
 	love.graphics.setColor(1,1,1,1)
 	if enemy.movespeed < 0 then
 		love.graphics.draw(enemy.texture, enemy.x, enemy.y, 0, 1, 1)
@@ -91,7 +91,7 @@ function bird.draw()
 end
 
 
-function bird.drawdebug(enemy, i)
+function bird:drawdebug(enemy, i)
 	--bounds
 	love.graphics.setColor(1,0,0,1)
 	love.graphics.rectangle("line", enemy.x+5, enemy.y+5, enemy.w-10, enemy.h-10)
