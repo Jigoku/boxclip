@@ -141,14 +141,14 @@ end
 
 function player:look(dt)
 	if self.xvel == 0 and self.carried then
-		if love.keyboard.isDown(binds.up) or joystick:isDown("dpup") then
+		if love.keyboard.isDown(binds.up) or joystick:isDown(binds.joystick.up) then
 			self.look_time = math.max(0, self.look_time - dt)
 			if self.look_time <= 0 then
 				self.look_time = 0
 				self.look_up = true
 				camera.y = camera.y - self.look_offset * dt
 			end
-		elseif love.keyboard.isDown(binds.down) or joystick:isDown("dpdown") then
+		elseif love.keyboard.isDown(binds.down) or joystick:isDown(binds.joystick.down) then
 			self.look_time = math.max(0, self.look_time - dt)
 			if self.look_time <= 0 then
 				self.look_time = 0
@@ -175,22 +175,22 @@ function player:update(dt)
 	if self.alive and not console.active then
 		self:look(dt)
 
-		if (love.keyboard.isDown(binds.slide) or joystick:isDown("x")) and self.carried then
+		if (love.keyboard.isDown(binds.slide) or joystick:isDown(binds.joystick.slide)) and self.carried then
 			self.sliding = true
 		end
 
-		if love.keyboard.isDown(binds.right) or joystick:isDown("dpright") then
+		if love.keyboard.isDown(binds.right) or joystick:isDown(binds.joystick.right) then
 			self:moveright()
 
-		elseif love.keyboard.isDown(binds.left) or joystick:isDown("dpleft") then
+		elseif love.keyboard.isDown(binds.left) or joystick:isDown(binds.joystick.left) then
 			self:moveleft()
 
 		else
 			self.dir = 0
 		end
 
-		if love.keyboard.isDown(binds.jump) or joystick:isDown("a") then
-			if love.keyboard.isDown(binds.down) or joystick:isDown("dpdown") then
+		if love.keyboard.isDown(binds.jump) or joystick:isDown(binds.joystick.jump) then
+			if love.keyboard.isDown(binds.down) or joystick:isDown(binds.joystick.down) then
 				self:drop()
 			else
 				self:jump()

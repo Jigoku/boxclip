@@ -1,20 +1,31 @@
-binds = {}
+binds = {
+    --misc controls
+    pause = "p",
+    exit = "escape",
+    fullscreen = "f5",
+    console = "`",
+    mute = "f8",
+    savefolder = "f11",
+    screenshot = "f12",
 
---misc controls
-binds.pause = "p"
-binds.exit = "escape"
-binds.fullscreen = "f5"
-binds.console = "`"
-binds.mute = "f8"
-binds.savefolder = "f11"
-binds.screenshot = "f12"
-
---player controls
-binds.left = "a"
-binds.right = "d"
-binds.jump = "space"
-binds.down = "s"
-binds.slide = "lshift"
-binds.up = "w"
+    --player controls
+    up = "w",
+    down = "s",
+    left = "a",
+    right = "d",
+    jump = "space",
+    slide = "lshift",
+}
 
 
+
+binds.joystick = {
+    --player controls
+    up = "dpup",
+    down = "dpdown",
+    left = "dpleft",
+    right = "dpright",
+    jump = "a",
+    slide = "x",
+
+}
