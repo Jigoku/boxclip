@@ -141,14 +141,14 @@ end
 
 function player:look(dt)
 	if self.xvel == 0 and self.carried then
-		if love.keyboard.isDown(binds.up) then
+		if love.keyboard.isDown(binds.up) or joystick:isDown("dpup") then
 			self.look_time = math.max(0, self.look_time - dt)
 			if self.look_time <= 0 then
 				self.look_time = 0
 				self.look_up = true
 				camera.y = camera.y - self.look_offset * dt
 			end
-		elseif love.keyboard.isDown(binds.down) then
+		elseif love.keyboard.isDown(binds.down) or joystick:isDown("dpdown") then
 			self.look_time = math.max(0, self.look_time - dt)
 			if self.look_time <= 0 then
 				self.look_time = 0
@@ -175,7 +175,7 @@ function player:update(dt)
 	if self.alive and not console.active then
 		self:look(dt)
 
-		if love.keyboard.isDown(binds.slide) and self.carried then
+		if (love.keyboard.isDown(binds.slide) or joystick:isDown("x")) and self.carried then
 			self.sliding = true
 		end
 
