@@ -18,7 +18,7 @@ table.insert(enemies.list, "spikeball")
 table.insert(editor.entities, {"spikeball", "enemy"})
 enemies.textures["spikeball"] = { love.graphics.newImage( "data/images/enemies/spikeball.png"),}
 
-function spikeball.worldInsert(x,y,movespeed,movedist,dir,name)
+function spikeball:worldInsert(x,y,movespeed,movedist,dir,name)
 	table.insert(world.entities.enemy, {
 		w = enemies.textures[name][1]:getWidth(),
 		h = enemies.textures[name][1]:getHeight(),
@@ -40,7 +40,7 @@ function spikeball.worldInsert(x,y,movespeed,movedist,dir,name)
 end
 
 
-function spikeball.checkCollision(enemy, dt)
+function spikeball:checkCollision(enemy, dt)
 	
 	
 	enemy.angle = enemy.angle - (enemy.speed * dt)
@@ -65,7 +65,7 @@ end
 
 
 
-function spikeball.draw(enemy)
+function spikeball:draw(enemy)
 	local texture = enemies.textures[enemy.type][1]
 	love.graphics.setColor(1,1,1,1)
 	chainlink:draw(enemy)
@@ -78,7 +78,7 @@ function spikeball.draw(enemy)
 end
 
 
-function spikeball.drawdebug(enemy, i)
+function spikeball:drawdebug(enemy, i)
 	local texture = enemies.textures[enemy.type]
 	
 	--bounds

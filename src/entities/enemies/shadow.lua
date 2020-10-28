@@ -16,9 +16,9 @@
 shadow = {}
 table.insert(enemies.list, "shadow")
 table.insert(editor.entities, {"shadow", "enemy"})
-enemies.textures["shadow" ] = textures:load("data/images/enemies/shadow/")
+enemies.textures["shadow"] = textures:load("data/images/enemies/shadow/")
 
-function shadow.worldInsert(x,y,movespeed,movedist,dir,name)
+function shadow:worldInsert(x,y,movespeed,movedist,dir,name)
 	
 	local texture = enemies.textures[name][1]
 	table.insert(world.entities.enemy, {
@@ -47,7 +47,7 @@ function shadow.worldInsert(x,y,movespeed,movedist,dir,name)
 end
 
 
-function shadow.checkCollision(enemy, dt)
+function shadow:checkCollision(enemy, dt)
 	
 	physics:applyGravity(enemy, dt)
 
@@ -87,7 +87,7 @@ function shadow.checkCollision(enemy, dt)
 	
 end
 
-function shadow.draw(enemy)
+function shadow:draw(enemy)
 	love.graphics.setColor(1,1,1,1)
 	if enemy.movespeed < 0 then
 		love.graphics.draw(enemy.texture, enemy.x, enemy.y, 0, 1, 1)
@@ -97,7 +97,7 @@ function shadow.draw(enemy)
 end
 
 
-function shadow.drawdebug(enemy, i)
+function shadow:drawdebug(enemy, i)
 	--bounds
 	love.graphics.setColor(1,0,0,1)
 	love.graphics.rectangle("line", enemy.x+5, enemy.y+5, enemy.w-10, enemy.h-10)
