@@ -23,6 +23,7 @@ player.sprite = {
 	["dizzy"] = textures:load("data/images/player/dizzy/"),
 	["faint"] = textures:load("data/images/player/faint/"),
 	["slide"] = textures:load("data/images/player/sliding/"),
+	["look_up"] = textures:load("data/images/player/look_up/"),
 
 }
 
@@ -62,8 +63,13 @@ function player:init()
 	--self.candrop = false
 	--self.canjump = true
 
-	self.shieldscale = 60
+	-- used for looking upwards
+	self.look_delay = 0.5
+	self.look_time = 0
+	self.look_offset = 1000
+	self.look_up = false
 
+	self.shieldscale = 60
 	self.invincible = false
 	self.invincible_timer = 15
 
@@ -133,6 +139,33 @@ function player:drawdebug()
 end
 
 
+function player:look(dt)
+	if self.xvel == 0 and self.carried then
+		if love.keyboard.isDown(binds.up) then
+			self.look_time = math.max(0, self.look_time - dt)
+			if self.look_time <= 0 then
+				self.look_time = 0
+				self.look_up = true
+				camera.y = camera.y - self.look_offset * dt
+			end
+		elseif love.keyboard.isDown(binds.down) then
+			self.look_time = math.max(0, self.look_time - dt)
+			if self.look_time <= 0 then
+				self.look_time = 0
+				self.look_down = true
+				camera.y = camera.y + self.look_offset * dt
+			end
+		else
+			self.look_time = self.look_delay
+			self.look_up = false
+			self.look_down = false
+		end
+	else
+		self.look_time = self.look_delay
+	end
+end
+
+
 function player:update(dt)
 
 	if paused or editing or world.splash.active then return end
@@ -140,6 +173,7 @@ function player:update(dt)
 	-- player input / movement
 
 	if self.alive and not console.active then
+		self:look(dt)
 
 		if love.keyboard.isDown(binds.slide) and self.carried then
 			self.sliding = true
@@ -205,9 +239,14 @@ function player:update(dt)
 					self.state = "run"
 				end
 			else
-				--idle animation
-				self.state = "idle"
 				self.framedelay = 0.2
+				if self.look_up then
+					self.state = "look_up"
+				else
+					--idle animation
+					self.state = "idle"
+				end
+
 			end
 		end
 	else
