@@ -497,6 +497,12 @@ function physics:traps(object, dt)
 										camera:shake(8, 1, 30, 'XY')
 									end
 							else
+								if object.xvel ~= 0 and object.sliding then
+									sound:play(sound.effects["slide"])
+								else
+									object.sliding = false
+								end
+
 								object.newY = trap.y - object.h -1 *dt
 								object.yvel = 0
 							end
