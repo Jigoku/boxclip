@@ -306,8 +306,8 @@ function physics:platforms(object, dt)
 
 			-- only check these when clip is true
 			if platform.clip then
-				
-				
+
+
 				-- right side
 				if collision:right(object,platform)
 				and not collision:top(object,platform)
@@ -322,7 +322,7 @@ function physics:platforms(object, dt)
 				and not collision:right(object,platform) then
 					object.xvel = 0
 					object.xvelboost = 0
-					object.newX = platform.x-object.w -3 *dt
+					object.newX = platform.x-object.w -1 *dt
 
 				-- bottom side
 				elseif collision:bottom(object,platform)
@@ -331,7 +331,7 @@ function physics:platforms(object, dt)
 					console:print('bottom side collision ')
 					object.yvel = 0
 					-- object.newY = platform.y + platform.h +1 *dt
-					
+
 					object.newY = platform.y + platform.h +1 *dt
 					-- bottom side
 				end

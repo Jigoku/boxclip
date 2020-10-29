@@ -233,24 +233,21 @@ function player:update(dt)
 		-- this keeps the sprite in place relative to the characters head
 		local oldtex_h = self.sprite[ostate][self.frame]:getHeight()
 		local newtex_h = self.sprite[self.state][self.frame]:getHeight()
-		
+
 		local oldtex_w = self.sprite[ostate][self.frame]:getWidth()
 		local newtex_w = self.sprite[self.state][self.frame]:getWidth()
-		
+
 		if newtex_h > oldtex_h then
 			self.y = self.y + (oldtex_h - newtex_h)
 		end
-		
-		
-		if(newtex_w > oldtex_w) then 
-			if self.dir>0 then 
-				self.x = self.x + (oldtex_w - newtex_w) 
-			
-			elseif self.dir<0  then 
-				self.x = self.x - (oldtex_w - newtex_w) 
-			end
+
+
+		if(newtex_w > oldtex_w) then
+			self.x = self.x + (oldtex_w - newtex_w) * dir
+		elseif(newtex_w < oldtex_w) then
+			self.x = self.x - (oldtex_w - newtex_w) * dir
 		end
-		
+
 	end
 
 	-- invincibility check
