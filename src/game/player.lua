@@ -241,7 +241,6 @@ function player:update(dt)
 			self.y = self.y + (oldtex_h - newtex_h)
 		end
 
-
 		if(newtex_w > oldtex_w) then
 			self.x = self.x + (oldtex_w - newtex_w) * self.dir / 2
 		elseif(newtex_w < oldtex_w) then
