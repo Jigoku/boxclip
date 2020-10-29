@@ -240,12 +240,14 @@ function player:update(dt)
 		if newtex_h > oldtex_h then
 			self.y = self.y + (oldtex_h - newtex_h)
 		end
-
-		if(newtex_w > oldtex_w) then
-			self.x = self.x + (oldtex_w - newtex_w) * self.dir / 2
-		elseif(newtex_w < oldtex_w) then
-			self.x = self.x - (oldtex_w - newtex_w) * self.dir / 2
+		
+		
+		if(self.state=="idle" and self.dir==1) then
+			self.x = self.x + (oldtex_w - newtex_w)
 		end
+		
+		
+		
 
 	end
 
@@ -260,6 +262,7 @@ function player:update(dt)
 			self.particles.invincible:stop()
 			console:print("invincibility ended")
 		end
+	
 	end
 
 	-- end game if no lives left
