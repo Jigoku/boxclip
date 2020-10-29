@@ -328,10 +328,7 @@ function physics:platforms(object, dt)
 				elseif collision:bottom(object,platform)
 				and not collision:right(object,platform)
 				and not collision:left(object,platform) then
-					console:print('bottom side collision ')
 					object.yvel = 0
-					-- object.newY = platform.y + platform.h +1 *dt
-
 					object.newY = platform.y + platform.h +1 *dt
 					-- bottom side
 				end

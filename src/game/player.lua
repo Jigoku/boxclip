@@ -242,10 +242,9 @@ function player:update(dt)
 		end
 		
 		
-		if(self.dir==1) then
+		if(self.lastdir ==1) then
 			self.x = self.x + (oldtex_w - newtex_w)
 		end
-		
 
 	end
 
