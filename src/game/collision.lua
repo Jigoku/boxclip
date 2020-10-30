@@ -31,6 +31,10 @@ function collision:check(x1,y1,w1,h1, x2,y2,w2,h2)
 end
 
 
+function collision:inside(a,b)
+	--if( (a.newX  + a.w > b.x and and a.x+a.w > b.x) and (a.newX < b.x+b.w and a.x > b.x+b.w))
+end
+
 function collision:right(a,b)
 	world.collision = world.collision +1
 	return a.newX < b.x+b.w and a.x > b.x+b.w

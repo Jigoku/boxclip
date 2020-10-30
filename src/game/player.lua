@@ -270,12 +270,21 @@ function player:update(dt)
 		-- reposition player y position if state differs
 		-- difference between oldstate/newstate :getHeight()
 		-- this keeps the sprite in place relative to the characters head
-		local oldtex = self.sprite[ostate][self.frame]:getHeight()
-		local newtex = self.sprite[self.state][self.frame]:getHeight()
+		local oldtex_h = self.sprite[ostate][self.frame]:getHeight()
+		local newtex_h = self.sprite[self.state][self.frame]:getHeight()
 
-		if newtex > oldtex then
-			self.y = self.y + (oldtex - newtex)
+		local oldtex_w = self.sprite[ostate][self.frame]:getWidth()
+		local newtex_w = self.sprite[self.state][self.frame]:getWidth()
+
+		if newtex_h > oldtex_h then
+			self.y = self.y + (oldtex_h - newtex_h)
 		end
+		
+		
+		if(self.lastdir ==1) then
+			self.x = self.x + (oldtex_w - newtex_w)
+		end
+
 	end
 
 	-- invincibility check
@@ -289,6 +298,7 @@ function player:update(dt)
 			self.particles.invincible:stop()
 			console:print("invincibility ended")
 		end
+	
 	end
 
 	-- end game if no lives left
