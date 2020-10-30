@@ -104,34 +104,6 @@ editor.musicmenuduration = 4
 --these are defined at top of entities/*.lua
 editor.entities = {}
 
--- entity priority for selection / hover mouse
--- TODO should be moved to entities/init.lua
-editor.entorder = {
-	"tip",
-	"material",
-	"trap",
-	"enemy",
-	"pickup",
-	"coin",
-	"portal",
-	"crate",
-	"checkpoint",
-	"bumper",
-	"spring",
-	"platform",
-	"prop",
-	"decal"
- }
-
-
---entities which are draggable (size placement)
--- TODO should be moved to entities/init.lua
-editor.draggable = {
-	"platform", "platform_b", "platform_x", "platform_y",
-	"decal",
-	"death"
-}
-
 
 -- allow themes to be added by simply placing a theme.lua file
 function editor:getthemes()

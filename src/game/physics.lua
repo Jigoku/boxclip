@@ -307,6 +307,7 @@ function physics:platforms(object, dt)
 			-- only check these when clip is true
 			if platform.clip then
 
+
 				-- right side
 				if collision:right(object,platform)
 				and not collision:top(object,platform)
@@ -328,7 +329,8 @@ function physics:platforms(object, dt)
 				and not collision:right(object,platform)
 				and not collision:left(object,platform) then
 					object.yvel = 0
-					object.newY = platform.y +platform.h +1 *dt
+					object.newY = platform.y + platform.h +1 *dt
+					-- bottom side
 				end
 			end
 
@@ -497,6 +499,12 @@ function physics:traps(object, dt)
 										camera:shake(8, 1, 30, 'XY')
 									end
 							else
+								if object.xvel ~= 0 and object.sliding then
+									sound:play(sound.effects["slide"])
+								else
+									object.sliding = false
+								end
+
 								object.newY = trap.y - object.h -1 *dt
 								object.yvel = 0
 							end

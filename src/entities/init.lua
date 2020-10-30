@@ -49,6 +49,34 @@ for i, file in ipairs(enemyfiles) do
 end
 
 
+-- entity priority for selection / hover mouse
+-- TODO should be moved to entities/init.lua
+editor.entorder = {
+	"tip",
+	"material",
+	"trap",
+	"enemy",
+	"pickup",
+	"coin",
+	"portal",
+	"crate",
+	"checkpoint",
+	"bumper",
+	"spring",
+	"platform",
+	"prop",
+	"decal"
+ }
+ 
+--entities which are draggable (size placement)
+-- TODO should be moved to entities/init.lua
+editor.draggable = {
+	"platform", "platform_b", "platform_x", "platform_y",
+	"decal",
+	"death"
+} 
+ 
+
 
 --[[
 	TODO, read functions from each module, merge into entities tables...

@@ -93,6 +93,38 @@ function console:textinput(t)
 	end
 end
 
+function console:run(c)
+	-- run/exec lua code here
+	local fn, err = loadstring(c)
+	if not fn then
+		self:print(err)
+	else
+		local ok, result = pcall(fn)
+		if not ok then
+			-- There was an error, so result is an error. Print it out.
+			self:print(result)
+		elseif result then
+			self:print(result)
+		end
+	end
+
+	--alternative method
+	--[[local fn, err = loadstring(console.command)
+	if not fn then
+		console:print(err)
+	else
+		local result = {pcall(fn)}
+		local ok = table.remove(result, 1)
+		if not ok then
+			console:print(result[1])
+		else
+			for i = 1, #result do
+				result[i] = tostring(result[i])
+			end
+			console:print(table.concat(result, '\t'))
+		end
+	end--]]
+end
 
 function console:keypressed(key)
 
@@ -111,36 +143,7 @@ function console:keypressed(key)
 
 			end
 		else
-			-- run/exec lua code here
-			local fn, err = loadstring(self.command)
-			if not fn then
-					self:print(err)
-				else
-				local ok, result = pcall(fn)
-				if not ok then
-					-- There was an error, so result is an error. Print it out.
-					self:print(result)
-				elseif result then
-					self:print(result)
-				end
-			end
-
-			--alternative method
-			--[[local fn, err = loadstring(console.command)
-			if not fn then
-				console:print(err)
-			else
-				local result = {pcall(fn)}
-				local ok = table.remove(result, 1)
-				if not ok then
-					console:print(result[1])
-				else
-					for i = 1, #result do
-						result[i] = tostring(result[i])
-					end
-					console:print(table.concat(result, '\t'))
-				end
-			end--]]
+			console:run(self.command)
 
 		end
 

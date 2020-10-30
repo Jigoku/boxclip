@@ -23,6 +23,7 @@ player.sprite = {
 	["dizzy"] = textures:load("data/images/player/dizzy/"),
 	["faint"] = textures:load("data/images/player/faint/"),
 	["slide"] = textures:load("data/images/player/sliding/"),
+	["look_up"] = textures:load("data/images/player/look_up/"),
 
 }
 
@@ -62,8 +63,13 @@ function player:init()
 	--self.candrop = false
 	--self.canjump = true
 
-	self.shieldscale = 60
+	-- used for looking upwards
+	self.look_delay = 0.5
+	self.look_time = 0
+	self.look_offset = 1000
+	self.look_up = false
 
+	self.shieldscale = 60
 	self.invincible = false
 	self.invincible_timer = 15
 
@@ -133,6 +139,33 @@ function player:drawdebug()
 end
 
 
+function player:look(dt)
+	if self.xvel == 0 and self.carried then
+		if love.keyboard.isDown(binds.up) or joystick:isDown(binds.joystick.up) then
+			self.look_time = math.max(0, self.look_time - dt)
+			if self.look_time <= 0 then
+				self.look_time = 0
+				self.look_up = true
+				camera.y = camera.y - self.look_offset * dt
+			end
+		elseif love.keyboard.isDown(binds.down) or joystick:isDown(binds.joystick.down) then
+			self.look_time = math.max(0, self.look_time - dt)
+			if self.look_time <= 0 then
+				self.look_time = 0
+				self.look_down = true
+				camera.y = camera.y + self.look_offset * dt
+			end
+		else
+			self.look_time = self.look_delay
+			self.look_up = false
+			self.look_down = false
+		end
+	else
+		self.look_time = self.look_delay
+	end
+end
+
+
 function player:update(dt)
 
 	if paused or editing or world.splash.active then return end
@@ -140,23 +173,24 @@ function player:update(dt)
 	-- player input / movement
 
 	if self.alive and not console.active then
+		self:look(dt)
 
-		if love.keyboard.isDown(binds.slide) and self.carried then
+		if (love.keyboard.isDown(binds.slide) or joystick:isDown(binds.joystick.slide)) and self.carried then
 			self.sliding = true
 		end
 
-		if love.keyboard.isDown(binds.right) or joystick:isDown("dpright") then
+		if love.keyboard.isDown(binds.right) or joystick:isDown(binds.joystick.right) then
 			self:moveright()
 
-		elseif love.keyboard.isDown(binds.left) or joystick:isDown("dpleft") then
+		elseif love.keyboard.isDown(binds.left) or joystick:isDown(binds.joystick.left) then
 			self:moveleft()
 
 		else
 			self.dir = 0
 		end
 
-		if love.keyboard.isDown(binds.jump) or joystick:isDown("a") then
-			if love.keyboard.isDown(binds.down) or joystick:isDown("dpdown") then
+		if love.keyboard.isDown(binds.jump) or joystick:isDown(binds.joystick.jump) then
+			if love.keyboard.isDown(binds.down) or joystick:isDown(binds.joystick.down) then
 				self:drop()
 			else
 				self:jump()
@@ -205,9 +239,14 @@ function player:update(dt)
 					self.state = "run"
 				end
 			else
-				--idle animation
-				self.state = "idle"
 				self.framedelay = 0.2
+				if self.look_up then
+					self.state = "look_up"
+				else
+					--idle animation
+					self.state = "idle"
+				end
+
 			end
 		end
 	else
@@ -231,12 +270,21 @@ function player:update(dt)
 		-- reposition player y position if state differs
 		-- difference between oldstate/newstate :getHeight()
 		-- this keeps the sprite in place relative to the characters head
-		local oldtex = self.sprite[ostate][self.frame]:getHeight()
-		local newtex = self.sprite[self.state][self.frame]:getHeight()
+		local oldtex_h = self.sprite[ostate][self.frame]:getHeight()
+		local newtex_h = self.sprite[self.state][self.frame]:getHeight()
 
-		if newtex > oldtex then
-			self.y = self.y + (oldtex - newtex)
+		local oldtex_w = self.sprite[ostate][self.frame]:getWidth()
+		local newtex_w = self.sprite[self.state][self.frame]:getWidth()
+
+		if newtex_h > oldtex_h then
+			self.y = self.y + (oldtex_h - newtex_h)
 		end
+		
+		
+		if(self.lastdir ==1) then
+			self.x = self.x + (oldtex_w - newtex_w)
+		end
+
 	end
 
 	-- invincibility check
@@ -250,6 +298,7 @@ function player:update(dt)
 			self.particles.invincible:stop()
 			console:print("invincibility ended")
 		end
+	
 	end
 
 	-- end game if no lives left
