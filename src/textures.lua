@@ -32,5 +32,18 @@ function textures:load(path)
 	return t
 end
 
+function textures:loadsprite(sprite, size, frames )
+	-- returns a table of quads used for sprite animation
+	local x, y, quad, quads = 0, 0, love.graphics.newQuad, {}
 
+	for n=1,frames do
+		quads[n] = quad(x, y, size, size, sprite:getWidth(), sprite:getHeight())
+		x = x + size
+		if x >= sprite:getWidth() then
+			x = 0
+			y = y + size
+		end
+	end
 
+	return quads
+end
