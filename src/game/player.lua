@@ -186,16 +186,16 @@ function player:update(dt)
 
 	-- player input / movement
 
-	if self.alive and not console.active then
+	if self.alive then
 		if (love.keyboard.isDown(binds.slide) or joystick:isDown(binds.joystick.slide)) and self.carried then
 			self.sliding = true
 		end
 
 		if love.keyboard.isDown(binds.right) or joystick:isDown(binds.joystick.right) then
-			self:moveright()
+			self:move(1)
 
 		elseif love.keyboard.isDown(binds.left) or joystick:isDown(binds.joystick.left) then
-			self:moveleft()
+			self:move(-1)
 
 		else
 			self.dir = 0
@@ -490,18 +490,10 @@ function player:drop()
 end
 
 
-function player:moveright()
-	if not player.sliding then
+function player:move(dir)
+	if not player.sliding and not console.active then
 		self.lastdir = self.dir
-		self.dir = 1
-	end
-end
-
-
-function player:moveleft()
-	if not player.sliding then
-		self.lastdir = self.dir
-		self.dir = -1
+		self.dir = dir
 	end
 end
 
