@@ -290,10 +290,9 @@ function player:update(dt)
 			self.y = self.y + (oldtex_h - newtex_h)
 		end
 
-		if(self.lastdir ==1) then
+		if self.lastdir == 1 then
 			self.x = self.x + (oldtex_w - newtex_w)
 		end
-
 	end
 
 	-- invincibility check
