@@ -77,8 +77,8 @@ end
 
 function platforms:settexture(platform,texture)
 
-	local cols = math.ceil(platform.w/platforms.textures[texture]:getWidth())
-	local rows = math.ceil(platform.h/platforms.textures[texture]:getHeight())
+	local cols = platform.w/platforms.textures[texture]:getWidth()
+	local rows = platform.h/platforms.textures[texture]:getHeight()
 
 	platform.texture = texture
 	platform.verts = {
