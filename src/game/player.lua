@@ -146,6 +146,7 @@ function player:camera(dt)
 	if self.alive then
 		if not world.complete then
 			camera:follow(focus["x"], focus["y"])
+			if editing then return false end
 		end
 	end
 
