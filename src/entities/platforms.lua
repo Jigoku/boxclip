@@ -22,6 +22,7 @@ platforms = {}
 platform_cradle = love.graphics.newImage("data/images/tiles/cradle.png")
 platforms.grass = textures:load("data/images/surfaces/")
 platforms.textures = textures:load("data/images/platforms/")
+platforms.radius = 10
 
 for _,texture in pairs(platforms.textures) do
 	texture:setWrap("repeat", "repeat")
@@ -126,11 +127,9 @@ function platforms:draw()
 			end
 
 			--[[ -- old method of drawing platforms with quads (keep this here in case something breaks)
-
 				local quad = love.graphics.newQuad( 0,0, platform.w, platform.h, self.textures[platform.texture]:getDimensions() )
 				love.graphics.setColor(r,g,b,a)
 				love.graphics.draw(self.textures[platform.texture], quad, platform.x,platform.y)
-
 			--]]
 
 			--apply world pallete/theme colors to platform mesh on the fly
@@ -157,10 +156,26 @@ function platforms:draw()
 			platform.mesh:setTexture(self.textures[platform.texture])
 
 			love.graphics.setColor(1,1,1,1)
-			love.graphics.draw(platform.mesh, platform.x, platform.y)
 
+			-- platform rounded corners
+			local function stencil()
+				love.graphics.rectangle("fill", platform.x, platform.y, platform.w, platform.h, self.radius, self.radius)
+			end
+
+			love.graphics.stencil(stencil, "replace", 1)
+			love.graphics.setStencilTest("greater", 0)
+			love.graphics.draw(platform.mesh, platform.x, platform.y)
 			self:drawshadow(platform)
+			love.graphics.setStencilTest()
+
+			-- rounded surface corners
+			local function stencil()
+				love.graphics.rectangle("fill", platform.x, platform.y-platforms.grass[platform.surface]:getHeight()/2, platform.w, platform.h, 10,10)
+			end
+			love.graphics.stencil(stencil, "replace", 1)
+			love.graphics.setStencilTest("greater", 0)
 			self:drawsurface(platform)
+			love.graphics.setStencilTest()
 
 			if editing or debug then platforms:drawdebug(platform, i) end
 
@@ -252,17 +267,8 @@ function platforms:drawsurface(platform)
 		1
 	)
 
-	--[[ --untextured grass fallback
-	--surface
-	love.graphics.rectangle("fill", platform.x, platform.y-5, platform.w, 10)
-
-	--arced edges
-	love.graphics.arc( "fill", platform.x+platform.w, platform.y, -5, math.pi/2, math.pi*1.5 )
-	love.graphics.arc( "fill", platform.x, platform.y, 5, math.pi/2, math.pi*1.5 )
-	--]]
-
-	local offset = platforms.grass[platform.surface]:getHeight()/2
 	local quad = love.graphics.newQuad( 0,0, platform.w, platforms.grass[platform.surface]:getHeight(), platforms.grass[platform.surface]:getDimensions() )
 	platforms.grass[platform.surface]:setWrap("repeat", "repeat")
-	love.graphics.draw(platforms.grass[platform.surface], quad, platform.x,platform.y-offset)
+
+	love.graphics.draw(platforms.grass[platform.surface], quad, platform.x,platform.y-platforms.grass[platform.surface]:getHeight()/2)
 end
