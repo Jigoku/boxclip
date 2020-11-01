@@ -633,6 +633,7 @@ function editor:mousereleased(x,y,button)
 						tips:add(self.mouse.released.x,self.mouse.released.y,"this is a multi line text test to see how everything can fit nicely in the frame")
 					elseif
 						ent[2] == "enemy" then
+						-- movespeed/movedist shouldn't be hardcoded here
 						enemies:add(self.mouse.released.x,self.mouse.released.y,100,100,self.entdir,ent[1])
 					end
 				end

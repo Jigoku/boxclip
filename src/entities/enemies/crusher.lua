@@ -23,7 +23,7 @@ function crusher:worldInsert(x,y,movespeed,movedist,dir,name)
 
 	table.insert(world.entities.enemy, {
 		movespeed = movespeed or 100,
-		movedist = movedist or 300,
+		movedist = movedist or 400,
 		movey = 1,
 		ticks = love.math.random(100),
 		x = x or 0,
