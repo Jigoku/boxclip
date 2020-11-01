@@ -170,7 +170,7 @@ function platforms:draw()
 
 			-- rounded surface corners
 			local function stencil()
-				love.graphics.rectangle("fill", platform.x, platform.y-platforms.grass[platform.surface]:getHeight()/2, platform.w, platform.h, 10,10)
+				love.graphics.rectangle("fill", platform.x, platform.y-platforms.grass[platform.surface]:getHeight()/2, platform.w, platform.h, self.radius, self.radius)
 			end
 			love.graphics.stencil(stencil, "replace", 1)
 			love.graphics.setStencilTest("greater", 0)
