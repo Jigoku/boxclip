@@ -49,8 +49,8 @@ function enemies:update(dt)
 			enemy.texture = self.textures[enemy.type][math.min(enemy.frame, #self.textures[enemy.type])]
 
 			--update bounds
-			enemy.w = enemy.texture:getWidth()
-			enemy.h = enemy.texture:getHeight()
+			--enemy.w = enemy.texture:getWidth()
+			--enemy.h = enemy.texture:getHeight()
 
 		end
 

@@ -66,7 +66,7 @@ function player:init()
 	-- used for looking upwards
 	self.look_delay = 0.5
 	self.look_time = 0
-	self.look_offset = 1000
+	self.look_offset = 250
 	self.look_up = false
 
 	self.shieldscale = 60
@@ -139,21 +139,35 @@ function player:drawdebug()
 end
 
 
-function player:look(dt)
+function player:camera(dt)
+	-- camera follows player
+	local focus = { ["x"] = self.x+self.w/2, ["y"] = self.y+self.h/2 }
+
+	if self.alive then
+		if not world.complete then
+			camera:follow(focus["x"], focus["y"])
+			if editing then return false end
+		end
+	end
+
 	if self.xvel == 0 and self.carried then
 		if love.keyboard.isDown(binds.up) or joystick:isDown(binds.joystick.up) then
 			self.look_time = math.max(0, self.look_time - dt)
 			if self.look_time <= 0 then
 				self.look_time = 0
 				self.look_up = true
-				camera.y = camera.y - self.look_offset * dt
+				if not world.complete then
+					camera:follow(focus["x"], focus["y"] - self.look_offset)
+				end
 			end
 		elseif love.keyboard.isDown(binds.down) or joystick:isDown(binds.joystick.down) then
 			self.look_time = math.max(0, self.look_time - dt)
 			if self.look_time <= 0 then
 				self.look_time = 0
 				self.look_down = true
-				camera.y = camera.y + self.look_offset * dt
+				if not world.complete then
+					camera:follow(focus["x"], focus["y"] + self.look_offset)
+				end
 			end
 		else
 			self.look_time = self.look_delay
@@ -167,23 +181,21 @@ end
 
 
 function player:update(dt)
-
+	self:camera(dt)
 	if paused or editing or world.splash.active then return end
 
 	-- player input / movement
 
-	if self.alive and not console.active then
-		self:look(dt)
-
+	if self.alive then
 		if (love.keyboard.isDown(binds.slide) or joystick:isDown(binds.joystick.slide)) and self.carried then
 			self.sliding = true
 		end
 
 		if love.keyboard.isDown(binds.right) or joystick:isDown(binds.joystick.right) then
-			self:moveright()
+			self:move(1)
 
 		elseif love.keyboard.isDown(binds.left) or joystick:isDown(binds.joystick.left) then
-			self:moveleft()
+			self:move(-1)
 
 		else
 			self.dir = 0
@@ -198,7 +210,6 @@ function player:update(dt)
 		else
 			self.canjump = true
 		end
-
 	end
 
 	-- player frame/sprite animation
@@ -279,12 +290,10 @@ function player:update(dt)
 		if newtex_h > oldtex_h then
 			self.y = self.y + (oldtex_h - newtex_h)
 		end
-		
-		
-		if(self.lastdir ==1) then
+
+		if self.lastdir == 1 then
 			self.x = self.x + (oldtex_w - newtex_w)
 		end
-
 	end
 
 	-- invincibility check
@@ -298,7 +307,6 @@ function player:update(dt)
 			self.particles.invincible:stop()
 			console:print("invincibility ended")
 		end
-	
 	end
 
 	-- end game if no lives left
@@ -408,8 +416,6 @@ function player:die(this)
 		self.yvel = 0
 		self.jumping = false
 	end
-
-
 end
 
 
@@ -484,18 +490,10 @@ function player:drop()
 end
 
 
-function player:moveright()
-	if not player.sliding then
+function player:move(dir)
+	if not player.sliding and not console.active then
 		self.lastdir = self.dir
-		self.dir = 1
-	end
-end
-
-
-function player:moveleft()
-	if not player.sliding then
-		self.lastdir = self.dir
-		self.dir = -1
+		self.dir = dir
 	end
 end
 

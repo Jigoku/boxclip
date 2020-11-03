@@ -1,6 +1,6 @@
 --[[
  * Copyright (C) 2015 - 2018 Ricky K. Thomson
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -12,17 +12,17 @@
  * u should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  --]]
- 
+
 shadow = {}
 table.insert(enemies.list, "shadow")
 table.insert(editor.entities, {"shadow", "enemy"})
 enemies.textures["shadow"] = textures:load("data/images/enemies/shadow/")
 
 function shadow:worldInsert(x,y,movespeed,movedist,dir,name)
-	
+
 	local texture = enemies.textures[name][1]
 	table.insert(world.entities.enemy, {
-		movespeed =  50,
+		movespeed = movespeed or 50,
 		movedist = movedist or 300,
 		movex = 1,
 		dir = 0,
@@ -48,23 +48,23 @@ end
 
 
 function shadow:checkCollision(enemy, dt)
-	
+
 	physics:applyGravity(enemy, dt)
 
-	physics:movex(enemy, dt)	
+	physics:movex(enemy, dt)
 	physics:crates(enemy,dt)
 	physics:traps(enemy, dt)
 	physics:platforms(enemy, dt)
 
 	physics:update(enemy)
-	
+
 	-- NOT ACTIVE WHILST EDITING
 	if mode == "game" and player.alive and collision:check(player.newX,player.newY,player.w,player.h,
 		enemy.x+5,enemy.y+5,enemy.w-10,enemy.h-10) then
 		-- if we land on top, kill enemy
-		if collision:above(player,enemy) then	
-			if player.jumping or player.invincible or player.sliding then 
-				
+		if collision:above(player,enemy) then
+			if player.jumping or player.invincible or player.sliding then
+
 				if player.y > enemy.y then
 					player.yvel = -player.jumpheight
 				elseif player.y < enemy.y then
@@ -77,14 +77,14 @@ function shadow:checkCollision(enemy, dt)
 				console:print(enemy.type .." killed")
 				joystick:vibrate(0.5,0.5,0.5)
 				return true
-				
+
 			else
 				player:die(enemy.type)
 			end
 		end
 	end
-	
-	
+
+
 end
 
 function shadow:draw(enemy)
@@ -104,8 +104,8 @@ function shadow:drawdebug(enemy, i)
 	--hitbox
 	love.graphics.setColor(1,0.78,0.39,1)
 	love.graphics.rectangle("line", enemy.x, enemy.y, enemy.w, enemy.h)
-	
-		
+
+
 	local texture = enemies.textures[enemy.type]
 	love.graphics.setColor(1,0,1,0.19)
 	love.graphics.rectangle("fill", enemy.xorigin, enemy.y, enemy.movedist+texture[(enemy.frame or 1)]:getWidth(), texture[(enemy.frame or 1)]:getHeight())

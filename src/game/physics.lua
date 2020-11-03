@@ -54,6 +54,7 @@ function physics:applyVelocity(object, dt)
 
 	-- increase friction when 'idle' until velocity is zero
 	if (object.dir == 0 or object.sliding) and not object.jumping then
+		object.dir = object.lastdir
 		if object.xvel > 0 then
 			object.xvel = math.max(0,object.xvel - ((object.sliding and object.friction/2 or object.friction) *dt))
 		elseif object.xvel < 0 then
@@ -63,7 +64,6 @@ function physics:applyVelocity(object, dt)
 
 	-- velocity limits (breaks springs, find workaround)
 	--object.xvel = math.min(object.speed,math.max(-object.speed,object.xvel))
-
 	object.newX = object.x + (object.xvel *dt)
 end
 
@@ -306,7 +306,6 @@ function physics:platforms(object, dt)
 
 			-- only check these when clip is true
 			if platform.clip then
-
 
 				-- right side
 				if collision:right(object,platform)
