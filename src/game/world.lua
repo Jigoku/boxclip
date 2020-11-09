@@ -19,16 +19,18 @@ world.splash = {}
 world.state = {} --world.entities on checkpoint
 
 
---world.camera?
+world.parallax = {}
+world.parallax.layers = textures:load("data/images/backgrounds/mountains/")
+world.parallax.quads = {}
 
---test parallax background layers
-test = love.graphics.newImage("data/images/test.png")
-test2 = love.graphics.newImage("data/images/test2.png")
-test:setWrap("repeat", "clamp")
-test2:setWrap("repeat", "clampzero")
-test_quad = love.graphics.newQuad( 0,0, love.graphics.getWidth(),test:getHeight(), test:getDimensions() )
-test_quad2 = love.graphics.newQuad( 0,0, love.graphics.getWidth(),test2:getHeight(), test2:getDimensions() )
-test_quad3 = love.graphics.newQuad( 0,0, love.graphics.getWidth(),test:getHeight(), test:getDimensions() )
+for _, img in ipairs(world.parallax.layers) do
+	img:setWrap("repeat", "clamp")
+	--img:setWrap("repeat", "clampzero")
+	table.insert(
+		world.parallax.quads,
+		love.graphics.newQuad( 0,0, love.graphics.getWidth(),img:getHeight(), img:getDimensions())
+	)
+end
 
 
 
@@ -179,70 +181,31 @@ end
 function world:drawparallax()
 
 	--TODO this still needs fixing
+--	if editing then return end
 
-	if editing then return end
-	love.graphics.setColor(1,1,1,1)
+	local colours = {
+		--front to back
+		--trees
+		{platform_top_r, platform_top_g, platform_top_b, 1.0},
+		{platform_top_r, platform_top_g, platform_top_b, 1.0},
+		{platform_top_r/2, platform_top_g/2, platform_top_b/2, 1.0},
+		 --mountain
+		{0.6,0.6,0.66},
+		--mist
+		{1,1,0.8},
+		--sky
+		{0.3,0.7,1},
+	}
 
-
-	--paralax background sky
-	if type(background) == "userdata" then
+	for i, img in ripairs(world.parallax.layers) do
+		love.graphics.setColor(colours[i])
 		love.graphics.draw(
-			background, background_quad,0,0
+			img,
+			world.parallax.quads[i],
+			0,0
 		)
+
 	end
-
-	--back layer
-	love.graphics.setColor(
-		platform_top_r/2,
-		platform_top_g/2,
-		platform_top_b/2,
-		1
-	)
-
-	test_quad:setViewport(
-		(camera.x*2)/10*camera.scale,((camera.y*2)/40),love.graphics.getWidth(),love.graphics.getHeight()
-	)
-	love.graphics.draw(
-		test,
-		test_quad,
-		0,0
-	)
-
-	--middle layer
-	love.graphics.setColor(
-		platform_behind_r,
-		platform_behind_g,
-		platform_behind_b,
-		1
-	)
-
-	test_quad2:setViewport(
-		(camera.x*3)/10*camera.scale,((camera.y*3)/35),love.graphics.getWidth(),love.graphics.getHeight()
-	)
-	love.graphics.draw(
-		test2,
-		test_quad2,
-		0,0
-	)
-
-	--front layer
-	love.graphics.setColor(
-		platform_top_r/1.5,
-		platform_top_g/1.5,
-		platform_top_b/1.5,
-		1
-	)
-
-	test_quad3:setViewport(
-		(camera.x*4)/10*camera.scale,((camera.y*4)/30),love.graphics.getWidth(),love.graphics.getHeight()
-	)
-	love.graphics.draw(
-		test,
-		test_quad3,
-		0,0
-	)
-	--]]
-
 
 end
 
@@ -608,17 +571,12 @@ function world:update(dt)
 
 		world.collision = 0
 
-		-- draw background
-		if type(background) == "userdata" then
-			background_scroll = background_scroll + background_scrollspeed * dt
-			if background_scroll > background:getWidth()then
-				background_scroll = background_scroll - background:getWidth()
-			end
-			background_quad:setViewport(camera.x/50-background_scroll,-camera.y/100,love.graphics.getWidth(),love.graphics.getHeight() )
-		else
-			background_scroll = 0
+		-- update parallax viewport offsets
+		for i, img in ripairs(world.parallax.layers) do
+			world.parallax.quads[i]:setViewport(
+				(camera.x)/10*camera.scale/(i/2),img:getHeight()/3,love.graphics.getWidth(),love.graphics.getHeight()
+			)
 		end
-
 
 		if mode == "game"  then
 			--trigger world splash/act display
