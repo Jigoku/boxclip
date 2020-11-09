@@ -244,7 +244,7 @@ function player:update(dt)
 		else
 			if self.xvel ~= 0 then
 				--running animation
-				self.framedelay = 0.1
+				self.framedelay = 0.075
 				if self.sliding then
 					self.state = "slide"
 				else
