@@ -180,6 +180,10 @@ editor.help = {
 		"set the world theme"
 	},
 	{
+		editor.binds.backgroundtoggle,
+		"toggle display of parallax background"
+	},
+	{
 		editor.binds.entcopy,
 		"copy entity to clipboard"
 	},
@@ -364,6 +368,7 @@ function editor:keypressed(key)
 		if key == self.binds.delete then self:remove() end
 		if key == self.binds.entcopy then self:copy() end
 		if key == self.binds.entpaste then self:paste() end
+		if key == self.binds.backgroundtoggle then world.parallax.enabled = not world.parallax.enabled end
 		if key == self.binds.entmenutoggle then self.showentmenu = not self.showentmenu end
 		if key == self.binds.flip then self:flip() end
 		if key == self.binds.guidetoggle then self.showgrid = not self.showgrid end

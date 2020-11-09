@@ -18,23 +18,6 @@ world.splash = {}
 
 world.state = {} --world.entities on checkpoint
 
-
-world.parallax = {}
-world.parallax.layers = textures:load("data/images/backgrounds/mountains/")
-world.parallax.quads = {}
-
-for _, img in ipairs(world.parallax.layers) do
-	img:setWrap("repeat", "clamp")
-	--img:setWrap("repeat", "clampzero")
-	table.insert(
-		world.parallax.quads,
-		love.graphics.newQuad( 0,0, love.graphics.getWidth(),img:getHeight(), img:getDimensions())
-	)
-end
-
-
-
-
 function world:initsplash()
 	--loading/act overlay
 	world.splash = {}
@@ -131,6 +114,22 @@ function world:setdefaults()
 	--default map to load on finish
 	--either mapname.lua or title
 	world.nextmap = "title"
+
+	--setup parallaxed background scene
+	world.parallax = {}
+	world.parallax.layers = textures:load("data/images/backgrounds/mountains/")
+	world.parallax.quads = {}
+	world.parallax.enabled = true
+
+	for _, img in ipairs(world.parallax.layers) do
+		img:setWrap("repeat", "clamp")
+		--img:setWrap("repeat", "clampzero")
+		table.insert(
+			world.parallax.quads,
+			love.graphics.newQuad( 0,0, love.graphics.getWidth(),img:getHeight(), img:getDimensions())
+		)
+	end
+
 end
 
 
@@ -181,7 +180,7 @@ end
 function world:drawparallax()
 
 	--TODO this still needs fixing
---	if editing then return end
+	if not world.parallax.enabled then return false end
 
 	local colours = {
 		--front to back
@@ -197,6 +196,7 @@ function world:drawparallax()
 		{0.3,0.7,1},
 	}
 
+
 	for i, img in ripairs(world.parallax.layers) do
 		love.graphics.setColor(colours[i])
 		love.graphics.draw(
@@ -204,7 +204,6 @@ function world:drawparallax()
 			world.parallax.quads[i],
 			0,0
 		)
-
 	end
 
 end
@@ -572,10 +571,12 @@ function world:update(dt)
 		world.collision = 0
 
 		-- update parallax viewport offsets
-		for i, img in ripairs(world.parallax.layers) do
-			world.parallax.quads[i]:setViewport(
-				(camera.x)/10*camera.scale/(i/2),img:getHeight()/3,love.graphics.getWidth(),love.graphics.getHeight()
-			)
+		if world.parallax.enabled then
+			for i, img in ripairs(world.parallax.layers) do
+				world.parallax.quads[i]:setViewport(
+					(camera.x)/10*camera.scale/(i/2),img:getHeight()/3,love.graphics.getWidth(),love.graphics.getHeight()
+				)
+			end
 		end
 
 		if mode == "game"  then
@@ -612,6 +613,7 @@ function world:update(dt)
 			end
 
 		end
+
 		world:timer(dt)
 
 	end
