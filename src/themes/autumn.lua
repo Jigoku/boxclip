@@ -13,6 +13,4 @@ platform_move_b = 0.39
 crate_r = 0.90
 crate_g = 0.84
 crate_b = 0.72
-background = love.graphics.newImage("data/images/backgrounds/cloudy.png")
-background_scrollspeed = -10
 
