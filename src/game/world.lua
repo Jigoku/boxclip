@@ -574,7 +574,10 @@ function world:update(dt)
 		if world.parallax.enabled then
 			for i, img in ripairs(world.parallax.layers) do
 				world.parallax.quads[i]:setViewport(
-					(camera.x)/10*camera.scale/(i/2),img:getHeight()/3,love.graphics.getWidth(),love.graphics.getHeight()
+					camera.x/10*camera.scale/(i/2),
+					camera.y/10*camera.scale/(i*2)+img:getHeight()/4,
+					love.graphics.getWidth(),
+					love.graphics.getHeight()
 				)
 			end
 		end
