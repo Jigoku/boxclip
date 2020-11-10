@@ -65,9 +65,7 @@ function pickups:add(x,y,type,dropped)
 				attract = false,
 				bounce = true,
 				slot = i,
-				red = love.math.random(0.75,1),
-				green = love.math.random(0.75,1),
-				blue = love.math.random(0.75,1),
+				colour = {love.math.random(0.75,1), love.math.random(0.75,1), love.math.random(0.75,1), 1.0},
 				xvel = 0,
 				yvel = 0,
 				score = score,
@@ -136,7 +134,7 @@ function pickups:draw()
 			local texture = self.textures[pickup.slot]
 
 			if pickup.type == "gem" then
-				love.graphics.setColor(pickup.red,pickup.green,pickup.blue,1)
+				love.graphics.setColor(pickup.colour)
 				love.graphics.draw(texture, pickup.x, pickup.y, 0, 1, 1)
 			end
 
@@ -180,6 +178,7 @@ function pickups:drawdebug(pickup, i)
 	)
 
 end
+
 
 function pickups:destroy(pickups, i)
 	-- fade/collect animation can be added here

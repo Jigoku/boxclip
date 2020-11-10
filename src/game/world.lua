@@ -18,6 +18,22 @@ world.splash = {}
 
 world.state = {} --world.entities on checkpoint
 
+
+--setup parallaxed background scene
+world.parallax = {}
+world.parallax.layers = textures:load("data/images/backgrounds/mountains/")
+world.parallax.quads = {}
+world.parallax.enabled = true
+
+for _, img in ipairs(world.parallax.layers) do
+	img:setWrap("repeat", "clamp")
+	--img:setWrap("repeat", "clampzero")
+	table.insert(
+		world.parallax.quads,
+		love.graphics.newQuad( 0,0, love.graphics.getWidth(),img:getHeight(), img:getDimensions())
+	)
+end
+
 function world:initsplash()
 	--loading/act overlay
 	world.splash = {}
@@ -62,18 +78,7 @@ function world:settheme(theme)
 	if love.filesystem.load( "themes/".. theme ..".lua" )( ) then
 		console:print("failed to set theme:  " .. theme)
 	else
-
-		--background
-		love.graphics.setBackgroundColor(0.3,0.3,0.3,1)
-
-		--only set background image if it exists
-		if type(background) == "userdata" then
-			background:setWrap("repeat", "repeat")
-			background_quad = love.graphics.newQuad( 0,0, love.graphics.getWidth(),love.graphics.getHeight(), background:getDimensions() )
-		end
-
 		console:print("set theme: " .. theme)
-
 	end
 
 end
@@ -114,22 +119,6 @@ function world:setdefaults()
 	--default map to load on finish
 	--either mapname.lua or title
 	world.nextmap = "title"
-
-	--setup parallaxed background scene
-	world.parallax = {}
-	world.parallax.layers = textures:load("data/images/backgrounds/mountains/")
-	world.parallax.quads = {}
-	world.parallax.enabled = true
-
-	for _, img in ipairs(world.parallax.layers) do
-		img:setWrap("repeat", "clamp")
-		--img:setWrap("repeat", "clampzero")
-		table.insert(
-			world.parallax.quads,
-			love.graphics.newQuad( 0,0, love.graphics.getWidth(),img:getHeight(), img:getDimensions())
-		)
-	end
-
 end
 
 
@@ -192,10 +181,13 @@ function world:drawparallax()
 		{0.6,0.6,0.66},
 		--mist
 		{1,1,0.8},
-		--sky
-		{0.3,0.7,1},
+
+
 	}
 
+	-- sky colour
+	local skycolour = {0.3,0.7,1}
+	love.graphics.setBackgroundColor(skycolour)
 
 	for i, img in ripairs(world.parallax.layers) do
 		love.graphics.setColor(colours[i])
@@ -574,7 +566,8 @@ function world:update(dt)
 		if world.parallax.enabled then
 			for i, img in ripairs(world.parallax.layers) do
 				world.parallax.quads[i]:setViewport(
-					camera.x/10*camera.scale/(i/2),
+					--                               scrollable layer test
+					camera.x/10*camera.scale/(i/2) + (i == #world.parallax.layers and world.time*10 or 0),
 					camera.y/10*camera.scale/(i*2)+img:getHeight()/4,
 					love.graphics.getWidth(),
 					love.graphics.getHeight()
