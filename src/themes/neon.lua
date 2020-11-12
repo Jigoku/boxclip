@@ -13,6 +13,3 @@ platform_move_b = 197/255
 crate_r = 173/255
 crate_g = 215/255
 crate_b = 230/255
-background = love.graphics.newImage("data/images/backgrounds/neon.png")
-background_scrollspeed = 0
-

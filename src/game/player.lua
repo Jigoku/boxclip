@@ -60,6 +60,7 @@ function player:init()
 	self.lives = 3
 	self.gems = 0
 	self.angle = 0
+	self.opacity = 1.0
 	--self.candrop = false
 	--self.canjump = true
 
@@ -96,7 +97,7 @@ function player:draw()
 			love.graphics.draw(self.particles.invincible, player.x+player.w/2,player.y+player.h/2, 0,0.25,0.25)
 		end
 
-		love.graphics.setColor(1,1,1,1)
+		love.graphics.setColor(1,1,1,self.opacity)
 
 		-- active player sprite
 		love.graphics.draw(
@@ -243,7 +244,7 @@ function player:update(dt)
 		else
 			if self.xvel ~= 0 then
 				--running animation
-				self.framedelay = 0.1
+				self.framedelay = 0.075
 				if self.sliding then
 					self.state = "slide"
 				else
@@ -374,6 +375,7 @@ function player:respawn()
 	self.alive = true
 	self.candrop = false
 	self.invincible = false
+	self.opacity = 1.0
 	camera.x = player.spawnX
 	camera.y = player.spawnY
 
@@ -403,6 +405,7 @@ function player:die(this)
 			end
 		end
 
+		self.opacity = 0.5
 		camera:shake(8, 1, 60, 'XY')
 		camera:fade(2, {0,0,0,1})
 		joystick:vibrate(2,2,1)

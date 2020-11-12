@@ -9,6 +9,7 @@ editor.binds = {
 	edittoggle = "f1",
 	helptoggle = "h",
 	maptoggle = "m",
+	backgroundtoggle = "b",
 	entmenutoggle = "e",
 	musicbrowser = "f2",
 	musicnext = "=",
