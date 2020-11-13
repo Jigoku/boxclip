@@ -20,5 +20,3 @@ spike_gfx = spike_winter
 spike_large_gfx = spike_large_winter
 icicle_gfx = icicle_winter
 icicle_d_gfx = icicle_d_winter
-background = love.graphics.newImage("data/images/backgrounds/cloudy.png")
-background_scrollspeed = -25

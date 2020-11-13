@@ -71,6 +71,8 @@ sound.music = {
 	[14] = love.audio.newSource("data/sounds/music/grasslands.ogg", "stream"),
 	[15] = love.audio.newSource("data/sounds/music/raspberry_jam.ogg", "stream"),
 	[16] = love.audio.newSource("data/sounds/music/happysynth.ogg", "stream"),
+	[17] = love.audio.newSource("data/sounds/music/galacticfunk.ogg", "stream"),
+	[18] = love.audio.newSource("data/sounds/music/weaponchange.ogg", "stream"),
 }
 
 sound.ambience = {

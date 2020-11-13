@@ -16,4 +16,3 @@ platform_behind_b =120/255
 crate_r = 105/255
 crate_g = 85/255
 crate_b = 100/255
-background = love.graphics.newImage("data/images/backgrounds/stars.png")
