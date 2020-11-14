@@ -1,5 +1,5 @@
 world.gravity = 2000
-world.mapmusic = 11
+world.mapmusic = 8
 world.mapambient = 0
 world.maptitle = "unnamed map"
 world.nextmap = "title"
@@ -47,8 +47,8 @@ crates:add(-230,-2840,"gem")
 crates:add(-110,-3000,"gem")
 crates:add(30,-3000,"gem")
 crates:add(180,-3000,"gem")
-enemies:add(-230,-2910,100,234,0,"bee")
-enemies:add(60,-2910,100,238,0,"bee")
+enemies:add(-230,-2910,100,234,1,"bee")
+enemies:add(60,-2910,100,238,1,"bee")
 springs:add(-250,-2650,0,"spring_l")
 springs:add(-180,-2650,0,"spring_m")
 springs:add(-110,-2650,0,"spring_s")
