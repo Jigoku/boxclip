@@ -1,5 +1,5 @@
 world.gravity = 2000
-world.mapmusic = 6
+world.mapmusic = 10
 world.mapambient = 0
 world.maptitle = "debug: goal entity"
 world.nextmap = "title"

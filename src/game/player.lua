@@ -65,10 +65,9 @@ function player:init()
 	--self.canjump = true
 
 	-- used for looking upwards
-	self.look_delay = 0.5
+	self.look_delay = 0.75
 	self.look_time = 0
-	self.look_offset = 250
-	self.look_up = false
+	self.look_offset = 200
 
 	self.shieldscale = 60
 	self.invincible = false
