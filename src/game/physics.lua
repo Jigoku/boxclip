@@ -107,9 +107,13 @@ function physics:swing(object,dt)
 			object.reverse = false
 		end
 	end
-
+	object.x_old = object.x 
 	object.x = object.radius * math.cos(object.angle) + object.xorigin
+	object.x_dist =  object.x - object.x_old
+	
+	object.y_old = object.y 
 	object.y = object.radius * math.sin(object.angle) + object.yorigin
+	object.y_dist =  object.y - object.y_old
 end
 
 
@@ -382,10 +386,11 @@ function physics:platforms(object, dt)
 				end
 
 				if platform.swing then
-					object.newX =  platform.radius * math.cos(platform.angle) + platform.xorigin +platform.w/2 - object.w/2
+					-- object.newX =  platform.radius * math.cos(platform.angle) + platform.xorigin +platform.w/2 - object.w/2
+					object.newX =  object.newX + platform.x_dist
 					object.newY = platform.y - object.h+1 *dt
 					object.yvel = -player.jumpheight
-					object.xvel = 0
+					-- object.xvel = 0
 				end
 
 				if platform.movey and not object.jumping then
