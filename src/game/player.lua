@@ -16,14 +16,15 @@
 player = {}
 
 player.sprite = {
-	["idle" ] = textures:load("data/images/player/idle/" ),
-	["jump" ] = textures:load("data/images/player/jump/" ),
-	["fall" ] = textures:load("data/images/player/fall/" ),
-	["run"  ] = textures:load("data/images/player/run/"  ),
-	["dizzy"] = textures:load("data/images/player/dizzy/"),
-	["faint"] = textures:load("data/images/player/faint/"),
-	["slide"] = textures:load("data/images/player/sliding/"),
-	["look_up"] = textures:load("data/images/player/look_up/"),
+	["idle"     ] = textures:load("data/images/player/idle/"),
+	["jump"     ] = textures:load("data/images/player/jump/"),
+	["fall"     ] = textures:load("data/images/player/fall/"),
+	["run"      ] = textures:load("data/images/player/run/"),
+	["dizzy"    ] = textures:load("data/images/player/dizzy/"),
+	["faint"    ] = textures:load("data/images/player/faint/"),
+	["slide"    ] = textures:load("data/images/player/sliding/"),
+	["look_up"  ] = textures:load("data/images/player/look_up/"),
+	["look_down"] = textures:load("data/images/player/look_down/"),
 
 }
 
@@ -150,6 +151,9 @@ function player:camera(dt)
 		end
 	end
 
+	self.look_up = false
+	self.look_down = false
+
 	if self.xvel == 0 and self.carried then
 		if love.keyboard.isDown(binds.up) or joystick:isDown(binds.joystick.up) then
 			self.look_time = math.max(0, self.look_time - dt)
@@ -171,8 +175,6 @@ function player:camera(dt)
 			end
 		else
 			self.look_time = self.look_delay
-			self.look_up = false
-			self.look_down = false
 		end
 	else
 		self.look_time = self.look_delay
@@ -253,6 +255,8 @@ function player:update(dt)
 				self.framedelay = 0.2
 				if self.look_up then
 					self.state = "look_up"
+				elseif self.look_down then
+						self.state = "look_down"
 				else
 					--idle animation
 					self.state = "idle"
