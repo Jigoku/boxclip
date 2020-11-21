@@ -108,7 +108,7 @@ function physics:swing(object,dt)
 		end
 	end
 	object.x_old = object.x 
-	object.x = object.radius * math.cos(object.angle) + object.xorigin
+	object.x = object.radius * math.cos(object.angle) + object.xorigin - object.w/2
 	object.x_dist =  object.x - object.x_old
 	
 	object.y_old = object.y 
