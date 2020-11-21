@@ -485,7 +485,7 @@ function player:drop()
 			self.sliding = false
 
 			--fix this value to stop twitching
-			self.y = self.y + self.h/3
+			self.y = self.y + self.h/4
 			self.yvel = -20
 		else
 			self:jump()
