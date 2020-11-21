@@ -33,5 +33,6 @@ editor.binds = {
 	sendtoback = "b",
 	texturesel = "y",
 	camera = "lctrl",
+	cameraboost = "lshift",
 	pause = "p",
 }
