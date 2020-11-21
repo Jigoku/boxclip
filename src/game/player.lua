@@ -38,8 +38,8 @@ function player:init()
 	self.state = "idle"
 	self.texture = self.sprite[self.state][self.frame]
 
-	self.w = player.texture:getWidth()
-	self.h = player.texture:getHeight()
+	self.w = self.texture:getWidth()
+	self.h = self.texture:getHeight()
 
 	self.spawnX = 0
 	self.spawnY = 0
@@ -93,7 +93,7 @@ function player:draw()
 		--draw this powerup behind player
 		if self.invincible then
 			love.graphics.setColor(1,1,1,1)
-			love.graphics.draw(self.particles.invincible, player.x+player.w/2,player.y+player.h/2, 0,0.25,0.25)
+			love.graphics.draw(self.particles.invincible, self.x+self.w/2,self.y+self.h/2, 0,0.25,0.25)
 		end
 
 		love.graphics.setColor(1,1,1,self.opacity)
@@ -326,23 +326,23 @@ function player:update(dt)
 	end
 	--]]
 
-	if player.alive then
-		player.carried = false
-		physics:applyVelocity(player, dt)
-		physics:applyGravity(player, dt)
-		physics:traps(player,dt)
-		physics:crates(player,dt)
-		physics:bumpers(player,dt)
-		physics:platforms(player, dt)
-		physics:update(player)
+	if self.alive then
+		self.carried = false
+		physics:applyVelocity(self, dt)
+		physics:applyGravity(self, dt)
+		physics:traps(self,dt)
+		physics:crates(self,dt)
+		physics:bumpers(self,dt)
+		physics:platforms(self, dt)
+		physics:update(self)
 
 	else
 		--death physics (float up)
 		player.y = player.y - (250 * dt)
 
-		if player.y < player.newY-600 then
-			player.lives = player.lives -1
-			player:respawn()
+		if self.y < self.newY-600 then
+			self.lives = self.lives -1
+			self:respawn()
 			world:initsplash()
 		end
 	end
@@ -485,15 +485,17 @@ function player:drop()
 			self.sliding = false
 
 			--fix this value to stop twitching
-			player.y = player.y + player.h/3
+			self.y = self.y + self.h/3
 			self.yvel = -20
+		else
+			self:jump()
 		end
 	end
 end
 
 
 function player:move(dir)
-	if not player.sliding and not console.active then
+	if not self.sliding and not console.active then
 		self.lastdir = self.dir
 		self.dir = dir
 	end
