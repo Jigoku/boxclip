@@ -180,7 +180,7 @@ function world:drawparallax()
 		 --mountain
 		{0.6,0.6,0.66},
 		--mist
-		{1,1,0.8},
+		{1,1,1},
 
 
 	}
