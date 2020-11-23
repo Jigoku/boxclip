@@ -54,6 +54,7 @@ editor.showentmenu = true		--show entmenu
 editor.showhelpmenu = false		--show helpmenu
 editor.drawsel = false			--draw selection area
 editor.floatspeed = 1000		--editing floatspeed
+editor.floatspeedboost = 2.0    --floatspeed multiplier
 editor.maxcamerascale = 6		--maximum zoom
 editor.mincamerascale = 0.1		--minimum zoom
 editor.placing = false			--check if an entity is being placed
@@ -480,17 +481,22 @@ end
 
 function editor:checkkeys(dt)
 	if console.active then return end
+
+	local multiplier = 1
+	if love.keyboard.isDown(self.binds.cameraboost) then
+		multiplier = self.floatspeedboost
+	end
 	if love.keyboard.isDown(self.binds.right)  then
-		player.x = player.x + self.floatspeed /camera.scale *dt
+		player.x = player.x + self.floatspeed * multiplier /camera.scale *dt
 	end
 	if love.keyboard.isDown(self.binds.left)  then
-		player.x = player.x - self.floatspeed /camera.scale *dt
+		player.x = player.x - self.floatspeed * multiplier /camera.scale *dt
 	end
 	if love.keyboard.isDown(self.binds.up) then
-		player.y = player.y - self.floatspeed /camera.scale *dt
+		player.y = player.y - self.floatspeed * multiplier /camera.scale *dt
 	end
 	if love.keyboard.isDown(self.binds.down) then
-		player.y = player.y + self.floatspeed /camera.scale *dt
+		player.y = player.y + self.floatspeed * multiplier /camera.scale *dt
 	end
 
 	if love.keyboard.isDown(self.binds.decmovedist) then
@@ -644,7 +650,7 @@ function editor:mousereleased(x,y,button)
 				end
 			end
 
-			if selection == "platform_s" then platforms:add(self.mouse.released.x,self.mouse.released.y,0,20,false,false,false,1.5,0,true,0,self.texturesel) end
+			if selection == "platform_s" then platforms:add(self.mouse.released.x,self.mouse.released.y,100,20,false,false,false,1.5,0,true,0,self.texturesel) end
 
 			return true
 		end

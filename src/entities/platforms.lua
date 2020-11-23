@@ -116,14 +116,6 @@ function platforms:draw()
 
 			if platform.swing then
 				chainlink:draw(platform)
-
-				love.graphics.setColor(
-					platform_r,
-					platform_g,
-					platform_b,
-					255
-				)
-				love.graphics.draw(platform_cradle, platform.x-platform_cradle:getWidth()/2,platform.y-platform_cradle:getHeight()/1.5)
 			end
 
 			--[[ -- old method of drawing platforms with quads (keep this here in case something breaks)
@@ -222,7 +214,7 @@ function platforms:drawdebug(platform, i)
 
 	if platform.swing then
 		love.graphics.setColor(1,0,1,0.39)
-		love.graphics.line( platform.xorigin,platform.yorigin,platform.x,platform.y)
+		love.graphics.line( platform.xorigin,platform.yorigin,platform.x+platform.w/2,platform.y)
 		love.graphics.setColor(1,0,0,0.39)
 	--[[	love.graphics.rectangle("line",
 			platform.xorigin-platform_link_origin:getWidth()/2,
