@@ -20,7 +20,7 @@ title = {}
 title.key_delay_timer = 0
 title.key_delay = 0.15
 
-title.capacity = 7
+title.capacity = 8
 title.start_from = 1
 
 title.splash = true -- disable this for debugging
@@ -170,20 +170,34 @@ function title:draw()
 	love.graphics.setFont(fonts.titlemenu)
 	local padding = 30
 	local counter = 1 
+	local tot_element_number = table.getn(title.activemenu)
+	local start_list = 1 
+	local end_list = self.capacity 
+	console:print('**** Numero di elementi nel menu: '.. tot_element_number);
+	
+	if(title.menuitem>3 and (tot_element_number - title.menuitem)>4 ) then
+		start_list = title.menuitem - 3
+		end_list  = start_list + self.capacity
+	elseif(title.menuitem>=(tot_element_number - 4)) then 
+		start_list = tot_element_number - self.capacity
+		end_list  = tot_element_number
+	end
+	
 	for i,menu in ipairs(title.activemenu) do
-		if counter <= self.capacity then
+		if (i >= start_list and i<= end_list) then
 			if title.menuitem == i then
 				love.graphics.setColor(0.7,0.5,0.2,1)
-				love.graphics.rectangle("fill",love.graphics.getWidth()/4, love.graphics.getHeight()/3+(i*padding)-padding/4,300,padding,5,5)
+				-- provvisorio per evitare confusione
+				love.graphics.rectangle("fill",love.graphics.getWidth()/4, love.graphics.getHeight()/3+((i - start_list)*padding)-padding/4,300,padding,5,5)
 				love.graphics.setColor(0,0,0,1)
 			else
 				love.graphics.setColor(1,1,1,1)
 			end
 
-			love.graphics.print(menu,love.graphics.getWidth()/4, love.graphics.getHeight()/3+(i*padding))
-			
+			-- love.graphics.print(menu,love.graphics.getWidth()/4, love.graphics.getHeight()/3+(i*padding))
+			love.graphics.print(menu,love.graphics.getWidth()/4, love.graphics.getHeight()/3 + ((i - start_list) * padding))
 		end
-		console:print('Ciao menu '..i);
+		-- console:print('Ciao menu '..i);
 		counter = counter + 1
 	end
 
