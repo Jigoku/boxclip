@@ -20,6 +20,9 @@ title = {}
 title.key_delay_timer = 0
 title.key_delay = 0.15
 
+title.capacity = 7
+title.start_from = 1
+
 title.splash = true -- disable this for debugging
 title.splash_logo = love.graphics.newImage("data/artsoftware.png")
 title.splashDelay = 1.5
@@ -166,16 +169,22 @@ function title:draw()
 	--menu / selection
 	love.graphics.setFont(fonts.titlemenu)
 	local padding = 30
+	local counter = 1 
 	for i,menu in ipairs(title.activemenu) do
-		if title.menuitem == i then
-			love.graphics.setColor(0.7,0.5,0.2,1)
-			love.graphics.rectangle("fill",love.graphics.getWidth()/4, love.graphics.getHeight()/3+(i*padding)-padding/4,300,padding,5,5)
-			love.graphics.setColor(0,0,0,1)
-		else
-			love.graphics.setColor(1,1,1,1)
-		end
+		if counter <= self.capacity then
+			if title.menuitem == i then
+				love.graphics.setColor(0.7,0.5,0.2,1)
+				love.graphics.rectangle("fill",love.graphics.getWidth()/4, love.graphics.getHeight()/3+(i*padding)-padding/4,300,padding,5,5)
+				love.graphics.setColor(0,0,0,1)
+			else
+				love.graphics.setColor(1,1,1,1)
+			end
 
-		love.graphics.print(menu,love.graphics.getWidth()/4, love.graphics.getHeight()/3+(i*padding))
+			love.graphics.print(menu,love.graphics.getWidth()/4, love.graphics.getHeight()/3+(i*padding))
+			
+		end
+		console:print('Ciao menu '..i);
+		counter = counter + 1
 	end
 
 
