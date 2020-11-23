@@ -169,36 +169,41 @@ function title:draw()
 	--menu / selection
 	love.graphics.setFont(fonts.titlemenu)
 	local padding = 30
-	local counter = 1 
 	local tot_element_number = table.getn(title.activemenu)
 	local start_list = 1 
-	local end_list = self.capacity 
-	console:print('**** Numero di elementi nel menu: '.. tot_element_number);
+	local end_list = 1 
+	
+	if(self.capacity>tot_element_number) then 
+		end_list =  tot_element_number
+	else 
+		end_list = self.capacity 
+	end
+	
 	
 	if(title.menuitem>3 and (tot_element_number - title.menuitem)>4 ) then
 		start_list = title.menuitem - 3
-		end_list  = start_list + self.capacity
-	elseif(title.menuitem>=(tot_element_number - 4)) then 
+		end_list  = start_list + self.capacity -1
+	elseif(title.menuitem>=(tot_element_number - 4) and self.capacity < tot_element_number) then
 		start_list = tot_element_number - self.capacity
-		end_list  = tot_element_number
+		end_list  = tot_element_number - 1
 	end
+	
+	console:print('Menu item:' ..title.menuitem..'| Start:' .. start_list .. ' | End list:' .. end_list .. ' | tot:' .. tot_element_number .. '| Capacity:'.. self.capacity)
 	
 	for i,menu in ipairs(title.activemenu) do
 		if (i >= start_list and i<= end_list) then
 			if title.menuitem == i then
 				love.graphics.setColor(0.7,0.5,0.2,1)
 				-- provvisorio per evitare confusione
-				love.graphics.rectangle("fill",love.graphics.getWidth()/4, love.graphics.getHeight()/3+((i - start_list)*padding)-padding/4,300,padding,5,5)
+				love.graphics.rectangle("fill",love.graphics.getWidth()/4, love.graphics.getHeight()/3+((i - start_list )*padding)-padding/4,300,padding,5,5)
 				love.graphics.setColor(0,0,0,1)
 			else
 				love.graphics.setColor(1,1,1,1)
 			end
 
 			-- love.graphics.print(menu,love.graphics.getWidth()/4, love.graphics.getHeight()/3+(i*padding))
-			love.graphics.print(menu,love.graphics.getWidth()/4, love.graphics.getHeight()/3 + ((i - start_list) * padding))
+			love.graphics.print(menu,love.graphics.getWidth()/4, love.graphics.getHeight()/3 + ((i - start_list ) * padding))
 		end
-		-- console:print('Ciao menu '..i);
-		counter = counter + 1
 	end
 
 
