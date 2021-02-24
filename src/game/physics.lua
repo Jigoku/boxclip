@@ -100,9 +100,7 @@ function physics:swing(object,dt)
 		if object.angle > math.pi then
 			object.angle = math.pi
 			object.reverse = true
-		end
-
-		if object.angle < 0 then
+		elseif object.angle < 0 then
 			object.angle = 0
 			object.reverse = false
 		end

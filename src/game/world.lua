@@ -567,8 +567,8 @@ function world:update(dt)
 			for i, img in ripairs(world.parallax.layers) do
 				world.parallax.quads[i]:setViewport(
 					--                               scrollable layer test
-					camera.x/10*camera.scale/(i/2) + (i == #world.parallax.layers and world.time*10 or 0),
-					camera.y/10*camera.scale/(i*2)+img:getHeight()/4,
+					camera.x/5*camera.scale/(i/2) + (i == #world.parallax.layers and world.time*20 or 0),
+					camera.y/5*camera.scale/(i*2)+img:getHeight()/4,
 					love.graphics.getWidth(),
 					love.graphics.getHeight()
 				)

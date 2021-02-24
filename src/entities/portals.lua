@@ -68,7 +68,7 @@ function portals:update(dt)
 						portal.gfx = portals.textures["goal_activated"]
 						popups:add(portal.x+portal.w/2,portal.y+portal.h/2,"LEVEL COMPLETE")
 						sound:play(sound.effects["goal"])
-						sound:playbgm(10)
+						sound:playbgm(7)
 						console:print("goal reached")
 						world:endoflevel()
 					end

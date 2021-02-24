@@ -24,7 +24,7 @@ function gameover:init()
 	self.bgscrollspeed = 25
 
 	sound:playambient(0)
-	sound:playbgm(8)
+	sound:playbgm(5)
 
 	transitions:fadein()
 

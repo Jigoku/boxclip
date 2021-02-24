@@ -454,7 +454,7 @@ end
 
 function player:invincibility()
 	if not self.invincible then
-		sound:playbgm(9)
+		sound:playbgm(6)
 		self.invincible = true
 		self.particles.invincible:start()
 	end
