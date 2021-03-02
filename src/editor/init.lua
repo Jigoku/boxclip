@@ -49,10 +49,11 @@ editor.themesel = 1				--world theme/pallete
 editor.texturesel = 1			--texture slot to use for platforms
 editor.showinfo = true			--display coordinates of entities
 editor.showmmap = true			--show minimap
-editor.showgrid = true			--show guidelines/grid
 editor.showentmenu = true		--show entmenu
 editor.showhelpmenu = false		--show helpmenu
 editor.drawsel = false			--draw selection area
+editor.gridscale = 1			--show guidelines/grid type
+editor.gridscalemax = 2
 editor.floatspeed = 1000		--editing floatspeed
 editor.floatspeedboost = 2.0    --floatspeed multiplier
 editor.maxcamerascale = 6		--maximum zoom
@@ -198,7 +199,7 @@ editor.help = {
 	},
 	{
 		editor.binds.guidetoggle,
-		"toggle grid"
+		"toggle entity snapping grid"
 	},
 	{
 		editor.binds.maptoggle,
@@ -372,7 +373,10 @@ function editor:keypressed(key)
 		if key == self.binds.backgroundtoggle then world.parallax.enabled = not world.parallax.enabled end
 		if key == self.binds.entmenutoggle then self.showentmenu = not self.showentmenu end
 		if key == self.binds.flip then self:flip() end
-		if key == self.binds.guidetoggle then self.showgrid = not self.showgrid end
+		if key == self.binds.guidetoggle then 
+			self.gridscale = self.gridscale + 1 
+			if self.gridscale > self.gridscalemax then self.gridscale = 0 end
+		end
 		if key == self.binds.respawn then self:sendtospawn() end
 		if key == self.binds.showinfo then self.showinfo = not self.showinfo end
 		if key == self.binds.showid then self.showid = not self.showid end
@@ -573,8 +577,8 @@ end
 function editor:mousepressed(x,y,button)
 	if not editing then return end
 
-	self.mouse.pressed.x = math.round(camera.x-(love.graphics.getWidth()/2/camera.scale)+x/camera.scale,-1)
-	self.mouse.pressed.y = math.round(camera.y-(love.graphics.getHeight()/2/camera.scale)+y/camera.scale,-1)
+	self.mouse.pressed.x = math.round(camera.x-(love.graphics.getWidth()/2/camera.scale)+x/camera.scale,-self.gridscale)
+	self.mouse.pressed.y = math.round(camera.y-(love.graphics.getHeight()/2/camera.scale)+y/camera.scale,-self.gridscale)
 	--self.mouse.pressed.x, self.mouse.pressed.y = camera:toWorldCoords(x,y)
 	--local x = math.round(self.mouse.pressed.x,-1)
 	--local y = math.round(self.mouse.pressed.y,-1)
@@ -585,8 +589,8 @@ function editor:mousereleased(x,y,button)
 	--check if we have selected draggable entity, then place if neccesary
 	if not editing then return end
 
-	self.mouse.released.x = math.round(camera.x-(love.graphics.getWidth()/2/camera.scale)+x/camera.scale,-1)
-	self.mouse.released.y = math.round(camera.y-(love.graphics.getHeight()/2/camera.scale)+y/camera.scale,-1)
+	self.mouse.released.x = math.round(camera.x-(love.graphics.getWidth()/2/camera.scale)+x/camera.scale,-self.gridscale)
+	self.mouse.released.y = math.round(camera.y-(love.graphics.getHeight()/2/camera.scale)+y/camera.scale,-self.gridscale)
 
 	--self.mouse.released.x, self.mouse.released.y = camera:toWorldCoords(x,y)
 	--self.mouse.released.x = math.round(self.mouse.released.x,-1)
@@ -700,8 +704,8 @@ function editor:placedraggable(x1,y1,x2,y2)
 		if x2-x1 < self.entsizemin  then x2 = x1 + self.entsizemin end
 		if y2-y1 < self.entsizemin  then y2 = y1 + self.entsizemin end
 
-		local x = math.round(x1,-1)
-		local y = math.round(y1,-1)
+		local x = math.round(x1,-self.gridscale)
+		local y = math.round(y1,-self.gridscale)
 		local w = (x2-x1)
 		local h = (y2-y1)
 
@@ -722,46 +726,40 @@ end
 function editor:drawgrid()
 	--draw crosshairs/grid
 
-	if self.showgrid then
-
-		--grid
+	if self.gridscale > 0 then
 		love.graphics.setColor(1,1,1,0.09)
-		-- horizontal
+		-- horizontal grid lines
 		for x=camera.x-love.graphics.getWidth()/2/camera.scale,
-			camera.x+love.graphics.getWidth()/2/camera.scale,10 do
+			camera.x+love.graphics.getWidth()/2/camera.scale,10*self.gridscale do
 			love.graphics.line(
-				math.round(x,-1), camera.y-love.graphics.getHeight()/2/camera.scale,
-				math.round(x,-1), camera.y+love.graphics.getHeight()/2/camera.scale
+				math.round(x,-self.gridscale), camera.y-love.graphics.getHeight()/2/camera.scale,
+				math.round(x,-self.gridscale), camera.y+love.graphics.getHeight()/2/camera.scale
 			)
 		end
-		-- vertical
+		-- vertical grid lines
 		for y=camera.y-love.graphics.getHeight()/2/camera.scale,
-			camera.y+love.graphics.getHeight()/2/camera.scale,10 do
+			camera.y+love.graphics.getHeight()/2/camera.scale,10*self.gridscale do
 			love.graphics.line(
-				camera.x-love.graphics.getWidth()/2/camera.scale, math.round(y,-1),
-				camera.x+love.graphics.getWidth()/2/camera.scale, math.round(y,-1)
+				camera.x-love.graphics.getWidth()/2/camera.scale, math.round(y,-self.gridscale),
+				camera.x+love.graphics.getWidth()/2/camera.scale, math.round(y,-self.gridscale)
 			)
 		end
-
-		--crosshair
-		love.graphics.setColor(0.78,0.78,1,0.3)
-		--vertical
-		love.graphics.line(
-			math.round(self.mouse.x,-1),
-			math.round(self.mouse.y+love.graphics.getHeight()/camera.scale,-1),
-			math.round(self.mouse.x,-1),
-			math.round(self.mouse.y-love.graphics.getHeight()/camera.scale,-1)
-		)
-		--horizontal
-		love.graphics.line(
-			math.round(self.mouse.x-love.graphics.getWidth()/camera.scale,-1),
-			math.round(self.mouse.y,-1),
-			math.round(self.mouse.x+love.graphics.getWidth()/camera.scale-1),
-			math.round(self.mouse.y,-1)
-		)
-
-
 	end
+
+	--crosshair lines
+	love.graphics.setColor(0.78,0.78,1,0.3)
+	love.graphics.line(	--vertical
+		math.round(self.mouse.x,-self.gridscale),
+		math.round(self.mouse.y+love.graphics.getHeight()/camera.scale,-self.gridscale),
+		math.round(self.mouse.x,-self.gridscale),
+		math.round(self.mouse.y-love.graphics.getHeight()/camera.scale,-self.gridscale)
+	)
+	love.graphics.line(	--horizontal
+		math.round(self.mouse.x-love.graphics.getWidth()/camera.scale,-self.gridscale),
+		math.round(self.mouse.y,-self.gridscale),
+		math.round(self.mouse.x+love.graphics.getWidth()/camera.scale-self.gridscale),
+		math.round(self.mouse.y,-self.gridscale)
+	)
 end
 
 
@@ -1535,8 +1533,8 @@ function editor:mousemoved(x,y,dx,dy)
 	self.mouse.old_pos.x = self.mouse.x
 	self.mouse.old_pos.y = self.mouse.y
 
-	self.mouse.x = math.round(camera.x-(love.graphics.getWidth()/2/camera.scale)+x/camera.scale,-1)
-	self.mouse.y = math.round(camera.y-(love.graphics.getHeight()/2/camera.scale)+y/camera.scale,-1)
+	self.mouse.x = math.round(camera.x-(love.graphics.getWidth()/2/camera.scale)+x/camera.scale,-self.gridscale)
+	self.mouse.y = math.round(camera.y-(love.graphics.getHeight()/2/camera.scale)+y/camera.scale,-self.gridscale)
 
 	if love.mouse.isDown(1) then
 		self.drawsel = true
