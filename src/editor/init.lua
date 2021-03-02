@@ -258,7 +258,6 @@ function editor:settexture(dy)
 		end
 
 	elseif self.selname == "decal" then
-
 		for _,decal in ripairs(world.entities.decal) do
 			if decal.selected then
 				self:showtexmenu(decals.textures)
@@ -267,6 +266,18 @@ function editor:settexture(dy)
 				break
 			end
 		end
+	--[[
+	elseif self.selname == "crate" then
+		for _,crate in ripairs(world.entities.crate) do
+			if crate.selected then
+				self:showtexmenu(crates.textures)
+				self.texturesel = math.max(1,math.min(#self.texlist,self.texturesel - dy))
+				crate.texture = self.texturesel
+				break
+			end
+		end
+	--]]
+
 	else
 		--empty list
 		self:showtexmenu({ nil })
@@ -833,12 +844,7 @@ end
 
 
 function editor:drawtexturesel()
-
-	-- temporary fix... whitelist entity types that can be textured above^^^^
-	if self.selname ~= ("platform" or "decal") then return false end
-
 	if self.texmenuopacity > 0 then
-
 		love.graphics.setCanvas(self.texmenu)
 		love.graphics.clear()
 
@@ -854,13 +860,6 @@ function editor:drawtexturesel()
 		love.graphics.setColor(1,1,1,0.5)
 		love.graphics.rectangle("line",0,0,self.texmenu:getWidth(), self.texmenu:getHeight(),0)
 		love.graphics.setLineWidth(lw)
-
-		--[[
-			this loop fails (crash) when changing texture of decal or platform,
-			then moving mouse over an enemy entity, whilst texture menu is visible...
-			fix this...
-		--]]
-
 
 		for i = math.max(-self.texmenuoffset,self.texturesel-self.texmenuoffset),
 			math.min(#self.texlist+self.texmenuoffset,self.texturesel+self.texmenuoffset) do
@@ -894,9 +893,7 @@ function editor:drawtexturesel()
 				love.graphics.print(i,x+5,y+(n*self.texmenutexsize)+n*(self.texmenupadding)+5)
 
 			else
-
 				love.graphics.setColor(1,1,1,0.5)
-
 				love.graphics.draw(
 					self.errortex,
 					x,
@@ -905,14 +902,12 @@ function editor:drawtexturesel()
 					self.texmenutexsize/self.errortex:getWidth(),
 					self.texmenutexsize/self.errortex:getHeight()
 				)
-
 			end
 
 			n = n + 1
 		end
 
 		love.graphics.setCanvas()
-
 		love.graphics.setColor(1,1,1,self.texmenuopacity)
 		love.graphics.draw(self.texmenu, 10, 10)
 	end
