@@ -336,8 +336,6 @@ function physics:platforms(object, dt)
 			end
 
 			-- top side
-			platform.carrying = false
-
 			if collision:top(object,platform) then
 				object.carried = true
 				platform.carrying = true
@@ -371,29 +369,15 @@ function physics:platforms(object, dt)
 				if platform.movex then
 					-- move along x-axis with platform
 					object.newX = object.newX + platform.movespeed *dt
-
-					--[[
-					if platform.carrying then
-						platform.y = math.min(platform.yorigin+10, platform.y+200*dt)
-
-					else
-						-- this doesn't work?
-						platform.y = math.max(platform.yorigin, platform.y-200*dt)
-					end
-					--]]
 				end
 
 				if platform.swing then
-					-- object.newX =  platform.radius * math.cos(platform.angle) + platform.xorigin +platform.w/2 - object.w/2
 					object.newX =  object.newX + platform.x_dist
 					object.newY = platform.y - object.h+1 *dt
-					object.yvel = -player.jumpheight
-					-- object.xvel = 0
+					object.yvel = -player.jumpheight/2 -- this looks okay at half jumpheight, but still needs fixing properly
 				end
 
 				if platform.movey and not object.jumping then
-					--object.yvel = -platform.movespeed *dt
-
 					if platform.movespeed <= 0 then
 						--going up
 						object.newY = platform.y - object.h +1 - (platform.movespeed *dt)
@@ -402,6 +386,9 @@ function physics:platforms(object, dt)
 						object.newY = platform.y - object.h +1 + (platform.movespeed *dt)
 					end
 				end
+			else
+				platform.carrying = false
+				object.carried = false
 
 			end
 		end

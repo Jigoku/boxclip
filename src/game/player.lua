@@ -62,6 +62,7 @@ function player:init()
 	self.gems = 0
 	self.angle = 0
 	self.opacity = 1.0
+	self.carried = false
 	--self.candrop = false
 	--self.canjump = true
 
