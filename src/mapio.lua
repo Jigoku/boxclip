@@ -18,7 +18,7 @@
 	TODO
 	remove functions from map files, store as table data; eg;
 
-		print (dump(world.entities))
+		print (table.dump(world.entities))
 		^ this can be written to a map file.
 		  loading maps only then relies on setting this data to world.entities
 

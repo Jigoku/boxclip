@@ -47,12 +47,12 @@ function table.copy(t)
  end
 
  
-function dump(o)
+function table.dump(o)
    if type(o) == 'table' then
       local s = '{ '
       for k,v in pairs(o) do
          if type(k) ~= 'number' then k = '"'..k..'"' end
-         s = s .. '['..k..'] = ' .. dump(v) .. ','
+         s = s .. '['..k..'] = ' .. table.dump(v) .. ','
       end
       return s .. '} '
    else
