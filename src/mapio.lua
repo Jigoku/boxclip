@@ -143,7 +143,7 @@ end
 
 function mapio:getmaps()
 	-- custom maps override built ins with the same name
-	return tableconcat(
+	return table.concat(
 		love.filesystem.getDirectoryItems( self.path .. "maps" ),--custom maps
 		love.filesystem.getDirectoryItems( "/maps" )--built in maps
 	)
