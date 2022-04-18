@@ -38,22 +38,15 @@ function tableconcat(t1,t2)
 end
 
 
-function table.deepcopy(orig)
-    local orig_type = type(orig)
-    local copy
-    if orig_type == 'table' then
-        copy = {}
-        for orig_key, orig_value in next, orig, nil do
-            copy[table.deepcopy(orig_key)] = table.deepcopy(orig_value)
-        end
-        setmetatable(copy, table.deepcopy(getmetatable(orig)))
-    else -- number, string, boolean, etc
-        copy = orig
+function table.copy(t)
+    local t2 = {}
+    for k,v in pairs(t) do
+       t2[k] = v
     end
-    return copy
-end
+    return t2
+ end
 
-
+ 
 function dump(o)
    if type(o) == 'table' then
       local s = '{ '
@@ -93,4 +86,3 @@ function love.graphics.newImage(...)
 	return img
 end
 --]]
-

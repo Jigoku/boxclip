@@ -627,14 +627,14 @@ end
 function world.savestate()
 	world.score = player.score
 	world.gems = player.gems
-	world.state = table.deepcopy(world.entities)
+	world.state = table.copy(world.entities)
 end
 
 
 function world.loadstate()
 	player.score = world.score
 	player.gems = world.gems
-	world.entities = table.deepcopy(world.state)
+	world.entities = table.copy(world.state)
 end
 
 
