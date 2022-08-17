@@ -2,8 +2,6 @@
 
 Maps can be created with the custom built-in map editor. Simply drop and place entities into the world to create a level.
 
-If you feel like discussing/helping out the project, feel free to join the Discord server here: https://discord.gg/ZACACRt
-
 [![1](screenshots/1.jpg)](screenshots/1.jpg)
 
 ### Get the development branch
